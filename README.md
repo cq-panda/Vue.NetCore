@@ -342,9 +342,8 @@
         <p class="desc">
             主从表新建、编辑所有前后端代码，全部由代码生成器生成，并支持并后端业务代码扩展，新建、编辑从表配置、字段、类型(下拉框、日期、TextArea等)、所在行与列、字段是否只读、标签显示的长度等都由代码生成器完成，不需要写任何代码
 		
-        </p><img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/editTbale2.png">
+        </p><img src="https://github.com/cq-panda/Vue.NetCore/blob/master/editTbale2.png">
     </div>
-    ![.](https://github.com/cq-panda/Vue.NetCore/blob/master/editTbale2.png)
     <h2>
         7、单列、多列Form表单
     </h2>
