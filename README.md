@@ -1,5 +1,5 @@
 # Vue+.NetCore前后端分离，支持对前端、后台基础业务代码扩展的快速发开框架
-![.](https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/editTbale2.png)
+![.](https://github.com/cq-panda/Vue.NetCore/blob/master/editTbale2.png)
   <h2>
        框架可直上手开发这些功能
     </h2>
