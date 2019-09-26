@@ -1,0 +1,92 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "log,restatus";}
+    var searchData = [[{"columnType":"string","dataSource":[],"displayType":"text","text":"请求地址","require":false,"id":"Url"},{"columnType":"string","dataSource":[],"displayType":"text","text":"用户IP","require":false,"id":"UserIP"},{"columnType":"string","dataSource":[],"displayType":"text","text":"服务器IP","require":false,"id":"ServiceIP"}],[{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"开始时间","require":false,"id":"BeginDate"},{"columnType":"int","dataSource":optionConfigrestatus,"displayType":"dropList","text":"响应状态","require":false,"id":"Success"},{"columnType":"int","dataSource":[],"displayType":"text","text":"角色ID","require":false,"id":"Role_Id"}],[{"columnType":"string","dataSource":optionConfiglog,"displayType":"selectList","text":"日志类型","require":false,"id":"LogType"}]];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/Sys_Log/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'Sys_Log',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'系统日志',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:2270,totalCol:15},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'Id',datatype:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'BeginDate',title:'开始时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'Url',title:'请求地址',datatype:'string',width:300,align:'left'},
+                       {field:'LogType',title:'日志类型',datatype:'string',width:120,formatter: function (val, row, index) {
+    return dataSourcelog.textFormatter(optionConfiglog, val, row, index);
+    },
+align:'left'},
+                       {field:'Success',title:'响应状态',datatype:'int',width:90,formatter: function (val, row, index) {
+    return dataSourcerestatus.textFormatter(optionConfigrestatus, val, row, index);
+    },
+align:'left'},
+                       {field:'ElapsedTime',title:'时长(毫秒)',datatype:'int',width:90,align:'left'},
+                       {field:'RequestParameter',title:'请求参数',datatype:'string',width:300,align:'left'},
+                       {field:'ResponseParameter',title:'响应参数',datatype:'string',width:250,align:'left'},
+                       {field:'ExceptionInfo',title:'异常信息',datatype:'string',width:280,align:'left'},
+                       {field:'UserIP',title:'用户IP',datatype:'string',width:90,align:'left'},
+                       {field:'ServiceIP',title:'服务器IP',datatype:'string',width:90,align:'left'},
+                       {field:'BrowserType',title:'浏览器类型',datatype:'string',width:90,align:'left'},
+                       {field:'User_Id',title:'用户ID',datatype:'int',width:90,align:'left'},
+                       {field:'UserName',title:'用户名称',datatype:'string',width:90,align:'left'},
+                       {field:'Role_Id',title:'角色ID',datatype:'int',width:90,align:'left'},
+                       {field:'EndDate',title:'结束时间',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

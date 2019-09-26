@@ -1,0 +1,13 @@
+﻿@{ 
+    Layout = null;
+}
+<link href="/Content/css/video-js.min.css" rel="stylesheet" />
+<script src="/Scripts/video.min.js"></script>
+<body style="margin:0px;">
+    <div style="width:100%;margin-left: auto; margin-right: auto;">
+        <video id="my-video" class="video-js" controls preload="auto" height="200"
+               style="width:100%" poster="@Html.Raw(((System.Collections.Generic.KeyValuePair<string,string>)ViewData["videoData"]).Key)" data-setup="{}">
+            <source src="@Html.Raw(((System.Collections.Generic.KeyValuePair<string,string>)ViewData["videoData"]).Value)" type="video/mp4">
+        </video>
+    </div>
+</body>

@@ -1,0 +1,92 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "expire";}
+    var searchData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"参加人","require":false,"id":"CustomerName"},{"columnType":"string","dataSource":[],"displayType":"","text":"会议标题","require":false,"id":"Title"},{"columnType":"string","dataSource":[],"displayType":"","text":"会议发布人","require":false,"id":"Author"}],[{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"参加时间","require":false,"id":"JoinDate"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"会议发布日期","require":false,"id":"ReleaseDate"},{"columnType":"int","dataSource":optionConfigexpire,"displayType":"","text":"会议是否载止","require":false,"id":"Expire"}]];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'MeetingId',
+        url: '/vMyJoinMeeting/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'vMyJoinMeeting',sort:'MeetingId',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'我加入的会议视图',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:2340,totalCol:16},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'CustomerId',title:'参加人Id',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'CustomerName',title:'参加人',datatype:'string',width:90,align:'left',sortable:true},
+                       {field:'JoinDate',title:'参加时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'Company',title:'公司',datatype:'string',width:200,align:'left'},
+                       {field:'PhoneNo',title:'电话',datatype:'string',width:150,align:'left'},
+                       {field:'Total',title:'参加人数',datatype:'int',width:100,align:'left'},
+                       {field:'MeetingId',title:'MeetingId',datatype:'int',width:80,hidden:true,require:true,align:'left'},
+                       {field:'Title',title:'会议标题',datatype:'string',width:120,align:'left'},
+                       {field:'Author',title:'会议发布人',datatype:'string',width:120,align:'left'},
+                       {field:'ReleaseDate',title:'会议发布日期',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ImageUrl',title:'会议图片',datatype:'string',width:220,align:'left'},
+                       {field:'MeetingEndDate',title:'会议截止日期',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'Location',title:'会议地点',datatype:'string',width:220,align:'left'},
+                       {field:'Content',title:'会议介绍',datatype:'string',width:220,align:'left'},
+                       {field:'Expire',title:'会议是否载止',datatype:'int',width:80,formatter: function (val, row, index) {
+    return dataSourceexpire.textFormatter(optionConfigexpire, val, row, index);
+    },
+align:'left'},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,align:'left'},
+                       {field:'CreateID',title:'创建人Id',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'创建时间',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

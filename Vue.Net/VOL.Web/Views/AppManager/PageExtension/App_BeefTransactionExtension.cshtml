@@ -1,0 +1,166 @@
+﻿
+<style>
+    .video-group {
+        margin-top: 15px;
+        border-top: 1px solid #eee;
+    }
+
+    .video-title {
+        margin-bottom: 20px;
+        border-bottom: 1px dotted #02b7a7;
+        font-size: 15px;
+    }
+
+        .video-title span {
+            padding: 37px;
+            letter-spacing: 2px;
+            font-size: 17px;
+        }
+
+    .video-items {
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+        .video-items li {
+            list-style: none;
+            float: left;
+            padding: 5px 8px;
+        }
+
+    .cover-event {
+        border: 1px solid #d6d4d4;
+        padding: 4px;
+        text-align: right;
+        color: #e13d13;
+        cursor: pointer;
+    }
+
+    .image-items {
+        display: inline-block;
+        padding: 0px;
+    }
+
+        .image-items li {
+            padding-bottom: 18px;
+            height: 120px;
+            float: left;
+            list-style: none;
+            margin: 5px;
+        }
+
+            .image-items li img {
+                height: 100%;
+            }
+
+            .image-items li div {
+                padding: 1px;
+                font-size: 10px;
+                cursor: pointer;
+                color: #e5b116;
+                border: 1px solid #eee;
+                padding-right: 10px;
+                text-align: right;
+            }
+</style>
+<script>
+    searchHelper.onInitBefore = function () {
+        $.each(gridParameters.columns[0], function () {
+            if (this.field == 'VideoKeys') {
+                this.formatter = function (val, row, index) {
+                    return val ? '<span style="color:red;">有视频</span>' : '无视频';
+                }
+                return false;
+            }
+        })
+    }
+    function submitCover(image) {
+        helper.post('/Sys_ImageLibrary/Update', { coverInfo: JSON.stringify([{ Cover: image, Id: currentId }]) }, function (data) {
+            $.message('封面已设置成功，请刷新页面后查看效果!');
+        })
+    }
+
+    function getSmallImage(image) {
+        if (image.indexOf('w_') != -1 || image.indexOf('bcebos.com')==-1)
+            return image;
+
+        return image+'@Html.Raw("@w_250")';
+    }
+    function loadImages() {
+        loadPage++;
+        helper.post('/Sys_ImageLibrary/GetImage', { page: loadPage }, function (images) {
+            if (!images) {
+                $.message('图片已全部加载');
+                loadPage = loadPage == 0 ? 0 : loadPage - 1;
+                return;
+            }
+            var $image_content = $videosWindow.find('.image-items');
+            var imageArr = images.split(',');
+            for (var i = 0; i < imageArr.length; i++) {
+                $image_content.append('<li><img src="' + getSmallImage(imageArr[i]) + '"><div onClick="submitCover(\'' + imageArr[i]+'\')">设置为封面</div></li>');
+            }
+            $videosWindow.find('.content').scrollTop($image_content.height());
+        })
+    }
+
+    var $videos;
+    var lastVideoKeys;
+    var $videosWindow;
+    var loadPage = 0;
+    var currentId = 0;
+    function setCover(id) {
+        currentId = id;
+        if ($videosWindow) {
+            $videosWindow.jqWindow('open'); return
+        }
+        $videosWindow = $("<div></div>").jqWindow({
+            title: "封面图片",
+            width: "800px",
+            height: "500px",
+            text:"<ul class='image-items'></ul>",
+            headStyle: "background:#57c5f7",
+            buttons: [{
+                text: '下一页', icon: 'btn btn-success  icon-double-angle-right', handler: function () {
+                    loadImages();
+                }
+            }]
+        });
+        loadImages(loadPage);
+    }
+
+
+    searchHelper.openWindowAfter = function (row) {
+        if ((!row || row.VideoKeys != lastVideoKeys) && $videos) {
+            if (lastVideoKeys) {
+                $videos.find('ul').html('');
+            }
+            lastVideoKeys = null;
+        }
+        if (!row || !row.VideoKeys) {
+            return;
+        }
+        if (!$videos) {
+            $videos = $('<div class=" form-group video-group" >\
+                    <div class= "video-title"> <span>视频</span></div>\
+                    <div class="video-items"><ul></ul></div>\
+                    </div > ');
+        }
+        if (lastVideoKeys == row.VideoKeys) {
+            return;
+        }
+        helper.post('/Sys_ImageLibrary/GetVideoCover', { videoKeys: row.VideoKeys }, function (data) {
+            lastVideoKeys = row.VideoKeys;
+            if (!data.Status || !data.Data || data.Data.length == 0)
+                return;
+            var $ul_items = $videos.find('ul');
+            $ul_items.html('');
+            $.each(data.Data, function () {
+                $ul_items.append('<li>\
+              <div><video class="video-js" controls="" preload="auto" width="310" height="160" poster="'+ this.cover + '" setup="{}" > <source src="' + this.url + '" type="video/mp4">\
+                </video></div><div class="cover-event" onClick="setCover('+ this.id + ')" >选择封面</div>\
+               </li>');
+            });
+            $layElement.content.find('.unit-group').append($videos);
+        });
+    }
+</script>

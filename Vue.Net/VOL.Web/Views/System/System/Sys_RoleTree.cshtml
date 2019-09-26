@@ -1,0 +1,251 @@
+﻿<style>
+    .container {
+        width: 100%;
+        margin-left: 0px;
+        margin-right: 0px;
+        padding: 0px;
+    }
+
+        .container > div {
+            float: left;
+            /*height: 100%;*/
+        }
+
+    .role-title {
+        padding: 8px;
+        background: #33a984;
+        /*height: 100%;*/
+        font-size: 15px;
+        color: white;
+    }
+
+    #role-group {
+        width: 12%;
+    }
+
+    #role-tree-group {
+        width: 100%;
+    }
+
+    #menu-tree-group {
+        margin-left: 0.4%;
+        width: 87%;
+    }
+
+    .jqTree > li > div {
+        padding: 8px !important;
+        display: block;
+    }
+
+
+    .jqTree > li {
+        background: #fff;
+    }
+
+    #menu-tree-group input[type=checkbox] {
+        margin-left: 10px;
+        margin-right: 5px;
+    }
+
+    .header-auths > span {
+        margin-right: 4px;
+        /*position: absolute;
+    margin-left: 46px;
+    margin-top: -21px;*/
+    }
+
+    .auth-btn {
+        padding: 2px 15px 1px 15px;
+        height: 26px;
+        border-radius: 3px;
+        background: #dd0606;
+        color: white;
+    }
+
+        .auth-btn:hover {
+            color: white !important;
+        }
+
+        .auth-btn i {
+            margin-right: 6px;
+        }
+
+    .auth-btn-group {
+        top: 4px;
+        right: 41px;
+        position: absolute;
+        z-index: 999999;
+        margin-left: 24px;
+    }
+
+    .tree-list ul li div {
+        padding: 7px;
+    }
+
+    .tree-list li div {
+        font-size: 14px;
+    }
+
+    #role-tree > li {
+        border: 0px;
+    }
+
+    .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
+        padding: 11px 7px !important;
+    }
+
+    .datagrid-header td, .datagrid-body td, .datagrid-footer td {
+        padding: 0px !important;
+    }
+</style>
+
+<div class="container">
+    <div id="role-group">
+        <div class="role-title">
+            <span class="icon-user"></span>   <span>角色列表</span>
+        </div>
+        <div id="role-tree">
+
+        </div>
+    </div>
+    <div id="menu-tree-group">
+        <table id="menu-tree"></table>
+    </div>
+</div>
+<link href="~/Content/css/easyui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-easyui/jquery.easyui.min.js"></script>
+<script src="~/Scripts/jquery-easyui/easyui-lang-zh_CN.js"></script>
+<script src="~/Scripts/jQuery-slimScroll-1.3.8/jquery.slimscroll.js"></script>
+<script>
+    var treeList =   @Html.Raw(ViewData["TreeList"]);
+    var $menuTree;
+    var $menuTreeGroup;
+   // var   $("#menu-tree-group input[type=checkbox]");
+    $(function () {
+        var $roleTree = $("#role-tree").jqTree({ data: treeList.RoleData});
+        $roleTree.jqTree('onSelect', function (obj, nodeData) {
+            $("input:checked", $menuTreeGroup).prop('checked', false);
+            $("input:checked", $elementHeaderGroup).prop('checked', false);
+          // $menuTree.treegrid('loadData', treeList.MenuData)
+            helper.post("/Sys_Role/GetRoleMenuAuth", { role_Id: nodeData.id }, function (data) {
+                if (!data) return;
+                $.each(data, function () {
+                    if (!this.authValue) return;
+                    var auths = this.authValue.split(',');
+                    try {
+                        for (var i = 0; i < auths.length; i++) {
+                            (auths[i] && this.id) && $menuTreeGroup.find('#' + auths[i] + '-' + this.id).prop('checked', true);
+                        }
+                    } catch (e) {
+                        console.log(auths);
+                    }
+
+                })
+            });
+            return true;
+        })
+
+        var $roleGroup = $('#role-group');
+        var clientHeight = $(window).height();
+        $roleGroup.height(clientHeight);
+        $("#menu-tree").height(clientHeight);
+        $('#role-tree').slimScroll({
+            width: $roleGroup.outerWidth()+3 + 'px',
+            color: '#C7BBBB',
+            height: clientHeight - $('.role-title').outerHeight()-3+'px',
+            size: '3px'
+        });
+
+        treeList.MenuData.splice(0, 0,
+            {
+                id: 0,
+                name: "菜单列表",
+                menuAuth: "",
+                AuthValue: "Browse"
+            });
+        $menuTree = $('#menu-tree').treegrid({
+            animate: true,
+            collapsible: true,
+            fitColumns: true,
+            data: { total:1000, rows: treeList.MenuData},
+            height: clientHeight,
+            method: 'get',
+            idField: 'id',
+            treeField: 'name',
+            showFooter: false,
+            columns: [[
+                { field: 'id', title: '菜单ID', width: '0%', hidden: true },
+                { field: 'name', title: '菜单', width: '25%' },
+                {
+                    field: 'ck', title: '权限', width: '10%', formatter: function (value, row, index) {
+                        return '<input type="checkbox" class="auth-ck">';
+                } },
+                { field: '权限', title: '', width: '65%', //editor: { type: "checkList" },
+                    formatter: function (value, row, index) {
+                        if (!row.menuAuth) { return ""; }
+                        var authObj = [];
+                        var auths = row.menuAuth.split(',');
+                        for (var i = 0; i < auths.length; i++) {
+                            var authArr = auths[i].split('=');
+                            if (authArr.length==2) {
+                                authObj.push('<span class="auth-group"><input type="checkbox" class="auth-' + authArr[0] + '"  id="' + authArr[0] + "-" + row.id + '">' + authArr[1] + '</span>');
+                            }
+                        }
+                        return authObj.join(' ');
+                    }
+                },
+            ]]
+        });
+        $menuTreeGroup = $("#menu-tree-group .datagrid-body");
+        var headerAuths = ["Search=查询", "Save=保存", "Add=添加", "Edit=编辑", "Delete=删除", "Export=导出", "Import=导入"];
+        var $elementHeaderGroup = $('<div class="header-auths"></div>');
+        for (var i = 0; i < headerAuths.length; i++) {
+            var authArr = headerAuths[i].split('=');
+            var authClass = 'auth-' + authArr[0];
+            var $element_CK = $('<span class="auth-group"><input type="checkbox" class="' + authClass+'" >' + authArr[1] + '</span>');
+            $element_CK.find('input').click(function () {
+                $menuTreeGroup.find("." + $(this).prop('class')).prop('checked', this.checked);
+            });
+            $elementHeaderGroup.append($element_CK);
+        }
+        $("#menu-tree-group .datagrid-header-inner").unbind();
+        $("#menu-tree-group tr.datagrid-header-row > td:last > div").append($elementHeaderGroup);
+        var $saveBtn = $('<div class="auth-group auth-btn-group"><button  class="btn auth-btn"><i class="icon-plus-sign-alt"></i>保存</button></div>');
+        $elementHeaderGroup.after($saveBtn);
+        $saveBtn.click(function () {
+            var selectNode = $roleTree.jqTree('getSelectData');
+            if (!selectNode || selectNode.length == 0) {
+                $.message("请选中节点");
+                return;
+            }
+            var auths = {};
+            $("input:checked", $menuTreeGroup).each(function () {
+                var id_auth = $(this).prop('id').split('-');
+                var _id = id_auth[1], _auth = id_auth[0];
+                if (auths.hasOwnProperty('i' + _id)) {
+                    auths['i' + _id].data.push(_auth);
+                } else {
+                    auths['i' + _id] = {
+                        id: _id, data: [_auth]
+                    }
+                }
+            });
+            var authData = [];
+            $.each(auths, function (k, v) {
+                authData.push({ menuId: v.id, actions: v.data.join(',') });
+            });
+            helper.post('/Sys_Role/SaveRoleAuth', { roleAuthorList: JSON.stringify(authData), role_Id: selectNode[0].id }, function (result) {
+                $.message(result.Desc);
+            })
+        });
+
+
+        $(".auth-ck").click(function () {
+            var $auth_tr=  $(this).parents('tr:eq(0)');
+            $auth_tr.find('input[type=checkbox]').prop("checked", this.checked);
+            $auth_tr.next('tr.treegrid-tr-tree').find('input[type=checkbox]').prop("checked", this.checked);
+        });
+
+    })
+
+</script>

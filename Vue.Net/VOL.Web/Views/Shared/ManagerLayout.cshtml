@@ -1,0 +1,48 @@
+﻿
+@model  string;
+@{
+    Layout = null;
+}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<environment>
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/css/easyui.css" rel="stylesheet" />
+    <link href="~/Content/project-layOut/jquery-layout.css" rel="stylesheet" />
+    <link href="~/Content/project-layOut/jquery-layout-view.css" rel="stylesheet" />
+    <link href="~/Content/css/animate-3.5.2/animate.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-layout/jquery-layout-component.js"></script>
+    <script src="~/Scripts/jquery-layout/jquery-layout-view.js"></script>
+    <script src="~/Scripts/jquery-easyui/jquery.easyui.min.js" charset='gb2312'></script>
+    <script src="~/Scripts/jquery-easyui/easyui-lang-zh_CN.js"></script>
+</environment>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <script>
+      @if (ViewBag.dropDownIds != null)
+      {
+          @await Component.InvokeAsync("Dictionary", ViewBag.dropDownIds)
+      }
+    </script>
+</head>
+<body>
+    @RenderBody()
+    @{await Html.RenderPartialAsync("~/Views/Shared/SearchLayOut.cshtml");}
+    @{
+        //    await Html.RenderPartialAsync("~/Views/Shared/Error.cshtml");
+
+        if (ViewBag.UrlExtension != null)
+        {
+            string viewExtensionPage = ViewBag.UrlExtension.ToString();
+            await Html.RenderPartialAsync(viewExtensionPage);
+            //await Html.RenderPartialAsync("~/Views/AppManager/Extension/vApp_TransactionCompletionExtension.cshtml");
+            //  @await Component.InvokeAsync("Partial", viewExtensionPage)
+        }
+}
+</body>
+</html>
+

@@ -1,0 +1,87 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    
+    var searchData = [];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'ReplyId',
+        url: '/App_QuestionReply/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'App_QuestionReply',sort:'ReplyId',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'问答回复明细',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:1700,totalCol:14},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'ReplyId',title:'主键ID',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'QuestionId',title:'问题ID',datatype:'int',width:80,align:'left',sortable:true},
+                       {field:'QuestionType',title:'回复类型',datatype:'int',width:80,align:'left'},
+                       {field:'ReplierId',title:'回复id',datatype:'int',width:80,align:'left'},
+                       {field:'Replier',title:'回复人',datatype:'string',width:120,align:'left'},
+                       {field:'ReplyDate',title:'回复日期',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ReplyContent',title:'回复内容',datatype:'string',width:220,align:'left'},
+                       {field:'ReplyToId',title:'被回复人ID',datatype:'int',width:80,align:'left'},
+                       {field:'ReplyTo',title:'被回复人',datatype:'string',width:120,align:'left'},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,align:'left'},
+                       {field:'CreateID',title:'创建人Id',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'创建时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ModifyID',title:'修改人ID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ReplyOrigId',title:'回复选中的人回复的ID',datatype:'int',width:120,align:'left'}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

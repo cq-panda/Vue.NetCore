@@ -1,0 +1,95 @@
+﻿<html>
+<head>
+
+    <!--<link href="../Content/css/animate-3.5.2/animate.min.css" rel="stylesheet" />-->
+<style>
+    div {
+      margin-top:100px;
+      text-align:center;
+      color:red;
+    }
+
+
+
+    .animated {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        animation-delay: 1s;
+        animation-iteration-count: infinite; /*执行次数*/
+    }
+    @-webkit-keyframes bounce {
+        0%, 20%, 53%, 80%, to {
+            -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);
+            animation-timing-function: cubic-bezier(.215, .61, .355, 1);
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0)
+        }
+
+        40%, 43% {
+            -webkit-transform: translate3d(0, -10px, 0);
+            transform: translate3d(0, -10px, 0)
+        }
+
+        40%, 43%, 70% {
+            -webkit-animation-timing-function: cubic-bezier(.755, .05, .855, .06);
+            animation-timing-function: cubic-bezier(.755, .05, .855, .06)
+        }
+
+        70% {
+            -webkit-transform: translate3d(0,-6px, 0);
+            transform: translate3d(0,-6px, 0)
+        }
+
+        90% {
+            -webkit-transform: translate3d(0, -4px, 0);
+            transform: translate3d(0, -4px, 0)
+        }
+    }
+
+    @keyframes bounce {
+        0%, 20%, 53%, 80%, to {
+            -webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);
+            animation-timing-function: cubic-bezier(.215, .61, .355, 1);
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0)
+        }
+
+        40%, 43% {
+            -webkit-transform: translate3d(0, -10px, 0);
+            transform: translate3d(0, -10px, 0)
+        }
+
+        40%, 43%, 70% {
+            -webkit-animation-timing-function: cubic-bezier(.755, .05, .855, .06);
+            animation-timing-function: cubic-bezier(.755, .05, .855, .06)
+        }
+
+        70% {
+            -webkit-transform: translate3d(0,-6px, 0);
+            transform: translate3d(0,-6px, 0)
+        }
+
+        90% {
+            -webkit-transform: translate3d(0, -4px, 0);
+            transform: translate3d(0, -4px, 0)
+        }
+    }
+
+    .bounce {
+        -webkit-animation-name: bounce;
+        animation-name: bounce;
+        -webkit-transform-origin: center bottom;
+        transform-origin: center bottom
+    }
+
+</style>
+</head>
+
+<body>
+    <div>
+        <h2 class="animated bounce">Animate.css</h2>
+    </div>
+</body>
+</html>

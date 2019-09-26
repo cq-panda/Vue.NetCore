@@ -1,0 +1,86 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "ut";}
+    var searchData = [[{"columnType":"int","dataSource":[],"displayType":"","text":"用户Id","require":false,"id":"User_Id"},{"columnType":"string","dataSource":[],"displayType":"text","text":"用户名","require":false,"id":"UserTrueName"},{"columnType":"string","dataSource":[],"displayType":"","text":"Token","require":false,"id":"Token"}],[{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"生成时间","require":false,"id":"CreateDate"}]];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/Sys_UserTokenLog/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'Sys_UserTokenLog',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'用户Token生成记录',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:1230,totalCol:8},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'Id',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'User_Id',title:'用户Id',datatype:'int',width:80,align:'left',sortable:true},
+                       {field:'UserTrueName',title:'用户名',datatype:'string',width:120,align:'left'},
+                       {field:'Token',title:'Token',datatype:'string',width:300,align:'left'},
+                       {field:'Alias',title:'Alias',datatype:'string',width:150,align:'left'},
+                       {field:'AliasType',title:'AliasType',datatype:'string',width:150,align:'left'},
+                       {field:'AppType',title:'设备类型',datatype:'int',width:150,formatter: function (val, row, index) {
+    return dataSourceut.textFormatter(optionConfigut, val, row, index);
+    },
+align:'left'},
+                       {field:'CreateID',title:'CreateID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'生成时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ModifyID',title:'ModifyID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Modifier',title:'Modifier',datatype:'string',width:130,hidden:true,align:'left'},
+                       {field:'ModifyDate',title:'ModifyDate',datatype:'DateTime',width:150,hidden:true,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

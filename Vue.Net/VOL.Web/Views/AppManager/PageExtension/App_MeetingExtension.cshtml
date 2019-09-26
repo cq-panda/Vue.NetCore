@@ -1,0 +1,15 @@
+﻿<script>
+    searchHelper.onInitBefore = function () {
+
+        if (!editData || !editData.length)
+            return;
+        for (var i = 0; i < editData.length; i++) {
+            $.each(editData[i], function () {
+                if (this.displayType == 'textarea') {
+                    this.style = "height:145px;"
+                }
+            })
+        }
+    }
+
+</script>

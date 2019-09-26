@@ -1,0 +1,138 @@
+﻿@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    @{ViewBag.dropDownIds = "sex,age,wd,reply,status";}
+    var searchData = [[{"text":"公母","id":"Sex","displayType":"drop","dataSource":optionConfigsex,"columnType":"string","require":false,"disabled":false,"colSize":0},{"text":"月龄","id":"Age","displayType":"drop","dataSource":optionConfigage,"columnType":"string","require":false,"disabled":false,"colSize":0},{"text":"温度","id":"Temperature","displayType":"drop","dataSource":optionConfigwd,"columnType":"string","require":false,"disabled":false,"colSize":0}],[{"text":"回复状态","id":"ReplyStatus","displayType":"drop","dataSource":optionConfigreply,"columnType":"int","require":false,"disabled":false,"colSize":0},{"text":"审核时间","id":"AuditDate","displayType":"datetime","dataSource":[],"columnType":"datetime","require":false,"disabled":false,"colSize":0},{"text":"提问时间","id":"CreateDate","displayType":"datetime","dataSource":[],"columnType":"datetime","require":false,"disabled":false,"colSize":0}]];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'QuestionId',
+        url: '/App_PublicQuestion/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'App_PublicQuestion',sort:'QuestionId',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        hasSection:false,
+        cnName:'公开提问',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:2940,totalCol:21},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'QuestionId',title:'主键ID',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Sex',title:'公母',datatype:'string',width:90,formatter: function (val, row, index) {
+    return dataSourcesex.textFormatter(optionConfigsex, val, row, index);
+    },
+align:'left',sortable:true},
+                       {field:'Age',title:'月龄',datatype:'string',width:90,formatter: function (val, row, index) {
+    return dataSourceage.textFormatter(optionConfigage, val, row, index);
+    },
+align:'left'},
+                       {field:'Temperature',title:'温度',datatype:'string',width:140,formatter: function (val, row, index) {
+    return dataSourcewd.textFormatter(optionConfigwd, val, row, index);
+    },
+align:'left'},
+                       {field:'Title',title:'标题',datatype:'string',width:300,formatter:function (val, row, index) { return $.fn.layOut('createViewField',{row:row,val:val})},align:'left'},
+                       {field:'Describe',title:'问题描述',datatype:'string',width:220,align:'left'},
+                       {field:'ImageUrls',title:'提问照片',datatype:'string',width:350,formatter:function (val, row, index) { return $.fn.layOut('createImageUrl',{row:row,key:'ImageUrls'})},align:'left'},
+                       {field:'BigImageUrls',title:'提问照片(大图)',datatype:'string',width:220,align:'left'},
+                       {field:'Choiceness',title:'精选提问',datatype:'int',width:80,align:'left'},
+                       {field:'OrderNo',title:'精选排序号',datatype:'int',width:80,align:'left'},
+                       {field:'ReplyQty',title:'回答数量',datatype:'int',width:80,align:'left'},
+                       {field:'ReplyStatus',title:'回复状态',datatype:'int',width:80,formatter: function (val, row, index) {
+    return dataSourcereply.textFormatter(optionConfigreply, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'AuditStatus',title:'审核状态',datatype:'int',width:80,require:true,align:'left'},
+                       {field:'AuditId',title:'审核人Id',datatype:'int',width:80,align:'left'},
+                       {field:'Auditor',title:'审核人',datatype:'string',width:90,align:'left'},
+                       {field:'AuditDate',title:'审核时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,formatter: function (val, row, index) {
+    return dataSourcestatus.textFormatter(optionConfigstatus, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'CreateID',title:'创建人Id',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'提问人',datatype:'string',width:130,align:'left'},
+                       {field:'HeadImageUrl',title:'提问人头像',datatype:'string',width:160,align:'left'},
+                       {field:'CreateDate',title:'提问时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ModifyID',title:'修改人ID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'ReplyId',
+        url: '',
+        nameSpace:'VOL.AppManager',
+        queryParams: {TableName:'App_PublicQuestionReply',sort:'ReplyId',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        hasSection:false,
+        cnName:'公开提问回复信息',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:1500,totalCol:12},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'ReplyId',title:'主键ID',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'QuestionId',title:'问题ID',datatype:'int',width:80,align:'left',sortable:true},
+                       {field:'ReplierId',title:'回复id',datatype:'int',width:80,align:'left'},
+                       {field:'Replier',title:'回复人',datatype:'string',width:120,align:'left'},
+                       {field:'ReplyDate',title:'回复日期',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ReplyContent',title:'回复内容',datatype:'string',width:220,align:'left'},
+                       {field:'ReplyToId',title:'被回复人ID',datatype:'int',width:80,align:'left'},
+                       {field:'ReplyTo',title:'被回复人',datatype:'string',width:120,align:'left'},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,align:'left'},
+                       {field:'CreateID',title:'创建人Id',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'创建时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ModifyID',title:'修改人ID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+</script>
+

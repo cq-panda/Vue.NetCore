@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName></SccProjectName>
+    <SccProvider></SccProvider>
+    <SccAuxPath></SccAuxPath>
+    <SccLocalPath></SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>VOL.AppManager</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VOL.System\VOL.System.csproj" />
+    <ProjectReference Include="..\VOL.Core\VOL.Core.csproj" />
+    <ProjectReference Include="..\VOL.Entity\VOL.Entity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Other\" />
+    <Folder Include="Controllers\Price\Partial\" />
+    <Folder Include="Controllers\Record\Partial\" />
+    <Folder Include="Controllers\Technical\Partial\" />
+    <Folder Include="IRepositories\Comment\" />
+    <Folder Include="IRepositories\Message\" />
+    <Folder Include="IRepositories\My\" />
+    <Folder Include="IRepositories\News\" />
+    <Folder Include="IRepositories\Price\" />
+    <Folder Include="IRepositories\Record\" />
+    <Folder Include="IRepositories\Technical\" />
+    <Folder Include="IServices\CJoin\" />
+    <Folder Include="IServices\Comment\" />
+    <Folder Include="IServices\Feedback\" />
+    <Folder Include="IServices\Meeting\Partial\" />
+    <Folder Include="IServices\Message\" />
+    <Folder Include="IServices\My\Partial\" />
+    <Folder Include="IServices\News\" />
+    <Folder Include="IServices\Other\" />
+    <Folder Include="IServices\Price\" />
+    <Folder Include="IServices\Record\Partial\" />
+    <Folder Include="IServices\Technical\" />
+    <Folder Include="Repositories\Message\" />
+    <Folder Include="Repositories\My\" />
+    <Folder Include="Repositories\Record\" />
+    <Folder Include="Services\CJoin\" />
+    <Folder Include="Services\Comment\Partial\" />
+    <Folder Include="Services\Feedback\" />
+    <Folder Include="Services\Message\" />
+    <Folder Include="Services\My\Partial\" />
+    <Folder Include="Services\News\Partial\" />
+    <Folder Include="Services\Other\" />
+    <Folder Include="Services\Price\Partial\" />
+    <Folder Include="Services\Record\Partial\" />
+    <Folder Include="Services\Technical\Partial\" />
+  </ItemGroup>
+
+</Project>

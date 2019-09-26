@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pagination Links - jQuery EasyUI Demo</title>
+    <!--<link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../demo.css">
+    <script type="text/javascript" src="../../jquery.min.js"></script>
+    <script type="text/javascript" src="../../jquery.easyui.min.js"></script>-->
+
+    <link href="../Content/css/easyui.css" rel="stylesheet" />
+
+    <script src="../Scripts/jquery-1.10.2.js"></script>
+    <script src="../Scripts/jquery.easyui.min.js"></script>
+    <link href="../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <!--<link href="../Content/css/icon.css" rel="stylesheet" />-->
+    <!--<head>
+        <meta charset="UTF-8">
+        <title>Custom DataGrid Pager - jQuery EasyUI Demo</title>
+        <link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+        <link rel="stylesheet" type="text/css" href="../demo.css">
+        <script type="text/javascript" src="../../jquery.min.js"></script>
+        <script type="text/javascript" src="../../jquery.easyui.min.js"></script>-->
+</head>
+<body>
+
+
+    <form class="form-horizontal">
+        <div class="form-group search-form-group">
+            <div>
+                <label style="white-space: nowrap;" class="col-sm-1 control-label">箱号：</label>
+                <div class="col-sm-2">
+                    <input id="TabletNo" type="text" class="form-control  input-sm">
+                </div>
+            </div>
+            <div >
+                <label style="white-space: nowrap;" class="col-sm-1 control-label">箱号：</label>
+                <div class="col-sm-2">
+                    <input id="TabletNo" type="text" class="form-control  input-sm">
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <table id="dataGrid"></table>
+    <!--<input id="txtDate" type="text" style="width:120px;" class="easyui-datebox" />-->
+    <input id="dd" type="text" >
+
+    <!--<input class="easyui-datebox" sharedcalendar="#sc" disabled="disabled">
+    <input class="easyui-datebox" sharedcalendar="#sc">
+    <div id="sc" class="easyui-calendar"></div>-->
+</body>
+</html>
+<script>
+    window.onload = function () {
+        $('#dd').datebox({
+          
+        }).textbox('textbox').attr('readonly', true);
+        //$('#dd').textbox('textbox').attr('readonly', true);  //设置输入框为禁用
+        //var targetObj = $("<input name='mydate' class='easyui-datebox'>").appendTo($('body')).datetimebox();
+
+        //$.parser.parse(targetObj);
+    }
+
+    //window.onload = function () {
+    //    $('#dataGrid').datagrid({
+
+    //        loadMsg: '数据正在加载。。。。',
+    //        rownumbers: true,
+    //        pageSize: 30,
+    //        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+    //        height: 375,
+
+    //        queryParams: { par: 123 },
+
+    //        pagination: true,
+    //       // layout: ["list", "sep", "first", "prev", "sep", "manual", "sep", "next", "last", "sep", "refresh", "info"],
+    //        frozenColumns: [[
+    //         { field: 'ck', checkbox: true }
+    //        ]],
+    //        showFooter: true,
+    //        columns: [[
+    //            { field: 'Product_Id', title: 'isParent', width: 100,sortable:true },
+    //            { field: 'ProductCode', title: 'id', width: 100 },
+    //            { field: 'ProductName', title: 'pId', width: 100 },
+    //            { field: 'Product_Id', title: 'isParent', width: 100 },
+    //            { field: 'ProductCode', title: 'id', width: 100 },
+    //            { field: 'ProductName', title: 'pId', width: 100 },
+    //            { field: 'Product_Id', title: 'isParent', width: 100 },
+    //            { field: 'ProductCode', title: 'id', width: 100 },
+    //            { field: 'ProductName', title: 'pId', width: 100 }
+    //        ]]
+
+    //    });
+    //    //$('#dataGrid').pagination.defaults.layout = ["list", "sep", "first", "prev", "sep", "manual", "sep", "next", "last", "sep", "refresh", "info"];
+    //    //$('#dataGrid').datagrid('options').pagination = { layout: ['links'] };
+    //    $.fn.pagination.defaults={
+    //        layout: ['first', 'prev', 'next', 'last', 'sep', 'links', 'sep', 'manual', 'info'],
+    //        beforePageText: 'Go Page',
+    //        afterPageText: '',
+    //        total: 114
+    //    };
+    //}
+
+</script>

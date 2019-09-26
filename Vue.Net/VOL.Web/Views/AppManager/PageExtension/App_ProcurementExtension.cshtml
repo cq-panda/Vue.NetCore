@@ -1,0 +1,11 @@
+﻿<script>
+        searchHelper.onInitBefore = function () {
+            $.each(editData, function () {
+                $.each(this, function () {
+                    if (this.id == 'Content') {
+                        this.Template = "productDesc";
+                    }
+                })
+            })
+        }
+</script>

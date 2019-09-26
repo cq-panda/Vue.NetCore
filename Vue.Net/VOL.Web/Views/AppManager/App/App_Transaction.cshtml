@@ -1,0 +1,90 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "tt,ct";}
+    var searchData = [[{"columnType":"string","dataSource":[],"displayType":"text","text":"姓名","require":false,"id":"Name"},{"columnType":"string","dataSource":[],"displayType":"text","text":"电话","require":false,"id":"PhoneNo"},{"columnType":"int","dataSource":optionConfigtt,"displayType":"select","text":"交易类型","require":false,"id":"TransactionType"}],[{"columnType":"string","dataSource":optionConfigct,"displayType":"dropList","text":"牛只类型","require":false,"id":"CowType"},{"columnType":"string","dataSource":[],"displayType":"","text":"提交人","require":false,"id":"Creator"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"提交时间","require":false,"id":"CreateDate"}]];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/App_Transaction/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'App_Transaction',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'交易市场买卖牛',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:1320,totalCol:10},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'主键ID',datatype:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Name',title:'姓名',datatype:'string',width:120,require:true,align:'left',sortable:true},
+                       {field:'PhoneNo',title:'电话',datatype:'string',width:150,require:true,align:'left'},
+                       {field:'Quantity',title:'购买数量',datatype:'int',width:90,require:true,align:'left'},
+                       {field:'TransactionType',title:'交易类型',datatype:'int',width:120,formatter: function (val, row, index) {
+    return dataSourcett.textFormatter(optionConfigtt, val, row, index);
+    },
+align:'left'},
+                       {field:'CowType',title:'牛只类型',datatype:'string',width:90,formatter: function (val, row, index) {
+    return dataSourcect.textFormatter(optionConfigct, val, row, index);
+    },
+align:'left'},
+                       {field:'Describe',title:'牛源描述',datatype:'string',width:190,require:true,align:'left'},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,hidden:true,align:'left'},
+                       {field:'CreateID',title:'创建人Id',datatype:'int',width:90,hidden:true,align:'left'},
+                       {field:'Creator',title:'提交人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'提交时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ModifyID',title:'修改人ID',datatype:'int',width:90,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

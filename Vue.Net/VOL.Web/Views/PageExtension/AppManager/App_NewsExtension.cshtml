@@ -1,0 +1,11 @@
+﻿<script>
+    searchHelper.onInitBefore = function () {
+        $.each(gridParameters.columns[0], function () {
+            if (this.field == 'Content') {
+                this.formatter = function (val) {
+                    return htmlUtil.enCode(val);
+                }
+            }
+        })
+    }
+</script>

@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="../Scripts/jquery-1.10.2.min.js"></script>
+    <script src="../Scripts/jquery.easyui.min.js"></script>
+    <link href="../Content/css/easyui.css" rel="stylesheet" />
+    <title></title>
+
+
+</head>
+<body>
+    <div>
+        <table id="subGrid1"></table>
+    </div>
+    <div style="padding:5px;">
+
+        <input type="button" onclick="btnClick()" value="测试" id="btn" /><input type="button" onclick="endClick()" value="结束" id="btn" />
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var griddata = {
+        "total": 7, "rows": [
+    { "id": 1, "name": "功能点", "begin": "3/4/2010", "end": "3/20/2010", "progress": 60, "auth": "删除" },
+    { "id": 2, "name": "Designing", "begin": "3/4/2010", "end": "3/10/2010", "progress": 100, "_parentId": 1, "state": "closed" },
+    { "id": 21, "name": "Database", "persons": 2, "begin": "3/4/2010", "end": "3/6/2010", "progress": 100, "_parentId": 2 },
+    { "id": 22, "name": "UML", "persons": 1, "begin": "3/7/2010", "end": "3/8/2010", "progress": 100, "_parentId": 2 },
+    { "id": 23, "name": "Export Document", "persons": 1, "begin": "3/9/2010", "end": "3/10/2010", "progress": 100, "_parentId": 2 },
+    { "id": 3, "name": "Coding", "persons": 2, "begin": "3/11/2010", "end": "3/18/2010", "progress": 80 },
+    { "id": 4, "name": "Testing", "persons": 1, "begin": "3/19/2010", "end": "3/20/2010", "progress": "" }
+        ]
+    }
+    var subGrid1 = $('#subGrid1').treegrid({
+        animate: true,
+        collapsible: true,
+        fitColumns: true,
+        data: griddata,
+        height: 500,
+        method: 'get',
+        idField: 'id',
+        treeField: 'name',
+        showFooter: true,
+        columns: [[
+            { title: '功能点', field: 'name', width: '30%' },
+            {
+                field: 'progress', title: '权限', width: '70%', editor: {//设置其为可编辑
+                    type: 'datetimebox',//这里我们将进行一个datetimebox的扩展
+                    options: {
+                        required: true//设置编辑规则属性
+                    }
+                }
+                //,
+                //formatter: function (value, rowData) {
+                //    return "<span type='text' value=''>1231231</span>"
+
+                //}
+            }
+        ]]
+    });
+
+    $(function () {
+        /*扩展Editors的datetimebox方法*/
+        $.extend($.fn.datagrid.defaults.editors, {
+            datetimebox: {//为方法取名
+                init: function (container, options) {
+                    var editor = $('<input />').appendTo(container);
+                    options.editable = false;//设置其不能手动输入
+                    editor.datebox(options);
+                    return editor;
+                },
+                getValue: function (target) {//取值
+                    return $(target).datetimebox('getValue');
+                },
+                setValue: function (target, value) {//设置值
+                    $(target).datetimebox('setValue', value);
+                },
+                resize: function (target, width) {
+                    $(target).datetimebox('resize', width);
+                },
+                destroy: function (target) {
+                    $(target).datetimebox('destroy');//销毁生成的panel
+                }
+            }
+        });
+    });
+
+    function endClick() {
+        $('#subGrid1').treegrid("beginEdit", 4);
+    }
+
+    function btnClick() {
+        //$('#subGrid1').treegrid("beginEdit", 4);
+        $('#subGrid1').treegrid("endEdit", 4);
+        var v1 = $('#subGrid1').treegrid("options");
+        //getData
+        var v11 = $('#subGrid1').treegrid("getData");
+        var v21 = subGrid1.treegrid("options");
+        var v2 = subGrid1.treegrid("getData");
+    }
+
+</script>

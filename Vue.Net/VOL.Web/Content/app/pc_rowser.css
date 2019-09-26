@@ -1,0 +1,28 @@
+﻿
+
+body {
+    width: 7.5rem !important;
+}
+article p, article span {
+    line-height: 34px !important;
+    font-size: 18px !important;
+    /*font: 18px "Microsoft Yahei" !important;*/
+}
+
+.g-title {
+    font-size: 30px !important;
+    font: bold 36px/1 "Microsoft Yahei" !important;
+    color: #404040 !important;
+}
+.g-subtitle {
+
+    font-size:18px !important
+}
+    .g-subtitle b, .g-subtitle img {
+        font-weight:500 !important;
+        font-size: 18px !important
+    }
+    .g-subtitle .date {
+    
+     margin-left:150px !important;
+    }

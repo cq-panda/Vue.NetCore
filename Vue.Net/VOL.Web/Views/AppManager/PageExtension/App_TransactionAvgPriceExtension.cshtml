@@ -1,0 +1,14 @@
+﻿<script>
+    searchHelper.onInitBefore = function () {
+        //绑定下拉框选中事件
+        if (optionConfigcity) {
+            optionConfigcity.onSelect = function (obj, val, text, data, options) {
+               
+            };
+            //开启搜索功能
+            optionConfigcity.search = true;
+        }
+
+    }
+
+</script>

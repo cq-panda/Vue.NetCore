@@ -1,0 +1,360 @@
+﻿<style>
+    /*body {
+        margin: 0px;
+    }*/
+
+    .trans-content {
+        padding: 3px;
+        position: relative;
+    }
+
+        .trans-content dt {
+            text-align: right;
+        }
+
+    dl dt {
+        float: left;
+        font-weight: bold;
+        margin-right: 10px;
+        padding: 5px;
+        width: 100px;
+    }
+
+    .trans-content dl {
+        width: 48%;
+        float: left;
+        margin-top: 10px;
+    }
+
+    dl dd {
+        margin: 2px 0;
+        padding: 5px 0;
+        height: 28px;
+    }
+
+    /*.trans-content .panel-body dl:first-child:after {
+        float: right;
+        width: 1px;
+        display: block;
+        content: "";
+        margin-top: -120px;
+        border: 1px solid #ffa90d;
+        border-width: 42px 0px;
+        margin-top: -106px;
+    }*/
+
+    .trans-content .panel-body .input-text {
+        width: 100%;
+        display: inline-block;
+        /* padding-top: 10px; */
+        border-top: 1px solid #cfcfcf;
+        background: #f49214;
+        color: white;
+        margin-top: -13px;
+    }
+
+        .trans-content .panel-body .input-text > div {
+            width: 33.333%;
+            float: left;
+            padding: 5px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+    .trans-content .panel-body {
+        padding: 15px;
+    }
+        /*.trans-content .middle-line {
+        border-left: 1px solid #efbf0c;
+        float: left;
+        height: 82px;
+        margin-top: 13px;
+        margin-left: -18px;
+    }*/
+        .trans-content .panel-body .input-text > div input[type=text] {
+            height: 25px;
+            border: 0px;
+            border-bottom: 1px solid #fff;
+            outline: none;
+            width: 150px;
+            background: none;
+        }
+
+    .trans-content .textbox-text {
+        border-radius: 0px;
+    }
+
+    .trans-content .datebox {
+        border: 0px;
+        outline: none;
+    }
+
+    .trans-content .clip {
+        max-width: 140px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .trans-content a {
+        cursor: pointer;
+    }
+
+    .trans-content .remove {
+        float: right;
+        color: red;
+    }
+
+    .trans-content .foot-add {
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .trans-group {
+        margin-bottom: 18px;
+    }
+
+        .trans-group .remove {
+            cursor: pointer;
+        }
+
+    #trans-container .content {
+        background: #f8f8f8;
+    }
+
+    #trans-container .panel-body {
+        border-color: white;
+        padding: 0px;
+    }
+    /*#trans-select-container .content {
+      height:2000px !important;
+    }*/
+</style>
+
+<script src="~/Scripts/vue.js"></script>
+<script>
+    function getDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes();
+        return currentdate;
+    }
+    var $transSouce;
+    var $transWindow;
+    var transHeight = window.document.body.clientHeight * 0.9;
+    var transWidth = window.document.body.clientWidth * 0.8;
+    var transAddData = { index: 1, addType: 1 };
+    function addTrans() {
+        if ($transSouce) {
+            $transSouce.jqWindow('open');
+        } else {
+            $transSouce = $("<div id='trans-select-container'></div>").jqWindow({
+                title: "设置成交数据",
+                width: transWidth + "px",
+                height: transHeight + "px",
+                text: '<iframe id="source-iframe" width="100%"  scrolling="auto" \
+                                    height="700px"  frameborder="false" \
+                                    allowtransparency="true" \
+                                    style="border: medium none; width: 100%;position: relative;"\
+                                    src="/App_BeefTransaction/SelectPage" name="right" >\
+                                    </iframe>',
+                headStyle: "background:#57c5f7",
+                buttons: [{
+                    text: '添加', icon: 'btn btn-success  icon-double-angle-right', handler: function () {
+                        var childSelected = $("#source-iframe")[0].contentWindow.getSelected();
+                        if (!childSelected) return $.message("请选择一行");
+                        if (transAddData.addType != childSelected.Ttype)
+                            return $.message("只能选择" + (transAddData.addType == 1 ? "买" : "卖") + "方数据");
+                        var transItem = shareData[transAddData.index];
+                        if (transAddData.addType == 1) {
+                            transItem.text.PurchaserId = childSelected.Id;
+                        } else {
+                            transItem.text.VendorId = childSelected.Id;
+                        }
+
+                        var _titem = transItem['detail' + transAddData.addType];
+                        $.each(_titem, function (k,v) {
+                            _titem[k] = childSelected[k];
+                        })
+                        $transSouce.jqWindow('close');
+                    }
+                }]
+            });
+        }
+    }
+
+
+
+    var transHtml = '<div v-for="(item,index) in transfer" :key="index" class="panel trans-group panel-warning">\
+        <div class="panel-heading" >\
+            <span class="panel-title" style="font-size: 16px;font-weight: 100;color: #d89008;">{{index+1}}、买卖方数据</span>\
+            <span class="panel-title remove glyphicon glyphicon-remove" v-on:click="removeItem(index)"></span>\
+            </div >\
+        <div class="panel-body">\
+            <dl>\
+                <dt>买方价格:</dt>\
+                <dd>{{item.detail1.Price}}</dd>\
+                <dt>买方品种：</dt>\
+                <dd>{{item.detail1.Variety}}</dd>\
+                <dt>买方重量/KG: </dt>\
+                <dd>{{item.detail1.Weight}}</dd>\
+                <dt>买方公母：</dt>\
+                <dd>{{item.detail1.Sex}}</dd>\
+                <dt>买方公司：</dt>\
+                <dd>{{item.detail1.Company}}</dd>\
+                <dt>买方联系人：</dt>\
+                <dd>{{item.detail1.Contact}}</dd>\
+                <dt>买方所在地：</dt>\
+                <dd class="clip">{{item.detail1.Location}}</dd>\
+                <dt></dt>\
+                <dt><a v-on:click="showIframeData(index,1)">选择买方数据</a></dt>\
+            </dl>\
+             <dl>\
+                <dt>卖方价格:</dt>\
+                <dd>{{item.detail2.Price}}</dd>\
+                <dt>卖方品种：</dt>\
+                <dd>{{item.detail2.Variety}}</dd>\
+                <dt>卖方重量/KG: </dt>\
+                <dd>{{item.detail2.Weight}}</dd>\
+                <dt>卖方公母：</dt>\
+                <dd><span>{{item.detail2.Sex}}</span></dd>\
+                <dt>卖方公司：</dt>\
+                <dd>{{item.detail2.Company}}</dd>\
+                <dt>卖方联系人：</dt>\
+                <dd>{{item.detail2.Contact}}</dd>\
+                <dt>卖方所在地：</dt>\
+                <dd class="clip">{{item.detail2.Location}}</dd>\
+                <dt></dt>\
+                <dt><a v-on:click="showIframeData(index,2)">选择卖方数据</a></dt>\
+            </dl>\
+            <div class="input-text">\
+                <div>\
+                    <label>成交价格:</label>  <input type="text" placeholder=""  v-model="item.text.Price" />\
+                </div>\
+                <div>\
+                    <label>成交数量:</label>  <input type="text" placeholder="" v-model="item.text.Qty"/>\
+                </div>\
+                <div>\
+                    <label>成交时间:</label>   <input type="text" style="outline: none;" class="easyui-datetimebox" v-model="item.text.CreateDate"/>\
+                </div>\
+            </div>\
+        </div>\
+        </div>\
+        <div class="foot-add">\
+            <button class="btn btn-danger" v-on:click="addItem()">添加</button>\
+        </div>';
+
+    var shareData = [
+        {
+            text: { Price: '', PurchaserId: 0, VendorId: 0, Qty: '', CreateDate: getDate() },
+            detail1: {
+                Contact: '', Variety: '', Weight: '', Price: '', Location: '', Company: '', Sex: ''
+            },
+            detail2: {
+                Contact: '', Variety: '', Weight: '', Price: '', Location: '', Company: '', Sex: ''
+            }
+        }];
+
+    function initVue() {
+        new Vue({
+            el: "#trans-content",
+            data: { transfer: shareData },
+            methods: {
+                addItem: function () {
+                    this.transfer.push({
+                        text: {  Price: '', PurchaserId: 0, VendorId: 0, Qty: '', CreateDate: getDate()},
+                        detail1: {
+                            Contact: '', Variety: '', Weight: '', Price: '', Location: '', Company: '', Sex: ''
+                        },
+                        detail2: {
+                            Contact: '', Variety: '', Weight: '', Price: '', Location: '', Company: '', Sex: ''
+                        }
+                    });
+                },
+                removeItem: function (index) {
+                    this.transfer.splice(index, 1);
+                },
+                showIframeData: function (index, addType) {//addType :1买方数据，2卖方数据
+                    transAddData.index = index;
+                    transAddData.addType = addType;
+                    addTrans();
+                }
+            }
+        });
+    }
+    function save() {
+        // saveTrans()
+        if (shareData.length == 0) return $.message("请添加成交数据");
+        var saveData = [];
+        var _errMsg = '';
+        $.each(shareData, function (i) {
+            if ((this.text.PurchaserId > 0 && this.text.VendorId == 0)
+                || (this.text.PurchaserId == 0 && this.text.VendorId > 0)
+            ) {
+                errMsg = '第' + i + '行,买方卖方的都是必选项';
+                return false;
+            }
+            if (this.text.PurchaserId + this.text.VendorId) {
+                if (~~this.text.Price <= 0) {
+                    _errMsg = '第' + i + '行成交价格必须大于0';
+                    return false;
+                }
+                if (~~this.text.Qty <= 0) {
+                    _errMsg = '第' + i + '行成交数量必须大于0';
+                    return false;
+                }
+                saveData.push(this.text);
+            }
+        })
+        if (_errMsg) return $.message(_errMsg);
+        if (saveData.length==0) return $.message("请选择成交数据");
+
+        helper.post('/vApp_TransactionCompletion/Add', { DetailData: JSON.stringify(saveData) }, function (transResult) {
+            transResult = JSON.parse(transResult);
+            if (transResult.Status) {
+                $transWindow.jqWindow('close');
+                $elementGrid.datagrid('reload');
+                //清空对象
+                shareData.splice(0, shareData.length);
+            }
+            $.message(transResult.Desc);
+        });
+    }
+    function showTrans() {
+        if ($transWindow)
+            return $transWindow.jqWindow('open');
+
+            $transWindow = $("<div id='trans-container'></div>").jqWindow({
+                title: "设置成交数据",
+                width: "800px",
+                height: transHeight + "px",
+                text: '<div class="trans-content" id="trans-content">' + transHtml + '</div>',
+                headStyle: "background:#57c5f7",
+                buttons: [{
+                    text: '保存', icon: 'btn btn-success  icon-double-angle-right', handler: function () {
+                        save();
+                    }
+                }]
+            });
+            initVue();
+    }
+
+    searchHelper.onInitBefore = function () {
+        $.each(searchTools.btns, function () {
+            if (this.text == '新 建') {
+                this.text = "添加成交数据";
+                this.handler = function () { showTrans(); }
+            }
+        });
+    }
+</script>

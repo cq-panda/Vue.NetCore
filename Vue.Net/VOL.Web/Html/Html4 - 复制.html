@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="../Scripts/jquery-1.10.2.min.js"></script>
+    <script src="../Scripts/jquery.easyui.min.js"></script>
+    <link href="../Content/css/easyui.css" rel="stylesheet" />
+    <title></title>
+
+
+</head>
+<body>
+
+    <input type="button" id="btn" value="btn" />
+    <div>
+
+    </div>
+</body>
+</html>
+
+<script>
+    $(function () {
+
+        $("#btn").click(function () {
+            var tt = this;
+            tt.data = 1;
+            var n = this.data;
+        });
+        var sp = $('<span>xxxxxxxx</span>');
+        sp.click(function () {
+            var sp1 = $.data(sp, 'sp');
+        });
+        $.data(sp, 'sp', { a: 111 });
+        $("div").append(sp);
+    })
+    //var div = $("<div>xxxxx</div>");
+    //var _css = { "background": "#eee" };
+    //$.data(div[0], "key", "211");
+    //div.css(_css);
+    //$("body").append(div);
+    //alert($.data($("div")[0],"key"));
+    //$("#btn").click(function () {
+    //    $("div").attr("style","");
+    //});
+</script>

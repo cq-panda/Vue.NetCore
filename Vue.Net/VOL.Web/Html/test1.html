@@ -1,0 +1,476 @@
+﻿<link href="../Content/css/easyui.css" rel="stylesheet" />
+<script src="../Scripts/jquery-1.10.2.js"></script>
+<script src="../Scripts/jquery-easyui/jquery.easyui.min.js"></script>
+<script src="../Scripts/jquery-easyui/easyui-lang-zh_CN.js"></script>
+<link href="../Content/css/bootstrap.css" rel="stylesheet" />
+<style>
+    body {
+        margin: 0px;
+    }
+
+    .trans-content {
+        padding: 15px;
+        height: 730px;
+        top: 5%;
+        width: 600px;
+        position: relative;
+        background: #f8f8f8;
+        margin: 0 auto;
+    }
+
+        .trans-content dt {
+            text-align: right;
+        }
+
+    dl dt {
+        float: left;
+        font-weight: bold;
+        margin-right: 10px;
+        padding: 5px;
+        width: 100px;
+    }
+
+    .trans-content dl {
+        width: 48%;
+        float: left;
+    }
+
+    dl dd {
+        margin: 2px 0;
+        padding: 5px 0;
+    }
+
+    .panel-body {
+        padding: 0px;
+    }
+    /*.trans-content .panel-body dl:first-child:after {
+        float: right;
+        width: 1px;
+        display: block;
+        content: "";
+        margin-top: -120px;
+        border: 1px solid #ffa90d;
+        border-width: 42px 0px;
+        margin-top: -106px;
+    }*/
+
+    .trans-content .panel-body .input-text {
+        width: 100%;
+        display: inline-block;
+        padding-top: 10px;
+        border-top: 1px solid #cfcfcf;
+    }
+
+        .trans-content .panel-body .input-text > div {
+            width: 33.333%;
+            float: left;
+            padding: 5px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+    .trans-content .panel-body {
+        padding: 15px;
+    }
+        /*.trans-content .middle-line {
+        border-left: 1px solid #efbf0c;
+        float: left;
+        height: 82px;
+        margin-top: 13px;
+        margin-left: -18px;
+    }*/
+        .trans-content .panel-body .input-text > div input[type=text] {
+            height: 25px;
+            border: 0px;
+            border-bottom: 1px solid #b9dfff;
+            outline: none;
+            width: 150px;
+        }
+
+    .trans-content .textbox-text {
+        border-radius: 0px;
+    }
+
+    .trans-content .datebox {
+        border: 0px;
+        outline: none;
+    }
+
+    .trans-content .clip {
+        max-width: 140px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .trans-content a {
+        cursor: pointer;
+    }
+
+    .trans-content .remove {
+        float: right;
+        color: red;
+    }
+
+    .trans-content .foot-add {
+        text-align: right;
+    }
+</style>
+<style>
+    /*body {
+        margin: 0px;
+    }*/
+
+    .trans-content {
+        padding: 3px;
+        position: relative;
+    }
+
+        .trans-content dt {
+            text-align: right;
+        }
+
+    dl dt {
+        float: left;
+        font-weight: bold;
+        margin-right: 10px;
+        padding: 5px;
+        width: 100px;
+    }
+
+    .trans-content dl {
+        width: 48%;
+        float: left;
+        margin-top: 10px;
+    }
+
+    dl dd {
+        margin: 2px 0;
+        padding: 5px 0;
+    }
+
+    /*.trans-content .panel-body dl:first-child:after {
+        float: right;
+        width: 1px;
+        display: block;
+        content: "";
+        margin-top: -120px;
+        border: 1px solid #ffa90d;
+        border-width: 42px 0px;
+        margin-top: -106px;
+    }*/
+
+    .trans-content .panel-body .input-text {
+        width: 100%;
+        display: inline-block;
+        padding-top: 10px;
+        border-top: 1px solid #cfcfcf;
+    }
+
+        .trans-content .panel-body .input-text > div {
+            width: 33.333%;
+            float: left;
+            padding: 5px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+    .trans-content .panel-body {
+        padding: 15px;
+    }
+        /*.trans-content .middle-line {
+        border-left: 1px solid #efbf0c;
+        float: left;
+        height: 82px;
+        margin-top: 13px;
+        margin-left: -18px;
+    }*/
+        .trans-content .panel-body .input-text > div input[type=text] {
+            height: 25px;
+            border: 0px;
+            border-bottom: 1px solid #b9dfff;
+            outline: none;
+            width: 150px;
+        }
+
+    .trans-content .textbox-text {
+        border-radius: 0px;
+    }
+
+    .trans-content .datebox {
+        border: 0px;
+        outline: none;
+    }
+
+    .trans-content .clip {
+        max-width: 140px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .trans-content a {
+        cursor: pointer;
+    }
+
+    .trans-content .remove {
+        float: right;
+        color: red;
+    }
+
+    .trans-content .foot-add {
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    #trans-container .content {
+        background: #f8f8f8;
+    }
+
+    #trans-container .panel-body {
+        border-color: white;
+        padding: 0px;
+    }
+    /*#trans-select-container .content {
+      height:2000px !important;
+    }*/
+</style>
+<body>
+    <div v-for="item in transfer" class="panel panel-warning">
+        
+        <div class="panel-heading">
+            
+            <span class="panel-title" style="font-size: 16px;font-weight: 100;color: #d89008;">买卖方数据</span>
+            <span class="panel-title remove glyphicon glyphicon-remove"></span>
+        </div>
+        <div class="panel-body">
+            
+            <dl>
+
+                <dd><span>买方价格:</span><span>{{item.detail1.Price}}</span></dd>
+                <dd><span>买方价格:</span><span>{{item.detail1.Price}}</span></dd>
+                <dd><span>买方价格:</span><span>{{item.detail1.Price}}</span></dd>
+                <dd><span>买方价格:</span><span>{{item.detail1.Price}}</span></dd>
+                <dd><span>买方价格:</span><span>{{item.detail1.Price}}</span></dd>
+                <dd><span>买方价格:</span><span>{{item.detail1.Price}}</span></dd>
+                <dt></dt>
+                <dt><a>选择买方数据</a></dt>
+            </dl>
+            <dl>
+                
+                <dt>卖方价格:</dt>
+                <dd>{{item.detail2.Price}}</dd>
+                <dt>卖方品种：</dt>
+                <dd>{{item.detail2.Variety}}</dd>
+                <dt>卖方重量/KG: </dt>
+                <dd>{{item.detail2.Weight}}</dd>
+                <dt>卖方公母：</dt>
+                <dd><span>{{item.detail2.Sex}}</span></dd>
+                <dt>卖方公司：</dt>
+                <dd>{{item.detail2.Company}}</dd>
+                <dt>卖方联系人：</dt>
+                <dd>{{item.detail2.Contact}}</dd>
+                <dt>卖方所在地：</dt>
+                <dd class="clip">{{item.detail2.Location}}</dd>
+                <dt></dt>
+                <dt><a>选择卖方数据</a></dt>
+            </dl>
+            <div class="input-text">
+                
+                <div>
+                    
+                    <label>成交价格:</label>  <input type="text" placeholder="" v-model="item.Price" />
+                </div>
+                <div>
+                    
+                    <label>成交数量:</label>  <input type="text" placeholder="" v-model="item.Qty" />
+                </div>
+                <div>
+                    
+                    <label>成交时间:</label>   <input type="text" style="outline: none;" class="easyui-datetimebox" v-model="item.CreateDate" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--<div id="hook-arguments-example" v-app:foo.a.b="message"></div>-->
+
+    <div id="vue1"></div>
+    <button class="btn btn-info" onclick="add()">测试</button>
+    <div class="trans-content">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <span class="panel-title">买卖方数据</span>
+                <span class="panel-title remove glyphicon glyphicon-remove"></span>
+            </div>
+            <div class="panel-body">
+                <dl>
+                    <dt>买方价格: </dt>
+                    <dd>5000</dd>
+                    <dt>买方品种：</dt>
+                    <dd>西门塔尔</dd>
+                    <dt>买方重量/KG: </dt>
+                    <dd>1000</dd>
+                    <dt>买方公母：</dt>
+                    <dd>统货</dd>
+                    <dt>买方公司：</dt>
+                    <dd>北京向中智牧</dd>
+                    <dt>买方联系人：</dt>
+                    <dd>18612119023</dd>
+                    <dt>买方所在地：</dt>
+                    <dd class="clip">北京市昌平区北京市昌平区北京市昌平区北京市昌平区</dd>
+                    <dt></dt>
+                    <dt><a>选择买方数据</a></dt>
+                </dl>
+                <div class="middle-line"></div>
+                <dl>
+                    <dt>卖方价格: </dt>
+                    <dd>5000</dd>
+                    <dt>卖方品种：</dt>
+                    <dd>西门塔尔</dd>
+                    <dt>卖方重量/KG: </dt>
+                    <dd>1000</dd>
+                    <dt>卖方公母：</dt>
+                    <dd>统货</dd>
+                    <dt>卖方公司：</dt>
+                    <dd>北京向中智牧</dd>
+                    <dt>卖方联系人：</dt>
+                    <dd>18612119023</dd>
+                    <dt>卖方所在地：</dt>
+                    <dd>北京市昌平区</dd>
+                    <dt></dt>
+                    <dt><a>选择卖方数据</a></dt>
+                </dl>
+                <div class="input-text">
+                    <div>
+                        <label>成交价格:</label>  <input type="text" placeholder="" />
+                    </div>
+                    <div>
+                        <label>成交数量:</label>  <input type="text" placeholder="" />
+                    </div>
+                    <div>
+                        <label>成交时间:</label>   <input type="text" style="outline: none;" class="easyui-datetimebox" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot-add">
+            <button class="btn btn-danger">添加</button>
+        </div>
+    </div>
+</body>
+
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script type="text/javascript">
+
+
+
+    var transHtml = '<div v-for="item in transfer" class="panel panel-warning">\
+        <div class="panel-heading" >\
+            <span class="panel-title" style="font-size: 16px;font-weight: 100;color: #d89008;">买卖方数据</span>\
+            <span class="panel-title remove glyphicon glyphicon-remove"></span>\
+            </div >\
+        <div class="panel-body">\
+            <dl>\
+                <dt>买方价格:</dt>\
+                <dd>{{item.detail1.Price}}</dd>\
+                <dt>买方品种：</dt>\
+                <dd>{{item.detail1.Variety}}</dd>\
+                <dt>买方重量/KG: </dt>\
+                <dd>{{item.detail1.Weight}}</dd>\
+                <dt>买方公母：</dt>\
+                <dd>{{item.detail1.Sex}}</dd>\
+                <dt>买方公司：</dt>\
+                <dd>{{item.detail1.Company}}</dd>\
+                <dt>买方联系人：</dt>\
+                <dd>{{item.detail1.Contact}}</dd>\
+                <dt>买方所在地：</dt>\
+                <dd class="clip">{{item.detail1.Location}}</dd>\
+                <dt></dt>\
+                <dt><a>选择买方数据</a></dt>\
+            </dl>\
+             <dl>\
+                <dt>卖方价格:</dt>\
+                <dd>{{item.detail2.Price}}</dd>\
+                <dt>卖方品种：</dt>\
+                <dd>{{item.detail2.Variety}}</dd>\
+                <dt>卖方重量/KG: </dt>\
+                <dd>{{item.detail2.Weight}}</dd>\
+                <dt>卖方公母：</dt>\
+                <dd>{{item.detail2.Sex}}</dd>\
+                <dt>卖方公司：</dt>\
+                <dd>{{item.detail2.Company}}</dd>\
+                <dt>卖方联系人：</dt>\
+                <dd>{{item.detail2.Contact}}</dd>\
+                <dt>卖方所在地：</dt>\
+                <dd class="clip">{{item.detail2.Location}}</dd>\
+                <dt></dt>\
+                <dt><a>选择卖方数据</a></dt>\
+            </dl>\
+            <div class="input-text">\
+                <div>\
+                    <label>成交价格:</label>  <input type="text" placeholder=""  v-model="item.Price" />\
+                </div>\
+                <div>\
+                    <label>成交数量:</label>  <input type="text" placeholder="" v-model="item.Qty"/>\
+                </div>\
+                <div>\
+                    <label>成交时间:</label>   <input type="text" style="outline: none;" class="easyui-datetimebox" v-model="item.CreateDate"/>\
+                </div>\
+            </div>\
+        </div>\
+        </div>\
+        <div class="foot-add">\
+            <button class="btn btn-danger" onClick="addTrans()">添加</button>\
+        </div>';
+
+
+    var vm;
+    function add() {
+        $("#vue1").append('<div id="app1">' + transHtml+'</div>');
+        if (vm) {
+            return;
+        }
+        vm = new Vue({
+            el: "#app1",
+            data: {
+                transfer: [
+                    {
+                        Price: 12,
+                        Qty: 200,
+                        CreateDate:'2018-11-15',
+                        detail1: {
+                            Contact: '1',
+                            Variety: 'xx',
+                            Weight: '',
+                            Price: '',
+                            Location: '',
+                            Company: '',
+                            Sex: ''
+                        },
+                        detail2: {
+                            Contact: '1',
+                            Variety: '',
+                            Weight: '',
+                            Price: '',
+                            Location: '',
+                            Company: '',
+                            Sex: ''
+                        }
+                    }],
+                dt: '1234567有没有加载成功'
+            },
+            methods: {
+                add: function () {
+                    this.items.push({ text: "第四组" });
+                    this.items.splice(0, 1);
+                }
+            }
+        });
+
+
+    }
+
+
+</script>

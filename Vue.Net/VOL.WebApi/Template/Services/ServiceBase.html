@@ -1,0 +1,27 @@
+﻿/*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *代码由框架生成,此处任何更改都可能导致被代码生成器覆盖
+ *所有业务编写全部应在Partial文件夹下{TableName}Service与I{TableName}Service中编写
+ */
+using {Namespace}.IRepositories;
+using {Namespace}.IServices;
+using {StartName}.Core.BaseProvider;
+using {StartName}.Core.Extensions.AutofacManager;
+using {StartName}.Entity.DomainModels;
+
+namespace {Namespace}.Services
+{
+    public partial class {TableName}Service : ServiceBase<{TableName}, I{TableName}Repository>, I{TableName}Service, IDependency
+    {
+        public {TableName}Service(I{TableName}Repository repository)
+             : base(repository) 
+        { 
+           Init(repository);
+        }
+        public static I{TableName}Service Instance
+        {
+           get { return AutofacContainerModule.GetService<I{TableName}Service>(); }
+        }
+    }
+}

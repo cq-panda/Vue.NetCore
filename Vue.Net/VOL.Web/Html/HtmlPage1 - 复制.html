@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="../Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="../Content/css/bootstrap-treeview.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.10.2.js"></script>
+    <script src="../Scripts/bootstrap-treeview.js"></script>
+</head>
+<body>
+    <div class="tree well">
+        <ul>
+            <li>
+                <span><i class="icon-folder-open"></i> 顶级节点1</span> <a href="">Goes somewhere</a>
+                <ul>
+                    <li>
+                        <span><i class="icon-minus-sign"></i> 一级节点1</span> <a href=""></a>
+                        <ul>
+                            <li>
+                                <span><i class="icon-leaf"></i> 二级节点1_1</span> <a href=""></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span><i class="icon-minus-sign"></i> 一级节点2</span> <a href=""></a>
+                        <ul>
+                            <li>
+                                <span><i class="icon-leaf"></i>二级节点2_1</span> <a href=""></a>
+                            </li>
+                            <li>
+                                <span><i class="icon-minus-sign"></i> 二级节点2_2</span> <a href=""></a>
+                                <ul>
+                                    <li>
+                                        <span><i class="icon-minus-sign"></i>三级节点2_1</span> <a href=""></a>
+                                        <ul>
+                                            <li>
+                                                <span><i class="icon-leaf"></i>四级节点2_1</span> <a href=""></a>
+                                            </li>
+                                            <li>
+                                                <span><i class="icon-leaf"></i> 四级节点2_2</span> <a href=""></a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span><i class="icon-leaf"></i>三级节点2_2</span> <a href=""></a>
+                                    </li>
+                                    <li>
+                                        <span><i class="icon-leaf"></i> 三级节点2_3</span> <a href=""></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span><i class="icon-leaf"></i>二级节点2_3</span> <a href=""></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span><i class="icon-folder-open"></i> 顶级节点2</span> <a href=""></a>
+                <ul>
+                    <li>
+                        <span><i class="icon-leaf"></i> 一级节点2_1</span> <a href=""></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function () {
+        $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+        $('.tree li.parent_li > span').on('click', function (e) {
+            var children = $(this).parent('li.parent_li').find(' > ul > li');
+            if (children.is(":visible")) {
+                children.hide('fast');
+                $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+            } else {
+                children.show('fast');
+                $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+            }
+            e.stopPropagation();
+        });
+    });
+</script>

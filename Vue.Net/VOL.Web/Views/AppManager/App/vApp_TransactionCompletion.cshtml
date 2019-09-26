@@ -1,0 +1,101 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "pz,ct,sex,enable";}
+    var searchData = [[{"columnType":"string","dataSource":optionConfigpz,"displayType":"drop","text":"品种","require":false,"id":"Variety"},{"columnType":"string","dataSource":optionConfigct,"displayType":"drop","text":"牛只类型","require":false,"id":"CowType"},{"columnType":"string","dataSource":optionConfigsex,"displayType":"drop","text":"公母","require":false,"id":"Sex"}],[{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"成交时间","require":false,"id":"CreateDate"},{"columnType":"int","dataSource":optionConfigenable,"displayType":"drop","text":"是否启用","require":false,"id":"Enable"},{"columnType":"string","dataSource":[],"displayType":"","text":"卖方所在地","require":false,"id":"Location1"}]];
+    var editData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"标题","require":false,"id":"Title","colSize":12,"disabled":1}],[{"columnType":"decimal","dataSource":[],"displayType":"","text":"成交价格/元/公斤","require":true,"id":"Price"},{"columnType":"int","dataSource":[],"displayType":"","text":"成交数量(头)","require":true,"id":"Qty"}],[{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"成交时间","require":false,"id":"CreateDate"},{"columnType":"int","dataSource":optionConfigenable,"displayType":"drop","text":"是否启用","require":true,"id":"Enable"}],[{"columnType":"string","dataSource":optionConfigct,"displayType":"","text":"牛只类型","require":false,"id":"CowType","disabled":1},{"columnType":"string","dataSource":optionConfigpz,"displayType":"","text":"品种","require":true,"id":"Variety","disabled":1}],[{"columnType":"string","dataSource":[],"displayType":"","text":"重量/KG","require":false,"id":"Weight","disabled":1},{"columnType":"string","dataSource":optionConfigsex,"displayType":"","text":"公母","require":false,"id":"Sex","disabled":1}],[{"columnType":"string","dataSource":[],"displayType":"","text":"买方所在地","require":false,"id":"Location","disabled":1},{"columnType":"string","dataSource":[],"displayType":"","text":"卖方所在地","require":false,"id":"Location1","disabled":1}],[{"columnType":"string","dataSource":[],"displayType":"","text":"买方","require":false,"id":"Purchaser","disabled":1},{"columnType":"string","dataSource":[],"displayType":"","text":"卖方","require":false,"id":"Vendor","disabled":1}]];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/vApp_TransactionCompletion/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'vApp_TransactionCompletion',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'活牛成交',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:3020,totalCol:17},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'Id',datatype:'int',width:80,hidden:true,require:true,align:'left'},
+                       {field:'Title',title:'标题',datatype:'string',width:250,readonly:true,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createViewField',{row:row,val:val,index:index})},align:'left',sortable:true},
+                       {field:'Price',title:'成交价格/元/公斤',datatype:'decimal',width:160,editor:'text',require:true,align:'left'},
+                       {field:'Qty',title:'成交数量(头)',datatype:'int',width:140,editor:'text',require:true,align:'left'},
+                       {field:'CreateDate',title:'成交时间',datatype:'DateTime',width:150,editor:'datetimebox',align:'left',sortable:true},
+                       {field:'Purchaser',title:'买方',datatype:'string',width:220,readonly:true,editor:'text',align:'left'},
+                       {field:'Vendor',title:'卖方',datatype:'string',width:220,readonly:true,editor:'text',align:'left'},
+                       {field:'Variety',title:'品种',datatype:'string',width:120,readonly:true,editor:'text',formatter: function (val, row, index) {
+    return dataSourcepz.textFormatter(optionConfigpz, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'CowType',title:'牛只类型',datatype:'string',width:120,readonly:true,editor:'text',formatter: function (val, row, index) {
+    return dataSourcect.textFormatter(optionConfigct, val, row, index);
+    },
+align:'left'},
+                       {field:'FileUrl',title:'图片',datatype:'string',width:220,formatter:function (val, row, index) { return $.fn.layOut('createImageUrl',{row:row,key:'FileUrl'})},align:'left'},
+                       {field:'Weight',title:'重量/KG',datatype:'string',width:90,readonly:true,editor:'text',align:'left'},
+                       {field:'Sex',title:'公母',datatype:'string',width:220,readonly:true,editor:'text',formatter: function (val, row, index) {
+    return dataSourcesex.textFormatter(optionConfigsex, val, row, index);
+    },
+align:'left'},
+                       {field:'Location',title:'买方所在地',datatype:'string',width:220,readonly:true,editor:'text',align:'left'},
+                       {field:'Describe',title:'买方商品详情',datatype:'string',width:220,align:'left'},
+                       {field:'Enable',title:'是否启用',datatype:'int',width:100,editor: { type: 'combobox', options: optionConfigenable },formatter: function (val, row, index) {
+    return dataSourceenable.textFormatter(optionConfigenable, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'Location1',title:'卖方所在地',datatype:'string',width:220,readonly:true,editor:'text',align:'left'},
+                       {field:'Describe1',title:'卖方商品详情',datatype:'string',width:220,align:'left'},
+                       {field:'Creator',title:'操作人',datatype:'string',width:130,readonly:true,align:'left'},
+                       {field:'CreateID',title:'CreateID',datatype:'int',width:80,hidden:true,readonly:true,align:'left'}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

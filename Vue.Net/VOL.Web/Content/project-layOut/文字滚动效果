@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />            
+        <meta name="keywords" content="关键字1,关键字2" />        
+        <meta name="Description" content="描述信息" />
+        <title>循环滚动</title>
+        <!--CSS/JS-->
+        <style type="text/css">
+            *{margin:0;padding:0;}
+            ul,li{list-style:none;display:block;}
+            #scrollBox{height:150px;width:300px;margin:100px auto;background:#f09;overflow:hidden;}
+            #scrollBox #con1,#con2{width:280px;float:left;}
+            #scrollBox li{height:15px;line-height:15px;text-align:center;}
+            
+        </style>
+        
+        
+    </head>
+ <body>
+        <!--div-->
+    <div id="scrollBox">
+        <ul id="con1">
+            <li>我是测试内容1！！<li>
+            <li>我是测试内容2！！<li>
+            <li>我是测试内容3！！<li>
+            <li>我是测试内容4！！<li>
+            <li>我是测试内容5！！<li>
+            <li>我是测试内容6！！<li>
+            <li>我是测试内容7！！<li>
+            <li>我是测试内容8！！<li>
+            <li>我是测试内容9！！<li>
+        </ul>
+        <ul id="con2"></ul>
+    </div>
+    <script type="text/javascript">            
+                var area =document.getElementById('scrollBox');
+                var con1 = document.getElementById('con1');
+                var con2 = document.getElementById('con2');
+                con2.innerHTML=con1.innerHTML;
+                function scrollUp(){
+                if(area.scrollTop>=con1.offsetHeight){
+                    area.scrollTop=0;
+                }else{
+                    area.scrollTop++
+                }
+                }                
+                var time = 50;
+                var mytimer=setInterval(scrollUp,time);
+                area.onmouseover=function(){
+                    clearInterval(mytimer);
+                }
+                area.onmouseout=function(){
+                    mytimer=setInterval(scrollUp,time);
+                }
+        </script>
+ </body>
+ 
+</html>

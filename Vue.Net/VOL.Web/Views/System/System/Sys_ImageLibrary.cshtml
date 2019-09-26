@@ -1,0 +1,89 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "ps,filetype";}
+    var searchData = [[{"columnType":"int","dataSource":optionConfigps,"displayType":"dropList","text":"文件来源","require":false,"id":"SourceType"},{"columnType":"string","dataSource":[],"displayType":"","text":"上传人","require":false,"id":"Creator"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"上传时间","require":false,"id":"CreateDate"}]];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/Sys_ImageLibrary/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'Sys_ImageLibrary',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'图片上传记录',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:1630,totalCol:9},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'Id',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Enable',title:'Enable',datatype:'byte',width:90,hidden:true,align:'left'},
+                       {field:'ImageUrls',title:'文件',datatype:'string',width:400,formatter:function (val, row, index) { return $.fn.layOut('createImageUrl',{row:row,key:'ImageUrls'})},align:'left',sortable:true},
+                       {field:'SourceType',title:'文件来源',datatype:'int',width:150,formatter: function (val, row, index) {
+    return dataSourceps.textFormatter(optionConfigps, val, row, index);
+    },
+align:'left'},
+                       {field:'Cover',title:'视频封面',datatype:'string',width:180,formatter:function (val, row, index) { return $.fn.layOut('createImageUrl',{row:row,key:'Cover'})},require:true,align:'left'},
+                       {field:'FileType',title:'文件类型',datatype:'int',width:120,formatter: function (val, row, index) {
+    return dataSourcefiletype.textFormatter(optionConfigfiletype, val, row, index);
+    },
+align:'left'},
+                       {field:'CreateID',title:'CreateID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'上传人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'上传时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ModifyID',title:'ModifyID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Remark',title:'备注 ',datatype:'string',width:220,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

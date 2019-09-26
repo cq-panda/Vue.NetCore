@@ -1,0 +1,51 @@
+﻿<script>
+    searchHelper.onInitBefore = function () {
+        //绑定下拉框选中事件
+        if (optionConfigenable) {
+            optionConfigenable.onSelect = function (obj, val, text, data, options) {
+
+            };
+        }
+        if (!editData || !editData.length)
+            return;
+        for (var i = 0; i < editData.length; i++) {
+            $.each(editData[i], function () {
+                if (this.displayType == 'textarea') {
+                    this.style = "height:80px;"
+                }
+            })
+        }
+    }
+    layOutElement.submitBefore = function (options) {
+        if (options.mainData.Config.indexOf('填写字段') != -1
+            || options.mainData.Config.indexOf('填写字段值') != -1) {
+            $.message('<span style="color:green;font-size:20px;">配置项valueField,textField必须为数据绑定字段!</span>');
+            return false;
+        }
+        return true
+    }
+    function dicToLower() {
+        var $dicElement = $layElement.content.layOut('getElement', 'DicNo');
+        if ($dicElement.bindKeyup)
+            return;
+        $layElement.content.layOut('getElement', 'DicNo').keyup(function (e) {
+            var dicVal = $(this).val();
+            if (!dicVal) return;
+            $(this).val(dicVal.toLocaleLowerCase());
+        });
+        $dicElement.bindKeyup = true;
+    }
+
+    searchHelper.onAddBtn_After = function () {
+        $layElement.content.layOut('reset', {
+            Config: "{\r\n valueField: '填写字段',\r\n textField: '填写字段值',\r\n  containField:null \r\n}",
+            ParentId: 0,
+            Enable: 1
+        });
+        dicToLower();
+    }
+    searchHelper.onEditBtn_After = function () {
+        dicToLower();
+    }
+
+</script>

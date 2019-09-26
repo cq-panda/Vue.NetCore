@@ -1,0 +1,98 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "pz,ww";}
+    var searchData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"联系人姓名","require":false,"id":"Contact"},{"columnType":"string","dataSource":[],"displayType":"","text":"手机","require":false,"id":"PhoneNo"},{"columnType":"string","dataSource":optionConfigpz,"displayType":"drop","text":"品种","require":false,"id":"Variety"}],[{"columnType":"string","dataSource":optionConfigww,"displayType":"drop","text":"称重方式","require":false,"id":"WeighWay"},{"columnType":"string","dataSource":[],"displayType":"","text":"创建人","require":false,"id":"Creator"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"创建时间","require":false,"id":"CreateDate"}]];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/App_ProcurementDirect/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'App_ProcurementDirect',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'肉企直采',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:2160,totalCol:15},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'主键ID',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Contact',title:'联系人姓名',datatype:'string',width:120,require:true,align:'left',sortable:true},
+                       {field:'PhoneNo',title:'手机',datatype:'string',width:150,require:true,align:'left'},
+                       {field:'Variety',title:'品种',datatype:'string',width:120,formatter: function (val, row, index) {
+    return dataSourcepz.textFormatter(optionConfigpz, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'MaxDayQty',title:'单日最大可接收数量(头)',datatype:'int',width:170,require:true,align:'left'},
+                       {field:'MinDayQty',title:'单日最低可接收数量(头)',datatype:'int',width:170,require:true,align:'left'},
+                       {field:'Total',title:'采购总数量(头)',datatype:'int',width:150,require:true,align:'left'},
+                       {field:'AvgLive',title:'活体均重(公斤)',datatype:'decimal',width:150,require:true,align:'left'},
+                       {field:'TTRate',title:'酮体率%',datatype:'decimal',width:90,require:true,align:'left'},
+                       {field:'LivePrice',title:'活体采购价格(元/公斤)',datatype:'decimal',width:180,require:true,align:'left'},
+                       {field:'TTPrice',title:'酮体采购价格(元/公斤)',datatype:'decimal',width:180,require:true,align:'left'},
+                       {field:'WeighWay',title:'称重方式',datatype:'string',width:120,formatter: function (val, row, index) {
+    return dataSourceww.textFormatter(optionConfigww, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'AuditStatus',title:'审核状态',datatype:'int',width:80,hidden:true,require:true,align:'left'},
+                       {field:'AuditId',title:'审核人ID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Auditor',title:'审核人',datatype:'string',width:120,hidden:true,align:'left'},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,hidden:true,align:'left'},
+                       {field:'CreateID',title:'创建人Id',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'创建时间',datatype:'DateTime',width:150,readonly:true,align:'left',sortable:true},
+                       {field:'ModifyID',title:'修改人ID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

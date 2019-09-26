@@ -1,0 +1,740 @@
+﻿@{
+    Layout = null;
+}
+<link href="../Content/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/css/font-awesome.css" rel="stylesheet" />
+<link href="~/Content/css/easyui.css" rel="stylesheet" />
+<link href="~/Content/project-layOut/jquery-layout.css" rel="stylesheet" />
+<link href="~/Content/project-layOut/jquery-layout-view.css" rel="stylesheet" />
+
+<script src="../Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-layout/jquery-layout-component.js"></script>
+<script src="~/Scripts/jquery-layout/jquery-layout-view.js"></script>
+<script src="~/Scripts/jquery-easyui/jquery.easyui.min.js"></script>
+<script src="~/Scripts/jQuery-slimScroll-1.3.8/jquery.slimscroll.js"></script>
+
+
+<style>
+    #baseInformation form > div {
+        margin-left: 15px;
+    }
+
+    .unit-group > div > div > label {
+        width: 120px;
+    }
+
+    #baseInformation form > div div {
+        width: 50px;
+    }
+
+    #baseInformation form {
+        margin-bottom: 0px;
+    }
+
+    .lay-heading {
+        padding: 6px 3px !important;
+        height: 35px !important;
+    }
+
+    #left-menu {
+        position: absolute !important;
+        overflow: hidden;
+        width: 190px;
+        height: 100%;
+    }
+
+    .jqTree > li > a {
+        color: white;
+        background: #58848e;
+    }
+
+    /*.jqTree > li > a:hover {
+    background: #BFB0B0;
+    }*/
+
+    /*.jqTree > li {
+    border-top: 1px solid #fff;
+    }*/
+
+    .right-panel {
+        top: 0px;
+        position: absolute;
+        left: 193px;
+        right: 0px;
+    }
+
+    .datagrid-wrap.panel-body {
+        border: 1px solid #e6e1e1;
+    }
+
+    #panel {
+        color: white;
+        background-color: #19a994;
+        border-color: #BDBDBD;
+    }
+
+        #panel > label:hover {
+            cursor: pointer;
+        }
+
+        #panel > label {
+            padding: 6px;
+            margin-right: 11px;
+        }
+
+    .panel_body {
+        border-bottom: 1px solid #BFB0B0;
+        padding: 10px;
+    }
+
+        .panel_body .form-group {
+            margin-bottom: 10px;
+        }
+
+    #operative_Btn button {
+        margin-right: 5px;
+    }
+
+    #treeMenu {
+        padding-left: 0px;
+        margin-top: 35px;
+    }
+
+        #treeMenu b.icon-th-large {
+            margin-top: 2px;
+        }
+
+        #treeMenu b {
+            font-weight: unset;
+        }
+
+
+    .window-head {
+        background: #D72626;
+    }
+
+    .panel-body .form-group > label {
+        color: #808080;
+    }
+
+        .panel-body .form-group > label > span {
+            color: red;
+        }
+
+    #operative_Btn {
+        text-align: right;
+    }
+
+    #base-info .form-group > div {
+        margin-left: 5px;
+        padding: 0px;
+    }
+
+    .panel_body .form-group > div {
+        padding: 0px;
+    }
+
+    .panel_body .form-group > label {
+        font-weight: 100;
+        float: left;
+        color: #888181;
+        width: 120px;
+    }
+
+    .panel_body .form-horizontal {
+        margin: 0px;
+        padding: 8px;
+        border: 1px dotted #f1f1f1;
+    }
+
+    .panel_body .form-group {
+        margin: 0px !important;
+    }
+
+    #base-info .form-group > label > span {
+        color: red;
+        margin-right: 3px;
+        position: relative;
+        top: 2px;
+    }
+
+    .lay-btn-group > div {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+    .tree-list li div {
+        font-size: 13px;
+        padding: 7px;
+    }
+
+    .tree-head {
+        color: white;
+        padding: 7px;
+        /* text-align: center; */
+        width: 100%;
+        position: absolute;
+        height: 35px;
+        font-size: 16px;
+        background: #777;
+    }
+
+    .icon-cogs {
+        padding: 5px;
+        background: none;
+        font-size: 17px;
+    }
+
+    .active-bg {
+        color: white !important;
+        background: #b31815 !important;
+    }
+
+    .jqTree > li > div:hover {
+        color: white;
+        background: #D72626;
+    }
+
+    .active-bg:after {
+        margin-right: -7px;
+        margin-top: -7px;
+        border-width: 16px 13px;
+        border-right-color: #821715
+    }
+
+    .jqTree > li {
+        background: white;
+    }
+
+    .tabs-body > div {
+        height: 100%;
+        padding: 5px 0px 0px 5px;
+        background: #eee;
+    }
+</style>
+<script>
+
+    Array.prototype.convertToHash=function(key,value){
+        var hashVal={};
+        $.each(this,function(){
+            hashVal[this[key]]=this[value];
+        })
+        return hashVal;
+    }
+
+    var  $fieldEelement,tableField = {};
+
+    var nameSpaceArray= @Html.Raw(ViewData["NameSpaceArray"]);
+
+    nameSpaceArray=  $.map(nameSpaceArray,function(data){
+        return {Namespace:data};
+    });
+
+    var nameSpaceConfig = {
+        valueField: 'Namespace',
+        textField: 'Namespace',
+        data:nameSpaceArray,
+        maxHeight:'200px',
+        handler: null
+    };
+
+    var gridTable;
+    $(function () {
+        $fieldEelement= $("#config-field").layOut({
+            data:fieldData,
+            edit:true,
+            title:
+            '<span class=" icon-cogs" style="background:none;">基本信息配置<span>'
+        });
+
+        layOutElement.createBtns.call($(' > .panel-body', $fieldEelement), { btns: btnData, displayCount:6 });
+
+        gridTable= $('#table').datagrid(data_grid);
+        gridTable.initiEidt();
+    })
+    window.onload = function () {
+        var vuePath = localStorage.getItem("vuePath");
+        $fieldEelement.layOut('setValue', { VuePath: vuePath });
+    };
+
+    //table_Id有值时加载数据,否则写入表结构并加载数据
+    function loadTable(table_Id) {
+        $fieldEelement.layOut("reset");
+        gridTable.datagrid("loadData", []);
+
+        var isTreeLoad=table_Id?true:false;
+        var validateInput=true;
+        var contentInfo;
+        if (!table_Id) {
+            table_Id=0;
+            contentInfo= $content.layOut('getValues');
+            if (contentInfo.length==0) { return;}
+            contentInfo=contentInfo.convertToHash("Name","Value");
+        }
+
+        var loadData=  $.extend({
+            ParentId:0,
+            table_Id: table_Id,
+            isTreeLoad: isTreeLoad
+        },contentInfo);
+
+        helper.post("/builder/LoadTableInfo/",loadData , function (data) {
+            if (!data.Success) { $.message(data.Msg);  return; }
+            if (!data.Sys_Table) {  $.message("未加载到数据"); return; }
+            if (data.Sys_TableColumn) {
+                gridTable.datagrid("loadData",eval(data.Sys_TableColumn) );
+            }
+            if (!data.Sys_Table) {  return; }
+            $fieldEelement.layOut('reset', eval(data.Sys_Table)[0]);
+            var vuePath = localStorage.getItem("vuePath");
+            $fieldEelement.layOut('setValue', { VuePath: vuePath });
+        });
+
+    }
+
+    function saveEidt() {
+        gridTable.endEditing();
+        var tableInfo=  $fieldEelement.layOut('getValues');
+        if (tableInfo.length==0) { return;}
+        tableInfo = tableInfo.convertToHash("Name","Value");
+        var data = {
+            table_Id: tableInfo.Table_Id,
+            sysColumn: JSON.stringify( $("#table").datagrid("getData").rows||[]),
+            sysDic:JSON.stringify(tableInfo)
+        }
+        helper.post("/builder/Eidt/", data, function (data) {
+            if (typeof data!='object') { $.message(data); return;}
+            $.message(data.Msg);
+        }
+        );
+    };
+
+    var $content=null;
+    var $windowObj=null;
+    function createConfig (noedId) {
+        if (!$windowObj) {
+            $windowObj= $.jqWindow({
+                title:'创建表数据',
+                text:  '',
+                width: 450,
+                height: 350,
+                headClass:'window-head',
+                buttons:[{
+                    text: '确 认',
+                    btnClass:'btn btn-danger  icon-plus',
+                    icon:'btn btn-danger  icon-plus',
+                    handler: function (_evenWin, winHtml) {
+                        loadTable();
+                    }
+                }]
+            });
+            $content = $('.content:eq(0)', $windowObj);
+            $content.layOut({
+                data:fieldDetailData,
+                colSize:12,
+                headStyle:"display:none;"
+            });
+        }else{
+            $windowObj.jqWindow("open");
+        }
+        $content.layOut('reset',{ParentId:noedId>=0?noedId:""});
+    }
+
+    function ceatePage(isVue){
+        var url="/builder/CreatePage/";
+        var tableInfo=  $fieldEelement.layOut('getValues');
+        if (tableInfo.length == 0) { return; }
+        var tableInfo = tableInfo.convertToHash("Name", "Value");
+        var vuePath = '';
+        if (isVue) {
+            if (!tableInfo.VuePath) {
+                $.message("请设置Vue项目视图的绝对路径"); return;
+            }
+            vuePath = tableInfo.VuePath;
+            localStorage.setItem("vuePath", vuePath);
+        }
+        var data=  $.extend({},
+            {
+                sysColumnList: JSON.stringify(gridTable.datagrid("getData").rows)
+            },
+            {
+                sysTableInfo: JSON.stringify(tableInfo)
+            },
+            { vue: !!isVue, vuePath: vuePath}
+        )
+        helper.post(url,data, function (data) {
+            $.message(data);
+        });
+    }
+
+    function createExtensionPage() {
+        var url = "/builder/createExtensionPage/";
+        var tableInfo = $fieldEelement.layOut('getValues');
+        if (tableInfo.length == 0) { return; }
+        helper.post(url, { tableInfo: JSON.stringify(tableInfo.convertToHash("Name", "Value"))}, function (data) {
+            $.message(data);
+        });
+    }
+
+    function createServices(type) {
+        var url="/builder/CreateServices/";
+        var tableInfo=  $fieldEelement.layOut('getValues');
+        if (tableInfo.length == 0) { return; }
+        var serviceData = tableInfo.convertToHash("Name", "Value");
+        if (type==2) {
+            serviceData.partial = true;
+        } else if (type==3) {
+            serviceData.api = true;
+        }
+        helper.post(url, serviceData, function (data) {
+            $.message(data);
+        });
+
+    }
+
+    function  createModel () {
+        var url="/builder/CreateModel/";
+        var tableInfo=  $fieldEelement.layOut('getValues');
+        if (tableInfo.length == 0) { return; }
+        var tableRows = gridTable.datagrid("getData").rows;
+        var hasKey = false;
+        if (tableRows && tableRows.length>0) {
+            for (var i = 0; i < tableRows.length; i++) {
+                if (tableRows[i].IsKey == 1) {
+                    hasKey = true;
+                    i = tableRows.length + 1;
+                }
+            }
+        }
+        if (!hasKey) {
+            $.message("请设置主键"); return;
+        }
+        var data=  $.extend({},
+            { list: JSON.stringify(tableRows)},
+            { tableInfo: JSON.stringify(tableInfo.convertToHash("Name","Value"))}
+         )
+        helper.post(url,data, function (data) {
+            $.message(data);
+        });
+    }
+
+</script>
+<script>
+    var fieldData = [
+        [
+            { "text": "ID", "id": "Table_Id", "displayType": "text", "dataSource": [], "require": true, disabled: true, columnType: 'int' },
+            { "text": "父级ID", "id": "ParentId", "displayType": "text", "require": true, columnType: 'int' },
+            {
+                "text": "项目命名空间", "id": "Namespace", "displayType": "drop", "require": true,
+                dataSource: nameSpaceConfig
+            }
+
+        ],
+        [
+            { "text": "表中文名", "id": "ColumnCNName", "displayType": "text", "dataSource": [], "require": true },
+            { "text": "表名", "id": "TableName", "displayType": "text", "require": true },
+            { "text": "实际表名", "id": "TableTrueName", "displayType": "text" }
+        ],
+        [
+            { "text": "项目文件夹", "id": "FolderName", "displayType": "text", "require": true },
+            { "text": "明细表中文名", "id": "DetailCnName", "displayType": "text", "dataSource": [] },
+            { "text": "明细表名", "id": "DetailName", "displayType": "text", "dataSource": [] }
+            //{ "text": "查询布局", "id": "DataTableType", "displayType": "text", "dataSource": [] },
+            //{ "text": "编辑布局", "id": "EditorType", "displayType": "text" },
+            //{ "text": "排序号", "id": "OrderNo", "displayType": "text", columnType: 'int' }
+
+        ],
+        [
+            { "text": "连接字段", "id": "ExpressField", "displayType": "text", "dataSource": [] },
+            //{ "text": "数据库", "id": "DBServer", "displayType": "text", "dataSource": [] },
+            { "text": "排序字段", "id": "SortName", "displayType": "text", "dataSource": [] },
+            { "text": "导入模板路径", "id": "SortName", "displayType": "text", "dataSource": [] }
+        ], [
+            { "text": "富文本编辑字段", "id": "RichText", "displayType": "text" },
+            { "text": "文件上传字段", "id": "UploadField", "displayType": "text" },
+            { "text": "文件上传数量限制", "id": "UploadMaxCount", "displayType": "text", columnType: 'int' }
+        ], [
+            { "text": "Vue视图绝对路径", "id": "VuePath", "displayType": "text", colSize: 12, placeholder:'Vue项目所在绝对路径,到views文件夹,如：E:/app/src/views' },
+        ]
+    ];
+
+    var fieldDetailData = [
+        [
+            {
+                "text": "项目命名空间", "id": "Namespace", "displayType": "drop", "require": true,
+                dataSource: nameSpaceConfig
+            }
+        ],
+        [
+            { "text": "父级ID", "id": "ParentId", "displayType": "text", "require": true, columnType: 'int' }
+        ],
+
+        [
+            { "text": "表名", "id": "TableName", "displayType": "text", "require": true }
+        ],
+        [
+            { "text": "表中文名", "id": "ColumnCNName", "displayType": "text", "dataSource": [], "require": true }
+        ],
+        [
+            { "text": "项目文件夹", "id": "foldername", "displayType": "text", "require": true }
+        ]
+    ];
+
+    var btnData = [
+        {
+            text: '保存',
+            btnClass: 'btn btn-info icon-save',
+            handler: function () {
+                saveEidt();
+            }
+        }
+        , {
+            text: '新建',
+            btnClass: 'btn btn-info icon-plus-sign',
+            icon: 'icon-plus-sign',
+            handler: function () {
+                createConfig();
+            }
+        }, {
+            text: '生成页面',
+            btnClass: 'btn btn-danger icon-save',
+            icon: 'icon-save',
+            handler: function () {
+                ceatePage();
+            }
+        }, {
+            text: '生成Model',
+            icon: 'icon-save',
+            btnClass: 'btn btn-success icon-save',
+            handler: function () {
+                createModel();
+            }
+        }, {
+            text: '生成类',
+            btnClass: 'btn btn-warning icon-save',
+            icon: 'icon-save',
+            handler: function () {
+                createServices(1);
+            }
+        }, {
+            text: '生成Api控制器',
+            btnClass: 'btn btn-warning icon-save',
+            icon: 'icon-save',
+            handler: function () {
+                createServices(3);
+            }
+        }, {
+            text: '生成Partial类',
+            btnClass: 'btn btn-warning icon-save',
+            icon: 'icon-save',
+            handler: function () {
+                createServices(2);
+            }
+        }, {
+            text: '生成Vue页面',
+            btnClass: 'btn btn-warning icon-save',
+            icon: 'icon-save',
+            handler: function () {
+                ceatePage(true);
+            }
+        }, {
+            text: '生成Vue扩展页面',
+            btnClass: 'btn btn-warning icon-save',
+            icon: 'icon-save',
+            handler: function () {
+                ceatePage(true);
+            }
+        }, {
+            text: '生成扩展页面',
+            btnClass: 'btn btn-warning icon-save',
+            icon: 'icon-save',
+            handler: function () {
+                createServices(3);
+            }
+        }, {
+            text: '生成导入模板',
+            btnClass: 'btn btn-warning icon-save',
+            icon: 'icon-save',
+            handler: function () {
+                $.message("开发中");
+            }
+        }, {
+            text: '添加子级',
+            btnClass: 'btn btn-success  icon-plus-sign',
+            icon: 'icon-plus-sign',
+            handler: function () {
+                var selectNodes = menuNode.jqTree('getSelectData');
+                if (!selectNodes || selectNodes.length == 0) {
+                    $.message("没有选中节点");
+                    return;
+                }
+                createConfig(selectNodes[0].id);
+            }
+        }, {
+            text: '添加行',
+            btnClass: 'btn btn-info icon-plus-sign',
+            icon: 'icon-plus-sign',
+            handler: function () {
+                gridTable.datagrid('appendRow', { ColumnCNName: '', });
+            }
+        }, {
+            text: '删除行',
+            btnClass: 'btn btn-default icon-minus-sign',
+            icon: 'icon-remove-sign',
+            handler: function () {
+                var deletedData = gridTable.datagrid('getChecked');
+                if (deletedData.length == 0) {
+                    return;
+                }
+                for (var i = deletedData.length - 1; i >= 0; i--) {
+                    var rowIndex = gridTable.datagrid('getRowIndex', deletedData[i]);
+                    gridTable.datagrid('deleteRow', rowIndex);
+                }
+            }
+        }, {
+            text: '表字段',
+            btnClass: 'btn btn-info icon-save',
+            icon: 'icon-save',
+            handler: function () {
+                $.fn.layOut('showView', data_grid);
+            }
+        },
+        {
+            text: '刷新',
+            btnClass: 'btn btn-default icon-minus-sign',
+            icon: 'icon-repeat',
+            handler: function () {
+                location.reload();
+            }
+        }
+    ];
+
+</script>
+
+<body>
+    <div id="left-menu" class="ztreeMenuBackground left" style="  position: absolute; overflow: hidden; height: 100%;">
+        <div class="tree-head">
+            <i class="icon-home"></i> <span>配置表数据列表</span>
+        </div>
+        <ul id="treeMenu" class="ztree"></ul>
+    </div>
+    <div class="right-panel">
+        <div id="config-field">
+
+        </div>
+        <div class="" style="margin-top:10px">
+            <table id="table"></table>
+        </div>
+    </div>
+</body>
+<script>
+    var dataset20 = [{ "ID": 0, "Name": "否" }, { "ID": 1, "Name": "是" }];
+    var combobox20 = {
+        valueField: "ID",
+        textField: "Name",
+        data: dataset20,
+        required: false,
+        editable: false,
+        panelHeight: 150,
+        panelWidth: 100
+    };
+    var formatter20 = function (value, rowData, rowIndex) {
+        if (value == undefined) return dataset20[0][combobox20.textField];
+        for (var i = 0; i < dataset20.length; i++) {
+            if (dataset20[i][combobox20.valueField] == value) return dataset20[i][combobox20.textField];
+        }
+    };
+
+    var labelTypeList= [{ "ID": "无", "Name": "无" },
+     { "ID": "text", "Name": "text" },
+     { "ID": "textarea", "Name": "textarea" },
+     { "ID": "drop", "Name": "drop" },
+     { "ID": "dropList", "Name": "dropList" },
+     { "ID": "select", "Name": "select"},
+     { "ID": "selectList", "Name": "selectList"},
+     { "ID": "date", "Name": "date" },
+     { "ID": "datetime", "Name": "datetime" }];
+    var  labelTypePar = {
+        valueField: "ID",
+        textField: "Name",
+        data: labelTypeList,
+        required: false,
+        editable: false,
+        panelHeight: 150,
+        panelWidth: 100
+    };
+    var   labelTypeCombox = {
+        type: 'combobox',
+        options:labelTypePar
+    };
+
+    var editorCK = {
+        type: 'checkbox',
+        options: $.extend(combobox20, { on: 1, off: 0 })
+    };
+
+    var data_grid = {
+        loadMsg: '数据正在加载。。。。',
+        rownumbers: true,
+        height: 500,
+        striped: true,
+        frozenColumns: [[
+    { field: 'ck', checkbox: true },
+        { field: 'ColumnCNName', title: '显示名称', width: 120, align: 'left', editor: 'text' },
+        ]],
+        checkOnSelect: false,
+        columns: [[
+        { field: 'ColumnId', title: 'ColumnId', width: 120, align: 'left', editor: 'text', hidden: true },
+        { field: 'Table_Id', title: 'Table_Id', width: 120, align: 'left', editor: 'text', hidden: true },
+        { field: 'ColumnName', title: '列名', width: 120, align: 'left', editor: 'text' },
+        { field: 'TableName', title: '表名', width: 120, align: 'left', editor: 'text' },
+        { field: 'Maxlength', title: '列最大长度', width: 100, align: 'left', editor: 'text', editor: 'numberbox' },
+        { field: 'ColumnType', title: '数据类型', width: 120, align: 'left', editor: 'text' },
+        { field: 'IsNull', title: '可为空', width: 60, align: 'left', formatter: formatter20, editor: editorCK },
+        { field: 'OrderNo', title: '排序', width: 60, align: 'left', editor: 'numberbox' },
+        { field: 'DropNo', title: '数据源', width: 60, align: 'left', editor: 'text' },
+        { field: 'IsReadDataset', title: '只读', width: 60, align: 'left', formatter: formatter20, editor: editorCK },
+        { field: 'IsColumnData', title: '数据列', width: 60, align: 'left', formatter: formatter20, editor: editorCK },
+        { field: 'IsDisplay', title: '是否显示', width: 60, align: 'left', formatter: formatter20, editor: editorCK },
+        { field: 'ColumnWidth', title: '宽度', width: 60, align: 'left', editor: 'numberbox' },
+        { field: 'EditRowNo', title: '编辑行', width: 60, align: 'numberbox', editor: 'numberbox' },
+        { field: 'EditColNo', title: '编辑列', width: 60, align: 'numberbox', editor: 'numberbox' },
+        { field: 'EditType', title: '编辑类型', width: 100, align: 'left', editor: 'text', editor: labelTypeCombox },
+        { field: 'ColSize', title: 'col-sm', width: 100, width: 60, align: 'left', editor: 'numberbox' },
+        { field: 'SearchRowNo', title: '查询行', width: 60, align: 'left', editor: 'numberbox' },
+        { field: 'SearchColNo', title: '查询列', width: 60, align: 'left', editor: 'numberbox' },
+        { field: 'SearchType', title: '查询类型', width: 100, align: 'left', editor: 'text', editor: labelTypeCombox },
+        { field: 'Import', title: '导入列', width: 100, align: 'left', formatter: formatter20, editor: editorCK },
+        { field: 'ApiInPut', title: 'Api输入列', width: 100, align: 'left', formatter: formatter20, editor: editorCK },
+        { field: 'ApiIsNull', title: 'Api输入列可为空', width: 130, align: 'left', formatter: formatter20, editor: editorCK },
+        { field: 'ApiOutPut', title: 'Api输出列', width: 100, align: 'left', formatter: formatter20, editor: editorCK },
+        { field: 'IsKey', title: '主键', width: 60, align: 'left', formatter: formatter20, editor: editorCK },
+        { field: 'IsImage', title: '启用图片地址', width: 120, align: 'left', formatter: formatter20, editor: editorCK },
+        { field: 'Columnformat', title: '显示格式', width: 120, align: 'left', editor: 'text', editor: 'textarea' },
+        { field: 'Script', title: '脚本', width: 120, align: 'left', editor: 'textarea' },
+        { field: 'Creator', title: '创建人', width: 120, align: 'left' },
+        { field: 'CreateDate', title: '创建时间', width: 120, align: 'left' },
+        { field: 'Modifier', title: '修改人', width: 120, align: 'left' },
+        { field: 'ModifyDate', title: '修改时间', width: 120, align: 'left' }
+        ]]
+    };
+
+
+
+    var zNodes = @Html.Raw(ViewData["TreeList"]);
+    var menuNode;
+    $(document).ready(function () {
+
+        $('#left-menu').slimScroll({
+            width: "190px",
+            color: '#C7BBBB',
+            height: '100%',
+            size: '3px'
+        });
+        menuNode = $("#treeMenu").jqTree({ data: zNodes});
+        menuNode.jqTree('onSelect',function(obj,nodeData){
+            loadTable(nodeData.id);
+            return true;
+        });
+    });
+</script>

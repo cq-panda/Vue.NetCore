@@ -1,0 +1,19 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using VOL.AppManager.IServices;
+using VOL.Core.Controllers.Basic;
+using VOL.Entity.AttributeManager;
+using VOL.Entity.AttributeManager;
+
+namespace VOL.AppManager.Controllers
+{
+    [Route("api/{TableName}")]
+    [PermissionTable(Name = "{TableName}"),Core.Filters.JWTAuthorize]
+    public partial class {TableName}Controller : ApiBaseController<I{TableName}Service>
+    {
+        public {TableName}Controller(I{TableName}Service service)
+        : base({BaseOptions}, service)
+        {
+        }
+    }
+}
+

@@ -1,0 +1,17 @@
+﻿<script>
+    searchHelper.openWindowAfter = function (row) {
+        var $user = $layElement.content.layOut('getElement', 'UserName');
+        if (row) {
+            $user.prop('readonly', '1');
+        } else {
+            $user.removeAttr('readonly');
+        }
+    }
+    layOutElement.submitAfter = function (options, result, isEdit) {
+        if (!result.Status || isEdit) {
+            return true;
+        }
+        $.alert('<span style="color:red">' + result.Desc + '</span>');
+        return false;
+    }
+</script>

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName></SccProjectName>
+    <SccProvider></SccProvider>
+    <SccAuxPath></SccAuxPath>
+    <SccLocalPath></SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Content\**" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="Content\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="Content\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="Content\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\AppManager\" />
+    <Folder Include="Controllers\News\" />
+    <Folder Include="Controllers\Record\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VOL.AppManager\VOL.AppManager.csproj" />
+    <ProjectReference Include="..\VOL.Builder\VOL.Builder.csproj" />
+    <ProjectReference Include="..\VOL.Order\VOL.Order.csproj" />
+    <ProjectReference Include="..\VOL.System\VOL.System.csproj" />
+    <ProjectReference Include="..\VOL.Core\VOL.Core.csproj" />
+  </ItemGroup>
+
+</Project>

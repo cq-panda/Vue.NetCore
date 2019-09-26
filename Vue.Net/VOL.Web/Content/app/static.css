@@ -1,0 +1,131 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    -webkit-user-select: text;
+}
+
+body {
+    width: 7.5rem;
+    padding-top: 0;
+    padding-bottom: 1.2rem;
+    height: auto;
+    margin: 0 auto;
+    font-family: Hiragino Sans GB;
+    background-color: #fafafa;
+}
+
+body, html {
+    text-align: left;
+    height: 100%;
+    width: 100%;
+    font-family: -apple-system,Hiragino Sans GB,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.g-main-content p {
+    margin-top: .4rem !important;
+}
+
+article p, article span {
+    line-height: .6rem !important;
+    font-size: .36rem !important;
+}
+
+div, p, section {
+    max-height: 999999px;
+}
+
+.g-article {
+    overflow: visible !important;
+}
+
+.g-article {
+    position: relative;
+    max-height: 20rem;
+    overflow: hidden;
+}
+
+.g-main-content p img, .g-main-content span img {
+    display: block;
+    width: 100%;
+}
+
+.g-subtitle b, .g-subtitle img {
+    margin-right: .16rem;
+}
+
+.g-subtitle img {
+    width: .5rem;
+    height: .5rem;
+    border-radius: .5rem;
+}
+
+.g-main-content p {
+    margin-top: .4rem !important;
+}
+
+.g-subtitle .date {
+    margin-left: 0.4rem;
+}
+
+.g-subtitle .share {
+    color: #efaf4c;
+    margin-left: 0.6rem;
+}
+
+.g-subtitle b, .g-subtitle img {
+    font-weight: 500 !important;
+    font-size: .25rem !important;
+}
+
+.g-subtitle {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding: .16rem .32rem .12rem;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: .26rem;
+    color: #666;
+}
+
+.g-title {
+    margin-top: .56rem;
+    padding: 0 .32rem;
+    color: #333;
+    line-height: .73rem;
+    font-size: .52rem;
+    font-weight: 700;
+}
+
+article p, article span {
+    line-height: .6rem !important;
+    font-size: .36rem !important;
+}
+
+article {
+    margin-bottom: 1rem !important;
+    padding-bottom: 1rem;
+    padding: 0 .32rem;
+    font-size: .36rem;
+    line-height: .6rem;
+    word-break: break-all;
+    text-align: justify;
+    color: #444;
+}
+
+.vjs-control-bar span {
+    line-height: normal !important;
+    font-size: 0.13rem !important;
+}
+
+.video-js .vjs-big-play-button span {
+    font-size: .36rem !important;
+    line-height: 40px !important;
+}

@@ -1,0 +1,84 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    
+    var searchData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"标题","require":false,"id":"Title"},{"columnType":"string","dataSource":[],"displayType":"","text":"收藏人","require":false,"id":"Creator"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"收藏时间","require":false,"id":"CreateDate"}]];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/vMyCollect/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'vMyCollect',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'我的收藏',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:680,totalCol:5},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Title',title:'标题',datatype:'string',width:90,require:true,align:'left',sortable:true},
+                       {field:'Author',title:'Author',datatype:'string',width:180,hidden:true,require:true,align:'left'},
+                       {field:'Id',title:'Id',datatype:'int',width:80,hidden:true,require:true,align:'left'},
+                       {field:'DetailUrl',title:'收藏链接',datatype:'string',width:220,require:true,align:'left'},
+                       {field:'TableName',title:'收表功能表',datatype:'string',width:90,align:'left'},
+                       {field:'NewsId',title:'NewsId',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'TechnicalClassifyId',title:'TechnicalClassifyId',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Aate',title:'Aate',datatype:'DateTime',width:150,hidden:true,align:'left',sortable:true},
+                       {field:'FileUrl',title:'FileUrl',datatype:'string',width:220,hidden:true,require:true,align:'left'},
+                       {field:'FileType',title:'FileType',datatype:'int',width:80,hidden:true,require:true,align:'left'},
+                       {field:'Creator',title:'收藏人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'收藏时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'Enable',title:'Enable',datatype:'byte',width:90,hidden:true,align:'left'},
+                       {field:'CreateID',title:'收藏人Id',datatype:'int',width:100,hidden:true,align:'left'}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

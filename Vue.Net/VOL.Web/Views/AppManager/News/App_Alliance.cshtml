@@ -1,0 +1,83 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+@{await Html.RenderPartialAsync("~/Views/Shared/Uploader.cshtml");}
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "enable";}
+    var searchData = [[{"columnType":"byte","dataSource":optionConfigenable,"displayType":"drop","text":"是否启用","require":false,"id":"Enable"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"创建时间","require":false,"id":"CreateDate"}]];
+    var editData = [[{"columnType":"int","dataSource":[],"displayType":null,"text":"排序显示","require":false,"id":"OrderNo","fileMaxCount":1},{"columnType":"byte","dataSource":optionConfigenable,"displayType":"drop","text":"是否启用","require":false,"id":"Enable","fileMaxCount":1}],[{"columnType":"string","dataSource":[],"displayType":null,"text":"创建人","require":false,"id":"Creator","fileMaxCount":1,"disabled":1},{"columnType":"datetime","dataSource":[],"displayType":null,"text":"创建时间","require":false,"id":"CreateDate","fileMaxCount":1,"disabled":1}],[{"columnType":"string","dataSource":[],"displayType":"file","text":"图片","require":true,"id":"ImageUrl","fileMaxCount":1}]];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/App_Alliance/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'App_Alliance',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:true,
+        richText:false,
+        hasSection:false,
+        cnName:'产业联盟',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:950,totalCol:7},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'Id',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'ImageUrl',title:'图片',datatype:'string',width:220,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createImageUrl',{row:row,key:'ImageUrl'})},require:true,align:'left',sortable:true},
+                       {field:'OrderNo',title:'排序显示',datatype:'int',width:80,editor:'text',align:'left'},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,editor: { type: 'combobox', options: optionConfigenable },formatter: function (val, row, index) {
+    return dataSourceenable.textFormatter(optionConfigenable, val, row, index);
+    },
+align:'left'},
+                       {field:'CreateID',title:'CreateID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,readonly:true,editor:'text',align:'left'},
+                       {field:'CreateDate',title:'创建时间',datatype:'DateTime',width:150,readonly:true,editor:'text',align:'left',sortable:true},
+                       {field:'ModifyID',title:'ModifyID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改时间',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改人',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

@@ -1,0 +1,200 @@
+﻿<script>
+
+    @{
+        Dictionary<string, string> searchBtns = new Dictionary<string, string>();
+        Dictionary<string, string> editBtns = new Dictionary<string, string>();
+        Dictionary<string, string> gridBtns = new Dictionary<string, string>();
+
+
+        searchBtns.Add("Search", @"{
+          text: '查 询',
+          btnClass: 'btn icon-search',
+          icon:'icon-zoom-out',
+          handler: function () {
+              searchHelper.onSearchBtn_Click();
+          }
+      }");
+        searchBtns.Add("Add", @"{
+          text: '新 建',
+          btnClass: 'btn icon-plus',
+          icon:'icon-plus',
+          handler: function () {
+              searchHelper.onAddBtn_Click();
+          }
+      }");
+        searchBtns.Add("Edit", @"{
+          text: '编 辑',
+          btnClass:'btn icon-edit',
+          icon:' icon-edit',
+          handler: function () {
+               searchHelper.onEditBtn_Click($elementGrid.datagrid('getSelected'));
+          }
+      }");
+        searchBtns.Add("Delete", @"{
+          text: '删 除',
+          btnClass:'btn icon-remove-sign',
+          icon:' icon-remove-sign',
+          handler: function () {
+               searchHelper.onDelBtn_Click();
+          }
+      }");
+
+        searchBtns.Add("Audit", @"{
+          text: '审 核',
+          btnClass:'btn icon-tags',
+          icon:' icon-pencil',
+          handler: function () {
+              searchHelper.onAudit_Click($elementGrid.datagrid('getSelected'));
+          }
+      }");
+        searchBtns.Add("Upload", @"{
+          text: '导 入',
+          btnClass:' btn icon-file-alt',
+          icon:' icon-circle-arrow-down',
+          handler: function () {
+                 searchHelper.uploadClick();
+          }
+      }");
+        searchBtns.Add("Export", @"{
+          text: '导 出',
+          btnClass:' btn icon-file-alt',
+          icon:' icon-circle-arrow-down',
+          handler: function () {
+                 searchHelper.onExportBtn_Click();
+          }
+      }");
+        searchBtns.Add("Imort", @"{
+          text: '导 入',
+          icon:'icon-circle-arrow-up',
+          handler: function () {
+              searchHelper.uploadClick();
+          }
+      }");
+
+
+        string tools = string.Join(",", searchBtns.Select(x=>x.Value));
+        var table = VOL.Core.Utilities.HttpContext.Current.Request.Headers["TableName"].ToString();
+
+        bool isAdmin = false;
+        List<string> gridKey = new List<string>();
+        if (table != null && table.ToString() != "")
+        {
+            isAdmin= VOL.Core.ManageUser.UserHelper.UserId == 1;
+
+            table = table.Trim();
+            if (isAdmin)
+            {
+                var menuAuths = VOL.System.Repositories.Sys_MenuRepository.GetService.Find(x => x.TableName == table).Select(x => x.AuthString).FirstOrDefault();
+                if (menuAuths != null)
+                {
+                    tools = string.Join(",", searchBtns.Where(x => menuAuths.ToString().Split(',').Contains(x.Key)).Select(c => c.Value));
+                }
+            }
+            else
+            {
+                VOL.Entity.DomainModels.Permissions permissions = VOL.Core.ManageUser.UserHelper.GetPermissions().Where(x => x.TableName == table.ToString()).FirstOrDefault();
+
+                if (permissions != null && permissions.MenuAuthArr.Length>0)
+                {
+
+                    var kv=   searchBtns.Where(x => permissions.UserAuthArr.Contains(x.Key) && permissions.MenuAuthArr.Contains(x.Key));
+
+                    if (kv.Any(x=>x.Key== "Add")|| kv.Any(x => x.Key == "Edit"))
+                    {
+                        gridKey.Add("Add");
+                    }
+                    if (kv.Any(x => x.Key == "Delete"))
+                    {
+                        gridKey.Add("Delete");
+                    }
+                    //下面应该根据tools显示明细权限
+                    tools = string.Join(",", searchBtns.Where(x => permissions.UserAuthArr.Contains(x.Key) && permissions.MenuAuthArr.Contains(x.Key)).Select(c => c.Value));
+                }
+            }
+        }
+
+        if (isAdmin|| gridKey.Contains("Add"))
+        {
+            gridBtns.Add("Add", @"{
+              text: '添加',
+              btnClass: 'btn btn-danger icon-plus',
+              icon:' icon-plus-sign',
+              handler: function () {
+                   $layElement.detailGrid.layOut('addRow');
+              }
+          }");
+        }
+
+        if (isAdmin || gridKey.Contains("Delete"))
+        {
+            gridBtns.Add("Delete", @"{
+          text: '删除',
+          btnClass:'btn btn-default   icon-remove-sign',
+          icon:' icon-remove-sign',
+          handler: function () {
+                $layElement.detailGrid.layOut('delRow');
+          }
+          }");
+        }
+        if (isAdmin || gridKey.Count>0)
+        {
+            editBtns.Add("Save", @"{
+              text: '保 存',
+              icon:'btn  btn-danger icon-plus',
+              handler: function () {
+                   $elementGrid.layOut('submit', $layElement);
+              }
+            }");
+            editBtns.Add("Reset", @"{
+              text: '重 置',
+              icon:'btn  btn-success icon-repeat',
+              handler: function () {
+                   $layElement.content.layOut('reset');
+                   $layElement.detailGrid&&$layElement.detailGrid.datagrid('loadData', { total: 0, rows: [] });
+              }
+             }");
+        }
+        gridBtns.Add("Refresh", @"{
+          text: '刷新',
+          btnClass:'icon-refresh',
+          icon:'icon-refresh',
+          handler: function () {
+                $layElement.detailGrid.datagrid('reload');
+          }
+      }");
+     }
+
+    var searchTools = { btns: [@Html.Raw(tools)], position:'right' };
+    searchTools.btns.splice(1, 0, {
+        text: '重 置',
+        btnClass: 'btn btn-info icon-repeat',
+        handler: function () {
+            searchHelper.onResetBtn_Click();
+        }
+    })
+    searchTools.btns.push({
+        text: '刷 新',
+        btnClass: ' btn btn-warning icon-refresh',
+        icon: 'icon-refresh',
+        handler: function () {
+            searchHelper.onRefresh_Click();
+        }
+    });
+
+    searchTools.btns.push({
+        text: '数据字典',
+        btnClass: ' btn btn-warning  icon-book',
+        icon: ' icon-book',
+        handler: function () {
+            searchHelper.onViewBtn_Click();
+        }
+    });
+
+    //编辑弹出框btn
+    var editBtns = [@Html.Raw(string.Join(",", editBtns.Select(x=>x.Value)))];
+    //明细grid btn
+    var gridBtns = [@Html.Raw(string.Join(",", gridBtns.Select(x => x.Value)))];
+</script>
+<environment>
+    <script src="~/Scripts/jquery-layout/layOutShared.js"></script>
+</environment>

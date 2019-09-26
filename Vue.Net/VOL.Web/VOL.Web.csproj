@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup Label="Globals">
+    <SccProjectName></SccProjectName>
+    <SccProvider></SccProvider>
+    <SccAuxPath></SccAuxPath>
+    <SccLocalPath></SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup>
+  	 <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>VOL.Web</AssemblyName>
+    <RootNamespace>VOL.Web</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
+  <!--<DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VOL.AppManager\VOL.AppManager.csproj" />
+    <ProjectReference Include="..\VOL.System\VOL.System.csproj" />
+    <ProjectReference Include="..\VOL.Builder\VOL.Builder.csproj" />
+    <ProjectReference Include="..\VOL.Core\VOL.Core.csproj" />
+    <ProjectReference Include="..\VOL.Entity\VOL.Entity.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Html\news\" />
+    <Folder Include="Scripts\Global\" />
+    <Folder Include="Scripts\login\" />
+    <Folder Include="Template\AppHtml\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Views\AppManager\PageExtension\App_NewsExtension.cshtml" />
+  </ItemGroup>
+</Project>

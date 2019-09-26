@@ -1,0 +1,112 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+@{await Html.RenderPartialAsync("~/Views/Shared/Uploader.cshtml");}
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "tzpz,beefsource,prosource,audit,enable";}
+    var searchData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"企业名称","require":false,"id":"Company"},{"columnType":"string","dataSource":[],"displayType":"","text":"地址","require":false,"id":"Address"},{"columnType":"string","dataSource":[],"displayType":"","text":"联系人姓名","require":false,"id":"Contact"}],[{"columnType":"string","dataSource":optionConfigtzpz,"displayType":"drop","text":"屠宰品种","require":false,"id":"SlaughterVariety"},{"columnType":"string","dataSource":optionConfigbeefsource,"displayType":"drop","text":"现有牛只来源","require":false,"id":"BeefSource"},{"columnType":"string","dataSource":optionConfigprosource,"displayType":"drop","text":"牛只来源地区","require":false,"id":"ProSource"}],[{"columnType":"int","dataSource":optionConfigaudit,"displayType":"drop","text":"审核状态","require":false,"id":"AuditStatus"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"创建时间","require":false,"id":"CreateDate"},{"columnType":"byte","dataSource":optionConfigenable,"displayType":"select","text":"是否启用","require":false,"id":"Enable"}]];
+    var editData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"企业名称","require":true,"id":"Company","fileMaxCount":5},{"columnType":"string","dataSource":[],"displayType":"","text":"地址","require":true,"id":"Address","fileMaxCount":5}],[{"columnType":"string","dataSource":[],"displayType":"","text":"联系人姓名","require":true,"id":"Contact","fileMaxCount":5},{"columnType":"string","dataSource":[],"displayType":"","text":"手机","require":true,"id":"PhoneNo","fileMaxCount":5}],[{"columnType":"string","dataSource":[],"displayType":"","text":"邮箱","require":true,"id":"MailBox","fileMaxCount":5},{"columnType":"string","dataSource":[],"displayType":"","text":"职务","require":true,"id":"Duty","fileMaxCount":5}],[{"columnType":"string","dataSource":[],"displayType":"","text":"品牌","require":false,"id":"Brand","fileMaxCount":5},{"columnType":"string","dataSource":optionConfigtzpz,"displayType":"dropList","text":"屠宰品种","require":true,"id":"SlaughterVariety","fileMaxCount":5}],[{"columnType":"int","dataSource":[],"displayType":"","text":"日屠宰产能(头)","require":true,"id":"DayOutput","fileMaxCount":5},{"columnType":"int","dataSource":[],"displayType":"","text":"实际日均屠宰(头)","require":true,"id":"AvgDayoutput","fileMaxCount":5}],[{"columnType":"int","dataSource":[],"displayType":"","text":"日屠宰缺口(头)","require":false,"id":"DayInsuffQty","fileMaxCount":5},{"columnType":"decimal","dataSource":[],"displayType":"","text":"宰前活牛均重(Kg)","require":true,"id":"AvgBeefWeight","fileMaxCount":5}],[{"columnType":"string","dataSource":optionConfigbeefsource,"displayType":"dropList","text":"现有牛只来源","require":true,"id":"BeefSource","fileMaxCount":5},{"columnType":"string","dataSource":optionConfigprosource,"displayType":"dropList","text":"牛只来源地区","require":true,"id":"ProSource","fileMaxCount":5}],[{"columnType":"byte","dataSource":optionConfigenable,"displayType":"drop","text":"是否启用","require":true,"id":"Enable","fileMaxCount":5},{"columnType":"datetime","dataSource":[],"displayType":"","text":"修改时间","require":false,"id":"ModifyDate","fileMaxCount":5,"disabled":1}],[{"columnType":"string","dataSource":[],"displayType":"","text":"创建人","require":false,"id":"Creator","fileMaxCount":5,"disabled":1},{"columnType":"datetime","dataSource":[],"displayType":"","text":"创建时间","require":false,"id":"CreateDate","fileMaxCount":5,"disabled":1}],[{"columnType":"string","dataSource":[],"displayType":"file","text":"营业执照","require":false,"id":"BLicense","colSize":12,"fileMaxCount":5}],[{"columnType":"string","dataSource":[],"displayType":"","text":"屠宰许可证","require":false,"id":"TZLicense","colSize":12,"fileMaxCount":5}]];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/App_CompanyAuthor/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'App_CompanyAuthor',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:true,
+        richText:false,
+        hasSection:false,
+        cnName:'肉企认证',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:3890,totalCol:23},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'Id',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Company',title:'企业名称',datatype:'string',width:220,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createViewField',{row:row,val:val,index:index})},require:true,align:'left',sortable:true},
+                       {field:'BLicense',title:'营业执照',datatype:'string',width:250,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createImageUrl',{row:row,key:'BLicense'})},align:'left'},
+                       {field:'TZLicense',title:'屠宰许可证',datatype:'string',width:250,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createImageUrl',{row:row,key:'TZLicense'})},align:'left'},
+                       {field:'Address',title:'地址',datatype:'string',width:220,editor:'text',require:true,align:'left'},
+                       {field:'Contact',title:'联系人姓名',datatype:'string',width:120,editor:'text',require:true,align:'left'},
+                       {field:'SlaughterVariety',title:'屠宰品种',datatype:'string',width:220,editor: { type: 'combobox', options: optionConfigtzpz },formatter: function (val, row, index) {
+    return dataSourcetzpz.textFormatter(optionConfigtzpz, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'DayOutput',title:'日屠宰产能(头)',datatype:'int',width:120,editor:'text',require:true,align:'left'},
+                       {field:'AvgDayoutput',title:'实际日均屠宰(头)',datatype:'int',width:150,editor:'text',require:true,align:'left'},
+                       {field:'AvgBeefWeight',title:'宰前活牛均重(Kg)',datatype:'decimal',width:150,editor:'text',require:true,align:'left'},
+                       {field:'DayInsuffQty',title:'日屠宰缺口(头)',datatype:'int',width:150,editor:'text',align:'left'},
+                       {field:'BeefSource',title:'现有牛只来源',datatype:'string',width:220,editor: { type: 'combobox', options: optionConfigbeefsource },formatter: function (val, row, index) {
+    return dataSourcebeefsource.textFormatter(optionConfigbeefsource, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'ProSource',title:'牛只来源地区',datatype:'string',width:220,editor: { type: 'combobox', options: optionConfigprosource },formatter: function (val, row, index) {
+    return dataSourceprosource.textFormatter(optionConfigprosource, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'PhoneNo',title:'手机',datatype:'string',width:90,editor:'text',require:true,align:'left'},
+                       {field:'MailBox',title:'邮箱',datatype:'string',width:220,editor:'text',require:true,align:'left'},
+                       {field:'Duty',title:'职务',datatype:'string',width:220,editor:'text',require:true,align:'left'},
+                       {field:'Brand',title:'品牌',datatype:'string',width:220,editor:'text',align:'left'},
+                       {field:'AuditStatus',title:'审核状态',datatype:'int',width:80,readonly:true,formatter: function (val, row, index) {
+    return dataSourceaudit.textFormatter(optionConfigaudit, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'AuditId',title:'AuditId',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Auditor',title:'审核人',datatype:'string',width:120,align:'left'},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,editor: { type: 'combobox', options: optionConfigenable },formatter: function (val, row, index) {
+    return dataSourceenable.textFormatter(optionConfigenable, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'CreateID',title:'CreateID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,readonly:true,editor:'text',align:'left'},
+                       {field:'CreateDate',title:'创建时间',datatype:'DateTime',width:150,readonly:true,editor:'text',align:'left',sortable:true},
+                       {field:'ModifyID',title:'ModifyID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:150,readonly:true,editor:'text',align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

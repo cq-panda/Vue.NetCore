@@ -1,0 +1,87 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "pin,enable";}
+    var searchData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"手机号","require":false,"id":"PhoneNo"},{"columnType":"string","dataSource":[],"displayType":"","text":"验证码","require":false,"id":"PIN"},{"columnType":"byte","dataSource":optionConfigenable,"displayType":"drop","text":"是否使用","require":false,"id":"Enable"}],[{"columnType":"int","dataSource":optionConfigpin,"displayType":"selectList","text":"验证码类型","require":false,"id":"PINType"}]];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/Sys_PinRecord/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'Sys_PinRecord',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'短信验证码发送记录',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:800,totalCol:8},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'主键ID',datatype:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'PhoneNo',title:'手机号',datatype:'string',width:90,require:true,align:'left',sortable:true},
+                       {field:'PIN',title:'验证码',datatype:'string',width:90,require:true,align:'left'},
+                       {field:'PINType',title:'验证码类型',datatype:'int',width:90,formatter: function (val, row, index) {
+    return dataSourcepin.textFormatter(optionConfigpin, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'Enable',title:'是否使用',datatype:'byte',width:90,formatter: function (val, row, index) {
+    return dataSourceenable.textFormatter(optionConfigenable, val, row, index);
+    },
+align:'left'},
+                       {field:'CreateID',title:'创建人Id',datatype:'int',width:90,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'发送时间',datatype:'DateTime',width:90,align:'left',sortable:true},
+                       {field:'ModifyID',title:'修改人ID',datatype:'int',width:90,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:90,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

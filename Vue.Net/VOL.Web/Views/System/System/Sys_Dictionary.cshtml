@@ -1,0 +1,124 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "enable";}
+    var searchData = [[{"columnType":"string","dataSource":[],"displayType":"textarea","text":"字典名称","require":false,"id":"DicName"},{"columnType":"int","dataSource":[],"displayType":"","text":"父级ID","require":false,"id":"ParentId"},{"columnType":"string","dataSource":[],"displayType":"","text":"字典编号","require":false,"id":"DicNo"}],[{"columnType":"byte","dataSource":optionConfigenable,"displayType":"drop","text":"是否启用","require":false,"id":"Enable"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"创建时间","require":false,"id":"CreateDate"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"修改时间","require":false,"id":"ModifyDate"}]];
+    var editData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"字典名称","require":true,"id":"DicName"},{"columnType":"int","dataSource":[],"displayType":"","text":"父级ID","require":true,"id":"ParentId"},{"columnType":"string","dataSource":[],"displayType":"","text":"字典编号","require":true,"id":"DicNo"}],[{"columnType":"string","dataSource":[],"displayType":"","text":"DBServer","require":false,"id":"DBServer"},{"columnType":"int","dataSource":[],"displayType":"","text":"排序号","require":false,"id":"OrderNo"},{"columnType":"byte","dataSource":optionConfigenable,"displayType":"drop","text":"是否启用","require":true,"id":"Enable"}],[{"columnType":"string","dataSource":[],"displayType":"","text":"创建人","require":false,"id":"Creator","disabled":1},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"创建时间","require":false,"id":"CreateDate","disabled":1}],[{"columnType":"string","dataSource":[],"displayType":"textarea","text":"配置项","require":true,"id":"Config"},{"columnType":"string","dataSource":[],"displayType":"textarea","text":"sql语句","require":false,"id":"DbSql"}]];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Dic_ID',
+        url: '/Sys_Dictionary/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'Sys_Dictionary',sort:'Dic_ID',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'字典数据',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:1640,totalCol:13},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Dic_ID',title:'字典ID',datatype:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'DicName',title:'字典名称',datatype:'string',width:140,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createViewField',{row:row,val:val,index:index})},require:true,align:'left',sortable:true},
+                       {field:'ParentId',title:'父级ID',datatype:'int',width:90,editor:'text',require:true,align:'left'},
+                       {field:'Config',title:'配置项',datatype:'string',width:200,editor:'text',require:true,align:'left'},
+                       {field:'DbSql',title:'sql语句',datatype:'string',width:200,editor:'text',align:'left'},
+                       {field:'DBServer',title:'DBServer',datatype:'string',width:90,editor:'text',align:'left'},
+                       {field:'OrderNo',title:'排序号',datatype:'int',width:90,editor:'text',align:'left'},
+                       {field:'DicNo',title:'字典编号',datatype:'string',width:90,editor:'text',require:true,align:'left'},
+                       {field:'Remark',title:'备注',datatype:'int',width:90,align:'left'},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,editor: { type: 'combobox', options: optionConfigenable },formatter: function (val, row, index) {
+    return dataSourceenable.textFormatter(optionConfigenable, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'CreateID',title:'CreateID',datatype:'int',width:90,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,readonly:true,editor:'text',align:'left'},
+                       {field:'CreateDate',title:'创建时间',datatype:'DateTime',width:150,readonly:true,editor:'datetimebox',align:'left',sortable:true},
+                       {field:'ModifyID',title:'ModifyID',datatype:'int',width:90,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'DicList_ID',
+        url: '',
+        nameSpace:'',
+        queryParams: {TableName:'Sys_DictionaryList',sort:'DicList_ID',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'字典明细',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:800,totalCol:8},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'DicList_ID',title:'DicList_ID',datatype:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Dic_ID',title:'字典项ID',datatype:'int',width:90,readonly:true,align:'left',sortable:true},
+                       {field:'DicValue',title:'字典项Key',datatype:'string',width:90,editor:'text',align:'left'},
+                       {field:'DicName',title:'字典项名称',datatype:'string',width:90,editor:'text',align:'left'},
+                       {field:'OrderNo',title:'排序号',datatype:'int',width:90,editor:'text',align:'left'},
+                       {field:'Remark',title:'备注',datatype:'int',width:90,hidden:true,editor:'text',align:'left'},
+                       {field:'Enable',title:'是否可用',datatype:'byte',width:90,hidden:true,editor: { type: 'combobox', options: optionConfigenable },align:'left'},
+                       {field:'CreateID',title:'CreateID',datatype:'int',width:90,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,readonly:true,align:'left'},
+                       {field:'CreateDate',title:'创建时间',datatype:'DateTime',width:90,readonly:true,align:'left',sortable:true},
+                       {field:'ModifyID',title:'ModifyID',datatype:'int',width:90,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:90,align:'left',sortable:true}]]
+    };
+</script>

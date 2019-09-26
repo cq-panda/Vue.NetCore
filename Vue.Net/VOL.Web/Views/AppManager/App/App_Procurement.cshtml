@@ -1,0 +1,95 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+@{await Html.RenderPartialAsync("~/Views/Shared/Uploader.cshtml");}
+@{await Html.RenderPartialAsync("~/Views/Shared/Ueditor.cshtml");}
+
+
+<script>
+    @{ViewBag.dropDownIds = "unit,enable";}
+    var searchData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"标题","require":false,"id":"Title"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"截止日期","require":false,"id":"Enddate"},{"columnType":"byte","dataSource":optionConfigenable,"displayType":"select","text":"APP显示","require":false,"id":"Enable"}]];
+    var editData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"标题","require":true,"id":"Title","colSize":12,"fileMaxCount":9}],[{"columnType":"decimal","dataSource":[],"displayType":"","text":"价格","require":true,"id":"Price","fileMaxCount":9},{"columnType":"string","dataSource":optionConfigunit,"displayType":"drop","text":"计量单位","require":true,"id":"Unit","fileMaxCount":9}],[{"columnType":"byte","dataSource":optionConfigenable,"displayType":"drop","text":"APP显示","require":true,"id":"Enable","fileMaxCount":9},{"columnType":"int","dataSource":[],"displayType":"","text":"库存数量","require":true,"id":"Qty","fileMaxCount":9}],[{"columnType":"int","dataSource":[],"displayType":"","text":"排序显示","require":false,"id":"OrderNo","fileMaxCount":9},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"截止日期","require":true,"id":"Enddate","fileMaxCount":9}],[{"columnType":"string","dataSource":[],"displayType":"file","text":"封面图片","require":false,"id":"FileUrl","colSize":12,"fileMaxCount":9}],[{"columnType":"string","dataSource":[],"displayType":"","text":"商品详情地址","require":false,"id":"DetailUrl","colSize":12,"fileMaxCount":9}],[{"columnType":"string","dataSource":[],"displayType":"richText","text":"商品详情","require":false,"id":"Content","colSize":12,"fileMaxCount":9}]];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/App_Procurement/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'App_Procurement',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:true,
+        richText:true,
+        hasSection:false,
+        cnName:'集采数据',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:2060,totalCol:13},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'主键ID',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Title',title:'标题',datatype:'string',width:300,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createViewField',{row:row,val:val,index:index})},require:true,align:'left',sortable:true},
+                       {field:'Price',title:'价格',datatype:'decimal',width:90,editor:'text',require:true,align:'left'},
+                       {field:'Unit',title:'计量单位',datatype:'string',width:90,editor: { type: 'combobox', options: optionConfigunit },formatter: function (val, row, index) {
+    return dataSourceunit.textFormatter(optionConfigunit, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'Qty',title:'库存数量',datatype:'int',width:80,editor:'text',require:true,align:'left'},
+                       {field:'OrderNo',title:'排序显示',datatype:'int',width:80,editor:'text',align:'left'},
+                       {field:'Enddate',title:'截止日期',datatype:'DateTime',width:150,editor:'datetimebox',require:true,align:'left',sortable:true},
+                       {field:'Enable',title:'APP显示',datatype:'byte',width:90,editor: { type: 'combobox', options: optionConfigenable },formatter: function (val, row, index) {
+    return dataSourceenable.textFormatter(optionConfigenable, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'Del',title:'Del',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Content',title:'商品详情',datatype:'string',width:200,hidden:true,editor:'text',align:'left'},
+                       {field:'DetailUrl',title:'商品详情地址',datatype:'string',width:220,editor:'text',align:'left'},
+                       {field:'FileUrl',title:'封面图片',datatype:'string',width:400,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createImageUrl',{row:row,key:'FileUrl'})},align:'left'},
+                       {field:'FileType',title:'文件类型',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'CreateID',title:'创建人Id',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'创建时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ModifyID',title:'修改人ID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

@@ -1,0 +1,38 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <title>{#title}</title>
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <link href="/Content/app/static.css?v=1.01" rel="stylesheet" />
+    <script src="/Scripts/share.js?v=1.01"></script>
+</head>
+<body>
+
+    <div>
+        <section class="g-article js-article">
+            <div class="js-article-inner">
+                <h1 class="g-title">{#title}</h1><div class="g-subtitle">
+                    <img class="img js-open-newsapp js-tid" src="{#headSrc}">
+                    <b>{#editor}</b><span class="date">{#editDate}</span>
+                    <span style="display:none" class="reply js-reply js-open-newsapp">浏览次数{#browseCount}</span>
+                   <span class="share" style="display:none;" onclick="share_box()">分享给好友</span>
+                </div>
+            </div>
+            <article id="main-content" class="g-main-content js-main-content active">
+                {#Content}
+            </article>
+        </section>
+    </div>
+</body>
+</html>
+

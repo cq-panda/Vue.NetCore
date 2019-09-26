@@ -1,0 +1,637 @@
+﻿<link href="../Content/css/bootstrap.css" rel="stylesheet" />
+<link href="../Content/css/font-awesome.min.css" rel="stylesheet" />
+<style>
+    .widget {
+        border-radius: 5px;
+        padding: 15px 20px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+    .navy-bg, .bg-primary {
+        background-color: #1ab394;
+        color: #ffffff;
+    }
+
+    .fa {
+        font-size: 5em;
+    }
+
+    .lazur-bg, .bg-info {
+        background-color: #23c6c8;
+        color: #ffffff;
+    }
+
+    .yellow-bg, .bg-warning {
+        background-color: #f8ac59;
+        color: #ffffff;
+    }
+
+    .green-bg, .bg-warning {
+        background-color: #ed5565;
+        color: #ffffff;
+    }
+
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+        .row span {
+            font-size: 17px;
+            letter-spacing: 3px;
+        }
+
+        .row .col-xs-4 {
+            margin-top: 10px;
+        }
+
+
+
+
+    .row {
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+
+    .bg-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
+        background-color: #00c0ef !important;
+    }
+
+    .small-box {
+        border-radius: 2px;
+        position: relative;
+        display: block;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    }
+
+        .small-box > .inner {
+            padding: 10px;
+            color: white;
+        }
+
+        .small-box h3, .small-box p {
+            z-index: 5;
+        }
+
+        .small-box h3 {
+            font-size: 38px;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            white-space: nowrap;
+            padding: 0;
+        }
+
+    p {
+        margin: 0 0 10px;
+    }
+
+    .small-box .icon {
+        -webkit-transition: all .3s linear;
+        -o-transition: all .3s linear;
+        transition: all .3s linear;
+        position: absolute;
+        top: -10px;
+        right: 10px;
+        z-index: 0;
+        font-size: 90px;
+        color: rgba(0,0,0,0.15);
+    }
+
+    .small-box > .small-box-footer {
+        position: relative;
+        text-align: center;
+        padding: 3px 0;
+        color: #fff;
+        color: rgba(255,255,255,0.8);
+        display: block;
+        z-index: 10;
+        background: rgba(0,0,0,0.1);
+        text-decoration: none;
+    }
+
+
+
+    .bg-yellow, .callout.callout-warning, .alert-warning, .label-warning, .modal-warning .modal-body {
+        background-color: #00c0ef !important
+    }
+
+    .info-box {
+        height: 90px;
+        color: white;
+    }
+
+    .info-box-icon {
+        border-top-left-radius: 2px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 2px;
+        display: block;
+        float: left;
+        height: 90px;
+        width: 90px;
+        text-align: center;
+        font-size: 45px;
+        line-height: 90px;
+        background: rgba(0,0,0,0.2);
+    }
+
+    .info-box-icon {
+        border-top-left-radius: 2px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 2px;
+        display: block;
+        float: left;
+        height: 90px;
+        width: 90px;
+        text-align: center;
+        font-size: 45px;
+        line-height: 90px;
+        background: rgba(0,0,0,0.2);
+    }
+
+    .info-box-content {
+        padding: 10px 10px;
+        margin-left: 120px;
+    }
+
+    .info-box-text {
+        text-transform: uppercase;
+    }
+
+    .progress-description, .info-box-text {
+        display: block;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .info-box-number {
+        display: block;
+        font-weight: bold;
+        font-size: 35px;
+    }
+
+    .info-box .progress, .info-box .progress .progress-bar {
+        border-radius: 0;
+    }
+
+    .info-box .progress {
+        margin: 5px -10px 5px -10px;
+        height: 2px;
+    }
+
+    .progress, .progress > .progress-bar {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+    .progress {
+        height: 20px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        background-color: white;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+        box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    }
+
+    .progress-description {
+        margin: 0;
+    }
+
+    .progress-description, .info-box-text {
+        display: block;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .right-view {
+        padding: 14px 22px;
+        right: 40px;
+        float: right;
+        position: absolute;
+        top: 21px;
+        border-left: 1px solid;
+        height: 50px;
+        font-size: 18px;
+    }
+
+
+
+
+
+    .event {
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        color: #23c6c8;
+        font-size: 12px;
+        margin: 0px 30px;
+        padding: 2px 0px;
+    }
+
+        .event.received {
+            background-color: #00c0ef;
+            display: none;
+        }
+
+    @keyframes fade {
+        from {
+            opacity: 1.0;
+        }
+
+        50% {
+            opacity: 0.8;
+        }
+
+        to {
+            opacity: 1.0;
+        }
+    }
+
+    @-webkit-keyframes fade {
+        from {
+            opacity: 1.0;
+        }
+
+        50% {
+            opacity: 0.9;
+        }
+
+        to {
+            opacity: 1.0;
+        }
+    }
+
+    .blink {
+        padding: 20px;
+        background: #ffffff;
+        animation: fade 3000ms infinite;
+        -webkit-animation: fade 3000ms infinite;
+    }
+
+    .test {
+        background: red;
+        animation: flash .9s linear infinite;
+    }
+
+    @keyframes flash {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+    .test {
+        padding: 20px;
+    }
+
+
+
+    .box1 {
+        font-size: 20px;
+        color: #4cc134;
+        margin: 10px;
+        animation: changeshadow 1s ease-in infinite;
+        /* 其它浏览器兼容性前缀 */
+        -webkit-animation: changeshadow 1s linear infinite;
+        -moz-animation: changeshadow 1s linear infinite;
+        -ms-animation: changeshadow 1s linear infinite;
+        -o-animation: changeshadow 1s linear infinite;
+    }
+
+    @keyframes changeshadow {
+        0% {
+            text-shadow: 0 0 4px #4cc134
+        }
+
+        50% {
+            text-shadow: 0 0 40px #4cc134
+        }
+
+        100% {
+            text-shadow: 0 0 4px #4cc134
+        }
+    }
+    /* 添加兼容性前缀 */
+    @-webkit-keyframes changeshadow {
+        0% {
+            text-shadow: 0 0 4px #4cc134
+        }
+
+        50% {
+            text-shadow: 0 0 40px #4cc134
+        }
+
+        100% {
+            text-shadow: 0 0 4px #4cc134
+        }
+    }
+
+    @-moz-keyframes changeshadow {
+        0% {
+            text-shadow: 0 0 4px #4cc134
+        }
+
+        50% {
+            text-shadow: 0 0 40px #4cc134
+        }
+
+        100% {
+            text-shadow: 0 0 4px #4cc134
+        }
+    }
+
+    @-ms-keyframes changeshadow {
+        0% {
+            text-shadow: 0 0 4px #4cc134
+        }
+
+        50% {
+            text-shadow: 0 0 40px #4cc134
+        }
+
+        100% {
+            text-shadow: 0 0 4px #4cc134
+        }
+    }
+
+    @-o-keyframes changeshadow {
+        0% {
+            text-shadow: 0 0 4px #4cc134
+        }
+
+        50% {
+            text-shadow: 0 0 40px #4cc134
+        }
+
+        100% {
+            text-shadow: 0 0 4px #4cc134
+        }
+    }
+</style>
+
+<div  style="display:none;" class="info-box bg-yellow col-lg-3 ">
+    <span class="info-box-icon">
+        <i class="glyphicon glyphicon-user"></i>
+    </span>
+    <div class="info-box-content">
+        <span class="info-box-number">5,200</span>
+        <span class="progress-description">
+            专家申请审核
+        </span>
+    </div>
+    <div class="right-view">
+        <span>查看</span>
+    </div>
+</div>
+
+<div class="row" style="display:none;">
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>150</h3>
+
+                <p>新订单</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">更多 <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                <p>跳出率</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">更多 <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>44</h3>
+
+                <p>User Registrations</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">更多 <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>65</h3>
+
+                <p>访客</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">更多 <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+</div>
+
+<div class="col-xs-12" style="border-bottom:1px dotted #e0b0b0;">
+    <div class="col-xs-3">
+        <div class="widget style1 green-bg">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa  icon-shopping-cart fa-5x"></i>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <span> 昨日用户点击量 </span>
+                    <h2 class="font-bold">10780</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="widget style1 navy-bg">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa icon-truck fa-5x"></i>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <span>昨日用户访问量</span>
+                    <h2 class="font-bold">28900</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="widget style1 lazur-bg">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa  icon-cloud fa-5x"></i>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <span>昨日提问数量</span>
+                    <h2 class="font-bold">23</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="widget style1 yellow-bg">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa  icon-signin fa-5x"></i>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <span>昨日回复数量</span>
+                    <h2 class="font-bold">69</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="">
+    <div id="container" style="margin-top:20px; float: left; width: 40%; height: 400px"></div>
+    <div id="plot" style="margin-top:20px;float: left; width: 40%; margin-left: 130px; height: 400px;"></div>
+    <div class="panel panel-default" style="margin-top:20px;width: 50%;margin-left: 7%;float: left;display:none; ">
+        <div class="panel-heading">
+            访问最多的功能
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item">系统 <span class="badge" style="background:#ff0000;color:white;">1</span></li>
+            <li class="list-group-item">APP首页 <span class="badge" style="background:#1ab394;color:white;">2</span></li>
+            <li class="list-group-item">上报肉牛价格<span class="badge" style="background:#f8ac59;color:white;">3</span></li>
+            <li class="list-group-item">提问</li>
+            <li class="list-group-item">买牛</li>
+            <li class="list-group-item">卖牛</li>
+            <li class="list-group-item">Porta ac consectetur ac</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+    </div>
+</div>
+<script src="../Scripts/jquery-1.10.2.min.js"></script>
+<script src="../Scripts/highchart/highcharts.src.js"></script>
+<script>
+
+
+    $(function () {
+        $('#plot').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '近七天用户点击量'
+            },
+            tooltip: {
+                headerFormat: '{series.name}<br>',
+                pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '数量',
+                data: [
+                    ['08/30', 45.0],
+                    ['08/29', 26.8],
+                    {
+                        name: '08/25',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['08/28', 8.5],
+                    ['08/27', 6.2],
+                    ['08/26', 0.7]
+                ]
+            }]
+        });
+    });
+
+    var chart = new Highcharts.Chart('container', {
+        title: {
+            text: '近七天APP点击量',
+            x: -20
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            categories: ['08/30', '08/29', '08/28', '08/27', '08/26', '08/25', '08/24']
+        },
+        yAxis: {
+            title: {
+                text: '数量K'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ''
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '数量',
+            data: [7000.0, 6000.9, 9000.5, 14000.5, 18000.2, 21000.5, 25000.2, 26000.5, 23000.3, 18000.3, 13000.9, 9000.6]
+        }, {
+            name: '数量',
+            data: [28900, 8000, 5000.7, 11000.3, 17000.0, 22000.0, 24000.8, 24000.1, 20000.1, 14000.1, 8000.6, 2000.5]
+        }, {
+            name: '数量',
+            data: [9123, 6523, 3000.5, 8000.4, 13000.5, 17000.0, 18000.6, 17000.9, 14000.3, 9000.0, 3000.9, 1000.0]
+        }, {
+            name: '数量',
+            data: [3000.9, 4000.2, 5000.7, 8000.5, 11000.9, 15000.2, 17000.0, 16000.6, 14000.2, 10000.3, 6000.6, 4000.8]
+        }]
+    });
+
+</script>

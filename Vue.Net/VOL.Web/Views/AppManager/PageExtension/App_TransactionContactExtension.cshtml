@@ -1,0 +1,94 @@
+﻿
+<script src="~/Scripts/vue.js"></script>
+<style>
+    dt {
+     float:left;
+    }
+    #trans-content {
+        position: absolute;
+        right: 0;
+        left: 0;
+        padding: 12px;
+        text-align: center;
+    }
+    dl dt {
+        padding: 5px;
+        width: 209px;
+        text-align: right;
+    }
+    dl dd {
+        color: #FF9800;
+        text-align: left;
+        padding: 5px;
+        width: 480px;
+        height: 30px;
+    }
+</style>
+<script>
+    var $transWindow;
+
+    var transHtml = '<dl><dt>标题：</dt><dd>{{Title}}</dd>\
+                        <dt>交易类型：</dt><dd>{{Ttype==1?"买牛":"卖牛"}}</dd>\
+                        <dt>价格/元/公斤：</dt><dd>{{Price}}</dd>\
+                        <dt>数量(头)：</dt><dd>{{Qty}}</dd>\
+                        <dt>品种：</dt><dd>{{Variety}}</dd>\
+                        <dt>类型：</dt><dd>{{CowType}}</dd>\
+                        <dt>重量/KG：</dt><dd>{{Weight}}</dd>\
+                        <dt>公母：</dt><dd>{{Sex}}</dd>\
+                        <dt>所在地：</dt><dd>{{Location}}</dd>\
+                        <dt>牛源描述：</dt><dd>{{Describe}}</dd>\
+                        <dt>公司：</dt><dd>{{Company}}</dd>\
+                        <dt>联系人：</dt><dd>{{Contact}}</dd>\
+                        <dt>电话：</dt><dd>{{PhoneNo}}</dd>\
+                        <dt>发布人：</dt><dd>{{Creator}}</dd>\
+                        <dt>发布时间：</dt><dd>{{CreateDate}}</dd>\
+                   </dl> '
+
+    var _bindRow = {};
+    function bindData(row) {
+        _bindRow = $.extend(_bindRow, row);
+        if ($transWindow) {
+            $transWindow.jqWindow("open");
+            return;
+        }
+        $transWindow = $("<div id='trans-container'></div>").jqWindow({
+            title: "买卖牛数据源",
+            width: "500px",
+            height: "560px",
+            text: '<div class="trans-content" id="trans-content">' + transHtml + '</div>',
+            headStyle: "background:#57c5f7"
+        });
+
+        new Vue({
+            el: "#trans-content",
+            data: _bindRow
+        });
+
+
+    }
+
+    function showTrans(transId) {
+        helper.post("/App_beefTransaction/GetPageData", {
+            Wheres: JSON.stringify([{ "Name": "Id", "Value": transId }])
+        }, function (row) {
+            if (typeof row == "string") {
+                row = JSON.parse(row);
+            }
+            if (row.total == 0) return $.message('未查到数据');
+            bindData(row.rows[0]);
+        })
+    }
+
+    searchHelper.onInitBefore = function () {
+        $.each(gridParameters.columns[0], function () {
+            if (this.field == "Title") {
+                this.formatter = function (val, row, index) {
+                    if (row.TransId) {
+                        return '<a style="cursor: pointer;" hef="#" target="_blank" onclick="showTrans(' + row.TransId + ')">' + val + '</a>';
+                    }
+                    return val;
+                }
+            }
+        })
+    };
+</script>

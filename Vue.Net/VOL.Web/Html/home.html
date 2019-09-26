@@ -1,0 +1,483 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="../Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="../Content/css/bootstrap-table.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.10.2.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/bootstrap-table.js"></script>
+    <script src="../Scripts/bootstrap-table-zh-CN.js"></script>
+    <script src="../Scripts/jQuery-slimScroll-1.3.8/jquery.slimscroll.js"></script>
+    <link href="../Content/ztree/metroStyle/metroStyle.css" rel="stylesheet" />
+    <script src="../Scripts/ztree.3.5.26/jquery.ztree.core.js"></script>
+
+    <style>
+        #baseInformation form > div {
+            margin-left: 15px;
+        }
+
+            #baseInformation form > div div {
+                width: 80px;
+            }
+
+        #left-menu {
+            border: 2px solid #EFEFEF;
+            /*background: #F5F7F4;*/
+            float: left;
+            position: absolute;
+            width: 13%;
+            height: 100%;
+        }
+
+        .right-panel {
+            margin-left: 13.1%;
+            float: left;
+            position: absolute;
+            width: 86%;
+        }
+     
+    </style>
+</head>
+
+
+<body>
+
+    <div>
+
+        <div id="left-menu" class="zTreeDemoBackground left">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+        <div id="right-panel" class="right-panel panel panel-default">
+
+            <div class="panel-heading">基本信息</div>
+            <div class="panel-body" style="background: #E9F3FD; ">
+                <table id="baseInformation" class="table">
+                    <tr>
+                        <td>
+                            <form class="form-inline has-success">
+                                <div class="input-group ">
+                                    <div class="input-group-addon"> 当前ID </div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon">父级ID</div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon">菜单名称</div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon">文件夹</div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form class="form-inline has-success">
+                                <div class="input-group ">
+                                    <div class="input-group-addon">表名称  </div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon">父级ID</div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon">菜单名称</div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon">文件夹</div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+
+                            </form>
+                        </td>
+                    </tr><tr>
+    <td>
+        <form class="form-inline has-success">
+            <div class="input-group ">
+                <div class="input-group-addon">表名称  </div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">父级ID</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">菜单名称</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">文件夹</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+
+        </form>
+    </td>
+</tr><tr>
+    <td>
+        <form class="form-inline has-success">
+            <div class="input-group ">
+                <div class="input-group-addon">表名称  </div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">父级ID</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">菜单名称</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">文件夹</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+
+        </form>
+    </td>
+</tr><tr>
+    <td>
+        <form class="form-inline has-success">
+            <div class="input-group ">
+                <div class="input-group-addon">表名称  </div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">父级ID</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">菜单名称</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">文件夹</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+
+        </form>
+    </td>
+</tr><tr>
+    <td>
+        <form class="form-inline has-success">
+            <div class="input-group ">
+                <div class="input-group-addon">表名称  </div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">父级ID</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">菜单名称</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">文件夹</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+
+        </form>
+    </td>
+</tr><tr>
+    <td>
+        <form class="form-inline has-success">
+            <div class="input-group ">
+                <div class="input-group-addon">表名称  </div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">父级ID</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">菜单名称</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">文件夹</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+
+        </form>
+    </td>
+</tr><tr>
+    <td>
+        <form class="form-inline has-success">
+            <div class="input-group ">
+                <div class="input-group-addon">表名称  </div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">父级ID</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">菜单名称</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">文件夹</div>
+                <input type="text" class="form-control col-xs-1 input-sm">
+            </div>
+
+        </form>
+    </td>
+</tr>
+                    <tr>
+                        <td>
+                            <form class="form-inline has-success">
+                                <div class="input-group ">
+                                    <div class="input-group-addon">表名称  </div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon">父级ID</div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon">菜单名称</div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon">文件夹</div>
+                                    <input type="text" class="form-control col-xs-1 input-sm">
+                                </div>
+
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-heading">数据字典</div>
+            <table data-toggle="table" id="table"></table>
+        </div>
+
+        <!--<div class="right-panel panel panel-default" style=" margin-top: 200px;">
+
+            <div class="panel-heading">数据字典</div>
+            <table data-toggle="table" id="table"></table>
+        </div>-->
+        <!--<div>
+            <div>
+                
+            </div>
+
+        </div>-->
+    </div>
+</body>
+</html>
+<script>
+
+    var setting = {
+        view: {
+            //showIcon:false
+            //addHoverDom: addHoverDom,
+            //removeHoverDom: removeHoverDom,
+            //  selectedMulti: false
+        },
+        check: {
+            enable: false//显示复选框
+        },
+        callback: {
+            onClick: onClickNode
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        edit: {
+            enable: true
+        }
+    };
+    //  , iconSkin: "diy01" //显示自定义图标
+    // , iconSkin: "icon-plus-sign-alt"
+    var zNodes = [
+        { id: 1, pId: 0, name: "父节点1", open: true },
+        { id: 11, pId: 1, name: "父节点11" },
+        { id: 111, pId: 11, name: "叶子节点111", isParent: true },
+         { id: 11221, pId: 111, name: "叶子节点1222222" },
+        { id: 112, pId: 11, name: "叶子节点112" },
+        { id: 113, pId: 11, name: "叶子节点113" },
+        { id: 114, pId: 11, name: "叶子节点114" },
+        { id: 12, pId: 1, name: "父节点12" },
+        { id: 121, pId: 12, name: "叶子节点121" },
+        { id: 122, pId: 12, name: "叶子节点122" },
+        { id: 123, pId: 12, name: "叶子节点123" },
+        { id: 124, pId: 12, name: "叶子节点124" },
+        { id: 13, pId: 1, name: "父节点13" },
+        { id: 2, pId: 0, name: "父节点2" },
+        { id: 21, pId: 2, name: "父节点21", open: true },
+        { id: 211, pId: 21, name: "叶子节点211" },
+        { id: 212, pId: 21, name: "叶子节点212" },
+        { id: 213, pId: 21, name: "叶子节点213" },
+        { id: 214, pId: 21, name: "叶子节点214" },
+        { id: 22, pId: 2, name: "父节点22" },
+        { id: 221, pId: 22, name: "叶子节点221" },
+        { id: 222, pId: 22, name: "叶子节点222" },
+        { id: 223, pId: 22, name: "叶子节点223" },
+        { id: 224, pId: 22, name: "叶子节点224" },
+        { id: 23, pId: 2, name: "父节点23" },
+        { id: 231, pId: 23, name: "叶子节点231" },
+        { id: 232, pId: 23, name: "叶子节点232" },
+        { id: 233, pId: 23, name: "叶子节点233" },
+        { id: 234, pId: 23, name: "叶子节点234" },
+        { id: 3, pId: 0, name: "父节点3", isParent: true }
+    ];
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+    });
+
+    function onClickNode(e, treeId, treeNode) {
+        //$("#treeDemo .ico_docu").removeAttr("class");
+        alert(treeNode);
+    }
+
+
+</script>
+
+<script>
+
+
+    $('#table').bootstrapTable({
+        striped: true,           //是否显示行间隔色
+        sortable: true,           //是否启用排序
+        sortOrder: "asc",          //排序方式
+        pagination: true,
+        height: 382,
+        pageList: [10, 25, 50, 100],
+        columns: [{
+            sortable: true,
+            field: 'id',
+            title: 'Item ID'
+        }, {
+            sortable: true,
+            field: 'name',
+            title: 'Item Name'
+        }, {
+            sortable: true,
+            field: 'price',
+            title: 'Item Price'
+        },
+        {
+            sortable: true,
+            field: 'id',
+            title: 'Item ID'
+        }, {
+            sortable: true,
+            field: 'name',
+            title: 'Item Name'
+        }, {
+            sortable: true,
+            field: 'price',
+            title: 'Item Price'
+        },
+        ],
+        data: [{
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        },
+        {
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        }
+        ,
+        {
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        },
+        {
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        },
+        {
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        }, {
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        },
+         ,
+        {
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        },
+        {
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        },
+        {
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        }, {
+            id: 1,
+            name: 'Item 1',
+            price: '$1'
+        }, {
+            id: 2,
+            name: 'Item 2',
+            price: '$2'
+        }]
+    });
+
+
+
+
+</script>

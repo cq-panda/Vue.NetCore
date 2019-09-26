@@ -1,0 +1,82 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    
+    var searchData = [];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/vApp_TechnicalClassifyPartBy/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'vApp_TechnicalClassifyPartBy',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'养牛宝分页',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:1270,totalCol:12},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'PartById',title:'PartById',datatype:'long',width:80,require:true,align:'left',sortable:true},
+                       {field:'Id',title:'Id',datatype:'int',width:80,require:true,align:'left'},
+                       {field:'ClassifyId',title:'ClassifyId',datatype:'int',width:80,align:'left'},
+                       {field:'SecondClassifyId',title:'SecondClassifyId',datatype:'int',width:80,align:'left'},
+                       {field:'SecondClassifyTitle',title:'SecondClassifyTitle',datatype:'string',width:90,align:'left'},
+                       {field:'Title',title:'Title',datatype:'string',width:120,align:'left'},
+                       {field:'ViewCount',title:'ViewCount',datatype:'int',width:80,align:'left'},
+                       {field:'DetailUrl',title:'DetailUrl',datatype:'string',width:90,align:'left'},
+                       {field:'ImageUrls',title:'ImageUrls',datatype:'string',width:220,align:'left'},
+                       {field:'UrlType',title:'UrlType',datatype:'int',width:80,align:'left'},
+                       {field:'Author',title:'Author',datatype:'string',width:120,align:'left'},
+                       {field:'ReleaseDate',title:'ReleaseDate',datatype:'DateTime',width:150,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

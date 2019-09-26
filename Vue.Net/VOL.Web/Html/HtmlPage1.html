@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="../Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="../Content/css/bootstrap-treeview.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.10.2.js"></script>
+    <script src="../Scripts/bootstrap-treeview.js"></script>
+</head>
+<body>
+    <div id="tree"></div>
+</body>
+</html>
+
+<script>
+    //获取树形结构列表数据
+    function getTree() {
+        var tree = [{
+            text: "Parent 1",
+            Id:1213,
+            nodes: [{
+                text: "Child 1",
+                Id: 1111,
+                nodes: [{
+                    text: "Grandchild 1"
+                }, {
+                    text: "Grandchild 2"
+                }]
+            }, {
+                text: "Child 2"
+            }]
+        }, {
+            text: "Parent 2"
+        }, {
+            text: "Parent 3"
+        }, {
+            text: "Parent 4"
+        }, {
+            text: "Parent 5"
+        }];
+        return tree;
+    }
+      
+    //初始化树形结构列表
+    $('#tree').treeview({
+        data: getTree(), backColor: '#f5f5f5',collapseIcon:"glyphicon glyphicon-heart"
+    });
+      
+    //最后一次触发节点Id
+    var lastSelectedNodeId = null;
+    //最后一次触发时间
+    var lastSelectTime = null;
+      
+    //自定义业务方法
+    function customBusiness(data){
+        alert("双击获得节点名字： "+data.text);
+    }
+
+    function clickNode(event, data) {
+        if (lastSelectedNodeId && lastSelectTime) {
+            var time = new Date().getTime();
+            var t = time - lastSelectTime;
+            if (lastSelectedNodeId == data.nodeId && t < 300) {
+                customBusiness(data);
+            }
+        }
+        lastSelectedNodeId = data.nodeId;
+        lastSelectTime = new Date().getTime();
+    }
+      
+    //自定义双击事件
+    function customDblClickFun(){
+        //节点选中时触发
+        $('#tree').on('nodeSelected', function (event, data) {
+           // alert(data.Id);
+            //clickNode(event, data)
+        });
+        //节点取消选中时触发
+        $('#tree').on('nodeUnselected', function(event, data) {
+            clickNode(event, data)
+        });
+    }
+  //  $('#tree').click( function () { alert("Hello World!"); });
+    $(document).ready(function() {
+        customDblClickFun();
+    });
+    </script>

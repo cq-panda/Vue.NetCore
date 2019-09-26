@@ -1,0 +1,85 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "enable";}
+    var searchData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"标题","require":false,"id":"Title"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"最后推送时间","require":false,"id":"ReleaseDate"},{"columnType":"byte","dataSource":optionConfigenable,"displayType":"select","text":"是否启用","require":false,"id":"Enable"}]];
+    var editData = [[{"columnType":"string","dataSource":[],"displayType":"","text":"标题","require":true,"id":"Title","colSize":12}],[{"columnType":"datetime","dataSource":[],"displayType":"","text":"最后推送时间","require":false,"id":"ReleaseDate","disabled":1},{"columnType":"byte","dataSource":optionConfigenable,"displayType":"drop","text":"是否启用","require":false,"id":"Enable"}],[{"columnType":"string","dataSource":[],"displayType":"textarea","text":"推送内容","require":true,"id":"Content","colSize":12}]];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/Sys_Message/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'Sys_Message',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'系统消息推送',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:1340,totalCol:7},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'主键ID',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Title',title:'标题',datatype:'string',width:300,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createViewField',{row:row,val:val,index:index})},require:true,align:'left',sortable:true},
+                       {field:'Content',title:'推送内容',datatype:'string',width:400,editor:'text',require:true,align:'left'},
+                       {field:'Author',title:'推送人',datatype:'string',width:120,align:'left'},
+                       {field:'ReleaseDate',title:'最后推送时间',datatype:'DateTime',width:150,readonly:true,editor:'text',align:'left',sortable:true},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,editor: { type: 'combobox', options: optionConfigenable },formatter: function (val, row, index) {
+    return dataSourceenable.textFormatter(optionConfigenable, val, row, index);
+    },
+align:'left'},
+                       {field:'CreateID',title:'创建人Id',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Creator',title:'创建人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'创建时间',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'ModifyID',title:'修改人ID',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,hidden:true,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:150,hidden:true,align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

@@ -1,0 +1,132 @@
+﻿@*
+    *Author：jxx
+    *Contact：283591387@qq.com
+    *Date：2018-07-01
+    * 此代码由框架生成，请勿随意更改
+*@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+@{await Html.RenderPartialAsync("~/Views/Shared/Uploader.cshtml");}
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "lt,pz,ct,sex,location,audit,enable";}
+    var searchData = [[{ "columnType": "string", "dataSource": optionConfigpz, "displayType": "drop", "text": "品种", "require": false, "id": "Variety" }, { "columnType": "string", "dataSource": optionConfigct, "displayType": "drop", "text": "类型", "require": false, "id": "CowType" }, { "columnType": "string", "dataSource": optionConfigsex, "displayType": "drop", "text": "公母", "require": false, "id": "Sex" }], [{ "columnType": "int", "dataSource": optionConfiglt, "displayType": "drop", "text": "交易类型", "require": false, "id": "Ttype" }, { "columnType": "string", "dataSource": optionConfiglocation, "displayType": "drop", "text": "所在地", "require": false, "id": "Location" }, { "columnType": "int", "dataSource": optionConfigaudit, "displayType": "drop", "text": "审核状态", "require": false, "id": "AuditStatus" }], [{ "columnType": "byte", "dataSource": optionConfigenable, "displayType": "drop", "text": "是否启用", "require": false, "id": "Enable" }, { "columnType": "string", "dataSource": [], "displayType": "", "text": "电话", "require": false, "id": "PhoneNo" }, { "columnType": "string", "dataSource": [], "displayType": "", "text": "联系人", "require": false, "id": "Contact" }], [{ "columnType": "string", "dataSource": [], "displayType": "", "text": "公司", "require": false, "id": "Company" }, { "columnType": "datetime", "dataSource": [], "displayType": "datetime", "text": "发布时间", "require": false, "id": "CreateDate" },{"columnType":"string","dataSource":[],"displayType":"","text":"发布人","require":false,"id":"Creator"}]];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/App_BeefTransaction/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'App_BeefTransaction',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink: true,
+        singleSelect: true,
+        richText:false,
+        hasSection:false,
+        cnName:'活牛交易',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:3020,totalCol:23},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'主键ID',datatype:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Ttype',title:'交易类型',datatype:'int',width:80,editor: { type: 'combobox', options: optionConfiglt },formatter: function (val, row, index) {
+    return dataSourcelt.textFormatter(optionConfiglt, val, row, index);
+    },
+require:true,align:'left',sortable:true},
+                       {field:'Title',title:'标题',datatype:'string',width:220,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createViewField',{row:row,val:val,index:index})},align:'left'},
+                       {field:'Price',title:'价格/元/公斤',datatype:'decimal',width:90,editor:'text',require:true,align:'left'},
+                       {field:'Price1',title:'价格1',datatype:'decimal',width:90,hidden:true,align:'left'},
+                       {field:'Qty',title:'数量(头)',datatype:'int',width:80,editor:'text',require:true,align:'left'},
+                       {field:'FileUrl',title:'图片',datatype:'string',width:220,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createImageUrl',{row:row,key:'FileUrl'})},align:'left'},
+                       {field:'FileType',title:'文件类型',datatype:'int',width:80,hidden:true,align:'left'},
+                       {field:'Variety',title:'品种',datatype:'string',width:120,editor: { type: 'combobox', options: optionConfigpz },formatter: function (val, row, index) {
+    return dataSourcepz.textFormatter(optionConfigpz, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'CowType',title:'类型',datatype:'string',width:120,editor: { type: 'combobox', options: optionConfigct },formatter: function (val, row, index) {
+    return dataSourcect.textFormatter(optionConfigct, val, row, index);
+    },
+align:'left'},
+                       {field:'Weight',title:'重量/KG',datatype:'string',width:90,editor:'text',align:'left'},
+                       {field:'Sex',title:'公母',datatype:'string',width:100,editor: { type: 'combobox', options: optionConfigsex },formatter: function (val, row, index) {
+    return dataSourcesex.textFormatter(optionConfigsex, val, row, index);
+    },
+align:'left'},
+                       {field:'Location',title:'所在地',datatype:'string',width:130,editor: { type: 'combobox', options: optionConfiglocation },formatter: function (val, row, index) {
+    return dataSourcelocation.textFormatter(optionConfiglocation, val, row, index);
+    },
+align:'left'},
+                       {field:'Describe',title:'牛源描述',datatype:'string',width:220,editor:'text',align:'left'},
+                       {field:'Company',title:'公司',datatype:'string',width:220,editor:'text',align:'left'},
+                       {field:'Contact',title:'联系人',datatype:'string',width:120,editor:'text',require:true,align:'left'},
+                       {field:'PhoneNo',title:'电话',datatype:'string',width:90,editor:'text',require:true,align:'left'},
+                       {field:'Creator',title:'发布人',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'发布时间',datatype:'DateTime',width:150,readonly:true,editor:'text',align:'left',sortable:true}
+        ]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>
+
+<script>
+    $(function () {
+        searchHelper.onInitBefore = function () {
+            searchTools.btns = [{
+                text: '查 询',
+                btnClass: 'btn icon-search',
+                icon: 'icon-zoom-out',
+                handler: function () {
+                    searchHelper.onSearchBtn_Click();
+                }
+            }, {
+                    text: '重 置',
+                    btnClass: 'btn btn-info icon-repeat',
+                    handler: function () {
+                        searchHelper.onResetBtn_Click();
+                    }
+                }
+            ];
+        }
+    })
+
+    function getSelected() {
+        return $elementGrid.datagrid('getSelected');
+    }
+</script>

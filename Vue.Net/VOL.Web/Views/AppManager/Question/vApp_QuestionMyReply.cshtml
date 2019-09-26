@@ -1,0 +1,84 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    
+    var searchData = [];
+    var editData = [];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'QuestionId',
+        url: '/vApp_QuestionMyReply/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'vApp_QuestionMyReply',sort:'QuestionId',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'我的回答',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:1780,totalCol:13},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'PartById',title:'PartById',datatype:'long',width:80,align:'left',sortable:true},
+                       {field:'QuestionId',title:'QuestionId',datatype:'int',width:80,require:true,align:'left'},
+                       {field:'CreateID',title:'CreateID',datatype:'int',width:120,align:'left'},
+                       {field:'Creator',title:'Creator',datatype:'string',width:130,align:'left'},
+                       {field:'CreateDate',title:'CreateDate',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'HeadImageUrl',title:'HeadImageUrl',datatype:'string',width:220,align:'left'},
+                       {field:'Title',title:'Title',datatype:'string',width:90,align:'left'},
+                       {field:'ImageUrls',title:'ImageUrls',datatype:'string',width:220,align:'left'},
+                       {field:'Attr',title:'Attr',datatype:'string',width:90,require:true,align:'left'},
+                       {field:'QuestionType',title:'QuestionType',datatype:'int',width:80,align:'left'},
+                       {field:'Content',title:'Content',datatype:'string',width:220,align:'left'},
+                       {field:'ReplyDate',title:'ReplyDate',datatype:'DateTime',width:150,align:'left',sortable:true},
+                       {field:'Replier',title:'Replier',datatype:'string',width:150,align:'left'},
+                       {field:'ReplierId',title:'ReplierId',datatype:'int',width:120,hidden:true,align:'left'}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

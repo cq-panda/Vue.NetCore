@@ -1,0 +1,105 @@
+﻿<script>
+
+    var $sendMsgWindow, $sendMsgContent, $sendContainer;
+    function sendMsg() {
+        var selectData = $elementGrid.datagrid('getChecked');
+        if (selectData.length == 0) {
+            $.message('请选择要推送的消息', 'blue');
+            return;
+        }
+        if ($sendMsgWindow) {
+            $sendMsgContent.layOut('setValue', selectData[0]);
+            $sendMsgWindow.jqWindow("open");
+            return;
+        }
+        $sendMsgWindow = $("<div></div>").jqWindow({
+            title: "消息推送",
+            width: '750px',
+            height: '420px',
+            buttons: [{
+                text: '推送消息', icon: 'btn btn-danger icon-bullhorn',
+                handler: function (_evenWin, winHtml) {
+                    var sendData = $sendMsgContent.layOut('getKeyValues');
+                    if (!sendData) return;
+                    if (sendData.User) {
+                        sendData.User = sendData.User.replace(/\n/g, ',').
+                            replace(/\r\n/g, ',').
+                            replace(/\n/, ',').
+                            replace('，', ',').replace(',,', ',');
+                    }
+                    selectData = $elementGrid.datagrid('getChecked');
+                    sendData.id = selectData[0]['Id'];
+                    sendData.creator = selectData[0]['Creator'];
+                    sendData.createDate = selectData[0]['CreateDate'];
+                    helper.post('/Sys_Message/PcSend', { sendData: JSON.stringify(sendData) }, function (data) {
+                        $.message(data.Desc);
+                    });
+                }
+            }]
+        });
+
+        var sendData = [
+            [{ "text": "标题", "require": true, "id": "Title", "colSize": 12, placeholder: "最多30个字符。" }],
+            [{ "displayType": "textarea", "text": "推送内容", "require": true, "id": "Content", "colSize": 12, placeholder: "最多200个字符。" }],
+            [{
+                "text": "接收用户类型", displayType: "select", "require": true, "id": "goType", dataSource:
+                {
+                    valueField: 'goType',
+                    textField: 'name',
+                    all: false,
+                    onSelect: function (data, $ul) {
+                        var lastShow = $ul.lastShow;
+                        if (data.goType == 4 && $(this).hasClass('active')) {
+                            $sendMsgContent.find("div.form-group:last").show();
+                            $ul.lastShow = true;
+                            return;
+                        }
+                        if (lastShow) {
+                            $sendMsgContent.find("div.form-group:last").hide();
+                            $ul.lastShow = false;
+                        }
+                    },
+                    data: [
+                        { goType: "1", name: "全部用户", selected: true },
+                        { goType: "2", name: "安卓用户" },
+                        { goType: "3", name: "IOS用户" },
+                        // { goType: "3", name: "按省用户" },
+                        { goType: "4", name: "特定用户" }
+
+                    ]
+                }
+            }],
+            [{ "displayType": "textarea", "text": "用户帐号", "id": "User", "colSize": 12, "style": "height:50px;", placeholder: "多个用户请用逗号隔开,最多添加150个帐号。。。" }]
+        ];
+
+        $sendMsgContent = $sendMsgWindow.find('.content').layOut({
+            data: sendData,
+            showHead: false
+        });
+        $sendMsgContent.find("div.form-group:last").hide();
+        $sendMsgContent.find("div.form-group:eq(2)").css({ "margin-top": "22px" });
+        $sendMsgContent.layOut('setValue', selectData[0]);
+    }
+
+    searchHelper.onInitBefore = function () {
+        //绑定下拉框选中事件
+        searchTools.displayCount = 5;
+        searchTools.position = 'right';
+
+        //判断是否有权限
+        if (1 == 1) {
+            searchTools.btns.splice(4, 0, {
+                text: '推送消息',
+                btnClass: ' btn icon-bullhorn',
+                icon: ' icon-book',
+                handler: function () {
+
+                    sendMsg();
+
+
+                }
+            });
+        }
+    }
+
+</script>

@@ -1,0 +1,13 @@
+﻿<script>
+    searchHelper.onInitBefore = function () {
+        //绑定下拉框选中事件
+        $.each(gridParameters.columns[0], function () {
+            if (this.field == 'Url') {
+                this.formatter = function (val, row, index) {
+                    return '<a style="cursor: pointer;" onclick="window.open(\'http://' + row.ServerIP +":9910"+ val +'\')" > 查看访问页面</a > ';
+                }
+            }
+        })
+    }
+
+</script>

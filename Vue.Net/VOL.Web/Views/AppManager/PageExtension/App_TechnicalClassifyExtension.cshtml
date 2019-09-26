@@ -1,0 +1,90 @@
+﻿
+<script type="text/javascript">
+    var fileSite = "http://114.112.54.131:9908/";
+    var table = "abc";
+    var uname = "bb";
+    UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+    UE.Editor.prototype.getActionUrl = function (action) {
+        //var actions = ['uploadimage', 'uploadscrawl', 'uploadvideo', 'uploadfile', 'catchimage', 'listimage', 'listfile', 'config'];
+        if (action == 'uploadimage') {
+            return fileSite + 'UEditor/UploadImg?table=' + table + "&uname=" + uname;
+        }
+        if (action == 'uploadvideo') {
+            return fileSite + 'UEditor/UploadVideo?table=' + table + "&uname=" + uname;
+        }
+        if (action == 'uploadfile') {
+            return fileSite + 'UEditor/UploadFile?table=' + table + "&uname=" + uname;
+        }
+        else if (action == 'config') {
+            return fileSite + 'UEditor/GetConfig';
+        }
+        else {
+            return this._bkGetActionUrl.call(this, action);
+        }
+    }
+</script>
+<script type="text/javascript">
+
+</script>
+<script>
+    //var isUeReady = false;
+    var ueInstance = null;
+    //searchHelper.openWindowAfter = function (row) {
+    //    //$layElement.content.layOut('reset', { DetailUrl: "发的发电机房快递费" });
+    //    $layElement.content.layOut('getElement', 'DetailUrl').removeAttr("readonly");
+    //    $($layElement.window[0]).css("cssText", "z-index:100!important");
+    //    $layElement.content.layOut('getElement', 'Content').attr("id", "cstEditor").removeClass("form-control").css("width","100%");
+
+    //    //初始化UEditor
+    //    ueInstance = UE.getEditor('cstEditor', {
+    //        initialFrameHeight: 250,
+    //        toolbars: [[
+    //            'fullscreen', 'source', '|', 'undo', 'redo', '|',
+    //            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+    //            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+    //            'paragraph', 'fontfamily', 'fontsize', '|',
+    //            'directionalityltr', 'directionalityrtl', 'indent', '|',
+    //            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+    //            'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+    //            'insertimage', 'emotion', 'insertvideo', 'map', 'insertframe', 'pagebreak', '|',
+    //            'horizontal', 'spechars', '|',
+    //            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', '|',
+
+    //        ]]
+    //    });
+    //    //ueInstance.ready(function () {
+    //    //    isUeReady = true;
+    //    //});
+    //}
+    //searchHelper.onInitBefore = function () {
+
+
+    //    $layElement.width = '1200px';
+    //    $layElement.height = '700px'
+
+    //    //绑定下拉框选中事件
+    //    if (!editData || !editData.length)
+    //        return;
+    //    for (var i = 0; i < editData.length; i++) {
+    //        $.each(editData[i], function () {
+    //            if (this.displayType == 'textarea') {
+    //                this.style = "height:300px;"
+    //            }
+    //        })
+    //    }
+    //}
+    //layOutElement.submitBefore = function (data) {
+    //    //$layElement.content.layOut('reset', { DetailUrl: "发的发电机房快递费" });
+    //    console.info(JSON.stringify(data));
+    //    data.mainData.Content = ueInstance.getContent();
+    //    console.info(JSON.stringify(data));
+
+    //    return true;
+    //}
+    //searchHelper.reset = function (row) {
+    //    if (row != null) {
+    //      //  ueInstance.setContent(row.Content);
+    //        $layElement.content.layOut('reset', row);
+    //    }
+    //}
+</script>

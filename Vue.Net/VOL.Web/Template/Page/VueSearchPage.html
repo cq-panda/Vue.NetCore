@@ -1,0 +1,47 @@
+﻿<!--
+*Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ *代码由框架生成，请勿随意更改
+ -->
+<template>
+    <div>
+        <view-grid :columns="columns"
+                   :extendMethods="extendMethods"
+                   :editFormFileds="editFormFileds"
+                   :editFormOptions="editFormOptions"
+                   :searchFormFileds="searchFormFileds"
+                   :searchFormOptions="searchFormOptions"
+                   :table="table">
+        </view-grid>
+    </div>
+</template>
+
+<script>
+    //{#import} { extend } from "@/assets/script/{path}.js";
+    import ViewGrid from "@/components/basic/ViewGrid.vue";
+    var vueParam = {
+        components: {
+            ViewGrid
+        },
+        data() {
+            return {
+                table: {
+                    key: '#key',
+                    footer: "Foots",
+                    cnName: '#cnName',
+                    name: '#TableName',
+                    url: "#url",
+                    sortName: "#SortName"
+                },
+                extendMethods: { #extend },
+                editFormFileds: #editFormFileds,
+                editFormOptions: #editFormOptions,
+                searchFormFileds: #searchFormFileds,
+                searchFormOptions: #searchFormOptions,
+                columns: [#columns]
+            };
+        }
+    };
+    export default vueParam;
+</script>

@@ -1,0 +1,331 @@
+﻿@{
+    Layout = null;
+}
+<link href="~/Content/css/icon.css" rel="stylesheet" />
+<link href="../Content/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/css/font-awesome.css" rel="stylesheet" />
+<link href="~/Content/css/easyui.css" rel="stylesheet" />
+<link href="~/Content/project-layOut/jquery-layout.css" rel="stylesheet" />
+<link href="~/Content/project-layOut/jquery-layout-view.css" rel="stylesheet" />
+<script src="../Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-layout/jquery-layout-component.js"></script>
+<script src="~/Scripts/jquery-layout/jquery-layout-view.js"></script>
+<script src="~/Scripts/jQuery-slimScroll-1.3.8/jquery.slimscroll.js"></script>
+<style>
+    #left-menu {
+        position: absolute;
+        width: 190px;
+        height: 100%;
+    }
+
+#tools button {
+margin-right: 10px;
+}
+
+#tools {
+padding: 10px;
+margin-top: 10px;
+background: rgb(245, 245, 245);
+}
+
+.panel-body label {
+white-space: nowrap;
+}
+
+#treeMenu {
+padding: 0px;
+margin-top: 36px;
+border-radius: 0px;
+}
+
+.tree-list li div {
+font-size: 14px;
+}
+
+.tree-list ul li div {
+padding: 7px;
+}
+/*.body-detail > .unit-group > .form-group {
+border:0px;
+background:#ffffff
+}*/
+.lay-body {
+border: 0px;
+}
+/*.body-detail {
+border: 0px;
+padding: 20px 40px 40px 70px !important;
+}*/
+#field-contaier, #field-content {
+height: 100%;
+}
+#field-content {
+border:0px;
+}
+    #field-contaier {
+        margin-left: 3px;
+        right: 0;
+        position: absolute;
+        left: 190px;
+        /*width: calc(100% - 190px)*/
+    }
+        
+.active-bg {
+background: #1fb19e !important;
+color: #f9f9f9 !important;
+}
+
+.active-bg:after, .active-a:after {
+border-right-color: #2f8830;
+}
+
+.unit-group > div {
+padding-bottom: 13px !important;
+}
+
+.lay-btn-group {
+margin-top: 20px;
+}
+
+#top-btns {
+}
+
+#top-btns .lay-btn-group {
+position: absolute;
+top: -15px;
+right: 30px;
+}
+
+#top-btns > div {
+}
+
+#top-btns button {
+border: 0px;
+border-right: 1px solid #eee;
+padding: 2px 2px 3px 2px;
+height: 21px;
+margin-left: 7px;
+}
+
+#top-btns button:hover {
+    color: #ffd800;
+}
+
+.menu-head {
+margin-top: 1px;
+position: absolute;
+width: 100%;
+height: 35px;
+background: #0d9a8e;
+padding: 8px;
+color: white;
+font-size: 16px;
+}
+.menu-head i {
+margin-right:5px;
+}
+#left-menu {
+position: relative;
+        
+}
+/*#left-menu, #field-contaier {
+float: left;
+}*/
+#contaier {
+display: none;
+width: 100%;
+}
+.jqTree > li > div {
+padding: 8px;
+display: block;
+}
+.active-bg:after, .active-bg:after {
+margin-right: -8px;
+}
+
+.jqTree > li > div:hover {
+color: white;
+background: #11887d;
+}
+.jqTree > li {
+background: white;
+}
+    .body-detail > .unit-group > .form-group {
+        padding: 7px;
+        border-bottom: 0px;
+        background: white;
+        margin-bottom: 0px;
+    }
+
+    .body-detail > .unit-group {
+        width: 650px;
+        margin: 0 auto;
+        position: relative;
+        margin-left: 100px;
+    }
+    .form-control {
+     height:34px !important;
+    }
+</style>
+<body>
+    <div id="contaier" >
+        <div id="left-menu" style="overflow: hidden;" class=" left">
+           <div class="menu-head">
+               <i class="icon-home"></i><span>基础菜单</span>
+           </div>
+            <ul id="treeMenu" class="ztree"></ul>
+        </div>
+        <div id="field-contaier">
+            <div id="field-content" class="panel panel-danger" >
+
+            </div>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    Array.prototype.convertToHash = function (key, value) {
+        var hashVal = {};
+        $.each(this, function () {
+            hashVal[this[key]] = this[value];
+        })
+        return hashVal;
+    }
+
+
+    var menuFun = {
+        save: function () {
+            var tableInfo = $element_fields.layOut('getValues');
+            if (tableInfo.length == 0) { return; }
+            helper.post("/Sys_Menu/SaveEdit", {
+                action: action, HashVal: JSON.stringify(tableInfo.convertToHash("Name", "Value"))
+            }, function (data) {
+                data = JSON.parse(data);
+                if (data.Status) {
+                    action = '-1';
+                    $element_fields.layOut('setValue', data.Data);
+                    $.message("保存成功!");
+                    return;
+                }
+                $.message(data.Desc||"保存出错!");
+            });
+        },
+        add: function (obj) {
+            $element_fields.layOut('reset');
+            $element_fields.layOut('reset', $.extend(obj || {},{ Enable: 1 }));
+        },
+        addChildren: function () {
+            menuFun.add({
+                Menu_Id: 0,
+                ParentId: $element_fields.layOut('getValue', 'Menu_Id')
+            });
+
+        },
+        eidt: function (targe) {
+
+        },
+        del: function () {
+        }
+    };
+    var optionConfig4 = {
+        valueField: 'Enable',
+        textField: 'EnableName',
+        all: false,
+        data: [{ "Enable": 1, "EnableName": "是", selected: true }, { "Enable": 0, "EnableName": "否" }],
+        handler: null
+    };
+
+
+    var fields = [
+        [{ text: 'ID', id: 'Menu_Id', dataType: 'int', displayType: 'text', columnType: 'int', disabled: true, "require": true }],
+        [{ text: '父级ID', id: 'ParentId', dataType: 'int', columnType: 'int', colSize: 12,  displayType: 'text', "require": true }],
+        [{ text: '菜单名称', id: 'MenuName', displayType: 'text', "require": true, colSize: 12,  "require": true }],
+        [{ text: '表名', id: 'TableName', dataType: 'string', displayType: 'text',colSize:12, "require": true }],
+        [{ text: 'Url', id: 'Url', dataType: 'string', colSize: 12,  displayType: 'text' }],
+        [{ text: '权限', id: 'Auth', dataType: 'string', colSize: 12,  displayType: 'text', "require": true }],
+        [{ text: '图标', id: 'Icon', dataType: 'string', colSize: 12,  displayType: 'text' }],
+        [{ text: '排序号', id: 'OrderNo', dataType: 'string', colSize: 12,  displayType: 'int', columnType: 'int', "require": true }],
+        [{ text: '是否启用', id: 'Enable', dataType: 'int', colSize: 12, displayType: 'radio', "require": true, "displayType": "drop", dataSource: optionConfig4 }],
+        [{ text: '创建时间', id: 'CreateDate', dataType: 'datetime', displayType: 'label', disabled: true }] ,
+        [{ text: '创建人', id: 'Creator', dataType: 'string', displayType: 'label', disabled: true } ]
+    ];
+    var btnData = [
+        {
+            text: '保 存', btnClass: 'btn btn-danger  icon-save', icon: 'icon-save',
+            handler: function () {
+                menuFun.save();
+            }
+        }, {
+            text: '新建', btnClass: 'btn btn-info icon-plus-sign', icon: 'icon-plus-sign',
+            handler: function () {
+                action = '0';
+                menuFun.add();
+            }
+        }, {
+            text: '添加子级', icon: 'icon-plus-sign', btnClass: 'btn btn-success  icon-plus-sign',
+            handler: function () {
+                var selectNodes = $jqTree.jqTree('getSelectData');
+                if (!(selectNodes && selectNodes.length > 0)) {
+                    $.message("没有选中节点");
+                    return;
+                }
+                action = '1';
+                menuFun.addChildren();
+            }
+        }, {
+            text: '删除节点',
+            btnClass: 'btn btn-default icon-minus-sign',
+            icon: 'icon-plus-sign',
+            handler: function () {
+            }
+        },
+        {
+            text: '刷 新',
+            btnClass: 'btn btn-default icon-minus-sign',
+            icon: 'icon-plus-sign',
+            handler: function () {
+                location.reload();
+            }
+        }
+    ];
+    var setting = {
+    };
+    var $element_fields;
+    var zNodes = @Html.Raw(ViewData["TreeList"]);
+    var $jqTree;
+    $(document).ready(function () {
+        $jqTree = $("#treeMenu").jqTree({ data: zNodes});
+        $jqTree.jqTree('onSelect', function (obj, nodeData) {
+            action = "-1";
+            helper.post("/Sys_Menu/GetDaetail", { Menu_Id: nodeData.id }, function (data) {
+                $element_fields.layOut('reset', data);
+            });
+            return true;
+        });
+        $('#left-menu').slimScroll({
+            width: "190px",
+            color: '#C7BBBB',
+            height: '100%',
+            size: '3px'
+        });
+        $('#left-menu').css({ width: '100%' });
+        $element_fields = $("#field-content").layOut({
+            data: fields,
+            colSize:6,
+            edit: true,
+            headStyle:'font-size: 17px;padding: 6px 8px 0px 0px;height: 35px;border:0px;background: #009688;',
+            title:'<span class=" icon-cogs" style="color: white;letter-spacing:3px;background:none;">基础信息</span><div id="top-btns"></div>'
+        });
+        //top-btns
+        layOutElement.createBtns.call($("#top-btns"), {
+            btns: btnData,
+            displayCount:7
+        });
+        $(".slimScrollDiv").css("float", "left");
+        $(".slimScrollDiv").css("heig", "left");
+        $("#contaier").show();
+
+    });
+    var action = '-1';
+</script>

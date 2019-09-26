@@ -1,0 +1,101 @@
+@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ *Date：2018-07-01
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<script>
+    @{ViewBag.dropDownIds = "pz,age,city,audit,enable";}
+    var searchData = [[{"columnType":"string","dataSource":optionConfigpz,"displayType":"drop","text":"品种","require":false,"id":"Variety"},{"columnType":"string","dataSource":optionConfigage,"displayType":"drop","text":"月龄","require":false,"id":"Age"},{"columnType":"string","dataSource":optionConfigcity,"displayType":"dropList","text":"报价城市","require":false,"id":"City"}],[{"columnType":"int","dataSource":optionConfigaudit,"displayType":"select","text":"审核状态","require":false,"id":"AuditStatus"},{"columnType":"datetime","dataSource":[],"displayType":"datetime","text":"上报时间","require":false,"id":"CreateDate"}]];
+    var editData = [[{"columnType":"string","dataSource":optionConfigpz,"displayType":"drop","text":"品种","require":true,"id":"Variety"},{"columnType":"string","dataSource":optionConfigage,"displayType":"drop","text":"月龄","require":true,"id":"Age"},{"columnType":"string","dataSource":optionConfigcity,"displayType":"drop","text":"报价城市","require":true,"id":"City"}],[{"columnType":"decimal","dataSource":[],"displayType":"","text":"上报价格","require":true,"id":"Price"},{"columnType":"byte","dataSource":optionConfigenable,"displayType":"drop","text":"是否启用","require":false,"id":"Enable"},{"columnType":"string","dataSource":[],"displayType":"","text":"上报人","require":false,"id":"Creator","disabled":1}],[{"columnType":"datetime","dataSource":[],"displayType":"","text":"上报时间","require":false,"id":"CreateDate","disabled":1},{"columnType":"datetime","dataSource":[],"displayType":"","text":"修改时间","require":false,"id":"ModifyDate","disabled":1}]];
+
+
+    var gridParameters = {
+        loadMsg: '数据正在加载。。。。',
+        //rownumbers: true,
+        pageSize: 30,
+        pageList: [10, 20, 30, 50, 80, 100, 200, 500, 1000],
+        height: 340,
+        key:'Id',
+        url: '/App_ReportPrice/GetPageData',
+        nameSpace:'',
+        queryParams: {TableName:'App_ReportPrice',sort:'Id',Foots:' ',Wheres:'{}'},
+        pagination: true,
+        striped:true,
+        fileLink:false,
+        richText:false,
+        hasSection:false,
+        cnName:'本地肉牛上报记录',
+        calculateHeight:{id:'#lay-search-panel'},
+        calculateWidth:{id:'#lay-search-panel',totalWidth:1310,totalCol:13},
+    frozenColumns: [[
+     { field: 'ck', checkbox: true }
+    ]],
+    //showFooter: true,
+        columns: [[{field:'Id',title:'主键ID',datatype:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Variety',title:'品种',datatype:'string',width:90,editor: { type: 'combobox', options: optionConfigpz },formatter: function (val, row, index) {
+    return dataSourcepz.textFormatter(optionConfigpz, val, row, index);
+    },
+require:true,align:'left',sortable:true},
+                       {field:'Age',title:'月龄',datatype:'string',width:90,editor: { type: 'combobox', options: optionConfigage },formatter: function (val, row, index) {
+    return dataSourceage.textFormatter(optionConfigage, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'City',title:'报价城市',datatype:'string',width:90,editor: { type: 'combobox', options: optionConfigcity },formatter: function (val, row, index) {
+    return dataSourcecity.textFormatter(optionConfigcity, val, row, index);
+    },
+require:true,align:'left'},
+                       {field:'Price',title:'上报价格',datatype:'decimal',width:90,editor:'text',formatter:function (val, row, index) { return $.fn.layOut('createViewField',{row:row,val:val,index:index})},require:true,align:'left'},
+                       {field:'AuditStatus',title:'审核状态',datatype:'int',width:90,formatter: function (val, row, index) {
+    return dataSourceaudit.textFormatter(optionConfigaudit, val, row, index);
+    },
+align:'left'},
+                       {field:'AuditDate',title:'审核时间',datatype:'DateTime',width:150,readonly:true,editor:'text',align:'left',sortable:true},
+                       {field:'AuditId',title:'审核人Id',datatype:'int',width:90,align:'left'},
+                       {field:'Auditor',title:'审核人',datatype:'string',width:90,align:'left'},
+                       {field:'Enable',title:'是否启用',datatype:'byte',width:90,editor: { type: 'combobox', options: optionConfigenable },formatter: function (val, row, index) {
+    return dataSourceenable.textFormatter(optionConfigenable, val, row, index);
+    },
+align:'left'},
+                       {field:'CreateID',title:'创建人Id',datatype:'int',width:90,hidden:true,align:'left'},
+                       {field:'Creator',title:'上报人',datatype:'string',width:130,readonly:true,editor:'text',align:'left'},
+                       {field:'CreateDate',title:'上报时间',datatype:'DateTime',width:90,readonly:true,editor:'text',align:'left',sortable:true},
+                       {field:'ModifyID',title:'修改人ID',datatype:'int',width:90,hidden:true,align:'left'},
+                       {field:'Modifier',title:'修改人',datatype:'string',width:130,align:'left'},
+                       {field:'ModifyDate',title:'修改时间',datatype:'DateTime',width:90,readonly:true,editor:'text',align:'left',sortable:true}]]
+    };
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = '';
+</script>

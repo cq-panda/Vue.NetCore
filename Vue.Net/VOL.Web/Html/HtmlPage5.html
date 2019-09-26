@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="../Content/css/bootstrap.css" rel="stylesheet" />
+    <title></title>
+    <style>
+        .div-group {
+            display: table;
+        }
+        .input-sm {
+            padding: 0px 10px;
+            height: 26px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Split button -->
+    <div class="div-group col-sm-6"><input type="text" value="" class="form-control input-sm drop-radius" readonly="readonly"><span class="input-group-btn">                                               <button class="btn btn-danger dropdown-btn icon-sort" type="button"></button>                                            </span><ul class="drop-list dropdown-menu"><li onclick="$(this).searchPanel('selectChange')" value="-1">全部</li><li onclick="$(this).searchPanel('selectChange')" value="ODM扫描入库">ODM扫描入库</li><li onclick="$(this).searchPanel('selectChange')" value="ODM整拍入库">ODM整拍入库</li><li onclick="$(this).searchPanel('selectChange')" value="不扫描入库">不扫描入库</li></ul></div>
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-danger">Action</button>
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+        </ul>
+    </div>
+
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-danger">Actionxxxxxxxxxxxx</button>
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropxxxxxxxxxxxxdown</span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+        </ul>
+    </div>
+</body>
+</html>
