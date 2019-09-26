@@ -1,0 +1,654 @@
+<template>
+  <div id="cnblogs_post_body">
+    <h2>表单data属性</h2>
+    <p class="desc">在扩展组件、方法可直接使用这些属性,前端扩展业务代码编写参照vue项目中extension->order->SellOrder.js文件,根据实际需要添加扩展方法</p>
+    <div class="cnblogs_code">
+      <pre><span style="color: #000000;">data() {
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
+      _inited: </span><span style="color: #0000ff;">false</span><span style="color: #000000;">,
+      const: _const, </span><span style="color: #008000;">//</span><span style="color: #008000;">增删改查导入导出等对应的action</span>
+      boxInit: <span style="color: #0000ff;">false</span>, <span style="color: #008000;">//</span><span
+  style="color: #008000;"
+>新建或编辑的弹出框初化状态，默认不做初始化，点击新建或编辑才初始化弹出框</span>
+      searchBoxShow: <span style="color: #0000ff;">false</span>, <span style="color: #008000;">//</span><span style="color: #008000;">高级查询(界面查询后的下拉框点击触发)</span>
+      singleSearch: "", <span style="color: #008000;">//</span><span style="color: #008000;">快速查询字段</span>
+      exportHref: ""<span style="color: #000000;">,
+      currentAction: _const.ADD, </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">当新建或编辑时，记录当前的状态:如当前操作是新建</span>
+      hasKeyField: {}, <span style="color: #008000;">//</span><span style="color: #008000;">当前操作的行数据(新建、编辑、查看)</span>
+      closable: <span style="color: #0000ff;">false</span><span style="color: #000000;">,
+      boxModel: </span><span style="color: #0000ff;">false</span>, <span style="color: #008000;">//</span><span style="color: #008000;">弹出新建、编辑框</span>
+      width: 700<span style="color: #000000;">,
+      viewModel: </span><span style="color: #0000ff;">false</span>, <span style="color: #008000;">//</span><span style="color: #008000;">查看表结构的弹出框</span>
+      viewColumns: [], <span style="color: #008000;">//</span><span style="color: #008000;">查看表结构的列数据</span>
+      viewData: [], <span style="color: #008000;">//</span><span style="color: #008000;">查看表结构信息</span>
+      maxBtnLength: 3, <span style="color: #008000;">//</span><span style="color: #008000;">界面按钮最多显示的个数，超过的数量都显示在更多中</span>
+      buttons: [], <span style="color: #008000;">//</span><span
+  style="color: #008000;"
+>查询界面按钮  如需要其他操作按钮，可在表对应的.js中添加(如:Sys_User.js中buttons添加其他按钮)</span>
+      boxButtons: [], <span style="color: #008000;">//</span><span style="color: #008000;">弹出框按钮 如需要其他操作按钮，可在表对应的.js中添加</span>
+      dicKeys: [], <span style="color: #008000;">//</span><span style="color: #008000;">当前界面所有的下拉框字典编号</span>
+      hasKeyField: [], <span style="color: #008000;">//</span><span style="color: #008000;">有字典数据源的字段</span>
+      url: "", <span style="color: #008000;">//</span><span style="color: #008000;">界面表查询的数据源的url</span>
+      hasDetail: <span style="color: #0000ff;">false</span>, <span style="color: #008000;">//</span><span style="color: #008000;">是否有从表(明细)表格数据</span>
+      initActivated: <span style="color: #0000ff;">false</span><span style="color: #000000;">,
+      </span><span style="color: #008000;">//</span><span style="color: #008000;"> detailUrl: "",</span>
+<span style="color: #000000;">      detailOptions: {
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">弹出框从表(明细)对象</span>
+        <span style="color: #008000;">//</span><span style="color: #008000;">从表配置</span>
+        buttons: [], <span style="color: #008000;">//</span><span
+  style="color: #008000;"
+>弹出框从表表格操作按钮,目前有删除行，添加行，刷新操作，如需要其他操作按钮，可在表对应的.js中添加</span>
+        cnName: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表名称</span>
+        key: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表主键名</span>
+        data: [], <span style="color: #008000;">//</span><span style="color: #008000;">数据源</span>
+        columns: [], <span style="color: #008000;">//</span><span style="color: #008000;">从表列信息</span>
+        edit: <span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">明细是否可以编辑</span>
+        delKeys: [], <span style="color: #008000;">//</span><span style="color: #008000;">当编辑时删除当前明细的行主键值</span>
+        url: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表加载数据的url</span>
+        pagination: { total: 0, size: 100, sortName: "" }, <span style="color: #008000;">//</span><span style="color: #008000;">从表分页配置数据</span>
+        height: 250 <span style="color: #008000;">//</span><span style="color: #008000;">默认从表高度</span>
+<span style="color: #000000;">      },
+      auditParam: {
+        </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">审核对象</span>
+        rows: 0, <span style="color: #008000;">//</span><span style="color: #008000;">当前选中审核的行数</span>
+        model: <span style="color: #0000ff;">false</span>, <span style="color: #008000;">//</span><span style="color: #008000;">审核弹出框</span>
+        status: -1, <span style="color: #008000;">//</span><span style="color: #008000;">审核结果</span>
+        reason: "", <span style="color: #008000;">//</span><span style="color: #008000;">审核原因</span>
+        <span style="color: #008000;">//</span><span style="color: #008000;">审核选项(可自行再添加)</span>
+        data: [{ text: "通过", status: 1 }, { text: "拒绝", status: 2<span style="color: #000000;"> }]
+      },
+      upload: {
+        </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">导入上传excel对象</span>
+        excel: <span style="color: #0000ff;">false</span>, <span style="color: #008000;">//</span><span style="color: #008000;">导入的弹出框是否显示</span>
+        url: "", <span style="color: #008000;">//</span><span style="color: #008000;">导入的路径,如果没有值，则不渲染导入功能</span>
+<span style="color: #000000;">        template: {
+          </span><span style="color: #008000;">//</span><span style="color: #008000;">下载模板对象</span>
+          url: "", <span style="color: #008000;">//</span><span style="color: #008000;">下载模板路径</span>
+          fileName: "" <span style="color: #008000;">//</span><span style="color: #008000;">模板下载的中文名</span>
+<span style="color: #000000;">        },
+        init: </span><span style="color: #0000ff;">false</span> <span style="color: #008000;">//</span><span style="color: #008000;">是否有导入权限，有才渲染导入组件</span>
+<span style="color: #000000;">      },
+      height: </span>0, <span style="color: #008000;">//</span><span style="color: #008000;">表高度</span>
+<span style="color: #000000;">
+      pagination: { total: </span>0, size: 30, sortName: "" }, <span style="color: #008000;">//</span><span style="color: #008000;">从分页配置数据</span>
+      boxOptions: { height: 0, width: 0<span style="color: #000000;"> }//弹出框的高度、宽度
+    };
+  }</span></pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>表单props属性</h2>
+    <p class="desc">table表的原始传入信息,这些信息由代码生成器生成，Demo：SellOrder.vue文件</p>
+    <div class="cnblogs_code">
+      <pre>let props =<span style="color: #000000;"> {
+  columns: {</span><span style="color: #008000;">//</span><span style="color: #008000;">当前表的配置信息</span>
+<span style="color: #000000;">    type: Array,
+    </span><span style="color: #0000ff;">default</span>: () =&gt;<span style="color: #000000;"> {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> [];
+    }
+  },
+  detail: {</span><span style="color: #008000;">//</span><span style="color: #008000;">从表明细配置</span>
+<span style="color: #000000;">    type: Object,
+    </span><span style="color: #0000ff;">default</span>: () =&gt;<span style="color: #000000;"> {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
+        columns: [],</span><span style="color: #008000;">//</span><span style="color: #008000;">从表列</span>
+        sortName: ""<span style="color: #008000;">//</span><span style="color: #008000;">从表排序字段</span>
+<span style="color: #000000;">      };
+    }
+  },
+  editFormFileds: {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">新建、编辑字段(key/value)</span>
+<span style="color: #000000;">    type: Object,
+    </span><span style="color: #0000ff;">default</span>: () =&gt;<span style="color: #000000;"> {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {};
+    }
+  },
+  editFormOptions: {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">新建、编辑配置信息</span>
+<span style="color: #000000;">    type: Array,
+    </span><span style="color: #0000ff;">default</span>: () =&gt;<span style="color: #000000;"> {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> [];
+    }
+  },
+  searchFormFileds: {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">查询字段(key/value)</span>
+<span style="color: #000000;">    type: Object,
+    </span><span style="color: #0000ff;">default</span>: () =&gt;<span style="color: #000000;"> {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {};
+    }
+  },
+  searchFormOptions: {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">查询配置信息(key/value)</span>
+<span style="color: #000000;">    type: Array,
+    </span><span style="color: #0000ff;">default</span>: () =&gt;<span style="color: #000000;"> {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> [];
+    }
+  },
+  table: {</span><span style="color: #008000;">//</span><span style="color: #008000;">表的配置信息：主键、排序等</span>
+<span style="color: #000000;">    type: Object,
+    </span><span style="color: #0000ff;">default</span>: () =&gt;<span style="color: #000000;"> {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {};
+    }
+  },
+  extend: {</span><span style="color: #008000;">//</span><span style="color: #008000;">表的扩展方法与组件都合并到此属性中</span>
+<span style="color: #000000;">    type: Object,
+    </span><span style="color: #0000ff;">default</span>: () =&gt;<span style="color: #000000;"> {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {};
+    }
+  }
+}
+
+export </span><span style="color: #0000ff;">default</span> props;</pre>
+    </div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h2>表单扩展方法</h2>
+    <p
+      class="desc"
+    >此处列出的是主要基础业务的扩展方法，全部由ViewGridConfig路径下的文件调用，可选择性实现方法，这些方法与components扩展组件中你可以任意操作编写其他方法。Demo参照：vue项目中extension->order->SellOrder.js文件</p>
+    <div cla="code">
+      <div class="cnblogs_code">
+        <pre>let extension =<span style="color: #000000;"> {
+    components: {</span><span style="color: #008000;">//</span><span style="color: #008000;">动态扩充组件或组件路径</span>
+        <span style="color: #008000;">//</span><span
+  style="color: #008000;"
+>表单header、content、footer对应位置扩充的组件</span>
+        gridHeader: () =&gt; import("./SellOrderComponents/GridHeaderExtend.vue"),<span
+  style="color: #008000;"
+>//</span><span
+  style="color: #008000;"
+>{ template: "&lt;div&gt;扩展组xx件&lt;/div&gt;" },</span>
+        gridBody: () =&gt; import("./SellOrderComponents/GridBodyExtend.vue"<span
+  style="color: #000000;"
+>),
+        gridFooter: () </span>=&gt; import("./SellOrderComponents/GridFooterExtend.vue"<span style="color: #000000;">),
+        </span><span style="color: #008000;">//</span><span
+  style="color: #008000;"
+>弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件</span>
+        modelHeader: ""<span style="color: #000000;">,
+        modelBody: { template: </span>'&lt;Alert type="error"&gt;你可以在此处添加业务相关内容&lt;/Alert&gt;'<span style="color: #000000;"> },
+        modelFooter: () </span>=&gt; import("./SellOrderComponents/ModelFooter.vue"<span style="color: #000000;">),
+    },
+    text: </span>"示例覆盖全部可扩展方法,前台扩展文件SellOrder.js，后台Partial-&gt;SellOrdeService.cs"<span style="color: #000000;">,
+    buttons: { </span><span style="color: #008000;">//</span><span style="color: #008000;">扩展按钮</span>
+        view: [<span style="color: #008000;">//</span><span style="color: #008000;">ViewGrid查询界面按钮</span>
+<span style="color: #000000;">            {
+                name: </span>"点我"<span style="color: #000000;">,
+                icon: </span>'md-create'<span style="color: #000000;">,
+                value: </span>'Edit'<span style="color: #000000;">,
+                class: </span>''<span style="color: #000000;">,
+                type: </span>'error'<span style="color: #000000;">,
+                index: </span>1,<span style="color: #008000;">//</span><span style="color: #008000;">显示的位置</span>
+                onClick: <span style="color: #0000ff;">function</span> () { <span style="color: #008000;">//</span><span style="color: #008000;">扩展按钮执行事件</span>
+                    <span style="color: #008000;">//</span><span
+  style="color: #008000;"
+>this可以获取所有属性，包括this.$refs.gridHeader/gridBody等获取扩展组件对象</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;"> this.$message("测试扩展按钮");</span>
+                    <span style="color: #0000ff;">this</span>.$refs.gridHeader.model = <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                }
+            }, {
+                name: </span>"调用后台"<span style="color: #000000;">,
+                icon: </span>'md-create'<span style="color: #000000;">,
+                value: </span>'Edit'<span style="color: #000000;">,
+                class: </span>''<span style="color: #000000;">,
+                type: </span>'error'<span style="color: #000000;">,
+                index: </span>1,<span style="color: #008000;">//</span><span style="color: #008000;">显示的位置</span>
+                onClick: <span style="color: #0000ff;">function</span> () { <span style="color: #008000;">//</span><span style="color: #008000;">扩展按钮执行事件</span>
+                    <span style="color: #0000ff;">this</span><span style="color: #000000;">.getServiceDate();
+                }
+            }],
+        box: </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">新建、编辑弹出框按钮</span>
+            [<span style="color: #008000;">//</span><span style="color: #008000;">ViewGrid查询界面按钮</span>
+<span style="color: #000000;">                {
+                    name: </span>"点我1"<span style="color: #000000;">,
+                    icon: </span>'md-create'<span style="color: #000000;">,
+                    value: </span>'Edit'<span style="color: #000000;">,
+                    class: </span>''<span style="color: #000000;">,
+                    type: </span>'success'<span style="color: #000000;">,
+                    index: </span>1,<span style="color: #008000;">//</span><span style="color: #008000;">显示的位置</span>
+                    onClick: <span style="color: #0000ff;">function</span><span style="color: #000000;"> () {
+                        </span><span style="color: #0000ff;">this</span>.$message.error("扩展的明细Box按钮,可设置index值指定显示位置,可使用this.$refs拿到包括自定义扩展的所有组件"<span
+  style="color: #000000;"
+>);
+                    }
+                }],
+        detail: </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">新建、编辑弹出框明细表table表按钮</span>
+            [<span style="color: #008000;">//</span><span style="color: #008000;">ViewGrid查询界面按钮</span>
+<span style="color: #000000;">                {
+                    name: </span>"点我2"<span style="color: #000000;">,
+                    icon: </span>'md-create'<span style="color: #000000;">,
+                    value: </span>'Edit'<span style="color: #000000;">,
+                    class: </span>''<span style="color: #000000;">,
+                    type: </span>'success'<span style="color: #000000;">,
+                    index: </span>1,<span style="color: #008000;">//</span><span style="color: #008000;">显示的位置</span>
+                    onClick: <span style="color: #0000ff;">function</span><span style="color: #000000;"> () {
+                        </span><span style="color: #0000ff;">this</span>.$message.error("扩展的明细table按钮,可设置index值指定显示位置"<span style="color: #000000;">);
+                    }
+                }]
+    },</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">扩展的按钮</span>
+    methods: {<span style="color: #008000;">//</span><span style="color: #008000;">方法扩展</span>
+<span style="color: #000000;">        getServiceDate() {
+            </span><span
+  style="color: #0000ff;"
+>this</span>.http.post("/api/SellOrder/getServiceDate", {}, '正在调用后台数据').then(date =&gt;<span
+  style="color: #000000;"
+> {
+                </span><span style="color: #0000ff;">this</span>.$message.error("从后台获取的服务器时间是：" +<span style="color: #000000;"> date);
+            })
+        },
+        mounted() {
+            </span><span
+  style="color: #0000ff;"
+>this</span>.$Notice.success({ title: '执行mounted方法'<span style="color: #000000;"> });
+        },
+        onInit() {
+            </span><span
+  style="color: #0000ff;"
+>this</span>.$Notice.success({ title: 'create方法执行时,你可以此处编写业务逻辑'<span style="color: #000000;"> });
+        },
+        onInited() {
+            </span><span
+  style="color: #008000;"
+>//</span><span
+  style="color: #008000;"
+>添加扩展属性gridHeader/body/footer后，可以自定再设置表格高度</span>
+            <span style="color: #0000ff;">this</span>.height = <span style="color: #0000ff;">this</span>.height - 140<span style="color: #000000;">;
+            </span><span style="color: #0000ff;">this</span>.$Notice.success({ title: 'create方法执行后', desc: '你可以SellOrder.js中编写业务逻辑,其他方法同样适用'<span
+  style="color: #000000;"
+> });
+        },
+        searchBefore(param) { </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">查询ViewGird表数据前,param查询参数</span>
+            <span style="color: #008000;">//</span><span
+  style="color: #008000;"
+>你可以指定param查询的参数，处如果返回false，则不会执行查询</span>
+            <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.table.cnName + ',查询前'<span style="color: #000000;"> });
+            </span><span style="color: #008000;">//</span><span
+  style="color: #008000;"
+> console.log("扩展的"this.detailOptions.cnName + '触发loadDetailTableBefore');</span>
+            <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        searchAfter(result) { </span><span
+  style="color: #008000;"
+>//</span><span
+  style="color: #008000;"
+>查询ViewGird表数据后param查询参数,result回返查询的结果</span>
+            <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.table.cnName + ',查询结果', desc: '返回的对象：' +<span style="color: #000000;"> JSON.stringify(result) });
+            </span><span
+  style="color: #0000ff;"
+>return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        searchDetailBefore(param) {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">查询从表表数据前,param查询参数</span>
+            <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '查询前'<span style="color: #000000;"> });
+            </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        searchDetailAfter(data) {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">查询从表后param查询参数,result回返查询的结果</span>
+            <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + ',查询结果', desc: '返回的对象：' +<span
+  style="color: #000000;"
+> JSON.stringify(data) });
+            </span><span
+  style="color: #0000ff;"
+>return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        delBefore(ids, rows) { </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">查询界面的表删除前 ids为删除的id数组,rows删除的行</span>
+            let auditStatus = rows.some(x =&gt; { <span style="color: #0000ff;">return</span> x.AuditStatus &gt; 0<span style="color: #000000;"> });
+            </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> (auditStatus) {
+                </span><span
+  style="color: #0000ff;"
+>this</span>.$message.error('只能删除未审核的数据'<span style="color: #000000;">)
+                </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">false</span><span style="color: #000000;">;
+            }
+            </span><span style="color: #0000ff;">this</span>.$Notice.success({ title: '删除前，选择的Id:' + ids.join(','<span style="color: #000000;">) });
+            </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        delAfter(result) {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">查询界面的表删除后</span>
+            <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        delDetailRow(rows) { </span><span
+  style="color: #008000;"
+>//</span><span
+  style="color: #008000;"
+>弹出框删除明细表的行数据(只是对table操作，并没有操作后台)</span>
+<span style="color: #000000;">            console.log(rows)
+            </span><span
+  style="color: #0000ff;"
+>return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        addBefore(formData) { </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">新建保存前formData为对象，包括明细表</span>
+
+            <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '新建前：', desc: '提前的数据：' +<span
+  style="color: #000000;"
+> JSON.stringify(formData) });
+            </span><span
+  style="color: #0000ff;"
+>return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        addAfter(result) {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">新建保存后result返回的状态及表单对象</span>
+            <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '新建完成后：', desc: '返回的数据' +<span
+  style="color: #000000;"
+> JSON.stringify(result) });
+            </span><span
+  style="color: #0000ff;"
+>return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        updateBefore(formData) { </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">编辑保存前formData为对象，包括明细表、删除行的Id</span>
+            <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '编辑前：', desc: '提前的数据：' +<span
+  style="color: #000000;"
+> JSON.stringify(formData) });
+            </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">获取扩展的modelFooter属性text</span>
+            console.log(<span style="color: #0000ff;">this</span><span style="color: #000000;">.$refs.modelFooter.text)
+            </span><span
+  style="color: #0000ff;"
+>return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        updateAfter(result) {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">编辑保存后result返回的状态及表单对象</span>
+            <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '编辑完成后：', desc: '返回的数据' +<span
+  style="color: #000000;"
+> JSON.stringify(result) });
+            </span><span
+  style="color: #0000ff;"
+>return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        auditBefore(ids, rows) {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">审核前</span>
+            <span style="color: #0000ff;">if</span> (rows.length &gt; 2) {<span style="color: #008000;">//</span><span style="color: #008000;">每次最多只能审核2条数据</span>
+                <span style="color: #0000ff;">this</span>.$message.error('最多只能选择两条数据'<span style="color: #000000;">);
+                </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">false</span><span style="color: #000000;">;
+            }
+            </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        auditAfter(result, rows) {</span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;"> 审核后</span>
+            <span style="color: #0000ff;">if</span><span style="color: #000000;"> (result.status) {
+                result.message </span>= "审核成功。。。。。" +<span style="color: #000000;"> result.message;
+            }
+            </span><span
+  style="color: #0000ff;"
+>return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        resetAddFormBefore() { </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">重置新建表单前的内容</span>
+            <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        resetAddFormAfter() { </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">重置新建表单后的内容</span>
+            <span style="color: #008000;">//</span><span style="color: #008000;">如果某些字段不需要重置，则可以重新赋值</span>
+            <span style="color: #0000ff;">this</span>.editFormFileds.Remark = '新建重置默认值66666'<span style="color: #000000;">;
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">给明细表添加默认一行</span>
+            <span style="color: #0000ff;">this</span>.$refs.detail.rowData.push({ Remark: "新建666666"<span style="color: #000000;"> });
+            </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        resetUpdateFormBefore() { </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">重置编辑表单前的内容</span>
+            <span style="color: #008000;">//</span><span style="color: #008000;">this.editFormFileds当前值</span>
+            console.log(<span style="color: #0000ff;">this</span><span style="color: #000000;">.editFormFileds)
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">当前明细表的行</span>
+            console.log(<span style="color: #0000ff;">this</span><span style="color: #000000;">.$refs.detail.rowData)
+            </span><span
+  style="color: #0000ff;"
+>return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        resetUpdateFormAfter() { </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">重置编辑表单后的内容</span>
+            <span style="color: #008000;">//</span><span style="color: #008000;">如果某些字段不需要重置，则可以重新赋值</span>
+            <span style="color: #0000ff;">this</span>.editFormFileds.Remark = '编辑重置默认值66666'<span style="color: #000000;">;
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">给明细表添加默认一行</span>
+            <span style="color: #0000ff;">this</span>.$refs.detail.rowData.push({ Remark: "编辑666666"<span style="color: #000000;"> });
+            </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        },
+        importAfter(data) { </span><span
+  style="color: #008000;"
+>//</span><span style="color: #008000;">导入excel后刷新table表格数据</span>
+            <span style="color: #0000ff;">this</span>.search(); <span style="color: #008000;">//</span><span style="color: #008000;">刷新table</span>
+<span style="color: #000000;">        },
+        modelOpenAfter(row) {  </span><span
+  style="color: #008000;"
+>//</span><span
+  style="color: #008000;"
+>点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据</span>
+            <span style="color: #0000ff;">this</span>.$message.error("此处是打开弹出框后事件,当前操作：" + <span style="color: #0000ff;">this</span>.currentAction + "，你可以在此处编写逻辑，如，从后台获取数据"<span style="color: #000000;">);
+        }
+    }
+};
+export default extension;</span></pre>
+      </div>
+      <p class="desc">其他内部属性、扩展方法、基础组件文档编写中(点击Demo或组件里面有属性介绍)....</p>
+      <p>&nbsp;</p>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+     
+    };
+  }
+};
+</script>
+
+<style scoped>
+  #cnblogs_post_body {
+        color: black;
+        font: 0.875em/1.5em "微软雅黑", "PTSans", "Arial", sans-serif;
+        font-size: 15px;
+    }
+
+    #各个等级标题的颜色样式 #cnblogs_post_body h1 {
+        background: #2B6695;
+        border-radius: 6px 6px 6px 6px;
+        box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+        color: #FFFFFF;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 23px;
+        font-weight: bold;
+        height: 25px;
+        line-height: 25px;
+        margin: 18px 0 !important;
+        padding: 8px 0 5px 5px;
+        text-shadow: 2px 2px 3px #222222;
+    }
+
+    #cnblogs_post_body h2 {
+        background: #009688;
+        border-radius: 6px 6px 6px 6px;
+        box-shadow: 0 0 0 1px #a3a3a3, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+        color: #FFFFFF;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 20px;
+        font-weight: bold;
+        /* height: 25px; */
+        line-height: 37px;
+        margin: 18px 0 !important;
+        /* padding: 8px 0 5px 5px; */
+        padding: 2px 20px;
+        text-shadow: 2px 2px 3px #635555;
+    }
+
+
+    #cnblogs_post_body h3 {
+        background: #399ab2;
+        border-radius: 6px 6px 6px 6px;
+        box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+        color: #FFFFFF;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 18px;
+        font-weight: bold;
+        height: 25px;
+        line-height: 25px;
+        margin: 18px 0 !important;
+        padding: 8px 0 5px 5px;
+        text-shadow: 2px 2px 3px #222222;
+    }
+
+    #cnblogs_post_body h4 {
+        background: #2B6600;
+        border-radius: 6px 6px 6px 6px;
+        box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+        color: #FFFFFF;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 16px;
+        font-weight: bold;
+        height: 24px;
+        line-height: 23px;
+        margin: 12px 0 !important;
+        padding: 5px 0 5px 10px;
+        text-shadow: 2px 2px 3px #222222;
+    }
+
+    #cnblogs_post_body table {
+
+        border-collapse: collapse;
+    }
+
+    #cnblogs_post_body table td {
+        color: rgba(111, 93, 93, 0.87);
+        font-size: 13px;
+        border-collapse: collapse;
+        padding: 7px;
+        min-width: 60px;
+        border: 1px solid #607d8b;
+        text-align: left;
+    }
+
+    #cnblogs_post_body img {
+        width: 100%;
+        margin-bottom: 30px;
+        margin-top: 10px;
+    }
+
+    #页面中a标签鼠标位置 #cnblogs_post_body h2:a {
+        color: rgb(235, 235, 235);
+    }
+
+    #cnblogs_post_body h2 a:hover {
+        color: rgb(255, 102, 0);
+    }
+
+    #页面中标题位置 #cnblogs_post_body h1 {
+        color: rgb(235, 235, 235);
+    }
+
+    #cnblogs_post_body h1:hover {
+        color: rgb(255, 102, 0);
+    }
+
+    #cnblogs_post_body h2 {
+        color: rgb(235, 235, 235);
+    }
+
+    #cnblogs_post_body h2:hover {
+        color: rgb(255, 102, 0);
+    }
+
+    #cnblogs_post_body h3 {
+        color: rgb(235, 235, 235);
+    }
+
+    #cnblogs_post_body h3:hover {
+        color: rgb(255, 102, 0);
+    }
+
+    #cnblogs_post_body h4 {
+        color: rgb(235, 235, 235);
+    }
+
+    #cnblogs_post_body h4:hover {
+        color: rgb(255, 102, 0);
+    }
+
+    #cnblogs_post_body blockquote {
+        margin: 20px 0;
+        padding: 15px 20px 15px 60px;
+        font-size: 15px;
+        background: #f7ed91;
+        font-family: 'Microsoft Yahei';
+        box-shadow: 0 0 8px #AAA;
+        clear: both;
+        line-height: 1.6em;
+        color: #333;
+    }
+
+    #cnblogs_post_body blockquote li {
+        padding: 15px 2px 5px 5px;
+        /* line-height: 1.5; */
+        /* color: #000; */
+        border-bottom: 1px solid #ccc;
+        /* list-style-type: disc; */
+        margin-bottom: 0.5em;
+    }
+
+    #cnblogs_post_body .desc {
+        background: rgb(230, 250, 250);
+        padding: 10px 10px 10px 10px;
+        border: 1px dashed rgb(224, 224, 224);
+        font-family: 微软雅黑;
+        font-size: 13px;
+    }
+
+    #cnblogs_post_body .desc-to {
+        background: #4CAF50;
+        color: white;
+    }
+
+    #cnblogs_post_body .desc-to>div {
+        padding: 10px 16px;
+    }
+
+    #cnblogs_post_body .desc-to a {
+        color: yellow;
+        font-weight: bold;
+        margin-right: 25px;
+    }
+
+    ul span {
+        font-size: 12px;
+        margin-left: 10px;
+        color: #2196F3;
+    }
+
+    .img3 {
+        width: 30% !important;
+        margin-right: 10px;
+    }
+</style>

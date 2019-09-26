@@ -1,0 +1,185 @@
+.view-header {
+    height: 45px;
+    position: relative;
+    padding-bottom: 11px;
+    display: -webkit-flex;
+    display: flex;
+    .search-line {
+        flex: 1;
+        margin-left: 50px;
+        display: flex;
+        text-align: right;
+      }
+      .search-line > div {
+        margin-left: 30px;
+        margin-right: 20px;
+      }
+      .search-line > div > div{
+        width: 200px;
+        text-align: left;
+      }
+      .search-line > div:first-child{
+        flex: 1;
+      }
+      .search-line > div .ivu-select-dropdown{
+        max-height: 300px;
+      }
+      // .btn-group > button {
+      //   text-align: right;
+      // }
+      .btn-group{
+        white-space: nowrap;
+      }
+      .btn-group button {
+        margin-left: 10px;
+        // padding: 5px 16px;
+      }
+      .btn-group .dropdown {
+        position: relative;
+        padding: 5px 34px 5px 10px;
+      }
+      .btn-group .dropdown span i.ivu-icon-ios-arrow-down {
+        top: 0px;
+        height: 34px;
+        border-left: 1px solid;
+        height: 100%;
+        position: absolute;
+        margin-left: 10px;
+        padding: 9px 5px 5px 5px;
+      }
+      .btn-group .dropdown .ivu-dropdown {
+        bottom: 0;
+        right: 0;
+        left: 0;
+        position: absolute;
+      }
+    
+      .btn-group .ivu-dropdown-item {
+        text-align: left !important;
+      }
+      .btn-group .ivu-dropdown-item:not(:last-child) {
+        border-bottom: 1px dotted #eee;
+      }
+      .desc-text {
+        margin-top: 5px;
+        font-weight: bold;
+        margin-bottom: 3px;
+        font-size: 15px;
+        color: #607d8b;
+        white-space: nowrap;
+        border-bottom: 2px solid #009688;
+      }
+      .desc-text .ivu-icon {
+        font-size: 20px;
+        bottom: 2px;
+        position: relative;
+      }
+      .search-box {
+        background: #fefefe;
+        margin-top: 45px;
+        border: 1px solid #ececec;
+        position: absolute;
+        z-index: 999;
+        width: 100%;
+        padding: 25px 40px;
+        padding-bottom: 0;
+        box-shadow: 0px 7px 18px -12px #bdc0bb;
+      }
+      .notice {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        position: relative;
+        top: 17px;
+        left: 10px;
+      }
+  }
+
+.table-info-cell-title {
+    background-color: #f5f5f5 !important;
+  }
+.iview-com {
+  background: #fafdff;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  // padding-top: 4px;
+  padding-right: 15px;
+  > form > .ivu-form-item:last-child{  
+      margin-bottom: 0;
+    }
+    .v-text{
+      line-height: 27px;
+    }
+    .form-text{
+      position: relative;
+      /* height: 38px; */
+      /* line-height: 38px; */
+      /* padding: 0 15px; */
+      // border-bottom: 1px solid #e4e4e4; 
+      color: #fff;
+      /* border-radius: 2px 2px 0 0; */
+      font-size: 14px;
+      margin-bottom: 14px;
+      .title{
+        letter-spacing: 1px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 5px;
+        padding: 6px 15px 6px 15px;
+        background: #009688;
+        color: white;
+        font-weight: normal;
+      }
+    .icon{
+      color: #00BCD4;
+      font-size: 19px;
+      position: relative;
+      top: -1px;
+    }
+    }
+  }
+
+  .form-closex {
+    text-align: right;
+  }
+  .form-closex button {
+    margin-left: 10px;
+    padding: 4px 13px;
+  }
+  .grid-detail{
+    margin-left:16px;
+    // margin-top:-28px;
+    padding-bottom: 16px;
+  }
+ .toolbar{
+  width: 100%;
+   display: flex;
+   padding: 3px;
+  border-top-left-radius: 5px;
+  background: #37aba0;
+  border-top-right-radius: 5px;
+    border: 1px solid #f1f1f1;
+   .title{
+    line-height: 28px;
+    margin-left: 14px;
+    margin-bottom: 0;
+    .icon{
+      color: #009688;
+      font-size: 18px;
+    }
+   }
+    .btns{
+      line-height: 28px;
+      flex: 1;
+      text-align: right;
+      margin-right: 12px;
+      button{
+        margin-left:15px;
+        border: 0px;
+      }
+      button:hover{
+        color: #FF9800;
+        border-color: #FF9800;
+      }
+
+    }
+ }
