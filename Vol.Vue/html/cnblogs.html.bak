@@ -147,6 +147,17 @@
                 √
             </td>
         </tr>
+		 <tr>
+            <td>
+                异步队列批量写日志
+            </td>
+            <td>
+                框架封装了一个异步队列写日志,此前项目每天PV约150W左右，采用异步队列的方式写入日志非常顺畅
+            </td>
+            <td>
+                √
+            </td>
+        </tr>
         <tr>
             <td>
                 Repository
@@ -379,7 +390,7 @@
     </h2>
     <div>
         <p class="desc">
-            只需要根据自己的业务实现前端、后台代码扩展方法即可，后台大部分都采用的委托扩展方法，这里只截了一张图数据加载事件的扩展方法，完整方法从Demo：<a href="http://132.232.2.109/SellOrder">http://132.232.2.109/SellOrder</a>上获取
+            只需要根据自己的业务实现前端、后台代码扩展方法即可。后台大部分都采用的委托扩展方法，这里只截了一张图数据加载事件的扩展方法，完整方法从Demo：<a href="http://132.232.2.109/SellOrder">http://132.232.2.109/SellOrder</a>上获取
         </p><img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/extend.png">
     </div>
     <h2>

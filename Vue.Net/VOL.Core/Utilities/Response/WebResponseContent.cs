@@ -24,6 +24,10 @@ namespace VOL.Core.Utilities
             return this;
         }
 
+        public static WebResponseContent Instance
+        {
+            get { return new WebResponseContent(); }
+        }
         public WebResponseContent OK(string message = null,object data=null)
         {
             this.Status = true;

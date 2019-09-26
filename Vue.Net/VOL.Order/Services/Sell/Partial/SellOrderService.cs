@@ -8,6 +8,7 @@ using System.Linq;
 using VOL.Core.Configuration;
 using VOL.Core.Enums;
 using VOL.Core.ManageUser;
+using VOL.Core.Services;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
 using VOL.Order.Repositories;
@@ -55,8 +56,10 @@ namespace VOL.Order.Services
 
         //9、其他封装了大量的常用扩展方法Vol.Core->Extensions文件夹下(如：字符串扩展、表达式扩展、实体验证(EntityProperties)扩展方法)
 
+
         //10、常用工具类Vol.Core->Utilities 
 
+        //写入日志 : Logger.Info();
 
         //其中有一部分真实扩展代码实现:Partial->Sys_UserService.cs  , Partial->Sys_RoleService ,Partial->Sys_DictionaryService
 
@@ -70,7 +73,7 @@ namespace VOL.Order.Services
             //此处是从前台提交的原生的查询条件，这里可以自己过滤
             QueryRelativeList = (List<SearchParameters> parameters) =>
             {
-
+               
             };
             //查询前可以自已设定查询表达式的条件
             QueryRelativeExpression = (IQueryable<SellOrder> queryable) =>
@@ -101,11 +104,12 @@ namespace VOL.Order.Services
         /// <returns></returns>
         public override WebResponseContent Add(SaveModel saveDataModel)
         {
+            WebResponseContent responseContent= WebResponseContent.Instance;
             //此处saveModel是从前台提交的原生数据，可对数据进修改过滤
             AddOnExecute = (SaveModel saveModel) =>
             {
                 //如果返回false,后面代码不会再执行
-                return new WebResponseContent().OK();
+                return responseContent.OK();
             };
             // 在保存数据库前的操作，所有数据都验证通过了，这一步执行完就执行数据库保存
             AddOnExecuting = (SellOrder order, object list) =>
@@ -113,12 +117,12 @@ namespace VOL.Order.Services
                 List<SellOrderList> orderLists = list as List<SellOrderList>;
                 if (orderLists == null || orderLists.Count == 0)
                 {//如果没有界面上没有填写明细，则中断执行
-                    return new WebResponseContent().Error("必须填写明细数据");
+                    return responseContent.Error("必须填写明细数据");
                 }
                 if (orderLists.Exists(x => x.Qty <= 20))
-                    return new WebResponseContent().Error("明细数量必须大于20");
+                    return responseContent.Error("明细数量必须大于20");
 
-                return new WebResponseContent().OK();
+                return responseContent.OK();
             };
 
             //此方法中已开启了事务，如果在此方法中做其他数据库操作，请不要再开启事务
@@ -127,9 +131,9 @@ namespace VOL.Order.Services
             {
                 if (order.Qty < 10)
                 {  //如果输入的销售数量<10，会回滚数据库
-                    return new WebResponseContent().Error("销售数量必须大于1000");
+                    return responseContent.Error("销售数量必须大于1000");
                 }
-                return new WebResponseContent().OK("已新建成功,台AddOnExecuted方法返回的消息");
+                return responseContent.OK("已新建成功,台AddOnExecuted方法返回的消息");
             };
 
             return base.Add(saveDataModel);
@@ -192,13 +196,13 @@ namespace VOL.Order.Services
             //删除的行的主键
             DelOnExecuting = (object[] _keys) =>
             {
-                return new WebResponseContent().OK();
+                return new WebResponseContent(true);
             };
             //删除后处理
             //删除的行的主键
             DelOnExecuted = (object[] _keys) =>
              {
-                 return new WebResponseContent().OK();
+                 return new WebResponseContent(true);
              };
             return base.Del(keys, delList);
         }
@@ -243,7 +247,7 @@ namespace VOL.Order.Services
             //导入保存前处理
             ImportOnExecuting = (List<SellOrder> list) =>
             {
-                return new WebResponseContent().OK();
+                return new WebResponseContent(true);
             };
             //导入后处理
             ImportOnExecuted = (List<SellOrder> list) =>
