@@ -50,7 +50,7 @@ export default {
             required: true, //设置为必选项
             field: "AgeRange",
             colSize: 12,
-            placeholder: "可触发事件的下拉框",
+            placeholder: "可触发事件的下拉框", 
             type: "select",
             onChange(value, param) {//设置选择数据时触发的事件
               $vue.formFileds.AvgPrice =

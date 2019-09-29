@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import form3 from "./form3";
+import form3 from "./form3"; 
 import vtable from "./table";
 export default {
   components: { form3, vtable },

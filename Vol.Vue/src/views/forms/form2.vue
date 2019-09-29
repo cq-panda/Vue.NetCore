@@ -69,7 +69,7 @@ export default {
             field: "City",
               data: [], 
             type: "select"
-          },
+          }, 
           {
             columnType: "decimal",
             title: "成交均价",

@@ -13,7 +13,7 @@
     <Alert show-icon>table+表单数据/测试完整示例/表单布局/其他组件，都是对iview、element-ui二次封装，只需要按现的方式进行配置json数据及实现方法即可使用</Alert>
 
     <div class="com">
-      <div style="  margin-top:30px;">
+      <div style="  margin-top:30px;"> 
         <h3>上传excel文件</h3>
         <UploadExcel @importExcelAfter="importAfter" :url="url"></UploadExcel>
       </div>

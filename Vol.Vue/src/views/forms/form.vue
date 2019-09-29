@@ -12,7 +12,7 @@ import VolBoxForm from "@/components/basic/VolBoxForm.vue";
 var formParam = {
   components: {
     VolBoxForm
-  },
+  }, 
   methods: {
     volBoxFrom() {
    

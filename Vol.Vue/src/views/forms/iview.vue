@@ -14,7 +14,7 @@
           <Col span="21">
             <Input v-model="formValidate.name" placeholder="Enter your name"></Input>
           </Col>
-        </FormItem>
+        </FormItem>  
       </Col>
       <Col span="8">
         <FormItem prop="name" label="name3">

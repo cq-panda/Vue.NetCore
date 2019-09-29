@@ -27,7 +27,7 @@ export default {
       //重置表单，重置时可指定重置的值，如果没有指定重置的值，默认全部清空
       let data = { Variety: "1", AvgPrice: 888 };
       this.$refs.myform.reset(data);
-      this.$message.error("表单已重置");
+      this.$message.error("表单已重置"); 
     }
   },
   data() {

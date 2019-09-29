@@ -214,7 +214,7 @@ export default {
           require: true,
           align: "left",
           edit: { type: "switch" }
-        },
+        }, 
         {
           field: "CreateDate",
           title: "创建时间",

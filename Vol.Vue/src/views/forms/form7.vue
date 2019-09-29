@@ -36,7 +36,7 @@ export default {
         [
           {
             columnType: "string",
-            title: "品种",
+            title: "品种", 
             dataKey: "age",
             //如果这里绑定了data数据，后台不会加载此数据源
             data: [{ key: "1", value: "1" }, { key: "2", value: "2" }],

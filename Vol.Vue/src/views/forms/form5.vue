@@ -7,4 +7,4 @@ export default {
     return {};
   }
 };
-</script>
+</script> 

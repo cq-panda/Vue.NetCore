@@ -103,7 +103,7 @@ export default {
             c.data.push(...x.data);
           }
         });
-      });
+      });    
     });
   },
   data() {
