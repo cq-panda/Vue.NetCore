@@ -103,7 +103,7 @@ export default {
             columnType: "int",
             dataKey: "top",
             title: "是否推荐价格",
-              data: [], 
+            data: [], 
             required: true,
             field: "IsTop",
             colSize: 12, //设置12，此列占100%宽度
