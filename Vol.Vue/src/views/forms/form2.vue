@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 30px 100px;">
-    <Divider>两列表单</Divider>
+    <Divider>两列表单(数据源可后台自动绑定/也可手动绑定)</Divider>
     <VolForm ref="myform" :loadKey="loadKey" :formFileds="formFileds" :formRules="formRules"></VolForm>
     <Button type="success" style="margin-bottom:20px;" long @click="getForm">获取表单</Button>
     <Button type="error" long @click="reset">重置</Button>
@@ -19,7 +19,7 @@ export default {
     },
     reset() {
       //重置表单，重置时可指定重置的值，如果没有指定重置的值，默认全部清空
-      let data = { Variety: "1", AvgPrice: "888" };
+      let data = { Variety: "1", AvgPrice: 888 };
       this.$refs.myform.reset(data);
       this.$message.error("表单已重置");
     }
@@ -52,6 +52,7 @@ export default {
             columnType: "string",
             title: "品种",
             dataKey: "age",
+             placeholder:"此处数据源为手动绑定",
             //如果这里绑定了data数据，后台不会加载此数据源
             data: [{ key: "1", value: "1" }, { key: "2", value: "2" }],
             required: false,

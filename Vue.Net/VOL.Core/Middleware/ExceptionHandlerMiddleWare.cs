@@ -35,10 +35,11 @@ namespace VOL.Core.Middleware
                     ?.Message
                     + exception.InnerException
                     + exception.StackTrace;
+                Console.WriteLine($"服务器处理出现异常:{message}");
                 Logger.Error(LoggerType.Exception, message);
                 context.Response.StatusCode = 500;
                 context.Response.ContentType = ApplicationContentType.JSON;
-                await context.Response.WriteAsync(new { message = "~服务器好像出了点问题!", status = false }.Serialize()
+                await context.Response.WriteAsync(new { message = "~服务器没有正确处理请求,请稍等再试!", status = false }.Serialize()
                   , Encoding.UTF8);
             }
         }

@@ -357,6 +357,8 @@ var vueParam = {
   beforeCreate() {
   },
   created: function() {
+    //在其他方法中如果拿不到this，请使用$viewGridVue
+    $viewGridVue = this;
     //合并扩展组件
     this.mergeComponents();
     //合并自定义业务扩展方法
@@ -372,7 +374,6 @@ var vueParam = {
     //初始编辑框等数据
     this.initBoxHeightWidth();
 
-    $viewGridVue = this;
     this.initDicKeys(); //初始下框数据源
 
     this.onInited(); //初始化后，如果需要做其他处理在扩展方法中覆盖此方法

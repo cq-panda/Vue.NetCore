@@ -22,7 +22,7 @@
             </li>
             <li>Vol.Builder类库可作为一个独立的代码生成器,可生成cshtml页面、Vue页面、Model文件、Service与Repository.cs业务处理代码类
             </li>
-            <li>可作为一个独立站点来发布Editor编辑器生成的静态html网页.
+            <li>可作为一个独立站点来发布静态html网页.
             </li>
             <li>可直接用于H5移动App开发<a title="H5开发看这里" href="http://132.232.2.109/app/guide" target="_blank">H5开发看这里</a>
             </li>
@@ -152,7 +152,7 @@
                 异步队列批量写日志
             </td>
             <td>
-                框架封装了一个异步队列写日志,此前项目每天PV约150W左右，采用异步队列的方式写入日志非常顺畅
+                框架封装了一个异步队列写日志,此前项目每天PV约150W左右，采用异步队列的方式批量写入日志非常顺畅
             </td>
             <td>
                 √
@@ -386,15 +386,7 @@
         </p><img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/importTable1.png">
     </div>
     <h2>
-        10、前端、后台业务代码扩展
-    </h2>
-    <div>
-        <p class="desc">
-            只需要根据自己的业务实现前端、后台代码扩展方法即可。后台大部分都采用的委托扩展方法，这里只截了一张图数据加载事件的扩展方法，完整方法从Demo：<a href="http://132.232.2.109/SellOrder">http://132.232.2.109/SellOrder</a>上获取
-        </p><img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/extend.png">
-    </div>
-    <h2>
-        11、H5开发
+        10、H5开发
     </h2>
     <div>
         <p class="desc">
@@ -402,7 +394,7 @@
         </p><img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/h5.jpg">
     </div>
     <h2>
-        12、权限分配
+        11、权限分配
     </h2>
     <div>
         <p class="desc">
@@ -410,7 +402,7 @@
         </p><img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/auth.png">
     </div>
     <h2>
-        13、菜单管理
+        12、菜单管理
     </h2>
     <div>
         <p class="desc">
@@ -418,12 +410,20 @@
         </p><img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/menu.png">
     </div>
     <h2>
-        14、个人中心
+        13、个人中心
     </h2>
     <div>
         <p class="desc">
             个人中心目前只开发了页面与修改密码，其他功能自行根据需要实现
         </p><img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/user.png">
+    </div>
+	 <h2>
+        14、前端、后台业务代码动态扩展
+    </h2>
+    <div>
+        <p class="desc">
+            框架提供了前台后端扩展方法与属性,只需要根据自己的业务实现扩展业务。后台大部分都采用的委托扩展方法，这里只截了一张图前端数据加载事件的扩展方法，前后台完整扩展参考Demo：<a href="http://132.232.2.109/SellOrder">http://132.232.2.109/SellOrder</a>
+        </p><img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/extend.png">
     </div>
     <h2>
         15、代码生成器

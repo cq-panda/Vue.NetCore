@@ -30,6 +30,7 @@
             :filterable="getData(item)>10?true:false"
             :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
             max-tag-count="2"
+            @on-change="onChange(item,formFileds[item.field])"
             clearable
           >
             <Option
@@ -55,7 +56,7 @@
                 <DatePicker
                   :type="item.range?(item.type+'range'):item.type"
                   :format="item.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
-                  :placeholder="item.title"
+                  :placeholder="item.placeholder||item.title"
                   :value="formFileds[item.field]"
                   @on-change="(time)=>{formFileds[item.field]=time; return time}"
                 ></DatePicker>
@@ -283,6 +284,11 @@ export default {
     };
   },
   methods: {
+    onChange(item,value){
+      if (item.onChange&&typeof item.onChange=="function") {
+        item.onChange(value,item);
+      }
+    },
     getData(item) {
       if (item.data && item.data.data) {
         return item.data.data;

@@ -150,7 +150,7 @@ export default {
         },
         {
           field: "ExpertName",
-          title: "专家名称",
+          title: "名称",
           type: "string",
           width: 150,
           align: "left",
@@ -159,7 +159,7 @@ export default {
         },
         {
           field: "HeadImageUrl",
-          title: "专家头像",
+          title: "头像",
           type: "img",
           width: 160,
           align: "left"
@@ -170,6 +170,7 @@ export default {
           type: "string",
           link: true, //设置link=true后此单元格可以点击获取当前行的数据进行其他操作
           width: 120,
+          hidden: true, //是否显示
           edit: { type: "text" },
           align: "left"
         },

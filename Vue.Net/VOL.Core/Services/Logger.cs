@@ -82,6 +82,7 @@ namespace VOL.Core.Services
             try
             {
                 HttpContext context = Utilities.HttpContext.Current;
+                if (context.Request.Method == "OPTIONS") return;
                 ActionObserver cctionObserver = (context.RequestServices.GetService(typeof(ActionObserver)) as ActionObserver);
 
                 //如果当前请求已经写过日志就不再写日志
@@ -135,7 +136,8 @@ namespace VOL.Core.Services
                     {
                         DequeueToTable(queueTable); continue;
                     }
-                    Thread.Sleep(3000);
+                    //每5秒写一次数据
+                    Thread.Sleep(5000);
                     if (queueTable.Rows.Count == 0) { continue; }
 
                     DBServerProvider.SqlDapper.BulkInsert(queueTable, "Sys_Log", SqlBulkCopyOptions.KeepIdentity, null, _loggerPath);
@@ -150,11 +152,8 @@ namespace VOL.Core.Services
                 }
                 catch (Exception ex)
                 {
-                    try
-                    {
-                        WriteText(ex.Message + ex.StackTrace + ex.Source);
-                    }
-                    catch { }
+                    Console.WriteLine($"日志批量写入数据时出错:{ex.Message}");
+                    WriteText(ex.Message + ex.StackTrace + ex.Source);
                     queueTable.Clear();
                 }
 
@@ -168,8 +167,9 @@ namespace VOL.Core.Services
             {
                 Utilities.FileHelper.WriteFile(_loggerPath + "WriteError\\", $"{DateTime.Now.ToString("yyyyMMdd")}.txt", message + "\r\n");
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"日志写入文件时出错:{ex.Message}");
             }
         }
 
@@ -222,7 +222,7 @@ namespace VOL.Core.Services
             log.Url = context.Request.Scheme + "://" + context.Request.Host + context.Request.PathBase +
                 context.Request.Path;
 
-            log.UserIP = context.GetUserIp();
+            log.UserIP = context.GetUserIp()?.Replace("::ffff:","");
             log.ServiceIP = context.Connection.LocalIpAddress.MapToIPv4().ToString() + ":" + context.Connection.LocalPort;
 
             log.BrowserType = context.Request.Headers["User-Agent"];
@@ -238,7 +238,8 @@ namespace VOL.Core.Services
                 }
                 catch (Exception ex)
                 {
-                    log.ExceptionInfo += ex.Message;
+                    log.ExceptionInfo += $"日志读取参数出错:{ex.Message}";
+                    Console.WriteLine($"日志读取参数出错:{ex.Message}");
                 }
             }
         }

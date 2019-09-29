@@ -126,15 +126,16 @@ export default {
         },
         {
           field: "ExpertName",
-          title: "专家名称",
+          title: "名称",
           type: "string",
           width: 150,
+          hidden: true, //是否显示
           align: "left",
           sortable: true //是否排序(目前第一个字段为排序字段，其他字段排序开发中)
         },
         {
           field: "HeadImageUrl",
-          title: "专家头像",
+          title: "头像",
           type: "img",
           width: 160,
           align: "left"
