@@ -23,6 +23,7 @@ namespace VOL.AppManager.Controllers
             return Content($"显示加载提示：{datetime}");
         }
         [Route("getMsg")]
+        [HttpPost, HttpGet]
         public ActionResult GetMsg()
         {
             return Content($"不带加载提示加载数据：{datetime}");
