@@ -6,6 +6,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using VOL.Entity.DomainModels;
 
@@ -13,5 +14,18 @@ namespace VOL.AppManager.Controllers
 {
     public partial class test2019Controller
     {
+        private string datetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        [Route("delay")]
+        [HttpPost,HttpGet]
+        public ActionResult Delay()
+        {
+            Thread.Sleep(1000);
+            return Content($"显示加载提示：{datetime}");
+        }
+        [Route("getMsg")]
+        public ActionResult GetMsg()
+        {
+            return Content($"不带加载提示加载数据：{datetime}");
+        }
     }
 }
