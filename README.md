@@ -26,7 +26,7 @@ VS2017 、.NetCore2.1 、EFCore2.1、JWT、Dapper、Autofac、SqlServer/MySql、
 如果你没有前端环境，请先安装node.js, 前端开发使用VsCode  
 
  - 1、使用cmd命令切换至前端Vue项目.../VOL.Vue路径下,执行npm install命令(只有从来没执行过此命令的才执行npm install)
- - 2、运行后端项目：在后端项目路径.../VOL.WebApi/运行builder_run.bat端口设置的是9991,运行前先看appsettings.josn配置属性说明
+ - 2、运行后端项目：在后端项目路径.../VOL.WebApi/运行dev_run.bat端口设置的是9991,运行前先看appsettings.josn配置属性说明
  - 3、运行前端项目：在前端Vue项目路径.../VOL.Vue/运行run.bat（每次启动会进行编译，这个时间可能会有点长）
  - 4、输入http://localhost:8080访问  
 ## 功能介绍
