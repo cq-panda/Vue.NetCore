@@ -4,9 +4,12 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using VOL.Core.Configuration;
 using VOL.Core.Enums;
+using VOL.Core.Extensions;
 using VOL.Core.ManageUser;
 using VOL.Core.Services;
 using VOL.Core.Utilities;
@@ -56,8 +59,21 @@ namespace VOL.Order.Services
 
         //9、其他封装了大量的常用扩展方法Vol.Core->Extensions文件夹下(如：字符串扩展、表达式扩展、实体验证(EntityProperties)扩展方法)
 
+        //10、实体数据合法性校验(ServiceBase.cs有大量实体校验示例)
+        //SellOrder order = new SellOrder();
+        //校验指定字段x.TranNo, x.Auditor的类型、长度等合法性
+        //order.ValidationEntity(x => new { x.TranNo, x.Auditor});
 
-        //10、常用工具类Vol.Core->Utilities 
+        //11、获取实体的配置信息，如：字段中文名称、最大长度、字段主键等信息
+        // Type type = typeof(SellOrder);
+        //获取主键字段
+        // PropertyInfo key = type.GetKeyProperty();
+        //获取主键字段名
+        // type.GetKeyName();
+        //判断某个字段是否有EditableAttribute属性
+        //  key.ContainsCustomAttributes(typeof(EditableAttribute));
+        
+        //12、常用工具类Vol.Core->Utilities 
 
         //写入日志 : Logger.Info();
 
@@ -70,6 +86,7 @@ namespace VOL.Order.Services
         /// <returns></returns>
         public override object GetDetailPage(PageDataOptions pageData)
         {
+           
             //此处是从前台提交的原生的查询条件，这里可以自己过滤
             QueryRelativeList = (List<SearchParameters> parameters) =>
             {
