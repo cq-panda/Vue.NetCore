@@ -102,28 +102,15 @@
     代码生成器提供了20多种可配置的属性，可灵活配置显示、查询、编辑、导入、导出、主从关系等功能<a href="http://132.232.2.109/document/coder">点击看代码生成器文档</a>
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/coder.png)
 
-    <p class="desc">
-        还有角色管理、日志管理、数据源管理、其他组件、后台代码等功能就不再介绍了,<a href="http://132.232.2.109">点这里看看就知道了</a>
-    </p><br>
-    <div class="desc desc-to">
-        <div>
-            此框架由代码生成器完成了大部分工作能极大减少代码量,并支持前台端代码的扩展。如果你对前后端分离开发的方式或H5开发有兴趣,那么希望此框架对能你有所帮助！
-        </div>
-        <div>
-           如果你觉得框架对你有用，帮忙点个星，非常感谢!
-        </div>
-        <div>
-            Demo地址：<a href="http://132.232.2.109">http://132.232.2.109</a> 帐号：admin666密码：123456（本地超级管理员帐号：admin密码123456）
-        </div>
-        <div>
-            GitHub地址：<a href="https://github.com/cq-panda/Vue.NetCore.git">https://github.com/cq-panda/Vue.NetCore.git</a>
-        </div>
-        <div>
-            如果你需要Quartz.Net做定时任务管理，你可以试试这个：<a href="https://github.com/cq-panda/Vue.NetCore.git">https://github.com/cq-panda/Quartz.NetUI</a>
-        </div>
-		 <div>
-            (站点与MySql部署在同一个1G1核1M带宽的服务Centos服务上,访问可能会出现延迟现象)
-        </div>
-        <br>
-        <br>
-    </div>
+
+### 还有角色管理、日志管理、数据源管理、其他组件、后台代码等功能就不再介绍了,<a href="http://132.232.2.109">点这里看看就知道了</a>
+
+- 此框架由代码生成器完成了大部分工作能极大减少代码量,并支持前台端代码的扩展。如果你对前后端分离开发的方式或H5开发有兴趣,那么希望此框架对能你有所帮助！
+- 如果你觉得框架对你有用，帮忙点个星，非常感谢!
+[Demo地址： 帐号：admin666密码：123456（本地超级管理员帐号：admin密码123456](http://132.232.2.109">http://132.232.2.109)
+[GitHub地址：](https://github.com/cq-panda/Vue.NetCore.git)
+[如果你需要Quartz.Net做定时任务管理，你可以试试这个：](https://github.com/cq-panda/Vue.NetCore.git)
+
+-(站点与MySql部署在同一个1G1核1M带宽的服务Centos服务上,访问可能会出现延迟现象)
+
+ 
