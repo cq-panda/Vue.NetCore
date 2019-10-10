@@ -52,6 +52,8 @@ $(function () {
         url = url.replace("#Menu_Id#", nodeData.id);
         if (nodeData.haschild || !url)
             return true;
+        $.message('项目已迁移至vue', 'red');
+        return false;
         tabs.jqTabs([{
             title: nodeData.name,
             show: true,

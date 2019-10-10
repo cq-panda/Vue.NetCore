@@ -13,10 +13,28 @@
     <link href="~/Content/css/login.css" rel="stylesheet" />
     <script src="~/Scripts/login/login.js"></script>
     <title>请登陆</title>
+    <style>
+        .notice {
+            background: #4CAF50;
+            color: white;
+            position: fixed;
+            width: 100%;
+            padding: 20px;
+            font-size: 15px;
+            text-align: center;
+            font-weight: bold;
+            z-index: 9999;
+            letter-spacing: 0.5px;
+        }
+            .notice a {
+                margin: 5px;
+                color: yellow;
+            }
+    </style>
 </head>
 
 <body>
-
+    <div class="notice">当前项目已迁至../Vue.Net/VOL.WebApi项目下,目前无法使用，可按照<a href="http://132.232.2.109/document/guide">http://132.232.2.109/document/guide</a>里的介绍来启动项目</div>
     <div style="height:100%;">
         <div class="content" id="content">
             <div class="log-img">
