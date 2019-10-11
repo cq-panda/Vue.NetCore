@@ -867,7 +867,7 @@ export default {
 .icons-item {
   float: left;
   margin: 6px 6px 6px 0;
-  width: 145px;
+  width: 115px;
   text-align: center;
   list-style: none;
   cursor: pointer;

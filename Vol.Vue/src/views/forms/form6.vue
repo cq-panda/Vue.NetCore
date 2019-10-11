@@ -32,6 +32,27 @@
         <Button type="info" ghost @click="getPermission">获取本地用户菜单及权限</Button>
         <Button type="info" ghost @click="getToken">获取本地用户Token</Button>
       </div>
+
+      <!-- 图标组件 -->
+      <vol-box :width="770" :mask="true" :height="500" title="图标列表" :model.sync="iconModel">
+        <Icons :onSelect="onIconSelect"></Icons>
+      </vol-box>
+      <div class="icon-item">
+        <div class="on-icon">
+         <label class="ivu-form-item-label" style="width: 100px;">图标：</label>
+          <span style="position: relative;">
+            <i
+              v-if="icon!=''"
+              @click="removeIcon"
+              class="remove ivu-icon ivu-icon-md-remove-circle"
+            ></i>
+            <i style="margin-right: 15px;font-size: 32px;" :class="[icon]"></i>
+          </span>
+          <Button type="info" ghost @click="iconModel=true">选择图标</Button>
+        </div>
+      </div>
+
+      <!-- 文件操作 -->
       <div class="d-group" style="  margin-top:30px;">
         <div>
           <h3>上传excel文件</h3>
@@ -57,9 +78,18 @@ import VolMenu from "@/components/basic/VolMenu.vue";
 import VolBox from "@/components/basic/VolBox.vue";
 import UploadExcel from "@/components/basic/UploadExcel.vue";
 import UploadImg from "@/components/basic/UploadImg.vue";
+import Icons from "@/components/basic/Icons.vue";
 export default {
-  components: { VolMenu, VolBox, UploadExcel, UploadImg },
+  components: { VolMenu, VolBox, UploadExcel, UploadImg, Icons },
   methods: {
+    removeIcon() {
+      //移除图标
+      this.icon = "";
+    },
+    onIconSelect(icon) {
+      //点击图标事件
+      this.icon = icon;
+    },
     //每次刷新页面后会重新加载用户的最新信息
     getUserInfo() {
       let userInfo = this.$store.getters.getUserInfo();
@@ -115,6 +145,8 @@ export default {
     return {
       userText: "",
       viewModel: false,
+      iconModel: false,
+      icon: "ivu-icon ivu-icon-logo-android",
       url: "", //上传的url
       template: {
         //下载模板的路径及模板的文件名，如果url为空，则不会显示下载模板
@@ -203,7 +235,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.com > div{
+.com > div {
   margin-top: 30px;
 }
 .d-group {
@@ -215,6 +247,24 @@ export default {
   }
   > div:first-child {
     margin-right: 2%;
+  }
+}
+.on-icon {
+  line-height: 20px;
+  position: relative;
+  .remove {
+    display: none;
+    color: red;
+    right: 7px;
+    position: absolute;
+    top: -14px;
+    font-size: 13px;
+  }
+}
+.on-icon:hover {
+  cursor: pointer;
+  .remove {
+    display: block;
   }
 }
 </style>
