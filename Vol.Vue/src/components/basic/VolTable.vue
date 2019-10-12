@@ -342,8 +342,11 @@ export default {
       });
       return indexArr ? indexArr : [];
     },
-    load(query) {
+    load(query,isResetPage) {//isResetPage重置分页数据
       if (!this.url) return;
+      if (isResetPage) {
+        this.resetPage();
+      }
       let param = {
         page: this.paginations.page,
         rows: this.paginations.rows,
@@ -398,6 +401,10 @@ export default {
       this.paginations.sort = sort.prop;
       this.paginations.order = sort.order == "ascending" ? "asc" : "desc";
       this.load();
+    },
+    resetPage(){  //重置查询分页
+      this.paginations.rows=30;
+      this.paginations.page=1;
     },
     handleSelectionChange(row) {
       this.$refs.table.toggleRowSelection(row);

@@ -199,7 +199,7 @@ let methods = {
     },
     search() {//查询
         let query = this.getSearchParameters();
-        this.$refs.table.load(query);
+        this.$refs.table.load(query,true);
     },
     loadTableBefore(param, callBack) {//查询前
         let status = this.searchBefore(param);
