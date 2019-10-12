@@ -61,7 +61,7 @@
           <!-- <transition > -->
           <keep-alive>
             <router-view></router-view>
-           </keep-alive>
+          </keep-alive>
           <!-- </transition> -->
         </el-scrollbar>
       </div>
@@ -84,7 +84,7 @@ export default {
       theme: "dark",
       links: [
         { text: "框架文档", path: "/document", id: -2 },
-        { text: "帮助", path: "#", id: -3 },
+        { text: "GitHub", path: "#", id: -3 },
         { text: "个人中心", path: "/UserInfo", id: -1 },
         { text: "安全退出", path: "/login", id: -4 }
       ],
@@ -131,7 +131,10 @@ export default {
   },
   methods: {
     to(item) {
-      if (item.path == "#") return;
+      if (item.path == "#") {
+        window.open("https://github.com/cq-panda/Vue.NetCore");
+        return;
+      }
 
       var hasId = this.navigation.find(function(x) {
         return x.id == item.id;
@@ -293,7 +296,7 @@ body {
   min-width: 190px;
 }
 .vol-aside .header {
-      text-align: center;
+  text-align: center;
   position: absolute;
   height: 60px;
   width: 199px;
@@ -514,11 +517,11 @@ img:not([src]) {
 }
 
 .ivu-select-dropdown::-webkit-scrollbar {
-    width: 6px;
-    height: 14px;
+  width: 6px;
+  height: 14px;
 }
 .ivu-select-dropdown::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background: #DADAC9;
+  border-radius: 5px;
+  background: #dadac9;
 }
 </style>

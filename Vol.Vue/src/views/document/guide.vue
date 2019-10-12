@@ -1,5 +1,35 @@
 <template>
   <div id="cnblogs_post_body">
+    <div style="line-height: 50px;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px dotted #00BCD4"><a style="border-bottom: 1px solid;" href="https://www.cnblogs.com/-clouds/p/11633786.html">点击查看博客园详细介绍</a></div>
+    
+    <div class="desc desc-to">
+      <div>此框架由代码生成器完成了大部分工作能极大减少代码量,并支持前台端代码的扩展。如果你对前后端分离开发的方式或H5开发有兴趣,那么希望此框架对能你有所帮助！</div>
+      <div>如果你觉得框架对你有用，帮忙点个星，非常感谢!</div>
+      <div>
+        Demo地址：
+        <a href="http://132.232.2.109">http://132.232.2.109</a> 帐号：admin666密码：123456（本地超级管理员帐号：admin密码123456）
+      </div>
+      <div>
+        GitHub地址：
+        <a
+          href="https://github.com/cq-panda/Vue.NetCore.git"
+        >https://github.com/cq-panda/Vue.NetCore.git</a>
+      </div>
+      <div>
+        如果你需要Quartz.Net做定时任务管理，你可以试试这个：
+        <a
+          href="https://github.com/cq-panda/Vue.NetCore.git"
+        >https://github.com/cq-panda/Quartz.NetUI</a>
+      </div>
+      <div>如果有好的建议或问题github提issue或联系QQ：283591387</div>
+      <div>(站点与MySql部署在同一个1G1核1M带宽的服务Centos服务上,访问可能会出现延迟现象)</div>
+      <br />
+    </div>
     <h2>这是一个可支持对前端、后台基础业务代码扩展的快速发开框架，现框架可直上手开发这些功能</h2>
     <blockquote>
       <ul>
@@ -179,143 +209,7 @@
     <div>
       <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/home.png" />
     </div>
-    <h2>1、只读基础表单</h2>
-    <div>
-      <p class="desc">整个只读的基础表单的所有前后端代码，全部由代码生成器生成，代码生成器中几乎不需要配置，并支持并后端业务代码扩展，直接生成代码后，配置菜单权限即可</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/table1.png" />
-    </div>
-    <h2>2、自动绑定下拉框数据表单</h2>
-    <div>
-      <p
-        class="desc"
-      >整个自动绑定下拉框数据表单的所有前后端代码，全部由代码生成器生成，并支持并后端业务代码扩展，在代码生成器中只需要指定数据源编号，页面加载时会根据编号自动加载数据源并绑定</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/table2.png" />
-    </div>
-    <h2>3、启用图片支持、审核表单</h2>
-    <div>
-      <p class="desc">整个启用图片支持、审核表单的所有前后端代码，全部由代码生成器生成，并支持并后端业务代码扩展，审核功能需要在菜单配置权限、代码生成器中勾选启用图片支持</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/table3.png" />
-    </div>
-    <h2>4、高级查询</h2>
-    <div>
-      <p
-        class="desc"
-      >整个表单的所有前后端代码，全部由代码生成器生成，并支持并后端业务代码扩展，查询字段、类型(下拉框、日期、TextArea等)、所在行与列都由代码生成器完成，不需要写任何代码</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/tablesearch4.png" />
-    </div>
-    <h2>5、单表新建、编辑</h2>
-    <div>
-      <p
-        class="desc"
-      >单表新建、编辑所有前后端代码，全部由代码生成器生成，并支持并后端业务代码扩展，新建、编辑字段、类型(下拉框、日期、TextArea等)、所在行与列、字段是否只读、标签显示的长度等都由代码生成器完成，不需要写任何代码</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/editTbale1.png" />
-    </div>
-    <h2>6、主从表新建、编辑</h2>
-    <div>
-      <p
-        class="desc"
-      >主从表新建、编辑所有前后端代码，全部由代码生成器生成，并支持并后端业务代码扩展，新建、编辑从表配置、字段、类型(下拉框、日期、TextArea等)、所在行与列、字段是否只读、标签显示的长度等都由代码生成器完成，不需要写任何代码</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/editTbale2.png" />
-    </div>
-    <h2>7、单列、多列Form表单</h2>
-    <div>
-      <p
-        class="desc"
-      >单列、多列Form表单，已封装成组件，并且支持组件扩展。可配置显示的列的数量、是否只读、列的数据类型(日期、下拉框、TextArea、列宽、自动绑定数据源、图片上传等)， 这些只需要配置JSON格式即可使用</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/form2.png" />
-    </div>
-    <h2>8、可配置的Table(自动/手动加载table数据、自动绑定数据源、编辑功能)</h2>
-    <div>
-      <p
-        class="desc"
-      >单列、多列Form表单，已封装成组件，并且支持组件扩展。可配置显示的列的数量、是否只读、列的数据类型(日期、下拉框、TextArea、列宽、自动绑定数据源、图片上传等)， 这些只需要配置JSON格式即可使用</p>
-      <p class="desc">从后台加载数据、自动绑定数据</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/loadtable.png" />
-      <p class="desc">可编辑的table，手动绑定数据、自动绑定数据源</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/form3.png" />
-    </div>
-    <p class="desc">表单与table混合使用</p>
-    <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/table+form.png" />
-    <h2>9、excel导入</h2>
-    <div>
-      <p
-        class="desc"
-      >excel导入整个页面都由代码生成器生成，导入的字段、字段是否必填，下载模板也由代码生成器上配置(自己根据实际需要决定是否采用此方法)，导入时会验证是否为空与数据的合法性，逻辑校验自己实现扩展方法即可</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/importTable1.png" />
-    </div>
-    <h2>10、前端、后台业务代码扩展</h2>
-    <div>
-      <p class="desc">
-        只需要根据自己的业务实现前端、后台代码扩展方法即可。后台大部分都采用的委托扩展方法，这里只截了一张图数据加载事件的扩展方法，完整方法从Demo：
-        <a href="http://132.232.2.109/SellOrder">http://132.232.2.109/SellOrder</a>上获取
-      </p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/extend.png" />
-    </div>
-    <h2>11、H5开发</h2>
-    <div>
-      <p class="desc">
-        H5只是做了一个简单的Demo,如果你有H5开发经验，请忽略，如果你没有H5开发经验，
-        <a
-          title="H5开发看这里"
-          href="http://132.232.2.109/app/guide"
-          target="_blank"
-        >可看看这里</a>
-      </p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/h5.jpg" />
-    </div>
-    <h2>12、权限分配</h2>
-    <div>
-      <p class="desc">目前只实现了对用户的角色的Action进行权限分配</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/auth.png" />
-    </div>
-    <h2>13、菜单管理</h2>
-    <div>
-      <p class="desc">默认8种权限，可自行定义其他权限(代码生成器完后，直接在菜单上配置url(url路径为自动生成前端的router-&gt;path,从此处复制过过即可))</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/menu.png" />
-    </div>
-    <h2>14、个人中心</h2>
-    <div>
-      <p class="desc">个人中心目前只开发了页面与修改密码，其他功能自行根据需要实现</p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/user.png" />
-    </div>
-    <h2>15、代码生成器</h2>
-    <div>
-      <p class="desc">
-        代码生成器提供了20多种可配置的属性，可灵活配置显示、查询、编辑、导入、导出、主从关系等功能
-        <a
-          href="http://132.232.2.109/document/coder"
-        >点击看代码生成器文档</a>
-      </p>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/coder.png" />
-    </div>
-    <br />
-    <p class="desc">
-      还有角色管理、日志管理、数据源管理、其他组件、后台代码等功能就不再介绍了,
-      <a href="http://132.232.2.109">点这里看看就知道了</a>
-    </p>
-    <br />
-    <div class="desc desc-to">
-      <div>此框架由代码生成器完成了大部分工作能极大减少代码量,并支持前台端代码的扩展。如果你对前后端分离开发的方式或H5开发有兴趣,那么希望此框架对能你有所帮助！</div>
-      <div>如果你觉得框架对你有用，帮忙点个星，非常感谢!</div>
-      <div>
-        Demo地址：
-        <a href="http://132.232.2.109">http://132.232.2.109</a> 帐号：admin666密码：123456（本地超级管理员帐号：admin密码123456）
-      </div>
-      <div>
-        GitHub地址：
-        <a
-          href="https://github.com/cq-panda/Vue.NetCore.git"
-        >https://github.com/cq-panda/Vue.NetCore.git</a>
-      </div>
-      <div>
-        如果你需要Quartz.Net做定时任务管理，你可以试试这个：
-        <a
-          href="https://github.com/cq-panda/Vue.NetCore.git"
-        >https://github.com/cq-panda/Quartz.NetUI</a>
-      </div>
-      <div>(站点与MySql部署在同一个1G1核1M带宽的服务Centos服务上,访问可能会出现延迟现象)</div>
-      <br />
-    </div>
+    
   </div>
 </template>
 <script>
