@@ -29,10 +29,10 @@
             :multiple="(item.type=='select'||item.type=='drop')?false:true"
             :filterable="getData(item)>10?true:false"
             :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
-            max-tag-count="2"
             @on-change="onChange(item,formFileds[item.field])"
             clearable
           >
+            <!-- :max-tag-count="2" -->
             <Option
               v-for="(kv,kvIndex) in getData(item)"
               :key="kvIndex"
