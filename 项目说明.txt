@@ -3,3 +3,8 @@ Vol.Net£ºÎªºóÌ¨ÏîÄ¿(VOL.WebÏÖÔÚÒÑ²»¿ÉÓÃ£¬ºóÃæ»áÖØÐÂ¿ª·¢£¬Ä¿Ç°Ê¹ÓÃµÄVOL.WebApi×÷Î
 
 DBÌá¹©ÁËmysqlÓësqlserverÊý¾Ý¿â½Å±¾£¬½Å±¾Àï°üÀ¨±í½á¹¹ÓëInsertÊý¾Ý
 Ö´ÐÐ½Å±¾Ê±£¬ÏÈÌáÇ°´´½¨Ò»¸öÊý¾Ý¿â£¬Êý¾Ý¿âÃû£ºnetcoredev
+
+Èç¹ûÊ¹ÓÃµÄÊÇsqlserver2012ÒÔÏÂµÄ°æ±¾AutofacContainerModuleExtension.csÀàÖÐ:
+ optionsBuilder.UseSqlServer(connectionString);
+Ìæ»»Îª
+ optionsBuilder.UseSqlServer(connectionString,sqlOption=>sqlOption.UseRowNumberForPaging());
