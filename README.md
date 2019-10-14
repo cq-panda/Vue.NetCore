@@ -107,6 +107,7 @@ H5只是做了一个简单的Demo,如果你有H5开发经验，请忽略，如�
 
 - 此框架由代码生成器完成了大部分工作能极大减少代码量,并支持前台端代码的扩展。如果你对前后端分离开发的方式或H5开发有兴趣,那么希望此框架对能你有所帮助！
 - 如果你觉得框架对你有用，帮忙点个星，非常感谢!
+- 如果有什么问题或建议，提issue或加QQ283591387
 - [Demo地址： 帐号：admin666密码：123456（本地超级管理员帐号：admin密码123456](http://132.232.2.109)
 - [GitHub地址：](https://github.com/cq-panda/Vue.NetCore.git)https://github.com/cq-panda/Vue.NetCore.git
 - [如果你需要Quartz.Net做定时任务管理，你可以试试这个：](https://github.com/cq-panda/Quartz.NetUI)https://github.com/cq-panda/Quartz.NetUI
