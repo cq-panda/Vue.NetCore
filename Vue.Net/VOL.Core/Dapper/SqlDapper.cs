@@ -65,7 +65,8 @@ namespace VOL.Core.Dapper
         }
         public T QueryFirst<T>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false) where T : class
         {
-            return QueryList<T>(cmd, param, commandType: commandType ?? CommandType.Text, beginTransaction: beginTransaction).ToList()[0];
+            List<T> list = QueryList<T>(cmd, param, commandType: commandType ?? CommandType.Text, beginTransaction: beginTransaction).ToList();
+            return list.Count == 0 ? null : list[0];
         }
         public object ExecuteScalar(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
         {
