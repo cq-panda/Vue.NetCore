@@ -1222,7 +1222,10 @@ namespace DairyStar.Builder.Services
                         AttributeBuilder.Append("       [DisplayFormat(DataFormatString=\"" + tableColumnInfo.Prec_Scale + "\")]");
                         AttributeBuilder.Append("\r\n");
                     }
-
+                    if (tableColumnInfo.ColumnType.ToLower() =="guid")
+                    {
+                        tableColumnInfo.ColumnType = "Guid";
+                    }
 
                     if ((column.IsKey == 1 && (column.ColumnType == "string" || column.ColumnType == "uniqueidentifier")) ||
                         tableColumnInfo.ColumnType.ToLower() == "guid")
