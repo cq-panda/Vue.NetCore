@@ -1222,10 +1222,7 @@ namespace DairyStar.Builder.Services
                         AttributeBuilder.Append("       [DisplayFormat(DataFormatString=\"" + tableColumnInfo.Prec_Scale + "\")]");
                         AttributeBuilder.Append("\r\n");
                     }
-                    if (tableColumnInfo.ColumnType.ToLower() =="guid")
-                    {
-                        tableColumnInfo.ColumnType = "Guid";
-                    }
+                  
 
                     if ((column.IsKey == 1 && (column.ColumnType == "string" || column.ColumnType == "uniqueidentifier")) ||
                         tableColumnInfo.ColumnType.ToLower() == "guid")
@@ -1265,6 +1262,10 @@ namespace DairyStar.Builder.Services
                     AttributeBuilder.Append("\r\n");
                 }
                 string columnType = (column.ColumnType == "Date" ? "DateTime" : column.ColumnType).Trim();
+                if (tableColumnInfo.ColumnType.ToLower() == "guid")
+                {
+                    columnType = "Guid";
+                }
                 if (column.ColumnType.ToLower() != "string" && column.IsNull == 1)
                 {
                     columnType = columnType + "?";
