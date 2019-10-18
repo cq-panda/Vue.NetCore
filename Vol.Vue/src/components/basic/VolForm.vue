@@ -85,7 +85,7 @@
             v-model="formFileds[item.field]"
             type="textarea"
             clearable
-            :autosize="{minRows:2,maxRows:2}"
+            :autosize="{minRows:2,maxRows:item.maxRows||2}"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
           ></Input>
           <Input
