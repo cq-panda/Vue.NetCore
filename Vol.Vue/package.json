@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "echarts": "^4.2.1",
     "element-ui": "^2.4.11",
     "gemini-scrollbar": "^1.5.3",
