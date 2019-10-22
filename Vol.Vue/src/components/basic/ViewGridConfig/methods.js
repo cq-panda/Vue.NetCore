@@ -199,7 +199,7 @@ let methods = {
     },
     search() {//查询
         let query = this.getSearchParameters();
-        this.$refs.table.load(query,true);
+        this.$refs.table.load(query, true);
     },
     loadTableBefore(param, callBack) {//查询前
         let status = this.searchBefore(param);
@@ -416,7 +416,7 @@ let methods = {
         this.resetDetailTable(row);
         this.setEditForm(row);
         //点击编辑按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
-        this.modelOpenAfter(row);
+        this.modelOpenProcess(row);
     },
     add() {//新建
         this.initBox();
@@ -430,7 +430,8 @@ let methods = {
         //  this.resetEditForm();
         this.boxModel = true;
         //点击新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
-        this.modelOpenAfter();
+        this.modelOpenProcess();
+       // this.modelOpenAfter();
     },
     edit() {//编辑
         let rows = this.$refs.table.getSelected();
@@ -447,7 +448,17 @@ let methods = {
         //设置当前的数据到表单上
         this.setEditForm(rows[0]);
         //点击编辑按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
-        this.modelOpenAfter(rows[0]);
+        this.modelOpenProcess(rows[0]);
+       // this.modelOpenAfter(rows[0]);
+    },
+    modelOpenProcess(row) {
+        if (!this.$refs.form) {
+            let timeOut = setTimeout(x => {
+                this.modelOpenAfter(row);
+            }, 300)
+            return;
+        }
+        this.modelOpenAfter(row);
     },
     import() { //导入(上传excel),弹出导入组件UploadExcel.vue
         this.upload.excel = true;

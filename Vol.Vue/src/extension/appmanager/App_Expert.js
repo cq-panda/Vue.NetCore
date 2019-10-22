@@ -12,7 +12,13 @@ let extension = {
     text: "代码生成器中，如果字段是图片地址，勾选启用图片支持即可",
     buttons: [],//扩展的按钮
     methods: {//事件扩展
-
+        modelOpenAfter(row){
+            console.log( JSON.stringify(row||{a:11}));
+            if (this.$refs.modelBody) {
+              return   console.log('forminited');
+            }
+            console.log('form_undefined');
+        }
     }
 };
 export default extension;

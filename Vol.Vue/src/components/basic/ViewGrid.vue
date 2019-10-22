@@ -271,6 +271,7 @@ var vueParam = {
       singleSearch: "", //快速查询字段
       exportHref: "",
       currentAction: _const.ADD, //当新建或编辑时，记录当前的状态:如当前操作是新建
+      currentRow:null,//当前编辑或查看数据的行
       hasKeyField: {}, //当前操作的行数据(新建、编辑、查看)
       closable: false,
       boxModel: false, //弹出新建、编辑框
