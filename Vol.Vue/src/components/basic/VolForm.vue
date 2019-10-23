@@ -27,7 +27,7 @@
             v-else-if="item.type=='select'||item.type=='selectList'||item.type=='drop'||item.type=='dropList'"
             v-model="formFileds[item.field]"
             :multiple="(item.type=='select'||item.type=='drop')?false:true"
-            :filterable="getData(item)>10?true:false"
+            :filterable="(item.filter||getData(item).length>10)?true:false"
             :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
             @on-change="onChange(item,formFileds[item.field])"
             clearable
@@ -293,7 +293,7 @@ export default {
       if (item.data && item.data.data) {
         return item.data.data;
       }
-      return item.data;
+      return item.data||[];
     },
     initSource() {
       let keys = [],

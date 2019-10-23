@@ -54,6 +54,7 @@ export default {
             dataKey: "age", //后台下拉框对应的数据字典编号
             data: [], //loadKey设置为true,会根据dataKey从后台的下拉框数据源中自动加载数据
             title: "月龄",
+            filter:true,
             required: true, //设置为必选项
             field: "AgeRange",
             type: "select"
