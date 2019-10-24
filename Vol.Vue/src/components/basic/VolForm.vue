@@ -17,10 +17,7 @@
             :placeholder="formFileds[item.field]||'--'"
           ></Input>-->
           <img v-if="item.disabled&&item.columnType=='img'" :src="formFileds[item.field]" />
-          <label
-            v-else-if="item.disabled"
-            class="readonly-input"
-          >{{formFileds[item.field]=='null'||formFileds[item.field]==''?'--':formFileds[item.field]}}</label>
+          <label v-else-if="item.disabled" class="readonly-input">{{getText(formFileds,item)}}</label>
 
           <!--下拉框绑定时如果key为数字，请将key+''转换为字符串-->
           <Select
@@ -284,16 +281,35 @@ export default {
     };
   },
   methods: {
-    onChange(item,value){
-      if (item.onChange&&typeof item.onChange=="function") {
-        item.onChange(value,item);
+    getText(formFileds, item) { //2019.10.24修复表单select组件为只读的属性时没有绑定数据源
+      let text = formFileds[item.field];
+      if (text == "null" || text == "") {
+        return "--";
+      }
+      if (!item.data) return text;
+      let data;
+      if (item.data.data) {
+        data = item.data.data;
+      } else {
+        data = item.data;
+      }
+      data.forEach(x => {
+        if (x.key == text) {
+          text = x.value;
+        }
+      });
+      return text;
+    },
+    onChange(item, value) {
+      if (item.onChange && typeof item.onChange == "function") {
+        item.onChange(value, item);
       }
     },
     getData(item) {
       if (item.data && item.data.data) {
         return item.data.data;
       }
-      return item.data||[];
+      return item.data || [];
     },
     initSource() {
       let keys = [],
@@ -318,7 +334,6 @@ export default {
       });
     },
     bindOptions(dic, binds) {
-
       dic.forEach(d => {
         binds.forEach(x => {
           if (x.key != d.dicNo) return true;
@@ -343,7 +358,6 @@ export default {
       // binds.forEach(x => {
       //   x.data.push(...[]);
       // });
-     
     },
     getObject(date) {
       if (typeof date == "object") {
