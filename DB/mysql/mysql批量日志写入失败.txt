@@ -1,0 +1,2 @@
+mysql日志批量写入失败提示:The used command is not allowed with this MySQL version
+在数据库中执行:set global local_infile = 'ON';
