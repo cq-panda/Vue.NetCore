@@ -14,7 +14,8 @@ namespace VOL.System.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet, HttpPost, Route("getTreeMenu")]
-        [ApiActionPermission("Sys_Menu", ActionPermissionOptions.Search)]
+        //2019.10.24屏蔽用户查询自己权限菜单
+       // [ApiActionPermission("Sys_Menu", ActionPermissionOptions.Search)]
         public async Task<IActionResult> GetTreeMenu()
         {
             return Json(await _service.GetCurrentMenuActionList());
