@@ -102,17 +102,17 @@ namespace DairyStar.Builder.Services
             return $@"SELECT
            CONCAT(NUMERIC_PRECISION,',',NUMERIC_SCALE) as Prec_Scale,
         CASE
-                WHEN data_type IN( 'BIT', 'BOOL', 'TINYINT' ) THEN
-                'tinyint'
-                WHEN data_type IN('MEDIUMINT', 'INT', 'Year') THEN
+                WHEN data_type IN( 'BIT', 'BOOL', 'TINYINT','bit', 'bool', 'tinyint' ) THEN
+                'byte'
+                WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN
                 'int'
-                WHEN data_type = 'BIGINT' THEN
+                WHEN data_type in ( 'BIGINT','bigint') THEN
                 'bigint'
-                WHEN data_type IN('FLOAT', 'DOUBLE', 'DECIMAL') THEN
+                WHEN data_type IN('FLOAT', 'DOUBLE', 'DECIMAL','float', 'double', 'decimal') THEN
                 'decimal'
-                WHEN data_type IN('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB', 'LONGBLOB', 'Time') THEN
+                WHEN data_type IN('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB', 'LONGBLOB', 'Time','char', 'varchar', 'tiny text', 'text', 'mediumtext', 'longtext', 'tinyblob', 'blob', 'mediumblob', 'longblob', 'time') THEN
                 'nvarchar'
-                WHEN data_type IN('Date', 'DateTime', 'TimeStamp') THEN
+                WHEN data_type IN('Date', 'DateTime', 'TimeStamp','date', 'datetime', 'timestamp') THEN
                 'datetime' ELSE 'nvarchar'
             END AS ColumnType, Column_Name AS ColumnName
             FROM
@@ -755,17 +755,17 @@ namespace DairyStar.Builder.Services
                      '{ tableName}'  as tableName,
 	                Column_Comment AS ColumnCnName,
                         CASE
-                        WHEN data_type IN( 'BIT', 'BOOL', 'TINYINT' ) THEN
-                        'tinyint'
-                        WHEN data_type IN('MEDIUMINT', 'INT', 'Year') THEN
+                        WHEN data_type IN('BIT', 'BOOL', 'TINYINT','bit', 'bool', 'tinyint' ) THEN
+                        'byte'
+                        WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN
                     'int'
-                    WHEN data_type = 'BIGINT' THEN
+                    WHEN data_type in ( 'BIGINT','bigint') THEN
                     'bigint'
-                    WHEN data_type IN('FLOAT', 'DOUBLE', 'DECIMAL') THEN
+                    WHEN data_type IN('FLOAT', 'DOUBLE', 'DECIMAL','float', 'double', 'decimal') THEN
                     'decimal'
-                    WHEN data_type IN('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB', 'LONGBLOB', 'Time') THEN
+                    WHEN data_type IN('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB', 'LONGBLOB', 'Time','char', 'varchar', 'tiny text', 'text', 'mediumtext', 'longtext', 'tinyblob', 'blob', 'mediumblob', 'longblob', 'time') THEN
                     'string'
-                    WHEN data_type IN('Date', 'DateTime', 'TimeStamp') THEN
+                    WHEN data_type IN('Date', 'DateTime', 'TimeStamp','date', 'datetime', 'timestamp') THEN
                     'DateTime' ELSE 'string'
                 END AS ColumnType,
 	            CHARACTER_MAXIMUM_LENGTH AS Maxlength,
