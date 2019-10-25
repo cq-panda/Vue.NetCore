@@ -396,6 +396,7 @@ let methods = {
     },
 
     initBox() { //初始化新建、编辑的弹出框
+        this.modelOpenBefore(this.currentRow);
         if (!this.boxInit) {
             this.boxInit = true;
             this.boxModel = true;
@@ -410,17 +411,18 @@ let methods = {
         this.boxModel = true;
     },
     linkData(row, column) {   //点击table单元格快捷链接显示编辑数据
-        this.initBox();
         this.currentAction = this.const.EDIT;
         this.currentRow = row;
+        this.initBox();
         this.resetDetailTable(row);
         this.setEditForm(row);
         //点击编辑按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
         this.modelOpenProcess(row);
     },
     add() {//新建
-        this.initBox();
         this.currentAction = this.const.ADD;
+        this.currentRow=null;
+        this.initBox();
         if (this.hasDetail) {
             this.$refs.detail &&
                 this.$refs.detail.rowData &&
@@ -438,10 +440,10 @@ let methods = {
         if (rows.length == 0) {
             return this.$message.error("请选择要编辑的行!");
         }
-        //初始化弹出框
-        this.initBox();
         //记录当前编辑的行
         this.currentRow = rows[0];
+        //初始化弹出框
+        this.initBox();
         //重置表单
         this.resetDetailTable();
 

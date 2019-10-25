@@ -163,6 +163,8 @@
               v-for="(btn,bIndex) in boxButtons"
               :key="bIndex"
               :type="btn.type"
+              v-show="!btn.hasOwnProperty('hidden')||!btn.hidden"
+              :disabled="btn.hasOwnProperty('disabled')&&!!btn.disabled"
               @click="onClick(btn.onClick)"
             >
               <Icon :type="btn.icon" />

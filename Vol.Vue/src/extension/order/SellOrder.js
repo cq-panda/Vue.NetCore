@@ -192,6 +192,9 @@ let extension = {
         importAfter(data) { //导入excel后刷新table表格数据
             this.search(); //刷新table
         },
+        modelOpenBefore(row){ //点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据
+
+        },
         modelOpenAfter(row) {  //点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
             this.$message.error("此处是打开弹出框后事件,当前操作：" + this.currentAction + "，你可以在此处编写逻辑，如，从后台获取数据");
         },
