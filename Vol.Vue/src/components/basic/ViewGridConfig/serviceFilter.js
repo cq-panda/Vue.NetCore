@@ -65,6 +65,9 @@ let serviceFilter = {
     resetUpdateFormAfter(){ //重置编辑表单后的内容
         return true;
     },
+    modelOpenBefore(row){ //点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据
+
+    },
     modelOpenAfter(row){  //点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
 
     },
