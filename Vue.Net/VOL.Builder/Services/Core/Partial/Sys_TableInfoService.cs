@@ -1189,7 +1189,7 @@ namespace DairyStar.Builder.Services
             bool addIgnore = false;
             foreach (Sys_TableColumn column in sysColumn)
             {
-                column.ColumnType = column.ColumnType.Trim();
+                column.ColumnType = (column.ColumnType??"").Trim();
                 AttributeBuilder.Append("/// <summary>");
                 AttributeBuilder.Append("\r\n");
                 AttributeBuilder.Append("       ///" + column.ColumnCnName + "");
@@ -1262,7 +1262,7 @@ namespace DairyStar.Builder.Services
                     AttributeBuilder.Append("\r\n");
                 }
                 string columnType = (column.ColumnType == "Date" ? "DateTime" : column.ColumnType).Trim();
-                if (tableColumnInfo.ColumnType.ToLower() == "guid")
+                if (tableColumnInfo.ColumnType?.ToLower() == "guid")
                 {
                     columnType = "Guid";
                 }
@@ -1455,14 +1455,14 @@ namespace DairyStar.Builder.Services
                 if (tableColumn == null)
                     return webResponse.Error($"明细表必须包括[{tableInfo.TableName}]主键字段[{key}]");
 
-                if (mainTableColumn.ColumnType.ToLower() != tableColumn.ColumnType.ToLower())
+                if (mainTableColumn.ColumnType?.ToLower() != tableColumn.ColumnType?.ToLower())
                 {
                     return webResponse.Error($"明细表的字段[{tableColumn.ColumnName}]类型必须与主表的主键的类型相同");
                 }
 
                 if (!IsMysql()) return webResponse;
 
-                if (mainTableColumn.ColumnType.ToLower() == "string"
+                if (mainTableColumn.ColumnType?.ToLower() == "string"
                     && tableColumn.Maxlength != 36)
                 {
                     return webResponse.Error($"主表主键类型为Guid，明细表[{tableInfo.DetailName}]配置的字段[{key}]长度必须是36，请重将明细表字段[{key}]长度设置为36，点击保存与生成Model");
