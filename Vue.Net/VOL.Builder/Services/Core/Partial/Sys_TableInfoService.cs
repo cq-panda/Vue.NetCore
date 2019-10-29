@@ -1262,7 +1262,7 @@ namespace DairyStar.Builder.Services
                     AttributeBuilder.Append("\r\n");
                 }
                 string columnType = (column.ColumnType == "Date" ? "DateTime" : column.ColumnType).Trim();
-                if (tableColumnInfo.ColumnType?.ToLower() == "guid")
+                if (tableColumnInfo?.ColumnType?.ToLower() == "guid")
                 {
                     columnType = "Guid";
                 }
