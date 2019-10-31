@@ -421,7 +421,7 @@ let methods = {
     },
     add() {//新建
         this.currentAction = this.const.ADD;
-        this.currentRow=null;
+        this.currentRow = null;
         this.initBox();
         if (this.hasDetail) {
             this.$refs.detail &&
@@ -433,7 +433,7 @@ let methods = {
         this.boxModel = true;
         //点击新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
         this.modelOpenProcess();
-       // this.modelOpenAfter();
+        // this.modelOpenAfter();
     },
     edit() {//编辑
         let rows = this.$refs.table.getSelected();
@@ -451,7 +451,7 @@ let methods = {
         this.setEditForm(rows[0]);
         //点击编辑按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
         this.modelOpenProcess(rows[0]);
-       // this.modelOpenAfter(rows[0]);
+        // this.modelOpenAfter(rows[0]);
     },
     modelOpenProcess(row) {
         if (!this.$refs.form) {
@@ -687,8 +687,22 @@ let methods = {
     },
     initBoxHeightWidth() { //初始化弹出框的高度与宽度
         let clientHeight = document.documentElement.clientHeight;
-        clientHeight = clientHeight < 450 ? 450 : clientHeight;
+        //弹出框高度至少250px
+        clientHeight = clientHeight < 250 ? 250 : clientHeight;
         let clientWidth = document.documentElement.clientWidth;
+
+        if (this.boxOptions.height) {
+            //如果高度与宽度超过了获取到的可见高宽度，则设为默认的90%高宽
+            if (this.boxOptions.height > clientHeight * 0.8) {
+                this.boxOptions.height = clientHeight * 0.8
+            }
+        }
+        if (this.boxOptions.width) {
+            //如果高度与宽度超过了获取到的可见高宽度，则设为默认的90%高宽
+            if (this.boxOptions.height > clientWidth * 0.8) {
+                this.boxOptions.width = clientWidth * 0.8
+            }
+        }
         this.height = clientHeight - 210;
         this.url = this.getUrl(this.const.PAGE);
         //计算弹出框的高与宽度
@@ -710,18 +724,15 @@ let methods = {
             this.editFormOptions.forEach(x => {
                 if (x.length > maxColumns) maxColumns = x.length;
             });
-            if (maxColumns == 1) {
-                clientWidth = clientWidth * 0.5;
-                clientHeight = clientHeight * 0.7;
-            } else {
-                clientWidth = clientWidth * (maxColumns / 10 + 0.3);
-                let maxHeight = this.editFormOptions.length * 0.1;
-                clientHeight =
-                    clientHeight *
-                    (maxHeight > 0.9 || maxHeight < 0.45 ? 0.5 : maxHeight);
-            }
+            let maxHeightRate = 0.7, maxWidthRate = 0.5;
+            maxWidthRate = maxColumns / 10 + 0.3;
+            maxHeightRate = (this.editFormOptions.length || 1) * 0.1 + 0.03;
+            maxHeightRate = maxHeightRate > 0.9 ? 0.9 : maxHeightRate;
+            clientWidth = clientWidth * maxWidthRate;
+            clientHeight = clientHeight * maxHeightRate;
+            // this.boxOptions.width = clientWidth * maxWidthRate;
+            // this.boxOptions.height = clientHeight * maxHeightRate;
         }
-
         this.boxOptions = { height: this.boxOptions.height || clientHeight, width: this.boxOptions.width || clientWidth };
     }
 };

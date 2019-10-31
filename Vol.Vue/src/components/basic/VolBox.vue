@@ -104,7 +104,7 @@ export default {
     color: white;
   }
   .view-model-content {
-    min-height: 300px;
+    min-height: 180px;
   }
   .srcoll-content {
     height: 100%;

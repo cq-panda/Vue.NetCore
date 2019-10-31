@@ -12,7 +12,10 @@ let extension = {
     text:"目前导入导出的字段为代码生成器中配置[是否显示与编辑列],可自行添加配置字段处理",
     buttons: [],//扩展的按钮
     methods: {//事件扩展
-
+         onInit(){//手动设置弹出框的高度与宽度
+             this.boxOptions.height=248;
+             this.boxOptions.width=600;
+         }
     }
 };
 export default extension;
