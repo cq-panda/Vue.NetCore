@@ -118,8 +118,16 @@ export default {
       type: "get",
       async: false
     });
+
     //当前刷新是不是首页
     if (this.$route.path != this.navigation[0].path) {
+      let linkNow = this.links.find(x => {
+        return x.path == this.$route.path;
+      });
+      if (linkNow) {
+        this.selectId = linkNow.id;
+        return;
+      }
       let item = this.menuOptions.find(x => {
         return x.path == this.$route.path;
       });
