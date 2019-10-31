@@ -9,7 +9,8 @@ let dataType = [
     { "key": "date", "value": "date" },
     { "key": "datetime", "value": "datetime" },
     { "key": "checkbox", "value": "checkbox" },
-    { "key": "mail", "value": "mail" }];
+    { "key": "mail", "value": "mail" },
+    { "key": "phone", "value": "phone" }];
 let data = {
     form: {
         fields: {
