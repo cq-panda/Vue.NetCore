@@ -2,13 +2,14 @@ let dataType = [
     { "key": "text", "value": "text" },
     { "key": "textarea", "value": "textarea" },
     { "key": "switch", "value": "switch" },
-    // { "key": "drop", "value": "drop" },
+
     // { "key": "dropList", "value": "dropList" },
     { "key": "select", "value": "select" },
     { "key": "selectList", "value": "selectList" },
     { "key": "date", "value": "date" },
     { "key": "datetime", "value": "datetime" },
-    { "key": "checkbox", "value": "checkbox" }];
+    { "key": "checkbox", "value": "checkbox" },
+    { "key": "mail", "value": "mail" }];
 let data = {
     form: {
         fields: {

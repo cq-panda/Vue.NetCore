@@ -46,7 +46,7 @@
                               [{"columnType":"bool","dataKey":"gender","title":"性别","field":"Gender","type":"drop"},
                                {"columnType":"string","title":"Token","field":"Token"}],
                               [{"columnType":"byte","dataKey":"enable","title":"是否可用","required":true,"field":"Enable","type":"drop"},
-                               {"columnType":"string","title":"Email","field":"Email","type":"text"}],
+                               {"columnType":"string","title":"Email","field":"Email","type":"mail"}],
                               [{"columnType":"datetime","title":"注册时间","field":"CreateDate","disabled":true},
                                {"columnType":"string","title":"创建人","field":"Creator","disabled":true}],
                               [{"columnType":"string","title":"备注","field":"Remark","colSize":12,"type":"textarea"}],
@@ -87,8 +87,8 @@
                 detail: {
                     cnName:"#detailCnName",
                     columns: [],
-                    sortName: "#detailSortName",
-                    key:"#detailKey"
+                    sortName: "",
+                    key:""
                 }
             };
         }

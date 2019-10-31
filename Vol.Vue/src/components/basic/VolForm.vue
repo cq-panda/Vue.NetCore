@@ -170,39 +170,75 @@ export default {
             });
           }
         }
+        //用户设置的自定义方法
+        if (item.validator && typeof item.validator == "function") {
+          this.ruleValidate[item.field] = [
+            {
+              validator: (rule, val, callback) => {
+                //用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
+                let message = item.validator(rule, val);
+                if (message) {
+                  return callback(new Error(message + ""));
+                }
+                return callback();
+              },
+              required: item.required,
+              trigger:
+                this.rule.change.indexOf(item.type) != -1 ? "change" : "blur"
+            }
+          ];
+          return;
+        }
+        //手机验证
+        if (item.type == "phone") {
+          this.ruleValidate[item.field] = [
+            {
+              validator: this.validatorPhone,
+              required: item.required,
+              trigger: "blur"
+            }
+          ];
+          return;
+        }
 
-        if (item.required) {
+        if (item.required || item.type == "mail") {
           if (!item.hasOwnProperty("type")) {
             item.type = "text";
           }
           switch (item.type) {
             case "text":
             case "string":
-            case "email":
+            case "mail":
             case "textarea":
             case undefined:
               let message =
                 item.title +
                 (this.types[item.columnType] == "number"
                   ? "请输入一个有效的数字"
+                  : item.type == "mail"
+                  ? "必须是一个邮箱地址"
                   : "不能为空");
+              let type =
+                item.type == "mail" ? "email" : this.types[item.columnType];
+
               this.ruleValidate[item.field] = [
                 {
                   required: true,
                   message: message,
                   trigger: "blur",
-                  type: this.types[item.columnType]
-                } // ,
-                // {
-                //   type: "number",
-                //   min: 0,
-                //   max: 100,
-                //   message: "",
-                //   trigger: "blur",
-                //进行格式化处理
-                //   transform: value =>{this.formFileds[item.field]=123;}
-                // }
+                  type: type
+                }
               ];
+              if (item.type == "mail") {
+                if (!item.required) {
+                  this.ruleValidate[item.field][0].required = false;
+                }
+                this.ruleValidate[item.field].push({
+                  type: type,
+                  message: message,
+                  trigger: "blur"
+                });
+              }
               if (item.min) {
                 this.ruleValidate[item.field][0].min = item.min;
                 this.ruleValidate[item.field][0].message =
@@ -267,6 +303,10 @@ export default {
   },
   data() {
     return {
+      rule: {
+        change: ["checkbox", "select", "date", "datetime", "drop", "radio"],
+        phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/
+      },
       types: {
         int: "number",
         byte: "number",
@@ -274,14 +314,25 @@ export default {
         string: "string",
         bool: "boolean",
         date: "datetime",
-        date: "date"
+        date: "date",
+        mail: "email"
       },
       span: 0,
       ruleValidate: {}
     };
   },
   methods: {
-    getText(formFileds, item) { //2019.10.24修复表单select组件为只读的属性时没有绑定数据源
+    validatorPhone(rule, value, callback) {
+      if (!rule.required && !value && value != "0") {
+        return callback();
+      }
+      if (!this.rule.phone.test((value || "").trim())) {
+        return callback(new Error("请输入正确的手机号"));
+      }
+      callback();
+    },
+    getText(formFileds, item) {
+      //2019.10.24修复表单select组件为只读的属性时没有绑定数据源
       let text = formFileds[item.field];
       if (text == "null" || text == "") {
         return "--";
