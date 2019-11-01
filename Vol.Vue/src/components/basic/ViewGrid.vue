@@ -222,7 +222,7 @@ const comName = [
   "modelFooter"
 ];
 import Empty from "@/components/basic/Empty.vue";
-var $viewGridVue;
+var $viewGridVue,$this;
 let _components = {
   gridHeader: Empty,
   gridBody: Empty,
@@ -273,7 +273,7 @@ var vueParam = {
       singleSearch: "", //快速查询字段
       exportHref: "",
       currentAction: _const.ADD, //当新建或编辑时，记录当前的状态:如当前操作是新建
-      currentRow:null,//当前编辑或查看数据的行
+      currentRow: null, //当前编辑或查看数据的行
       hasKeyField: {}, //当前操作的行数据(新建、编辑、查看)
       closable: false,
       boxModel: false, //弹出新建、编辑框
@@ -325,12 +325,12 @@ var vueParam = {
         init: false //是否有导入权限，有才渲染导入组件
       },
       height: 0, //表高度
-
       pagination: { total: 0, size: 30, sortName: "" }, //从分页配置数据
-      boxOptions: { height: 0, width: 0 }
+      boxOptions: { saveClose: true,test:111, height: 0, width: 0 } //saveClose新建或编辑成功后是否关闭弹出框
     };
   },
-  methods: {//方法已放到ViewGridConfig文件夹下，加载时会合并ViewGridConfig下的方法到methods中
+  methods: {
+    //方法已放到ViewGridConfig文件夹下，加载时会合并ViewGridConfig下的方法到methods中
     mergeComponents() {
       if (this.extend.components) {
         for (const key in this.extend.components) {
@@ -342,7 +342,7 @@ var vueParam = {
         }
       }
     }
-  }, 
+  },
   activated() {
     if (!this._inited) {
       this._inited = true;
@@ -357,11 +357,11 @@ var vueParam = {
   mounted() {
     this.mounted();
   },
-  beforeCreate() {
-  },
+  beforeCreate() {},
   created: function() {
-    //在其他方法中如果拿不到this，请使用$viewGridVue
+    //在其他方法中如果拿不到this，请使用$viewGridVue或$this
     $viewGridVue = this;
+    $this=this;
     //合并扩展组件
     this.mergeComponents();
     //合并自定义业务扩展方法

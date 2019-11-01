@@ -17,9 +17,8 @@ let extension = {
     },
     buttons: [],//扩展的按钮
     methods: {//事件扩展
-        onInit() {
-            // this.editFormFileds.Config = "功能暂未开放,随便填写";
-            // this.editFormFileds.Config = "{\r\n valueField: '数据库字段',\r\n textField: '数据库字段',\r\n  containField:null \r\n}"
+        onInit(){
+            this.boxOptions.saveClose=false;
         },
         onInited() {
             this.height = this.height - 36;

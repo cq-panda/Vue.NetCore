@@ -331,32 +331,35 @@ let methods = {
                 if (!this.updateAfter(x)) return;
             }
             if (!x.status) return this.$Message.error(x.message);
-            // //保存后拦截
-            // if (!this.saveAfter(formData, x)) return;
             this.$Message.info(x.message);
-
-            x.data = typeof x.data == "string" && x.data != ""
-                ? JSON.parse(x.data).data
-                : x.data.data
-            let resultRow = x.data;
+            //如果保存成功后需要关闭编辑框，直接返回不处理后面
+            if (this.boxOptions.saveClose) {
+                this.boxModel = false;
+                this.refresh();
+                return;
+            }
+            let resultRow;
+            if (typeof x.data == "string" && x.data != "") {
+                resultRow = JSON.parse(x.data);
+            } else {
+                resultRow = x.data;
+            }
 
             if (this.currentAction == this.const.ADD) {
                 //  this.currentRow=x.data;
                 this.editFormFileds[this.table.key] = "";
                 this.currentAction = this.const.EDIT;
                 this.currentRow = resultRow.data;
-                // if (this.hasDetail) {
-                //     this.$refs.detail.rowData=resultRow.list;
-                // }
             }
-            this.resetEditForm(resultRow);
+            this.resetEditForm(resultRow.data);
+           // console.log(resultRow);
             //重置数据,待测试
             if (this.hasDetail) {
                 this.detailOptions.delKeys = [];
-                this.boxModel = false;
-                //  this.$refs.detail.rowData.push(...resultRow.list);
+                if (resultRow.list) {
+                    this.$refs.detail.rowData.push(...resultRow.list)
+                }
             }
-
             this.refresh();
         });
     },
@@ -733,7 +736,12 @@ let methods = {
             // this.boxOptions.width = clientWidth * maxWidthRate;
             // this.boxOptions.height = clientHeight * maxHeightRate;
         }
-        this.boxOptions = { height: this.boxOptions.height || clientHeight, width: this.boxOptions.width || clientWidth };
+        if (clientHeight) {
+            this.boxOptions.height = clientHeight;
+        }
+        if (clientWidth) {
+            this.boxOptions.width = clientWidth;
+        }
     }
 };
 //合并扩展方法

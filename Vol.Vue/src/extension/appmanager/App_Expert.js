@@ -12,6 +12,9 @@ let extension = {
     text: "代码生成器中，如果字段是图片地址，勾选启用图片支持即可",
     buttons: [],//扩展的按钮
     methods: {//事件扩展
+        onInit(){
+            this.boxOptions.saveClose=false;
+        },
         modelOpenBefore(row) {
             this.boxButtons.forEach(x => {
                 if (x.name == '保 存') {
