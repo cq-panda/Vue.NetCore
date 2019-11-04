@@ -31,6 +31,7 @@ let extension = {
     },
     text: "示例覆盖全部可扩展方法,前台扩展文件SellOrder.js，后台Partial->SellOrdeService.cs",
     buttons: { //扩展按钮
+           //注：没有编辑或新建权限的情况下，是不会显示此处添加的扩展按钮，如果仍需要显示此处的按钮，可以把按钮在methods的onInited方法中添加,如：this.boxButtons.push(...)
         view: [//ViewGrid查询界面按钮
             {
                 name: "点我",
