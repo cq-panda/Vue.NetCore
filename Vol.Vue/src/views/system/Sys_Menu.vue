@@ -3,7 +3,7 @@
     <vol-box :width="940" :mask="true" :height="500" title="图标列表" :model.sync="model">
       <Icons :onSelect="onSelect"></Icons>
     </vol-box>
-    <vol-box :width="500" :mask="true" :height="150" title="其他权限" :model.sync="actionModel">
+    <vol-box :width="600" :mask="true" :height="270" title="其他权限" :model.sync="actionModel">
       <vol-form ref="actionForm" :formRules="actionOptions" :formFileds="actionFields">
         <div slot="header">
           <Alert show-icon>
