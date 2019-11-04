@@ -198,10 +198,15 @@ let methods = {
         return query;
     },
     search() {//查询
-        let query = this.getSearchParameters();
-        this.$refs.table.load(query, true);
+        // let query = this.getSearchParameters();
+       // this.$refs.table.load(query, true);
+       this.$refs.table.load(null, true);
     },
-    loadTableBefore(param, callBack) {//查询前
+    loadTableBefore(param, callBack) {//查询前设置查询条件及分页信息
+        let query = this.getSearchParameters();
+        if (query) {
+            param = Object.assign(param, query);
+        }
         let status = this.searchBefore(param);
         callBack(status);
     },
@@ -352,7 +357,7 @@ let methods = {
                 this.currentRow = resultRow.data;
             }
             this.resetEditForm(resultRow.data);
-           // console.log(resultRow);
+            // console.log(resultRow);
             //重置数据,待测试
             if (this.hasDetail) {
                 this.detailOptions.delKeys = [];
