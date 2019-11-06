@@ -109,20 +109,23 @@
           :title="table.cnName+(getCurrentAction())"
           :width="boxOptions.width"
           :height="boxOptions.height"
+          :padding="0"
         >
           <!--明细头部自定义组件-->
           <div class="iview-com" slot="content">
-            <modelHeader ref="modelHeader" @parentCall="parentCall"></modelHeader>
-            <div class="form-text v-text">
-              <span class="title">
-                <Icon type="ios-create-outline" />
-                {{table.cnName}}
-              </span>
+            <modelHeader ref="modelHeader" class="model-header" @parentCall="parentCall"></modelHeader>
+            <div class="item form-item">
+              <div class="form-text v-text">
+                <span class="title">
+                  <Icon type="ios-create-outline" />
+                  {{table.cnName}}
+                </span>
+              </div>
+              <vol-form ref="form" :formRules="editFormOptions" :formFileds="editFormFileds"></vol-form>
             </div>
-            <vol-form ref="form" :formRules="editFormOptions" :formFileds="editFormFileds"></vol-form>
             <!--明细body自定义组件-->
-            <modelBody ref="modelBody" @parentCall="parentCall"></modelBody>
-            <div v-if="detail.columns&&detail.columns.length>0" class="grid-detail">
+            <modelBody class="model-body" ref="modelBody" @parentCall="parentCall"></modelBody>
+            <div v-if="detail.columns&&detail.columns.length>0" class="grid-detail table-item item">
               <div class="toolbar">
                 <div class="title form-text">
                   <span>
@@ -155,9 +158,10 @@
                 :height="detailOptions.height"
               ></vol-table>
             </div>
+            <!--明细footer自定义组件-->
+            <modelFooter ref="modelFooter" class="model-footer" @parentCall="parentCall"></modelFooter>
           </div>
-          <!--明细footer自定义组件-->
-          <modelFooter ref="modelFooter" @parentCall="parentCall"></modelFooter>
+
           <div slot="footer">
             <Button
               v-for="(btn,bIndex) in boxButtons"
@@ -222,7 +226,7 @@ const comName = [
   "modelFooter"
 ];
 import Empty from "@/components/basic/Empty.vue";
-var $viewGridVue,$this;
+var $viewGridVue, $this;
 let _components = {
   gridHeader: Empty,
   gridBody: Empty,
@@ -325,8 +329,9 @@ var vueParam = {
         init: false //是否有导入权限，有才渲染导入组件
       },
       height: 0, //表高度
+      tableHeight: 0, //查询页面table的高度
       pagination: { total: 0, size: 30, sortName: "" }, //从分页配置数据
-      boxOptions: { saveClose: true,test:111, height: 0, width: 0 } //saveClose新建或编辑成功后是否关闭弹出框
+      boxOptions: { saveClose: true, test: 111, height: 0, width: 0 } //saveClose新建或编辑成功后是否关闭弹出框
     };
   },
   methods: {
@@ -361,7 +366,7 @@ var vueParam = {
   created: function() {
     //在其他方法中如果拿不到this，请使用$viewGridVue或$this
     $viewGridVue = this;
-    $this=this;
+    $this = this;
     //合并扩展组件
     this.mergeComponents();
     //合并自定义业务扩展方法
@@ -415,5 +420,11 @@ import "@/assets/css/ViewGrid.less";
   width: 130px;
   border-radius: 5px;
   border: 1px solid #e7e5e5;
+}
+.vertical-center-modal >>> .srcoll-content {
+  padding: 0;
+}
+.view-model-content {
+  background: #eee;
 }
 </style>

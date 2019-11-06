@@ -1,5 +1,5 @@
 <template>
-    <!-- :draggable="draggable" -->
+  <!-- :draggable="draggable" -->
   <Modal
     :mask-closable="false"
     :closable="false"
@@ -18,7 +18,7 @@
     </p>
     <div class="view-model-content" :style="{height:height+'px'}">
       <el-scrollbar style="height:100%;">
-        <div class="srcoll-content">
+        <div class="srcoll-content" :style="{padding:padding+'px'}">
           <slot name="content"></slot>
           <slot></slot>
         </div>
@@ -49,6 +49,10 @@ export default {
       type: Number,
       default: 650
     },
+    padding: {
+      type: Number,
+      default: 16
+    },
     hideMask: {
       type: Boolean,
       default: false
@@ -73,8 +77,8 @@ export default {
       this.vModel = this.model;
     }
   },
-  mounted(){
-        console.log("cm");
+  mounted() {
+    console.log("cm");
   },
   created() {
     console.log("c1");
@@ -108,7 +112,7 @@ export default {
   }
   .srcoll-content {
     height: 100%;
-    padding: 16px;
+    //  padding: 16px;
   }
   .ivu-modal-body {
     padding: 0px;
@@ -135,8 +139,8 @@ export default {
 }
 </style>
 <style scoped>
-.view-model-content >>> .el-scrollbar > .el-scrollbar__wrap{
-  overflow-x:hidden;
+.view-model-content >>> .el-scrollbar > .el-scrollbar__wrap {
+  overflow-x: hidden;
 }
 </style>
 

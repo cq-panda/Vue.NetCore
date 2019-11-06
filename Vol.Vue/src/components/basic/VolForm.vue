@@ -108,10 +108,10 @@
       </Col>
     </Row>
     <slot name="footer"></slot>
-    <FormItem>
+    <!-- <FormItem> -->
       <!-- <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
       <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>-->
-    </FormItem>
+    <!-- </FormItem> -->
   </Form>
 </template>
 <script>
@@ -491,6 +491,9 @@ export default {
 .line-row >>> .ivu-form-item img {
   max-height: 100px;
 }
+/* .ivu-form-item{
+
+} */
 .line-row >>> .ivu-form-item-label {
   overflow: hidden;
   text-overflow: ellipsis;

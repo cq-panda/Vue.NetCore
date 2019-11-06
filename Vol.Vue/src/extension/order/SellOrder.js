@@ -26,7 +26,15 @@ let extension = {
         gridFooter: () => import("./SellOrderComponents/GridFooterExtend.vue"),
         //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
         modelHeader: "",
-        modelBody: { template: '<Alert type="error">你可以在此处添加业务相关内容</Alert>' },
+        modelBody:{ template: '<Alert style="background: white;" type="success" show-icon>\
+         你可以在此modelBody扩展处添加业务相关内容 <template slot="desc">\
+          <Steps :current="2" size="small">\
+        <Step title="已完成"></Step>\
+        <Step title="进行中"></Step>\
+        <Step title="待进行"></Step>\
+        <Step title="待进行"></Step>\
+        </Steps></template>\
+       </Alert>' },
         modelFooter: () => import("./SellOrderComponents/ModelFooter.vue"),
     },
     text: "示例覆盖全部可扩展方法,前台扩展文件SellOrder.js，后台Partial->SellOrdeService.cs",

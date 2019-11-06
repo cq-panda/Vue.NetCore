@@ -97,7 +97,7 @@ export default {
             field: "Date",
             placeholder: "你可以设置colSize属性决定标签的长度，可选值12/8/6/4",
             colSize: 8, //设置宽度为2/3
-            type: "datetime"
+            type: "date"
           }
         ],
         [
@@ -105,7 +105,7 @@ export default {
             columnType: "datetime",
             title: "开始结束日期",
             range: true, //设置为true可以选择开始与结束日期
-            required: false,
+            required: true,
             field: "DateRange",
             type: "date"
           },

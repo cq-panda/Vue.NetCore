@@ -199,8 +199,8 @@ let methods = {
     },
     search() {//查询
         // let query = this.getSearchParameters();
-       // this.$refs.table.load(query, true);
-       this.$refs.table.load(null, true);
+        // this.$refs.table.load(query, true);
+        this.$refs.table.load(null, true);
     },
     loadTableBefore(param, callBack) {//查询前设置查询条件及分页信息
         let query = this.getSearchParameters();
@@ -711,7 +711,8 @@ let methods = {
                 this.boxOptions.width = clientWidth * 0.8
             }
         }
-        this.height = clientHeight - 210;
+
+        this.height = this.tableHeight || clientHeight - 210;
         this.url = this.getUrl(this.const.PAGE);
         //计算弹出框的高与宽度
         //如果有明细表，高度与宽带设置为0.9/0.82

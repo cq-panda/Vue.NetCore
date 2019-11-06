@@ -42,6 +42,10 @@
 export default {
   methods: {
     change(item, index) {
+      if (item.text=="框架介绍") {
+        window.open("https://www.cnblogs.com/-clouds/p/11633786.html")
+        return;
+      }
       this.activedIndex = index;
       this.text = item.text;
       this.$router.push({ path: item.path });
@@ -61,19 +65,30 @@ export default {
       text: "",
       activedIndex: 0,
       timeline: [
+         {
+          text: "快速上手",
+          path: "/document/guide",
+          actived: false
+        },  
         {
           text: "框架介绍",
-          path: "/document/guide",
+          path: "",
           actived: true
         },
-        // {
-        //   text: "操作手册",
-        //   path: "/document/guide",
-        //   actived: false
-        // },
+         
         {
-          text: "代码生成器",
+          text: "组件api",
+          path: "/document/guide",
+          actived: false
+        },   
+        {
+          text: "代码生成",
           path: "/document/coder",
+          actived: false
+        },
+        {
+          text: "项目开发",
+          path: "/document/guide",
           actived: false
         },
         {
@@ -84,6 +99,10 @@ export default {
         {
           text: "后台开发",
           path: "/document/netCoreDev",
+          actived: false
+        },   {
+          text: "常见问题",
+          path: "/guide",
           actived: false
         }
       ]
@@ -106,17 +125,32 @@ export default {
   z-index: 9999;
   width: 100%;
   background: black;
+  box-shadow: 0px 0px 10px #524747;
   > .item {
-    line-height: 60px;
-    padding: 10px;
-    /* float: right; */
+        position: relative;
     text-align: center;
+    line-height: 55px;
+    // padding: 10px;
+    /* float: right; */
     flex: 1;
     color: #b1b0b0;
   }
+   > .item:hover{
+     cursor: pointer;
+     color: white;
+   }
     .actived {
     color: white;
     font-weight: bold;
+    span{
+    border-bottom: 2px solid #fff;
+    }
+  }
+  span{
+     height: 100%;
+  position: relative;
+      padding: 17px;
+
   }
 }
 
