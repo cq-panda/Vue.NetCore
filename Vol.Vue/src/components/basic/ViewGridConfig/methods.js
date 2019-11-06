@@ -693,6 +693,21 @@ let methods = {
             $internalVue.bindOptions(dic);
         });
     },
+    setFiexdColumn(columns, containerWidth) { //计算整个table的宽度，根据宽度决定是否启用第一行显示的列为固定列
+        let columnsWidth = 0;
+        columns.forEach(x => {
+            if (!x.hidden && x.width) {
+                columnsWidth += x.width;
+            }
+        })
+        //启用第一列为固定列
+        if (columnsWidth > containerWidth) {
+            let firstColumn = columns.find(x => !x.hidden);
+            if (firstColumn) {
+                firstColumn.fixed = true;
+            }
+        }
+    },
     initBoxHeightWidth() { //初始化弹出框的高度与宽度
         let clientHeight = document.documentElement.clientHeight;
         //弹出框高度至少250px
@@ -711,6 +726,9 @@ let methods = {
                 this.boxOptions.width = clientWidth * 0.8
             }
         }
+        //计算整个table的宽度，根据宽度决定是否启用第一行显示的列为固定列
+        let maxTableWidth = clientWidth - 270;
+        this.setFiexdColumn(this.columns, maxTableWidth);
 
         this.height = this.tableHeight || clientHeight - 210;
         this.url = this.getUrl(this.const.PAGE);
@@ -728,6 +746,8 @@ let methods = {
             this.detailOptions.cnName = this.detail.cnName;
             this.detailOptions.key = this.detail.key;
             this.detailOptions.url = this.getUrl("getDetailPage");
+            //计算弹出框整个table的宽度，根据宽度决定是否启用第一行显示的列为固定列
+            this.setFiexdColumn(this.detail.columns, clientWidth);
         } else {
             let maxColumns = 1; //最大列数，根据列计算弹框的宽度
             this.editFormOptions.forEach(x => {
