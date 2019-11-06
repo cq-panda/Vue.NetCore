@@ -3,13 +3,13 @@
     ref="formValidate"
     :style="{width:width>0?(width+'px'):'100%'}"
     :model="formFileds"
-    :rules="ruleValidate"
     :label-width="100"
   >
+    <!-- :rules="ruleValidate" -->
     <slot name="header"></slot>
     <Row class="line-row" v-for="(row,findex) in formRules" :key="findex">
       <Col :span="(item.colSize?item.colSize*2:24/span)" v-for="(item,index) in row" :key="index">
-        <FormItem :label="item.title+'：'" :prop="item.field">
+        <FormItem :rules="getRule(item)" :label="item.title+'：'" :prop="item.field">
           <!-- <Input
             v-if="item.disabled"
             class="readonly-input"
@@ -142,164 +142,21 @@ export default {
       default: {}
     }
   },
-  created() {
-    if (this.loadKey) {
-      this.initSource();
+  watch: {
+    // formRules: {
+    //   handler:function(newName, oldName) {
+    //     console.log(newName);
+    //   },
+    //   deep: true
+    // }
+    // ,
+    formRules(newObject, oldObject) {
+      //if (!newObject) {}
+      this.initFormRules();
     }
-    this.formRules.forEach(row => {
-      if (row.length > this.span) {
-        this.span = row.length;
-      }
-      row.forEach(item => {
-        if (item.dataKey) {
-          //下拉框都强制设置为字符串类型
-          item.columnType = "string";
-          if (item.data && item.data instanceof Array) {
-            item.data.forEach(x => {
-              x.key = x.key + "";
-            });
-          } else {
-            if (!item.data) {
-              item.data = { data: [] };
-            } else if (!item.data.data) {
-              item.data.data = [];
-            }
-            //数据源的key为数字时，可能存在配置不统一，有的是数据有的是字符，此处统一转换成字符
-            item.data.data.forEach(x => {
-              x.key = x.key + "";
-            });
-          }
-        }
-        //用户设置的自定义方法
-        if (item.validator && typeof item.validator == "function") {
-          this.ruleValidate[item.field] = [
-            {
-              validator: (rule, val, callback) => {
-                //用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
-                let message = item.validator(rule, val);
-                if (message) {
-                  return callback(new Error(message + ""));
-                }
-                return callback();
-              },
-              required: item.required,
-              trigger:
-                this.rule.change.indexOf(item.type) != -1 ? "change" : "blur"
-            }
-          ];
-          return;
-        }
-        //手机验证
-        if (item.type == "phone") {
-          this.ruleValidate[item.field] = [
-            {
-              validator: this.validatorPhone,
-              required: item.required,
-              trigger: "blur"
-            }
-          ];
-          return;
-        }
-
-        if (item.required || item.type == "mail") {
-          if (!item.hasOwnProperty("type")) {
-            item.type = "text";
-          }
-          switch (item.type) {
-            case "text":
-            case "string":
-            case "mail":
-            case "textarea":
-            case undefined:
-              let message =
-                item.title +
-                (this.types[item.columnType] == "number"
-                  ? "请输入一个有效的数字"
-                  : item.type == "mail"
-                  ? "必须是一个邮箱地址"
-                  : "不能为空");
-              let type =
-                item.type == "mail" ? "email" : this.types[item.columnType];
-
-              this.ruleValidate[item.field] = [
-                {
-                  required: true,
-                  message: message,
-                  trigger: "blur",
-                  type: type
-                }
-              ];
-              if (item.type == "mail") {
-                if (!item.required) {
-                  this.ruleValidate[item.field][0].required = false;
-                }
-                this.ruleValidate[item.field].push({
-                  type: type,
-                  message: message,
-                  trigger: "blur"
-                });
-              }
-              if (item.min) {
-                this.ruleValidate[item.field][0].min = item.min;
-                this.ruleValidate[item.field][0].message =
-                  item.title + "至少" + item.min + "个字符!";
-              }
-              if (item.max) {
-                this.ruleValidate[item.field].push({
-                  max: item.max,
-                  required: true,
-                  message: item.title + "最多" + item.max + "个字符!",
-                  trigger: "blur"
-                });
-              }
-              break;
-            case "drop":
-            case "radio":
-              this.ruleValidate[item.field] = [
-                {
-                  required: true,
-                  message: "请选择" + item.title,
-                  trigger: "change",
-                  type: "string" //this.types[item.columnType]
-                }
-              ];
-              break;
-            case "date":
-            case "datetime":
-              this.ruleValidate[item.field] = [
-                {
-                  required: true,
-                  type: "string",
-                  message: "请选择" + item.title,
-                  trigger: "change",
-                  type: this.types[item.columnType]
-                }
-              ];
-              break;
-            case "checkbox":
-            case "select":
-              this.ruleValidate[item.field] = [
-                {
-                  required: true,
-                  message: "请选择" + item.title,
-                  min: item.min || 1,
-                  type: "array",
-                  trigger: "change",
-                  type: this.types[item.columnType]
-                }
-              ];
-              item.max &&
-                this.ruleValidate[item.field].push({
-                  message: "最多只能选择" + item.max + "项" + item.title,
-                  max: item.max,
-                  type: "array",
-                  trigger: "change"
-                });
-              break;
-          }
-        }
-      });
-    });
+  },
+  created() {
+    this.initFormRules();
   },
   data() {
     return {
@@ -307,6 +164,7 @@ export default {
         change: ["checkbox", "select", "date", "datetime", "drop", "radio"],
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/
       },
+      inputTypeArr: ["text", "string", "mail", "textarea"],
       types: {
         int: "number",
         byte: "number",
@@ -368,8 +226,9 @@ export default {
       //初始化字典数据源
       this.formRules.forEach(item => {
         item.forEach(x => {
-          if (x.dataKey) {
-            if (!x.data) x.data = [];
+          if (x.dataKey && (!x.data || x.data.length == 0)) {
+            // if (!x.data)
+            x.data = [];
             binds.push({ key: x.dataKey, data: x.data });
             if (keys.indexOf(x.dataKey) == -1) {
               keys.push(x.dataKey);
@@ -444,7 +303,170 @@ export default {
       });
       return result;
     },
-    getReuired(rule, item) {}
+    getReuired(rule, item) {},
+    initFormRules() {
+      if (this.loadKey) {
+        this.initSource();
+      }
+      //  this.ruleValidate={};
+      this.formRules.forEach(row => {
+        if (row.length > this.span) this.span = row.length;
+        row.forEach(item => {
+          if (item.dataKey) {
+            //下拉框都强制设置为字符串类型
+            item.columnType = "string";
+            if (item.data && item.data instanceof Array) {
+              item.data.forEach(x => {
+                x.key = x.key + "";
+              });
+            } else {
+              if (!item.data) {
+                item.data = { data: [] };
+              } else if (!item.data.data) {
+                item.data.data = [];
+              }
+              //数据源的key为数字时，可能存在配置不统一，有的是数据有的是字符，此处统一转换成字符
+              item.data.data.forEach(x => {
+                x.key = x.key + "";
+              });
+            }
+          }
+        });
+      });
+    },
+    getRule(item) {
+      //用户设置的自定义方法
+      if (item.validator && typeof item.validator == "function") {
+        return {
+          validator: (rule, val, callback) => {
+            //用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
+            let message = item.validator(rule, val);
+            if (message) return callback(new Error(message + ""));
+            return callback();
+          },
+          required: item.required,
+          trigger: this.rule.change.indexOf(item.type) != -1 ? "change" : "blur"
+        };
+      }
+
+      //手机验证
+      if (item.type == "phone") {
+        return {
+          validator: this.validatorPhone,
+          required: item.required,
+          trigger: "blur"
+        };
+      }
+
+      if (!item.required && item.type != "mail") {
+        return {
+          required: false
+        };
+      }
+
+      if (!item.hasOwnProperty("type")) {
+        item.type = "text";
+      }
+
+      //inputTypeArr:['text','string','mail','textarea'],
+      if (this.inputTypeArr.indexOf(item.type) != -1) {
+        let message =
+          item.title +
+          (this.types[item.columnType] == "number"
+            ? "请输入一个有效的数字"
+            : item.type == "mail"
+            ? "必须是一个邮箱地址"
+            : "不能为空");
+        let type = item.type == "mail" ? "email" : this.types[item.columnType];
+        let _rule = {
+          required: true,
+          message: message,
+          trigger: "blur",
+          type: type
+        };
+        if (item.type == "mail") {
+          _rule.required = item.required;
+          return [
+            _rule,
+            {
+              type: type,
+              message: message,
+              trigger: "blur"
+            }
+          ];
+        }
+        if (item.min) {
+          _rule.min = item.min;
+          _rule.message = item.title + "至少" + item.min + "个字符!";
+        }
+        if (item.max) {
+          return [
+            _rule,
+            {
+              max: item.max,
+              required: true,
+              message: item.title + "最多" + item.max + "个字符!",
+              trigger: "blur"
+            }
+          ];
+        }
+        return _rule;
+      }
+
+      if (item.type == "drop" || item.type == "radio") {
+        return {
+          required: item.required,
+          message: "请选择" + item.title,
+          trigger: "change",
+          type: "string"
+        };
+      }
+      //日期验证还有点问题
+      if (item.type == "date" || item.type == "datetime") {
+        return {
+          // required: true, type:  this.types[item.columnType], message:"请选择" + item.title, trigger: 'change'
+          required: true,
+          message: "请选择" + item.title,
+          trigger: "change",
+          type: item.range ? "array" : "string",
+          //  type: this.types[item.columnType],
+          validator: (rule, val, callback) => {
+            //用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
+            if (!val || (item.range && val.length == 0)) {
+              return callback(new Error("请选择日期"));
+            }
+            console.log(val);
+            // if (message) return callback(new Error(message + ""));
+            return callback();
+          }
+        };
+      }
+
+      //if (item.type == "checkbox" || item.type == "select") {
+      if (item.type == "select") {
+        let _rule = {
+          required: true,
+          message: "请选择" + item.title,
+          min: item.min || 1,
+          type: "array",
+          trigger: "change",
+          type: this.types[item.columnType]
+        };
+        if (!item.max) return _rule;
+        return [
+          _rule,
+          {
+            message: "最多只能选择" + item.max + "项" + item.title,
+            max: item.max,
+            type: "array",
+            trigger: "change"
+          }
+        ];
+      }
+      return {
+        required: false
+      };
+    }
   }
 };
 </script>
