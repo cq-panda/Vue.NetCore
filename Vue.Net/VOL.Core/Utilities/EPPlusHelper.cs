@@ -368,7 +368,7 @@ namespace VOL.Core.Utilities
                 List<Sys_DictionaryList> dictionaryLists = dictionaries
                    .Where(x => x.DicNo == dicNo && x.Sys_DictionaryList != null)
                    .Select(s => s.Sys_DictionaryList).FirstOrDefault();
-
+                if (dictionaryLists == null|| dictionaryLists.Count==0) continue;
                 foreach (var item in dictionaryLists)
                 {
                     ////filterKeyValue为true过滤keyvalue相不的项,key==value相同的则不处理
