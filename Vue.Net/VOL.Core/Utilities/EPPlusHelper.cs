@@ -24,7 +24,7 @@ namespace VOL.Core.Utilities
             WebResponseContent responseContent = new WebResponseContent();
 
             FileInfo file = new FileInfo(path);
-            if (!file.Exists)  return responseContent.Error("未找到上传的文件,请重新上传");
+            if (!file.Exists) return responseContent.Error("未找到上传的文件,请重新上传");
 
             List<T> entities = new List<T>();
             using (ExcelPackage package = new ExcelPackage(file))
@@ -93,7 +93,7 @@ namespace VOL.Core.Utilities
                             if (key == null)//&& options.Requierd
                             {
                                 //小于20个字典项，直接提示所有可选value
-                                string values = options.KeyValues.Count < 20 ? (string.Join(',', options.KeyValues.Select(s => s.Value))) : "";
+                                string values = options.KeyValues.Count < 20 ? (string.Join(',', options.KeyValues.Select(s => s.Value))) : options.ColumnCNName;
                                 return responseContent.Error($"第{m}行[{options.ColumnCNName}]验证未通过,必须是字典数据中[{values}]的值。");
                             }
                             //将值设置为数据字典的Key,如果导入为是/否字典项，存在表中应该对为1/0
@@ -360,26 +360,21 @@ namespace VOL.Core.Utilities
 
             if (dicNos.Count() == 0) return cellOptions;
 
-            List<Sys_Dictionary> dictionaries = DictionaryManager.GetDictionaries(dicNos);
+            var dictionaries = DictionaryManager.GetDictionaries(dicNos);
             //获取绑定字典数据源下拉框的值
             foreach (string dicNo in dicNos.Distinct())
             {
-                Dictionary<string, string> keyValues = null;
-                var query = dictionaries
+                Dictionary<string, string> keyValues = new Dictionary<string, string>(); ;
+                List<Sys_DictionaryList> dictionaryLists = dictionaries
                    .Where(x => x.DicNo == dicNo && x.Sys_DictionaryList != null)
-                   .Select(s => s.Sys_DictionaryList);
-                //   .FirstOrDefault()
-                //.Where(w => (filterKeyValue && w.DicName != w.DicValue)|| !filterKeyValue) //key==value相同的则不处理
-                //   .ToDictionary(r => r.DicValue, r => r.DicName);
-                if (filterKeyValue)
+                   .Select(s => s.Sys_DictionaryList).FirstOrDefault();
+
+                foreach (var item in dictionaryLists)
                 {
-                    keyValues = query.FirstOrDefault()?
-                     .Where(w => w.DicName != w.DicValue)? //key==value相同的则不处理
-                      .ToDictionary(r => r.DicValue, r => r.DicName);
-                }
-                else
-                {
-                    keyValues = query.FirstOrDefault()?.ToDictionary(r => r.DicValue, r => r.DicName);
+                    ////filterKeyValue为true过滤keyvalue相不的项,key==value相同的则不处理
+                    if (filterKeyValue && item.DicName == item.DicValue) continue;
+                    if (keyValues.ContainsKey(item.DicValue)) continue;
+                    keyValues.Add(item.DicValue, item.DicName);
                 }
 
                 foreach (CellOptions options in cellOptions.Where(x => x.DropNo == dicNo))

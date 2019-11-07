@@ -25,16 +25,43 @@ namespace VOL.Core.Infrastructure
             }
         }
 
-        public static List<Sys_Dictionary> GetDictionaries(IEnumerable<string> dicNos)
-        {
-            return Dictionaries.Where(x => dicNos.Contains(x.DicNo)).ToList();
-        }
-
         public static Sys_Dictionary GetDictionary(string dicNo)
         {
-            return Dictionaries.Where(x => x.DicNo == dicNo).FirstOrDefault();
+            return GetDictionaries(new string[] { dicNo }).FirstOrDefault();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dicNos"></param>
+        /// <param name="executeSql">是否执行自定义sql</param>
+        /// <returns></returns>
+        public static IEnumerable<Sys_Dictionary> GetDictionaries(IEnumerable<string> dicNos, bool executeSql = true)
+        {
+            List<Sys_DictionaryList> query(string sql)
+            {
+                try
+                {
+                    return DBServerProvider.SqlDapper.QueryList<SourceKeyVaule>(sql, null).Select(s => new Sys_DictionaryList()
+                    {
+                        DicName = s.Value,
+                        DicValue = s.Key
+                    }).ToList();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return null;
+                }
+            }
+            foreach (var item in Dictionaries.Where(x => dicNos.Contains(x.DicNo)))
+            {
+                if (executeSql && !string.IsNullOrEmpty(item.DbSql))
+                {
+                    item.Sys_DictionaryList = query(item.DbSql);
+                }
+                yield return item;
+            }
+        }
         /// <summary>
         /// 当出现多人请求字典数据时，此方法可能会出现延迟现象(自行根据实际处理)
         /// </summary>
@@ -69,5 +96,11 @@ namespace VOL.Core.Infrastructure
             }
             return _dictionaries;
         }
+    }
+
+    public class SourceKeyVaule
+    {
+        public string Key { get; set; }
+        public string Value { get; set; }
     }
 }

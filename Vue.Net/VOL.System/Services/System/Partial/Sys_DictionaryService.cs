@@ -33,7 +33,7 @@ namespace VOL.System.Services
         {
             if (dicNos == null || dicNos.Count() == 0) return new string[] { };
             var dicConfig = await Task.Run(() =>
-                      DictionaryManager.GetDictionaries(dicNos).Select(s => new
+                      DictionaryManager.GetDictionaries(dicNos,false).Select(s => new
                       {
                           dicNo = s.DicNo,
                           config = s.Config,
