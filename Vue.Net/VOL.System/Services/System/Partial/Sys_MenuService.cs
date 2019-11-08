@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VOL.Core.DBManager;
 using VOL.Core.Extensions;
 using VOL.Core.ManageUser;
 using VOL.Core.Services;
@@ -37,7 +36,7 @@ namespace VOL.System.Services
         /// <returns></returns>
         public async Task<object> GetMenu()
         {
-          //  DBServerProvider.SqlDapper.q
+            //  DBServerProvider.SqlDapper.q
             return (await repository.FindAsync(x => 1 == 1, a =>
              new
              {
@@ -154,7 +153,7 @@ namespace VOL.System.Services
                            parentId = b.ParentId,
                            icon = b.Icon,
                            permission = a.UserAuthArr
-                       } ;
+                       };
             return menu.ToList();
         }
 
@@ -165,13 +164,12 @@ namespace VOL.System.Services
         /// <returns></returns>
         public async Task<WebResponseContent> Save(Sys_Menu menu)
         {
-            WebResponseContent webResponse = new WebResponseContent();
-
             bool result = true; ;
+            WebResponseContent webResponse = new WebResponseContent();
+            if (menu == null) return webResponse.Error("没有获取到提交的参数");
+            if (menu.Menu_Id>0&&menu.Menu_Id==menu.ParentId) return webResponse.Error("父级ID不能是当前菜单的ID");
             try
             {
-                if (menu == null) return webResponse.Error("没有获取到提交的参数");
-
                 webResponse = menu.ValidationEntity(x => new { x.MenuName, x.TableName });
                 if (!webResponse.Status) return webResponse;
 
