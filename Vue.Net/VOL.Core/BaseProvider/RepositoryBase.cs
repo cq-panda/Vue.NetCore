@@ -533,12 +533,12 @@ namespace VOL.Core.BaseProvider
             //  BulkInsert(entities.ToDataTable(), typeof(T).GetEntityTableName(), null);
         }
 
-        public virtual int SaverChanges()
+        public virtual int SaveChanges()
         {
             return EFContext.SaveChanges();
         }
 
-        public virtual Task<int> SaverChangesAsync()
+        public virtual Task<int> SaveChangesAsync()
         {
             return EFContext.SaveChangesAsync();
         }

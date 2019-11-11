@@ -218,7 +218,7 @@ namespace VOL.System.Services
 
                 int addCount=  updateAuths.Where(x => x.Auth_Id <= 0).Count();
                 int updateCount = updateAuths.Where(x => x.Auth_Id > 0).Count();
-                await repository.SaverChangesAsync();
+                await repository.SaveChangesAsync();
 
                 string _version = DateTime.Now.ToString("yyyyMMddHHMMssfff");
                 //标识缓存已更新

@@ -164,24 +164,33 @@ namespace VOL.System.Services
         /// <returns></returns>
         public async Task<WebResponseContent> Save(Sys_Menu menu)
         {
-            bool result = true; ;
             WebResponseContent webResponse = new WebResponseContent();
             if (menu == null) return webResponse.Error("没有获取到提交的参数");
-            if (menu.Menu_Id>0&&menu.Menu_Id==menu.ParentId) return webResponse.Error("父级ID不能是当前菜单的ID");
+            if (menu.Menu_Id > 0 && menu.Menu_Id == menu.ParentId) return webResponse.Error("父级ID不能是当前菜单的ID");
             try
             {
                 webResponse = menu.ValidationEntity(x => new { x.MenuName, x.TableName });
                 if (!webResponse.Status) return webResponse;
+                if (menu.TableName != "/" && menu.TableName != ".")
+                {
+                    Sys_Menu sysMenu = await repository.FindAsyncFirst(x => x.TableName == menu.TableName);
+                    if (sysMenu != null)
+                    {
+                        if ((menu.Menu_Id > 0 && sysMenu.Menu_Id != menu.Menu_Id)
+                            || menu.Menu_Id <= 0)
+                        {
+                            return webResponse.Error($"视图/表名【{menu.TableName}】已被其他菜单使用");
+                        }
+                    }
+                }
 
                 if (menu.Menu_Id <= 0)
                 {
-                    menu.SetCreateDefaultVal();
-                    repository.Add(menu);
+                    repository.Add(menu.SetCreateDefaultVal());
                 }
                 else
                 {
-                    menu.SetModifyDefaultVal();
-                    repository.Update(menu, p => new
+                    repository.Update(menu.SetModifyDefaultVal(), p => new
                     {
                         p.ParentId,
                         p.MenuName,
@@ -195,12 +204,9 @@ namespace VOL.System.Services
                         p.Modifier
                     });
                 }
-                await repository.SaverChangesAsync();
-                if (result)
-                {
-                    _menuVersionn = DateTime.Now.ToString("yyyyMMddHHMMssfff");
-                    _menus = null;
-                }
+                await repository.SaveChangesAsync();
+                _menuVersionn = DateTime.Now.ToString("yyyyMMddHHMMssfff");
+                _menus = null;
                 webResponse.OK("保存成功", menu);
             }
             catch (Exception ex)

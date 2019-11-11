@@ -789,14 +789,14 @@ namespace VOL.Core.BaseProvider
                 repository.Update(mainEntity, type.GetEditField().Where(c => saveModel.MainData.Keys.Contains(c) && !CreateFields.Contains(c)).ToArray());
                 if (base.UpdateOnExecuted == null)
                 {
-                    repository.SaverChanges();
+                    repository.SaveChanges();
                     Response.OK(ResponseType.SaveSuccess);
                 }
                 else
                 {
                     Response = repository.DbContextBeginTransaction(() =>
                     {
-                        repository.SaverChanges();
+                        repository.SaveChanges();
                         Response = UpdateOnExecuted(mainEntity, null, null, null);
                         return Response;
                     });
