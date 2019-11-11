@@ -3,7 +3,7 @@
     ref="formValidate"
     :style="{width:width>0?(width+'px'):'100%'}"
     :model="formFileds"
-    :label-width="100"
+    :label-width="labelWidth"
   >
     <!-- :rules="ruleValidate" -->
     <slot name="header"></slot>
@@ -127,9 +127,13 @@ export default {
       type: Boolean,
       default: false
     },
-    width: {
+    width: { //表单宽度
       type: Number,
       default: 0
+    },
+    labelWidth: {//表单左边label文字标签的宽度
+      type: Number,
+      default: 100
     },
     formRules: {
       //表单配置规则，如字段类型，是否必填
@@ -452,10 +456,10 @@ export default {
           trigger: "change",
           type: this.types[item.columnType],
           validator: (rule, value, callback) => {
-            if (value==undefined||value=="") {
+            if (value == undefined || value == "") {
               return callback(new Error(rule.message));
             }
-           return callback();
+            return callback();
           }
         };
 
