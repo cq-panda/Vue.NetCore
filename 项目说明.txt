@@ -8,3 +8,5 @@ DB提供了mysql与sqlserver数据库脚本，脚本里包括表结构与Insert数据
  optionsBuilder.UseSqlServer(connectionString);
 替换为
  optionsBuilder.UseSqlServer(connectionString,sqlOption=>sqlOption.UseRowNumberForPaging());
+
+
