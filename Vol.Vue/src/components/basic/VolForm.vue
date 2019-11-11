@@ -109,8 +109,8 @@
     </Row>
     <slot name="footer"></slot>
     <!-- <FormItem> -->
-      <!-- <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-      <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>-->
+    <!-- <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
+    <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>-->
     <!-- </FormItem> -->
   </Form>
 </template>
@@ -316,9 +316,9 @@ export default {
             //下拉框都强制设置为字符串类型
             item.columnType = "string";
             if (item.data && item.data instanceof Array) {
-              item.data.forEach(x => {
-                x.key = x.key + "";
-              });
+              // item.data.forEach(x => {
+              //   x.key = x.key + "";
+              // });
             } else {
               if (!item.data) {
                 item.data = { data: [] };
@@ -326,9 +326,9 @@ export default {
                 item.data.data = [];
               }
               //数据源的key为数字时，可能存在配置不统一，有的是数据有的是字符，此处统一转换成字符
-              item.data.data.forEach(x => {
-                x.key = x.key + "";
-              });
+              // item.data.data.forEach(x => {
+              //   x.key = x.key //+ "";
+              // });
             }
           }
         });
@@ -450,8 +450,16 @@ export default {
           min: item.min || 1,
           type: "array",
           trigger: "change",
-          type: this.types[item.columnType]
+          type: this.types[item.columnType],
+          validator: (rule, value, callback) => {
+            if (value==undefined||value=="") {
+              return callback(new Error(rule.message));
+            }
+           return callback();
+          }
         };
+
+        //    validator: this.validatorPhone,
         if (!item.max) return _rule;
         return [
           _rule,
