@@ -99,7 +99,7 @@ export default {
 .vertical-center-modal {
   display: flex;
   align-items: center;
-  justify-content: center;
+ //   justify-content: center;
 
   .ivu-modal {
     top: 0;

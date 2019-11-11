@@ -186,6 +186,8 @@ export default {
           });
           return;
         }
+        this.fields.menu_Id = x.data.menu_Id;
+        this.fields.createDate = x.data.createDate;
         this.tree.push({
           id: x.data.menu_Id,
           name: this.fields.menuName,
@@ -211,7 +213,7 @@ export default {
     },
     onOpenChange(node) {
       if (node.length == 0) return;
-      this.getTreeItem(node[0]);
+      this.getTreeItem(node[node.length > 1 ? node.length - 1 : 0]);
     },
     menuSelect(node) {
       this.getTreeItem(node);
@@ -281,7 +283,7 @@ export default {
             columnType: "int",
             title: "父级ID",
             required: true,
-            field: "parentId",
+            field: "parentId"
             // min: 0, max: 50
           }
         ],

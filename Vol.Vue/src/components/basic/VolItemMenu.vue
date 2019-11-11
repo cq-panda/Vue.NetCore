@@ -1,9 +1,9 @@
 <template>
   <Menu
     :accordion="true"
-    @on-open-change="onOpenChange"
-    @on-select="onSelect"
-    active-name="0"
+    @on-open-change="menuOpenChange"
+    @on-select="menuSelect"
+    :active-name="activeId"
     :theme="theme"
     :open-names="[0]"
   >
@@ -48,7 +48,21 @@ export default {
   render(createElement) {
     console.log(createElement);
   },
-  methods: {}
+  data() {
+    return {
+      activeId: 0
+    };
+  },
+  methods: {
+    menuOpenChange(node) {
+      if (node.length == 0) return;
+      this.activeId =-999999;
+      this.onOpenChange(node);
+    },
+    menuSelect(node) {
+      this.onSelect(node);
+    }
+  }
 };
 </script>
 
