@@ -1,96 +1,63 @@
 <template>
   <div id="cnblogs_post_body">
-    <div style="line-height: 50px;
+    <div
+      style="line-height: 50px;
     text-align: center;
     font-size: 20px;
     border-radius: 5px;
-    margin-bottom: 20px;
-    border: 1px dotted #00BCD4"><a style="border-bottom: 1px solid;" href="https://www.cnblogs.com/-clouds/p/11633786.html">点击查看博客园详细介绍</a></div>
-    
-    <div class="desc desc-to">
-      <div>此框架由代码生成器完成了大部分工作能极大减少代码量,并支持前台端代码的扩展。如果你对前后端分离开发的方式或H5开发有兴趣,那么希望此框架对能你有所帮助！</div>
-      <div>如果你觉得框架对你有用，帮忙点个星，非常感谢!</div>
-      <div>
-        Demo地址：
-        <a href="http://132.232.2.109">http://132.232.2.109</a> 帐号：admin666密码：123456（本地超级管理员帐号：admin密码123456）
-      </div>
-      <div>
-        GitHub地址：
-        <a
-          href="https://github.com/cq-panda/Vue.NetCore.git"
-        >https://github.com/cq-panda/Vue.NetCore.git</a>
-      </div>
-      <div>
-        如果你需要Quartz.Net做定时任务管理，你可以试试这个：
-        <a
-          href="https://github.com/cq-panda/Vue.NetCore.git"
-        >https://github.com/cq-panda/Quartz.NetUI</a>
-      </div>
-      <div>如果有好的建议或问题github提issue或联系QQ：283591387</div>
-      <div>(站点与MySql部署在同一个1G1核1M带宽的服务Centos服务上,访问可能会出现延迟现象)</div>
-      <br />
+    margin-bottom: 20px;"
+    >
+      <a
+        target="_blank"
+        style="border-bottom: 1px solid;margin: 0 10px"
+        href="https://www.cnblogs.com/-clouds/p/11633786.html"
+      >博客园介绍</a>
+      <a
+        target="_blank"
+        style="border-bottom: 1px solid;margin: 0 10px"
+        href="http://132.232.2.109"
+      >演示环境</a>
+      <a
+        target="_blank"
+        style="border-bottom: 1px solid;margin: 0 10px"
+        href="http://132.232.2.109/app/guide"
+      >H5开发</a>
+      <a
+        target="_blank"
+        style="border-bottom: 1px solid;margin: 0 10px"
+        href="https://github.com/cq-panda/Vue.NetCore"
+      >GitHub</a>
     </div>
-    <h2>这是一个可支持对前端、后台基础业务代码扩展的快速发开框架，现框架可直上手开发这些功能</h2>
-    <blockquote>
-      <ul>
-        <li>Vol.WebApi类库可独立用于restful api服务单独部署,用于其他系统单独提供接口,直接上手编写业务代码即可。</li>
-        <li>Vue+Vol.WebApi 可用于现有框架前后端分离进行开发</li>
-        <li>Vol.Web类库可用于传统MVC+Razor方式进行项目开发</li>
-        <li>Vol.Builder类库可作为一个独立的代码生成器,可生成cshtml页面、Vue页面、Model文件、Service与Repository.cs业务处理代码类</li>
-        <li>可作为一个独立站点来发布Editor编辑器生成的静态html网页.</li>
-        <li>
-          可直接用于H5移动App开发
-          <a
-            title="H5开发看这里"
-            href="http://132.232.2.109/app/guide"
-            target="_blank"
-          >H5开发看这里</a>
-        </li>
-      </ul>
-    </blockquote>
-    <h2>框架特点</h2>
-    <blockquote>
-      <ul>
-        <li>支持前端、后台基础业务代码动态扩展，可在现有框架增、删、改、查、导入、导出、审核基础业务上扩展复杂的业务代码</li>
-        <li>基本业务全部由框架完成，上手即可对基础业务以外的代码进行扩展</li>
-        <li>上手简单，需要.net core2.1、VsCode mysql/sqlservcer 2012、redis(可选) 及以上版本的开发环境</li>
-        <li>学习成本低，封装了常用可扩展组件及Demo(前端基于Iview/Element-UI组件进行了二次封装、后台提供了大量的扩展方法)</li>
-        <li>开发效率高,内定制开发的代码生成器,生成前端(Vue、后台代码),代码生成器已完成90%以上的重复工作，只需要在提供的扩展类型中实现其他业务</li>
-        <li>前端vue页面表单下拉/多选框完成自动绑定数据源，不需要写任何代码,并支持扩展自定开发绑定。</li>
-        <li>后台已完成权限、菜单、JWT等内部功能</li>
-      </ul>
-    </blockquote>
-    <p
-      class="desc"
-      style="color:white; background: #009688;"
-    >如果你没有做过webpack+vue工程化开发项目，可能会刚开始相当不适应，或者安装环境总是出问题，但只要你熟悉开发流程后，你会发现采用Vue开发比Jquery爽太多了。上手项目需重点了解基础Vue语法，特别是了解组件、路由及import的使用</p>
     <h2>开发及依赖环境</h2>
     <p class="desc">
       S2017 、.NetCore2.1 、EFCore2.1、JWT、Dapper、Autofac、SqlServer/MySql、Redis(可选，没有redis的在appsetting.json中不用配置，默认使用内置IMemory)、
       <br />VsCode、Vue2.0（webpack、node.js,如果没有此环境自行搜索:vue webpack npm)、Vuex、axios、promise、IView、Element-ui
     </p>
-    <h2>项目运行</h2>
-    <p class="desc">
-      如果你没有前端环境，请先安装node
-      <br />前端开发使用VsCode
-    </p>
-    <blockquote>
-      <ul>
-        <li>1、使用cmd命令切换至前端Vue项目.../VOL.Vue路径下,执行npm install命令(只有从来没执行过此命令的才执行npm install)</li>
+    <h2>启动项目</h2>
+    <div class="desc">
+      <ul style="padding: 5px 30px;">
+        <li>如果你没有前端环境，请先安装node,前端开发建议使用VsCode</li>
         <li>
-          2、运行后端项目：在后端项目路径.../VOL.WebApi/运行dev_run.bat
+          如果你没有dotnetcore2.1及以上版本环境，
+          <a
+            target="_blank"
+            href="https://dotnet.microsoft.com/download/dotnet-core"
+          >点击此处下载</a>
+        </li>
+        <li>
+          1、运行后端项目：后端项目路径../VOL.WebApi/运行dev_run.bat
           <span>端口设置的是9991</span>,运行前先看appsettings.josn配置属性说明
         </li>
-        <li>3、运行前端项目：在前端Vue项目路径.../VOL.Vue/运行run.bat（每次启动会进行编译，这个时间可能会有点长）</li>
-        <li>4、输入http://localhost:8080访问</li>
+        <li>2、运行前端项目：前端Vue项目路径../VOL.Vue/运行run.bat,注意：如从没执行过npm install命令，使用cmd命令切换至前端Vue项目../VOL.Vue路径下,执行npm install命令</li>
+        <li>3、输入http://localhost:8080访问（本地超级管理员帐号：admin 密码:123456）</li>
       </ul>
-    </blockquote>
+    </div>
     <h2>功能介绍</h2>
     <table>
       <tr>
-        <td style=" min-width: 140px;">功能</td>
+        <td style=" min-width: 170px;">功能</td>
         <td>描述</td>
-        <td>完成情况</td>
+        <td style=" min-width: 90px;">完成情况</td>
       </tr>
       <tr>
         <td>用户管理(登陆、密码修改)</td>
@@ -117,17 +84,11 @@
         <td>采用前台端分离JWT认证，并且支持JWT过期动态刷新</td>
         <td>√</td>
       </tr>
-	 <tr>
-            <td>
-                异步队列批量写日志
-            </td>
-            <td>
-                框架封装了一个异步队列写日志,此前项目每天PV约150W左右，采用异步队列的方式批量写入日志非常顺畅
-            </td>
-            <td>
-                √
-            </td>
-        </tr>
+      <tr>
+        <td>异步队列批量写日志</td>
+        <td>框架封装了一个异步队列写日志,此前项目每天PV约150W左右，采用异步队列的方式批量写入日志非常顺畅</td>
+        <td>√</td>
+      </tr>
       <tr>
         <td>Repository</td>
         <td>Repository作为数据提供，提供了常用EF方法封装</td>
@@ -201,15 +162,6 @@
         <td>x</td>
       </tr>
     </table>
-    <div
-      style=" line-height: 40px; background: #e71616; margin-top: 20px; padding: 0px 30px; border-radius: 4px; color: white;"
-    >
-      <a style=" color: white;" href="http://132.232.2.109" target="_blank">框架文档、代码生成器、Demo看这里</a>
-    </div>
-    <div>
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/home.png" />
-    </div>
-    
   </div>
 </template>
 <script>
@@ -289,7 +241,7 @@ export default {};
   border-collapse: collapse;
   padding: 7px;
   min-width: 60px;
-  border: 1px solid #607d8b;
+  border: 1px solid #d4d1d1;
   text-align: left;
 }
 #cnblogs_post_body img {

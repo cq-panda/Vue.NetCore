@@ -101,12 +101,14 @@ let extension = {
             this.$Notice.success({ title: '执行mounted方法' });
         },
         onInit() {
+              //动态设置弹出框table的高度
+            this.detailOptions.height=110;
+            //动态设置查询界面table高度
+            this.tableHeight = 200;;
             this.$Notice.success({ title: 'create方法执行时,你可以此处编写业务逻辑' });
         },
         onInited() {
-            //添加扩展属性gridHeader/body/footer后，可以自定再设置表格高度
-            this.height = this.height - 140;
-            this.$Notice.success({ title: 'create方法执行后', desc: '你可以SellOrder.js中编写业务逻辑,其他方法同样适用' });
+         //   this.$Notice.success({ title: 'create方法执行后', desc: '你可以SellOrder.js中编写业务逻辑,其他方法同样适用' });
         },
         searchBefore(param) { //查询ViewGird表数据前,param查询参数
             //你可以指定param查询的参数，处如果返回false，则不会执行查询
@@ -119,7 +121,7 @@ let extension = {
             return true;
         },
         searchDetailBefore(param) {//查询从表表数据前,param查询参数
-            this.$Notice.success({ title: this.detailOptions.cnName + '查询前' });
+          //  this.$Notice.success({ title: this.detailOptions.cnName + '查询前' });
             return true;
         },
         searchDetailAfter(data) {//查询从表后param查询参数,result回返查询的结果

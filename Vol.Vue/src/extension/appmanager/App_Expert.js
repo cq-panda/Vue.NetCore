@@ -44,7 +44,7 @@ let extension = {
                                 required:false ,
                                 field:"test2",
                                 colSize: 12,
-                                type: "date"
+                                type: "datetime"
                               }
                             ]
                           ]

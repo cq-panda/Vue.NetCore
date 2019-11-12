@@ -100,17 +100,17 @@ const system = {
         getUserInfo: (state) => () => {
             getUserInfo(state);
             return state.userInfo;
-        },  getUserName: (state) => () => {
+        }, getUserName: (state) => () => {
             getUserInfo(state);
             if (state.userInfo) {
                 return state.userInfo.userName;
             }
             return '未获取到登陆信息';
         },
-        getToken:(state) => () => {
+        getToken: (state) => () => {
             getUserInfo(state);
             if (state.userInfo) {
-                return 'Bearer '+state.userInfo.token;
+                return 'Bearer ' + state.userInfo.token;
             }
             return '';
         },

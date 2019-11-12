@@ -30,7 +30,7 @@ export default {
             {
               dataKey: "pz", //已经设置loadKey自动绑定数据源
               data: [],
-              type: "select",
+              type: "datetime",
               columnType: "string",
               title: "test" + this.index,
               required: this.required,

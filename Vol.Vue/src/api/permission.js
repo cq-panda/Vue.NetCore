@@ -18,11 +18,14 @@ let permission = {
     getMenu() {
         return http.get("/api/getTreeMenu");
     }, getButtons(path, extra) {//extra自定额外按钮
-        console.log('grid');
+        //  console.log('grid');
         let permission = $vue.$store.getters.getPermission(path);
         if (!permission) {
-            $vue.permission.to401();
-            return;
+            permission = $vue.$store.getters.getPermission(path.substring(1));
+            if (!permission) {
+                $vue.permission.to401();
+                return;
+            }
         }
 
         let permissions = permission.permission;//.split(',');

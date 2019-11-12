@@ -87,7 +87,7 @@
         </div>
         <!--查询条件-->
         <div class="search-box" v-show="searchBoxShow">
-          <vol-form ref="searchForm" :formRules="searchFormOptions" :formFileds="searchFormFileds">
+          <vol-form ref="searchForm"  :label-width="labelWidth" :formRules="searchFormOptions" :formFileds="searchFormFileds">
             <div class="form-closex" slot="footer">
               <Button size="small" type="info" ghost @click="search">
                 <Icon type="md-search" />查询
@@ -121,7 +121,7 @@
                   {{table.cnName}}
                 </span>
               </div>
-              <vol-form ref="form" :formRules="editFormOptions" :formFileds="editFormFileds"></vol-form>
+              <vol-form ref="form"  :label-width="boxOptions.labelWidth" :formRules="editFormOptions" :formFileds="editFormFileds"></vol-form>
             </div>
             <!--明细body自定义组件-->
             <modelBody class="model-body" ref="modelBody" @parentCall="parentCall"></modelBody>
@@ -247,6 +247,7 @@ let _components = {
   modelBody: Empty,
   modelFooter: Empty
 };
+import VolTable from "@/components/basic/VolTable.vue";
 var vueParam = {
   components: {
     //表单header、content、footer对应位置扩充的组件
@@ -261,7 +262,7 @@ var vueParam = {
     ..._components,
     VolForm: () => import("@/components/basic/VolForm.vue"),
     VolBoxForm: () => import("@/components/basic/VolBoxForm.vue"),
-    VolTable: () => import("@/components/basic/VolTable.vue"),
+    VolTable:VolTable, //() => import("@/components/basic/VolTable.vue"),
     VolBox: () => import("@/components/basic/VolBox.vue"),
     QuickSearch: () => import("@/components/basic/QuickSearch.vue"),
     Audit: () => import("@/components/basic/Audit.vue"),
@@ -281,7 +282,8 @@ var vueParam = {
       hasKeyField: {}, //当前操作的行数据(新建、编辑、查看)
       closable: false,
       boxModel: false, //弹出新建、编辑框
-      width: 700,
+      width: 700,//弹出框查看表数据结构
+      labelWidth:100,//高级查询的标签宽度
       viewModel: false, //查看表结构的弹出框
       viewColumns: [], //查看表结构的列数据
       viewData: [], //查看表结构信息
@@ -306,7 +308,7 @@ var vueParam = {
         delKeys: [], //当编辑时删除当前明细的行主键值
         url: "", //从表加载数据的url
         pagination: { total: 0, size: 100, sortName: "" }, //从表分页配置数据
-        height: 250 //默认从表高度
+        height: 0 //默认从表高度
       },
       auditParam: {
         //审核对象
@@ -331,7 +333,7 @@ var vueParam = {
       height: 0, //表高度
       tableHeight: 0, //查询页面table的高度
       pagination: { total: 0, size: 30, sortName: "" }, //从分页配置数据
-      boxOptions: { saveClose: true, test: 111, height: 0, width: 0 } //saveClose新建或编辑成功后是否关闭弹出框
+      boxOptions: { saveClose: true, labelWidth: 100, height: 0, width: 0 } //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
     };
   },
   methods: {

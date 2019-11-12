@@ -14,37 +14,12 @@
       </ul>
     </blockquote>
     <p></p>
-    <h2>代生成步骤(只需要4步)</h2>
-    <blockquote style="    background: #fbfbfb;">
-      <ul>
-        <li>选择菜单：在线代生成器-&gt;Vue+后台代码生成</li>
-        <li>
-          点击新建
-          <span>(如果只是做修改,跳过此步)</span>
-          <br />-&gt;填写信息
-          <span>(项目命名空间：代码生成时所放在类库，项目文件夹：生成的文件放在文件夹,此文件夹可以不存在，表名:可以是视图或表,名字必须和数据库一样)</span>
-          <br />-&gt;确认
-          <span>(此时会从数据库载出表结构信息,如果只想创建一个空菜单，上面表名随便填写)</span>
-          <br />-&gt;根据实际需要填写加载出来的表单及table表的的信息
-          <br />
-          <span>(需要注意Vue绝对路径的设置:生成Vue页面必须指定此路径，路径为当前Vue项目的views文件夹，如E:/VOL.Vue/src/views)</span>
-          <br />-&gt;保存
-          <span>(任何修改后都先点击保存再做其他操作)</span>-&gt;生成Model-&gt;生成业务类-&gt;生成Vue页面
-          <br />
-        </li>
-        <li>
-          系统-&gt;菜单设置：配置菜单
-          <span>(配置方式见下面操作)</span>，运行后台项目路径下.../VOL.WebApi/dev_run.bat
-          <span>如果当前运行的是此bat请忽略</span>
-        </li>
-        <li>刷新页面就可以看到刚刚生成的页面了</li>
-      </ul>
-    </blockquote>
+    <a href="#param">代码生成配置参数说明</a>
     <p></p>
 
     <h2>1、选择菜单：在线代生成器-&gt;Vue+后台代码生成</h2>
     <div>
-      <p class="desc">点击新建,弹出选择框(如果只是做修改，直接修改后点保存，再点各种生成操作)</p>
+      <p class="desc">点击新建,弹出选择框，如果只是做修改跳过此步，直接修改页面配置后点保存，再点各种生成操作</p>
       <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step1.png" />
     </div>
     <h2>2、填写需要生成表或视图的信息</h2>
@@ -54,6 +29,8 @@
         <br />项目命名空间：代码生成时所放在类库(现框架采用一个模块为一个类库，可自行决定是否需要增加类库)
         <br />项目文件夹：生成的文件放在文件夹,此文件夹由代码生成器创建,不需要手动创建
         <br />表名:可以是视图或表,名字必须和数据库一样
+        <br />
+        <span class="t-span">(如果只想创建一个空菜单，上面表名随便填写)</span>
       </p>
       <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step2.png" />
     </div>
@@ -62,8 +39,9 @@
       <p class="desc">
         加载完成后，根据自身情况配置下面表格中的查询与新建、编辑信息
         <a href="#param">查看参数说明</a>
-        <br />点击保存、生成Vue页面、生成Model、生成业务类即可(每次修改信息后都需要点击保存)。
+        <br /><span style="font-weight:bold;font-size:16px;" class="t-span">点击保存、生成Vue页面、生成Model、生成业务类即可(每次修改信息后都需要点击保存)。</span>
         <br />如果使用的mysql数据库并且主键使用的是Guid，数据库字段类型应该设置为char 长度为36，否则生成实体Model时会与数据库类型对应不上
+        <br/>  <span class="t-span">(需要注意Vue绝对路径的设置:生成Vue页面必须指定此路径，路径为当前Vue项目的views文件夹，如E:/VOL.Vue/src/views)</span>
       </p>
       <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep3.png" />
     </div>
@@ -184,7 +162,7 @@
           <td>
             <span>设置连接字段后，前台界面表格点击此链接可快速查看详细信息</span>
             <img
-              width="129"
+            style="width:350px !important"
               height="110"
               src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/link.png"
             />
@@ -383,170 +361,170 @@
 export default {};
 </script>
 <style lang="less" scoped>
-#cnblogs_post_body
-{
-color: black;      
-font: 0.875em/1.5em "微软雅黑" , "PTSans" , "Arial" ,sans-serif;
-font-size: 15px;
+#cnblogs_post_body {
+  color: black;
+  font: 0.875em/1.5em "微软雅黑", "PTSans", "Arial", sans-serif;
+  font-size: 15px;
 }
-#各个等级标题的颜色样式
-#cnblogs_post_body h1    {
-background: #2B6695;
-border-radius: 6px 6px 6px 6px;
-box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
-color: #FFFFFF;
-font-family: "微软雅黑" , "宋体" , "黑体" ,Arial;
-font-size: 23px;
-font-weight: bold;
-height: 25px;
-line-height: 25px;
-margin: 18px 0 !important;
-padding: 8px 0 5px 5px;
-text-shadow: 2px 2px 3px #222222;
+#各个等级标题的颜色样式 #cnblogs_post_body h1 {
+  background: #2b6695;
+  border-radius: 6px 6px 6px 6px;
+  box-shadow: 0 0 0 1px #5f5a4b, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+  color: #ffffff;
+  font-family: "微软雅黑", "宋体", "黑体", Arial;
+  font-size: 23px;
+  font-weight: bold;
+  height: 25px;
+  line-height: 25px;
+  margin: 18px 0 !important;
+  padding: 8px 0 5px 5px;
+  text-shadow: 2px 2px 3px #222222;
 }
-#cnblogs_post_body h2    {
-background:#4CAF50;
-border-radius: 6px 6px 6px 6px;
-box-shadow: 0 0 0 1px #a3a3a3, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
-color: #FFFFFF;
-font-family: "微软雅黑" , "宋体" , "黑体" ,Arial;
-font-size: 20px;
-font-weight: bold;
-/* height: 25px; */
-line-height: 37px;
-margin: 18px 0 !important;
-/* padding: 8px 0 5px 5px; */
-padding: 2px 20px;
-text-shadow: 2px 2px 3px #635555;
+#cnblogs_post_body h2 {
+  background: #4caf50;
+  border-radius: 6px 6px 6px 6px;
+  box-shadow: 0 0 0 1px #a3a3a3, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+  color: #ffffff;
+  font-family: "微软雅黑", "宋体", "黑体", Arial;
+  font-size: 20px;
+  font-weight: bold;
+  /* height: 25px; */
+  line-height: 37px;
+  margin: 18px 0 !important;
+  /* padding: 8px 0 5px 5px; */
+  padding: 2px 20px;
+  text-shadow: 2px 2px 3px #635555;
 }
 
-
-#cnblogs_post_body h3    {
-background: #399ab2;
-border-radius: 6px 6px 6px 6px;
-box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
-color: #FFFFFF;
-font-family: "微软雅黑" , "宋体" , "黑体" ,Arial;
-font-size: 18px;
-font-weight: bold;
-height: 25px;
-line-height: 25px;
-margin: 18px 0 !important;
-padding: 8px 0 5px 5px;
-text-shadow: 2px 2px 3px #222222;
+#cnblogs_post_body h3 {
+  background: #399ab2;
+  border-radius: 6px 6px 6px 6px;
+  box-shadow: 0 0 0 1px #5f5a4b, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+  color: #ffffff;
+  font-family: "微软雅黑", "宋体", "黑体", Arial;
+  font-size: 18px;
+  font-weight: bold;
+  height: 25px;
+  line-height: 25px;
+  margin: 18px 0 !important;
+  padding: 8px 0 5px 5px;
+  text-shadow: 2px 2px 3px #222222;
 }
-#cnblogs_post_body h4{
-background: #2B6600;
-border-radius: 6px 6px 6px 6px;
-box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
-color: #FFFFFF;
-font-family: "微软雅黑" , "宋体" , "黑体" ,Arial;
-font-size: 16px;
-font-weight: bold;
-height: 24px;
-line-height: 23px;
-margin: 12px 0 !important;
-padding: 5px 0 5px 10px;
-text-shadow: 2px 2px 3px #222222;
+#cnblogs_post_body h4 {
+  background: #2b6600;
+  border-radius: 6px 6px 6px 6px;
+  box-shadow: 0 0 0 1px #5f5a4b, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+  color: #ffffff;
+  font-family: "微软雅黑", "宋体", "黑体", Arial;
+  font-size: 16px;
+  font-weight: bold;
+  height: 24px;
+  line-height: 23px;
+  margin: 12px 0 !important;
+  padding: 5px 0 5px 10px;
+  text-shadow: 2px 2px 3px #222222;
 }
 
 #cnblogs_post_body table {
-
-border-collapse: collapse;
+  border-collapse: collapse;
 }
-#cnblogs_post_body table  td{
-color: rgba(111, 93, 93, 0.87);
-font-size: 13px;
-border-collapse: collapse;
-padding: 7px;
-min-width: 60px;
-border: 1px solid #607d8b;
-text-align: left;
+#cnblogs_post_body table td {
+  color: rgba(111, 93, 93, 0.87);
+  font-size: 13px;
+  border-collapse: collapse;
+  padding: 7px;
+  min-width: 60px;
+  border: 1px solid #d2d2d2;
+  text-align: left;
 }
-#cnblogs_post_body img{
-width: 100%;
-margin-bottom: 30px;
-margin-top: 10px;
-}
-
-#cnblogs_post_body h2:a{
-color: rgb(235, 235, 235);
-}
-#cnblogs_post_body h2 a:hover{
-color: rgb(255, 102, 0);
+#cnblogs_post_body img {
+  width: 100%;
+  margin-bottom: 30px;
+  margin-top: 10px;
 }
 
-#cnblogs_post_body h1{
-color: rgb(235, 235, 235);
+#cnblogs_post_body h2:a {
+  color: rgb(235, 235, 235);
 }
-#cnblogs_post_body h1:hover{
-color: rgb(255, 102, 0);
+#cnblogs_post_body h2 a:hover {
+  color: rgb(255, 102, 0);
 }
-#cnblogs_post_body h2{
-color: rgb(235, 235, 235);
+
+#cnblogs_post_body h1 {
+  color: rgb(235, 235, 235);
 }
-#cnblogs_post_body h2:hover{
-color: rgb(255, 102, 0);
+#cnblogs_post_body h1:hover {
+  color: rgb(255, 102, 0);
 }
-#cnblogs_post_body h3{
-color: rgb(235, 235, 235);
+#cnblogs_post_body h2 {
+  color: rgb(235, 235, 235);
 }
-#cnblogs_post_body h3:hover{
-color: rgb(255, 102, 0);
+#cnblogs_post_body h2:hover {
+  color: rgb(255, 102, 0);
 }
-#cnblogs_post_body h4{
-color: rgb(235, 235, 235);
+#cnblogs_post_body h3 {
+  color: rgb(235, 235, 235);
 }
-#cnblogs_post_body h4:hover{
-color: rgb(255, 102, 0);
+#cnblogs_post_body h3:hover {
+  color: rgb(255, 102, 0);
+}
+#cnblogs_post_body h4 {
+  color: rgb(235, 235, 235);
+}
+#cnblogs_post_body h4:hover {
+  color: rgb(255, 102, 0);
 }
 #cnblogs_post_body blockquote {
-margin: 20px 0;
-padding: 15px 20px 15px 60px;
-font-size: 15px;
-background: #f7ed91;
-font-family: 'Microsoft Yahei';
-box-shadow: 0 0 8px #AAA;
-clear: both;
-line-height: 1.6em;
-color: #333;
+  margin: 20px 0;
+  padding: 15px 20px 15px 60px;
+  font-size: 15px;
+  background: #f7ed91;
+  font-family: "Microsoft Yahei";
+  box-shadow: 0 0 8px #aaa;
+  clear: both;
+  line-height: 1.6em;
+  color: #333;
 }
-#cnblogs_post_body blockquote li{
-padding: 15px 2px 5px 5px;
-/* line-height: 1.5; */
-/* color: #000; */
-border-bottom: 1px solid #ccc;
-/* list-style-type: disc; */
-margin-bottom: 0.5em;
-}
-
-#cnblogs_post_body .desc{
-background: rgb(230, 250, 250);
-padding: 10px 10px 10px 10px;
-border: 1px dashed rgb(224, 224, 224);
-font-family: 微软雅黑;
-font-size: 13px;
+#cnblogs_post_body blockquote li {
+  padding: 15px 2px 5px 5px;
+  /* line-height: 1.5; */
+  /* color: #000; */
+  border-bottom: 1px solid #ccc;
+  /* list-style-type: disc; */
+  margin-bottom: 0.5em;
 }
 
-#cnblogs_post_body	.desc-to{
-background: #4CAF50;
-color: white;
+#cnblogs_post_body .desc {
+  background: rgb(230, 250, 250);
+  padding: 10px 10px 10px 10px;
+  border: 1px dashed rgb(224, 224, 224);
+  font-family: 微软雅黑;
+  font-size: 13px;
 }
-#cnblogs_post_body	.desc-to > div{
-padding: 10px 16px;
+
+#cnblogs_post_body .desc-to {
+  background: #4caf50;
+  color: white;
 }
-#cnblogs_post_body	.desc-to a{
-color: yellow;
-font-weight: bold;
-margin-right: 25px;
+#cnblogs_post_body .desc-to > div {
+  padding: 10px 16px;
 }
-ul  span{
-font-size: 12px;
-margin-left: 10px;
-color: #2196F3;
-			}
-.img3{
-    width: 30% !important;
-    margin-right: 10px;
+#cnblogs_post_body .desc-to a {
+  color: yellow;
+  font-weight: bold;
+  margin-right: 25px;
+}
+ul span,.t-span {
+  font-size: 12px;
+  margin-left: 10px;
+  color: #2196f3;
+}
+.img3 {
+  width: 30% !important;
+  margin-right: 10px;
+}
+h5{
+      padding: 20px;
+    font-size: 20px;
 }
 </style>

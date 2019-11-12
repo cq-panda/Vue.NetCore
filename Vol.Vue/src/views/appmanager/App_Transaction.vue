@@ -36,10 +36,11 @@
                     sortName: "Id"
                 },
                 extend: extend,
-                editFormFileds: {"Name":"","TransactionType":"","CowType":""},
+                editFormFileds: {"Name":"","TransactionType":"","CowType":"","PhoneNo":""},
                 editFormOptions: [[{"columnType":"string","title":"姓名","required":true,"field":"Name"}],
                               [{"columnType":"int","dataKey":"cq","title":"是否买入","field":"TransactionType","type":"select"}],
-                              [{"columnType":"string","dataKey":"nav","title":"购买类型","field":"CowType","type":"select"}]],
+                              [{"columnType":"string","dataKey":"nav","title":"购买类型","field":"CowType","type":"select"}],
+                              [{"columnType":"string","title":"电话","required":true,"field":"PhoneNo","type":"phone"}]],
                 searchFormFileds: {"Name":"","PhoneNo":"","TransactionType":"","CowType":"","Creator":"","CreateDate":""},
                 searchFormOptions: [[{"columnType":"string","title":"姓名","field":"Name","type":"text"},{"columnType":"string","title":"电话","field":"PhoneNo","type":"text"},{"columnType":"int","dataKey":"cq","title":"是否买入","field":"TransactionType","type":"select"}],[{"columnType":"string","dataKey":"nav","title":"购买类型","field":"CowType","type":"dropList"},{"columnType":"string","title":"提交人","field":"Creator"},{"columnType":"datetime","title":"提交时间","field":"CreateDate","type":"datetime"}]],
                 columns: [{field:'Id',title:'主键ID',type:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},

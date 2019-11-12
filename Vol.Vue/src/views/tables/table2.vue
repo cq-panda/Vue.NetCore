@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="padding: 30px 100px;">
+  <div class="container">
     <vol-box :model.sync="viewModel" :height="450" :width="600" title="点击表的弹出框">
       <div
         style="display: block;word-break: break-all;word-wrap: break-word;"
@@ -10,39 +10,45 @@
         <Button type="info" @click="viewModel=false">确认</Button>
       </div>
     </vol-box>
-
-    <Divider>table组件从后台加载数据</Divider>
-    <div style="margin-bottom:10px;">
-      <Button type="info" ghost @click="load">刷新表数据</Button>
-      <Button type="info" ghost @click="del">删除行</Button>
-      <Button type="info" ghost @click="getRows">获取选中的行</Button>
+    <Alert type="success" show-icon>
+      table从api加载数据
+      <div slot="desc">表字段的配置此处为手动配置，也可以由代码生成器完成</div>
+    </Alert>
+    <div style="padding: 0px 20px;">
+      <VolHeader icon="md-apps" text="从api加载数据">
+        <div
+          style="padding-top: 10px;padding-left: 20px;"
+          slot="content"
+        >同时可配置数据字典编号自动绑定字段的显示值,如【是否启用】列值为0/1显示文本为是、否</div>
+        <slot>
+          <div style="text-align: right;">
+            <Button type="info" ghost @click="load">刷新表数据</Button>
+            <Button type="info" ghost @click="del">删除行</Button>
+            <Button type="info" ghost @click="getRows">获取选中的行</Button>
+          </div>
+        </slot>
+      </VolHeader>
+      <vol-table
+        ref="table"
+        :loadKey="true"
+        :linkView="_linkView"
+        :columns="columns"
+        :pagination="pagination"
+        :height="230"
+        :url="url"
+        :index="true"
+        @loadBefore="loadTableBefore"
+        @loadAfter="loadTableAfter"
+      ></vol-table>
     </div>
-    <vol-table
-      ref="table"
-      :loadKey="true"
-      :linkView="_linkView"
-      :columns="columns"
-      :pagination="pagination"
-      :height="300"
-      :url="url"
-      :index="true"
-      @loadBefore="loadTableBefore"
-      @loadAfter="loadTableAfter"
-    ></vol-table>
   </div>
 </template>
 <script>
-// vol-table属性说明:
-//linkView：点击表格的链接执行的方法
-//columns表头列：显示表格列,见下面columns配置及属性说明
-//pagination分页配置:见下面pagination配置及属性说明
-//height表高度
-//url从后台加载的数据的url
-//index="true",设置为行有一个自动编号,如果要执行删除操作，必须设置此属性
 import VolTable from "@/components/basic/VolTable.vue";
 import VolBox from "@/components/basic/VolBox.vue";
+import VolHeader from "@/components/basic/VolHeader.vue";
 export default {
-  components: { VolTable, VolBox },
+  components: { VolTable, VolBox, VolHeader },
   methods: {
     _linkView(row, column) {
       this.text =
@@ -85,8 +91,7 @@ export default {
       return rows;
     }
   },
-  created() {
-  },
+  created() {},
   data() {
     return {
       text: "",
@@ -143,11 +148,7 @@ export default {
           bind: {
             //如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上
             key: "audit",
-            data: [
-              { key: "0", value: "审核中" },
-              { key: "1", value: "审核通过" },
-              { key: "2", value: "审核未通过" }
-            ]
+            data: []
           },
           width: 120,
           align: "left"

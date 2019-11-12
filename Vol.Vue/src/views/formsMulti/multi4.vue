@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import extend from "@/extension/order/SellOrder.js";
+    import extend from "../formsMulti/multil4Extension/multil4.js";
     import ViewGrid from "@/components/basic/ViewGrid.vue";
     var vueParam = {
         components: {
@@ -30,14 +30,14 @@
                 table: {
                     key: 'Order_Id',
                     footer: "Foots",
-                    cnName: '销售订单',
+                    cnName: '主从表单明细一对多',
                     name: 'SellOrder',
                     url: "/SellOrder/",
                     sortName: "CreateDate"
                 },
                 extend: extend,
                 editFormFileds: {"OrderType":"","TranNo":"","Qty":"","SellNo":"","Remark":"","Creator":"","CreateDate":"","ModifyDate":""},
-                   editFormOptions: [[{"columnType":"int","dataKey":"ordertype","title":"订单类型","required":true,"field":"OrderType","type":"select"},
+                editFormOptions: [[{"columnType":"int","dataKey":"ordertype","title":"订单类型","required":true,"field":"OrderType","type":"select"},
                                {"columnType":"string","title":"运单号","required":true,"field":"TranNo"},
                                {"columnType":"int","title":"销售数量","required":true,"field":"Qty"}],
                                

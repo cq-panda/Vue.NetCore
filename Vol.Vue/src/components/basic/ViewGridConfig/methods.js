@@ -37,10 +37,20 @@ let methods = {
     initBoxButtons() { //初始化ViewGird与弹出框/明细表按钮
         let path = this.$route.path;
         //通过菜单获取用户所对应菜单需要显示的按钮
-        this.buttons.push(... this.permission.getButtons(path));
-
+        let permissionButtons = this.permission.getButtons(path);
+        if (permissionButtons) {
+            this.buttons.push(...permissionButtons);
+        }
+        if (!this.extend) {
+            this.extend={};
+        }
+        if (!this.extend.buttons) {
+            this.extend.buttons={};
+        }
         //查询界面扩展按钮(扩展按钮可自行通过设置按钮的Index属性显示到具体位置)
-        this.extendBtn(this.buttons, this.extend.buttons.view);
+        if (this.extend.buttons.view) {
+            this.extendBtn(this.buttons, this.extend.buttons.view);
+        }
 
         //弹出框按钮
         let boxButtons = [];
@@ -48,7 +58,6 @@ let methods = {
         let saveBtn = this.buttons.some(x => {
             if (x.value == this.const.ADD || x.value == this.const.EDIT) return true;
         });
-
 
         //从表表格操作按钮
         let detailGridButtons = {
@@ -738,9 +747,12 @@ let methods = {
             this.hasDetail = true;
             clientWidth = clientWidth * 0.8;
             clientHeight = clientHeight * 0.82;
-            this.detailOptions.height =
-                clientHeight - this.editFormOptions.length * 57 - 205;
-            this.detailOptions.height = this.detailOptions.height < 240 ? 240 : this.detailOptions.height;
+            if (!this.detailOptions.height) {
+                this.detailOptions.height =
+                    clientHeight - this.editFormOptions.length * 57 - 205;
+                this.detailOptions.height = this.detailOptions.height < 240 ? 240 : this.detailOptions.height;
+            }
+
             this.detailOptions.columns = this.detail.columns;
             this.detailOptions.pagination.sortName = this.detail.sortName;
             this.detailOptions.cnName = this.detail.cnName;

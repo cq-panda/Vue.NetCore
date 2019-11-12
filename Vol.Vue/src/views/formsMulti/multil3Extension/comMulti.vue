@@ -1,21 +1,9 @@
 <template>
-  <div style="background: white;
-    padding: 10px 30px;">
-    <Divider>你也可在未尾添加组件等业务</Divider>
+  <div class="m-chart">
     <div class="chart-t">
-      <div style="height:400px;" id="chart-pie"></div>
-      <div style="height:400px;" id="chart-cloumns"></div>
+      <div style="height:400px;" :id="pie"></div>
+      <div style="height:400px;" :id="cli"></div>
     </div>
-    <Alert type="success" show-icon>
-      其他属性
-      <template slot="desc">
-        如果需要获整个ViewGrid的Vue对象,请在方法中使用 this.$emit("parentCall", $vue => {})
-        <Button type="success" @click="getUpdateRow">点击获取当前弹出框的数据</Button>
-      </template>
-    </Alert>
-
-    <br />
-    <br />
     <br />
     <br />
     <br />
@@ -27,29 +15,17 @@ let echarts = require("echarts");
 export default {
   data() {
     return {
+      pie:'p-'+~~(Math.random(10000,100000)*100000),
+      cli:'c-'+~~(Math.random(10000,100000)*100000),
       text: "测试。。。。。",
       value1: "1"
     };
-  },
-  methods: {
-    getUpdateRow() {
-      this.$emit("parentCall", $vue => {
-        let message = "当前弹出框为";
-        if ($vue.currentAction == $vue.const.ADD) {
-          message += "新建状态;";
-        } else {
-          message += "编辑状态;";
-        }
-        message += "表单数据是：" + JSON.stringify($vue.editFormFileds);
-        this.$Message.error(message);
-      });
-    }
   },
   created() {
     console.log("model-created");
   },
   mounted() {
-    let myChart = echarts.init(document.getElementById("chart-cloumns"));
+    let myChart = echarts.init(document.getElementById(this.cli));
     // 绘制图表
     myChart.setOption({
       color: ["#3398DB"],
@@ -70,7 +46,7 @@ export default {
         }
       ]
     });
-    let myPie = echarts.init(document.getElementById("chart-pie"));
+    let myPie = echarts.init(document.getElementById(this.pie));
     myPie.setOption({
       tooltip: {
         trigger: "item",
@@ -117,6 +93,10 @@ export default {
 };
 </script>
 <style scoped>
+.m-chart {
+  margin-top: 20px;
+  background: white;
+}
 .chart-t {
   display: flex;
 }

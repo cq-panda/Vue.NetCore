@@ -1,44 +1,30 @@
 <template>
-  <div class="container" style="padding: 30px 100px;">
-    <vol-box :model.sync="viewModel" :height="450" :width="600" title="点击表的弹出框">
-      <div
-        style="display: block;word-break: break-all;word-wrap: break-word;"
-        slot="content"
-      >{{text}}</div>
-      <!--  <div slot="footer">这里可以自己扩展box，也可不用写 -->
-      <div slot="footer">
-        <Button type="info" @click="viewModel=false">确认</Button>
+  <div class="container">
+    <div class="header">
+      <div class="text">双击表编辑</div>
+      <div class="btns">
+        <Button type="info" ghost @click="clear">清空表</Button>
+        <Button type="info" ghost @click="del">删除行</Button>
+        <Button type="info" ghost @click="add">添加行</Button>
+        <Button type="info" ghost @click="getRows">获取选中的行</Button>
       </div>
-    </vol-box>
-
-    <Divider>table组件从后台加载数据</Divider>
-    <div style="margin-bottom:10px;">
-      <Button type="info" ghost @click="load">刷新表数据</Button>
-      <Button type="info" ghost @click="del">删除行</Button>
-      <Button type="info" ghost @click="getRows">获取选中的行</Button>
     </div>
     <vol-table
       ref="table"
-      :loadKey="true"
       :linkView="_linkView"
       :columns="columns"
-      :pagination="pagination"
-      :height="300"
-      :url="url"
+      :height="400"
       :index="true"
-      @loadBefore="loadTableBefore"
-      @loadAfter="loadTableAfter"
+      :tableData="tableData"
+      :paginationHide="true"
     ></vol-table>
+    <br/>
+    <br/>  <br/>
+    <br/>
   </div>
+  
 </template>
 <script>
-// vol-table属性说明:
-//linkView：点击表格的链接执行的方法
-//columns表头列：显示表格列,见下面columns配置及属性说明
-//pagination分页配置:见下面pagination配置及属性说明
-//height表高度
-//url从后台加载的数据的url
-//index="true",设置为行有一个自动编号,如果要执行删除操作，必须设置此属性
 import VolTable from "@/components/basic/VolTable.vue";
 import VolBox from "@/components/basic/VolBox.vue";
 export default {
@@ -48,24 +34,6 @@ export default {
       this.text =
         "点击单元格的弹出框，当前点击的行数据：" + JSON.stringify(row);
       this.viewModel = true;
-      //  this.$message.error(JSON.stringify(row));
-    },
-    loadTableBefore(param, callBack) {
-      //此处是从后台加数据前的处理，自己在此处自定义查询条件,查询数据格式自己定义或参考代码生成器查询页面请求的数据格式
-      console.log("加载数据前" + param);
-      callBack(true); //此处必须进行回调，返回处理结果，如果是false，则不会执行后台查询
-    },
-    loadTableAfter(data, callBack) {
-      //此处是从后台加数据后，你可以在渲染表格前，预先处理返回的数据
-      console.log("加载数据后" + data);
-      callBack(true); //同上
-    },
-    load() {
-      //此处可以自定义查询条件,如果不调用的框架的查询，格式需要自己定义，
-      //如果查询的是框架getPageData方法,需要指定格式,如:
-      // let where={wheres:[{"name":"UserTrueName","value":"教兽",displayType:"text"}]};
-      let where = {};
-      this.$refs.table.load(where);
     },
     del() {
       let rows = this.$refs.table.getSelected();
@@ -73,7 +41,12 @@ export default {
         return this.$message.error("请先选中行");
       }
       this.$refs.table.delRow();
-      //此处可以接着写删除后台的代码
+    },
+    clear() {
+      this.tableData.splice(0);
+    },
+    add() {
+      this.tableData.push({});
     },
     getRows() {
       let rows = this.$refs.table.getSelected();
@@ -82,16 +55,52 @@ export default {
       }
       this.text = "当前选中的行数据：" + JSON.stringify(rows);
       this.viewModel = true;
-      return rows;
     }
   },
-  created() {
-  },
+  created() {},
   data() {
     return {
       text: "",
       viewModel: false, //点击单元格时弹出框
-      url: "api/App_Expert/getPageData", //后从加载数据的url
+      tableData: [
+        //表数据
+        {
+          ExpertId: 276,
+          ExpertName: "财神爷",
+          HeadImageUrl:
+            "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/u%3D3441742992%2C2765570575%26fm%3D26%26gp%3D0.jpg",
+          UserName: "13888888881",
+          UserTrueName: "起名太麻烦 ",
+          AuditStatus: 0,
+          Enable: 1,
+          ReallyName: "艹船借贱",
+          CreateDate: "2018-09-18 17:45:54"
+        },
+        {
+          ExpertId: 276,
+          ExpertName: "你瞅啥?",
+          HeadImageUrl:
+            "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x1.jpg",
+          UserName: "13888888882",
+          UserTrueName: "月穿潭底水無痕 ",
+          AuditStatus: 1,
+          Enable: 1,
+          ReallyName: "月穿潭底水無痕 ",
+          CreateDate: "2018-09-18 17:45:54"
+        },
+        {
+          ExpertId: 276,
+          ExpertName: "取名难好难",
+          HeadImageUrl:
+            "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/tj01.jpg",
+          UserName: "13888888883",
+          UserTrueName: "乌拉圭 ",
+          AuditStatus: 2,
+          Enable: 0,
+          ReallyName: "月穿潭底水無痕 ",
+          CreateDate: "2018-09-18 17:45:54"
+        }
+      ],
       columns: [
         //表配置
         {
@@ -110,8 +119,8 @@ export default {
           title: "名称",
           type: "string",
           width: 150,
-          hidden: true, //是否显示
           align: "left",
+          edit: { type: "text" },
           sortable: true //是否排序(目前第一个字段为排序字段，其他字段排序开发中)
         },
         {
@@ -127,6 +136,8 @@ export default {
           type: "string",
           link: true, //设置link=true后此单元格可以点击获取当前行的数据进行其他操作
           width: 120,
+          hidden: true, //是否显示
+          edit: { type: "text" },
           align: "left"
         },
         {
@@ -134,7 +145,15 @@ export default {
           title: "申请人",
           type: "string",
           width: 120,
-          align: "left"
+          align: "left",
+          click: (row, column) => {
+            //单元格点击事亻
+            this.$message.error("此单元格没有设置为可以编辑");
+          },
+          formatter: row => {
+            //对单元格的数据格式化处理
+            return row.UserTrueName;
+          }
         },
         {
           field: "AuditStatus",
@@ -159,7 +178,18 @@ export default {
           bind: { key: "enable", data: [] }, //此处值为data空数据，自行从后台字典数据源加载
           width: 80,
           require: true,
-          align: "left"
+          align: "left",
+          edit: { type: "switch" }
+        },
+        {
+          field: "CreateDate",
+          title: "创建时间",
+          type: "datetime",
+          width: 150,
+          readonly: true,
+          align: "left",
+          edit: { type: "datetime" },
+          sortable: true
         },
         {
           field: "ReallyName",
@@ -174,7 +204,7 @@ export default {
               "】";
             this.$message.error(msg);
           },
-          formatter: () => {
+          formatter: (row, column) => {
             //对单元格的数据格式化处理
             return "<a>点我</a>";
           },
@@ -187,23 +217,32 @@ export default {
           width: 130,
           hidden: true,
           align: "left"
-        },
-        {
-          field: "CreateDate",
-          title: "申请时间",
-          type: "datetime",
-          width: 150,
-          readonly: true,
-          align: "left",
-          sortable: true
         }
-      ],
-      pagination: {
-        total: 0, //分页总数量
-        size: 30, //分页大小,30,60,100.
-        sortName: "CreateDate" //从后加载数据分页时的排序字段
-      }
+      ]
     };
   }
 };
 </script>
+<style lang="less" scoped>
+.container {
+  background: white;
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #b7c5cc;
+}
+.header {
+  display: flex;
+  margin-bottom: 10px;
+  .text {
+     line-height: 30px;
+    border-bottom: 2px solid #607D8B;
+    font-size: 16px;
+    /* color: #FF9800; */
+    font-weight: 500;
+  }
+  .btns {
+    flex: 1;
+    text-align: right;
+  }
+}
+</style>

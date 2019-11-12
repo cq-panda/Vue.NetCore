@@ -428,6 +428,8 @@ body {
   cursor: pointer;
 }
 .header-navigation {
+      box-shadow: 0px 0px 4px #888888;
+      border-bottom: 1px solid #eee;
   height: 32px;
   overflow: hidden;
   line-height: 32px;
