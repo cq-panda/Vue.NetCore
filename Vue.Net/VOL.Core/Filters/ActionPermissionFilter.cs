@@ -41,15 +41,18 @@ namespace VOL.Core.Filters
         }
         private async Task<WebResponseContent> OnActionExecutionPermission(ActionExecutingContext context)
         {
-            
+            //!context.Filters.Any(item => item is IFixedTokenFilter))固定token的是否验证权限
+            //if ((context.Filters.Any(item => item is IAllowAnonymousFilter)
+            //    && !context.Filters.Any(item => item is IFixedTokenFilter))
+            //    || UserContext.Current.IsSuperAdmin
+            //    )
             if (context.Filters.Any(item => item is IAllowAnonymousFilter)
-                || UserContext.Current.IsSuperAdmin
-                )
+                || UserContext.Current.IsSuperAdmin)
                 return ResponseContent.OK();
 
             //演示环境除了admin帐号，其他帐号都不能增删改等操作
-            if (!_userContext.IsSuperAdmin&& AppSetting.GlobalFilter.Enable 
-                &&AppSetting.GlobalFilter.Actions.Contains(((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor).ActionName))
+            if (!_userContext.IsSuperAdmin && AppSetting.GlobalFilter.Enable
+                && AppSetting.GlobalFilter.Actions.Contains(((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor).ActionName))
             {
                 return ResponseContent.Error(AppSetting.GlobalFilter.Message);
             }
@@ -76,21 +79,21 @@ namespace VOL.Core.Filters
             //如果没有给定权限，不需要判断
             if (string.IsNullOrEmpty(ActionPermission.TableName)
                 && string.IsNullOrEmpty(ActionPermission.TableAction)
-                &&(ActionPermission.RoleIds==null|| ActionPermission.RoleIds.Length==0))
+                && (ActionPermission.RoleIds == null || ActionPermission.RoleIds.Length == 0))
             {
                 return ResponseContent.OK();
             }
 
             //是否限制的角色ID称才能访问
             //权限判断角色ID,
-            if (ActionPermission.RoleIds != null && ActionPermission.RoleIds.Length>0)
+            if (ActionPermission.RoleIds != null && ActionPermission.RoleIds.Length > 0)
             {
                 if (ActionPermission.RoleIds.Contains(_userContext.UserInfo.Role_Id)) return ResponseContent.OK();
                 //如果角色ID没有权限。并且也没控制器权限
                 if (string.IsNullOrEmpty(ActionPermission.TableAction))
                 {
                     return ResponseContent.Error(ResponseType.NoRolePermissions);
-                } 
+                }
             }
 
             var actionAuth = await Task.Run(() => _userContext.GetPermissions(x => x.TableName.ToLower() == ActionPermission.TableName.ToLower())?.UserAuthArr);

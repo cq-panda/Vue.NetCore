@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
+﻿using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,11 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using VOL.Core.Configuration;
-using VOL.Core.Enums;
 using VOL.Core.Extensions;
 using VOL.Core.ManageUser;
-using VOL.Core.Services;
-using VOL.Core.Utilities;
 
 namespace VOL.Core.Filters
 {
@@ -32,15 +28,19 @@ namespace VOL.Core.Filters
         {
             if (context.Filters.Any(item => item is IAllowAnonymousFilter))
             {
-                //如果是不需要授权方法并且传入了token，需要将用户的ID缓存起来，保证UserHelper里能正确获取到用户信息
+                //如果使用了固定Token不过期，直接对token的合法性及token是否存在进行验证
+                if (context.Filters
+                    .Where(item => item is IFixedTokenFilter)
+                    .FirstOrDefault() is IFixedTokenFilter tokenFilter)
+                {
+                    tokenFilter.OnAuthorization(context);
+                    return;
+                }
+                //匿名并传入了token，需要将用户的ID缓存起来，保证UserHelper里能正确获取到用户信息
                 if (!context.HttpContext.User.Identity.IsAuthenticated
                     && !string.IsNullOrEmpty(context.HttpContext.Request.Headers[AppSetting.TokenHeaderName]))
                 {
-                    int userId = JwtHelper.GetUserId(context.HttpContext.Request.Headers[AppSetting.TokenHeaderName]);
-                    if (userId <= 0) return;
-                    //将用户Id缓存到上下文(或者自定一个对象，通过DI以AddScoped方式注入上下文来管理用户信息)
-                    var claims = new Claim[] { new Claim(JwtRegisteredClaimNames.Jti, userId.ToString()) };
-                    context.HttpContext.User.AddIdentity(new ClaimsIdentity(claims));
+                    context.AddIdentity();
                 }
                 return;
             }
@@ -51,13 +51,13 @@ namespace VOL.Core.Filters
                 || (
                 UserContext.Current.Token != ((ClaimsIdentity)context.HttpContext.User.Identity)
                 ?.BootstrapContext?.ToString()
-                &&UserContext.Current.UserName!="admin666"
+                && UserContext.Current.UserName != "admin666"
                 ))
             {
                 Console.Write($"IsAuthenticated:{context.HttpContext.User.Identity.IsAuthenticated}," +
                     $"userToken{UserContext.Current.Token}" +
                     $"BootstrapContext:{((ClaimsIdentity)context.HttpContext.User.Identity)?.BootstrapContext?.ToString()}");
-                Response(context, "登陆已过期", HttpStatusCode.Unauthorized);
+                context.Unauthorized("登陆已过期");
                 return;
             }
 
@@ -66,21 +66,9 @@ namespace VOL.Core.Filters
             //如果过期时间小于设置定分钟数的1/3时，返回状态需要刷新token
             if (expDate < DateTime.Now || (expDate - DateTime.Now).TotalMinutes < AppSetting.ExpMinutes / 3)
             {
-                Response(context, "Token即将过期,请更换token", HttpStatusCode.Accepted);//202
+                context.FilterResult(HttpStatusCode.Accepted, "Token即将过期,请更换token");//202
                 return;
             }
-
-        }
-
-        private void Response(AuthorizationFilterContext context, string message, HttpStatusCode statusCode)
-        {
-            context.Result = new ContentResult()
-            {
-                Content = new { message, status = false, code = (int)statusCode }.Serialize(),
-                ContentType = "application/json",
-                StatusCode = (int)statusCode
-            };
-            Logger.Info(LoggerType.ApiAuthorize, message);
         }
     }
 }

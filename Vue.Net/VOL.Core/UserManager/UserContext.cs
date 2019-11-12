@@ -103,7 +103,7 @@ namespace VOL.Core.ManageUser
             {
                 CacheService.AddObject(key, _userInfo);
             }
-            return _userInfo;
+            return _userInfo??new UserInfo();
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace VOL.Order.Controllers
     public partial class SellOrderController
     {
         [HttpPost]
-        [ApiActionPermission("SellOrder", Core.Enums.ActionPermissionOptions.Search)]
+        [FixedToken, ApiActionPermission("SellOrder", Core.Enums.ActionPermissionOptions.Search)]
         [Route("getServiceDate")]
         public IActionResult GetServiceDate()
         {
