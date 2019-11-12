@@ -87,11 +87,12 @@
         </div>
         <!--查询条件-->
         <div class="search-box" v-show="searchBoxShow">
-<<<<<<< HEAD
-          <vol-form ref="searchForm"  :label-width="labelWidth" :formRules="searchFormOptions" :formFileds="searchFormFileds">
-=======
-          <vol-form ref="searchForm" :label-width="labelWidth" :formRules="searchFormOptions" :formFileds="searchFormFileds">
->>>>>>> 325e4fa0cbd8f478707461e4ff4a19682574cc07
+          <vol-form
+            ref="searchForm"
+            :label-width="labelWidth"
+            :formRules="searchFormOptions"
+            :formFileds="searchFormFileds"
+          >
             <div class="form-closex" slot="footer">
               <Button size="small" type="info" ghost @click="search">
                 <Icon type="md-search" />查询
@@ -125,11 +126,12 @@
                   {{table.cnName}}
                 </span>
               </div>
-<<<<<<< HEAD
-              <vol-form ref="form"  :label-width="boxOptions.labelWidth" :formRules="editFormOptions" :formFileds="editFormFileds"></vol-form>
-=======
-              <vol-form ref="form" :label-width="boxOptions.labelWidth" :formRules="editFormOptions" :formFileds="editFormFileds"></vol-form>
->>>>>>> 325e4fa0cbd8f478707461e4ff4a19682574cc07
+              <vol-form
+                ref="form"
+                :label-width="boxOptions.labelWidth"
+                :formRules="editFormOptions"
+                :formFileds="editFormFileds"
+              ></vol-form>
             </div>
             <!--明细body自定义组件-->
             <modelBody class="model-body" ref="modelBody" @parentCall="parentCall"></modelBody>
@@ -270,7 +272,7 @@ var vueParam = {
     ..._components,
     VolForm: () => import("@/components/basic/VolForm.vue"),
     VolBoxForm: () => import("@/components/basic/VolBoxForm.vue"),
-    VolTable:VolTable, //() => import("@/components/basic/VolTable.vue"),
+    VolTable: VolTable, //() => import("@/components/basic/VolTable.vue"),
     VolBox: () => import("@/components/basic/VolBox.vue"),
     QuickSearch: () => import("@/components/basic/QuickSearch.vue"),
     Audit: () => import("@/components/basic/Audit.vue"),
@@ -290,12 +292,8 @@ var vueParam = {
       hasKeyField: {}, //当前操作的行数据(新建、编辑、查看)
       closable: false,
       boxModel: false, //弹出新建、编辑框
-<<<<<<< HEAD
-      width: 700,//弹出框查看表数据结构
-=======
-      width: 700,
->>>>>>> 325e4fa0cbd8f478707461e4ff4a19682574cc07
-      labelWidth:100,//高级查询的标签宽度
+      width: 700, //弹出框查看表数据结构
+      labelWidth: 100, //高级查询的标签宽度
       viewModel: false, //查看表结构的弹出框
       viewColumns: [], //查看表结构的列数据
       viewData: [], //查看表结构信息
