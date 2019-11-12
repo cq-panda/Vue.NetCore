@@ -456,10 +456,10 @@ export default {
           trigger: "change",
           type: this.types[item.columnType],
           validator: (rule, value, callback) => {
-            if (value==undefined||value=="") {
+            if (value == undefined || value == "") {
               return callback(new Error(rule.message));
             }
-           return callback();
+            return callback();
           }
         };
 
