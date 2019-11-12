@@ -16,7 +16,10 @@
             :value="formFileds[item.field]=='null'?'--':formFileds[item.field]"
             :placeholder="formFileds[item.field]||'--'"
           ></Input>-->
-          <img v-if="item.disabled&&item.columnType=='img'" :src="formFileds[item.field]" />
+          <img
+            v-if="item.disabled&&(item.type=='img'||item.columnType=='img')"
+            :src="formFileds[item.field]"
+          />
           <label v-else-if="item.disabled" class="readonly-input">{{getText(formFileds,item)}}</label>
 
           <!--下拉框绑定时如果key为数字，请将key+''转换为字符串-->
@@ -127,11 +130,13 @@ export default {
       type: Boolean,
       default: false
     },
-    width: { //表单宽度
+    width: {
+      //表单宽度
       type: Number,
       default: 0
     },
-    labelWidth: {//表单左边label文字标签的宽度
+    labelWidth: {
+      //表单左边label文字标签的宽度
       type: Number,
       default: 100
     },
@@ -166,7 +171,9 @@ export default {
     return {
       rule: {
         change: ["checkbox", "select", "date", "datetime", "drop", "radio"],
-        phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/
+        phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+        decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
+        number: /(^[\-0-9][0-9]*([0-9]+)?)$/
       },
       inputTypeArr: ["text", "string", "mail", "textarea"],
       types: {
@@ -350,6 +357,60 @@ export default {
           },
           required: item.required,
           trigger: this.rule.change.indexOf(item.type) != -1 ? "change" : "blur"
+        };
+      }
+
+      //设置数字的最大值民最小值
+      if (
+        item.type == "number" ||
+        item.cloumnType == "number" ||
+        item.type == "decimal"
+      ) {
+        return {
+          required: item.required,
+          message: item.title,
+          title:item.title,
+          trigger: "blur",
+          min:item.min,
+          max:item.max,
+          type: item.columnType || item.type,
+          validator: (rule, value, callback) => {
+            if (rule.required) {
+              if (value == "") {
+                rule.message=rule.title + "不能为空";
+                return callback(new Error(rule.message));
+              }
+            }
+            if (value == "") return callback();
+            if (rule.type == "number") {
+              if (!this.rule.number.test(value)) {
+                  rule.message=rule.title + "只能是整数";
+                return callback(new Error(rule.message));
+              }
+            } else {
+              if (!this.rule.decimal.test(value)) {
+                   rule.message=rule.title + "只能是数字";
+                return callback(new Error(rule.message));
+              }
+            }
+            if (
+              rule.min != undefined &&
+              typeof rule.max == "number" &&
+              value < rule.min
+            ) {
+              rule.message=rule.title + "不能小于" + rule.min
+              return callback(new Error(rule.message));
+            }
+            if (
+              rule.max != undefined &&
+              typeof rule.max == "number" &&
+              value > rule.max
+            ) {
+                rule.message=rule.title + "不能大于" + rule.max;
+              return callback(new Error(rule.message ));
+            }
+            return callback();
+          }
         };
       }
 
