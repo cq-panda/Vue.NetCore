@@ -21,18 +21,17 @@
     <div class="builder-content">
       <div style="height:100%;">
         <el-scrollbar style="height:100%;">
-          <div class="ivu-alert ivu-alert-success ivu-alert-with-icon">
-            <span class="ivu-alert-icon">
-              <i class="ivu-icon ivu-icon-md-ionic"></i>
-            </span>
-            <span class="ivu-alert-message">代码生成器</span>
-            <span @click="help" class="ivu-alert-message help ivu-icon ivu-icon-md-hand">代码生成器文档</span>
+          <VolHeader icons="md-flower" text="代码生成器">
+            <div slot="content" style="line-height: 33px;margin-left: 30px;">
+              <a @click="help">文档</a>
+            </div>
             <div class="action">
-              <span class="ivu-icon ivu-icon-md-checkmark" @click="save">保存</span>
-              <span class="ivu-icon ivu-icon-md-add" @click="addVisible()">新建</span>
-              <span class="ivu-icon ivu-icon-md-flower" @click="ceateVuePage">生成Vue页面</span>
-              <span class="ivu-icon ivu-icon-md-flower" @click="ceateModel">生成Model</span>
-              <span class="ivu-icon ivu-icon-md-flower" @click="createService">生成业务类</span>
+              <span @click="save">保存</span>
+              <span @click="addVisible()">新建</span>
+              <span @click="ceateVuePage">生成Vue页面</span>
+              <span @click="ceateModel">生成Model</span>
+              <span @click="createService">生成业务类</span>
+              <span @click="syncTable">同步表结构</span>
               <!-- <span class="ivu-icon ivu-icon-md-flower" @click="ceateApiController">生成Api控制器</span> -->
               <!-- <span class="ivu-icon ivu-icon-md-flower" @click="ceatePage" >生成后台页面</span> -->
               <Dropdown @on-click="changeMore" class="more">
@@ -49,7 +48,7 @@
                 </DropdownMenu>
               </Dropdown>
             </div>
-          </div>
+          </VolHeader>
           <div class="config">
             <vol-form
               ref="form"
@@ -79,11 +78,13 @@ import builderData from "./builderData";
 import VolForm from "@/components/basic/VolForm.vue";
 import VolTable from "@/components/basic/VolTable.vue";
 import VolBox from "@/components/basic/VolBox.vue";
+import VolHeader from "@/components/basic/VolHeader.vue";
 export default {
   components: {
     VolForm: VolForm,
     VolTable: VolTable,
     VolBox: VolBox,
+    VolHeader: VolHeader,
     VolMenu: () => import("@/../src/components/basic/VolMenu")
   },
   data() {
@@ -274,7 +275,7 @@ export default {
       this.http
         .post("/api/builder/CreateServices?" + queryParam, this.tableInfo, true)
         .then(x => {
-          this.$message(x);
+          this.$Message.info(x);
         });
     },
     ceateModel() {
@@ -282,7 +283,25 @@ export default {
       this.http
         .post("/api/builder/CreateModel", this.tableInfo, true)
         .then(x => {
-          this.$message(x);
+          this.$Message.info(x);
+        });
+    },
+    syncTable() {
+      if (!this.layOutOptins.fileds.tableName)
+        return this.$Message.error("请选模块");
+      this.http
+        .post(
+          "/api/builder/syncTable?tableName=" +
+            this.layOutOptins.fileds.tableName,
+          {},
+          true
+        )
+        .then(x => {
+          if (!x.status) {
+            return this.$Message.error(x.message);
+          }
+          this.$Message.info(x.message);
+          this.loadTableInfo(this.layOutOptins.fileds.table_Id);
         });
     },
     ceateApiController() {},
@@ -293,10 +312,10 @@ export default {
       if (!this.validateTableInfo()) return;
       this.http.post("/api/builder/Save", this.tableInfo, true).then(x => {
         if (!x.status) {
-          this.$message.error(x.message);
+          this.$Message.error(x.message);
           return;
         }
-        this.$message.info(x.message);
+        this.$Message.info(x.message);
         this.tree.forEach(x => {
           if (x.id == this.layOutOptins.fileds.table_Id) {
             x.name = this.layOutOptins.fileds.columnCNName;
@@ -306,7 +325,7 @@ export default {
         this.tableInfo = x.data;
         this.$refs.form.reset(x.data);
         this.data = x.data.tableColumns;
-        this.$message.info(x);
+        //  this.$Message.info(x);
       });
     },
     onSelect(node) {
@@ -440,8 +459,9 @@ export default {
   top: 10px;
 }
 .builder-content .action {
-  flex: 1;
   text-align: right;
+  line-height: 33px;
+  padding-right: 26px;
 }
 .builder-content .action > span {
   padding: 0px 6px;
@@ -454,7 +474,7 @@ export default {
   color: black;
 }
 .builder-content .config {
-  border: 1px solid #e9e8e8;
+  /* border: 1px solid #e9e8e8; */
   padding: 15px 15px 0px 15px;
   border-radius: 3px;
   background: #ffffff;

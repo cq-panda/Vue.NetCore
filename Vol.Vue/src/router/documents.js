@@ -56,6 +56,13 @@ let documents=[{
       meta: {
         anonymous: true
       }
+    },{
+      path: '/document/test',
+      name: '/document/test',
+      component: () => import('@/views/document/docApi/test.vue'),
+      meta: {
+        anonymous: true
+      }
     }]
   }]
 export default documents

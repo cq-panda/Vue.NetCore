@@ -3,7 +3,7 @@
     <div class="nav">
       <ul>
         <li class="n-item" v-for="(item,index) in data" :key="index">
-          <a :class="{active:active==index}" @click="scrollIntoView(index)">{{item.title}}</a>
+          <a :class="{active:active==index}" @click="toggleCom(index)">{{item.title}}</a>
         </li>
       </ul>
     </div>
@@ -19,14 +19,26 @@
 <script>
 import "./doc.less";
 export default {
-  components: { Icons: () => import("./doc_icons") }, //
-  methods: {},
+  components: {
+    Icons: () => import("./doc_icons"),
+    DocForm: () => import("./doc_volform")
+  }, //
+  methods: {
+    toggleCom(index) {
+      this.currentComponent = this.data[index].com_name;
+    }
+  },
   data() {
     return {
       active: -1,
       data: [
         {
+          com_name: "Icons",
           title: "图标组件"
+        },
+        {
+          com_name: "DocForm",
+          title: "表单组件"
         }
       ],
       currentComponent: "Icons"
@@ -35,15 +47,14 @@ export default {
 };
 </script>
 <style scoped>
-
 </style>
 <style lang="less" scoped>
 .i-container {
   display: flex;
   > .nav {
     border-right: 1px solid #ccc3c3;
-    margin-right: 50px;
-    width: 250px;
+    margin-right: 10px;
+    width: 120px;
     position: fixed;
     .n-item {
       text-align: right;
@@ -66,7 +77,7 @@ export default {
   }
   > .list {
     flex: 1;
-    margin-left: 270px;
+    margin-left: 140px;
   }
 }
 .active {

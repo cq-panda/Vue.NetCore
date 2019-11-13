@@ -9,7 +9,7 @@
         </code>
       </pre>
     <div>
-      <docParamTable :isAttr="false" :data="data"></docParamTable>
+      <docParamTable name="icons"></docParamTable>
     </div>
     <Icons :on-select="onSelect"></Icons>
   </div>
@@ -19,9 +19,7 @@ import Icons from "@/components/basic/Icons.vue";
 import docParamTable from "./doc_ParamTable.vue";
 export default {
   data() {
-    return {
-      data: [{ name: "on-select", desc: "选中图标事件", param: "图标样式名" }]
-    };
+    return {};
   },
   components: { Icons, docParamTable },
   methods: {

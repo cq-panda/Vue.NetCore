@@ -1,9 +1,18 @@
 <template>
   <div>
     <div class="i-text">
-      <h2>{{ isAttr?'方法':"属性"}}</h2>
+      <h2>
+        <a @click="viewCode">查看代码</a>
+      </h2>
+      <div v-show="visibly">{{code}}</div>
+      <h2>
+        <a v-show="visibly" @click="visibly=false">收起</a>
+      </h2>
     </div>
-    <table v-if="isAttr">
+    <div class="i-text">
+      <h2>属性</h2>
+    </div>
+    <table v-if="param[name].attr">
       <thead>
         <tr>
           <td>属性</td>
@@ -13,14 +22,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,index) in data" :key="index">
+        <tr v-for="(item,index) in param[name].attr||[]" :key="index">
           <td>{{item.name}}</td>
           <td>{{item.type}}</td>
           <td>{{item.defalut}}</td>
         </tr>
       </tbody>
     </table>
-    <table v-else>
+    <div class="i-text">
+      <h2>方法</h2>
+    </div>
+    <table>
       <thead>
         <tr>
           <td>方法名</td>
@@ -29,27 +41,42 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,index) in data" :key="index">
+        <tr v-for="(item,index) in param[name].methods||[]" :key="index">
           <td>{{item.name}}</td>
           <td>{{item.desc}}</td>
           <td>{{item.param}}</td>
         </tr>
       </tbody>
     </table>
+    <br />
   </div>
 </template>
 <script>
+import param from "./param";
+import codeString from "./sourceCode";
 export default {
+  methods: {
+    viewCode() {
+      // if (this.visibly) {
+      //   return;
+      // }
+      this.code = this.codeString[this.name];
+      this.visibly = true;
+    }
+  },
+  data() {
+    return {
+      code: "",
+      visibly: false,
+      param: param,
+      codeString: codeString
+    };
+  },
   props: {
+    name: "",
     isAttr: {
       type: Boolean,
       default: true
-    },
-    data: {
-      type: Array,
-      default: () => {
-        return [];
-      }
     }
   }
 };
@@ -72,16 +99,16 @@ td {
   text-align: left;
 }
 thead td {
-    background: #f7f7f7;
-    white-space: nowrap;
-    color: #5c6b77;
-    font-weight: 600;
+  background: #f7f7f7;
+  white-space: nowrap;
+  color: #5c6b77;
+  font-weight: 600;
 }
-.i-text{
-      margin-bottom: 15px;
+.i-text {
+  margin-bottom: 15px;
 }
 .i-text h2 {
-    font-size: 20px;
-    font-weight: 400;
+  font-size: 20px;
+  font-weight: 400;
 }
 </style>

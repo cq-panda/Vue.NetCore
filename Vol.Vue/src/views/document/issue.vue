@@ -66,6 +66,24 @@ export default {
           ]
         },
         {
+          title: "代码生成后表结构发生变化",
+          desc: [
+            {
+              text:
+                "代码生成后，如果表结构发生了变化，点【同步表结构】再点【生成model】【生面vue页面】"
+            }
+          ]
+        },
+        {
+          title: "设置接口token永不过期",
+          desc: [
+            {
+              text:
+                "如果想要某些接口使用固定的token永不过期，控制器的方法加上[FixedToken]属性，只要数据库与缓存的token一致，token就永远不会过期"
+            }
+          ]
+        },
+        {
           title: "新建类库提示版本问题",
           desc: [
             {
