@@ -29,7 +29,7 @@ namespace VOL.WebApi.Controllers.Builder
             catch (Exception ex)
             {
 
-                return Json(new { list = ex.Message+ex.StackTrace+ex.Source, nameSpace = ex.InnerException?.Message});
+                return Json(new { list = ex.Message + ex.StackTrace + ex.Source, nameSpace = ex.InnerException?.Message });
             }
         }
 
@@ -81,6 +81,13 @@ namespace VOL.WebApi.Controllers.Builder
         public async Task<ActionResult> DelTree(int table_Id)
         {
             return Json(await Service.DelTree(table_Id));
+        }
+        [Route("syncTable")]
+        [ApiActionPermission(ActionRolePermission.SuperAdmin)]
+        [HttpPost]
+        public async Task<ActionResult> SyncTable(string tableName)
+        {
+            return Json(await Service.SyncTable(tableName));
         }
     }
 }

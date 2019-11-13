@@ -211,6 +211,66 @@ namespace DairyStar.Builder.Services
             return repository.UpdateRange<Sys_TableColumn>(sysTableInfo, true, true, null, null, true);
         }
 
+        /// <summary>
+        /// 将表结构重新同步到代码生成配置
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public async Task<WebResponseContent> SyncTable(string tableName)
+        {
+            WebResponseContent webResponse = new WebResponseContent();
+            if (string.IsNullOrEmpty(tableName)) return webResponse.OK("表名不能为空");
+
+            //获取表结构
+            List<Sys_TableColumn> columns = repository.DapperContext
+                  .QueryList<Sys_TableColumn>(
+                  IsMysql() ? GetMySqlStructure(tableName) : GetSqlServerStructure(tableName),
+                  new { tableName });
+            if (columns == null || columns.Count == 0)
+                return webResponse.Error("未获取到【" + tableName + "】表结构信息，请确认表是否存在");
+
+            Sys_TableInfo tableInfo = repository.FindAsIQueryable(x => x.TableName == tableName)
+                 .Include(o => o.TableColumns).FirstOrDefault();
+            if (tableInfo == null)
+                return webResponse.Error("未获取到【" + tableName + "】的配置信息，请使用新建功能");
+
+            //获取现在配置好的表结构
+            List<Sys_TableColumn> detailList = tableInfo.TableColumns ?? new List<Sys_TableColumn>();
+            List<Sys_TableColumn> addColumns = new List<Sys_TableColumn>();
+            List<Sys_TableColumn> updateColumns = new List<Sys_TableColumn>();
+            foreach (Sys_TableColumn item in columns)
+            {
+                Sys_TableColumn tableColumn = detailList.Where(x => x.ColumnName == item.ColumnName)
+                    .FirstOrDefault();
+                //新加的列
+                if (tableColumn == null)
+                {
+                    item.TableName = tableInfo.TableName;
+                    item.Table_Id = tableInfo.Table_Id;
+                    addColumns.Add(item);
+                    continue;
+                }
+                //修改了数据类库或字段长度
+                if (item.ColumnType != tableColumn.ColumnType || item.Maxlength != tableColumn.Maxlength)
+                {
+                    tableColumn.ColumnType = item.ColumnType;
+                    tableColumn.Maxlength = item.Maxlength;
+                    updateColumns.Add(tableColumn);
+                }
+            }
+            //删除的列
+            List<Sys_TableColumn> delColumns = detailList.Where(a => !columns.Select(c => c.ColumnName).Contains(a.ColumnName)).ToList();
+            if (addColumns.Count+ delColumns.Count+ updateColumns.Count==0)
+            {
+                return webResponse.Error("【" + tableName + "】表结构未发生变化");
+            }
+            repository.AddRange(addColumns);
+            repository.DbContext.Set<Sys_TableColumn>().RemoveRange(delColumns);
+            repository.UpdateRange(updateColumns, x => new { x.ColumnType, x.Maxlength });
+            await repository.DbContext.SaveChangesAsync();
+
+            return webResponse.OK($"新加字段【{addColumns.Count}】个,删除字段【{delColumns.Count}】,修改字段【{updateColumns.Count}】");
+        }
 
         /// <summary>
         /// 生成Services/Repository与对应的Partial类
