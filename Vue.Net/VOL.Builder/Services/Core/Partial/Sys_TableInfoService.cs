@@ -41,7 +41,7 @@ namespace DairyStar.Builder.Services
             {
                 if (webProject != null)
                     return webProject;
-                webProject = ProjectPath.GetLastIndexOfDirectoryName(".WebApi")?? ProjectPath.GetLastIndexOfDirectoryName("Api")?? ProjectPath.GetLastIndexOfDirectoryName(".Web");
+                webProject = ProjectPath.GetLastIndexOfDirectoryName(".WebApi") ?? ProjectPath.GetLastIndexOfDirectoryName("Api") ?? ProjectPath.GetLastIndexOfDirectoryName(".Web");
                 if (webProject == null)
                 {
                     throw new Exception("未获取到以.WebApi结尾的项目名称,无法创建页面");
@@ -191,9 +191,9 @@ namespace DairyStar.Builder.Services
         public WebResponseContent SaveEidt(Sys_TableInfo sysTableInfo)
         {
             WebResponseContent webResponse = ValidColumnString(sysTableInfo);
-            if (!webResponse.Status)  return webResponse;
+            if (!webResponse.Status) return webResponse;
 
-            if (sysTableInfo.TableColumns!=null)
+            if (sysTableInfo.TableColumns != null)
             {
                 sysTableInfo.TableColumns.ForEach(x =>
                 {
@@ -1189,7 +1189,7 @@ namespace DairyStar.Builder.Services
             bool addIgnore = false;
             foreach (Sys_TableColumn column in sysColumn)
             {
-                column.ColumnType = (column.ColumnType??"").Trim();
+                column.ColumnType = (column.ColumnType ?? "").Trim();
                 AttributeBuilder.Append("/// <summary>");
                 AttributeBuilder.Append("\r\n");
                 AttributeBuilder.Append("       ///" + column.ColumnCnName + "");
@@ -1222,18 +1222,22 @@ namespace DairyStar.Builder.Services
                         AttributeBuilder.Append("       [DisplayFormat(DataFormatString=\"" + tableColumnInfo.Prec_Scale + "\")]");
                         AttributeBuilder.Append("\r\n");
                     }
-                  
+
 
                     if ((column.IsKey == 1 && (column.ColumnType == "string" || column.ColumnType == "uniqueidentifier")) ||
-                        tableColumnInfo.ColumnType.ToLower() == "guid")
+                        tableColumnInfo.ColumnType.ToLower() == "guid"
+                        || (IsMysql() && column.ColumnType == "string" && column.Maxlength == 36))
                     {
                         tableColumnInfo.ColumnType = "uniqueidentifier";
                     }
 
                     string maxLength = string.Empty;
-                    if (column.IsKey != 1 && column.ColumnType.ToLower() == "string" && column.Maxlength > 0)
+                    if (tableColumnInfo.ColumnType != "uniqueidentifier")
                     {
-                        maxLength = "(" + column.Maxlength + ")";
+                        if (column.IsKey != 1 && column.ColumnType.ToLower() == "string" && column.Maxlength > 0)
+                        {
+                            maxLength = "(" + column.Maxlength + ")";
+                        }
                     }
 
                     AttributeBuilder.Append("       [Column(TypeName=\"" + tableColumnInfo.ColumnType + maxLength + "\")]");
@@ -1358,6 +1362,7 @@ namespace DairyStar.Builder.Services
                 folderName = "ApiEntity\\OutPut";
                 tableName = "Api" + tableInfo.TableName + "Output";
             }
+
             FileHelper.WriteFile(
                 mapPath +
                 string.Format(
