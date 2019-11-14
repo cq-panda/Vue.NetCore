@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using VOL.Core.Enums;
@@ -40,14 +42,43 @@ namespace VOL.Core.Extensions
         /// <returns></returns>
         public static string Request(this HttpContext context, string parameter)
         {
-            if (context == null)
-                return null;
-            if (context.Request.Method == "POST")
-                return context.Request.Form[parameter].ToString();
-            else
-                return context.Request.Query[parameter].ToString();
+            try
+            {
+                if (context == null)
+                    return null;
+                if (context.Request.Method == "POST")
+                    return context.Request.Form[parameter].ToString();
+                else
+                    return context.Request.Query[parameter].ToString();
+            }
+            catch (System.Exception ex)
+            {
+                Console.Write(ex.Message + ex.InnerException);
+                return context.RequestString(parameter);
+            }
         }
 
+        public static T Request<T>(this HttpContext context, string parameter) where T : class
+        {
+            return context.RequestString(parameter)?.DeserializeObject<T>();
+        }
+        public static string RequestString(this HttpContext context, string parameter)
+        {
+            string requestParam = context.GetRequestParameters();
+            if (string.IsNullOrEmpty(requestParam)) return null;
+            Dictionary<string, object> keyValues = requestParam.DeserializeObject<Dictionary<string, object>>();
+            if (keyValues == null || keyValues.Count == 0) return null;
+            if (keyValues.TryGetValue(parameter, out object value))
+            {
+                if (value == null) return null;
+                if (value.GetType() == typeof(string))
+                {
+                    return value?.ToString();
+                }
+                return value.Serialize();
+            }
+            return null;
+        }
         /// <summary>
         /// 是否为ajax请求
         /// </summary>
@@ -86,7 +117,7 @@ namespace VOL.Core.Extensions
 
         public static string GetRequestParameters(this HttpContext context)
         {
-            if (context.Request.Body == null || !context.Request.Body.CanRead||!context.Request.Body.CanSeek)
+            if (context.Request.Body == null || !context.Request.Body.CanRead || !context.Request.Body.CanSeek)
                 return null;
             if (context.Request.Body.Length == 0)
                 return null;
