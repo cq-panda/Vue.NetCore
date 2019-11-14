@@ -178,6 +178,12 @@ export default {
               { key: "2", value: "审核未通过" }
             ]
           },
+          getColor: (row, column) => {
+            if (column.field == "AuditStatus" && row["AuditStatus"] == "0") {
+              return "#9C27B0";
+            }
+            return "";
+          },
           width: 120,
           align: "left"
         },
@@ -215,7 +221,11 @@ export default {
           },
           formatter: (row, column) => {
             //对单元格的数据格式化处理
-            return "<a>点我"+(row.UserTrueName == '七秒钟的记忆'?'弹出框':'')+"</a>";
+            return (
+              "<a>点我" +
+              (row.UserTrueName == "七秒钟的记忆" ? "弹出框" : "") +
+              "</a>"
+            );
           },
           align: "left"
         },

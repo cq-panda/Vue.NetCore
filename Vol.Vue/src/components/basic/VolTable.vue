@@ -451,7 +451,12 @@ export default {
       // if (val == "" || val == null || val == undefined) {
       //  return "none";
       // }
-
+      if (column.getColor&&typeof column.getColor=='function') {
+        let _color= column.getColor(row, column);
+        if (_color) {
+          return _color;
+        }
+      }
       if (!val && val != "0") {
         return this.defaultColor;
       }

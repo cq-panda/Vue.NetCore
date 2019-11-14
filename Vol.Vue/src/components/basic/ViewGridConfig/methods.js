@@ -474,7 +474,7 @@ let methods = {
         if (!this.$refs.form) {
             let timeOut = setTimeout(x => {
                 this.modelOpenAfter(row);
-            }, 300)
+            }, 500)
             return;
         }
         this.modelOpenAfter(row);
