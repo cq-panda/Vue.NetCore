@@ -48,6 +48,7 @@
             v-if="singleSearch"
             :singleSearch="singleSearch"
             :searchFormFileds="searchFormFileds"
+            :tiggerPress="quickSearchKeyPress"
           ></QuickSearch>
         </div>
         <!--操作按钮组-->

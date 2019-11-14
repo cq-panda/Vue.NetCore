@@ -14,6 +14,13 @@ let methods = {
     getCurrentAction() {
         return "--" + (this.currentAction == this.const.ADD ? "新增" : "编辑");
     },
+    quickSearchKeyPress($event) { //查询字段为input时，按回车查询
+        if ($event.keyCode == 13) {
+            if (this.searchFormFileds[this.singleSearch.field]!="") {
+                this.search();
+            }
+        }
+    },
     getButtons() {//生成ViewGrid界面的操作按钮及更多选项
         if (this.buttons.length <= this.maxBtnLength) return this.buttons;
         let btns = this.buttons.slice(0, this.maxBtnLength);
@@ -42,10 +49,10 @@ let methods = {
             this.buttons.push(...permissionButtons);
         }
         if (!this.extend) {
-            this.extend={};
+            this.extend = {};
         }
         if (!this.extend.buttons) {
-            this.extend.buttons={};
+            this.extend.buttons = {};
         }
         //查询界面扩展按钮(扩展按钮可自行通过设置按钮的Index属性显示到具体位置)
         if (this.extend.buttons.view) {

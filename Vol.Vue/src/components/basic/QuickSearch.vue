@@ -28,6 +28,7 @@
       v-else
       v-model="searchFormFileds[singleSearch.field]"
       :placeholder="singleSearch.title"
+      @on-keypress="tiggerPress"
     />
   </div>
 </template>
@@ -41,6 +42,10 @@ export default {
     searchFormFileds: {
       type: Object,
       default: {}
+    },
+    tiggerPress: {
+      type: Function,
+      default: () => {}
     }
   }
 };
