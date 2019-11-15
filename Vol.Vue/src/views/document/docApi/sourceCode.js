@@ -33,155 +33,158 @@ let codeString = {
       }
     };
     // ]]></script>`,
-  form:`<template>
-  <div>
-    <VolForm :label-width="150" :loadKey="true" :formFileds="formFileds1" :formRules="formRules1"></VolForm>
-  </div>
-</template>
-<script>
-import VolForm from "@/components/basic/VolForm.vue";
-export default {
-  components: { VolForm },
-  methods: {},
-  data() {
-    return {
-      formFileds1: {
-        Variety: 1,
-        AgeRange: "",
-        DateRange: [],
-        City: "北京市",
-        AvgPrice: 8.88,
-        number1: 20,
-        mail: "",
-        Date: "",
-        IsTop: "还没想好...",
-        Fruits: [],
-        Other: "",
-        Switch: 1,
-        ProImg:
-          "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg"
-      },
-      formRules1: [
-        //两列的表单，formRules数据格式为:[[{},{}]]
-        [
-          {
-            dataKey: "city",
-            title: "自动绑定数据源",
-            required: true,
-            field: "City",
-            data: [],
-            type: "select"
-          },
-          {
-            title: "手动绑定数据源",
-            dataKey: "age",
-            placeholder: "在这里可设置提示描述",
-            //如果这里绑定了data数据，后台不会加载此数据源
-            data: [{ key: 1, value: "是" }, { key: 0, value: "否" }],
-            required: false,
-            field: "Variety",
-            type: "select"
-          }
-        ],
-        [
-          {
-            title: "手机号",
-            required: true, //设置为必选项
-            field: "AgeRange",
-            type: "phone"
-          },
-          {
-            title: "date日期",
-            field: "Date",
-            type: "datetime"
-          }
-        ],
-        [
-          {
-            title: "多选日期",
-            range: true, //设置为true可以选择开始与结束日期
-            required: false,
-            field: "DateRange",
-            type: "date"
-          },
-          {
-            type: "number",
-            title: "数字",
-            required: true,
-            placeholder: "你可以自己定义placeholder显示的文字",
-            field: "number1"
-          }
-        ],
-        [
-          {
-            type: "decimal",
-            title: "最大最小decimal值",
-            max: 10,
-            min: 2,
-            required: true,
-            field: "AvgPrice"
-          },
-          {
-            title: "邮箱",
-            field: "mail",
-            range: true, //设置为true可以选择开始与结束日期
-            required: false,
-            type: "mail"
-          }
-        ],
-        [
-          {
-            title: "自定义验证",
-            required: true,
-            field: "Other",
-            validator: (rule, val, callback) => {
-              if (val != "234") {
-                return callback(new Error("必须输入【234】"));
-              }
-              return callback();
+  form:`<div class="cnblogs_code">
+  <pre>&lt;template&gt;
+    &lt;div&gt;
+      &lt;VolForm :label-width="150" :loadKey="true" :formFileds="formFileds1" :formRules="formRules1"&gt;&lt;/VolForm&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+  &lt;script&gt;<span style="color: #000000;">
+  import VolForm from </span>"@/components/basic/VolForm.vue"<span style="color: #000000;">;
+  export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
+    components: { VolForm },
+    methods: {},
+    data() {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
+        formFileds1: {
+          Variety: </span>1<span style="color: #000000;">,
+          AgeRange: </span>""<span style="color: #000000;">,
+          DateRange: [],
+          City: </span>"北京市"<span style="color: #000000;">,
+          AvgPrice: </span>8.88<span style="color: #000000;">,
+          number1: </span>20<span style="color: #000000;">,
+          mail: </span>""<span style="color: #000000;">,
+          Date: </span>""<span style="color: #000000;">,
+          IsTop: </span>"还没想好..."<span style="color: #000000;">,
+          Fruits: [],
+          Other: </span>""<span style="color: #000000;">,
+          Switch: </span>1<span style="color: #000000;">,
+          ProImg:
+            </span>"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg"<span style="color: #000000;">
+        },
+        formRules1: [
+          </span><span style="color: #008000;">//</span><span style="color: #008000;">两列的表单，formRules数据格式为:[[{},{}]]</span>
+  <span style="color: #000000;">        [
+            {
+              dataKey: </span>"city"<span style="color: #000000;">,
+              title: </span>"自动绑定数据源"<span style="color: #000000;">,
+              required: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+              field: </span>"City"<span style="color: #000000;">,
+              data: [],
+              type: </span>"select"<span style="color: #000000;">
+            },
+            {
+              title: </span>"手动绑定数据源"<span style="color: #000000;">,
+              dataKey: </span>"age"<span style="color: #000000;">,
+              placeholder: </span>"在这里可设置提示描述"<span style="color: #000000;">,
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">如果这里绑定了data数据，后台不会加载此数据源</span>
+              data: [{ key: 1, value: "是" }, { key: 0, value: "否"<span style="color: #000000;"> }],
+              required: </span><span style="color: #0000ff;">false</span><span style="color: #000000;">,
+              field: </span>"Variety"<span style="color: #000000;">,
+              type: </span>"select"<span style="color: #000000;">
             }
-          },
-          {
-            title: "Switch",
-            field: "Switch",
-            dataKey: "enable", //这里会从后台自动绑定数据源
-            data: [],
-            required: false,
-            type: "switch"
-          }
-        ],
-        [
-          {
-            title: "备注",
-            required: true,
-            field: "IsTop",
-            colSize: 12, //设置12，此列占100%宽度
-            type: "textarea"
-          }
-        ],
-        [
-          {
-            title: "图片",
-            disabled: true, //必须设置此属性
-            field: "ProImg",
-            type: "img"
-          },
-          {
-            title: "checkbox",
-            //如果这里绑定了data数据，后台不会加载此数据源
-            data: [
-              { key: 0, value: "冬瓜" },
-              { key: 1, value: "西瓜" },
-              { key: 2, value: "南瓜" },
-              { key: 3, value: "哈密瓜" }
-            ],
-            field: "Fruits",
-            type: "checkbox"
-          }
+          ],
+          [
+            {
+              title: </span>"手机号"<span style="color: #000000;">,
+              required: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">设置为必选项</span>
+              field: "AgeRange"<span style="color: #000000;">,
+              type: </span>"phone"<span style="color: #000000;">
+            },
+            {
+              title: </span>"date日期"<span style="color: #000000;">,
+              field: </span>"Date"<span style="color: #000000;">,
+              type: </span>"datetime"<span style="color: #000000;">
+            }
+          ],
+          [
+            {
+              title: </span>"多选日期"<span style="color: #000000;">,
+              range: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">设置为true可以选择开始与结束日期</span>
+              required: <span style="color: #0000ff;">false</span><span style="color: #000000;">,
+              field: </span>"DateRange"<span style="color: #000000;">,
+              type: </span>"date"<span style="color: #000000;">
+            },
+            {
+              type: </span>"number"<span style="color: #000000;">,
+              title: </span>"数字"<span style="color: #000000;">,
+              required: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+              placeholder: </span>"你可以自己定义placeholder显示的文字"<span style="color: #000000;">,
+              field: </span>"number1"<span style="color: #000000;">
+            }
+          ],
+          [
+            {
+              type: </span>"decimal"<span style="color: #000000;">,
+              title: </span>"最大最小decimal值"<span style="color: #000000;">,
+              max: </span>10<span style="color: #000000;">,
+              min: </span>2<span style="color: #000000;">,
+              required: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+              field: </span>"AvgPrice"<span style="color: #000000;">
+            },
+            {
+              title: </span>"邮箱"<span style="color: #000000;">,
+              field: </span>"mail"<span style="color: #000000;">,
+              range: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">设置为true可以选择开始与结束日期</span>
+              required: <span style="color: #0000ff;">false</span><span style="color: #000000;">,
+              type: </span>"mail"<span style="color: #000000;">
+            }
+          ],
+          [
+            {
+              title: </span>"自定义验证"<span style="color: #000000;">,
+              required: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+              field: </span>"Other"<span style="color: #000000;">,
+              validator: (rule, val, callback) </span>=&gt;<span style="color: #000000;"> {
+                </span><span style="color: #0000ff;">if</span> (val != "234"<span style="color: #000000;">) {
+                  </span><span style="color: #0000ff;">return</span> callback(<span style="color: #0000ff;">new</span> Error("必须输入【234】"<span style="color: #000000;">));
+                }
+                </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> callback();
+              }
+            },
+            {
+              title: </span>"Switch"<span style="color: #000000;">,
+              field: </span>"Switch"<span style="color: #000000;">,
+              dataKey: </span>"enable", <span style="color: #008000;">//</span><span style="color: #008000;">这里会从后台自动绑定数据源</span>
+  <span style="color: #000000;">            data: [],
+              required: </span><span style="color: #0000ff;">false</span><span style="color: #000000;">,
+              type: </span>"switch"<span style="color: #000000;">
+            }
+          ],
+          [
+            {
+              title: </span>"备注"<span style="color: #000000;">,
+              required: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+              field: </span>"IsTop"<span style="color: #000000;">,
+              colSize: </span>12, <span style="color: #008000;">//</span><span style="color: #008000;">设置12，此列占100%宽度</span>
+              type: "textarea"<span style="color: #000000;">
+            }
+          ],
+          [
+            {
+              title: </span>"图片"<span style="color: #000000;">,
+              disabled: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">必须设置此属性</span>
+              field: "ProImg"<span style="color: #000000;">,
+              type: </span>"img"<span style="color: #000000;">
+            },
+            {
+              title: </span>"checkbox"<span style="color: #000000;">,
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">如果这里绑定了data数据，后台不会加载此数据源</span>
+  <span style="color: #000000;">            data: [
+                { key: </span>0, value: "冬瓜"<span style="color: #000000;"> },
+                { key: </span>1, value: "西瓜"<span style="color: #000000;"> },
+                { key: </span>2, value: "南瓜"<span style="color: #000000;"> },
+                { key: </span>3, value: "哈密瓜"<span style="color: #000000;"> }
+              ],
+              field: </span>"Fruits"<span style="color: #000000;">,
+              type: </span>"checkbox"<span style="color: #000000;">
+            }
+          ]
         ]
-      ]
-    };
-  }
-};
-</script>`}
+      };
+    }
+  };
+  </span>&lt;/script&gt;</pre>
+  </div>
+  <p>&nbsp;</p>`}
 export default codeString

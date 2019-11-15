@@ -4,7 +4,7 @@
       <h2>
         <a @click="viewCode">查看代码</a>
       </h2>
-      <div v-show="visibly">{{code}}</div>
+      <div v-show="visibly" v-html="code"></div>
       <h2>
         <a v-show="visibly" @click="visibly=false">收起</a>
       </h2>
@@ -24,8 +24,9 @@
       <tbody>
         <tr v-for="(item,index) in param[name].attr||[]" :key="index">
           <td>{{item.name}}</td>
+          <td>{{item.desc}}</td>
           <td>{{item.type}}</td>
-          <td>{{item.defalut}}</td>
+          <td>{{item.default}}</td>
         </tr>
       </tbody>
     </table>

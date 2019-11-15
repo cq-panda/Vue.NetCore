@@ -44,6 +44,121 @@ export default {
     return {
       active: 0,
       data: [
+          {
+          title: "如何上手",
+          desc: [
+            {
+              text:
+                "先看下【代码生成】的步骤，参照前端SellOrder.js(可扩展完整示例页面),后台Sell->Partial->SellOrderService.cs编写自己的扩展业务"
+            }
+          ]
+        },
+        {
+          title: "如何写扩展业务及组件",
+          desc: [
+              {
+              text:
+                "前端、后台扩展业务，只能在指定的位置编写，如：SellOrder表，后台业务在Sell->Partial->SellOrderService.cs编写，前端在SellOrder.js中编写"
+            },
+            {
+              text:
+                "1、后台扩展业务，参照Sell->Partial->SellOrderService.cs编写"
+            },
+            {
+              text:
+                "2、前端扩展业务，找到代码生成表的扩展js，如:SellOrder.js，在属性gridHeader、gridBody、gridFooter、modelHeader、modelBody、modelFooter中引入自己编写的组件路径，可参照SellOrder.js(可扩展完整示例页面)使用扩展业务的方式"
+            }
+          ]
+        },
+        {
+          title: "如何获取自定义扩展的组件",
+          desc: [
+            {
+              text:
+                "1、代码生成后的表单页面，可以通过this.$refs.gridHeader、gridBody、gridFooter、modelHeader、modelBody、modelFooter拿到自己定义开发的组件，可参照SellOrder.js(可扩展完整示例页面)使用扩展业务的方式"
+            },
+            {
+              text:
+                "2、代码生成后的表单页面，可以通过自定扩展组件进行任何复杂操作,可参照SellOrder.js(可扩展完整示例页面)扩展"
+            }
+          ]
+        },
+        {
+          title: "自定义扩展组件中获取父组件",
+          desc: [
+            {
+              text:
+                "获取父组件(ViewGird.vue也是代码生成后的页面上能看到的组件)， this.$emit('parentCall', $vue => { }) //$vue为父组件对象，具体使用参考order->GridHeaderExtend.vue文件"
+            }
+          ]
+        },
+        {
+          title: "在页面添加自定义按钮",
+          desc: [
+            {
+              text: "可参照SellOrder.js"
+            }
+          ]
+        }, {
+          title: "使用EF、Daper、事务、缓存",
+          desc: [
+            {
+              text: "Sell->Partial->SellOrderService.cs中有详细介绍"
+            }
+          ]
+        },{
+          title: "实体校验、常用扩展、日志",
+          desc: [
+            {
+              text: "Sell->Partial->SellOrderService.cs中有详细介绍"
+            }
+          ]
+        }, {
+          title: "后台获取用户信息",
+          desc: [
+            {
+              text: "UserContext.Current在Sell->Partial->SellOrderService.cs中有详细介绍"
+            }
+          ]
+        },{
+          title: "前端获取用户信息/权限等",
+          desc: [
+            {
+              text: "菜单->其他组件"
+            }
+          ]
+        },{
+          title: "如何使用一对多",
+          desc: [
+            {
+              text: "目前代码生成只有主从一对一，一对多需要自己扩展，可参照【表单一对多】页面"
+            },
+              {
+              text: "1、提交自定义的一对多页面的数据，能过【如何获取自定义扩展的组件】介绍拿到自己定义的组件，在提交保存前将数据写入请参数中(SellOrder.js中有列出所有操作事件的方法)"
+            },
+              {
+              text: "2、后台通过HttpContext.Request<T>(),拿到请求的数据进行业务处理(如：写入数据库中)，参照Sell->Partial->SellOrderService.cs中有介绍所有方法操作"
+            } ,
+              {
+              text: "使用一对多加载自定义表数据,如点击编辑弹出框时加载表数据：可以使用this.modelOpenAtfter，可参照SellOrder.js中有列出所有操作事件的方法，实际使用方式与上面介绍的一样,"
+            }
+
+          ]
+        }, {
+          title: "数据库表字段发生变化怎么处理",
+          desc: [
+            {
+              text: "数据库字段发生变化后，在代码生成器页面点击->【同步表结构->【生成model】->【生成vue页面】"
+            }
+          ]
+        },{
+          title: "如何删除菜单配置",
+          desc: [
+            {
+              text: "目前不支持删除菜单，如果想删除菜单，将父级ID设置为其他不用节点的id即可"
+            }
+          ]
+        },
         {
           title: "菜单提示没有权限",
           desc: [
@@ -131,7 +246,7 @@ export default {
           desc: [
             {
               text:
-                "点击生成model响应或异常，原因是数据表结构与代码生成页面的结构不一样，如果数据表结构有修改，代码生成页面也要修改配置"
+                "点击生成model响应或异常，原因是数据表结构与代码生成页面的结构不一样，点击同步表结构再点生成model,如果还是无法解决(mysql,sqlserver有些很少用的字段没有考虑，也没有经过测试)，请提issue"
             }
           ]
         },
@@ -206,19 +321,22 @@ export default {
 .i-container {
   display: flex;
   > .nav {
+    overflow-y: scroll;
     border-right: 1px solid #ccc3c3;
     margin-right: 50px;
     width: 250px;
     position: fixed;
+    /* height: 100%; */
+    bottom: 20px;
+    top: 81px;
     .n-item {
       text-align: right;
       padding-right: 29px;
       list-style: none;
       a {
-        font-size: 15px;
+        font-size: 14px;
         color: #737070;
-        line-height: 40px;
-        height: 40px;
+        line-height: 30px;
         margin: 0;
         padding: 0;
         text-decoration: none;

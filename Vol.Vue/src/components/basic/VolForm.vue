@@ -369,27 +369,27 @@ export default {
         return {
           required: item.required,
           message: item.title,
-          title:item.title,
+          title: item.title,
           trigger: "blur",
-          min:item.min,
-          max:item.max,
+          min: item.min,
+          max: item.max,
           type: item.columnType || item.type,
           validator: (rule, value, callback) => {
             if (rule.required) {
               if (value == "") {
-                rule.message=rule.title + "不能为空";
+                rule.message = rule.title + "不能为空";
                 return callback(new Error(rule.message));
               }
             }
             if (value == "") return callback();
             if (rule.type == "number") {
               if (!this.rule.number.test(value)) {
-                  rule.message=rule.title + "只能是整数";
+                rule.message = rule.title + "只能是整数";
                 return callback(new Error(rule.message));
               }
             } else {
               if (!this.rule.decimal.test(value)) {
-                   rule.message=rule.title + "只能是数字";
+                rule.message = rule.title + "只能是数字";
                 return callback(new Error(rule.message));
               }
             }
@@ -398,7 +398,7 @@ export default {
               typeof rule.max == "number" &&
               value < rule.min
             ) {
-              rule.message=rule.title + "不能小于" + rule.min
+              rule.message = rule.title + "不能小于" + rule.min;
               return callback(new Error(rule.message));
             }
             if (
@@ -406,8 +406,8 @@ export default {
               typeof rule.max == "number" &&
               value > rule.max
             ) {
-                rule.message=rule.title + "不能大于" + rule.max;
-              return callback(new Error(rule.message ));
+              rule.message = rule.title + "不能大于" + rule.max;
+              return callback(new Error(rule.message));
             }
             return callback();
           }

@@ -148,7 +148,7 @@ export default {
       color: ["#3398DB"],
       title: {
         left: "center",
-        text: "Vue从入门到放弃"
+        text: "QQ交流群：还没想好..."
       },
       tooltip: {},
       xAxis: {

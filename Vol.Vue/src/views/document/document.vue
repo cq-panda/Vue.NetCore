@@ -4,7 +4,6 @@
     height: 99%;">
     <el-scrollbar style="height:100%;">
       <div class="links">
-        <div class="item">还没想好!!</div>
         <div
           class="item"
           :color="activedIndex==index?'red':'#2d8cf0'"
@@ -48,12 +47,18 @@ export default {
       }
     }
     this.text = this.timeline[this.activedIndex].text;
+    this.$Message.error("开发文档已在整理中。。。");
   },
   data() {
     return {
       text: "",
       activedIndex: 0,
       timeline: [
+          {
+          text: "QQ群：还没想好!",
+          path: "#",
+          actived: false
+        },
         {
           text: "返回首页",
           path: "/home",
