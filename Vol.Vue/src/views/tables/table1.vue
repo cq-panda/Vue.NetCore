@@ -10,7 +10,6 @@
     <div class="tb">
       <VolHeader icon="md-apps" text="双击表即可编辑">
         <div
-          style="padding-top: 10px;padding-left: 20px;"
           slot="content"
         >同时可配置数据字典编号自动绑定字段的显示值,如【是否启用】列值为0/1显示文本为是、否</div>
         <slot>

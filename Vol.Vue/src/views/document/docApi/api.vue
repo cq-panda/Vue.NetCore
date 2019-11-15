@@ -21,11 +21,14 @@ import "./doc.less";
 export default {
   components: {
     Icons: () => import("./doc_icons"),
-    DocForm: () => import("./doc_volform")
+    DocForm: () => import("./doc_volform"),
+    VolHeader: () => import("./doc_header"),
+    box: () => import("./doc_box")
   }, //
   methods: {
     toggleCom(index) {
       this.currentComponent = this.data[index].com_name;
+      this.active = index;
     }
   },
   data() {
@@ -39,6 +42,14 @@ export default {
         {
           com_name: "DocForm",
           title: "表单组件"
+        }, //
+        {
+          com_name: "VolHeader",
+          title: "VolHeader"
+        },
+        {
+          com_name: "box",
+          title: "弹出框"
         }
       ],
       currentComponent: "Icons"

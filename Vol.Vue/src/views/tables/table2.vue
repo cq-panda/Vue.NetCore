@@ -16,10 +16,7 @@
     </Alert>
     <div style="padding: 0px 20px;">
       <VolHeader icon="md-apps" text="从api加载数据">
-        <div
-          style="padding-top: 10px;padding-left: 20px;"
-          slot="content"
-        >同时可配置数据字典编号自动绑定字段的显示值,如【是否启用】列值为0/1显示文本为是、否</div>
+        <div slot="content">同时可配置数据字典编号自动绑定字段的显示值,如【是否启用】列值为0/1显示文本为是、否</div>
         <slot>
           <div style="text-align: right;">
             <Button type="info" ghost @click="load">刷新表数据</Button>

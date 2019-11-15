@@ -4,7 +4,7 @@
       <Icon size="20" :type="icon" />
       <span>{{text}}</span>
     </div>
-    <div>
+    <div class="content">
       <slot name="content"></slot>
     </div>
     <div class="v-right-content">
@@ -43,6 +43,11 @@ export default {
       position: relative;
       top: 2px;
     }
+  }
+  .content {
+    line-height: 25px;
+    padding-left: 10px;
+    padding: 6px 0 0 10px;
   }
   .v-right-content {
     flex: 1;

@@ -35,8 +35,24 @@ let param = {
         { name: "表单验证", desc: "表单验证使用：this.$refs.你的ref名字.validate()，返回值bool", type: "", default: "" },
         { name: "数据槽slot", desc: "可以在表单的第一行第前使用<div name='header'></div>或最后一行<div name='footer'></div>", type: "", default: "" }],
         methods: []
-
-        
+    }, header: {
+        attr: [{ name: "icon", desc: "显示图标", type: "string", default: "" },
+        { name: "text", desc: "显示名称", type: "string", default: "" },
+        { name: "slot数据槽", desc: "右边button显示的这部份内容", type: "", default: "" },
+        { name: "slot数据槽content", desc: "使用方式<div slot='content'>VolHeader这里可以定义显示内容</div>", type: "", default: "" }],
+        methods: []
+    },
+    box:{
+        attr:[{ name: "title", desc: "弹出框标题", type: "string", default: "基本信息" },
+        { name: "icon", desc: "弹出框图标", type: "string", default: "ios-information-circle-outline" },
+        { name: "model", desc: "是否显示弹出框", type: "bool", default: "false" },
+        { name: "height", desc: "弹出框高度", type: "int", default: "200" },
+        { name: "width", desc: "弹出框宽度", type: "int", default: "650" },
+        { name: "padding", desc: "弹出框内容padding大小", type: "int", default: "16" },
+        { name: "mask", desc: "弹出框是否显示遮罩", type: "boole", default: "true" },
+        { name: "数据槽slot", desc: "弹出框内容", type: "", default: "" },
+        { name: "数据槽footer", desc: "弹出框底部按钮，默认只有一个关闭按钮，如果加了 <div slot='footer'></div>关闭按钮不会显示，需要自己添加", type: "", default: "" }],
+        methods:[]
     }
 }
 export default param;

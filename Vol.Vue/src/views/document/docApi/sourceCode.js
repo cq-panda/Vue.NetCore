@@ -1,5 +1,5 @@
 let codeString = {
-    icons: `<div>
+  icons: `<div>
     <div class="cnblogs_code">
     <pre>   &lt;template&gt;
       &lt;div&gt;
@@ -33,7 +33,7 @@ let codeString = {
       }
     };
     // ]]></script>`,
-  form:`<div class="cnblogs_code">
+  form: `<div class="cnblogs_code">
   <pre>&lt;template&gt;
     &lt;div&gt;
       &lt;VolForm :label-width="150" :loadKey="true" :formFileds="formFileds1" :formRules="formRules1"&gt;&lt;/VolForm&gt;
@@ -186,5 +186,62 @@ let codeString = {
   };
   </span>&lt;/script&gt;</pre>
   </div>
-  <p>&nbsp;</p>`}
+  <p>&nbsp;</p> `,
+  header: `<div class="cnblogs_code">
+  <pre>&lt;template&gt;
+    &lt;div&gt;
+      &lt;VolHeader style="margin: 30px 0;" :icon="icon" :text="text"&gt;
+        &lt;div slot="content"&gt;VolHeader这里可以定义显示内容&lt;/div&gt;
+        &lt;div style="text-align: right;padding-top: 4px;"&gt;
+          &lt;Button type="text" icon="ios-search" size="small" @click="()=&gt;{this.$Message.error('1')}"&gt;buttons1&lt;/Button&gt;
+          &lt;Button type="text" icon="ios-search" size="small" @click="()=&gt;{this.$Message.error('2')}"&gt;buttons2&lt;/Button&gt;
+        &lt;/div&gt;
+      &lt;/VolHeader&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+  &lt;script&gt;<span style="color: #000000;">
+  import VolHeader from </span>"@/components/basic/VolHeader.vue"<span style="color: #000000;">;
+  export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
+    data() {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
+        icon: </span>"md-male"<span style="color: #000000;">,
+        text: </span>"主题名称"<span style="color: #000000;">
+      };
+    },
+    components: { VolHeader},
+    methods: {
+    }
+  };
+  </span>&lt;/script&gt;</pre>
+  </div>
+  <p>&nbsp;</p>`,
+  box:`<div class="cnblogs_code">
+  <pre>&lt;template&gt;
+    &lt;div&gt;
+      &lt;Button type="info" @click="model=!model"&gt;弹出框&lt;/Button&gt;
+      &lt;VolBox :model.sync="model" title="弹出框标题" :height="400" :width="700" :padding="15"&gt;
+        &lt;div&gt;弹出框内容&lt;/div&gt;
+        &lt;!-- footer 这里不写，默认有一个关闭按钮 --&gt;
+        &lt;div slot="footer"&gt;
+          &lt;Button type="default" @click="()=&gt;{this.$Message.error('点击确认')}"&gt;确认&lt;/Button&gt;
+          &lt;Button type="default" @click="()=&gt;{model=false}"&gt;点击关闭弹出框&lt;/Button&gt;
+        &lt;/div&gt;
+      &lt;/VolBox&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+  &lt;script&gt;<span style="color: #000000;">
+  import VolBox from </span>"@/components/basic/VolBox.vue"<span style="color: #000000;">;
+  export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
+    data() {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
+        model: </span><span style="color: #0000ff;">false</span><span style="color: #000000;">
+      };
+    },
+    components: { VolBox },
+    methods: {}
+  };
+  </span>&lt;/script&gt;</pre>
+  </div>
+  <p>&nbsp;</p>`
+}
 export default codeString

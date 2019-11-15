@@ -13,7 +13,7 @@
       <i class="ivu-icon ivu-icon-ios-close"></i>
     </a>
     <p slot="header" class="header">
-      <Icon type="ios-information-circle-outline"></Icon>
+      <Icon :type="icon"></Icon>
       <span>{{title}}</span>
     </p>
     <div class="view-model-content" :style="{height:height+'px'}">
@@ -33,6 +33,10 @@
 <script>
 export default {
   props: {
+    icon:{
+     type:String,
+     default:'ios-information-circle-outline'
+    },
     title: {
       type: String,
       default: "基本信息"
@@ -78,10 +82,10 @@ export default {
     }
   },
   mounted() {
-    console.log("cm");
+   // console.log("cm");
   },
   created() {
-    console.log("c1");
+   // console.log("c1");
     if (this.$slots.footer) {
       this.footer = false;
     }
