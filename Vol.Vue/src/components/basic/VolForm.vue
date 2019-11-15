@@ -9,7 +9,7 @@
     <slot name="header"></slot>
     <Row class="line-row" v-for="(row,findex) in formRules" :key="findex">
       <Col :span="(item.colSize?item.colSize*2:24/span)" v-for="(item,index) in row" :key="index">
-        <FormItem :rules="getRule(item)" :label="item.title+'：'" :prop="item.field">
+        <FormItem :rules="getRule(item,formFileds)" :label="item.title+'：'" :prop="item.field">
           <!-- <Input
             v-if="item.disabled"
             class="readonly-input"
@@ -345,7 +345,7 @@ export default {
         });
       });
     },
-    getRule(item) {
+    getRule(item,formFileds) {
       //用户设置的自定义方法
       if (item.validator && typeof item.validator == "function") {
         return {
@@ -377,9 +377,12 @@ export default {
           validator: (rule, value, callback) => {
             if (rule.required) {
               if (value == "") {
-                rule.message = rule.title + "不能为空";
-                return callback(new Error(rule.message));
+                formFileds[rule.field]=0;
+                // rule.message = rule.title + "不能为空";
+                // return callback(new Error(rule.message));
+                 return callback();
               }
+              
             }
             if (value == "") return callback();
             if (rule.type == "number") {
