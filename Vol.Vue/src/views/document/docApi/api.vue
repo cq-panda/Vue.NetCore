@@ -23,7 +23,8 @@ export default {
     Icons: () => import("./doc_icons"),
     DocForm: () => import("./doc_volform"),
     VolHeader: () => import("./doc_header"),
-    box: () => import("./doc_box")
+    box: () => import("./doc_box"),
+    other: () => import("./doc_other")
   }, //
   methods: {
     toggleCom(index) {
@@ -50,6 +51,10 @@ export default {
         {
           com_name: "box",
           title: "弹出框"
+        },
+        {
+          com_name: "other",
+          title: "其它组件"
         }
       ],
       currentComponent: "Icons"

@@ -128,11 +128,11 @@ export default {
             title: "自定义验证",
             required: true,
             field: "Other",
-            validator: (rule, val, callback) => {
+            validator: (rule, val) => {
               if (val != "234") {
-                return callback(new Error("必须输入【234】"));
+                return "必须输入【234】";
               }
-              return callback();
+              return ""
             }
           },
           {
