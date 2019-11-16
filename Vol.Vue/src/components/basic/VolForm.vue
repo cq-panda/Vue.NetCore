@@ -84,6 +84,7 @@
             v-else-if="item.type=='textarea'"
             v-model="formFileds[item.field]"
             type="textarea"
+            @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
             clearable
             :autosize="{minRows:2,maxRows:item.maxRows||2}"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
@@ -93,17 +94,20 @@
             v-else-if="item.type=='password'"
             type="password"
             v-model.number="formFileds[item.field]"
+            @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
           ></Input>
           <Input
             clearable
             v-else-if="types[item.columnType]=='number'"
+            @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
             v-model.number="formFileds[item.field]"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
           ></Input>
           <Input
             clearable
             v-else
+            @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
             v-model="formFileds[item.field]"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
           ></Input>
@@ -345,7 +349,7 @@ export default {
         });
       });
     },
-    getRule(item,formFileds) {
+    getRule(item, formFileds) {
       //用户设置的自定义方法
       if (item.validator && typeof item.validator == "function") {
         return {
@@ -377,12 +381,11 @@ export default {
           validator: (rule, value, callback) => {
             if (rule.required) {
               if (value == "") {
-                formFileds[rule.field]=0;
+                formFileds[rule.field] = 0;
                 // rule.message = rule.title + "不能为空";
                 // return callback(new Error(rule.message));
-                 return callback();
+                return callback();
               }
-              
             }
             if (value == "") return callback();
             if (rule.type == "number") {

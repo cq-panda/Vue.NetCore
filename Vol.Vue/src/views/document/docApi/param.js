@@ -29,6 +29,11 @@ let param = {
             return callback();\
           }", type: "function", default: ""
         },
+        {
+            name: "onKeyPress", desc: '只对input/textarea生效,onKeyPress: $event => {\
+                if ($event.keyCode == 13) {}\
+              }', type: "function", default: ""
+        },
         { name: "onChange", desc: "只有type=select才可以配置此属性", type: "function", default: "" },
         { name: "}", desc: "表单字段formRules的参数配置说明", type: "", default: "" },
         { name: "表单重置", desc: "表单重置使用：this.$refs.你的ref名字.reset()", type: "", default: "" },
@@ -42,8 +47,8 @@ let param = {
         { name: "slot数据槽content", desc: "使用方式<div slot='content'>VolHeader这里可以定义显示内容</div>", type: "", default: "" }],
         methods: []
     },
-    box:{
-        attr:[{ name: "title", desc: "弹出框标题", type: "string", default: "基本信息" },
+    box: {
+        attr: [{ name: "title", desc: "弹出框标题", type: "string", default: "基本信息" },
         { name: "icon", desc: "弹出框图标", type: "string", default: "ios-information-circle-outline" },
         { name: "model", desc: "是否显示弹出框", type: "bool", default: "false" },
         { name: "height", desc: "弹出框高度", type: "int", default: "200" },
@@ -52,7 +57,7 @@ let param = {
         { name: "mask", desc: "弹出框是否显示遮罩", type: "boole", default: "true" },
         { name: "数据槽slot", desc: "弹出框内容", type: "", default: "" },
         { name: "数据槽footer", desc: "弹出框底部按钮，默认只有一个关闭按钮，如果加了 <div slot='footer'></div>关闭按钮不会显示，需要自己添加", type: "", default: "" }],
-        methods:[]
+        methods: []
     }
 }
 export default param;

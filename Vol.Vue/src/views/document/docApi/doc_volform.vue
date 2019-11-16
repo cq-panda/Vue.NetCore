@@ -34,7 +34,7 @@ export default {
   methods: {
     reset() {
       this.$refs.myform.reset();
-      this.$Message.error('表单已重置')
+      this.$Message.error("表单已重置");
     }
   },
   data() {
@@ -82,7 +82,12 @@ export default {
             title: "手机号",
             required: true, //设置为必选项
             field: "AgeRange",
-            type: "phone"
+            type: "phone",
+            onKeyPress: $event => {
+              if ($event.keyCode == 13) {
+                this.$Message.error(this.formFileds1.AgeRange + "");
+              }
+            }
           },
           {
             title: "date日期",
@@ -132,7 +137,7 @@ export default {
               if (val != "234") {
                 return "必须输入【234】";
               }
-              return ""
+              return "";
             }
           },
           {

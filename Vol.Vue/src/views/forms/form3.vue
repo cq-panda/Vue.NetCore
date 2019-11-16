@@ -84,7 +84,7 @@ export default {
         ],
         [
           {
-            type: "decimal",
+            columnType: "decimal",
             title: "成交均价",
             required: true,
             placeholder: "你可以自己定义placeholder显示的文字",
