@@ -41,6 +41,7 @@
       <p class="desc">
         加载完成后，根据自身情况配置下面表格中的查询与新建、编辑信息
         <a href="#param">查看参数说明</a>
+       <br /><span style="font-weight:bold;font-size:16px;color:red;" class="t-span">表别名：如果不想暴露真实表名，可以自行设置任何表别名，表别名将替代原表名生成的Model与业务类。一个表只能有一个别名，默认表名与别名相同，如果想使用别名，必须将已经生成过的文件删除</span>
         <br /><span style="font-weight:bold;font-size:16px;" class="t-span">点击保存、生成Vue页面、生成Model、生成业务类即可(每次修改信息后都需要点击保存)。</span>
         <br />如果使用的mysql数据库并且主键使用的是Guid，数据库字段类型应该设置为char 长度为36，否则生成实体Model时会与数据库类型对应不上
         <br/>  <span class="t-span">(需要注意Vue绝对路径的设置:生成Vue页面必须指定此路径，路径为当前Vue项目的views文件夹，如E:/VOL.Vue/src/views)</span>
@@ -114,10 +115,11 @@
         </tr>
         <tr>
           <td>
-            <span>表名</span>
+            <span>表别名</span>
           </td>
           <td>
-            <span>需要生成代码的表或视图</span>
+            
+            <span style="color:red;font-size:14px;">表别名：如果不想暴露真实表名，可以自行设置任何表别名，表别名将替代原表名生成的Model与业务类。一个表只能有一个别名，默认表名与别名相同，如果想使用别名，必须将已经生成过的文件删除</span>
           </td>
         </tr>
         <tr>
