@@ -40,7 +40,6 @@ export default {
         //两列的表单，formRules数据格式为:[[{},{}]]
         [
           {
-            columnType: "string",
             dataKey: "age", //后台下拉框对应的数据字典编号
             data: [], //loadKey设置为true,会根据dataKey从后台的下拉框数据源中自动加载数据
             title: "月龄",
@@ -49,7 +48,7 @@ export default {
             type: "select"
           },
           {
-            columnType: "string",
+           
             title: "品种",
             dataKey: "age",
              placeholder:"此处数据源为手动绑定",
@@ -62,12 +61,11 @@ export default {
         ],
         [
           {
-            columnType: "string",
             dataKey: "city",
             title: "城市",
             required: true,
             field: "City",
-              data: [], 
+            data: [], 
             type: "select"
           }, 
           {
@@ -80,7 +78,6 @@ export default {
         ],
         [
           {
-            columnType: "datetime",
             title: "日期",
             required: true,
             field: "Date",
@@ -89,7 +86,6 @@ export default {
             type: "datetime"
           },
           {
-            columnType: "datetime",
             title: "开始结束日期",
             range: true, //设置为true可以选择开始与结束日期
             required: false,
@@ -100,7 +96,6 @@ export default {
         ],
         [
           {
-            columnType: "int",
             dataKey: "top",
             title: "是否推荐价格",
             data: [], 

@@ -44,7 +44,6 @@ var vueParam = {
         ],
         [
           {
-            columnType: "int",
             dataKey: "cq",
             title: "是否买入",
             field: "TransactionType",
@@ -53,7 +52,6 @@ var vueParam = {
         ],
         [
           {
-            columnType: "string",
             dataKey: "nav",
             title: "购买类型",
             field: "CowType",
@@ -73,7 +71,6 @@ var vueParam = {
         [
           { columnType: "string", title: "姓名", field: "Name", type: "text" },
           {
-            columnType: "string",
             title: "电话",
             field: "PhoneNo",
             type: "text"
@@ -88,7 +85,6 @@ var vueParam = {
         ],
         [
           {
-            columnType: "string",
             dataKey: "nav",
             title: "购买类型",
             field: "CowType",
@@ -96,7 +92,6 @@ var vueParam = {
           },
           { columnType: "string", title: "提交人", field: "Creator" },
           {
-            columnType: "datetime",
             title: "提交时间",
             field: "CreateDate",
             type: "datetime"

@@ -29,11 +29,12 @@ var viewGridOptions = {  //此处的权限是使用的当前页面的权限，�
                     }
                 }
             },
-            editFormFileds: {"Name":"","TransactionType":"","CowType":"",PhoneNo:""},
+            editFormFileds: {"Name":"","TransactionType":"","CowType":"",PhoneNo:"",Describe:""},
             editFormOptions: [[{"columnType":"string","title":"姓名","required":true,"field":"Name"}],
                           [{"columnType":"int","dataKey":"cq","title":"是否买入","field":"TransactionType","type":"select"}],
                           [{"columnType":"string","dataKey":"nav","title":"购买类型","field":"CowType","type":"select"}],
-                          [{"type":"phone","title":"电话","field":"PhoneNo","required":true}]],
+                          [{"type":"phone","title":"电话","field":"PhoneNo","required":true}],
+                          [{"type":"textarea","title":"描述","field":"Describe","required":true}]],
             searchFormFileds: {"CowType":"","Creator":"","CreateDate":""},
             searchFormOptions: [[{"columnType":"string","dataKey":"nav","title":"购买类型","field":"CowType","type":"dropList"},{"columnType":"string","title":"提交人","field":"Creator"},{"columnType":"datetime","title":"提交时间","field":"CreateDate","type":"datetime"}]],
             columns: [{field:'Id',title:'主键ID',type:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},

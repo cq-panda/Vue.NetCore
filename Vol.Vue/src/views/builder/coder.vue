@@ -153,6 +153,8 @@ export default {
       if (!this.$refs.form.validate()) {
         return;
       }
+       this.layOutOptins.fileds.tableName=
+      this.layOutOptins.fileds.tableName.slice(0,1).toUpperCase() + this.layOutOptins.fileds.tableName.slice(1);
       let queryParam =
         "parentId=" +
         this.layOutOptins.fileds.parentId +

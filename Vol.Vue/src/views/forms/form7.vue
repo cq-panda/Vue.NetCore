@@ -1,7 +1,7 @@
 <template>
   <div class="t-dis">
     <VolHeader icon="md-apps" text="表单属性字段只读" style="margin-bottom: 20px;">
-      <div  style="text-align: right;padding-top: 4px;">
+      <div style="text-align: right;padding-top: 4px;">
         <Button type="text" icon="ios-search" size="small" @click="getForm">获取表单</Button>
         <Button type="text" icon="ios-search" size="small" @click="getForm">获取表单</Button>
       </div>
@@ -61,6 +61,7 @@ export default {
           },
           {
             title: "成交均价",
+            type: "number",
             field: "AvgPrice",
             disabled: true
           }
@@ -77,6 +78,7 @@ export default {
           {
             title: "销售价格",
             field: "AvgPrice1",
+            type: "number",
             disabled: true
           },
           {
@@ -100,9 +102,11 @@ export default {
           {
             title: "平均重量",
             field: "AvgPrice2",
+            type: "number",
             disabled: true
           },
           {
+            type: "date",
             title: "生产日期",
             field: "DateRange2",
             disabled: true

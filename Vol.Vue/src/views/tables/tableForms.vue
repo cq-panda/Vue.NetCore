@@ -2,7 +2,11 @@
   <div class="tb-container">
     <div class="v-top">
       <div class="v-left">
-        <VolHeader icon="md-apps" text="基础表单" style="margin-bottom: 20px;"></VolHeader>
+        <VolHeader icon="md-apps" text="基础表单" style="margin-bottom: 20px;">
+          <div style="text-align: right;padding-top: 5px; margin-right: 32px;">
+            <Button type="default" size="small" @click="resetForm">重置表单</Button>
+          </div>
+        </VolHeader>
         <VolForm
           style="padding-right: 35px;"
           ref="myform1"
@@ -56,6 +60,10 @@ export default {
   methods: {
     _linkView(row) {
       this.$Message.error(JSON.stringify(row));
+    },
+    resetForm() {
+      this.$Message.error("表单已重置");
+      this.$refs.myform1.reset();
     }
   },
   data() {

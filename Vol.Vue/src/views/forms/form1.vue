@@ -31,7 +31,6 @@ export default {
               dataKey: "pz", //已经设置loadKey自动绑定数据源
               data: [],
               type: "datetime",
-              columnType: "string",
               title: "test" + this.index,
               required: this.required,
               field: "test" + this.index,
@@ -70,7 +69,7 @@ export default {
       formRules: [
         [
           {
-            columnType: "decimal",
+            type: "decimal",
             title: "成交均价",
             required: true,
             placeholder: "你可以自己定义placeholder显示的文字", //显示自定义的信息
@@ -80,7 +79,7 @@ export default {
         ],
         [
           {
-            columnType: "string",
+           
             dataKey: "age", //后台下拉框对应的数据字典编号
             data: [], //loadKey设置为true,会根据dataKey从后台的下拉框数据源中自动加载数据
             //data是须的参数，可以默认一个[]
@@ -106,7 +105,6 @@ export default {
         ],
         [
           {
-            columnType: "string",
             title: "品种",
             //如果这里绑定了data数据，后台不会加载此数据源
             data: [{ key: "1", value: "1" }, { key: "2", value: "2" }],
@@ -120,7 +118,6 @@ export default {
         ],
         [
           {
-            columnType: "string",
             dataKey: "city",
             title: "城市",
             required: true,
@@ -132,7 +129,6 @@ export default {
         ],
         [
           {
-            columnType: "datetime",
             title: "日期",
             required: true,
             field: "Date",
@@ -142,7 +138,6 @@ export default {
         ],
         [
           {
-            columnType: "datetime",
             title: "开始结束日期",
             range: true, //设置为true可以选择开始与结束日期
             required: true,

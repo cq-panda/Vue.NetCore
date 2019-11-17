@@ -53,7 +53,6 @@ export default {
         //两列的表单，formRules数据格式为:[[{},{}]]
         [
           {
-            columnType: "string",
             dataKey: "age", //后台下拉框对应的数据字典编号
             data: [], //loadKey设置为true,会根据dataKey从后台的下拉框数据源中自动加载数据
             title: "月龄",
@@ -63,7 +62,6 @@ export default {
             type: "select"
           },
           {
-            columnType: "string",
             title: "品种",
             dataKey: "pz",
             //如果这里绑定了data数据，后台不会加载此数据源
@@ -73,7 +71,6 @@ export default {
             type: "select"
           },
           {
-            columnType: "string",
             dataKey: "city",
             title: "城市",
             required: true,
@@ -84,14 +81,13 @@ export default {
         ],
         [
           {
-            columnType: "decimal",
+            type: "decimal",
             title: "成交均价",
             required: true,
             placeholder: "你可以自己定义placeholder显示的文字",
             field: "AvgPrice"
           },
           {
-            columnType: "datetime",
             title: "日期",
             required: true,
             field: "Date",
@@ -102,7 +98,6 @@ export default {
         ],
         [
           {
-            columnType: "datetime",
             title: "开始结束日期",
             range: true, //设置为true可以选择开始与结束日期
             required: true,
@@ -110,13 +105,12 @@ export default {
             type: "date"
           },
           {
-            columnType: "string",
+            type: "text",
             title: "地址",
             required: false,
             field: "Address"
           },
           {
-            columnType: "int",
             dataKey: "top",
             title: "是否",
             required: true,
@@ -145,8 +139,8 @@ export default {
             placeholder: "自定义验证方法验证输入值",
             type: "text",
             validator: (rule, val) => {
-              if (val!="123") {
-                return "自定设置必须输入123"
+              if (val != "123") {
+                return "自定设置必须输入123";
               }
               return "";
             }
@@ -154,7 +148,6 @@ export default {
         ],
         [
           {
-            columnType: "string",
             title: "备注",
             required: true,
             field: "Remark",
@@ -165,7 +158,6 @@ export default {
             colSize: 12 //设置宽度100%
           },
           {
-            columnType: "string",
             dataKey: "pz",
             title: "来源",
             required: true,
@@ -179,7 +171,6 @@ export default {
         ],
         [
           {
-            columnType: "img",
             title: "图片",
             required: true,
             field: "img",

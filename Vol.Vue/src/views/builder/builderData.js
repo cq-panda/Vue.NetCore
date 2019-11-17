@@ -12,7 +12,8 @@ let dataType = [
     { "key": "mail", "value": "mail" },
     { "key": "number", "value": "number" },
     { "key": "decimal", "value": "decimal" },
-    { "key": "phone", "value": "phone" }];
+    { "key": "phone", "value": "phone" },
+    { "key": "img", "value": "img" }];
 let data = {
     form: {
         fields: {

@@ -97,13 +97,13 @@
             @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
           ></Input>
-          <Input
+          <!-- <Input
             clearable
             v-else-if="types[item.columnType]=='number'"
             @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
             v-model.number="formFileds[item.field]"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
-          ></Input>
+          ></Input> -->
           <Input
             clearable
             v-else
