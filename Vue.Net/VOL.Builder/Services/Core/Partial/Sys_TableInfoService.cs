@@ -1,10 +1,14 @@
 ﻿using DairyStar.Builder.Utility;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using System.Threading.Tasks;
 using VOL.Core.Const;
@@ -14,6 +18,7 @@ using VOL.Core.ManageUser;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
 using VOL.Entity.DomainModels.Sys;
+using VOL.Entity.SystemModels;
 
 namespace DairyStar.Builder.Services
 {
@@ -148,6 +153,39 @@ namespace DairyStar.Builder.Services
                                       WHERE     obj.name =@tableName) AS t";
         }
 
+
+        private WebResponseContent ExistsTable(string tableName, string tableTrueName)
+        {
+            WebResponseContent webResponse = new WebResponseContent(true);
+            //如果是第一次创建model，此处反射获取到的是已经缓存过的文件，必须重新运行项目否则新增的文件无法做判断文件是否创建，需要重新做反射实际文件，待修改...
+            var compilationLibrary = DependencyContext
+                .Default
+                .CompileLibraries
+                .Where(x => !x.Serviceable && x.Type != "package");
+            foreach (var _compilation in compilationLibrary)
+            {
+                foreach (var entity in AssemblyLoadContext.Default
+                 .LoadFromAssemblyName(new AssemblyName(_compilation.Name))
+                 .GetTypes().Where(x => x.GetTypeInfo().BaseType != null
+                     && x.BaseType == typeof(BaseEntity)))
+                {
+                    if (entity.Name == tableTrueName && !string.IsNullOrEmpty(tableName))
+                        return webResponse.Error($"实际表名【{tableTrueName }】已创建实体，不能创建别名【{tableName}】实体");
+
+                    if (entity.Name != tableName)
+                    {
+                        var tableAttr = entity.GetCustomAttribute<TableAttribute>();
+                        if (tableAttr != null && tableAttr.Name == tableTrueName)
+                        {
+                            return webResponse.Error($"实际表名【{tableTrueName }】已被【{entity.Name}】创建建实体,不能创建别名【{tableName}】实体,请将别名更换为【{entity.Name}】");
+                        }
+                    }
+                }
+            }
+            return webResponse;
+
+        }
+
         /// <summary>
         /// 生成实体Model
         /// </summary>
@@ -164,10 +202,22 @@ namespace DairyStar.Builder.Services
             if (!webResponse.Status)
                 return webResponse.Message;
 
+            string tableName = sysTableInfo.TableName;
+            webResponse = ExistsTable(tableName, sysTableInfo.TableTrueName);
+            if (!webResponse.Status)
+            {
+                return webResponse.Message;
+            }
+            if (!string.IsNullOrEmpty(sysTableInfo.TableTrueName) && sysTableInfo.TableTrueName != tableName)
+            {
+                tableName = sysTableInfo.TableTrueName;
+            }
+
             List<Sys_TableColumn> list = sysTableInfo.TableColumns;
             List<TableColumnInfo> tableColumnInfoList = repository.DapperContext.QueryList<TableColumnInfo>(
                 DBType.Name == DbCurrentType.MySql.ToString() ? GetMySqlModelInfo() : GetSqlServerModelInfo(),
-                new { tableName = sysTableInfo.TableName });
+                new { tableName = tableName });
+
 
             string msg = CreateEntityModel(list, sysTableInfo, tableColumnInfoList, 1);
             if (msg != "")
@@ -1370,11 +1420,7 @@ namespace DairyStar.Builder.Services
             //  {AttributeManager}
 
             List<string> entityAttribute = new List<string>();
-            entityAttribute.Add("TableCnName = \"" + tableInfo.ColumnCNName + "\"");
-            if (!string.IsNullOrEmpty(tableInfo.TableTrueName))
-            {
-                entityAttribute.Add("TableName = \"" + tableInfo.TableTrueName + "\"");
-            }
+
             if (!string.IsNullOrEmpty(tableInfo.DetailName) && createType == 1)
             {
                 //  'typeof('+[1,2].join('),typeof(')+')'
@@ -1407,6 +1453,16 @@ namespace DairyStar.Builder.Services
             if (tableAttr != "")
             {
                 tableAttr = "[Entity(" + tableAttr + ")]";
+            }
+            //entityAttribute.Add("TableCnName = \"" + tableInfo.ColumnCNName + "\"");
+            //if (!string.IsNullOrEmpty(tableInfo.TableTrueName) && tableInfo.TableName != tableInfo.TableTrueName)
+            //{
+            //    entityAttribute.Add("TableName = \"" + tableInfo.TableTrueName + "\"");
+            //    entityAttribute.Add("Table(\"" + tableInfo.TableTrueName + "\")");
+            //}
+            if (!string.IsNullOrEmpty(tableInfo.TableTrueName) && tableInfo.TableName != tableInfo.TableTrueName)
+            {
+                tableAttr = tableAttr + "\r\n[Table(\"" + tableInfo.TableTrueName + "\")]";
             }
             domainContent = domainContent.Replace("{AttributeManager}", tableAttr).Replace("{Namespace}", modelNameSpace);
 
