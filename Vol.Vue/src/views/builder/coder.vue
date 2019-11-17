@@ -153,8 +153,13 @@ export default {
       if (!this.$refs.form.validate()) {
         return;
       }
-       this.layOutOptins.fileds.tableName=
-      this.layOutOptins.fileds.tableName.slice(0,1).toUpperCase() + this.layOutOptins.fileds.tableName.slice(1);
+      this.layOutOptins.fileds.tableName =
+        this.layOutOptins.fileds.tableName.slice(0, 1).toUpperCase() +
+        this.layOutOptins.fileds.tableName.slice(1);
+      if (!this.layOutOptins.fileds.tableTrueName) {
+        this.layOutOptins.fileds.tableTrueName = this.layOutOptins.fileds.tableName;
+      }
+
       let queryParam =
         "parentId=" +
         this.layOutOptins.fileds.parentId +
@@ -185,6 +190,9 @@ export default {
               name: x.data.columnCNName,
               orderNo: x.data.orderNo
             });
+          }
+          if (!x.data.tableTrueName) {
+            x.data.tableTrueName = x.data.tableName;
           }
           this.addModel = false;
           this.tableInfo = x.data;
@@ -285,7 +293,10 @@ export default {
       this.http
         .post("/api/builder/CreateModel", this.tableInfo, true)
         .then(x => {
-          this.$Message.info(x);
+           this.$Message.info({
+                content: x,
+                duration: 5
+            });
         });
     },
     syncTable() {
@@ -345,6 +356,9 @@ export default {
           true
         )
         .then(x => {
+          if (!x.data.tableTrueName) {
+            x.data.tableTrueName = x.data.tableName;
+          }
           this.tableInfo = x.data;
           this.$refs.form.reset(x.data);
           this.data = x.data.tableColumns;

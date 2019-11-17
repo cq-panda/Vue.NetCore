@@ -28,7 +28,7 @@ let data = {
             "title": "项目命名空间", "field": "namespace", "placeholder": "项目命令空间(类库名)", "type": "drop", "required": true, data: { data: [] }
         }],
         [{ "title": "表中文名", "field": "columnCNName", "displayType": "text", "dataSource": [], "required": true }],
-        [{ "title": "表名", "field": "tableName", "displayType": "title", "required": true }],
+        [{ "title": "实际表名", "field": "tableName", "displayType": "title", "required": true }],
         [{ "title": "项目文件夹", "field": "folderName", "displayType": "text", "required": true }]]
         ,
         options: [
@@ -42,7 +42,7 @@ let data = {
             ],
             [
                 { "title": "表中文名", "field": "columnCNName", "displayType": "text", "dataSource": [], "required": true },
-                { "title": "表名", "field": "tableName", "displayType": "title", "required": true },
+                { "title": "表别名", "field": "tableName", "displayType": "title", "required": true },
                 { "title": "实际表名", "field": "tableTrueName", "displayType": "text" }
             ],
             [
