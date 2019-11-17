@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,12 +12,15 @@ namespace VOL.Core.Controllers.Basic
     [JWTAuthorize]
     public class ApiBaseController<IServiceBase> : BaseController<IServiceBase>
     {
-
+        public ApiBaseController(IServiceBase service)
+       : base(service)
+        {
+        }
         public ApiBaseController(string projectName, string folder, string tablename, IServiceBase service)
         : base(projectName, folder, tablename, service)
         {
         }
-       
+
         [ApiActionPermission(Enums.ActionPermissionOptions.Search)]
         [HttpPost, Route("GetPageData")]
         public new async Task<ActionResult> GetPageData([FromBody] PageDataOptions loadData)
@@ -103,7 +105,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Delete)]
         [HttpPost, Route("Del")]
-        public new  async Task<ActionResult> Del([FromBody] object[] keys)
+        public new async Task<ActionResult> Del([FromBody] object[] keys)
         {
             return await base.Del(keys);
         }

@@ -26,7 +26,10 @@ namespace VOL.Core.Controllers.Basic
         {
 
         }
-
+        public BaseController(IServiceBase service)
+        {
+            Service = service;
+        }
         public BaseController(string projectName, string folder, string tablename, IServiceBase service)
         {
             this.projectName = projectName;
@@ -124,13 +127,13 @@ namespace VOL.Core.Controllers.Basic
                 return Json(ResponseContent);
             }
             byte[] fileBytes = System.IO.File.ReadAllBytes(ResponseContent.Data.ToString());
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, Path.GetFileName(ResponseContent.Data.ToString())); 
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, Path.GetFileName(ResponseContent.Data.ToString()));
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual async Task<ActionResult> Del(object[] keys)
         {
-            ResponseContent = await Task.Run(() => InvokeService("Del", new object[] { keys ,true})) as WebResponseContent;
+            ResponseContent = await Task.Run(() => InvokeService("Del", new object[] { keys, true })) as WebResponseContent;
             Logger.Info(Enums.LoggerType.Del, keys.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return Json(ResponseContent);
         }
