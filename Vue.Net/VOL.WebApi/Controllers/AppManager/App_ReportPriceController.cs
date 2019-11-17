@@ -13,7 +13,7 @@ namespace VOL.AppManager.Controllers
     public partial class App_ReportPriceController : ApiBaseController<IApp_ReportPriceService>
     {
         public App_ReportPriceController(IApp_ReportPriceService service)
-        : base("AppManager","App","App_ReportPrice", service)
+        : base(service)
         {
         }
     }

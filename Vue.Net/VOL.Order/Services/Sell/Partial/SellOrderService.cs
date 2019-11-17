@@ -173,7 +173,7 @@ namespace VOL.Order.Services
               {
                   if (order.TranNo == "2019000001810001")
                   {
-                      return new WebResponseContent().Error("不能删除此[" + order.TranNo + "]单号");
+                      return new WebResponseContent().Error("不能更新此[" + order.TranNo + "]单号");
                   }
                   //新增的明细
                   List<SellOrderList> add = addList as List<SellOrderList>;

@@ -853,7 +853,7 @@ namespace VOL.Core.Extensions
 
                 if (!val.IsNumber(formatString))
                 {
-                    string[] arr = formatString.Split(',');
+                    string[] arr = (formatString??"10,0").Split(',');
                     reslutMsg = $"整数{arr[0]}最多位,小数最多{arr[1]}位";
                 }
             }

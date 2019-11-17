@@ -260,7 +260,7 @@ namespace DairyStar.Builder.Services
             }
             //删除的列
             List<Sys_TableColumn> delColumns = detailList.Where(a => !columns.Select(c => c.ColumnName).Contains(a.ColumnName)).ToList();
-            if (addColumns.Count+ delColumns.Count+ updateColumns.Count==0)
+            if (addColumns.Count + delColumns.Count + updateColumns.Count == 0)
             {
                 return webResponse.Error("【" + tableName + "】表结构未发生变化");
             }
@@ -418,7 +418,7 @@ namespace DairyStar.Builder.Services
                     Dictionary<string, object> keyValues = new Dictionary<string, object>();
                     if (vue)
                     {
-                        keyValues.Add("columnType", s.columnType);
+                        //  keyValues.Add("columnType", s.columnType);
                         if (!string.IsNullOrEmpty(s.dataSource) && s.dataSource != "''")
                         {
                             keyValues.Add("dataKey", s.dataSource);
@@ -440,7 +440,7 @@ namespace DairyStar.Builder.Services
                         }
                         if (!string.IsNullOrEmpty(s.displayType) && s.displayType != "''")
                         {
-                            keyValues.Add("type", s.displayType);
+                            keyValues.Add("type", s.columnType == "img" ? s.columnType : s.displayType);
                         }
                     }
                     else
@@ -1445,11 +1445,30 @@ namespace DairyStar.Builder.Services
             return "";
         }
 
-        private string GetDisplayType(bool search, string searchType, string editType)
+        private static string[] formType = new string[] { "bigint", "int", "decimal", "float", "byte" };
+        private string GetDisplayType(bool search, string searchType, string editType, string columnType)
         {
+            string type = "";
             if (search)
-                return searchType == "无" ? "" : searchType ?? "";
-            return editType == "无" ? "" : editType ?? "";
+            {
+                type = searchType == "无" ? "" : searchType ?? "";
+            }
+            else
+            {
+                type = editType == "无" ? "" : editType ?? "";
+            }
+            if (type == "" && formType.Contains(columnType))
+            {
+                if (columnType == "decimal" || columnType == "float")
+                {
+                    type = "decimal";
+                }
+                else
+                {
+                    type = "number";
+                }
+            }
+            return type;
         }
 
         private string GetDropString(string dropNo, bool vue)
@@ -1481,7 +1500,7 @@ namespace DairyStar.Builder.Services
                     {
                         text = x.ColumnCnName ?? x.ColumnName,
                         id = x.ColumnName,
-                        displayType = GetDisplayType(search, x.SearchType, x.EditType),
+                        displayType = GetDisplayType(search, x.SearchType, x.EditType, x.ColumnType),
                         require = !search && x.IsNull == 0 ? true : false,
                         columnType = vue && x.IsImage == 1 ? "img" : (x.ColumnType ?? "string").ToLower(),
                         disabled = !search && x.IsReadDataset == 1 ? true : false,
