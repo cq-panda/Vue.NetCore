@@ -37,7 +37,7 @@
                 },
                 extend: extend,
                 editFormFileds: {"ParentId":"","RoleName":"","DeptName":"","Enable":"","Creator":"","CreateDate":"","Modifier":"","ModifyDate":""},
-                editFormOptions: [[{"title":"父级ID","required":true,"field":"ParentId"},
+                editFormOptions: [[{"title":"父级ID","required":true,"field":"ParentId","type":"number"},
                                {"title":"角色名称","field":"RoleName"}],
                               [{"title":"部门名称","field":"DeptName"},
                                {"dataKey":"enable","title":"是否启用","field":"Enable","type":"switch"}],
