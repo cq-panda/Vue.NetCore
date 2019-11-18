@@ -28,7 +28,7 @@ let methods = {
             this.buttons.splice(searchIndex + 1, 0, {
                 icon: 'ios-arrow-down',
                 class: 'r-dropdown',
-                name:"",
+                name: "",
                 type: this.buttons[searchIndex].type,
                 onClick: () => {
                     this.searchBoxShow = !this.searchBoxShow;
@@ -297,6 +297,29 @@ let methods = {
         }
         this.resetForm("form", sourceObj);
     },
+    getKeyValueType(formData) {
+        try {
+            formData.forEach(item => {
+                item.forEach(x => {
+                    let data;
+                    if (x.bind && x.bind.data) {
+                        data = x.bind.data;
+                    } else if (x.data) {
+                        if (x.data instanceof Array) {
+                            data = x.data;
+                        } else if (x.data.data && x.data.data instanceof Array) {
+                            data = x.data.data;
+                        }
+                    }
+                    if (data && data.length > 0 && !this.keyValueType.hasOwnProperty(x.field)) {
+                        this.keyValueType[x.field] = typeof data[0].key;
+                    }
+                })
+            })
+        } catch (error) {
+            console.log(error.message)
+        }
+    },
     resetForm(formName, sourceObj) {
         //重置表单数据
         if (this.$refs[formName]) {
@@ -307,14 +330,25 @@ let methods = {
         let form = formName == "searchForm"
             ? this.searchFormFileds
             : this.editFormFileds;
-
+        //获取数据源的data类型，否则如果数据源data的key是数字，重置的值是字符串就无法绑定值
+        if (!this.keyValueType._dinit) {
+            this.getKeyValueType(this.searchFormOptions);
+            this.getKeyValueType(this.editFormOptions);
+            this.keyValueType._dinit = true;
+        }
         for (const key in form) {
             if (sourceObj.hasOwnProperty(key)) {
                 let newVal = sourceObj[key];
-                //this.hasKeyField.indexOf(key) != -1默认所有字典项的key都需要设置为字符串，不是数字
-                form[key] = this.hasKeyField.indexOf(key) != -1
-                    ? (newVal + "")
-                    : newVal;
+                if (this.keyValueType[key] == 'number' && newVal * 1 == newVal) {
+                    newVal = newVal * 1;
+                } else {
+                    if (newVal == null || newVal == undefined) {
+                        newVal = '';
+                    } else {
+                        newVal += "";
+                    }
+                }
+                form[key] = newVal;
             } else {
                 form[key] = form[key] instanceof Array ? [] : "";
             }

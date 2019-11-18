@@ -328,6 +328,7 @@ var vueParam = {
       boxButtons: [], //弹出框按钮 如需要其他操作按钮，可在表对应的.js中添加
       dicKeys: [], //当前界面所有的下拉框字典编号
       hasKeyField: [], //有字典数据源的字段
+      keyValueType:{_dinit:false},
       url: "", //界面表查询的数据源的url
       hasDetail: false, //是否有从表(明细)表格数据
       initActivated: false,
