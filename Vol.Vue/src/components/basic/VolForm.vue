@@ -19,6 +19,7 @@
           <img
             v-if="item.disabled&&(item.type=='img'||item.columnType=='img')"
             :src="formFileds[item.field]"
+            :ref="item.field"
           />
           <label v-else-if="item.disabled" class="readonly-input">{{getText(formFileds,item)}}</label>
 
@@ -88,6 +89,7 @@
             clearable
             :autosize="{minRows:2,maxRows:item.maxRows||2}"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
+            :ref="item.field"
           ></Input>
           <Input
             clearable
@@ -96,6 +98,7 @@
             v-model.number="formFileds[item.field]"
             @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
+            :ref="item.field"
           ></Input>
           <!-- <Input
             clearable
@@ -110,6 +113,7 @@
             @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
             v-model="formFileds[item.field]"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
+            :ref="item.field"
           ></Input>
         </FormItem>
       </Col>

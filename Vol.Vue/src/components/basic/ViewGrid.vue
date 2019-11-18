@@ -54,20 +54,14 @@
         <!--操作按钮组-->
         <div class="btn-group">
           <Button
-            v-for="(btn,bIndex) in getButtons()"
+            v-for="(btn,bIndex) in splitButtons"
             :key="bIndex"
             :type="btn.type"
-            :class="btn.value=='Search'?'dropdown':''"
+            :class="btn.class"
             @click="onClick(btn.onClick)"
           >
             <Icon :type="btn.icon" />
             {{btn.name}}
-            <Icon
-              v-if="btn.value=='Search'"
-              @click="searchBoxShow=!searchBoxShow"
-              @click.stop
-              type="ios-arrow-down"
-            ></Icon>
           </Button>
           <Dropdown trigger="click" @on-click="changeDropdown" v-if="buttons.length> maxBtnLength">
             <Button type="info" ghost>
@@ -86,6 +80,7 @@
             </DropdownMenu>
           </Dropdown>
         </div>
+
         <!--查询条件-->
         <div class="search-box" v-show="searchBoxShow">
           <vol-form
@@ -108,6 +103,35 @@
             </div>
           </vol-form>
         </div>
+        <!-- <Dropdown trigger="click" @on-click="changeDropdown" v-if="buttons.length> maxBtnLength">
+          <Button type="info" ghost>
+            更多
+            <Icon type="ios-arrow-down"></Icon>
+          </Button>
+          <DropdownMenu slot="list">
+            <div class="search-box">
+              <vol-form
+                ref="searchForm"
+                :label-width="labelWidth"
+                :formRules="searchFormOptions"
+                :formFileds="searchFormFileds"
+              >
+                <div class="form-closex" slot="footer">
+                  <Button size="small" type="info" ghost @click="search">
+                    <Icon type="md-search" />查询
+                  </Button>
+               
+                  <Button size="small" type="success" ghost @click="resetSearch">
+                    <Icon type="md-refresh" />重置
+                  </Button>
+                  <Button size="small" type="warning" ghost @click="searchBoxShow=!searchBoxShow">
+                    <Icon type="md-power" />关闭
+                  </Button>
+                </div>
+              </vol-form>
+            </div>
+          </DropdownMenu>
+        </Dropdown>-->
         <!-- 新建、编辑、查看表单 -->
         <vol-box
           v-if="boxInit"
@@ -300,6 +324,7 @@ var vueParam = {
       viewData: [], //查看表结构信息
       maxBtnLength: 3, //界面按钮最多显示的个数，超过的数量都显示在更多中
       buttons: [], //查询界面按钮  如需要其他操作按钮，可在表对应的.js中添加(如:Sys_User.js中buttons添加其他按钮)
+      splitButtons: [],
       boxButtons: [], //弹出框按钮 如需要其他操作按钮，可在表对应的.js中添加
       dicKeys: [], //当前界面所有的下拉框字典编号
       hasKeyField: [], //有字典数据源的字段
@@ -398,6 +423,7 @@ var vueParam = {
     this.initDicKeys(); //初始下框数据源
 
     this.onInited(); //初始化后，如果需要做其他处理在扩展方法中覆盖此方法
+    this.splitButtons = this.getButtons();
   },
   beforeUpdate: function() {},
   updated: function() {}

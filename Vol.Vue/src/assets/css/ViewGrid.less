@@ -33,31 +33,50 @@
       // }
       .btn-group{
         white-space: nowrap;
+        button {
+          margin-left: 10px;
+          // padding: 5px 16px;
+        }
+        .dropdown{
+          height: 31px;   
+          padding-right: 9px;
+          padding-left: 11px;
+          border-top-right-radius: 0px;
+          border-bottom-right-radius: 0px;
+        }
+        .r-dropdown{
+          height: 31px;
+          margin-left: 0px;
+          padding-left: 5px;
+          padding-right: 5px;
+          border-bottom-left-radius: 0px;
+          border-left: 1px solid #eee;
+          border-top-left-radius: 0;
+        }
       }
-      .btn-group button {
-        margin-left: 10px;
-        // padding: 5px 16px;
-      }
-      .btn-group .dropdown {
-        position: relative;
-        padding: 5px 34px 5px 10px;
-      }
-      .btn-group .dropdown span i.ivu-icon-ios-arrow-down {
-        top: 0px;
-        height: 34px;
-        border-left: 1px solid;
-        height: 100%;
-        position: absolute;
-        margin-left: 10px;
-        padding: 9px 5px 5px 5px;
-      }
-      .btn-group .dropdown .ivu-dropdown {
-        bottom: 0;
-        right: 0;
-        left: 0;
-        position: absolute;
-      }
-    
+      // .btn-group button {
+      //   margin-left: 10px;
+      //   // padding: 5px 16px;
+      // }
+      // .btn-group .dropdown {
+      //   position: relative;
+      //   padding: 5px 34px 5px 10px;
+      // }
+      // .btn-group .dropdown span i.ivu-icon-ios-arrow-down {
+      //   top: 0px;
+      //   height: 34px;
+      //   border-left: 1px solid;
+      //   height: 100%;
+      //   position: absolute;
+      //   margin-left: 10px;
+      //   padding: 9px 5px 5px 5px;
+      // }
+      // .btn-group .dropdown .ivu-dropdown {
+      //   bottom: 0;
+      //   right: 0;
+      //   left: 0;
+      //   position: absolute;
+      // }
       .btn-group .ivu-dropdown-item {
         text-align: left !important;
       }
@@ -84,9 +103,11 @@
         border: 1px solid #ececec;
         position: absolute;
         z-index: 999;
-        width: 100%;
-        padding: 25px 40px;
-        padding-bottom: 0;
+        left: 0;
+        right: 0;
+       //  width: 100%;
+         padding: 25px 40px;
+       padding-bottom: 0;
         box-shadow: 0px 7px 18px -12px #bdc0bb;
       }
       .notice {

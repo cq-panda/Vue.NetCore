@@ -16,14 +16,27 @@ let methods = {
     },
     quickSearchKeyPress($event) { //查询字段为input时，按回车查询
         if ($event.keyCode == 13) {
-            if (this.searchFormFileds[this.singleSearch.field]!="") {
+            if (this.searchFormFileds[this.singleSearch.field] != "") {
                 this.search();
             }
         }
     },
     getButtons() {//生成ViewGrid界面的操作按钮及更多选项
+        let searchIndex = this.buttons.findIndex(x => { return x.value == 'Search'; });
+        //添加高级查询
+        if (searchIndex != -1) {
+            this.buttons.splice(searchIndex + 1, 0, {
+                icon: 'ios-arrow-down',
+                class: 'r-dropdown',
+                name:"",
+                type: this.buttons[searchIndex].type,
+                onClick: () => {
+                    this.searchBoxShow = !this.searchBoxShow;
+                }
+            });
+        }
         if (this.buttons.length <= this.maxBtnLength) return this.buttons;
-        let btns = this.buttons.slice(0, this.maxBtnLength);
+        let btns = this.buttons.slice(0, this.maxBtnLength + (searchIndex == -1 ? 0 : 1));
         btns[this.maxBtnLength - 1].last = true;
         return btns;
     },

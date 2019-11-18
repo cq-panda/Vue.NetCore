@@ -223,11 +223,11 @@ export default {
           ]
         },
         {
-          title: "数据库表字段修改",
+          title: "代码生成没有生成业务类",
           desc: [
             {
               text:
-                "如果数据库表新加、删除、修改表字段或类型，需要在代码生成页面手动修改，再点保存与生成model"
+                "后台必须运行builder_run.bat命令才可以生成业务类，生成其他运行dev_run.bat或builder_run.bat"
             }
           ]
         },
