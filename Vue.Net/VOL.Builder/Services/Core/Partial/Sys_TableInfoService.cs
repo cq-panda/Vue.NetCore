@@ -169,7 +169,7 @@ namespace DairyStar.Builder.Services
                  .GetTypes().Where(x => x.GetTypeInfo().BaseType != null
                      && x.BaseType == typeof(BaseEntity)))
                 {
-                    if (entity.Name == tableTrueName && !string.IsNullOrEmpty(tableName))
+                    if (entity.Name == tableTrueName && !string.IsNullOrEmpty(tableName)&& tableName!= tableTrueName)
                         return webResponse.Error($"实际表名【{tableTrueName }】已创建实体，不能创建别名【{tableName}】实体");
 
                     if (entity.Name != tableName)
