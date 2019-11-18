@@ -367,7 +367,8 @@ export default {
       //设置数字的最大值民最小值
       if (
         item.type == "number" ||
-        item.cloumnType == "number" ||
+        item.columnType == "number" ||
+        item.columnType == "int" ||
         item.type == "decimal"
       ) {
         return {
@@ -387,7 +388,7 @@ export default {
                 return callback();
               }
             }
-            if (value == "") return callback();
+            if (value == ""||value==undefined) return callback();
             if (rule.type == "number") {
               if (!this.rule.number.test(value)) {
                 rule.message = rule.title + "只能是整数";
