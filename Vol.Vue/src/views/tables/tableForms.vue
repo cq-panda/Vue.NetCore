@@ -33,7 +33,7 @@
     <div class="t-bottom">
       <Alert type="success" show-icon>
         使用完整操作的table
-        <div slot="desc">如果需要使用带增删改查导入导出的完整组件，可参照代码生成的vue页面进行配置或使用ViewGird.vue组件</div>
+        <div slot="desc">如果需要使用带增删改查导入导出的完整组件，可参照代码生成的vue页面进行配置或使用ViewGird.vue组件,使用ViewGird.vue组件配置完整操作参照下面【table基础配置】</div>
       </Alert>
       <view-grid
         :columns="viewGridOptions.columns"

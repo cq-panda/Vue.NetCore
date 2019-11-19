@@ -2,13 +2,13 @@ var viewGridOptions = {  //此处的权限是使用的当前页面的权限，�
             table: {
                 key: 'Id',
                 footer: "Foots",
-                cnName: 'ViewGrid单表完整配置',
+                cnName: 'table基础配置',
                 name: 'App_Transaction',
                 url: "/App_Transaction/",
                 sortName: "Id"
             },
             extend: { 
-                text:"此处按钮权限是当前页面的权限,不是表的App_Transaction权限",
+                text:"此组件配置与代码生成器生成的配置相同,自带基础操作,可任意扩展",
                 buttons: { //扩展按钮
                    view: [//ViewGrid查询界面按钮
                    {
@@ -26,17 +26,21 @@ var viewGridOptions = {  //此处的权限是使用的当前页面的权限，�
                 methods: {//事件扩展
                     onInit(){
                         this.tableHeight=170;
+                    },
+                    searchAfter(result) { //查询ViewGird表数据后param查询参数,result回返查询的结果
+                     console.log({ title: this.table.cnName + ',查询结果', desc: '返回的对象：' + JSON.stringify(result) });
+                        return true;
                     }
                 }
             },
             editFormFileds: {"Name":"","TransactionType":"","CowType":"",PhoneNo:"",Describe:""},
-            editFormOptions: [[{"columnType":"string","title":"姓名","required":true,"field":"Name"}],
-                          [{"columnType":"int","dataKey":"cq","title":"是否买入","field":"TransactionType","type":"select"}],
-                          [{"columnType":"string","dataKey":"nav","title":"购买类型","field":"CowType","type":"select"}],
+            editFormOptions: [[{"title":"姓名","required":true,"field":"Name"}],
+                          [{"dataKey":"cq","title":"是否买入","field":"TransactionType","type":"select"}],
+                          [{"dataKey":"nav","title":"购买类型","field":"CowType","type":"select"}],
                           [{"type":"phone","title":"电话","field":"PhoneNo","required":true}],
                           [{"type":"textarea","title":"描述","field":"Describe","required":true}]],
             searchFormFileds: {"CowType":"","Creator":"","CreateDate":""},
-            searchFormOptions: [[{"columnType":"string","dataKey":"nav","title":"购买类型","field":"CowType","type":"dropList"},{"columnType":"string","title":"提交人","field":"Creator"},{"columnType":"datetime","title":"提交时间","field":"CreateDate","type":"datetime"}]],
+            searchFormOptions: [[{"dataKey":"nav","title":"购买类型","field":"CowType","type":"dropList"},{"title":"提交人","field":"Creator"},{"title":"提交时间","field":"CreateDate","type":"datetime"}]],
             columns: [{field:'Id',title:'主键ID',type:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
                    {field:'Name',title:'姓名',type:'string',width:120,require:true,align:'left',sortable:true},
                    {field:'PhoneNo',title:'电话',type:'string',link:true,width:150,require:true,align:'left'},
