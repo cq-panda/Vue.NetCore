@@ -101,6 +101,16 @@ let extension = {
             this.$Notice.success({ title: '执行mounted方法' });
         },
         onInit() {
+            //设置编辑表单数量字段的最小与最大值
+            this.editFormOptions.forEach(x=>{
+                x.forEach(item => {
+                    //设置输入的数量的最小值与最大值(默认是1)
+                    if (item.field=="Qty") {
+                        item.min=10;
+                        item.max=200;
+                    }
+                });
+            })
               //动态设置弹出框table的高度
             this.detailOptions.height=110;
             //动态设置查询界面table高度
@@ -112,7 +122,7 @@ let extension = {
         },
         searchBefore(param) { //查询ViewGird表数据前,param查询参数
             //你可以指定param查询的参数，处如果返回false，则不会执行查询
-            this.$Notice.success({ title: this.table.cnName + ',查询前' });
+           // this.$Notice.success({ title: this.table.cnName + ',查询前' });
             // console.log("扩展的"this.detailOptions.cnName + '触发loadDetailTableBefore');
             return true;
         },

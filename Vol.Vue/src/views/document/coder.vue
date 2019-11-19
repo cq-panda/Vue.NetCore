@@ -346,14 +346,7 @@
             <span>设置是否为主键，必须一个主键</span>
           </td>
         </tr>
-        <tr>
-          <td>
-            <span>启用图片地址</span>
-          </td>
-          <td>
-            <span>如果字段是图片，请选择是</span>
-          </td>
-        </tr>
+       
       </tbody>
     </table>
 
@@ -370,7 +363,7 @@ export default {};
   font: 0.875em/1.5em "微软雅黑", "PTSans", "Arial", sans-serif;
   font-size: 15px;
 }
-#各个等级标题的颜色样式 #cnblogs_post_body h1 {
+#cnblogs_post_body h1 {
   background: #2b6695;
   border-radius: 6px 6px 6px 6px;
   box-shadow: 0 0 0 1px #5f5a4b, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
@@ -433,7 +426,7 @@ export default {};
   border-collapse: collapse;
 }
 #cnblogs_post_body table td {
-  color: rgba(111, 93, 93, 0.87);
+  color: rgba(33, 33, 33, 0.87);
   font-size: 13px;
   border-collapse: collapse;
   padding: 7px;

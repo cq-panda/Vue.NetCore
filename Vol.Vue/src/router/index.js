@@ -19,7 +19,7 @@ const router = new Router({
   mode: 'history',
   routes: [
     ...exampleRouter,
-    ...h5, 
+    ...h5,
     ...documents,
     {
       path: '*',
@@ -92,7 +92,8 @@ router.onError((error) => {
   console.log(error.message);
   console.log(targetPath);
   if (isChunkLoadFailed) {
-    router.replace(targetPath);
+    window.location.replace(window.location.href);
+    //  router.replace(targetPath);
   }
 });
 

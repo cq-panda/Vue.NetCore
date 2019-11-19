@@ -653,10 +653,18 @@ let methods = {
     viewModelCancel() {//查看表结构
         this.viewModel = false;
     },
-    initFormOptions(formOptions, keys) {//初始化查询、编辑对象的下拉框数据源
+    initFormOptions(formOptions, keys, setMinVal) {//初始化查询、编辑对象的下拉框数据源
         //let defaultOption = { key: "", value: "请选择" };
         formOptions.forEach(item => {
             item.forEach(d => {
+                //如果是必填项的数字，设置一个最大与最值小
+                if (setMinVal&&d.required) {
+                    if ((d.type == 'number'
+                        || d.type == 'decimal')
+                        && !d.hasOwnProperty('min')) {
+                        d.min = d.type == 'number' ? 1 : 0.1;
+                    }
+                }
                 if (!d.dataKey) return true;
                 if (keys.indexOf(d.dataKey) == -1) {
                     keys.push(d.dataKey);
@@ -722,10 +730,10 @@ let methods = {
     },
     initDicKeys() { //初始化字典数据
         let keys = [];
-        //初始化编辑数据源,默认为一个空数组
-        this.initFormOptions(this.editFormOptions, keys);
+        //初始化编辑数据源,默认为一个空数组，如果要求必填设置type=number/decimal的最小值
+        this.initFormOptions(this.editFormOptions, keys, true);
         //初始化查询数据源,默认为一个空数组
-        this.initFormOptions(this.searchFormOptions, keys);
+        this.initFormOptions(this.searchFormOptions, keys, false);
         //查询日期设置为可选开始与结果日期
         this.searchFormOptions.forEach(item => {
             item.forEach(x => {

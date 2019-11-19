@@ -19,7 +19,6 @@
           <img
             v-if="item.disabled&&(item.type=='img'||item.columnType=='img')"
             :src="formFileds[item.field]"
-            :ref="item.field"
           />
           <label v-else-if="item.disabled" class="readonly-input">{{getText(formFileds,item)}}</label>
 
@@ -76,7 +75,7 @@
             >{{kv.value}}</Checkbox>
           </CheckboxGroup>
 
-          <UploadImg v-else-if="item.columnType=='img'" :src="formFileds[item.field]"></UploadImg>
+          <UploadImg v-else-if="item.type=='img'||item.columnType=='img'" :src="formFileds[item.field]"></UploadImg>
           <!-- <img v-else-if="item.columnType=='img'" :src="formFileds[item.field]" /> -->
           <!-- <FormItem v-else-if="item.columnType=='img'" :prop="item.field">
             <img :src="formFileds[item.field]" />
@@ -406,7 +405,7 @@ export default {
             }
             if (
               rule.min != undefined &&
-              typeof rule.max == "number" &&
+              typeof rule.min == "number" &&
               value < rule.min
             ) {
               rule.message = rule.title + "不能小于" + rule.min;
