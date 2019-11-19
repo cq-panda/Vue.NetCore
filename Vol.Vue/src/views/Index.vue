@@ -57,12 +57,13 @@
       </div>
       <div class="vol-main" id="vol-main">
         <el-scrollbar style="height:100%;">
-          <!-- <transition name="fade" mode="in-out"> -->
-          <!-- <transition > -->
+          <!-- <transition name="fade" mode="in-out">  -->
+          <transition  enter-active-class="animated fadeInLeftBig">
+            
           <keep-alive>
             <router-view></router-view>
           </keep-alive>
-          <!-- </transition> -->
+           </transition>
         </el-scrollbar>
       </div>
     </div>
@@ -533,5 +534,39 @@ img:not([src]) {
 .ivu-select-dropdown::-webkit-scrollbar-thumb {
   border-radius: 5px;
   background: #dadac9;
+}
+ .animated {
+    -webkit-animation-duration:1s;
+    animation-duration:1s;
+    -webkit-animation-fill-mode:both;
+    animation-fill-mode:both
+}
+@-webkit-keyframes fadeInLeftBig {
+    0% {
+        opacity:0;
+        -webkit-transform:translate3d(-50px, 0, 0);
+        transform:translate3d(-50px, 0, 0)
+    }
+    to {
+        opacity:1;
+        -webkit-transform:none;
+        transform:none
+    }
+}
+@keyframes fadeInLeftBig {
+    0% {
+        opacity:0;
+        -webkit-transform:translate3d(-50px, 0, 0);
+        transform:translate3d(-50px, 0, 0)
+    }
+    to {
+        opacity:1;
+        -webkit-transform:none;
+        transform:none
+    }
+}
+.fadeInLeftBig {
+    -webkit-animation-name:fadeInLeftBig;
+    animation-name:fadeInLeftBig
 }
 </style>
