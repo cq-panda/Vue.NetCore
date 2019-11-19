@@ -17,10 +17,13 @@
             :placeholder="formFileds[item.field]||'--'"
           ></Input>-->
           <img
-            v-if="item.disabled&&(item.type=='img'||item.columnType=='img')"
+            v-if="(item.disabled||item.readonly)&&(item.type=='img'||item.columnType=='img')"
             :src="formFileds[item.field]"
           />
-          <label v-else-if="item.disabled" class="readonly-input">{{getText(formFileds,item)}}</label>
+          <label
+            v-else-if="item.disabled||item.readonly"
+            class="readonly-input"
+          >{{getText(formFileds,item)}}</label>
 
           <!--下拉框绑定时如果key为数字，请将key+''转换为字符串-->
           <Select
@@ -75,7 +78,10 @@
             >{{kv.value}}</Checkbox>
           </CheckboxGroup>
 
-          <UploadImg v-else-if="item.type=='img'||item.columnType=='img'" :src="formFileds[item.field]"></UploadImg>
+          <UploadImg
+            v-else-if="item.type=='img'||item.columnType=='img'"
+            :src="formFileds[item.field]"
+          ></UploadImg>
           <!-- <img v-else-if="item.columnType=='img'" :src="formFileds[item.field]" /> -->
           <!-- <FormItem v-else-if="item.columnType=='img'" :prop="item.field">
             <img :src="formFileds[item.field]" />
@@ -105,7 +111,7 @@
             @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
             v-model.number="formFileds[item.field]"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
-          ></Input> -->
+          ></Input>-->
           <Input
             clearable
             v-else
@@ -374,6 +380,15 @@ export default {
         item.columnType == "int" ||
         item.type == "decimal"
       ) {
+        //如果是必填项的数字，设置一个默认最大与最值小
+        if (item.required && typeof item.min != "number") {
+          if (item.type == "decimal") {
+            item.min = 0.1;
+          } else {
+            item.min = 1;
+          }
+        }
+
         return {
           required: item.required,
           message: item.title,
@@ -391,7 +406,7 @@ export default {
                 return callback();
               }
             }
-            if (value == ""||value==undefined) return callback();
+            if (value == "" || value == undefined) return callback();
             if (rule.type == "number") {
               if (!this.rule.number.test(value)) {
                 rule.message = rule.title + "只能是整数";
@@ -518,7 +533,7 @@ export default {
       }
 
       //if (item.type == "checkbox" || item.type == "select") {
-      if (item.type == "select"||item.type == "drop" ) {
+      if (item.type == "select" || item.type == "drop") {
         let _rule = {
           required: true,
           message: "请选择" + item.title,

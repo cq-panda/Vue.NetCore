@@ -36,14 +36,28 @@ let codeString = {
   form: `<div class="cnblogs_code">
   <pre>&lt;template&gt;
     &lt;div&gt;
-      &lt;VolForm :label-width="150" :loadKey="true" :formFileds="formFileds1" :formRules="formRules1"&gt;&lt;/VolForm&gt;
+      &lt;<span style="color: #000000;">VolForm
+        ref</span>="myform"<span style="color: #000000;">
+        :label</span>-width="150"<span style="color: #000000;">
+        :loadKey</span>="true"<span style="color: #000000;">
+        :formFileds</span>="formFileds1"<span style="color: #000000;">
+        :formRules</span>="formRules1"
+      &gt;&lt;/VolForm&gt;
+      &lt;div&gt;
+        &lt;Button type="info" <span style="color: #0000ff;">long</span> @click="reset"&gt;重置表单&lt;/Button&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
   &lt;/template&gt;
   &lt;script&gt;<span style="color: #000000;">
   import VolForm from </span>"@/components/basic/VolForm.vue"<span style="color: #000000;">;
   export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
     components: { VolForm },
-    methods: {},
+    methods: {
+      reset() {
+        </span><span style="color: #0000ff;">this</span><span style="color: #000000;">.$refs.myform.reset();
+        </span><span style="color: #0000ff;">this</span>.$Message.error("表单已重置"<span style="color: #000000;">);
+      }
+    },
     data() {
       </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
         formFileds1: {
@@ -55,10 +69,13 @@ let codeString = {
           number1: </span>20<span style="color: #000000;">,
           mail: </span>""<span style="color: #000000;">,
           Date: </span>""<span style="color: #000000;">,
-          IsTop: </span>"还没想好..."<span style="color: #000000;">,
+          IsTop: </span>""<span style="color: #000000;">,
           Fruits: [],
           Other: </span>""<span style="color: #000000;">,
           Switch: </span>1<span style="color: #000000;">,
+          readonlyText: </span>"还没想好...."<span style="color: #000000;">,
+          readonlyImg:
+            </span>"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg"<span style="color: #000000;">,
           ProImg:
             </span>"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg"<span style="color: #000000;">
         },
@@ -89,7 +106,12 @@ let codeString = {
               title: </span>"手机号"<span style="color: #000000;">,
               required: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">设置为必选项</span>
               field: "AgeRange"<span style="color: #000000;">,
-              type: </span>"phone"<span style="color: #000000;">
+              type: </span>"phone"<span style="color: #000000;">,
+              onKeyPress: $event </span>=&gt;<span style="color: #000000;"> {
+                </span><span style="color: #0000ff;">if</span> ($event.keyCode == 13<span style="color: #000000;">) {
+                  </span><span style="color: #0000ff;">this</span>.$Message.error(<span style="color: #0000ff;">this</span>.formFileds1.AgeRange + ""<span style="color: #000000;">);
+                }
+              }
             },
             {
               title: </span>"date日期"<span style="color: #000000;">,
@@ -135,11 +157,11 @@ let codeString = {
               title: </span>"自定义验证"<span style="color: #000000;">,
               required: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
               field: </span>"Other"<span style="color: #000000;">,
-              validator: (rule, val, callback) </span>=&gt;<span style="color: #000000;"> {
+              validator: (rule, val) </span>=&gt;<span style="color: #000000;"> {
                 </span><span style="color: #0000ff;">if</span> (val != "234"<span style="color: #000000;">) {
-                  </span><span style="color: #0000ff;">return</span> callback(<span style="color: #0000ff;">new</span> Error("必须输入【234】"<span style="color: #000000;">));
+                  </span><span style="color: #0000ff;">return</span> "必须输入【234】"<span style="color: #000000;">;
                 }
-                </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> callback();
+                </span><span style="color: #0000ff;">return</span> ""<span style="color: #000000;">;
               }
             },
             {
@@ -152,22 +174,8 @@ let codeString = {
             }
           ],
           [
-            {
-              title: </span>"备注"<span style="color: #000000;">,
-              required: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
-              field: </span>"IsTop"<span style="color: #000000;">,
-              colSize: </span>12, <span style="color: #008000;">//</span><span style="color: #008000;">设置12，此列占100%宽度</span>
-              type: "textarea"<span style="color: #000000;">
-            }
-          ],
-          [
-            {
-              title: </span>"图片"<span style="color: #000000;">,
-              disabled: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">必须设置此属性</span>
-              field: "ProImg"<span style="color: #000000;">,
-              type: </span>"img"<span style="color: #000000;">
-            },
-            {
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">readonlyImg</span>
+  <span style="color: #000000;">          {
               title: </span>"checkbox"<span style="color: #000000;">,
               </span><span style="color: #008000;">//</span><span style="color: #008000;">如果这里绑定了data数据，后台不会加载此数据源</span>
   <span style="color: #000000;">            data: [
@@ -178,6 +186,37 @@ let codeString = {
               ],
               field: </span>"Fruits"<span style="color: #000000;">,
               type: </span>"checkbox"<span style="color: #000000;">
+            },
+            {
+              title: </span>"字段只读"<span style="color: #000000;">,
+              readonly: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">设置readonly或disabled都行</span>
+              field: "readonlyText"<span style="color: #000000;">,
+              type: </span>"text"<span style="color: #000000;">
+            }
+          ],
+          [
+            {
+              title: </span>"备注"<span style="color: #000000;">,
+              required: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+              field: </span>"IsTop"<span style="color: #000000;">,
+              min: </span>3<span style="color: #000000;">,
+              max: </span>5<span style="color: #000000;">,
+              placeholder: </span>"至少输入3个字符,最多只能输入5个字符"<span style="color: #000000;">,
+              colSize: </span>12, <span style="color: #008000;">//</span><span style="color: #008000;">设置12，此列占100%宽度</span>
+              type: "textarea"<span style="color: #000000;">
+            }
+          ],
+          [
+            {
+              title: </span>"图片只读"<span style="color: #000000;">,
+              readonly: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">设置readonly或disabled都行</span>
+              field: "readonlyImg"<span style="color: #000000;">,
+              type: </span>"img"<span style="color: #000000;">
+            },
+            {
+              title: </span>"可修改图片"<span style="color: #000000;">,
+              field: </span>"ProImg"<span style="color: #000000;">,
+              type: </span>"img"<span style="color: #000000;">
             }
           ]
         ]
@@ -215,7 +254,7 @@ let codeString = {
   </span>&lt;/script&gt;</pre>
   </div>
   <p>&nbsp;</p>`,
-  box:`<div class="cnblogs_code">
+  box: `<div class="cnblogs_code">
   <pre>&lt;template&gt;
     &lt;div&gt;
       &lt;Button type="info" @click="model=!model"&gt;弹出框&lt;/Button&gt;
@@ -242,6 +281,7 @@ let codeString = {
   };
   </span>&lt;/script&gt;</pre>
   </div>
-  <p>&nbsp;</p>`
+  <p>&nbsp;</p>`,
+  uploadExcel: ``, uploadImg: ``, volmenu: ``, voltable: ``, viewGrid: ``
 }
 export default codeString

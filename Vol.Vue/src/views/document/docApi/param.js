@@ -13,14 +13,16 @@ let param = {
         { name: "formRules", desc: "表单字段的参数配置说明(数组的元素个数决定了表单每行显示的标签个数)", type: "array", default: "[]" },
         { name: "{", desc: "表单字段formRules的参数配置说明", type: "", default: "" },
         { name: "dataKey", desc: "数据源字典编号(菜单->系统->下拉框绑定中的字典编号)", type: "string", default: "" },
-        { name: "data", desc: "数据源，可以手动绑定格式[{key:1,value:'是'}]也可以自动绑定,自定绑定需要设置属性loadKey='true'", type: "array", default: "[]" },
+        { name: "data", desc: "数据源，可以手动绑定格式[{key:1,value:'是'}],也可以自动绑定,自定绑定需要设置属性loadKey='true'", type: "array", default: "[]" },
         { name: "title", desc: "标签名称", type: "string", default: "" },
+        //
+        { name: "readonly/readonly", desc: "是否只读", type: "bool", default: "false" },
         { name: "required", desc: "是否必填", type: "bool", default: "false" },
         { name: "field", desc: "字段，与表单字段必须相同", type: "string", default: "" },
         { name: "type", desc: "渲染的标签类型,可选值,mail、text、textarea、img、checkbox、number、decimal、date、datetime、phone、switch", type: "string", default: "text" },
         { name: "range", desc: "如果type是日期，需要选开始与结束日期", type: "bool", default: "false" },
-        { name: "min", desc: "最小值,如果是int类型，默认验证最小值是1(decimal最小默认值0.1)，如果在代码生后的页面需要修改默认值，在扩展js的方法onInit中遍历form对象，可参考SellOrder.js中onInit方法", type: "number", default: "" },
-        { name: "max", desc: "最大值", type: "number", default: "" },
+        { name: "min", desc: "1、数字类型标签：最小值,如果是type=number(整数)类型，默认验证最小值是1(decimal最小默认值0.1)，如果在代码生后的页面需要修改默认值，在扩展js的方法onInit中遍历form对象，可参考SellOrder.js中onInit方法。    2、其他标签,如：input/textarea设置min就是指的字符的最大长度", type: "number", default: "" },
+        { name: "max", desc: "最大值,操作与min相同", type: "number", default: "" },
         {
             name: "validator", desc: "对标签的值进行自定义验证，如：    validator: (rule, val, callback) => {\
             if (val != '234') {\
@@ -58,6 +60,21 @@ let param = {
         { name: "数据槽slot", desc: "弹出框内容", type: "", default: "" },
         { name: "数据槽footer", desc: "弹出框底部按钮，默认只有一个关闭按钮，如果加了 <div slot='footer'></div>关闭按钮不会显示，需要自己添加", type: "", default: "" }],
         methods: []
-    }
+    }, uploadExcel: {
+        attr: [],
+        methods: []
+    }, uploadImg: {
+        attr: [],
+        methods: []
+    }, volmenu: {
+        attr: [],
+        methods: []
+    }, voltable: {
+        attr: [],
+        methods: []
+    }, viewGrid: {
+        attr: [],
+        methods: []
+    } 
 }
-export default param;
+export default param;  

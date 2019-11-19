@@ -657,14 +657,6 @@ let methods = {
         //let defaultOption = { key: "", value: "请选择" };
         formOptions.forEach(item => {
             item.forEach(d => {
-                //如果是必填项的数字，设置一个最大与最值小
-                if (setMinVal&&d.required) {
-                    if ((d.type == 'number'
-                        || d.type == 'decimal')
-                        && !d.hasOwnProperty('min')) {
-                        d.min = d.type == 'number' ? 1 : 0.1;
-                    }
-                }
                 if (!d.dataKey) return true;
                 if (keys.indexOf(d.dataKey) == -1) {
                     keys.push(d.dataKey);

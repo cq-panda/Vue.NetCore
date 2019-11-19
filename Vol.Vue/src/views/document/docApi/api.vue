@@ -24,6 +24,11 @@ export default {
     DocForm: () => import("./doc_volform"),
     VolHeader: () => import("./doc_header"),
     box: () => import("./doc_box"),
+    uploadExcel: () => import("./doc_uploadExcel"),
+    uploadImg: () => import("./doc_uploadImg"),
+    volmenu: () => import("./doc_menu"),
+    voltable: () => import("./doc_table"),
+    viewGrid: () => import("./doc_viewGrid"),
     other: () => import("./doc_other")
   }, //
   methods: {
@@ -34,23 +39,43 @@ export default {
   },
   data() {
     return {
-      active: -1,
+      active: 0,
       data: [
         {
           com_name: "Icons",
           title: "图标组件"
         },
         {
+          com_name: "box",
+          title: "弹出框组件"
+        },
+        {
           com_name: "DocForm",
-          title: "表单组件"
+          title: "form表单组件"
         }, //
         {
           com_name: "VolHeader",
           title: "VolHeader"
         },
         {
-          com_name: "box",
-          title: "弹出框"
+          com_name: "viewGrid",
+          title: "代码生成后页面viewGrid"
+        },
+        {
+          com_name: "volmenu",
+          title: "菜单组件"
+        },
+           {
+          com_name: "voltable",
+          title: "table组件"
+        },
+        {
+          com_name: "uploadExcel",
+          title: "excel上传"
+        },
+        {
+          com_name: "uploadImg",
+          title: "图片上传"
         },
         {
           com_name: "other",
@@ -70,11 +95,11 @@ export default {
   > .nav {
     border-right: 1px solid #ccc3c3;
     margin-right: 10px;
-    width: 120px;
+    width: 180px;
     position: fixed;
     .n-item {
       text-align: right;
-      padding-right: 29px;
+      padding-right: 15px;
       list-style: none;
       a {
         font-size: 15px;
@@ -93,7 +118,7 @@ export default {
   }
   > .list {
     flex: 1;
-    margin-left: 140px;
+    margin-left: 195px;
   }
 }
 .active {

@@ -48,10 +48,13 @@ export default {
         number1: 20,
         mail: "",
         Date: "",
-        IsTop: "还没想好...",
+        IsTop: "",
         Fruits: [],
         Other: "",
         Switch: 1,
+        readonlyText: "还没想好....",
+        readonlyImg:
+          "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
         ProImg:
           "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg"
       },
@@ -150,21 +153,7 @@ export default {
           }
         ],
         [
-          {
-            title: "备注",
-            required: true,
-            field: "IsTop",
-            colSize: 12, //设置12，此列占100%宽度
-            type: "textarea"
-          }
-        ],
-        [
-          {
-            title: "图片",
-            disabled: true, //必须设置此属性
-            field: "ProImg",
-            type: "img"
-          },
+          //readonlyImg
           {
             title: "checkbox",
             //如果这里绑定了data数据，后台不会加载此数据源
@@ -176,6 +165,36 @@ export default {
             ],
             field: "Fruits",
             type: "checkbox"
+          },
+          {
+            title: "字段只读",
+            readonly: true, //设置readonly或disabled都行
+            field: "readonlyText",
+            type: "text"
+          }
+        ],    [
+          {
+            title: "备注",
+            required: true,
+            field: "IsTop",
+            min: 3,
+            max: 5,
+            placeholder: "至少输入3个字符,最多只能输入5个字符",
+            colSize: 12, //设置12，此列占100%宽度
+            type: "textarea"
+          }
+        ],
+        [
+          {
+            title: "图片只读",
+            readonly: true, //设置readonly或disabled都行
+            field: "readonlyImg",
+            type: "img"
+          },
+          {
+            title: "可修改图片",
+            field: "ProImg",
+            type: "img"
           }
         ]
       ]

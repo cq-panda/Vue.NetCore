@@ -12,7 +12,6 @@ let formRules1 = [
     [
         {
             link:true,
-            columnType: "string",
             dataKey: "city",
             title: "城市",
             required: true,
@@ -21,7 +20,6 @@ let formRules1 = [
             type: "select"
         },
         {
-            columnType: "datetime",
             title: "多选日期",
             range: true, //设置为true可以选择开始与结束日期
             required: false,
@@ -32,7 +30,6 @@ let formRules1 = [
     ],
     [
         {
-            columnType: "string",
             dataKey: "age", //后台下拉框对应的数据字典编号
             data: [], //loadKey设置为true,会根据dataKey从后台的下拉框数据源中自动加载数据
             title: "月龄",
@@ -41,7 +38,6 @@ let formRules1 = [
             type: "select"
         },
         {
-            columnType: "datetime",
             title: "日期",
             required: true,
             field: "Date",
@@ -52,7 +48,6 @@ let formRules1 = [
     ],
     [
         {
-            columnType: "string",
             title: "品种",
             dataKey: "age",
             placeholder: "此处数据源为手动绑定",
@@ -63,7 +58,7 @@ let formRules1 = [
             type: "select"
         },
         {
-            columnType: "decimal",
+            type: "decimal",
             title: "价格",
             required: true,
             placeholder: "你可以自己定义placeholder显示的文字",
@@ -72,7 +67,6 @@ let formRules1 = [
     ],
     [
         {
-            columnType: "int",
             title: "备注",
             required: true,
             field: "IsTop",
