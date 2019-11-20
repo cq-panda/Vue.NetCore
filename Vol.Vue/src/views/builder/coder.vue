@@ -11,7 +11,12 @@
       <Button slot="footer" type="info" @click="add">确 认</Button>
     </vol-box>
     <div class="builder-left">
-      <Alert class="module-name" show-icon>模块列表</Alert>
+      <div class="module-name">
+        <i class="ivu-icon ivu-icon-ios-chatbubbles"></i>配置菜单列表
+      </div>
+      <!-- <Alert class="module-name">
+        <i class="ivu-icon ivu-icon-ios-chatbubbles"></i>配置菜单列表
+      </Alert>-->
       <div class="builder-tree">
         <el-scrollbar style="height:100%;">
           <VolMenu :onOpenChange="onOpenChange" :options="tree" :onSelect="onSelect"></VolMenu>
@@ -21,52 +26,81 @@
     <div class="builder-content">
       <div style="height:100%;">
         <el-scrollbar style="height:100%;">
-          <VolHeader icons="md-flower" text="代码生成器">
-            <div slot="content" style="line-height: 33px;margin-left: 30px;">
-              <a @click="help">文档</a>
+          <div class="coder-container">
+            <div class="coder-item" style="padding-top: 7px;">
+              <VolHeader icon="ios-chatbubbles" text="代码生成器">
+                <div slot="content" style="color: red;">删除左侧配置菜单:删除行->保存->删除菜单</div>
+                <div class="action">
+                  <span @click="save">
+                    <i class="ivu-icon ivu-icon-md-checkbox"></i>保存
+                  </span>
+                  <span @click="addVisible()">
+                    <i class="ivu-icon ivu-icon-md-add"></i>新建
+                  </span>
+                  <span @click="ceateVuePage">
+                    <i class="ivu-icon ivu-icon-md-paper"></i>生成Vue页面
+                  </span>
+                  <span @click="ceateModel">
+                    <i class="ivu-icon ivu-icon-ios-radio-button-on"></i>生成Model
+                  </span>
+                  <span @click="createService">
+                    <i class="ivu-icon ivu-icon-ios-switch"></i>生成业务类
+                  </span>
+                  <span @click="delTree">
+                    <i class="ivu-icon ivu-icon-md-close"></i>删除菜单
+                  </span>
+                  <!-- <span class="ivu-icon ivu-icon-md-flower" @click="ceateApiController">生成Api控制器</span> -->
+                  <!-- <span class="ivu-icon ivu-icon-md-flower" @click="ceatePage" >生成后台页面</span> -->
+                  <!-- <Dropdown @on-click="changeMore" class="more">
+                  <a href="javascript:void(0)">
+                    其他
+                    <Icon type="ios-arrow-down"></Icon>
+                  </a>
+                  <DropdownMenu slot="list">
+                    <DropdownItem :name="more.addChild">添加菜单子级</DropdownItem>
+                    <DropdownItem :name="more.ceateController">生成后台控制器</DropdownItem>
+                    <DropdownItem :name="more.addRow">添加行</DropdownItem>
+                    <DropdownItem :name="more.delRow">删除行</DropdownItem>
+                    <DropdownItem :name="more.delTree">删除菜单</DropdownItem>
+                  </DropdownMenu>
+                  </Dropdown>-->
+                </div>
+              </VolHeader>
+              <div class="config">
+                <vol-form
+                  :label-width="130"
+                  ref="form"
+                  :formRules="layOutOptins.options"
+                  :formFileds="layOutOptins.fileds"
+                ></vol-form>
+              </div>
             </div>
-            <div class="action">
-              <span @click="save">保存</span>
-              <span @click="addVisible()">新建</span>
-              <span @click="ceateVuePage">生成Vue页面</span>
-              <span @click="ceateModel">生成Model</span>
-              <span @click="createService">生成业务类</span>
-              <span @click="syncTable">同步表结构</span>
-              <!-- <span class="ivu-icon ivu-icon-md-flower" @click="ceateApiController">生成Api控制器</span> -->
-              <!-- <span class="ivu-icon ivu-icon-md-flower" @click="ceatePage" >生成后台页面</span> -->
-              <Dropdown @on-click="changeMore" class="more">
-                <a href="javascript:void(0)">
-                  其他
-                  <Icon type="ios-arrow-down"></Icon>
-                </a>
-                <DropdownMenu slot="list">
-                  <DropdownItem :name="more.addChild">添加菜单子级</DropdownItem>
-                  <DropdownItem :name="more.ceateController">生成后台控制器</DropdownItem>
-                  <DropdownItem :name="more.addRow">添加行</DropdownItem>
-                  <DropdownItem :name="more.delRow">删除行</DropdownItem>
-                  <DropdownItem :name="more.delTree">删除菜单</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+            <div class="coder-item">
+              <VolHeader icon="md-podium" text="表结构">
+                <div slot="content" style="color:red;">表结构变化时请点【同步表结构】</div>
+                <div class="action">
+                  <span
+                    style="color: rgb(23, 156, 216);"
+                    class="ivu-icon ivu-icon-ios-folder"
+                    @click="help"
+                  >代码生成器参数文档</span>
+                  <span @click="delRow" class="ivu-icon ivu-icon-md-close">删除行数据</span>
+                  <span @click="syncTable" class="ivu-icon ivu-icon-md-sync">同步表结构</span>
+                </div>
+              </VolHeader>
+              <div class="grid-container" style="padding-bottom:20px">
+                <vol-table
+                  ref="table"
+                  :paginationHide="true"
+                  :tableData="data"
+                  :height="600"
+                  :columns="layOutOptins.columns"
+                  :color="false"
+                  :index="true"
+                  :allowEmpty="true"
+                ></vol-table>
+              </div>
             </div>
-          </VolHeader>
-          <div class="config">
-            <vol-form
-              ref="form"
-              :formRules="layOutOptins.options"
-              :formFileds="layOutOptins.fileds"
-            ></vol-form>
-          </div>
-          <div class="grid-container" style="padding-bottom:20px">
-            <vol-table
-              ref="table"
-              :paginationHide="true"
-              :tableData="data"
-              :columns="layOutOptins.columns"
-              :height="tableHeight"
-              :color="false"
-              :index="true"
-              :allowEmpty="true"
-            ></vol-table>
           </div>
         </el-scrollbar>
       </div>
@@ -293,10 +327,10 @@ export default {
       this.http
         .post("/api/builder/CreateModel", this.tableInfo, true)
         .then(x => {
-           this.$Message.info({
-                content: x,
-                duration: 5
-            });
+          this.$Message.info({
+            content: x,
+            duration: 5
+          });
         });
     },
     syncTable() {
@@ -455,16 +489,15 @@ export default {
   position: relative;
   width: 201px;
   height: 100%;
-  border: 1px solid #dadada;
-  /* border-right: 0px; */
+  border-right: 2px solid #dcd6d6;
 }
 .builder-content {
   position: absolute;
-  top: 5px;
-  left: 205px;
+  top: 0px;
+  left: 200px;
   display: inline-block;
   bottom: 0;
-  right: 5px;
+  right: 0px;
 }
 .builder-content .ivu-alert {
   position: relative;
@@ -479,11 +512,15 @@ export default {
   line-height: 33px;
   padding-right: 26px;
 }
+.builder-content .action i {
+    top: -1px;
+    position: relative;
+}
 .builder-content .action > span {
   padding: 0px 6px;
   font-size: 12px;
   letter-spacing: 1px;
-  color: #999;
+  color: #5a5f5e;
 }
 .builder-content .action > span:hover {
   cursor: pointer;
@@ -499,11 +536,20 @@ export default {
 .builder-container .config >>> .ivu-form > .ivu-form-item {
   display: none;
 }
+.coder-container {
+  background: #eee;
+}
+.coder-container .coder-item {
+  background: white;
+  padding: 0px 15px;
+}
 .module-name {
-  border-radius: 0;
-  border: 0px;
-  border-bottom: 1px solid #dcdcdc;
-  padding: 13px 48px 11px 38px;
+  border: 1px solid #7d7c7c;
+  color: white;
+  font-size: 16px;
+  line-height: 41px;
+  padding-left: 24px;
+  background: #7b7b7b;
 }
 .module-name >>> .ivu-alert-icon {
   top: 12px;
