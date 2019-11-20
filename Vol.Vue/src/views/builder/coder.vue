@@ -77,7 +77,7 @@
             </div>
             <div class="coder-item">
               <VolHeader icon="md-podium" text="表结构">
-                <div slot="content" style="color:red;">表结构变化时请点【同步表结构】</div>
+                <div slot="content" style="color:red;">数据库表结构发生变化时请点【同步表结构】</div>
                 <div class="action">
                   <span
                     style="color: rgb(23, 156, 216);"
