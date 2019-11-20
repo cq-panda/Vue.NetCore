@@ -185,6 +185,7 @@ function redirect(responseText, message) {
     }
 }
 function toLogin() {
+    currentToken="";
     $httpVue.$router.push({ path: '/login', params: { r: Math.random() } });
 }
 //当前token快要过期时，用现有的token换成一个新的token

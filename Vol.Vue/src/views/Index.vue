@@ -524,7 +524,7 @@ img:not([src]) {
   color: #ffffff;
   z-index: 99999;
   right: 0;
-  width: 4px;
+  width: 8px;
 }
 
 .ivu-select-dropdown::-webkit-scrollbar {

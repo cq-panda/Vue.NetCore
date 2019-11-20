@@ -87,6 +87,7 @@ const system = {
         },
         clearUserInfo(state) {
             state.permission = [];
+            state.userInfo=null;
             localStorage.removeItem(keys.USER);
         },
         test(state) {
