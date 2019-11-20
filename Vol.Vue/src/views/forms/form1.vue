@@ -153,15 +153,11 @@ export default {
 </script>
 <style scoped>
 .single-form {
-    /* border: 1px solid #eee; */
-    position: absolute;
-    max-width: 1000px;
+    position: relative;
+    max-width: 600px;
     padding: 30px 45px;
-    /* margin: 30px; */
     left: 0;
     box-shadow: #d6d6d6 0px 4px 21px;
-    right: 0;
     margin: auto;
-    margin-top: 10px;
 }
 </style>
