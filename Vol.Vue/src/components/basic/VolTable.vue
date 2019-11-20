@@ -10,7 +10,8 @@
         class="v-table"
         @sort-change="sortChange"
         tooltip-effect="dark"
-        :height="height"
+        :height="realHeight"
+        :max-height="realMaxHeight"
         :data="url?rowData:tableData"
         border
         :row-class-name="initIndex"
@@ -144,7 +145,7 @@ export default {
     },
     height: {
       type: Number,
-      default: 2000
+      default: 0
     },
     maxHeight: {
       type: Number,
@@ -198,6 +199,8 @@ export default {
   data() {
     return {
       key: "",
+      realHeight:0,
+      realMaxHeight:0,
       enableEdit: false, //是否启表格用编辑功能
       empty: this.allowEmpty ? "" : "--",
       defaultImg: 'this.src="' + require("@/assets/imgs/error.png") + '"',
@@ -240,6 +243,8 @@ export default {
     };
   },
   created() {
+    this.realHeight=this.getHeight();
+    this.realMaxHeight=this.getMaxHeight();
     if (this.loadKey) {
       //从后台加下拉框的[是否启用的]数据源
       let keys = [];
@@ -262,7 +267,7 @@ export default {
         });
       });
     }
-    
+
     this.paginations.sort = this.pagination.sortName;
     this.enableEdit = this.columns.some(x => {
       return x.hasOwnProperty("edit");
@@ -279,6 +284,30 @@ export default {
     this.defaultLoadPage && this.load();
   },
   methods: {
+    getHeight() {
+      //没有定义高度与最大高度，使用table默认值
+      if (!this.height && !this.maxHeight) {
+        return null;
+      }
+      //定义了最大高度则不使用高度
+      if (this.maxHeight) {
+        return null;
+      }
+      //使用当前定义的高度
+      return this.height;
+    },
+    getMaxHeight() {
+      //没有定义高度与最大高度，使用table默认值
+      if (!this.height && !this.maxHeight) {
+        return null;
+      }
+      //定义了最大高度使用最大高度
+      if (this.maxHeight) {
+        return this.maxHeight;
+      }
+      //不使用最大高度
+      return null;
+    },
     getSelectedOptions(column) {
       if (column.bind && column.bind.data && column.bind.data.length > 0) {
         return column.bind.data;
@@ -451,8 +480,8 @@ export default {
       // if (val == "" || val == null || val == undefined) {
       //  return "none";
       // }
-      if (column.getColor&&typeof column.getColor=='function') {
-        let _color= column.getColor(row, column);
+      if (column.getColor && typeof column.getColor == "function") {
+        let _color = column.getColor(row, column);
         if (_color) {
           return _color;
         }

@@ -31,7 +31,7 @@
         :linkView="_linkView"
         :columns="columns"
         :pagination="pagination"
-        :height="230"
+        :max-height="450"
         :url="url"
         :index="true"
         @loadBefore="loadTableBefore"

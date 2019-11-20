@@ -13,7 +13,7 @@ let extension = {
     buttons: [],//扩展的按钮
     methods: {//事件扩展
         onInit() {
-            this.tableHeight=153;
+            this.tableMaxHeight=200;
         },
         onInited() {
          

@@ -228,6 +228,7 @@
           :columns="columns"
           :pagination="pagination"
           :height="height"
+          :max-height="tableMaxHeight"
           :url="url"
         ></vol-table>
       </div>
@@ -368,6 +369,7 @@ var vueParam = {
       },
       height: 0, //表高度
       tableHeight: 0, //查询页面table的高度
+      tableMaxHeight:0,//查询页面table的最大高度
       pagination: { total: 0, size: 30, sortName: "" }, //从分页配置数据
       boxOptions: { saveClose: true, labelWidth: 100, height: 0, width: 0 } //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
     };

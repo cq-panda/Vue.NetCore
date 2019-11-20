@@ -25,7 +25,7 @@ var viewGridOptions = {  //此处的权限是使用的当前页面的权限，�
                 },
                 methods: {//事件扩展
                     onInit(){
-                        this.tableHeight=170;
+                        this.tableMaxHeight=500;
                     },
                     searchAfter(result) { //查询ViewGird表数据后param查询参数,result回返查询的结果
                      console.log({ title: this.table.cnName + ',查询结果', desc: '返回的对象：' + JSON.stringify(result) });
