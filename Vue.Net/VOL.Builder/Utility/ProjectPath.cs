@@ -19,17 +19,20 @@ namespace DairyStar.Builder.Utility
         public static string GetProjectFileName(string startsWith)
         {
             string fileNames = GetProjectDirectoryInfo()?.GetDirectories()
-                     .Where(c => c.Name.StartsWith(startsWith)
-                     && c.Name != startsWith + ".Core"
+                     .Where(
+                c =>
+                     //c.Name.StartsWith(startsWith)&& 
+                     c.Name != startsWith + ".Core"
                      && c.Name != startsWith + ".Entity"
                      && !c.Name.ToLower().EndsWith(".web")
                      && !c.Name.ToLower().EndsWith(".webapi")
                      && !c.Name.ToLower().EndsWith(".builder")
+                      && c.Name.ToLower()!=".vs"
                      ).Select(x => x.Name).ToList().Serialize();
             if (string.IsNullOrEmpty(fileNames))
             {
                 fileNames = new DirectoryInfo("".MapPath()).GetFiles().Where(x => x.Name.EndsWith(".dll")
-                  && x.Name.StartsWith(startsWith)
+                  //&& x.Name.StartsWith(startsWith)
                   && !x.Name.EndsWith(".Core.dll")
                   && !x.Name.EndsWith(".Entity.dll")
                   && !x.Name.EndsWith(".Builder.dll")
