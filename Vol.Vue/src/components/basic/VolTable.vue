@@ -37,6 +37,7 @@
               <!-- <div @mouseover="endEdit" v-if="edit.rowIndex!=scope.$index"> -->
               <div v-if="edit.rowIndex!=scope.$index">{{formatter(scope.row,column,true)}}</div>
               <DatePicker
+                :transfer="true"
                 v-else-if="column.edit.type=='date'||column.edit.type=='datetime'"
                 :type="column.edit.type"
                 :format="column.edit.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
@@ -57,6 +58,7 @@
                如果value是字符串数字则使用 :true-value="1" :false-value="0"
               -->
               <Select
+                :transfer="true"
                 v-else-if="column.edit.type=='select'"
                 v-model="scope.row[column.field]"
                 :placeholder="'请选择'+column.title"
@@ -94,8 +96,12 @@
               <div
                 v-else-if="column.formatter"
                 @click="formatterClick(scope.row,column)"
-                v-html="column.formatter(scope.row,column)"
+                v-html="column.formatter&&column.formatter(scope.row,column)"
               ></div>
+              <div
+                v-else-if="column.click"
+                @click="formatterClick(scope.row,column)"
+              >{{scope.row[column.field]}}</div>
               <Tag
                 v-else-if="(column.bind)"
                 :color="getColor(scope.row,column)"
@@ -169,7 +175,7 @@ export default {
     },
     paginationHide: {
       type: Boolean,
-      default: false
+      default: true
     },
     color: {
       type: Boolean,
@@ -199,8 +205,8 @@ export default {
   data() {
     return {
       key: "",
-      realHeight:0,
-      realMaxHeight:0,
+      realHeight: 0,
+      realMaxHeight: 0,
       enableEdit: false, //是否启表格用编辑功能
       empty: this.allowEmpty ? "" : "--",
       defaultImg: 'this.src="' + require("@/assets/imgs/error.png") + '"',
@@ -226,6 +232,11 @@ export default {
         "#FFA2D3",
         "default"
       ],
+      rule: {
+        phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+        decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
+        number: /(^[\-0-9][0-9]*([0-9]+)?)$/
+      },
       columnNames: [],
       rowData: [],
       paginations: {
@@ -238,13 +249,14 @@ export default {
         page: 1,
         rows: 30
       },
+      errorFiled: "",
       edit: { columnIndex: -1, rowIndex: -1 }, //当前双击编辑的行与列坐标
       editStatus: {}
     };
   },
   created() {
-    this.realHeight=this.getHeight();
-    this.realMaxHeight=this.getMaxHeight();
+    this.realHeight = this.getHeight();
+    this.realMaxHeight = this.getMaxHeight();
     if (this.loadKey) {
       //从后台加下拉框的[是否启用的]数据源
       let keys = [];
@@ -314,8 +326,8 @@ export default {
       }
       return [];
     },
-    formatterClick(row, column) {
-      column.click && column.click.call(this, row, column);
+    formatterClick(row, column, event) {
+      column.click && column.click(row, column, event);
     },
     initIndex(obj) {
       if (this.index) {
@@ -332,6 +344,9 @@ export default {
       });
     },
     beginEdit(row, column, event) {
+      if (this.edit.rowIndex != -1) {
+        return;
+      }
       if (!this.enableEdit) return;
       if (row.hasOwnProperty("elementIdex")) {
         if (this.edit.rowIndex == row.elementIdex) {
@@ -344,19 +359,129 @@ export default {
     // //  this.edit.rowIndex = scopeIndex;
     //   //this.edit.columnIndex=cindex;
     // },
-    endEdit() {
-      if (!this.enableEdit) return;
+    validateColum(option, data) {
+      if (option.hidden || option.bind) return true;
+      let val = data[option.field];
+      if (option.require || option.required) {
+        if (val != "0" && (val == "" || val == undefined)) {
+          if (!this.errorFiled) {
+            //  event.focus();
+            this.$Message.error(option.title + "不能为空");
+          }
+          return false;
+        }
+      }
+      let editType = option.edit.type;
+      //验证数字
+      if (editType == "int" || editType == "decimal" || editType == "number") {
+        if (val == "" || val == undefined) return true;
+        if (editType == "decimal") {
+          if (!this.rule.decimal.test(val)) {
+            this.$Message.error(option.title + "只能是数字");
+            return false;
+          }
+        } else if (!this.rule.decimal.test(val)) {
+          this.$Message.error(option.title + "只能是整数");
+          return false;
+        }
+        if (
+          option.edit.min != undefined &&
+          typeof option.edit.min == "number" &&
+          val < option.edit.min
+        ) {
+          this.$Message.error(option.title + "不能小于" + option.edit.min);
+          return false;
+        }
+        if (
+          option.edit.max != undefined &&
+          typeof option.edit.max == "number" &&
+          val > option.edit.max
+        ) {
+          this.$Message.error(option.title + "不能大于" + option.edit.min);
+          return false;
+        }
+        return true;
+      }
+
+      //验证字符串
+      if (val && (editType == "text" || editType == "string")) {
+        if (
+          option.edit.min != undefined &&
+          typeof option.edit.min == "number" &&
+          val.length < option.edit.min
+        ) {
+          this.$Message.error(
+            option.title + "至少" + option.edit.min + "个字符"
+          );
+          return false;
+        }
+        if (
+          option.edit.max != undefined &&
+          typeof option.edit.max == "number" &&
+          val.length > option.edit.max
+        ) {
+          this.$Message.error(
+            option.title + "最多" + option.edit.max + "个字符"
+          );
+          return false;
+        }
+        return true;
+      }
+      return true;
+    },
+    endEdit(row, column, event) {
+      //   select datetime设置  :transfer="true"后，结束编辑需要鼠标移至另一行或同一行编辑列自动结束编辑
+      if (!this.enableEdit) {
+        if (!this.errorFiled) {
+          this.edit.rowIndex = -1;
+        }
+        return;
+      }
+      if (
+        this.edit.rowIndex != -1 &&
+        (!this.errorFiled || this.errorFiled == column.property)
+      ) {
+        let data = (this.url ? this.rowData : this.tableData)[
+          this.edit.rowIndex
+        ];
+        let option = this.columns.find(x => {
+          return x.field == column.property;
+        });
+        if (!option.edit) {
+          return;
+        }
+        if (
+          option.edit.type == "datetime" ||
+          option.edit.type == "date" ||
+          option.edit.type == "select"
+        ) {
+          if (this.edit.rowIndex == row.elementIdex) {
+            return;
+          }
+        }
+        if (!this.validateColum(option, data)) {
+          this.errorFiled = option.field;
+          return false;
+        } else {
+          this.errorFiled = "";
+        }
+      }
+      if (this.errorFiled) {
+        return;
+      }
+      //  this.errorFiled = "";
       this.edit.rowIndex = -1;
+
       //this.edit.columnIndex=-1;
     },
     delRow() {
       let rows = this.getSelected();
-      if (rows.length == 0) return this.$message.error("请选择要删除的行!");
+      if (rows.length == 0) return this.$Message.error("请选择要删除的行!");
 
       let data = this.url ? this.rowData : this.tableData;
       let indexArr = this.getSelectedIndex();
       if (indexArr.length == 0) {
-        return this.$message.error(
+        return this.$Message.error(
           "删除操作必须设置VolTable的属性index='true'"
         );
       }
@@ -380,7 +505,7 @@ export default {
           }
         }
       }
-
+      this.edit.rowIndex = -1;
       return rows;
     },
     addRow(row) {

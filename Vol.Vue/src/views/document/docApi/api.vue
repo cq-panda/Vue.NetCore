@@ -58,16 +58,16 @@ export default {
           title: "VolHeader"
         },
         {
+          com_name: "voltable",
+          title: "table组件"
+        },
+        {
           com_name: "viewGrid",
           title: "代码生成后页面viewGrid"
         },
         {
           com_name: "volmenu",
           title: "菜单组件"
-        },
-           {
-          com_name: "voltable",
-          title: "table组件"
         },
         {
           com_name: "uploadExcel",
@@ -117,6 +117,7 @@ export default {
     }
   }
   > .list {
+    width: 1000px;
     flex: 1;
     margin-left: 195px;
   }

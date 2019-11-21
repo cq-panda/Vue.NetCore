@@ -9,9 +9,7 @@
     </Alert>
     <div class="tb">
       <VolHeader icon="md-apps" text="双击表即可编辑">
-        <div
-          slot="content"
-        >同时可配置数据字典编号自动绑定字段的显示值,如【是否启用】列值为0/1显示文本为是、否</div>
+        <div slot="content">同时可配置数据字典编号自动绑定字段的显示值,如【是否启用】列值为0/1显示文本为是、否</div>
         <slot>
           <div style="text-align: right;">
             <Button type="info" ghost @click="clear">清空表</Button>
@@ -128,6 +126,7 @@ export default {
           title: "名称",
           type: "string",
           width: 150,
+          require: true,
           align: "left",
           edit: { type: "text" },
           sortable: true //是否排序(目前第一个字段为排序字段，其他字段排序开发中)
@@ -143,10 +142,11 @@ export default {
           field: "UserName",
           title: "申请人帐号",
           type: "string",
-          link: true, //设置link=true后此单元格可以点击获取当前行的数据进行其他操作
+          //  link: true, //设置link=true后此单元格可以点击获取当前行的数据进行其他操作
           width: 120,
-          hidden: true, //是否显示
-          edit: { type: "text" },
+          require: true,
+          //    hidden: true, //是否显示
+          edit: { type: "text", min: 3, max: 5 },
           align: "left"
         },
         {
@@ -155,6 +155,8 @@ export default {
           type: "string",
           width: 120,
           align: "left",
+          require: true,
+         // edit: { type: "text", min: 4, max: 7 },
           click: (row, column) => {
             //单元格点击事亻
             this.$message.error("此单元格没有设置为可以编辑");
@@ -205,26 +207,16 @@ export default {
           title: "真实姓名",
           type: "string",
           width: 120,
-          click: (row, column) => {
-            if (row.UserTrueName == "七秒钟的记忆") {
-              return this.cellClick(row);
-            }
-            //单元格点击事件
-            this.$message.error("此单元格原始值是:【" + row.ReallyName + "】");
-          },
-          formatter: (row, column) => {
-            //对单元格的数据格式化处理
-            return "<a>点我"+(row.UserTrueName == '七秒钟的记忆'?'弹出框':'')+"</a>";
-          },
-          align: "left"
+
+          edit: { type: "number", min: 10, max: 20 }
         },
         {
           field: "Creator",
           title: "创建人",
           type: "string",
+
           width: 130,
-          hidden: true,
-          align: "left"
+          edit: { type: "decimal", min: 2.2, max: 5.5 }
         }
       ]
     };

@@ -2,53 +2,55 @@
   <div>
     <div class="i-text">
       <h2>
-        <a @click="viewCode">查看代码</a>
+        <a @click="viewCode" v-show="!visibly" >查看代码</a>        <a v-show="visibly" @click="visibly=false">收起</a>
       </h2>
-      <div v-show="visibly" v-html="code"></div>
+      <div style="background: #eee;" v-show="visibly" v-html="code"></div>
       <h2>
         <a v-show="visibly" @click="visibly=false">收起</a>
       </h2>
     </div>
-    <div class="i-text">
-      <h2>属性</h2>
+    <div >
+      <div class="i-text">
+        <h2>属性</h2>
+      </div>
+      <table v-if="param[name]&&param[name].attr">
+        <thead>
+          <tr>
+            <td>属性</td>
+            <td>说明</td>
+            <td>类型</td>
+            <td>默认值</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item,index) in param[name].attr||[]" :key="index">
+            <td>{{item.name}}</td>
+            <td>{{item.desc}}</td>
+            <td>{{item.type}}</td>
+            <td>{{item.default}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="i-text">
+        <h2>方法</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <td>方法名</td>
+            <td>说明</td>
+            <td>参数</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item,index) in param[name].methods||[]" :key="index">
+            <td>{{item.name}}</td>
+            <td>{{item.desc}}</td>
+            <td>{{item.param}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <table v-if="param[name].attr">
-      <thead>
-        <tr>
-          <td>属性</td>
-          <td>说明</td>
-          <td>类型</td>
-          <td>默认值</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item,index) in param[name].attr||[]" :key="index">
-          <td>{{item.name}}</td>
-          <td>{{item.desc}}</td>
-          <td>{{item.type}}</td>
-          <td>{{item.default}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="i-text">
-      <h2>方法</h2>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <td>方法名</td>
-          <td>说明</td>
-          <td>参数</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item,index) in param[name].methods||[]" :key="index">
-          <td>{{item.name}}</td>
-          <td>{{item.desc}}</td>
-          <td>{{item.param}}</td>
-        </tr>
-      </tbody>
-    </table>
     <br />
   </div>
 </template>
@@ -67,6 +69,7 @@ export default {
   },
   data() {
     return {
+      onlyCode: false,
       code: "",
       visibly: false,
       param: param,

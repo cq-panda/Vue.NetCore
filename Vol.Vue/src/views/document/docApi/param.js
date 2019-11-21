@@ -60,6 +60,56 @@ let param = {
         { name: "数据槽slot", desc: "弹出框内容", type: "", default: "" },
         { name: "数据槽footer", desc: "弹出框底部按钮，默认只有一个关闭按钮，如果加了 <div slot='footer'></div>关闭按钮不会显示，需要自己添加", type: "", default: "" }],
         methods: []
+    }, voltable: {
+        attr: [{ name: "loadKey", desc: "是否自动绑定数据源key/value,如果=true会自动把带bind属性data长度为0的列绑定上数据源", type: "bool", default: "false" },
+        { name: "height", desc: "table高度", type: "number", default: "" },
+        { name: "max-height", desc: "table最大高度,如果设置了max-height属性，height属性将不会生效", type: "number", default: "" },
+        { name: "--", desc: "--", type: "--", default: "--" },
+        { name: "pagination", desc: "分页参数", type: "json", default: "{ total: 0, size: 0, sortName: ''}" },
+        { name: "{", desc: "", type: "", default: "" },
+        { name: "total", desc: "总数量", type: "number", default: "0" },
+        { name: "size", desc: "分页大小", type: "number", default: "0" },
+        { name: "sortName", desc: "排序字段", type: "string", default: "" },
+        { name: "}", desc: "", type: "", default: "" },
+        { name: "--", desc: "--", type: "--", default: "--" },
+        { name: "url", desc: "远程加载数据的地址，配置了url默认从远程加载数据", type: "string", default: "" }, { name: "defaultLoadPage", desc: "传入了url参数，是否默认加载表格数据", type: "bool", default: "true" },
+        { name: "paginationHide", desc: "是否显示分页数据", type: "string", default: "" },
+        { name: "index", desc: "是否创建索引号,如果需要表格编辑功能，这里需要设置为true", type: "bool", default: "false" },
+        { name: "tableData", desc: "table表数据，如果不需要从远程加载table数据，请设置tableData属性,格式:[{'字段1':'值1'},{'字段2':'值2'}]", type: "array", default: "[]" },
+        { name: "--", desc: "--", type: "--", default: "--" },
+        { name: "columns", desc: "table表参数配置", type: "array", default: "[]" },
+        { name: "{-----", desc: "-----columns属性介绍开始处-----", type: "-----", default: "-----" },
+        { name: "field", desc: "字段", type: "string", default: "" },
+        { name: "title", desc: "table列名", type: "string", default: "" },
+        { name: "width", desc: "列宽度", type: "number", default: "" },
+        { name: "sortable", desc: "是否排序,目前只对第一列生效", type: "bool", default: "false" },
+        { name: "hidden", desc: "是否隐藏列", type: "bool", default: "false" },
+        { name: "fixed", desc: "是否固定列", type: "bool", default: "false" },
+        { name: "type", desc: "目前只有img,其他不需要设置", type: "string", default: "" },
+        { name: "required", desc: "是否必填项(设置edit了属性才会生效)", type: "bool", default: "false" },
+        { name: "edit{", desc: "表格编辑配置", type: "json", default: "" },
+        { name: "type", desc: "编辑创建的标签类型：number、decimal、text、datetime、date、switch、select", type: "", default: "" },
+        { name: "min", desc: "type为number、decimal时验证最小值,其他验证长度", type: "number", default: "" },
+        { name: "max}", desc: "同上min", type: "number", default: "" },
+        { name: "--", desc: "--", type: "--", default: "--" },
+        { name: "bind{", desc: "数据源绑定配置", type: "json", default: "" },
+        { name: "key", desc: "后台字典数据的key", type: "string", default: "" },
+        { name: "data}", desc: "数据源,如果设置的loadKey=true,些处将设置为data:[]。格式:[{key:'1',value:'北京市'},{key:'2',value:'上海市'}],如果data长度>0，不会被loadKey从后台加载的数据源覆盖", type: "array", default: "[]" },
+        { name: "formatter", desc: "列格式化处理,格式：formatter:(row) => {return '123'}", type: "function", default: "" },
+        { name: "click", desc: "单元格点击事件,格式：click: (row, column, event) => {}", type: "function", default: "" },
+        { name: "getColor", desc: "设置绑定了bind数据源属性的单元格颜色,格式：getColor:(row) => {return 'red'}", type: "function", default: "" },
+        { name: "-----}", desc: "-----columns属性介绍结尾处-----", type: "-----", default: "-----" },
+        ],
+        methods: [{ name: "delRow", desc: "删除选中行，this.$refs.自定义的名字.delRow()", param: "" },
+        { name: "add", desc: "添加行，this.$refs.自定义的名字.add({'字段1':'值1'})", param: "" },
+        { name: "selection", desc: "获取选中的行，this.$refs.自定义的名字.selection,注意此处selection是属性", param: "" },
+        { name: "load", desc: "刷新表数据，this.$refs.自定义的名字.load({条件:}),条件可以任意写你自己接收的格式", param: "" },
+        { name: "resetPage", desc: "重置分页信息，this.$refs.自定义的名字.resetPage()", param: "" },
+        { name: "loadBefore", desc: "从后台加载数据前处理，可参照【从api加载数据】Demo", param: "(param, callBack) 参数：param为查询相关配置，可自己修改此配置;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
+        { name: "loadTableAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" }]
+    },edittable:{
+        attr: [],
+        methods: []
     }, uploadExcel: {
         attr: [],
         methods: []
@@ -69,12 +119,9 @@ let param = {
     }, volmenu: {
         attr: [],
         methods: []
-    }, voltable: {
-        attr: [],
-        methods: []
     }, viewGrid: {
         attr: [],
         methods: []
-    } 
+    }
 }
 export default param;  

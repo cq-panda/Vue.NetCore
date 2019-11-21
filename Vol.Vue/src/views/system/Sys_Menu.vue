@@ -275,14 +275,15 @@ export default {
             title: "菜单ID",
             field: "menu_Id",
             readonly: true,
-            displayType: "text",
-            columnType: "int",
+            type: "number",
+            min: 0,
             disabled: true
           },
           {
-            columnType: "int",
             title: "父级ID",
             required: true,
+            type: "number",
+            min: 0,
             field: "parentId"
             // min: 0, max: 50
           }
@@ -313,9 +314,8 @@ export default {
           {
             title: "排序号",
             field: "orderNo",
-            dataType: "string",
-            displayType: "int",
-            columnType: "int",
+            type: "number",
+            min: 0,
             required: true
           }
         ],

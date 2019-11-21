@@ -191,6 +191,7 @@
                 :columns="detailOptions.columns"
                 :pagination="detailOptions.pagination"
                 :height="detailOptions.height"
+                :pagination-hide="false"
               ></vol-table>
             </div>
             <!--明细footer自定义组件-->
@@ -229,6 +230,7 @@
           :pagination="pagination"
           :height="height"
           :max-height="tableMaxHeight"
+          :pagination-hide="false"
           :url="url"
         ></vol-table>
       </div>
@@ -328,7 +330,7 @@ var vueParam = {
       boxButtons: [], //弹出框按钮 如需要其他操作按钮，可在表对应的.js中添加
       dicKeys: [], //当前界面所有的下拉框字典编号
       hasKeyField: [], //有字典数据源的字段
-      keyValueType:{_dinit:false},
+      keyValueType: { _dinit: false },
       url: "", //界面表查询的数据源的url
       hasDetail: false, //是否有从表(明细)表格数据
       initActivated: false,
@@ -369,7 +371,7 @@ var vueParam = {
       },
       height: 0, //表高度
       tableHeight: 0, //查询页面table的高度
-      tableMaxHeight:0,//查询页面table的最大高度
+      tableMaxHeight: 0, //查询页面table的最大高度
       pagination: { total: 0, size: 30, sortName: "" }, //从分页配置数据
       boxOptions: { saveClose: true, labelWidth: 100, height: 0, width: 0 } //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
     };

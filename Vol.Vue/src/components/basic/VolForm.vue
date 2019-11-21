@@ -27,6 +27,7 @@
 
           <!--下拉框绑定时如果key为数字，请将key+''转换为字符串-->
           <Select
+            :transfer="true"
             v-else-if="item.type=='select'||item.type=='selectList'||item.type=='drop'||item.type=='dropList'"
             v-model="formFileds[item.field]"
             :multiple="(item.type=='select'||item.type=='drop')?false:true"
@@ -57,6 +58,7 @@
             <Col span="24">
               <FormItem :prop="item.field">
                 <DatePicker
+                  :transfer="true"
                   :type="item.range?(item.type+'range'):item.type"
                   :format="item.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
                   :placeholder="item.placeholder||item.title"

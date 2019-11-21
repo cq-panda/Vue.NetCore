@@ -31,6 +31,7 @@
         :linkView="_linkView"
         :columns="columns"
         :pagination="pagination"
+        :pagination-hide="true"
         :max-height="450"
         :url="url"
         :index="true"

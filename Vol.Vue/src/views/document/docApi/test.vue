@@ -1,190 +1,149 @@
 <template>
   <div>
-    <VolForm
-      ref="myform"
-      :label-width="150"
-      :loadKey="true"
-      :formFileds="formFileds1"
-      :formRules="formRules1"
-    ></VolForm>
+    <vol-box
+      :model.sync="viewModel"
+      title="远程加载table数据"
+      icon="md-podium"
+      :height="450"
+      :width="600"
+    >
+      <div
+        style="display: block;word-break: break-all;word-wrap: break-word;"
+        slot="content"
+      >{{text}}</div>
+      <div slot="footer">
+        <Button type="info" @click="viewModel=false">确认</Button>
+      </div>
+    </vol-box>
     <div>
-      <Button type="info" long @click="reset">重置表单</Button>
+      <VolHeader icon="md-apps" text="从api加载数据">
+        <div slot="content">还没想好..</div>
+        <slot>
+          <div style="text-align: right;">
+            <Button type="info" ghost @click="remoteLoad" size="small">刷新表数据</Button>
+          </div>
+        </slot>
+      </VolHeader>
+      <vol-table
+        ref="table"
+        :loadKey="true"
+        :linkView="viewRow"
+        :columns="table.columns"
+        :pagination="table.pagination"
+        :pagination-hide="false"
+        :max-height="450"
+        :url="table.url"
+        :index="true"
+        @loadBefore="loadTableBefore"
+        @loadAfter="loadTableAfter"
+      ></vol-table>
     </div>
   </div>
 </template>
 <script>
-import VolForm from "@/components/basic/VolForm.vue";
-export default {
-  components: { VolForm },
-  methods: {
-    reset() {
-      this.$refs.myform.reset();
-      this.$Message.error("表单已重置");
-    }
-  },
+import VolBox from "@/components/basic/VolBox.vue";
+import VolTable from "@/components/basic/VolTable.vue";
+import VolHeader from "@/components/basic/VolHeader.vue";
+let $doc_vue;
+let doc_options = {
   data() {
     return {
-      formFileds1: {
-        Variety: 1,
-        AgeRange: "",
-        DateRange: [],
-        City: "北京市",
-        AvgPrice: 8.88,
-        number1: 20,
-        mail: "",
-        Date: "",
-        IsTop: "",
-        Fruits: [],
-        Other: "",
-        Switch: 1,
-        readonlyText: "还没想好....",
-        readonlyImg:
-          "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
-        ProImg:
-          "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg"
-      },
-      formRules1: [
-        //两列的表单，formRules数据格式为:[[{},{}]]
-        [
+      viewModel: false,
+      text: "",
+      table: {
+        url: "api/App_Expert/getPageData",
+        pagination: {
+          total: 0, //分页总数量
+          size: 30, //分页大小,30,60,100.
+          sortName: "CreateDate" //从后加载数据分页时的排序字段
+        },
+        columns: [
+          //表配置
           {
-            dataKey: "city",
-            title: "自动绑定数据源",
-            required: true,
-            field: "City",
-            data: [],
-            type: "select"
+            field: "ExpertId", //数据库表字段,必须和数据库一样，并且大小写一样
+            title: "主键ID", //表头显示的名称
+            isKey: true, //是否为主键字段
+            hidden: true //是否显示
           },
           {
-            title: "手动绑定数据源",
-            dataKey: "age",
-            placeholder: "在这里可设置提示描述",
-            //如果这里绑定了data数据，后台不会加载此数据源
-            data: [{ key: 1, value: "是" }, { key: 0, value: "否" }],
-            required: false,
-            field: "Variety",
-            type: "select"
-          }
-        ],
-        [
+            field: "HeadImageUrl",
+            title: "头像",
+            type: "img",
+            width: 160
+          },
           {
-            title: "手机号",
-            required: true, //设置为必选项
-            field: "AgeRange",
-            type: "phone",
-            onKeyPress: $event => {
-              if ($event.keyCode == 13) {
-                this.$Message.error(this.formFileds1.AgeRange + "");
-              }
+            field: "UserName",
+            title: "申请人帐号",
+            link: true, //设置link=true后此单元格可以点击获取当前行的数据进行其他操作
+            width: 120
+          },
+          {
+            field: "UserTrueName",
+            title: "申请人",
+            width: 120
+          },
+          {
+            field: "AuditStatus",
+            title: "审核状态",
+            width: 120,
+            bind: {
+              //如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上
+              key: "audit",
+              data: []
             }
           },
           {
-            title: "date日期",
-            field: "Date",
-            type: "datetime"
-          }
-        ],
-        [
-          {
-            title: "多选日期",
-            range: true, //设置为true可以选择开始与结束日期
-            required: false,
-            field: "DateRange",
-            type: "date"
-          },
-          {
-            type: "number",
-            title: "数字",
-            required: true,
-            placeholder: "你可以自己定义placeholder显示的文字",
-            field: "number1"
-          }
-        ],
-        [
-          {
-            type: "decimal",
-            title: "最大最小decimal值",
-            max: 10,
-            min: 2,
-            required: true,
-            field: "AvgPrice"
-          },
-          {
-            title: "邮箱",
-            field: "mail",
-            range: true, //设置为true可以选择开始与结束日期
-            required: false,
-            type: "mail"
-          }
-        ],
-        [
-          {
-            title: "自定义验证",
-            required: true,
-            field: "Other",
-            validator: (rule, val) => {
-              if (val != "234") {
-                return "必须输入【234】";
-              }
-              return "";
+            field: "ReallyName",
+            title: "真实姓名",
+            width: 120,
+            click: (row, column) => {
+              //单元格点击事亻
+              let msg =
+                "此处可以自己自定格式显示内容,此单元格原始值是:【" +
+                row.ReallyName +
+                "】";
+              this.$Message.error(msg);
+              // $doc_vue.$Message.error(msg);
+            },
+            formatter: () => {
+              //对单元格的数据格式化处理
+              return "<a>点我</a>";
             }
-          },
-          {
-            title: "Switch",
-            field: "Switch",
-            dataKey: "enable", //这里会从后台自动绑定数据源
-            data: [],
-            required: false,
-            type: "switch"
-          }
-        ],
-        [
-          //readonlyImg
-          {
-            title: "checkbox",
-            //如果这里绑定了data数据，后台不会加载此数据源
-            data: [
-              { key: 0, value: "冬瓜" },
-              { key: 1, value: "西瓜" },
-              { key: 2, value: "南瓜" },
-              { key: 3, value: "哈密瓜" }
-            ],
-            field: "Fruits",
-            type: "checkbox"
-          },
-          {
-            title: "字段只读",
-            readonly: true, //设置readonly或disabled都行
-            field: "readonlyText",
-            type: "text"
-          }
-        ],
-        [
-          {
-            title: "备注",
-            required: true,
-            field: "IsTop",
-            min: 3,
-            max: 5,
-            placeholder: "至少输入3个字符,最多只能输入5个字符",
-            colSize: 12, //设置12，此列占100%宽度
-            type: "textarea"
-          }
-        ],
-        [
-          {
-            title: "图片只读",
-            readonly: true, //设置readonly或disabled都行
-            field: "readonlyImg",
-            type: "img"
-          },
-          {
-            title: "可修改图片",
-            field: "ProImg",
-            type: "img"
           }
         ]
-      ]
+      }
     };
+  },
+  components: { VolTable, VolBox, VolHeader },
+  created() {
+    $doc_vue = this;
+  },
+  methods: {
+    viewRow(row, column) {
+      //设置linkView属性后，可不用配置click与formatter方法，直接使用linkView处理点击事件
+      this.text =
+        "点击单元格的弹出框，当前点击的行数据：" + JSON.stringify(row);
+      this.viewModel = true;
+      //  this.$message.error(JSON.stringify(row));
+    },
+    loadTableBefore(param, callBack) {
+      //此处是从后台加数据前的处理，自己在此处自定义查询条件,查询数据格式自己定义或参考代码生成器查询页面请求的数据格式
+      console.log("加载数据前" + param);
+      callBack(true); //此处必须进行回调，返回处理结果，如果是false，则不会执行后台查询
+    },
+    loadTableAfter(data, callBack) {
+      //此处是从后台加数据后，你可以在渲染表格前，预先处理返回的数据
+      console.log("加载数据后" + data);
+      callBack(true); //同上
+    },
+    remoteLoad() {
+      //此处可以自定义查询条件,如果不调用的框架的查询，格式需要自己定义，
+      //如果查询的是框架getPageData方法,需要指定格式,如:
+      // let where={wheres:[{"name":"UserTrueName","value":"教兽",displayType:"text"}]};
+      let where = {};
+      this.$refs.table.load(where);
+    }
   }
 };
+export default doc_options;
 </script>
