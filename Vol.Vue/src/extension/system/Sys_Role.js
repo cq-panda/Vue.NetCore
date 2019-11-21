@@ -14,6 +14,13 @@ let extension = {
     buttons: [],//扩展的按钮
     methods: {//事件扩展
         onInit() {
+            this.editFormOptions.forEach(x=>{
+                x.forEach(item=>{
+                    if (item.field=='ParentId') {
+                        item.min=0;
+                    }
+                })
+            })
         },
         onInited() {
         }
