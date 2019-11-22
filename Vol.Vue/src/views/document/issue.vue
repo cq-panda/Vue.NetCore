@@ -223,7 +223,7 @@ export default {
           ]
         },
         {
-          title: "代码生成没有生成业务类",
+          title: "代码生成业务类异常或没有生成业务类",
           desc: [
             {
               text:

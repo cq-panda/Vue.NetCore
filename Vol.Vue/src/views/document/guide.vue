@@ -7,6 +7,11 @@
     border-radius: 5px;
     margin-bottom: 20px;"
     >
+        <a
+        target="_blank"
+        style="border-bottom: 1px solid;margin: 0 10px"
+        href="https://github.com/cq-panda/Vue.NetCore"
+      >GitHub</a>
       <a
         target="_blank"
         style="border-bottom: 1px solid;margin: 0 10px"
@@ -25,8 +30,18 @@
       <a
         target="_blank"
         style="border-bottom: 1px solid;margin: 0 10px"
-        href="https://github.com/cq-panda/Vue.NetCore"
-      >GitHub</a>
+        @click="()=>{ this.$router.push({ path: '/document/coder' });}"
+      >代码生成</a>
+      <a
+        target="_blank"
+        style="border-bottom: 1px solid;margin: 0 10px"
+        @click="()=>{ this.$router.push({ path: '/document/api' });}"
+      >组件Api</a>
+      <a
+        target="_blank"
+        style="border-bottom: 1px solid;margin: 0 10px"
+        @click="()=>{ this.$router.push({ path: '/document/issue' });}"
+      >常见问题</a>
     </div>
     <h2>开发及依赖环境</h2>
     <p class="desc">

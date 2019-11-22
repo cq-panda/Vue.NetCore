@@ -9,7 +9,7 @@
           前端项目运行：.../VOL.Vue/run.bat
           <span>(如果从执行过npm install安装依赖包，在.../VOL.Vue路径下执行npm install命令,如果没有安装node，必须先安装了node环境)</span>
         </li>
-        <li>后台项目运行项目路径下.../VOL.WebApi/builder_run.bat,或如果不需要生成业务类运行:dev_run.bat即可</li>
+        <li>后台项目运行项目路径下.../VOL.WebApi/builder_run.bat,<span style="color:red;font-size:16px;">如果不需要【生成业务类】运行:dev_run.bat即可，后台运行dev_run.bat生成业务类会中断代码执行</span></li>
         <li>准备完成，项目运行起来后输入：http://localhost:8080</li>
       </ul>
     </blockquote>
@@ -21,7 +21,9 @@
  <p></p>
     <a >代码生成后，如果表结构发生了变化，点【同步表结构】再点【生成model】【生面vue页面】</a>
     <p></p>
+       <p class="desc" style="color:red;margin: 20px 0;" >主从(明细)表生成代码注意：明细表的外键必须是主表的主键字段，可参照SellOrder的明细表SellOrderList的外建，主从表代码生成步骤都是一样，在生成主表前需要先将从表按现有步骤生成(可以不用生成从表vue页面),然后主表生成配置页面填上【明细表名】与【明细表中文名】,点击生成vue页面、model、业务类即可完成主从页面代码的生成。</p>
     <h2>1、选择菜单：在线代生成器-&gt;Vue+后台代码生成</h2>
+   
     <div>
       <p class="desc">点击新建,弹出选择框，如果只是做修改跳过此步，直接修改页面配置后点保存，再点各种生成操作</p>
       <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step1.png" />
@@ -68,7 +70,7 @@
     </div>,
     <h2>6、查看生成的页面</h2>
     <div>
-      <p class="desc">先确认后台项目运行的是路径…/VOL.WebApi/dev_run.bat文件,输入http://localhost:8080/sellOrder</p>
+      <p class="desc" style="color:red;font-size:16px;">先确认后台项目运行的是路径…/VOL.WebApi/dev_run.bat文件,输入http://localhost:8080/sellOrder</p>
       <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep6.png" />
     </div>
 

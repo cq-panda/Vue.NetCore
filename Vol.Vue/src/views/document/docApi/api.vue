@@ -28,7 +28,7 @@ export default {
     uploadImg: () => import("./doc_uploadImg"),
     volmenu: () => import("./doc_menu"),
     voltable: () => import("./doc_table"),
-    viewGrid: () => import("./doc_viewGrid"),
+    viewGrid: () => import("./doc_viewGridApi"),
     other: () => import("./doc_other")
   }, //
   methods: {
@@ -87,7 +87,8 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style>
+
 </style>
 <style lang="less" scoped>
 .i-container {

@@ -52,6 +52,7 @@ export default {
         Fruits: [],
         Other: "",
         Switch: 1,
+        SelectList:['北京市','上海市','天津市','广州市','重庆市'],
         readonlyText: "还没想好....",
         readonlyImg:
           "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
@@ -130,7 +131,16 @@ export default {
             required: false,
             type: "mail"
           }
-        ],
+        ],      [
+          {
+            dataKey: "city",
+            title: "多选",
+            required: true,
+            field: "SelectList",
+            data: [],
+            colSize:12,
+            type: "selectList"
+          }],
         [
           {
             title: "自定义验证",

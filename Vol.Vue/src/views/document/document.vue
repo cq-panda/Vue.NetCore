@@ -15,7 +15,12 @@
         </div>
       </div>
       <div>
-        <div class="content">
+        <div
+          class="content"
+          :class="{'doc-api':
+        (activedIndex>0&&timeline[activedIndex].text== '组件api')
+        }"
+        >
           <!-- <Divider>{{text}}</Divider> -->
           <router-view></router-view>
         </div>
@@ -54,7 +59,7 @@ export default {
       text: "",
       activedIndex: 0,
       timeline: [
-          {
+        {
           text: "QQ群：还没想好!",
           path: "#",
           actived: false
@@ -89,11 +94,11 @@ export default {
           path: "/document/netCoreDev",
           actived: false
         },
-        {
-          text: "H5开发",
-          path: "/app/guide",
-          actived: false
-        },
+        // {
+        //   text: "H5开发",
+        //   path: "/app/guide",
+        //   actived: false
+        // },
         {
           text: "常见问题",
           path: "/document/issue",
@@ -117,12 +122,11 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-
 .links {
   display: flex;
   font-size: 15px;
   position: fixed;
-  z-index: 9999;
+  z-index: 999;
   width: 100%;
   background: black;
   box-shadow: 0px 0px 10px #524747;
@@ -149,7 +153,7 @@ export default {
   span {
     height: 100%;
     position: relative;
-    padding: 17px;
+    padding: 17px 0;
   }
 }
 
@@ -177,6 +181,10 @@ export default {
   margin: 0 auto;
   padding: 10px;
   padding-top: 80px;
+}
+.doc-api {
+  max-width: 100%;
+  padding: 80px 40px;
 }
 </style>
 <style scoped>

@@ -72,6 +72,7 @@ let codeString = {
           IsTop: </span>""<span style="color: #000000;">,
           Fruits: [],
           Other: </span>""<span style="color: #000000;">,
+          SelectList:</span>['北京市','上海市','天津市','广州市','重庆市']<span style="color: #000000;">,
           Switch: </span>1<span style="color: #000000;">,
           readonlyText: </span>"可设置属性对数据合法性进行校验"<span style="color: #000000;">,
           readonlyImg:
@@ -151,7 +152,17 @@ let codeString = {
               required: <span style="color: #0000ff;">false</span><span style="color: #000000;">,
               type: </span>"mail"<span style="color: #000000;">
             }
-          ],
+          ],     
+          [
+            {
+              dataKey: "city",
+              title: "多选",
+              required: true,
+              field: "SelectList",
+              data: [],
+              colSize:12,
+              type: "selectList"
+            }],
           [
             {
               title: </span>"自定义验证"<span style="color: #000000;">,
