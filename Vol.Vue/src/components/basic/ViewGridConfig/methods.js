@@ -526,13 +526,17 @@ let methods = {
         // this.modelOpenAfter(rows[0]);
     },
     modelOpenProcess(row) {
-        if (!this.$refs.form) {
-            let timeOut = setTimeout(x => {
-                this.modelOpenAfter(row);
-            }, 500)
-            return;
-        }
-        this.modelOpenAfter(row);
+        this.$nextTick(() => {
+            this.modelOpenAfter(row);
+        })
+        return;
+        // if (!this.$refs.form) {
+        //     let timeOut = setTimeout(x => {
+        //         this.modelOpenAfter(row);
+        //     }, 500)
+        //     return;
+        // }
+        // this.modelOpenAfter(row);
     },
     import() { //导入(上传excel),弹出导入组件UploadExcel.vue
         this.upload.excel = true;
@@ -581,6 +585,15 @@ let methods = {
             );
             ///  window.open($http.ipAddress + path + "?fileName=" + filePath, "_self");
         });
+    },
+    getSelectRows() {//获取选中的行
+        return this.$refs.table.getSelected();
+    },
+    getDetailSelectRows() {//或获取明细选中的行
+        if (!this.$refs.detail) {
+            return [];
+        }
+        return this.$refs.detail.getSelected();
     },
     audit() {//审核弹出框
         let rows = this.$refs.table.getSelected();

@@ -33,9 +33,9 @@
 <script>
 export default {
   props: {
-    icon:{
-     type:String,
-     default:'ios-information-circle-outline'
+    icon: {
+      type: String,
+      default: "ios-information-circle-outline"
     },
     title: {
       type: String,
@@ -82,10 +82,10 @@ export default {
     }
   },
   mounted() {
-   // console.log("cm");
+    // console.log("cm");
   },
   created() {
-   // console.log("c1");
+    // console.log("c1");
     if (this.$slots.footer) {
       this.footer = false;
     }
@@ -103,7 +103,7 @@ export default {
 .vertical-center-modal {
   display: flex;
   align-items: center;
- //   justify-content: center;
+  //   justify-content: center;
 
   .ivu-modal {
     top: 0;
@@ -116,6 +116,7 @@ export default {
   }
   .srcoll-content {
     height: 100%;
+    word-break: break-all;
     //  padding: 16px;
   }
   .ivu-modal-body {
