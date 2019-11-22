@@ -868,7 +868,7 @@ namespace VOL.Core.BaseProvider
         {
             Type entityType = typeof(T);
             var keyProperty = entityType.GetKeyProperty();
-            if (keyProperty == null || keys.Length == 0) return Response.Error(ResponseType.NoKeyDel);
+            if (keyProperty == null || keys == null || keys.Length == 0) return Response.Error(ResponseType.NoKeyDel);
 
             IEnumerable<(bool, string, object)> validation = keyProperty.ValidationValueForDbType(keys);
             if (validation.Any(x => !x.Item1))
@@ -893,7 +893,7 @@ namespace VOL.Core.BaseProvider
             string sql = $"DELETE FROM {entityType.Name } where {tKey} in ({joinKeys});";
             if (delList)
             {
-                Type detailType = entityType.GetCustomAttribute<EntityAttribute>().DetailTable?[0];
+                Type detailType = entityType.GetCustomAttribute<EntityAttribute>()?.DetailTable?[0];
                 if (detailType != null)
                     sql = sql + $"DELETE FROM {detailType.Name} where {tKey} in ({joinKeys});";
             }

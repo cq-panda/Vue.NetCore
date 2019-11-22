@@ -1420,7 +1420,11 @@ namespace DairyStar.Builder.Services
             //  {AttributeManager}
 
             List<string> entityAttribute = new List<string>();
-
+            entityAttribute.Add("TableCnName = \"" + tableInfo.ColumnCNName + "\"");
+            if (!string.IsNullOrEmpty(tableInfo.TableTrueName))
+            {
+                entityAttribute.Add("TableName = \"" + tableInfo.TableTrueName + "\"");
+            }
             if (!string.IsNullOrEmpty(tableInfo.DetailName) && createType == 1)
             {
                 //  'typeof('+[1,2].join('),typeof(')+')'
