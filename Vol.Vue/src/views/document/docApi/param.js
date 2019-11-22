@@ -108,8 +108,34 @@ let param = {
         { name: "resetPage", desc: "重置分页信息，this.$refs.自定义的名字.resetPage()", param: "" },
         { name: "loadBefore", desc: "从后台加载数据前处理，可参照【从api加载数据】Demo", param: "(param, callBack) 参数：param为查询相关配置，可自己修改此配置;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
         { name: "loadTableAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" }]
-    },edittable:{
+    }, edittable: {
         attr: [],
+        methods: []
+    }, viewGrid: {
+        attr: [{ name: "columns", desc: "查询页面table表的配置,具体配置可参照VolTable参数", type: "array", default: "[]" },
+        { name: "detail", desc: "从表配置：{columns:[],sortName:''},columns从表table列配置,sortName从表排序字段", type: "json", default: "{}" },
+        { name: "editFormFileds", desc: "编辑字段，可参照VolForm配置", type: "json", default: "{}" },
+        { name: "editFormOptions", desc: "编辑配置,，可参照VolForm配置", type: "array", default: "[]" },
+        { name: "searchFormFileds", desc: "查询字段，同上", type: "json", default: "{}" },
+        { name: "searchFormOptions", desc: "查询配置，同上", type: "array", default: "[]" },
+        { name: "table", desc: "表其他配置,如：     table: {\
+            key: 'Order_Id', //排序字段\
+            footer: 'Foots',\
+            cnName: '主从表ViewGird组件使用',//表中文名\
+            name: 'SellOrder',//表名(代码生码的别名)\
+            url: '/SellOrder/',//后台控制器名\
+            sortName: 'CreateDate' //后台排序字段}", type: "array", default: "{}" },
+        { name: "extend", desc: "扩展js中的所有对象,如:doc_viewGirdExtension.js整个js文件的对象", type: "json", default: "array" },
+        { name: "currentAction", desc: "当前操作的状态:如：Add,update", type: "string", default: "" },
+        { name: "currentRow", desc: "当前编辑的行数据", type: "json", default: "" },
+        { name: "labelWidth", desc: "高级查询label标签的宽度", type: "number", default: "100" },
+        { name: "maxBtnLength", desc: "查询界面显示的按钮最大数量，超过的在更多中显示", type: "number", default: "3" },
+        { name: "buttons", desc: "查询界面的所有按钮", type: "array", default: "[]" },
+        { name: "boxButtons", desc: "弹出框的所有按钮", type: "array", default: "[]" },
+        { name: "dicKeys", desc: "所有数据源的字典编号", type: "array", default: "[]" },
+        { name: "hasKeyField", desc: "所有有数据源的字段", type: "array", default: "[]" },
+        { name: "hasDetail", desc: "是否有明细", type: "bool", default: "false" },
+        { name: "detailOptions", desc: "明细配置", type: "array", default: "[]" }],
         methods: []
     }, uploadExcel: {
         attr: [],
@@ -118,9 +144,6 @@ let param = {
         attr: [],
         methods: []
     }, volmenu: {
-        attr: [],
-        methods: []
-    }, viewGrid: {
         attr: [],
         methods: []
     }

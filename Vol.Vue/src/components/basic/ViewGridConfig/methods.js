@@ -58,7 +58,7 @@ let methods = {
     initBoxButtons() { //初始化ViewGird与弹出框/明细表按钮
         let path = this.$route.path;
         //通过菜单获取用户所对应菜单需要显示的按钮
-        let permissionButtons = this.permission.getButtons(path);
+        let permissionButtons = this.permission.getButtons(path,null,this.extend.tableAction);
         if (permissionButtons) {
             this.buttons.push(...permissionButtons);
         }

@@ -4,6 +4,7 @@
       <h2>
         <a @click="viewCode" v-show="!visibly" >查看代码</a>        <a v-show="visibly" @click="visibly=false">收起</a>
       </h2>
+      <slot></slot>
       <div style="background: #eee;" v-show="visibly" v-html="code"></div>
       <h2>
         <a v-show="visibly" @click="visibly=false">收起</a>

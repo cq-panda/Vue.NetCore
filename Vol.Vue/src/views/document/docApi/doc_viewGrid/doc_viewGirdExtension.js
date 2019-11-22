@@ -11,7 +11,8 @@ let extension = {
         modelBody: extendModelBodyHeader,//自定义扩展弹出框界面body部份
         modelFooter: ''//扩展同上
     },
-    text: "提示没权限?菜单中将当前页面的所有权限勾选上", //查询界面文字描述
+    tableAction:'SellOrder',//设置获取指定表的权限按钮
+    text: "此处为主从表扩展示例,doc_viewGird.vue与doc_viewGirdExtension.js可由代码生成,其他两个文件自己写的扩展", //查询界面文字描述
     buttons: { //扩展的按钮
         //查询界面的按钮
         view: [{

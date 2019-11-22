@@ -17,9 +17,13 @@ let permission = {
     },
     getMenu() {
         return http.get("/api/getTreeMenu");
-    }, getButtons(path, extra) {//extra自定额外按钮
+    }, getButtons(path, extra, table) {//extra自定额外按钮
         //  console.log('grid');
-        let permission = $vue.$store.getters.getPermission(path);
+        //table获取指定表的权限
+        if (table) {
+            table='/'+table;
+        }
+        let permission = $vue.$store.getters.getPermission(table || path);
         if (!permission) {
             permission = $vue.$store.getters.getPermission(path.substring(1));
             if (!permission) {

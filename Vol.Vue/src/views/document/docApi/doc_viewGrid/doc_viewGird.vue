@@ -25,7 +25,7 @@
                 table: {
                     key: 'Order_Id', //排序字段
                     footer: "Foots",
-                    cnName: '主从表单明细ViewGird',//表中文名
+                    cnName: '主从表ViewGird组件使用',//表中文名
                     name: 'SellOrder',//表名(代码生码的别名)
                     url: "/SellOrder/",//后台控制名
                     sortName: "CreateDate" //后台排序字段

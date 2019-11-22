@@ -51,7 +51,7 @@ export default {
         },
         {
           com_name: "DocForm",
-          title: "form表单组件"
+          title: "VolForm表单组件"
         }, //
         {
           com_name: "VolHeader",
@@ -59,7 +59,7 @@ export default {
         },
         {
           com_name: "voltable",
-          title: "table组件"
+          title: "VolTable组件"
         },
         {
           com_name: "viewGrid",
