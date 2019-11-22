@@ -35,8 +35,9 @@ let methods = {
                 }
             });
         }
+        this.maxBtnLength += (searchIndex == -1 ? 0 : 1);
         if (this.buttons.length <= this.maxBtnLength) return this.buttons;
-        let btns = this.buttons.slice(0, this.maxBtnLength + (searchIndex == -1 ? 0 : 1));
+        let btns = this.buttons.slice(0, this.maxBtnLength);
         btns[this.maxBtnLength - 1].last = true;
         return btns;
     },
