@@ -14,6 +14,11 @@ namespace VOL.Core.Filters
         protected int Limit { get; set; } = 5000;
 
         /// <summary>
+        /// 默认上传文件大小限制3M
+        /// </summary>
+        protected int LimitUpFileSizee { get; set; } = 3;
+
+        /// <summary>
         /// 查询前,对现在有的查询字符串条件增加或删除
         /// </summary>
         protected Action<List<SearchParameters>> QueryRelativeList { get; set; }

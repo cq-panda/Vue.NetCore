@@ -262,7 +262,40 @@ namespace VOL.Core.BaseProvider
         /// <returns></returns>
         public virtual WebResponseContent Upload(List<Microsoft.AspNetCore.Http.IFormFile> files)
         {
-            return new WebResponseContent { Status = true, Message = "文件上传功能开发中...." };
+            if (files == null || files.Count == 0) return Response.Error("请上传文件");
+
+            var limitFiles = files.Where(x => x.Length > LimitUpFileSizee * 1024 * 1024).Select(s => s.FileName);
+            if (limitFiles.Count() > 0)
+            {
+                return Response.Error($"文件大小不能超过：{ LimitUpFileSizee}M,{string.Join(",", limitFiles)}");
+            }
+            string filePath = $"Upload/Tables/{typeof(T).GetEntityTableName()}/{DateTime.Now.ToString("yyyMMddHHmmsss") + new Random().Next(1000, 9999)}/";
+            string fullPath = filePath.MapPath();
+            int i = 0;
+            //   List<string> fileNames = new List<string>();
+            try
+            {
+                if (!Directory.Exists(fullPath)) Directory.CreateDirectory(fullPath);
+                for (i = 0; i < files.Count; i++)
+                {
+                    string fileName = files[i].FileName;
+                    //if (fileNames.Contains(fileName))
+                    //{
+                    //    fileName += $"({i}){fileName}";
+                    //}
+                    //fileNames.Add(fileName);
+                    using (var stream = new FileStream(fullPath + fileName, FileMode.Create))
+                    {
+                        files[i].CopyTo(stream);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"上传文件失败：{typeof(T).GetEntityTableCnName()},路径：{filePath},失败文件:{files[i]},{ex.Message + ex.StackTrace}");
+                return Response.Error("文件上传失败");
+            }
+            return Response.OK("文件上传成功", filePath);
         }
 
         private List<string> GetIgnoreTemplate()

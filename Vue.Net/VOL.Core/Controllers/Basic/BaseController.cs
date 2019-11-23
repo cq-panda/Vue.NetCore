@@ -101,7 +101,14 @@ namespace VOL.Core.Controllers.Basic
             if (string.IsNullOrEmpty(path)) return Content("未找到文件");
             try
             {
-                path = path.DecryptDES(AppSetting.Secret.ExportFile);
+                if (path.IndexOf("/") == -1 && path.IndexOf("\\") == -1)
+                {
+                    path = path.DecryptDES(AppSetting.Secret.ExportFile);
+                }
+                else
+                {
+                    path = path.MapPath();
+                }
                 string fileName = Path.GetFileName(path);
                 return File(System.IO.File.ReadAllBytes(path), System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
