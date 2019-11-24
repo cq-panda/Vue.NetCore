@@ -5,6 +5,7 @@ using System.Linq;
 using VOL.Core.CacheManager;
 using VOL.Core.DBManager;
 using VOL.Core.Extensions.AutofacManager;
+using VOL.Core.Services;
 using VOL.Entity.DomainModels;
 
 namespace VOL.Core.Infrastructure
@@ -49,6 +50,7 @@ namespace VOL.Core.Infrastructure
                 }
                 catch (Exception ex)
                 {
+                    Logger.Error($"字典执行sql异常,sql:{sql},异常信息：{ex.Message+ex.StackTrace}");
                     Console.WriteLine(ex.Message);
                     return null;
                 }
