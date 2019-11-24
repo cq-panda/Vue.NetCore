@@ -51,8 +51,9 @@ namespace VOL.Core.Infrastructure
                 catch (Exception ex)
                 {
                     Logger.Error($"字典执行sql异常,sql:{sql},异常信息：{ex.Message+ex.StackTrace}");
-                    Console.WriteLine(ex.Message);
-                    return null;
+                    throw ex;
+                  //  Console.WriteLine(ex.Message);
+                   // return null;
                 }
             }
             foreach (var item in Dictionaries.Where(x => dicNos.Contains(x.DicNo)))
