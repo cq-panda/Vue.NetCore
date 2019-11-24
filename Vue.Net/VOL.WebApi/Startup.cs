@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
@@ -107,9 +109,25 @@ namespace VOL.WebApi
                 context.Request.EnableRewind();
                 await next();
             });
-
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), @"Upload")),
+                //配置访问虚拟目录时文件夹别名
+                RequestPath = "/Upload",
+                OnPrepareResponse = (Microsoft.AspNetCore.StaticFiles.StaticFileResponseContext staticFile) =>
+                {
+                    //可以在此处读取请求的信息进行权限认证
+                    //  staticFile.File
+                    //  staticFile.Context.Response.StatusCode;
+                }
+            });
             //配置HttpContext
-            app.UseStaticHttpContext();
+            app.UseStaticHttpContext()
+                .UseStaticFiles(new StaticFileOptions
+                {      //设置不限制content-type
+                    ServeUnknownFileTypes = true
+                });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
