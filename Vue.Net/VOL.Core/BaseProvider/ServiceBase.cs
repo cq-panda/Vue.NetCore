@@ -935,7 +935,7 @@ namespace VOL.Core.BaseProvider
             //可能在删除后还要做一些其它数据库新增或删除操作，这样就可能需要与删除保持在同一个事务中处理
             //采用此方法 repository.DbContextBeginTransaction(()=>{//do delete......and other});
             //做的其他操作，在DelOnExecuted中加入委托实现
-            repository.DbContextBeginTransaction(() =>
+            Response= repository.DbContextBeginTransaction(() =>
             {
                 repository.ExecuteSqlCommand(sql);
                 if (DelOnExecuted != null)
