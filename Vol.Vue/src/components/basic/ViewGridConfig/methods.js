@@ -58,7 +58,7 @@ let methods = {
     initBoxButtons() { //初始化ViewGird与弹出框/明细表按钮
         let path = this.$route.path;
         //通过菜单获取用户所对应菜单需要显示的按钮
-        let permissionButtons = this.permission.getButtons(path,null,this.extend.tableAction);
+        let permissionButtons = this.permission.getButtons(path, null, this.extend.tableAction);
         if (permissionButtons) {
             this.buttons.push(...permissionButtons);
         }
@@ -294,7 +294,8 @@ let methods = {
     },
     resetEditForm(sourceObj) {
         if (this.hasDetail && this.$refs.detail) {
-            this.$refs.detail.rowData.splice(0);
+            // this.$refs.detail.rowData.splice(0);
+            this.$refs.detail.reset();
         }
         this.resetForm("form", sourceObj);
     },
@@ -497,8 +498,8 @@ let methods = {
         this.initBox();
         if (this.hasDetail) {
             this.$refs.detail &&
-                this.$refs.detail.rowData &&
-                this.$refs.detail.rowData.splice(0);
+              //  this.$refs.detail.rowData &&
+                this.$refs.detail.reset();
         }
         this.resetEditForm({});
         //  this.resetEditForm();

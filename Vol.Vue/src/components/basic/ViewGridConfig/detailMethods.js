@@ -18,7 +18,10 @@ let detailMethods = {
         }
         let key = this.table.key;
         let query = { value: row ? row[key] : this.currentRow[key] }
-        this.$refs.detail && this.$refs.detail.load(query);
+        if (this.$refs.detail) {
+            this.$refs.detail.reset();
+            this.$refs.detail.load(query);
+        }
     },
     //从后面加载从表数据
     refreshRow() {

@@ -296,6 +296,25 @@ export default {
     this.defaultLoadPage && this.load();
   },
   methods: {
+    //重置table
+    reset() {
+      if (this.tableData && this.tableData.length > 0) {
+        this.tableData.splice(0);
+      }
+      if (this.rowData && this.rowData.length > 0) {
+        this.rowData.splice(0);
+      }
+      if (!this.paginationHide) {
+        this.paginations.page = 1;
+        this.paginations.rows = 30;
+        if (this.paginations.wheres && this.paginations.wheres.length > 0) {
+          this.paginations.wheres.splice(0);
+        }
+      }
+      this.errorFiled = "";
+      this.edit.columnIndex = -1;
+      this.edit.rowIndex = -1;
+    },
     getHeight() {
       //没有定义高度与最大高度，使用table默认值
       if (!this.height && !this.maxHeight) {
