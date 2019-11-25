@@ -10,6 +10,7 @@ import router from './router'
 import http from './api/http'
 import permission from './api/permission'
 import store from './store/index'
+import base from './utilities/common'
 // import NProgress from 'nprogress'
 // import 'nprogress/nprogress.css'
 // import Vuex from 'vuex'
@@ -39,6 +40,7 @@ Vue.prototype.http = http;
 Vue.prototype.http.init(vue);
 Vue.prototype.permission = permission;
 Vue.prototype.permission.init(vue);
+Vue.prototype.base = base;
 
 router.beforeEach((to, from, next) => {
   vue.$Loading.start({ color: 'white', height: 2 });

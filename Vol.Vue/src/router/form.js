@@ -1,4 +1,4 @@
-let form=[
+let form = [
     {
         path: '/form1',
         name: 'form1',
@@ -22,21 +22,25 @@ let form=[
         path: '/form5',
         name: 'form5',
         component: () => import('@/views/forms/form5.vue')
-    },{
+    }, {
         path: '/form6',
         name: 'form6',
         component: () => import('@/views/forms/form6.vue')
-    },{
+    }, {
         path: '/form7',
         name: 'form7',
         component: () => import('@/views/forms/form7.vue')
-    },{
+    }, {
         path: '/table',
         name: 'table',
         component: () => import('@/views/forms/table.vue')
-    },{
+    }, {
         path: '/editTable',
         name: 'editTable',
         component: () => import('@/views/forms/editTable.vue')
+    }, {
+        path: '/formUpload',
+        name: 'formUpload',
+        component: () => import('@/views/upload/formUpload.vue')
     }]
 export default form

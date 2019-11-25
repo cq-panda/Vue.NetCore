@@ -2,7 +2,7 @@
   <div class="home-contianer">
     <el-scrollbar style="height:100%;">
       <div style>
-        <div data-v-542f4644 class="ivu-row" style="padding:15px">
+        <div data-v-542f4644 class="ivu-row" style="padding:15px;background: white;">
           <div
             v-for="item in topColor"
             :key="item.name"
@@ -20,7 +20,23 @@
             </div>
           </div>
         </div>
+        <div style="background:#fff;">
+          <div class="h5-desc">
+            <Divider>移动H5页面(此处是H5页面,可点击--功能未实现)</Divider>
+          </div>
+          <div class="home-app">
+            <div class="list">
+              <Cow></Cow>
+            </div>
+            <div class="list">
+              <Community></Community>
+            </div>
 
+            <div class="list">
+              <Question></Question>
+            </div>
+          </div>
+        </div>
         <div class="charts">
           <div id="charts" style="height:360px;padding-bottom:0;" class="left"></div>
           <div class="right">
@@ -38,21 +54,6 @@
                 <div>{{item.number}}</div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="h5-desc">
-          <Divider>移动H5页面</Divider>
-        </div>
-        <div class="home-app">
-          <div class="list">
-            <Cow></Cow>
-          </div>
-          <div class="list">
-            <Community></Community>
-          </div>
-
-          <div class="list">
-            <Question></Question>
           </div>
         </div>
       </div>
@@ -224,7 +225,8 @@ export default {
 .charts {
   display: inline-block;
   width: 100%;
-  padding: 0px 24px;
+  margin-top: 20px;
+  // padding: 0px 24px;
   .left {
     padding: 25px;
     background: white;

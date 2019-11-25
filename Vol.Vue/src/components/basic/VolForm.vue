@@ -16,10 +16,26 @@
             :value="formFileds[item.field]=='null'?'--':formFileds[item.field]"
             :placeholder="formFileds[item.field]||'--'"
           ></Input>-->
-          <img
-            v-if="(item.disabled||item.readonly)&&(item.type=='img'||item.columnType=='img')"
-            :src="formFileds[item.field]"
-          />
+          <div v-if="isReadonlyImgFile(item,formFileds)">
+            <div v-if="item.type=='img'||item.columnType=='img'" class="form-imgs">
+              <div
+                class="img-item"
+                v-for="(img,imgIndex) in formFileds[item.field]"
+                :key="imgIndex"
+              >
+                <img :src="getSrc(img.path)" :onerror="errorImg" />
+              </div>
+            </div>
+            <div v-else>
+              <div
+                class="form-file-list"
+                v-for="(file,fileIndex) in formFileds[item.field]"
+                :key="fileIndex"
+              >
+                <a @click="dowloadFile(formFileds[item.field][fileIndex])">{{file.name}}</a>
+              </div>
+            </div>
+          </div>
           <label
             v-else-if="item.disabled||item.readonly"
             class="readonly-input"
@@ -79,11 +95,26 @@
               :label="kv.key"
             >{{kv.value}}</Checkbox>
           </CheckboxGroup>
-
-          <UploadImg
-            v-else-if="item.type=='img'||item.columnType=='img'"
-            :src="formFileds[item.field]"
-          ></UploadImg>
+          <!-- :src="formFileds[item.field]" -->
+          <vol-upload
+            v-else-if="isFile(item,formFileds)"
+            :desc="item.desc"
+            :multiple="item.multiple"
+            :max-file="item.maxFile"
+            :max-size="item.maxSize"
+            :autoUpload="item.autoUpload"
+            :fileInfo="formFileds[item.field]"
+            :url="item.url"
+            :img="item.type=='img'||item.columnType=='img'"
+            :excel="item.type=='excel'"
+            :fileTypes="item.fileTypes?item.fileTypes:[]"
+            :upload-before="item.uploadBefore"
+            :upload-after="item.uploadAfter"
+            :on-change="item.onChange"
+            :file-click="item.fileClick"
+            :remove-before="item.removeBefore"
+            :down-load="item.downLoad?true:false"
+          ></vol-upload>
           <!-- <img v-else-if="item.columnType=='img'" :src="formFileds[item.field]" /> -->
           <!-- <FormItem v-else-if="item.columnType=='img'" :prop="item.field">
             <img :src="formFileds[item.field]" />
@@ -137,7 +168,7 @@ import moment from "moment";
 
 export default {
   components: {
-    UploadImg: () => import("@/components/basic/UploadImg.vue")
+    VolUpload: () => import("@/components/basic/VolUpload.vue")
   },
   props: {
     loadKey: {
@@ -167,23 +198,17 @@ export default {
     }
   },
   watch: {
-    // formRules: {
-    //   handler:function(newName, oldName) {
-    //     console.log(newName);
-    //   },
-    //   deep: true
-    // }
-    // ,
     formRules(newObject, oldObject) {
       //if (!newObject) {}
       this.initFormRules();
     }
   },
   created() {
-    this.initFormRules();
+    this.initFormRules(true);
   },
   data() {
     return {
+      errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       rule: {
         change: ["checkbox", "select", "date", "datetime", "drop", "radio"],
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
@@ -206,6 +231,90 @@ export default {
     };
   },
   methods: {
+    getSrc(path) {
+      if (!path) return;
+      // let _src;
+      // this.base.downloadImg({
+      //   url: path,
+      //   backGroundUrl: this.http.ipAddress,
+      //   header: { Authorization: this.$store.getters.getToken() },
+      //   callback: src => {
+      //     _src = src;
+      //   }
+      // });
+      return path;
+      return URL.createObjectURL(path);
+    },
+    //是否为图片文件等格式并对字段的转换成数组：[{name:'1.jpg',path:'127.0.0.1/ff/1.jpg'}]
+    isFile(item, formFileds) {
+      if (
+        item.type == "img" ||
+        item.columnType == "img" ||
+        item.type == "excel" ||
+        item.type == "file"
+      ) {
+        this.convertFileToArray(item, formFileds);
+        return true;
+      }
+      return false;
+    },
+    isReadonlyImgFile(item, formFileds) {
+      if ((item.disabled || item.readonly) && this.isFile(item, formFileds)) {
+        return true;
+      }
+      return false;
+    },
+    convertFileToArray(item, formFileds) {
+      if (!item.maxFile) {
+        item.maxFile = 1; //默认只能上传一个文件，可以在onInit中设置
+      }
+
+      let fileInfo = formFileds[item.field];
+      if (fileInfo instanceof Array) {
+        fileInfo.forEach(x => {
+          if (x.hasOwnProperty("path")) {
+            if (x.path && !this.base.isUrl(x.path)) {
+              //这里修改后死循环?
+              // x.path = this.http.ipAddress + x.path;
+            }
+          }
+        });
+        return;
+      }
+      if (fileInfo === null || fileInfo === undefined) {
+        formFileds[item.field] = [];
+        return;
+      }
+      //将以逗号隔开的文件分割成数组127.0.0.1/aa/1.jpg,将127.0.0.1/aa/2.jpg
+      if (typeof fileInfo == "string") {
+        if (fileInfo.trim() === "") {
+          formFileds[item.field] = [];
+          return;
+        }
+        //如果文件路径是字符串，则使用，拆分
+        fileInfo = fileInfo.replace(/\\/g, "/");
+        let files = fileInfo.split(",");
+        formFileds[item.field] = [];
+        for (let index = 0; index < files.length; index++) {
+          let file = files[index];
+          let splitFile = file.split("/");
+          formFileds[item.field].push({
+            name: splitFile.length > 0 ? splitFile[splitFile.length - 1] : file,
+            path: this.base.isUrl(file) ? file : this.http.ipAddress + file
+          });
+        }
+      }
+    },
+    dowloadFile(file) {
+      this.base.dowloadFile(
+        file.path,
+        file.name,
+        {
+          Authorization: this.$store.getters.getToken()
+        },
+        this.http.ipAddress
+      );
+    },
     validatorPhone(rule, value, callback) {
       if (!rule.required && !value && value != "0") {
         return callback();
@@ -330,7 +439,50 @@ export default {
       return result;
     },
     getReuired(rule, item) {},
-    initFormRules() {
+    initUpload(item, init) {
+      if (!init) return;
+      if (
+        item.type == "img" ||
+        item.columnType == "img" ||
+        item.type == "excel" ||
+        item.type == "file"
+      ) {
+        //只是没设置是否自动上传的，默认都是选择文件后自动上传
+        if (!item.hasOwnProperty("autoUpload")) {
+          item.autoUpload = true;
+        }
+        if (!item.hasOwnProperty("fileList")) {
+          item.fileList = true;
+        }
+        if (!item.removeBefore) {
+          item.removeBefore = (index, file, files) => {
+            return true;
+          };
+        }
+        if (!item.fileClick) {
+          item.fileClick = (index, file, files) => {
+            return true;
+          };
+        }
+        if (!item.onChange) {
+          item.onChange = files => {
+            return true;
+          };
+        }
+        if (!item.uploadAfter) {
+          item.uploadAfter = (result, files) => {
+            return true;
+          };
+        }
+        if (!item.uploadBefore) {
+          console.log("111");
+          item.uploadBefore = files => {
+            return true;
+          };
+        }
+      }
+    },
+    initFormRules(init) {
       if (this.loadKey) {
         this.initSource();
       }
@@ -338,6 +490,9 @@ export default {
       this.formRules.forEach(row => {
         if (row.length > this.span) this.span = row.length;
         row.forEach(item => {
+          //初始化上传文件信息
+          this.initUpload(item, init);
+          //初始化数据源空对象
           if (item.dataKey) {
             //下拉框都强制设置为字符串类型
             item.columnType = "string";
@@ -598,6 +753,29 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+</style>
+<style lang="less" scoped>
+.form-imgs {
+  display: inline-block;
+  .img-item {
+    position: relative;
+    cursor: pointer;
+    margin: 0 10px 10px 0;
+    float: left;
+    height: 100px;
+    border: 1px solid #9e9e9e;
+    overflow: hidden;
+    border-radius: 5px;
+    width: 100px;
+  }
+  img {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 </style>
 

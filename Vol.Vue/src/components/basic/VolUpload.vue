@@ -10,7 +10,8 @@
           :multiple="multiple"
         />
         <div v-if="img" class="upload-img">
-          <div v-for="(file,index) in files" :key="index" class="img-item">
+          <!-- v-for="(file,index) in fileInfo.length>0?fileInfo: files" -->
+          <div v-for="(file,index) in  files.length>0?files:fileInfo" :key="index" class="img-item">
             <div class="operation">
               <div class="action">
                 <Icon type="md-eye" @click="viewBigImg(index)" class="view"></Icon>
@@ -18,7 +19,7 @@
               </div>
               <div class="mask"></div>
             </div>
-            <img :src="getImgSrc(file)" />
+            <img :src="getImgSrc(file)" :onerror="errorImg" />
           </div>
           <div class="img-selector" :class="getSelector()">
             <div class="selector" @click="handleClick">
@@ -50,17 +51,22 @@
       </div>
       <slot></slot>
       <div v-if="desc">
-        <Alert show-icon>{{getText()}}文件大小不超过{{maxSize}}M</Alert>
+        <Alert show-icon>{{getText()}}文件大小不超过{{maxSize||3}}M</Alert>
       </div>
       <slot name="content"></slot>
       <div v-if="!img">
         <ul class="upload-list" v-show="fileList">
-          <li class="list-file" v-for="(file,index) in files" :key="index">
-            <span @click="fileOnClick(index,file)">
-              <Icon :type="format(file)"></Icon>
-              {{ file.name }}
-            </span>
-            <span style="margin-left:15px;">大小{{(file.size / 1024).toFixed(2)}}KB</span>
+          <li class="list-file" v-for="(file,index) in  files.length>0?files:fileInfo" :key="index">
+            <a>
+              <span @click="fileOnClick(index,file)">
+                <Icon :type="format(file)"></Icon>
+                {{ file.name }}
+              </span>
+              <!-- <span
+              v-show="file.size / 1024>0"
+              style="margin-left:15px;"
+              >大小{{(file.size / 1024).toFixed(2)}}KB</span>-->
+            </a>
             <span @click="removeFile(index)" class="file-remove">
               <Icon type="md-close"></Icon>
             </span>
@@ -81,10 +87,18 @@ export default {
       type: Boolean,
       default: false
     },
-    // fileInfo: { //自定显示的文件列表
-    //   type: Object,
-    //   default: []
-    // },
+    fileInfo: {
+      //用于接收上传的文件，也可以加以默认值，显示已上传的文件，用户上传后会覆盖默认值
+      type: Array,
+      default: () => {
+        return [];
+      } //格式[{name:'1.jpg',path:'127.0.01/1.jpg'}]
+    },
+    downLoad: {
+      //是否可以点击文件下载
+      type: Boolean,
+      default: true
+    },
     multiple: {
       //是否多选
       type: Boolean,
@@ -151,11 +165,11 @@ export default {
         return true;
       }
     },
-    clear: {
-      //上传完成后是否清空文件列表
-      type: Boolean,
-      default: false
-    },
+    // clear: {
+    //   //上传完成后是否清空文件列表
+    //   type: Boolean,
+    //   default: true
+    // },
     fileList: {
       //是否显示选择的文件列表
       type: Boolean,
@@ -164,7 +178,7 @@ export default {
     fileClick: {
       //点击文件事件
       type: Function,
-      default: (index, file) => {
+      default: (index, file, files) => {
         return true;
       }
     },
@@ -178,12 +192,19 @@ export default {
   },
   data() {
     return {
+      errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       changed: false, //手动上传成功后禁止重复上传，必须重新选择
       model: true,
       files: [],
       bigImg: "",
       loadingStatus: false
     };
+  },
+  created() {
+    //默认有图片的禁止上传操作
+    if (this.fileInfo) {
+      this.changed = true;
+    }
   },
   methods: {
     getPreview() {
@@ -215,10 +236,36 @@ export default {
       return "submit-selector";
     },
     getImgSrc(file) {
+      if (file.hasOwnProperty("path")) {
+        if (this.base.isUrl(file.path)) {
+          // if (!this.base.matchUrlIp(file.path, this.http.ipAddress)) {
+          return file.path;
+          // }
+        }
+        return this.http.ipAddress + file.path;
+      }
       return window.URL.createObjectURL(file);
     },
     fileOnClick(index, file) {
-      this.fileClick(index.file);
+      if (!this.fileClick(index, file, this.files)) {
+        return;
+      }
+      //点击不下载
+      if (!this.downLoad) {
+        return;
+      }
+      if (!file.path) {
+        this.$Message.error("请先上传文件");
+        return;
+      }
+      this.base.dowloadFile(
+        file.path,
+        file.name,
+        {
+          Authorization: this.$store.getters.getToken()
+        },
+        this.http.ipAddress
+      );
     },
     getText() {
       if (this.img) {
@@ -237,6 +284,7 @@ export default {
         return;
       }
       this.changed = false;
+      //如果传入了FileInfo需要自行处理移除FileInfo
       if (!this.onChange(e.target.files)) {
         return;
       }
@@ -248,11 +296,18 @@ export default {
       }
     },
     removeFile(index) {
+      //如果传入了FileInfo需要自行处理移除FileInfo
       //t移除文件
-      if (!this.removeBefore(index, this.files[index], this.thfiles)) {
+      let removeFile =
+        this.fileInfo.length > 0 ? this.fileInfo[index] : this.files[index];
+      if (this.fileInfo.length) {
+        this.fileInfo.splice(index, 1);
+      } else {
+        this.files.splice(index, 1);
+      }
+      if (!this.removeBefore(index, removeFile, this.fileInfo)) {
         return;
       }
-      this.files.splice(index, 1);
     },
     clearFiles() {
       this.files.splice(0);
@@ -295,11 +350,13 @@ export default {
               // this.files = null;
               return;
             }
-
-            if (this.clear) {
-              this.clearFiles();
-            }
-            //刷新表格数据
+            this.fileInfo.splice(0);
+            this.files.forEach(file => {
+              this.fileInfo.push({ name: file.name, path: x.data + file.name });
+            });
+            // if (this.clear) {
+            this.clearFiles();
+            // }
           },
           error => {
             this.loadingStatus = false;
@@ -379,12 +436,12 @@ export default {
       if (!files) {
         files = this.files;
       }
-      if (this.multiple && files.length > this.maxFile) {
+      if (this.multiple && files.length > (this.maxFile || 5)) {
         this.$Message.error({
           duration: 5,
           content:
             "最多只能选【" +
-            this.maxFile +
+            (this.maxFile || 5) +
             "】" +
             (this.img ? "张图片" : "个文件") +
             ""
@@ -428,11 +485,12 @@ export default {
           });
           return false;
         }
-        if (file.size > this.maxSize * 1024 * 1024) {
+        if (file.size > (this.maxSize || 3) * 1024 * 1024) {
           this.$Message.error({
             duration: 5,
             content:
-              "选择的文件【" + file.name + "】不能超过:" + this.maxSize + "M"
+              "选择的文件【" + file.name + "】不能超过:" + this.maxSize ||
+              3 + "M"
           });
           return false;
         }
@@ -456,7 +514,8 @@ export default {
     font-size: 13px;
     .file-remove {
       display: none;
-      margin-left: 50px;
+      right: 0;
+      //  margin-left: 50px;
       color: #0e9286;
     }
   }
@@ -471,9 +530,9 @@ export default {
 .upload-container {
   display: inline-block;
   width: 100%;
-  padding: 10px;
+  // padding: 10px;
 
-  min-height: 250px;
+  // min-height: 250px;
   border-radius: 5px;
   .alert {
     margin-top: 43px;
@@ -519,15 +578,16 @@ export default {
       left: 0;
       right: 0;
       .action {
+        opacity: 0.6;
         text-align: right;
-        background: #357871;
+        background: #727779;
         font-size: 17px;
         position: absolute;
         z-index: 90;
         width: 100%;
         bottom: 3px;
         bottom: 0;
-        color: white;
+        color: #ded5d5;
         padding-right: 7px;
         padding-bottom: 3px;
         line-height: 23px;
@@ -554,6 +614,7 @@ export default {
       position: relative;
     }
   }
+
   .auto-selector {
     line-height: 100px;
     .selector {
@@ -563,9 +624,12 @@ export default {
   .submit-selector {
     position: relative;
     .s-btn {
-      height: 31px;
-      bottom: 26px;
-      position: absolute;
+      line-height: 33px;
+      // bottom: 26px;
+      // position: absolute;
+    }
+    .selector {
+      line-height: 62px;
     }
   }
 }

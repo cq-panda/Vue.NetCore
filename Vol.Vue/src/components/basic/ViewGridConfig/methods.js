@@ -373,8 +373,25 @@ let methods = {
         //新增或编辑时保存
         if (!this.$refs.form.validate()) return;
 
+        let editFormFileds = {};
+        //上传文件以逗号隔开
+        if (this.uploadfiled) {
+            for (const key in this.editFormFileds) {
+                if (this.uploadfiled.indexOf(key)!=-1 && this.editFormFileds[key] instanceof Array) {
+                    let allPath = this.editFormFileds[key].map(x => {
+                        return x.path;
+                    })
+                    editFormFileds[key] = allPath.join(',');
+                } else {
+                    editFormFileds[key] = this.editFormFileds[key];
+                }
+            }
+        } else {
+            editFormFileds = this.editFormFileds;
+        }
+
         let formData = {
-            mainData: this.editFormFileds,
+            mainData: editFormFileds,
             detailData: null,
             delKeys: null
         };
@@ -498,7 +515,7 @@ let methods = {
         this.initBox();
         if (this.hasDetail) {
             this.$refs.detail &&
-              //  this.$refs.detail.rowData &&
+                //  this.$refs.detail.rowData &&
                 this.$refs.detail.reset();
         }
         this.resetEditForm({});
@@ -553,6 +570,11 @@ let methods = {
         let elink = this.$refs.export;
         xmlResquest.responseType = "blob";
         xmlResquest.onload = function (oEvent) {
+
+            if (xmlResquest.status != 200) {
+                this.$Message.error('下载文件出错了..');
+                return
+            }
             let content = xmlResquest.response;
             //  let elink = this.$refs.export;//document.createElement("a");
             elink.download = fileName; //+".xlsx";
@@ -668,10 +690,15 @@ let methods = {
     viewModelCancel() {//查看表结构
         this.viewModel = false;
     },
-    initFormOptions(formOptions, keys, setMinVal) {//初始化查询、编辑对象的下拉框数据源
+    initFormOptions(formOptions, keys, setMinVal) {//初始化查询、编辑对象的下拉框数据源、图片上传链接地址
         //let defaultOption = { key: "", value: "请选择" };
+        //有上传的字段
         formOptions.forEach(item => {
             item.forEach(d => {
+                if (d.type == 'img' || d.type == 'excel' || d.type == 'file' || d.columnType == 'img') {
+                    d.url = this.http.ipAddress + 'api' + this.table.url + "Upload";
+                    this.uploadfiled.push(d.field);
+                }
                 if (!d.dataKey) return true;
                 if (keys.indexOf(d.dataKey) == -1) {
                     keys.push(d.dataKey);

@@ -90,7 +90,7 @@
                 @click="viewImg(scope.row,column)"
                 class="table-img"
                 v-else-if="column.type=='img'"
-                :src="scope.row[column.field]"
+                :src="getImg(scope.row[column.field])"
               />
               <Tag v-else-if="column.type=='date'">{{formatterDate(scope.row,column)}}</Tag>
               <div
@@ -296,6 +296,32 @@ export default {
     this.defaultLoadPage && this.load();
   },
   methods: {
+    getImg(src) {
+      if (!src) {
+        return "";
+      }
+      if (this.base.isUrl(src)) {
+        return src;
+      }
+      return this.http.ipAddress + src;
+      // return   !this.base.matchUrlIp(src, this.http.ipAddress)
+      //   if (typeof src == "string") {
+
+      //   //如果文件路径是字符串，则使用，拆分
+      //   fileInfo = fileInfo.replace(/\\/g, "/");
+      //   let files = fileInfo.split(",");
+      //   formFileds[item.field] = [];
+      //   for (let index = 0; index < files.length; index++) {
+      //     let file = files[index];
+      //     let splitFile = file.split("/");
+      //     formFileds[item.field].push({
+      //       name: splitFile.length > 0 ? splitFile[splitFile.length - 1] : file,
+      //       path: this.base.isUrl(file) ? file : this.http.ipAddress + file
+      //     });
+      //   }
+      // }
+      // return
+    },
     //重置table
     reset() {
       if (this.tableData && this.tableData.length > 0) {

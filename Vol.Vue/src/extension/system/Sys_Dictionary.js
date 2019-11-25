@@ -17,8 +17,16 @@ let extension = {
     },
     buttons: [],//扩展的按钮
     methods: {//事件扩展
-        onInit(){
-            this.boxOptions.saveClose=false;
+        onInit() {
+            this.editFormOptions.forEach(x => {
+                x.forEach(item => {
+                    if (item.field == 'ParentId') {
+                        item.min = 0;
+                    }
+                })
+            })
+            //保存后不关闭编辑框
+            this.boxOptions.saveClose = false;
         },
         onInited() {
             this.height = this.height - 36;
@@ -33,10 +41,10 @@ let extension = {
             }
             return true;
         },
-        searchBefore(param) { 
+        searchBefore(param) {
             return true;
         },
-        searchAfter(result) { 
+        searchAfter(result) {
             return true;
         }
     }

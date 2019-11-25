@@ -327,6 +327,7 @@ var vueParam = {
       maxBtnLength: 3, //界面按钮最多显示的个数，超过的数量都显示在更多中
       buttons: [], //查询界面按钮  如需要其他操作按钮，可在表对应的.js中添加(如:Sys_User.js中buttons添加其他按钮)
       splitButtons: [],
+      uploadfiled:[],//上传文件图片的字段
       boxButtons: [], //弹出框按钮 如需要其他操作按钮，可在表对应的.js中添加
       dicKeys: [], //当前界面所有的下拉框字典编号
       hasKeyField: [], //有字典数据源的字段

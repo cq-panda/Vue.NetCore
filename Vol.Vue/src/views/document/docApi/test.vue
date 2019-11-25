@@ -1,5 +1,9 @@
 <template>
   <div>
+    <Alert
+      show-icon
+    >如果需要把文件上传到后台Api服务器，必须将Url上传路径指向Upload文件夹,如:/Upload/xxx/xxx/，因为后台目前只开启了对Upload目录下的文件的浏览</Alert>
+    <!-- <img src="http://localhost:9991/Upload/Tables/App_Appointment/201911240828293464/h52.jpg"> -->
     <div class="upload-container">
       <div class="upload-item">
         <VolUpload
@@ -61,7 +65,7 @@
           :url="url"
           :img="true"
           :multiple="true"
-          :max-size="1"
+          :max-size="null"
           :upload-before="uploadBefore"
           :upload-after="uploadAfter"
           :on-change="onChange"
@@ -131,10 +135,7 @@ export default {
         return this.$Message.error({ duration: 5, content: "请先上传此文件" });
       }
       //从api服务器下载
-      if (
-        file.path.substring(0, 6).toLowerCase() == "upload" ||
-        file.path.substring(0, 7).toLowerCase() == "/upload"
-      ) {
+      if (!this.base.checkUrl(file.path)) {
         this.dowloadFile(
           this.http.ipAddress +
             "api/App_Appointment/DownLoadFile?path=" +
@@ -175,30 +176,9 @@ export default {
       return true;
     },
     dowloadFile(url, fileName) {
-      let xmlResquest = new XMLHttpRequest();
-      xmlResquest.open("GET", url, true);
-      xmlResquest.setRequestHeader("Content-type", "application/json");
-      xmlResquest.setRequestHeader(
-        "Authorization",
-        this.$store.getters.getToken()
-      );
-
-      let elink = this.$refs.downFile;
-      xmlResquest.responseType = "blob";
-      let $_vue = this;
-      this.loadingStatus = true;
-      xmlResquest.onload = function(oEvent) {
-        $_vue.loadingStatus = false;
-        if (xmlResquest.response.type == "application/json") {
-          return $_vue.message.error("未找到下载文件");
-        }
-        let content = xmlResquest.response;
-        elink.download = fileName;
-        let blob = new Blob([content]);
-        elink.href = URL.createObjectURL(blob);
-        elink.click();
-      };
-      xmlResquest.send();
+      this.base.dowloadFile(url, fileName, {
+        Authorization: this.$store.getters.getToken()
+      });
     }
   }
 };

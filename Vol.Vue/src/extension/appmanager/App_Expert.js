@@ -58,9 +58,9 @@ let extension = {
         modelOpenBefore(row) {
             this.boxButtons.forEach(x => {
                 if (x.name == '保 存') {
-                    x.hidden = this.currentAction == this.const.ADD
+                //    x.hidden = this.currentAction == this.const.ADD
                 }
-                if (x.name == '重 置') x.disabled = true;
+               // if (x.name == '重 置') x.disabled = true;
             })
         },
         modelOpenAfter(row) {
