@@ -270,7 +270,7 @@ namespace VOL.Core.BaseProvider
                 return Response.Error($"文件大小不能超过：{ LimitUpFileSizee}M,{string.Join(",", limitFiles)}");
             }
             string filePath = $"Upload/Tables/{typeof(T).GetEntityTableName()}/{DateTime.Now.ToString("yyyMMddHHmmsss") + new Random().Next(1000, 9999)}/";
-            string fullPath = filePath.MapPath();
+            string fullPath = filePath.MapPath(true);
             int i = 0;
             //   List<string> fileNames = new List<string>();
             try
