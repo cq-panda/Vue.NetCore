@@ -105,10 +105,12 @@ namespace DairyStar.Builder.Services
         private string GetMySqlModelInfo()
         {
             return $@"SELECT
+DISTINCT
            CONCAT(NUMERIC_PRECISION,',',NUMERIC_SCALE) as Prec_Scale,
         CASE
-                WHEN data_type IN( 'BIT', 'BOOL', 'TINYINT','bit', 'bool', 'tinyint' ) THEN
+                 WHEN data_type IN( 'BIT', 'BOOL', 'TINYINT','bit', 'bool') THEN
                 'byte'
+				WHEN data_type in('tinyint') THEN 'sbyte'
                 WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN
                 'int'
                 WHEN data_type in ( 'BIGINT','bigint') THEN
@@ -860,13 +862,14 @@ namespace DairyStar.Builder.Services
         /// <returns></returns>
         private string GetMySqlStructure(string tableName)
         {
-            return $@"SELECT
+            return $@"SELECT  DISTINCT
                     Column_Name AS ColumnName,
                      '{ tableName}'  as tableName,
 	                Column_Comment AS ColumnCnName,
                         CASE
-                        WHEN data_type IN('BIT', 'BOOL', 'TINYINT','bit', 'bool', 'tinyint' ) THEN
-                        'byte'
+                          WHEN data_type IN( 'BIT', 'BOOL', 'TINYINT','bit', 'bool') THEN
+                'byte'
+								WHEN data_type in('tinyint') THEN 'sbyte'
                         WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN
                     'int'
                     WHEN data_type in ( 'BIGINT','bigint') THEN
