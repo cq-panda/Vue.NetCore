@@ -69,7 +69,7 @@
         </div>
       </vol-form>
     </div>
-    <VolBox :width="500" :footer="false" :model.sync="modifyOptions.model" title="修改密码">
+    <VolBox :width="500" :height="260" :footer="false" :model.sync="modifyOptions.model" title="修改密码">
       <div style="padding:10px;20px;">
         <VolForm ref="pwd" :formRules="modifyOptions.data" :formFileds="modifyOptions.fileds"></VolForm>
         <Button type="info" size="large" icon="md-checkmark-circle" long @click="savePwd">保存</Button>
