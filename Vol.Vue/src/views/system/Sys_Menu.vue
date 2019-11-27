@@ -62,7 +62,7 @@
                       @click="removeIcon"
                       class="remove ivu-icon ivu-icon-md-remove-circle"
                     ></i>
-                    <i style="margin-right: 15px;font-size: 32px;" :class="[icon]"></i>
+                    <i style="margin-right: 15px;font-size: 32px;" :class="['ivu-icon ivu-icon-'+icon]"></i>
                   </span>
                   <Button @click="model=true" type="dashed">选择图标</Button>
                 </div>
