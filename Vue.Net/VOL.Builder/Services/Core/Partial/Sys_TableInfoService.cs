@@ -171,7 +171,7 @@ DISTINCT
                  .GetTypes().Where(x => x.GetTypeInfo().BaseType != null
                      && x.BaseType == typeof(BaseEntity)))
                 {
-                    if (entity.Name == tableTrueName && !string.IsNullOrEmpty(tableName)&& tableName!= tableTrueName)
+                    if (entity.Name == tableTrueName && !string.IsNullOrEmpty(tableName) && tableName != tableTrueName)
                         return webResponse.Error($"实际表名【{tableTrueName }】已创建实体，不能创建别名【{tableName}】实体");
 
                     if (entity.Name != tableName)
@@ -1161,7 +1161,20 @@ DISTINCT
                 sb.Append("title:'" + (string.IsNullOrEmpty(item.ColumnCnName) ? item.ColumnName : item.ColumnCnName) + "',");
                 if (vue)
                 {
-                    sb.Append("type:'" + (item.IsImage == 1 ? "img" : item.ColumnType.ToLower()) + "',");
+                    string colType = item.ColumnType.ToLower();
+                    if (item.IsImage == 1)
+                    {
+                        colType = "img";
+                    }
+                    else if (item.IsImage == 2)
+                    {
+                        colType = "excel";
+                    }
+                    else if (item.IsImage == 3)
+                    {
+                        colType = "file";
+                    }
+                    sb.Append("type:'" + colType + "',");
                     if (!string.IsNullOrEmpty(item.DropNo))
                     {
                         sb.Append("bind:{ key:'" + item.DropNo + "',data:[]},");

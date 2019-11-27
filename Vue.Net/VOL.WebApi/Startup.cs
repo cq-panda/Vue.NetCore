@@ -109,6 +109,13 @@ namespace VOL.WebApi
                 context.Request.EnableRewind();
                 await next();
             });
+
+            string path = Directory.GetCurrentDirectory() + "/Upload";
+            Console.Write(path);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
@@ -122,6 +129,7 @@ namespace VOL.WebApi
                     //  staticFile.Context.Response.StatusCode;
                 }
             });
+
             //配置HttpContext
             app.UseStaticHttpContext()
                 .UseStaticFiles(new StaticFileOptions

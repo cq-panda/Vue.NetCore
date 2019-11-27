@@ -9,7 +9,11 @@
     <slot name="header"></slot>
     <Row class="line-row" v-for="(row,findex) in formRules" :key="findex">
       <Col :span="(item.colSize?item.colSize*2:24/span)" v-for="(item,index) in row" :key="index">
-        <FormItem :rules="getRule(item,formFileds)" :label="item.title+'：'" :prop="item.field">
+        <FormItem
+          :rules="getRule(item,formFileds)"
+          :label="item.title?(item.title+'：'):''"
+          :prop="item.field"
+        >
           <!-- <Input
             v-if="item.disabled"
             class="readonly-input"
@@ -36,6 +40,12 @@
               </div>
             </div>
           </div>
+          <Button
+            v-else-if="item.type=='button'"
+            :type="item.btnType||'info'"
+            :disabled="item.disabled"
+            @click="()=>{item.click&&item.click()}"
+          >{{item.text}}</Button>
           <label
             v-else-if="item.disabled||item.readonly"
             class="readonly-input"
@@ -133,6 +143,7 @@
             clearable
             v-else-if="item.type=='password'"
             type="password"
+            autocomplete="off"
             v-model.number="formFileds[item.field]"
             @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
             :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
@@ -215,7 +226,7 @@ export default {
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
         number: /(^[\-0-9][0-9]*([0-9]+)?)$/
       },
-      inputTypeArr: ["text", "string", "mail", "textarea"],
+      inputTypeArr: ["text", "string", "mail", "textarea", "password"],
       types: {
         int: "number",
         byte: "number",
@@ -300,7 +311,8 @@ export default {
           let splitFile = file.split("/");
           formFileds[item.field].push({
             name: splitFile.length > 0 ? splitFile[splitFile.length - 1] : file,
-            path: this.base.isUrl(file) ? file : this.http.ipAddress + file
+            path: file//this.base.isUrl(file) ? file : this.http.ipAddress + file,
+            
           });
         }
       }
@@ -453,6 +465,9 @@ export default {
         }
         if (!item.hasOwnProperty("fileList")) {
           item.fileList = true;
+        }
+        if (!item.hasOwnProperty("downLoad")) {
+          item.downLoad = true;
         }
         if (!item.removeBefore) {
           item.removeBefore = (index, file, files) => {

@@ -86,12 +86,22 @@
                 v-text="scope.row[column.field]"
               ></a>
               <img
+                v-else-if="column.type=='img'"
+                v-for="(file,vIndex ) in  getFilePath(scope.row[column.field])"
+                :key="vIndex"
                 :onerror="defaultImg"
                 @click="viewImg(scope.row,column)"
                 class="table-img"
-                v-else-if="column.type=='img'"
-                :src="getImg(scope.row[column.field])"
+                :src="file.path"
               />
+              <a
+                style="margin-right: 15px;"
+                v-else-if="column.type=='file'||column.type=='excel'"
+                class="t-file"
+                v-for="(file,vIndex ) in  getFilePath(scope.row[column.field])"
+                :key="vIndex"
+                @click="dowloadFile(file)"
+              >{{file.name}}</a>
               <Tag v-else-if="column.type=='date'">{{formatterDate(scope.row,column)}}</Tag>
               <div
                 v-else-if="column.formatter"
@@ -296,31 +306,34 @@ export default {
     this.defaultLoadPage && this.load();
   },
   methods: {
-    getImg(src) {
-      if (!src) {
-        return "";
+    dowloadFile(file) {
+      this.base.dowloadFile(
+        file.path,
+        file.name,
+        {
+          Authorization: this.$store.getters.getToken()
+        },
+        this.http.ipAddress
+      );
+    },
+    getFilePath(pathSring) {
+      //获取表的图片与文件显示
+      if (!pathSring) return "";
+      let filePath = pathSring.replace(/\\/g, "/").split(",");
+      let fileInfo = [];
+      for (let index = 0; index < filePath.length; index++) {
+        let file = filePath[index];
+        if (file.indexOf(".") != -1) {
+          let splitFile = file.split("/");
+          if (splitFile.length > 0) {
+            fileInfo.push({
+              name: splitFile[splitFile.length - 1],
+              path: this.base.isUrl(file) ? file : this.http.ipAddress + file
+            });
+          }
+        }
       }
-      if (this.base.isUrl(src)) {
-        return src;
-      }
-      return this.http.ipAddress + src;
-      // return   !this.base.matchUrlIp(src, this.http.ipAddress)
-      //   if (typeof src == "string") {
-
-      //   //如果文件路径是字符串，则使用，拆分
-      //   fileInfo = fileInfo.replace(/\\/g, "/");
-      //   let files = fileInfo.split(",");
-      //   formFileds[item.field] = [];
-      //   for (let index = 0; index < files.length; index++) {
-      //     let file = files[index];
-      //     let splitFile = file.split("/");
-      //     formFileds[item.field].push({
-      //       name: splitFile.length > 0 ? splitFile[splitFile.length - 1] : file,
-      //       path: this.base.isUrl(file) ? file : this.http.ipAddress + file
-      //     });
-      //   }
-      // }
-      // return
+      return fileInfo;
     },
     //重置table
     reset() {
@@ -770,6 +783,8 @@ export default {
 }
 .vol-table .table-img {
   height: 70px;
+  border-radius: 5px;
+  margin-right: 10px;
 }
 .vol-table .table-img:hover {
   cursor: pointer;

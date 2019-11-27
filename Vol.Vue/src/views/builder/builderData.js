@@ -1,3 +1,7 @@
+let columnType = [{ "key": 1, "value": "img" },
+{ "key": 2, "value": "excel" },
+{ "key": 3, "value": "file" }]
+
 let dataType = [
     { "key": "text", "value": "text" },
     { "key": "textarea", "value": "textarea" },
@@ -29,7 +33,7 @@ let data = {
         [{
             "title": "项目命名空间", "field": "namespace", "placeholder": "项目命令空间(类库名)", "type": "select", "required": true, data: { data: [] }
         }],
-        [{ "title": "表中文名", "field": "columnCNName",  "required": true }],
+        [{ "title": "表中文名", "field": "columnCNName", "required": true }],
         [{ "title": "实际表名", "field": "tableName", "required": true }],
         [{ "title": "项目文件夹", placeholder: "生成文件所在类库中的文件夹名(文件夹可以不存在)", "field": "folderName", "required": true }]]
         ,
@@ -75,6 +79,7 @@ let data = {
         { field: 'columnCnName', title: '列显示名称', fixed: true, width: 120, align: 'left', edit: { type: "text" } },
         { field: 'columnName', title: '列名', fixed: true, width: 120, align: 'left', edit: { type: "text" } },
         { field: 'isKey', title: '主键', width: 90, align: 'left', edit: { type: "switch" } },
+        { field: 'isImage', title: 'table列显示类型', hidden: false, width: 130, align: 'left', edit: { type: "select" }, bind: { data: columnType } },
         { field: 'searchRowNo', title: '查询行', width: 90, align: 'left', edit: { type: "text" } },
         { field: 'searchColNo', title: '查询列', width: 90, align: 'left', edit: { type: "text" } },
         { field: 'searchType', title: '查询类型', width: 150, align: 'left', edit: { type: "select" }, bind: { data: dataType } },
@@ -95,7 +100,6 @@ let data = {
         { field: 'apiInPut', title: 'Api输入列(待实现)', width: 100, align: 'left', edit: { type: "switch" } },
         { field: 'apiIsNull', title: 'Api输入列可为空(待实现)', width: 130, align: 'left', edit: { type: "switch" } },
         { field: 'apiOutPut', title: 'Api输出列(待实现)', width: 100, align: 'left', edit: { type: "switch" } },
-        { field: 'isImage', title: '启用图片地址', hidden: true, width: 120, align: 'left', edit: { type: "switch" } },
         // { field: 'columnformat', title: '显示格式', width: 120, align: 'left', editor: 'text', editor: 'textarea' },
         // { field: 'script', title: '脚本', width: 120, align: 'left', editor: 'textarea' },
         { field: 'creator', title: '创建人', width: 120, align: 'left' },

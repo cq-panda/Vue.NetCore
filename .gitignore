@@ -19,6 +19,7 @@
 /Vue.Net/VOL.System/obj
 /Vue.Net/VOL.System/bin
 /Vue.Net/VOL.Web/obj
-/Vue.Net/VOL.WebApi/Upload
+/Vue.Net/VOL.WebApi/Upload/*
+/Vue.Net/VOL.WebApi/Download/*
 /Vol.Vue/dist
-/Vue.Net/VOL.WebApi/wwwroot/Upload
+/Vue.Net/VOL.WebApi/wwwroot/Upload/

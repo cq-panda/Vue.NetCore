@@ -247,6 +247,14 @@
             <span>其他不需要修改</span>)
           </td>
         </tr>
+             <tr>
+          <td>
+            <span>table列显示类型</span>
+          </td>
+          <td style="color:red;font-size:14px;">
+           如果table的列存的是图片、excel或其他文件的路径，就选择此列的配置,如:列存的是为图片就选择img，如果是Excel文件的路径就选择excel，这一列在table上点击文件名时会自动下载文件
+          </td>
+        </tr>
         <tr>
           <td>
             <span>可为空</span>
