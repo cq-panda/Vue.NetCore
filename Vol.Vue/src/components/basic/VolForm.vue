@@ -311,8 +311,7 @@ export default {
           let splitFile = file.split("/");
           formFileds[item.field].push({
             name: splitFile.length > 0 ? splitFile[splitFile.length - 1] : file,
-            path: file//this.base.isUrl(file) ? file : this.http.ipAddress + file,
-            
+            path: file //this.base.isUrl(file) ? file : this.http.ipAddress + file,
           });
         }
       }
@@ -333,6 +332,15 @@ export default {
       }
       if (!this.rule.phone.test((value || "").trim())) {
         return callback(new Error("请输入正确的手机号"));
+      }
+      callback();
+    },
+    validatorPwd(rule, value, callback) {
+      if (!rule.required && !value && value != "0") {
+        return callback();
+      }
+      if ((value + "").trim().length < 6) {
+        return callback(new Error("密码长度不能小于6位"));
       }
       callback();
     },
@@ -490,7 +498,7 @@ export default {
           };
         }
         if (!item.uploadBefore) {
-          console.log("111");
+          //  console.log("111");
           item.uploadBefore = files => {
             return true;
           };
@@ -615,6 +623,14 @@ export default {
       if (item.type == "phone") {
         return {
           validator: this.validatorPhone,
+          required: item.required,
+          trigger: "blur"
+        };
+      }
+
+      if (item.type == "password") {
+        return {
+          validator: this.validatorPwd,
           required: item.required,
           trigger: "blur"
         };
