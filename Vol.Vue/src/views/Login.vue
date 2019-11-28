@@ -1,55 +1,65 @@
 <template>
-  <div class="login-contianer xx" style="  box-shadow: 0px 4px 21px rgb(214, 214, 214);">
-    <Menu mode="horizontal" style="margin-bottom: 30px;" active-name="1">
-      <MenuItem name="1">
-        <Icon type="ios-paper" />帐号登陆
-      </MenuItem>
-      <MenuItem name="2">
-        <Icon type="ios-people" />手机登陆
-      </MenuItem>
-    </Menu>
-    <Form :model="userInfo" :label-width="80">
-      <FormItem>
-        <Input
-          size="large"
-          v-model="userInfo.userName"
-          prefix="ios-contact"
-          clearable
-          placeholder="输入用户名"
-        />
-      </FormItem>
-      <FormItem>
-        <Input
-          size="large"
-          type="password"
-          clearable
-          v-model="userInfo.passWord"
-          prefix="ios-lock"
-          placeholder="输入密码"
-        />
-      </FormItem>
-      <FormItem>
-        <Alert type="error">
-        测试帐号：admin666  密码:123456
-        <br>
-        本地超级管理员帐号：admin  密码:123456
-        </Alert>
-        <!-- <CheckboxGroup v-model="userInfo.checkbox">
-          <Checkbox label="记住密码"></Checkbox>
-        </CheckboxGroup>-->
-      </FormItem>
-      <FormItem>
-        <Button size="large" type="primary" @click="login" long>登陆</Button>
-      </FormItem>
-      <FormItem>
-        <div>
-          <div>
-            <a href="javascript:void(0)">注册</a>
-            <a style="float:right" href="javascript:void(0)">忘记密码</a>
+  <div class="tm-bg" style="height: 100%; width: 100%;">
+    <!-- <div class="log-bg"></div> -->
+    <div class="login-contianer">
+      <div class="login-project">
+        <span class="project-name large">vol.vue</span>
+        <span class="desc">前端、后台可扩展的快速开发框架</span>
+      </div>
+      <div class="login-form">
+        <Menu mode="horizontal" style="margin-bottom: 30px;" active-name="1">
+          <MenuItem name="1">
+            <Icon type="md-contacts" />帐号登陆
+          </MenuItem>
+          <MenuItem name="2">
+            <Icon type="ios-mail" />短信登陆
+          </MenuItem>
+        </Menu>
+        <div class="form-user">
+          <div class="item">
+            <div class="f-text">
+              <label>
+                <Icon type="ios-people" :size="20" />用户名：
+              </label>
+            </div>
+            <div class="f-input">
+              <input type="text" v-model="userInfo.userName" placeholder="输入用户" />
+            </div>
+            <div class="f-remove" @click="userInfo.userName=''">
+              <Icon type="ios-close-circle" />
+            </div>
+          </div>
+          <div class="item">
+            <div class="f-text">
+              <label>
+                <Icon type="ios-lock" :size="20" />密&nbsp;&nbsp;&nbsp;码：
+              </label>
+            </div>
+            <div class="f-input">
+              <input type="password" v-model="userInfo.passWord" placeholder="输入密码" />
+            </div>
+            <div class="f-remove" @click="userInfo.passWord=''">
+              <Icon type="ios-close-circle" />
+            </div>
           </div>
         </div>
-      </FormItem>
-    </Form>
+        <div style="loging-btn">
+          <Button size="large" type="info" @click="login" long>登陆</Button>
+        </div>
+        <div style="padding-top: 10px;text-align: right;">登陆帐号admin666,密码123456(本地帐号admin,密码123456)</div>
+        <div class="action">
+          <a @click="()=>{}">注册</a>
+          <a @click="()=>{}">忘记密码</a>
+        </div>
+      </div>
+    </div>
+    <div class="login-footer">
+      <a @click="toGitHub">
+        <Icon type="logo-github" />GitHub
+      </a>
+      <a @click="()=>{this.$Message.info('还没写好')}">博客园介绍</a>
+      <a>QQ群：还没想好</a>
+    </div>
   </div>
 </template>
 <script>
@@ -60,6 +70,9 @@ export default {
     };
   },
   methods: {
+    toGitHub() {
+      window.open("https://github.com/cq-panda/Vue.NetCore");
+    },
     login() {
       if (this.userInfo.userName == "" || this.userInfo.userName.trim() == "")
         return this.$Message.error("请输入用户名");
@@ -86,32 +99,150 @@ export default {
   }
 };
 </script>
-<style scoped>
-.login-contianer >>> input {
-  border: 0px;
-  border-bottom: 1px solid #cecdcd;
-  border-radius: 0px;
-}
-</style>
+
 
 <style lang="less" scoped>
+.tm-bg {
+  background-color: #330000;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 400'%3E%3Cdefs%3E%3CradialGradient id='a' cx='396' cy='281' r='514' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%233b3b6b'/%3E%3Cstop offset='1' stop-color='%23330000'/%3E%3C/radialGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='400' y1='148' x2='400' y2='333'%3E%3Cstop offset='0' stop-color='%23146cc9' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23146cc9' stop-opacity='0.5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='800' height='400'/%3E%3Cg fill-opacity='0.5'%3E%3Ccircle fill='url(%23b)' cx='267.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='532.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='400' cy='30' r='300'/%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
+  background-size: cover;
+}
+.f-remove {
+  display: none;
+  cursor: pointer;
+}
+
+// .log-bg {
+//   width: 100%;
+//   height: 100%;
+//   background-image: url(xxxxx.jpg);
+//   background-repeat: no-repeat;
+//   background-size: 100% 100%;
+//   -moz-background-size: 100% 100%;
+// }
+.form-user {
+  margin: 40px 0;
+  .item:hover .f-remove {
+    display: block;
+  }
+  .item {
+    display: flex;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+    display: flex;
+    .f-text {
+      color: #868484;
+      font-weight: 400;
+      width: 90px;
+      font-size: 16px;
+      i {
+        position: relative;
+        top: -2px;
+        right: 5px;
+      }
+    }
+    .f-input {
+      border: 0px;
+      flex: 1;
+      input {
+        padding-left: 15px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #807f7f;
+        width: 100%;
+        outline: none;
+        border: none;
+      }
+    }
+    input:focus {
+      outline: none;
+      background-color: transparent;
+    }
+    input::selection {
+      background: transparent;
+    }
+    input::-moz-selection {
+      background: transparent;
+    }
+  }
+}
 input:-webkit-autofill {
   box-shadow: 0 0 0px 1000px white inset;
 }
 .login-contianer {
-  border-radius: 5px;
-  padding: 30px;
-  padding-bottom: 5px;
   transform: translateY(-50%);
-  top: 45%;
+  top: 50%;
   position: absolute;
   margin: 0 auto;
   left: 0;
-  width: 400px;
-  line-height: 300px;
+  width: 500px;
+  height: 560px;
   right: 0;
   text-align: center;
-  box-shadow: 0px 4px 21px rgb(214, 214, 214);
+  .login-form {
+    margin-top: 25px;
+    border-radius: 5px;
+    padding: 10px 30px 20px 30px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    width: 400px;
+    min-height: 340px;
+    background: white;
+    box-shadow: 0px 4px 21px #d6d6d6;
+  }
+}
+.login-project {
+  line-height: 70px;
+  img {
+    height: 80px;
+  }
+  .project-name {
+    font-size: 50px;
+    position: relative;
+    color: white;
+    font-weight: 600;
+    margin-left: 9px;
+  }
+  .desc {
+    color: wheat;
+    font-size: 15px;
+  }
+}
+.loging-btn {
+  margin-top: 40px;
+}
+.action {
+  text-align: right;
+  margin-top: 20px;
+  a {
+    margin-left: 20px;
+  }
+}
+.login-footer {
+  padding: 10px;
+  color: white;
+  background: #4c4b4b;
+  text-align: center;
+  font-size: 16px;
+  position: absolute;
+  /* margin-bottom: 0px; */
+  /* margin-top: 20px; */
+  width: 100%;
+  bottom: 0px;
+  border-top: 1px solid #969393;
+  i {
+    position: relative;
+    top: -2px;
+    margin-right: 5px;
+  }
+  a {
+    margin-left: 30px;
+    color: white;
+  }
 }
 </style>
 <style scoped>
