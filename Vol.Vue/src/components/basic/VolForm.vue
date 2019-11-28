@@ -244,17 +244,10 @@ export default {
   methods: {
     getSrc(path) {
       if (!path) return;
-      // let _src;
-      // this.base.downloadImg({
-      //   url: path,
-      //   backGroundUrl: this.http.ipAddress,
-      //   header: { Authorization: this.$store.getters.getToken() },
-      //   callback: src => {
-      //     _src = src;
-      //   }
-      // });
+      if (!this.base.isUrl(path) && path.indexOf(".") != -1) {
+        return this.http.ipAddress + path;
+      }
       return path;
-      return URL.createObjectURL(path);
     },
     //是否为图片文件等格式并对字段的转换成数组：[{name:'1.jpg',path:'127.0.0.1/ff/1.jpg'}]
     isFile(item, formFileds) {
