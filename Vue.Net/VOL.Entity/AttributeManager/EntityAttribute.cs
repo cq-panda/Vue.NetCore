@@ -29,6 +29,9 @@ namespace VOL.Entity
         /// </summary>
         public string DBServer { get; set; }
 
+        //是否开启用户数据权限,true=用户只能操作自己(及下级角色)创建的数据,如:查询、删除、修改等操作
+        public bool CurrentUserPermission { get; set; }
+
         public Type ApiInput { get; set; }
         public Type ApiOutput { get; set; }
     }

@@ -15,6 +15,7 @@ using VOL.Core.Extensions.AutofacManager;
 using VOL.Core.Filters;
 using VOL.Core.ManageUser;
 using VOL.Core.Services;
+using VOL.Core.UserManager;
 using VOL.Core.Utilities;
 using VOL.Entity;
 using VOL.Entity.DomainModels;
@@ -934,15 +935,15 @@ namespace VOL.Core.BaseProvider
             //可能在删除后还要做一些其它数据库新增或删除操作，这样就可能需要与删除保持在同一个事务中处理
             //采用此方法 repository.DbContextBeginTransaction(()=>{//do delete......and other});
             //做的其他操作，在DelOnExecuted中加入委托实现
-            Response= repository.DbContextBeginTransaction(() =>
-            {
-                repository.ExecuteSqlCommand(sql);
-                if (DelOnExecuted != null)
-                {
-                    Response = DelOnExecuted(keys);
-                }
-                return Response;
-            });
+            Response = repository.DbContextBeginTransaction(() =>
+             {
+                 repository.ExecuteSqlCommand(sql);
+                 if (DelOnExecuted != null)
+                 {
+                     Response = DelOnExecuted(keys);
+                 }
+                 return Response;
+             });
             if (Response.Status && string.IsNullOrEmpty(Response.Message)) Response.OK(ResponseType.DelSuccess);
             return Response;
         }
@@ -1109,5 +1110,35 @@ namespace VOL.Core.BaseProvider
         {
             source.MapValueToEntity<TSource, TResult>(result, expression);
         }
+
+
+        ////当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作(待完)
+        //private Expression<Func<T, bool>> GetCurrentUserCondition(Type type)
+        //{
+        //    var userContext = UserContext.Current;
+        //    if (userContext.IsSuperAdmin)
+        //    {
+        //        return null;
+        //    }
+        //    //LimitCurrentUserPermission开启用户权限与代码生成器同时开起了用户权限才会生效
+        //    if (!LimitCurrentUserPermission || !type.GetCustomAttribute<EntityAttribute>().CurrentUserPermission) { return null; }
+
+        //    //表的创建人字段必须与配置文件appsettings.json中的创建人字段相同(大小写也必须相同)
+        //    string createId = AppSetting.CreateMember.UserIdField;
+        //    if (type.GetProperty(createId) == null)
+        //    {
+        //        return null;
+        //    }
+
+        //    Expression<Func<T, bool>> whereExpression = createId.CreateExpression<T>(userContext.UserId, LinqExpressionType.Equal);
+        //    List<int> roles = RoleContext.GetAllChildrenIds(userContext.RoleId);
+        //    //没有下级角色的直看当前用户的数据
+        //    if (roles == null || roles.Count == 0)
+        //    {
+        //        return whereExpression;
+        //    }
+        //    //   type.GetProperty();
+        //    return null;
+        //}
     }
 }
