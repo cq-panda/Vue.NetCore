@@ -827,7 +827,7 @@ let methods = {
         }
         if (this.boxOptions.width) {
             //如果高度与宽度超过了获取到的可见高宽度，则设为默认的90%高宽
-            if (this.boxOptions.height > clientWidth * 0.8) {
+            if (this.boxOptions.width > clientWidth * 0.8) {
                 this.boxOptions.width = clientWidth * 0.8
             }
         }
@@ -870,10 +870,10 @@ let methods = {
             // this.boxOptions.width = clientWidth * maxWidthRate;
             // this.boxOptions.height = clientHeight * maxHeightRate;
         }
-        if (clientHeight) {
+        if (!this.boxOptions.height) {
             this.boxOptions.height = clientHeight;
         }
-        if (clientWidth) {
+        if (!this.boxOptions.width) {
             this.boxOptions.width = clientWidth;
         }
     }
