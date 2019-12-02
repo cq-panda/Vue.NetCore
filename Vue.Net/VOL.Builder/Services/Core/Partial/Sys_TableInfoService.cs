@@ -1082,17 +1082,16 @@ DISTINCT
                 .QueryList<Sys_TableColumn>(
                 isMySql ? GetMySqlStructure(tableName) : GetSqlServerStructure(tableName),
                 new { tableName });
+
+            int orderNo = (columns.Count + 10) * 50;
+            for (int i = 0; i < columns.Count; i++)
+            {
+                columns[i].OrderNo = orderNo;
+                orderNo = orderNo - 50;
+            }
+
             SetMaxLength(columns);
             base.Add<Sys_TableColumn>(tableInfo, columns, false);
-            int maxColumnId = columns.Count == 0 ? 1 : columns.Max(x => x.ColumnId);
-
-            int idLength = maxColumnId.ToString().Length + 2;
-            int orderNo = "100000000000000000000".Substring(0, idLength).GetInt();
-            columns.ForEach(x =>
-            {
-                x.OrderNo = orderNo - x.ColumnId * 10 - 10;
-            });
-            repository.UpdateRange<Sys_TableColumn>(columns, x => new { x.OrderNo }, true);
             return tableInfo.Table_Id;
         }
 
