@@ -273,6 +273,15 @@ DISTINCT
             WebResponseContent webResponse = new WebResponseContent();
             if (string.IsNullOrEmpty(tableName)) return webResponse.OK("表名不能为空");
 
+            Sys_TableInfo tableInfo = repository.FindAsIQueryable(x => x.TableName == tableName)
+          .Include(o => o.TableColumns).FirstOrDefault();
+            if (tableInfo == null)
+                return webResponse.Error("未获取到【" + tableName + "】的配置信息，请使用新建功能");
+            if (!string.IsNullOrEmpty(tableInfo.TableTrueName) && tableInfo.TableTrueName != tableName)
+            {
+                tableName = tableInfo.TableTrueName;
+            }
+
             //获取表结构
             List<Sys_TableColumn> columns = repository.DapperContext
                   .QueryList<Sys_TableColumn>(
@@ -281,10 +290,6 @@ DISTINCT
             if (columns == null || columns.Count == 0)
                 return webResponse.Error("未获取到【" + tableName + "】表结构信息，请确认表是否存在");
 
-            Sys_TableInfo tableInfo = repository.FindAsIQueryable(x => x.TableName == tableName)
-                 .Include(o => o.TableColumns).FirstOrDefault();
-            if (tableInfo == null)
-                return webResponse.Error("未获取到【" + tableName + "】的配置信息，请使用新建功能");
 
             //获取现在配置好的表结构
             List<Sys_TableColumn> detailList = tableInfo.TableColumns ?? new List<Sys_TableColumn>();
