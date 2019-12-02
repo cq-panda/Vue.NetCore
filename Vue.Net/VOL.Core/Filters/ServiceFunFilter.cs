@@ -129,12 +129,12 @@ namespace VOL.Core.Filters
         protected Func<List<T>, List<string>, WebResponseContent> ExportOnExecuting;
 
         /// <summary>
-        /// 导入保存前
+        /// 导入保存后
         /// </summary>
         protected Func<List<T>, WebResponseContent> ImportOnExecuted;
 
         /// <summary>
-        /// 导入保存后
+        /// 导入保存前
         /// </summary>
         protected Func<List<T>, WebResponseContent> ImportOnExecuting;
     }

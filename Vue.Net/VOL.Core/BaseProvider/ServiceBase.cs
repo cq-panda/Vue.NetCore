@@ -347,7 +347,18 @@ namespace VOL.Core.BaseProvider
                 Logger.Error($"表{typeof(T).GetEntityTableCnName()}导入失败{ex.Message + ex.InnerException?.Message}");
             }
             if (!Response.Status) return Response;
-            repository.AddRange(Response.Data as List<T>, true);
+            List<T> list = Response.Data as List<T>;
+            if (ImportOnExecuting != null)
+            {
+                Response = ImportOnExecuting.Invoke(list);
+                if (!Response.Status) return Response;
+            }
+            repository.AddRange(list, true);
+            if (ImportOnExecuted != null)
+            {
+                Response = ImportOnExecuted.Invoke(list);
+                if (!Response.Status) return Response;
+            }
             return new WebResponseContent { Status = true, Message = "文件上传成功" };
         }
 
