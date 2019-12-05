@@ -308,10 +308,11 @@ DISTINCT
                     continue;
                 }
                 //修改了数据类库或字段长度
-                if (item.ColumnType != tableColumn.ColumnType || item.Maxlength != tableColumn.Maxlength)
+                if (item.ColumnType != tableColumn.ColumnType || item.Maxlength != tableColumn.Maxlength||(item.IsNull??0)!=(tableColumn.IsNull??0))
                 {
                     tableColumn.ColumnType = item.ColumnType;
                     tableColumn.Maxlength = item.Maxlength;
+                    tableColumn.IsNull = item.IsNull;
                     updateColumns.Add(tableColumn);
                 }
             }
@@ -323,7 +324,7 @@ DISTINCT
             }
             repository.AddRange(addColumns);
             repository.DbContext.Set<Sys_TableColumn>().RemoveRange(delColumns);
-            repository.UpdateRange(updateColumns, x => new { x.ColumnType, x.Maxlength });
+            repository.UpdateRange(updateColumns, x => new { x.ColumnType, x.Maxlength,x.IsNull });
             await repository.DbContext.SaveChangesAsync();
 
             return webResponse.OK($"新加字段【{addColumns.Count}】个,删除字段【{delColumns.Count}】,修改字段【{updateColumns.Count}】");
@@ -1374,7 +1375,8 @@ DISTINCT
                     AttributeBuilder.Append("\r\n");
 
 
-                    if ((tableColumnInfo.ColumnType == "int" || tableColumnInfo.ColumnType == "bigint" || tableColumnInfo.ColumnType == "long") && column.ColumnType.ToLower() == "string")
+                    //if ((tableColumnInfo.ColumnType == "int" || tableColumnInfo.ColumnType == "bigint" || tableColumnInfo.ColumnType == "long") && column.ColumnType.ToLower() == "string")
+                    if (tableColumnInfo.ColumnType == "int" || tableColumnInfo.ColumnType == "bigint" || tableColumnInfo.ColumnType == "long")
                     {
                         column.ColumnType = tableColumnInfo.ColumnType == "int" ? "int" : "long";
                     }
