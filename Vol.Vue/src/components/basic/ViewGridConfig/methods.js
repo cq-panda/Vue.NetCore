@@ -77,7 +77,7 @@ let methods = {
         let boxButtons = [];
 
         let saveBtn = this.buttons.some(x => {
-            if (x.value == this.const.ADD || x.value == this.const.EDIT) return true;
+            if (x.value&&(x.value.toLowerCase() == this.const.ADD.toLowerCase() || x.value.toLowerCase() == this.const.EDIT.toLowerCase())) return true;
         });
 
         //从表表格操作按钮
