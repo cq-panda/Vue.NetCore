@@ -46,7 +46,7 @@
                               [{"title":"修改人","field":"Modifier","disabled":true},
                                {"title":"修改时间","field":"ModifyDate","disabled":true}]],
                 searchFormFileds: {"Name":"","PhoneNo":"","CreateDate":"","Creator":""},
-                searchFormOptions: [[{"title":"姓名","field":"Name"},{"title":"电话","field":"PhoneNo"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"创建人","field":"Creator"}]],
+                searchFormOptions: [[{"title":"姓名","field":"Name","type":"like"},{"title":"电话","field":"PhoneNo"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"创建人","field":"Creator"}]],
                 columns: [{field:'Name',title:'姓名',type:'string',link:true,width:100,readonly:true,require:true,align:'left',sortable:true},
                        {field:'Describe',title:'描述',type:'string',width:180,readonly:true,require:true,align:'left'},
                        {field:'PhoneNo',title:'电话',type:'string',width:130,readonly:true,require:true,align:'left'},

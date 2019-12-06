@@ -6,7 +6,6 @@ let dataType = [
     { "key": "text", "value": "text" },
     { "key": "textarea", "value": "textarea" },
     { "key": "switch", "value": "switch" },
-
     // { "key": "dropList", "value": "dropList" },
     { "key": "select", "value": "select" },
     { "key": "selectList", "value": "selectList" },
@@ -20,6 +19,21 @@ let dataType = [
     { "key": "img", "value": "img" },
     { "key": "excel", "value": "excel" },
     { "key": "file", "value": "file" }];
+
+let searchDataType = [
+    { "key": "text", "value": "text" },
+    { "key": "like", "value": "like" },
+    { "key": "textarea", "value": "textarea" },
+    { "key": "switch", "value": "switch" },
+    { "key": "select", "value": "select" },
+    { "key": "selectList", "value": "selectList" },
+    { "key": "date", "value": "date" },
+    { "key": "datetime", "value": "datetime" },
+    { "key": "checkbox", "value": "checkbox" },
+    { "key": "mail", "value": "mail" },
+    { "key": "number", "value": "number" },
+    { "key": "decimal", "value": "decimal" },
+    { "key": "phone", "value": "phone" }];
 let data = {
     form: {
         fields: {
@@ -28,7 +42,7 @@ let data = {
             folderName: '', detailCnName: '', detailName: '',
             expressField: '', sortName: '', richtitle: '',
             uploadField: '', uploadMaxCount: '', enable: 0, vuePath: '',
-            userPermissionDesc:'开启后当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作'
+            userPermissionDesc: '开启后当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作'
         },
         addOptions: [[{ "title": "父级ID", "field": "parentId", "required": true, type: 'number' }],
         [{
@@ -87,7 +101,7 @@ let data = {
         { field: 'isImage', title: 'table列显示类型', hidden: false, width: 130, align: 'left', edit: { type: "select" }, bind: { data: columnType } },
         { field: 'searchRowNo', title: '查询行', width: 90, align: 'left', edit: { type: "text" } },
         { field: 'searchColNo', title: '查询列', width: 90, align: 'left', edit: { type: "text" } },
-        { field: 'searchType', title: '查询类型', width: 150, align: 'left', edit: { type: "select" }, bind: { data: dataType } },
+        { field: 'searchType', title: '查询类型', width: 150, align: 'left', edit: { type: "select" }, bind: { data: searchDataType } },
         { field: 'editRowNo', title: '编辑行', width: 90, align: 'numberbox', edit: { type: "text" } },
         { field: 'editColNo', title: '编辑列', width: 90, align: 'numberbox', edit: { type: "text" } },
         { field: 'editType', title: '编辑类型', width: 150, align: 'left', edit: { type: "select" }, bind: { data: dataType } },
