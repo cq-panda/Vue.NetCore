@@ -567,6 +567,20 @@ export default {
       return rows;
     },
     addRow(row) {
+      if (!row) {
+        row = {};
+      }
+      this.columns.forEach(x => {
+        if (x.edit && x.edit.type == "switch") {
+          if (!row.hasOwnProperty(x.field)) {
+            row[x.field] = 0;
+          }
+        }
+      });
+      if (!this.url) {
+        this.tableData.push(row);
+        return;
+      }
       this.rowData.push(row);
     },
     viewImg(row, column) {
