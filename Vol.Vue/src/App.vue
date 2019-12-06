@@ -8,14 +8,14 @@
 import "./assets/css/common.less";
 export default {
   name: "App",
-  created(){
-
+  created() {
+    document.getElementById("vue-loading").style.display = "none";
   }
 };
 </script>
 
 <style>
-.el-loading{
+.el-loading {
   z-index: 999999;
 }
 .el-loading .el-loading-spinner {
@@ -42,12 +42,14 @@ export default {
   height: 2px;
   /* filter: blur(0.5px) */
 }
-.ivu-form .ivu-form-item-label{
-    color: #939394;
+.ivu-form .ivu-form-item-label {
+  color: #939394;
 }
 </style>
 <style>
-html,body,#app{
+html,
+body,
+#app {
   height: 100%;
 }
 </style>
