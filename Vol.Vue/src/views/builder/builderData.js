@@ -27,7 +27,8 @@ let data = {
             columnCNName: '', tableName: '', tableTrueName: '',
             folderName: '', detailCnName: '', detailName: '',
             expressField: '', sortName: '', richtitle: '',
-            uploadField: '', uploadMaxCount: '', vuePath: ''
+            uploadField: '', uploadMaxCount: '', enable: 0, vuePath: '',
+            userPermissionDesc:'开启后当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作'
         },
         addOptions: [[{ "title": "父级ID", "field": "parentId", "required": true, type: 'number' }],
         [{
@@ -61,6 +62,10 @@ let data = {
                 { "title": "排序字段", "field": "sortName", "placeholder": "非自增主键需要输入排序字段" },
                 { "title": "还没想好", "field": "richtitle" }
             ],
+            // [ //待完
+            //     { "title": "开启用户权限数据", "field": "enable", bind: { data: [{ key: 1, value: '是', key: 0, value: '否' }] }, type: 'switch', colSize: 2 },
+            //     { "title": "提示", "required": true, "field": "userPermissionDesc", colSize: 10, "placeholder": "非自增主键需要输入排序字段",readonly:true }
+            // ],
             [
                 { "title": "Vue视图绝对路径", "field": "vuePath", type: "textarea", placeholder: 'Vue项目所在绝对路径,到views文件夹,如：E:/app/src/views', colSize: 12 }
             ],

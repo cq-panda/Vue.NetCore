@@ -2,7 +2,7 @@
   <div>
     <Alert
       show-icon
-    >如果需要把文件上传到后台Api服务器，必须将Url上传路径指向Upload文件夹,如:/Upload/xxx/xxx/，因为后台目前只开启了对Upload目录下的文件的浏览</Alert>
+    >如果需要把文件上传到后台Api服务器，必须将保存文件的路径指向Upload文件夹,如:/Upload/xxx/xxx/，因为后台目前只开启了Upload静态文件目录</Alert>
     <!-- <img src="http://localhost:9991/Upload/Tables/App_Appointment/201911240828293464/h52.jpg"> -->
     <div class="upload-container">
       <div class="upload-item">

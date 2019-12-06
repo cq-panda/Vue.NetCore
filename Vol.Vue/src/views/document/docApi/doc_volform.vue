@@ -51,13 +51,16 @@ export default {
         IsTop: "",
         Fruits: [],
         Other: "",
+        extra1:"添加其他标签",
+        extra2:"添加其他标签可点击",
         Switch: 1,
-        SelectList:['北京市','上海市','天津市','广州市','重庆市'],
+        SelectList: ["北京市", "上海市", "天津市", "广州市", "重庆市"],
         readonlyText: "还没想好....",
         readonlyImg:
           "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
         ProImg:
           "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg"
+        //多个图片可以用逗号隔开
       },
       formRules1: [
         //两列的表单，formRules数据格式为:[[{},{}]]
@@ -131,16 +134,44 @@ export default {
             required: false,
             type: "mail"
           }
-        ],      [
+        ],
+         [
+          {
+            title: "额外标签",
+            required: true,
+            type: "text",
+            field: "extra1",
+            extra: {
+              icon: "ios-search",
+              style: "color:red",
+              text: "这里可以显示额外标签"
+            }
+          },
+          {
+            title: "可点击额外标签",
+            field: "extra2",
+            type: "text",
+            extra: {
+              icon: "ios-search", //显示图标
+              text: "点击可触发事件",//显示文本
+              //触发事件
+              click: item => {
+                this.$Message.error("点击标签触发的事件");
+              }
+            }
+          }
+        ],
+        [
           {
             dataKey: "city",
             title: "多选",
             required: true,
             field: "SelectList",
             data: [],
-            colSize:12,
+            colSize: 12,
             type: "selectList"
-          }],
+          }
+        ],
         [
           {
             title: "自定义验证",
@@ -182,7 +213,8 @@ export default {
             field: "readonlyText",
             type: "text"
           }
-        ],    [
+        ],
+        [
           {
             title: "备注",
             required: true,
@@ -202,9 +234,12 @@ export default {
             type: "img"
           },
           {
-            title: "可修改图片",
+            title: "可上传图片",
             field: "ProImg",
-            type: "img"
+            type: "img",
+            maxSize: 0.2, //最大0.2M图片
+            //上传参数可参照volupload组件
+            url: "/api/App_Appointment/Upload"
           }
         ]
       ]

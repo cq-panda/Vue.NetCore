@@ -14,12 +14,6 @@
           :label="item.title?(item.title+'：'):''"
           :prop="item.field"
         >
-          <!-- <Input
-            v-if="item.disabled"
-            class="readonly-input"
-            :value="formFileds[item.field]=='null'?'--':formFileds[item.field]"
-            :placeholder="formFileds[item.field]||'--'"
-          ></Input>-->
           <div v-if="isReadonlyImgFile(item,formFileds)">
             <div v-if="item.type=='img'||item.columnType=='img'" class="form-imgs">
               <div
@@ -40,138 +34,130 @@
               </div>
             </div>
           </div>
-          <Button
-            v-else-if="item.type=='button'"
-            :type="item.btnType||'info'"
-            :disabled="item.disabled"
-            @click="()=>{item.click&&item.click()}"
-          >{{item.text}}</Button>
           <label
             v-else-if="item.disabled||item.readonly"
             class="readonly-input"
           >{{getText(formFileds,item)}}</label>
+          <div v-else :class="{'form-item-extra':item.extra}">
+            <div>
+              <!--下拉框绑定时如果key为数字，请将key+''转换为字符串-->
+              <div
+                v-if="item.type=='select'||item.type=='selectList'||item.type=='drop'||item.type=='dropList'"
+              >
+                <div>
+                  <Select
+                    :transfer="true"
+                    v-model="formFileds[item.field]"
+                    :multiple="(item.type=='select'||item.type=='drop')?false:true"
+                    :filterable="(item.filter||getData(item).length>10)?true:false"
+                    :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
+                    @on-change="onChange(item,formFileds[item.field])"
+                    clearable
+                  >
+                    <!-- :max-tag-count="2" -->
+                    <Option
+                      v-for="(kv,kvIndex) in getData(item)"
+                      :key="kvIndex"
+                      :value="kv.key||''"
+                    >{{kv.value}}</Option>
+                  </Select>
+                </div>
+              </div>
+              <i-switch
+                v-else-if="item.type=='switch'"
+                :true-value="1"
+                :false-value="0"
+                v-model="formFileds[item.field]"
+              >
+                <span slot="open">是</span>
+                <span slot="close">否</span>
+              </i-switch>
+              <Row
+                v-else-if="item.type=='date'||item.type=='datetime'||item.columnType=='datetime'"
+              >
+                <Col span="24">
+                  <FormItem :prop="item.field">
+                    <DatePicker
+                      :transfer="true"
+                      :type="item.range?(item.type+'range'):item.type"
+                      :format="item.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
+                      :placeholder="item.placeholder||item.title"
+                      :value="formFileds[item.field]"
+                      @on-change="(time)=>{formFileds[item.field]=time; return time}"
+                    ></DatePicker>
+                  </FormItem>
+                </Col>
+              </Row>
+              <CheckboxGroup v-else-if="item.type=='checkbox'" v-model="formFileds[item.field]">
+                <Checkbox
+                  v-for="(kv,kvIndex) in getData(item)"
+                  :key="kvIndex"
+                  :label="kv.key"
+                >{{kv.value}}</Checkbox>
+              </CheckboxGroup>
+              <vol-upload
+                v-else-if="isFile(item,formFileds)"
+                :desc="item.desc"
+                :multiple="item.multiple"
+                :max-file="item.maxFile"
+                :max-size="item.maxSize"
+                :autoUpload="item.autoUpload"
+                :fileInfo="formFileds[item.field]"
+                :url="item.url"
+                :img="item.type=='img'||item.columnType=='img'"
+                :excel="item.type=='excel'"
+                :fileTypes="item.fileTypes?item.fileTypes:[]"
+                :upload-before="item.uploadBefore"
+                :upload-after="item.uploadAfter"
+                :on-change="item.onChange"
+                :file-click="item.fileClick"
+                :remove-before="item.removeBefore"
+                :down-load="item.downLoad?true:false"
+              ></vol-upload>
+              <Input
+                v-else-if="item.type=='textarea'"
+                v-model="formFileds[item.field]"
+                type="textarea"
+                @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
+                clearable
+                :autosize="{minRows:2,maxRows:item.maxRows||10}"
+                :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
+                :ref="item.field"
+              ></Input>
+              <Input
+                clearable
+                v-else-if="item.type=='password'"
+                type="password"
+                autocomplete="off"
+                v-model.number="formFileds[item.field]"
+                @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
+                :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
+                :ref="item.field"
+              ></Input>
+              <Input
+                clearable
+                v-else
+                @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
+                v-model="formFileds[item.field]"
+                :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
+                :ref="item.field"
+              ></Input>
+            </div>
 
-          <!--下拉框绑定时如果key为数字，请将key+''转换为字符串-->
-          <Select
-            :transfer="true"
-            v-else-if="item.type=='select'||item.type=='selectList'||item.type=='drop'||item.type=='dropList'"
-            v-model="formFileds[item.field]"
-            :multiple="(item.type=='select'||item.type=='drop')?false:true"
-            :filterable="(item.filter||getData(item).length>10)?true:false"
-            :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
-            @on-change="onChange(item,formFileds[item.field])"
-            clearable
-          >
-            <!-- :max-tag-count="2" -->
-            <Option
-              v-for="(kv,kvIndex) in getData(item)"
-              :key="kvIndex"
-              :value="kv.key||''"
-            >{{kv.value}}</Option>
-          </Select>
-          <i-switch
-            v-else-if="item.type=='switch'"
-            :true-value="1"
-            :false-value="0"
-            v-model="formFileds[item.field]"
-          >
-            <span slot="open">是</span>
-            <span slot="close">否</span>
-          </i-switch>
-          <!-- moment(that.newForm.useTime).format('YYYY-MM-DD');
-          @on-change="(time)=>{formFileds[item.field]=time; return time}"-->
-          <Row v-else-if="item.type=='date'||item.type=='datetime'||item.columnType=='datetime'">
-            <Col span="24">
-              <FormItem :prop="item.field">
-                <DatePicker
-                  :transfer="true"
-                  :type="item.range?(item.type+'range'):item.type"
-                  :format="item.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
-                  :placeholder="item.placeholder||item.title"
-                  :value="formFileds[item.field]"
-                  @on-change="(time)=>{formFileds[item.field]=time; return time}"
-                ></DatePicker>
-              </FormItem>
-            </Col>
-          </Row>
-          <!-- :v-model="getObject(formFileds[item.field])" -->
-          <!-- <RadioGroup v-else-if="item.type=='radio'" v-model="formFileds[item.field]">
-            <Radio v-for="(kv,kvIndex) in item.data.data||item.data" :key="kvIndex" :label="kv.key">{{kv.value}}</Radio>
-          </RadioGroup>-->
-          <CheckboxGroup v-else-if="item.type=='checkbox'" v-model="formFileds[item.field]">
-            <Checkbox
-              v-for="(kv,kvIndex) in getData(item)"
-              :key="kvIndex"
-              :label="kv.key"
-            >{{kv.value}}</Checkbox>
-          </CheckboxGroup>
-          <!-- :src="formFileds[item.field]" -->
-          <vol-upload
-            v-else-if="isFile(item,formFileds)"
-            :desc="item.desc"
-            :multiple="item.multiple"
-            :max-file="item.maxFile"
-            :max-size="item.maxSize"
-            :autoUpload="item.autoUpload"
-            :fileInfo="formFileds[item.field]"
-            :url="item.url"
-            :img="item.type=='img'||item.columnType=='img'"
-            :excel="item.type=='excel'"
-            :fileTypes="item.fileTypes?item.fileTypes:[]"
-            :upload-before="item.uploadBefore"
-            :upload-after="item.uploadAfter"
-            :on-change="item.onChange"
-            :file-click="item.fileClick"
-            :remove-before="item.removeBefore"
-            :down-load="item.downLoad?true:false"
-          ></vol-upload>
-          <!-- <img v-else-if="item.columnType=='img'" :src="formFileds[item.field]" /> -->
-          <!-- <FormItem v-else-if="item.columnType=='img'" :prop="item.field">
-            <img :src="formFileds[item.field]" />
-          </FormItem>-->
-          <Input
-            v-else-if="item.type=='textarea'"
-            v-model="formFileds[item.field]"
-            type="textarea"
-            @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
-            clearable
-            :autosize="{minRows:2,maxRows:item.maxRows||2}"
-            :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
-            :ref="item.field"
-          ></Input>
-          <Input
-            clearable
-            v-else-if="item.type=='password'"
-            type="password"
-            autocomplete="off"
-            v-model.number="formFileds[item.field]"
-            @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
-            :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
-            :ref="item.field"
-          ></Input>
-          <!-- <Input
-            clearable
-            v-else-if="types[item.columnType]=='number'"
-            @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
-            v-model.number="formFileds[item.field]"
-            :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
-          ></Input>-->
-          <Input
-            clearable
-            v-else
-            @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
-            v-model="formFileds[item.field]"
-            :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
-            :ref="item.field"
-          ></Input>
+            <div class="form-extra" v-if="item.extra">
+              <a
+                :style="item.extra.style"
+                @click="()=>{item.extra.click&&item.extra.click(item,formFileds[item.field])}"
+              >
+                <Icon v-if="item.extra.icon" :type="item.extra.icon" />
+                {{item.extra.text}}
+              </a>
+            </div>
+          </div>
         </FormItem>
       </Col>
     </Row>
     <slot name="footer"></slot>
-    <!-- <FormItem> -->
-    <!-- <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-    <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>-->
-    <!-- </FormItem> -->
   </Form>
 </template>
 <script>
@@ -799,6 +785,15 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+}
+.form-item-extra {
+  display: flex;
+  > div:first-child {
+    flex: 1;
+  }
+  .form-extra {
+    margin-left: 10px;
   }
 }
 </style>

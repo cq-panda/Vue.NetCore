@@ -36,6 +36,17 @@ let codeString = {
   form: `<div class="cnblogs_code">
   <pre>&lt;template&gt;
     &lt;div&gt;
+      &lt;div class="i-text"&gt;
+        &lt;h2&gt;组件引入方式&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;pre class="bg-ms"&gt;
+          &lt;code&gt;<span style="color: #000000;">
+           import VolForm from </span>"@/components/basic/VolForm.vue"<span style="color: #000000;">;
+          </span>&lt;/code&gt;
+        &lt;/pre&gt;
+      &lt;div class="i-text"&gt;
+        &lt;h2&gt;表单&lt;/h2&gt;
+      &lt;/div&gt;
       &lt;<span style="color: #000000;">VolForm
         ref</span>="myform"<span style="color: #000000;">
         :label</span>-width="150"<span style="color: #000000;">
@@ -46,12 +57,16 @@ let codeString = {
       &lt;div&gt;
         &lt;Button type="info" <span style="color: #0000ff;">long</span> @click="reset"&gt;重置表单&lt;/Button&gt;
       &lt;/div&gt;
+      &lt;div&gt;
+        &lt;docParamTable name="form"&gt;&lt;/docParamTable&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
   &lt;/template&gt;
   &lt;script&gt;<span style="color: #000000;">
   import VolForm from </span>"@/components/basic/VolForm.vue"<span style="color: #000000;">;
+  import docParamTable from </span>"./doc_ParamTable.vue"<span style="color: #000000;">;
   export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
-    components: { VolForm },
+    components: { VolForm, docParamTable },
     methods: {
       reset() {
         </span><span style="color: #0000ff;">this</span><span style="color: #000000;">.$refs.myform.reset();
@@ -72,14 +87,17 @@ let codeString = {
           IsTop: </span>""<span style="color: #000000;">,
           Fruits: [],
           Other: </span>""<span style="color: #000000;">,
-          SelectList:</span>['北京市','上海市','天津市','广州市','重庆市']<span style="color: #000000;">,
+          extra1:</span>"添加其他标签"<span style="color: #000000;">,
+          extra2:</span>"添加其他标签可点击"<span style="color: #000000;">,
           Switch: </span>1<span style="color: #000000;">,
-          readonlyText: </span>"可设置属性对数据合法性进行校验"<span style="color: #000000;">,
+          SelectList: [</span>"北京市", "上海市", "天津市", "广州市", "重庆市"<span style="color: #000000;">],
+          readonlyText: </span>"还没想好...."<span style="color: #000000;">,
           readonlyImg:
             </span>"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg"<span style="color: #000000;">,
           ProImg:
-            </span>"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg"<span style="color: #000000;">
-        },
+            </span>"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg"
+          <span style="color: #008000;">//</span><span style="color: #008000;">多个图片可以用逗号隔开</span>
+  <span style="color: #000000;">      },
         formRules1: [
           </span><span style="color: #008000;">//</span><span style="color: #008000;">两列的表单，formRules数据格式为:[[{},{}]]</span>
   <span style="color: #000000;">        [
@@ -152,17 +170,43 @@ let codeString = {
               required: <span style="color: #0000ff;">false</span><span style="color: #000000;">,
               type: </span>"mail"<span style="color: #000000;">
             }
-          ],     
+          ],
+           [
+            {
+              title: </span>"额外标签"<span style="color: #000000;">,
+              required: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+              type: </span>"text"<span style="color: #000000;">,
+              field: </span>"extra1"<span style="color: #000000;">,
+              extra: {
+                icon: </span>"ios-search"<span style="color: #000000;">,
+                style: </span>"color:red"<span style="color: #000000;">,
+                text: </span>"这里可以显示额外标签"<span style="color: #000000;">
+              }
+            },
+            {
+              title: </span>"可点击额外标签"<span style="color: #000000;">,
+              field: </span>"extra2"<span style="color: #000000;">,
+              type: </span>"text"<span style="color: #000000;">,
+              extra: {
+                icon: </span>"ios-search"<span style="color: #000000;">,
+                text: </span>"点击可触发事件"<span style="color: #000000;">,
+                click: item </span>=&gt;<span style="color: #000000;"> {
+                  </span><span style="color: #0000ff;">this</span>.$Message.error("点击标签触发的事件"<span style="color: #000000;">);
+                }
+              }
+            }
+          ],
           [
             {
-              dataKey: "city",
-              title: "多选",
-              required: true,
-              field: "SelectList",
+              dataKey: </span>"city"<span style="color: #000000;">,
+              title: </span>"多选"<span style="color: #000000;">,
+              required: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+              field: </span>"SelectList"<span style="color: #000000;">,
               data: [],
-              colSize:12,
-              type: "selectList"
-            }],
+              colSize: </span>12<span style="color: #000000;">,
+              type: </span>"selectList"<span style="color: #000000;">
+            }
+          ],
           [
             {
               title: </span>"自定义验证"<span style="color: #000000;">,
@@ -225,9 +269,12 @@ let codeString = {
               type: </span>"img"<span style="color: #000000;">
             },
             {
-              title: </span>"可修改图片"<span style="color: #000000;">,
+              title: </span>"可上传图片"<span style="color: #000000;">,
               field: </span>"ProImg"<span style="color: #000000;">,
-              type: </span>"img"<span style="color: #000000;">
+              type: </span>"img"<span style="color: #000000;">,
+              maxSize: </span>0.2, <span style="color: #008000;">//</span><span style="color: #008000;">最大0.2M图片</span>
+              <span style="color: #008000;">//</span><span style="color: #008000;">上传参数可参照volupload组件</span>
+              url: "/api/App_Appointment/Upload"<span style="color: #000000;">
             }
           ]
         ]
@@ -236,63 +283,7 @@ let codeString = {
   };
   </span>&lt;/script&gt;</pre>
   </div>
-  <p>&nbsp;</p> `,
-  header: `<div class="cnblogs_code">
-  <pre>&lt;template&gt;
-    &lt;div&gt;
-      &lt;VolHeader style="margin: 30px 0;" :icon="icon" :text="text"&gt;
-        &lt;div slot="content"&gt;VolHeader这里可以定义显示内容&lt;/div&gt;
-        &lt;div style="text-align: right;padding-top: 4px;"&gt;
-          &lt;Button type="text" icon="ios-search" size="small" @click="()=&gt;{this.$Message.error('1')}"&gt;buttons1&lt;/Button&gt;
-          &lt;Button type="text" icon="ios-search" size="small" @click="()=&gt;{this.$Message.error('2')}"&gt;buttons2&lt;/Button&gt;
-        &lt;/div&gt;
-      &lt;/VolHeader&gt;
-    &lt;/div&gt;
-  &lt;/template&gt;
-  &lt;script&gt;<span style="color: #000000;">
-  import VolHeader from </span>"@/components/basic/VolHeader.vue"<span style="color: #000000;">;
-  export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
-    data() {
-      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
-        icon: </span>"md-male"<span style="color: #000000;">,
-        text: </span>"主题名称"<span style="color: #000000;">
-      };
-    },
-    components: { VolHeader},
-    methods: {
-    }
-  };
-  </span>&lt;/script&gt;</pre>
-  </div>
-  <p>&nbsp;</p>`,
-  box: `<div class="cnblogs_code">
-  <pre>&lt;template&gt;
-    &lt;div&gt;
-      &lt;Button type="info" @click="model=!model"&gt;弹出框&lt;/Button&gt;
-      &lt;VolBox :model.sync="model" title="弹出框标题" :height="400" :width="700" :padding="15"&gt;
-        &lt;div&gt;弹出框内容&lt;/div&gt;
-        &lt;!-- footer 这里不写，默认有一个关闭按钮 --&gt;
-        &lt;div slot="footer"&gt;
-          &lt;Button type="default" @click="()=&gt;{this.$Message.error('点击确认')}"&gt;确认&lt;/Button&gt;
-          &lt;Button type="default" @click="()=&gt;{model=false}"&gt;点击关闭弹出框&lt;/Button&gt;
-        &lt;/div&gt;
-      &lt;/VolBox&gt;
-    &lt;/div&gt;
-  &lt;/template&gt;
-  &lt;script&gt;<span style="color: #000000;">
-  import VolBox from </span>"@/components/basic/VolBox.vue"<span style="color: #000000;">;
-  export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
-    data() {
-      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
-        model: </span><span style="color: #0000ff;">false</span><span style="color: #000000;">
-      };
-    },
-    components: { VolBox },
-    methods: {}
-  };
-  </span>&lt;/script&gt;</pre>
-  </div>
-  <p>&nbsp;</p>`,
+  <p>&nbsp;</p></p>`,
   edittable: `<div class="cnblogs_code">
   <pre>&lt;template&gt;
     &lt;div&gt;
@@ -355,6 +346,7 @@ let codeString = {
               BindKeyValue: </span>"2"<span style="color: #000000;">,
               Enable: </span>0<span style="color: #000000;">,
               ReallyName: </span>"月穿潭底水無痕"<span style="color: #000000;">,
+              filetest:"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx" ,//也是设置为api服务器的文件，地址如：static/20191206/xx.xlsx,
               CreateDate: </span>"2018-09-18 17:45:54"<span style="color: #000000;">
             }
           ],
@@ -387,6 +379,12 @@ let codeString = {
               type: </span>"img"<span style="color: #000000;">,
               width: </span>150<span style="color: #000000;">
             },
+            {
+              field: "filetest",
+              title: "点击文件下载",
+              width: 190,
+              type:'file'//指定为file与excel即可下载文件
+          },
             {
               field: </span>"LimitNumber"<span style="color: #000000;">,
               title: </span>"数字限制大小"<span style="color: #000000;">,

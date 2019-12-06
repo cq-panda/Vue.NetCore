@@ -38,6 +38,9 @@ let param = {
               }', type: "function", default: ""
         },
         { name: "onChange", desc: "只有type=select才可以配置此属性", type: "function", default: "" },
+        { name: "extra", desc: '添加额外标签：  extra: {//显示图标 icon: "ios-search", //显示文本 text: "点击可触发事件",//触发事件 click: item => {}}', type: "string", default: "" },
+        { name: "minRows", desc: "textarea标签最小高度", type: "number", default: "2" },
+        { name: "maxRows", desc: "textarea标签最大高度", type: "number", default: "10" },
         { name: "}", desc: "表单字段formRules的参数配置说明", type: "", default: "" },
         { name: "表单重置", desc: "表单重置使用：this.$refs.你的ref名字.reset()", type: "", default: "" },
         { name: "表单验证", desc: "表单验证使用：this.$refs.你的ref名字.validate()，返回值bool", type: "", default: "" },
@@ -118,13 +121,15 @@ let param = {
         { name: "editFormOptions", desc: "编辑配置,，可参照VolForm配置", type: "array", default: "[]" },
         { name: "searchFormFileds", desc: "查询字段，同上", type: "json", default: "{}" },
         { name: "searchFormOptions", desc: "查询配置，同上", type: "array", default: "[]" },
-        { name: "table", desc: "表其他配置,如：     table: {\
+        {
+            name: "table", desc: "表其他配置,如：     table: {\
             key: 'Order_Id', //排序字段\
             footer: 'Foots',\
             cnName: '主从表ViewGird组件使用',//表中文名\
             name: 'SellOrder',//表名(代码生码的别名)\
             url: '/SellOrder/',//后台控制器名\
-            sortName: 'CreateDate' //后台排序字段}", type: "array", default: "{}" },
+            sortName: 'CreateDate' //后台排序字段}", type: "array", default: "{}"
+        },
         { name: "extend", desc: "扩展js中的所有对象,如:doc_viewGirdExtension.js整个js文件的对象", type: "json", default: "array" },
         { name: "currentAction", desc: "当前操作的状态:如：Add,update", type: "string", default: "" },
         { name: "currentRow", desc: "当前编辑的行数据", type: "json", default: "" },

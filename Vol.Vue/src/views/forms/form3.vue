@@ -40,12 +40,13 @@ export default {
         City: "",
         AvgPrice: 8.88, //input标签如果是数字，此处注意区分不要写成字符串了
         Date: "",
-        IsTop: "1",
+        IsTop: 0,
         Address: "",
         Source: [],
         Remark: "",
         phone: "",
         email: "",
+        extra2:"",
         userVali: "",
         img: ""
       },
@@ -143,6 +144,23 @@ export default {
                 return "自定设置必须输入123";
               }
               return "";
+            }
+          }
+        ],
+        [
+          {
+            title: "额外标签",
+            field: "extra2",
+            type: "text",
+            colSize: 12,
+            extra: {
+              style: "color:red",
+              icon: "ios-search", //显示图标
+              text: "点击可触发事件", //显示文本
+              //触发事件
+              click: item => {
+                this.$Message.error("点击标签触发的事件");
+              }
             }
           }
         ],
