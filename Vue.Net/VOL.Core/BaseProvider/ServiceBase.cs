@@ -150,7 +150,7 @@ namespace VOL.Core.BaseProvider
                 x.DisplayType = x.DisplayType.GetDBCondition();
                 if (string.IsNullOrEmpty(x.Value))
                 {
-                    searchParametersList.Remove(x);
+                  //  searchParametersList.Remove(x);
                     continue;
                 }
 
@@ -162,7 +162,7 @@ namespace VOL.Core.BaseProvider
                 // if (string.IsNullOrEmpty(x.Value))
                 if (values == null || values.Length == 0)
                 {
-                    searchParametersList.Remove(x);
+                 //   searchParametersList.Remove(x);
                     continue;
                 }
                 if (x.DisplayType == HtmlElementType.Contains)
@@ -172,7 +172,7 @@ namespace VOL.Core.BaseProvider
                               ? queryable.Where(x.Name.CreateExpression<T>(values, expressionType))
                               : queryable.Where(x.Name.CreateExpression<T>(x.Value, expressionType));
             }
-            options.Wheres = searchParametersList.GetEntitySql();
+         //   options.Wheres = searchParametersList.GetEntitySql();
             options.TableName = base.TableName ?? typeof(T).Name;
             return options;
         }
