@@ -120,10 +120,10 @@ let methods = {
             })
             //弹出框扩展按钮
             this.extendBtn(boxButtons, this.extend.buttons.box)
-            //弹出框扩展明细表按钮
-            this.extendBtn(detailGridButtons, this.extend.buttons.detail)
             this.detailOptions.buttons.push(detailGridButtons);
-
+            //弹出框扩展明细表按钮
+            this.extendBtn( this.detailOptions.buttons, this.extend.buttons.detail)
+          
             return boxButtons;
         }
 

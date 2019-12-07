@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="i-text">
+    <div  v-if="showCode" class="i-text">
       <h2>
         <a @click="viewCode" v-show="!visibly" >查看代码</a>        <a v-show="visibly" @click="visibly=false">收起</a>
       </h2>
@@ -26,7 +26,7 @@
         <tbody>
           <tr v-for="(item,index) in param[name].attr||[]" :key="index">
             <td>{{item.name}}</td>
-            <td>{{item.desc}}</td>
+            <td><div v-html="item.desc"></div></td>
             <td>{{item.type}}</td>
             <td>{{item.default}}</td>
           </tr>
@@ -46,7 +46,7 @@
         <tbody>
           <tr v-for="(item,index) in param[name].methods||[]" :key="index">
             <td>{{item.name}}</td>
-            <td>{{item.desc}}</td>
+            <td><div v-html="item.desc"></div></td>
             <td>{{item.param}}</td>
           </tr>
         </tbody>
@@ -80,6 +80,10 @@ export default {
   props: {
     name: "",
     isAttr: {
+      type: Boolean,
+      default: true
+    },
+    showCode:{
       type: Boolean,
       default: true
     }

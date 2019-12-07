@@ -68,6 +68,7 @@ let param = {
         attr: [{ name: "loadKey", desc: "是否自动绑定数据源key/value,如果=true会自动把带bind属性data长度为0的列绑定上数据源", type: "bool", default: "false" },
         { name: "height", desc: "table高度", type: "number", default: "" },
         { name: "max-height", desc: "table最大高度,如果设置了max-height属性，height属性将不会生效", type: "number", default: "" },
+        { name: "single", desc: "是否只能单选", type: "number", default: "false" },
         { name: "--", desc: "--", type: "--", default: "--" },
         { name: "pagination", desc: "分页参数", type: "json", default: "{ total: 0, size: 0, sortName: ''}" },
         { name: "{", desc: "", type: "", default: "" },
@@ -115,7 +116,7 @@ let param = {
         attr: [],
         methods: []
     }, viewGrid: {
-        attr: [{ name: "columns", desc: "查询页面table表的配置,具体配置可参照VolTable参数", type: "array", default: "[]" },
+        attr: [{ name: "columns", desc: "查询页面table表的配置,如果满足不了业务,可参照VolTable参数动态扩展", type: "array", default: "[]" },
         { name: "detail", desc: "从表配置：{columns:[],sortName:''},columns从表table列配置,sortName从表排序字段", type: "json", default: "{}" },
         { name: "editFormFileds", desc: "编辑字段，可参照VolForm配置", type: "json", default: "{}" },
         { name: "editFormOptions", desc: "编辑配置,，可参照VolForm配置", type: "array", default: "[]" },
@@ -131,7 +132,9 @@ let param = {
             sortName: 'CreateDate' //后台排序字段}", type: "array", default: "{}"
         },
         { name: "extend", desc: "扩展js中的所有对象,如:doc_viewGirdExtension.js整个js文件的对象", type: "json", default: "array" },
-        { name: "currentAction", desc: "当前操作的状态:如：Add,update", type: "string", default: "" },
+        { name: "single", desc: "查询界面的表是否只能单选", type: "bool", default: "false" },
+        { name: "boxModel", desc: "弹出新建、编辑框", type: "bool", default: "false" },
+        { name: "currentAction", desc: "当前操作的状态:如：Add,Update", type: "string", default: "" },
         { name: "currentRow", desc: "当前编辑的行数据", type: "json", default: "" },
         { name: "labelWidth", desc: "高级查询label标签的宽度", type: "number", default: "100" },
         { name: "maxBtnLength", desc: "查询界面显示的按钮最大数量，超过的在更多中显示", type: "number", default: "3" },
@@ -139,9 +142,282 @@ let param = {
         { name: "boxButtons", desc: "弹出框的所有按钮", type: "array", default: "[]" },
         { name: "dicKeys", desc: "所有数据源的字典编号", type: "array", default: "[]" },
         { name: "hasKeyField", desc: "所有有数据源的字段", type: "array", default: "[]" },
-        { name: "hasDetail", desc: "是否有明细", type: "bool", default: "false" },
-        { name: "detailOptions", desc: "明细配置", type: "array", default: "[]" }],
-        methods: []
+        { name: "hasDetail", desc: "是否有明细(如果有明细表就为true)", type: "bool", default: "false" },
+        {
+            name: "detailOptions", desc: `明细表参数<div class="cnblogs_code">
+        <pre><span style="color: #000000;">     detailOptions: {
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">弹出框从表(明细)对象</span>
+                <span style="color: #008000;">//</span><span style="color: #008000;">从表配置</span>
+                buttons: [], <span style="color: #008000;">//</span><span style="color: #008000;">弹出框从表表格操作按钮,目前有删除行，添加行，刷新操作，如需要其他操作按钮，可在表对应的.js中添加</span>
+                cnName: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表名称</span>
+                key: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表主键名</span>
+                data: [], <span style="color: #008000;">//</span><span style="color: #008000;">数据源</span>
+                columns: [], <span style="color: #008000;">//</span><span style="color: #008000;">从表列信息</span>
+                edit: <span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">明细是否可以编辑</span>
+                single:<span style="color: #0000ff;">false</span>,<span style="color: #008000;">//</span><span style="color: #008000;">明细表是否单选</span>
+                delKeys: [], <span style="color: #008000;">//</span><span style="color: #008000;">当编辑时删除当前明细的行主键值</span>
+                url: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表加载数据的url</span>
+                pagination: { total: 0, size: 100, sortName: "" }, <span style="color: #008000;">//</span><span style="color: #008000;">从表分页配置数据</span>
+                height: 0 <span style="color: #008000;">//</span><span style="color: #008000;">默认从表高度</span>
+              }</pre>
+        </div>
+        <p>&nbsp;</p>`, type: "json", default: ""
+        },
+        {
+            name: "auditParam", desc: `审核参数<div class="cnblogs_code">
+        <pre><span style="color: #000000;">    auditParam: {
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">审核对象</span>
+                rows: 0, <span style="color: #008000;">//</span><span style="color: #008000;">当前选中审核的行数</span>
+                model: <span style="color: #0000ff;">false</span>, <span style="color: #008000;">//</span><span style="color: #008000;">审核弹出框</span>
+                status: -1, <span style="color: #008000;">//</span><span style="color: #008000;">审核结果</span>
+                reason: "", <span style="color: #008000;">//</span><span style="color: #008000;">审核原因</span>
+                <span style="color: #008000;">//</span><span style="color: #008000;">审核选项(可自行再添加)</span>
+                data: [{ text: "通过", status: 1 }, { text: "拒绝", status: 2<span style="color: #000000;"> }]
+              },</span></pre>
+        </div>
+        <p>&nbsp;</p>`},
+        { name: "tableHeight", desc: "查询页面table的高度", type: "number", default: "0" },
+        { name: "tableMaxHeight", desc: "查询页面table的最大高度,如果同时设置了tableHeight，只会tableMaxHeight起作用", type: "number", default: "0" },
+        { name: "pagination", desc: `分页参数<div class="cnblogs_code">
+        <pre><span style="color: #000000;">pagination: {
+              total: </span>0<span style="color: #000000;">, 
+             size: </span>30, <span style="color: #008000;">//</span><span style="color: #008000;">分页大小</span>
+            sortName: "" <span style="color: #008000;">//</span><span style="color: #008000;">排序字段</span>
+         }</pre>
+        </div>
+        <p>&nbsp;</p>`, type: "json", default: "" },
+        { name: "boxOptions", desc: `新建、编辑弹出框参数<div class="cnblogs_code">
+        <div class="cnblogs_code">
+        <pre><span style="color: #000000;"> boxOptions: {
+           saveClose: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">新建、编辑完成后是否关闭弹出框</span>
+           labelWidth: 100, <span style="color: #008000;">//</span><span style="color: #008000;">弹出框里表单的label标签的宽度</span>
+          height: 0, <span style="color: #008000;">//</span><span style="color: #008000;">弹出框的高度(默认自动计算)</span>
+          width: 0<span style="color: #008000;">//</span><span style="color: #008000;">弹出框的宽度(默认自动计算)</span>
+         }</pre>
+        </div>
+        <p>&nbsp;</p>
+        </div>
+        <p>&nbsp;</p>`, type: "json", default: "" },
+        ],
+        methods: [{ name: "refresh", desc: "刷新查询界面的表数据", param: "" },
+        { name: "扩展js方法使用", desc: "扩展js为当前数据库表生成页面扩展js,如:SellOrder.js,文件由代码生成，可自行在js中实现下面列出的方法", param: "" },
+        { name: "扩展js方法使用", desc: `<div class="cnblogs_code">
+        <pre>let extension =<span style="color: #000000;"> {
+            components: {</span><span style="color: #008000;">//</span><span style="color: #008000;">动态扩充组件或组件路径</span>
+                <span style="color: #008000;">//</span><span style="color: #008000;">表单header、content、footer对应位置扩充的组件</span>
+                gridHeader: "",//() =&gt; import("./SellOrderComponents/GridHeaderExtend.vue"),<span style="color: #008000;">//</span><span style="color: #008000;">{ template: "&lt;div&gt;扩展组xx件&lt;/div&gt;" },</span>
+                gridBody: "",//() =&gt; import("./SellOrderComponents/GridBodyExtend.vue"<span style="color: #000000;">),
+                gridFooter: () </span>=&gt; import("./SellOrderComponents/GridFooterExtend.vue"<span style="color: #000000;">),
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件</span>
+                modelHeader: ""<span style="color: #000000;">,
+                modelBody: { template: </span>'xx'<span style="color: #000000;"> },
+                modelFooter:""</span><span style="color: #000000;">,
+            },<br /></span></pre>
+        <div>&nbsp;tableAction:"",//指定获取表的权限按钮,默认为当前表的权限</div>
+        <div>&nbsp;text: "示例覆盖全部可扩展方法,前台扩展文件SellOrder.js，后台Partial-&gt;SellOrdeService.cs",</div>
+        <pre><span style="color: #000000;">    buttons: { </span><span style="color: #008000;">//</span><span style="color: #008000;">扩展按钮</span>
+                <span style="color: #008000;">//</span><span style="color: #008000;">注：没有编辑或新建权限的情况下，是不会显示此处添加的扩展按钮，如果仍需要显示此处的按钮，可以把按钮在methods的onInited方法中添加,如：this.boxButtons.push(...)</span>
+                view: [<span style="color: #008000;">//</span><span style="color: #008000;">ViewGrid查询界面按钮</span>
+        <span style="color: #000000;">            {
+                        name: </span>"点我"<span style="color: #000000;">,
+                        icon: </span>'md-create'<span style="color: #000000;">,
+                        value: </span>'Edit'<span style="color: #000000;">,
+                        class: </span>''<span style="color: #000000;">,
+                        type: </span>'error'<span style="color: #000000;">,
+                        index: </span>1,<span style="color: #008000;">//</span><span style="color: #008000;">显示的位置</span>
+                        onClick: <span style="color: #0000ff;">function</span> () { <span style="color: #008000;">//</span><span style="color: #008000;">扩展按钮执行事件</span>
+                            <span style="color: #008000;">//</span><span style="color: #008000;">this可以获取所有属性，包括this.$refs.gridHeader/gridBody等获取扩展组件对象</span>
+                            <span style="color: #008000;">//</span><span style="color: #008000;"> this.$message("测试扩展按钮");</span>
+                            <span style="color: #0000ff;">this</span>.$refs.gridHeader.model = <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                        }
+                    }, {
+                        name: </span>"调用后台"<span style="color: #000000;">,
+                        icon: </span>'md-create'<span style="color: #000000;">,
+                        value: </span>'Edit'<span style="color: #000000;">,
+                        class: </span>''<span style="color: #000000;">,
+                        type: </span>'error'<span style="color: #000000;">,
+                        index: </span>1,<span style="color: #008000;">//</span><span style="color: #008000;">显示的位置</span>
+                        onClick: <span style="color: #0000ff;">function</span> () { <span style="color: #008000;">//</span><span style="color: #008000;">扩展按钮执行事件</span>
+                            <span style="color: #0000ff;">this</span><span style="color: #000000;">.getServiceDate();
+                        }
+                    }],
+                box: </span><span style="color: #008000;">//</span><span style="color: #008000;">新建、编辑弹出框按钮</span>
+                    [<span style="color: #008000;">//</span><span style="color: #008000;">ViewGrid查询界面按钮</span>
+        <span style="color: #000000;">                {
+                            name: </span>"点我1"<span style="color: #000000;">,
+                            icon: </span>'md-create'<span style="color: #000000;">,
+                            value: </span>'Edit'<span style="color: #000000;">,
+                            class: </span>''<span style="color: #000000;">,
+                            type: </span>'success'<span style="color: #000000;">,
+                            index: </span>1,<span style="color: #008000;">//</span><span style="color: #008000;">显示的位置</span>
+                            onClick: <span style="color: #0000ff;">function</span><span style="color: #000000;"> () {
+                                </span><span style="color: #0000ff;">this</span>.$message.error("扩展的明细Box按钮,可设置index值指定显示位置,可使用this.$refs拿到包括自定义扩展的所有组件"<span style="color: #000000;">);
+                            }
+                        }],
+                detail: </span><span style="color: #008000;">//</span><span style="color: #008000;">新建、编辑弹出框明细表table表按钮</span>
+                    [<span style="color: #008000;">//</span><span style="color: #008000;">ViewGrid查询界面按钮</span>
+        <span style="color: #000000;">                {
+                            name: </span>"点我2"<span style="color: #000000;">,
+                            icon: </span>'md-create'<span style="color: #000000;">,
+                            value: </span>'Edit'<span style="color: #000000;">,
+                            class: </span>''<span style="color: #000000;">,
+                            type: </span>'success'<span style="color: #000000;">,
+                            index: </span>1,<span style="color: #008000;">//</span><span style="color: #008000;">显示的位置</span>
+                            onClick: <span style="color: #0000ff;">function</span><span style="color: #000000;"> () {
+                                </span><span style="color: #0000ff;">this</span>.$message.error("扩展的明细table按钮,可设置index值指定显示位置"<span style="color: #000000;">);
+                            }
+                        }]
+            },</span><span style="color: #008000;">//</span><span style="color: #008000;">扩展的按钮</span>
+            methods: {<span style="color: #008000;">//</span><span style="color: #008000;">方法扩展</span>
+        <span style="color: #000000;">        getServiceDate() {
+                    </span><span style="color: #0000ff;">this</span>.http.post("/api/SellOrder/getServiceDate", {}, '正在调用后台数据').then(date =&gt;<span style="color: #000000;"> {
+                        </span><span style="color: #0000ff;">this</span>.$message.error("从后台获取的服务器时间是：" +<span style="color: #000000;"> date);
+                    })
+                },
+                mounted() {
+                  
+                   </span><span style="color: #008000;">//</span><span style="color: #008000;"> this.$Notice.success({ title: '执行mounted方法' });</span>
+        <span style="color: #000000;">        },
+                onInit() {
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">表格设置为单选</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;"> this.single=true;</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;"> this.detailOptions.single=true;</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;">设置编辑表单数量字段的最小与最大值</span>
+                    <span style="color: #0000ff;">this</span>.editFormOptions.forEach(x =&gt;<span style="color: #000000;"> {
+                        x.forEach(item </span>=&gt;<span style="color: #000000;"> {
+                            </span><span style="color: #008000;">//</span><span style="color: #008000;">设置输入的数量的最小值与最大值(默认是1)</span>
+                            <span style="color: #0000ff;">if</span> (item.field == "Qty"<span style="color: #000000;">) {
+                                item.min </span>= 10<span style="color: #000000;">;
+                                item.max </span>= 200<span style="color: #000000;">;
+                            }
+                        });
+                    })
+        
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">动态修改table并给列添加事件</span>
+                    <span style="color: #0000ff;">this</span>.columns.forEach(x =&gt;<span style="color: #000000;"> {
+                        </span><span style="color: #0000ff;">if</span> (x.field == "Qty"<span style="color: #000000;">) {
+                            x.formatter </span>= (row) =&gt;<span style="color: #000000;"> {
+                                </span><span style="color: #0000ff;">return</span> '&lt;a&gt;' + row.Qty + "(弹出框)" + '&lt;/a&gt;'<span style="color: #000000;">
+                            }
+                            x.click </span>= (row, column, event) =&gt;<span style="color: #000000;"> {
+                                </span><span style="color: #0000ff;">this</span>.$refs.gridHeader.model = <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                            }
+                        }
+                    })
+        
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">动态设置弹出框table的高度</span>
+                    <span style="color: #0000ff;">this</span>.detailOptions.height = 110<span style="color: #000000;">;
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">动态设置查询界面table高度</span>
+                    <span style="color: #0000ff;">this</span>.tableHeight = 200<span style="color: #000000;">;;
+                    </span><span style="color: #0000ff;">this</span>.$Notice.success({ title: 'create方法执行时,你可以此处编写业务逻辑'<span style="color: #000000;"> });
+                },
+                onInited() {
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">   this.$Notice.success({ title: 'create方法执行后', desc: '你可以SellOrder.js中编写业务逻辑,其他方法同样适用' });</span>
+        <span style="color: #000000;">        },
+                searchBefore(param) { </span><span style="color: #008000;">//</span><span style="color: #008000;">查询ViewGird表数据前,param查询参数</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;">你可以指定param查询的参数，处如果返回false，则不会执行查询</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;"> this.$Notice.success({ title: this.table.cnName + ',查询前' });</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;"> console.log("扩展的"this.detailOptions.cnName + '触发loadDetailTableBefore');</span>
+                    <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                searchAfter(result) { </span><span style="color: #008000;">//</span><span style="color: #008000;">查询ViewGird表数据后param查询参数,result回返查询的结果</span>
+                    <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.table.cnName + ',查询结果', desc: '返回的对象：' +<span style="color: #000000;"> JSON.stringify(result) });
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                searchDetailBefore(param) {</span><span style="color: #008000;">//</span><span style="color: #008000;">查询从表表数据前,param查询参数</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;">  this.$Notice.success({ title: this.detailOptions.cnName + '查询前' });</span>
+                    <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                searchDetailAfter(data) {</span><span style="color: #008000;">//</span><span style="color: #008000;">查询从表后param查询参数,result回返查询的结果</span>
+                    <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + ',查询结果', desc: '返回的对象：' +<span style="color: #000000;"> JSON.stringify(data) });
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                delBefore(ids, rows) { </span><span style="color: #008000;">//</span><span style="color: #008000;">查询界面的表删除前 ids为删除的id数组,rows删除的行</span>
+                    let auditStatus = rows.some(x =&gt; { <span style="color: #0000ff;">return</span> x.AuditStatus &gt; 0<span style="color: #000000;"> });
+                    </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> (auditStatus) {
+                        </span><span style="color: #0000ff;">this</span>.$message.error('只能删除未审核的数据'<span style="color: #000000;">)
+                        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">false</span><span style="color: #000000;">;
+                    }
+                    </span><span style="color: #0000ff;">this</span>.$Notice.success({ title: '删除前，选择的Id:' + ids.join(','<span style="color: #000000;">) });
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                delAfter(result) {</span><span style="color: #008000;">//</span><span style="color: #008000;">查询界面的表删除后</span>
+                    <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                delDetailRow(rows) { </span><span style="color: #008000;">//</span><span style="color: #008000;">弹出框删除明细表的行数据(只是对table操作，并没有操作后台)</span>
+        <span style="color: #000000;">            console.log(rows)
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                addBefore(formData) { </span><span style="color: #008000;">//</span><span style="color: #008000;">新建保存前formData为对象，包括明细表</span>
+        
+                    <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '新建前：', desc: '提前的数据：' +<span style="color: #000000;"> JSON.stringify(formData) });
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                addAfter(result) {</span><span style="color: #008000;">//</span><span style="color: #008000;">新建保存后result返回的状态及表单对象</span>
+                    <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '新建完成后：', desc: '返回的数据' +<span style="color: #000000;"> JSON.stringify(result) });
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                updateBefore(formData) { </span><span style="color: #008000;">//</span><span style="color: #008000;">编辑保存前formData为对象，包括明细表、删除行的Id</span>
+                    <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '编辑前：', desc: '提前的数据：' +<span style="color: #000000;"> JSON.stringify(formData) });
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">获取扩展的modelFooter属性text</span>
+                    console.log(<span style="color: #0000ff;">this</span><span style="color: #000000;">.$refs.modelFooter.text)
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                updateAfter(result) {</span><span style="color: #008000;">//</span><span style="color: #008000;">编辑保存后result返回的状态及表单对象</span>
+                    <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '编辑完成后：', desc: '返回的数据' +<span style="color: #000000;"> JSON.stringify(result) });
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                auditBefore(ids, rows) {</span><span style="color: #008000;">//</span><span style="color: #008000;">审核前</span>
+                    <span style="color: #0000ff;">if</span> (rows.length &gt; 2) {<span style="color: #008000;">//</span><span style="color: #008000;">每次最多只能审核2条数据</span>
+                        <span style="color: #0000ff;">this</span>.$message.error('最多只能选择两条数据'<span style="color: #000000;">);
+                        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">false</span><span style="color: #000000;">;
+                    }
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                auditAfter(result, rows) {</span><span style="color: #008000;">//</span><span style="color: #008000;"> 审核后</span>
+                    <span style="color: #0000ff;">if</span><span style="color: #000000;"> (result.status) {
+                        result.message </span>= "审核成功。。。。。" +<span style="color: #000000;"> result.message;
+                    }
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                resetAddFormBefore() { </span><span style="color: #008000;">//</span><span style="color: #008000;">重置新建表单前的内容</span>
+                    <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                resetAddFormAfter() { </span><span style="color: #008000;">//</span><span style="color: #008000;">重置新建表单后的内容</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;">如果某些字段不需要重置，则可以重新赋值</span>
+                    <span style="color: #0000ff;">this</span>.editFormFileds.Remark = '新建重置默认值66666'<span style="color: #000000;">;
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">给明细表添加默认一行</span>
+                    <span style="color: #0000ff;">this</span>.$refs.detail.rowData.push({ Remark: "新建666666"<span style="color: #000000;"> });
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                resetUpdateFormBefore() { </span><span style="color: #008000;">//</span><span style="color: #008000;">重置编辑表单前的内容</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;">this.editFormFileds当前值</span>
+                    console.log(<span style="color: #0000ff;">this</span><span style="color: #000000;">.editFormFileds)
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">当前明细表的行</span>
+                    console.log(<span style="color: #0000ff;">this</span><span style="color: #000000;">.$refs.detail.rowData)
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                resetUpdateFormAfter() { </span><span style="color: #008000;">//</span><span style="color: #008000;">重置编辑表单后的内容</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;">如果某些字段不需要重置，则可以重新赋值</span>
+                    <span style="color: #0000ff;">this</span>.editFormFileds.Remark = '编辑重置默认值66666'<span style="color: #000000;">;
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">给明细表添加默认一行</span>
+                    <span style="color: #0000ff;">this</span>.$refs.detail.rowData.push({ Remark: "编辑666666"<span style="color: #000000;"> });
+                    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                },
+                importAfter(data) { </span><span style="color: #008000;">//</span><span style="color: #008000;">导入excel后刷新table表格数据</span>
+                    <span style="color: #0000ff;">this</span>.search(); <span style="color: #008000;">//</span><span style="color: #008000;">刷新table</span>
+        <span style="color: #000000;">        },
+                modelOpenBefore(row) { </span><span style="color: #008000;">//</span><span style="color: #008000;">点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据</span>
+        <span style="color: #000000;">
+                },
+                modelOpenAfter(row) {  </span><span style="color: #008000;">//</span><span style="color: #008000;">点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据</span>
+                    <span style="color: #0000ff;">this</span>.$message.error("此处是打开弹出框后事件,当前操作：" + <span style="color: #0000ff;">this</span>.currentAction + "，你可以在此处编写逻辑，如，从后台获取数据"<span style="color: #000000;">);
+                },
+            }
+        };
+        export </span><span style="color: #0000ff;">default</span> extension;</pre>
+        </div>
+        <p>&nbsp;</p>`, param: "" }]
     }, uploadExcel: {
         attr: [],
         methods: []

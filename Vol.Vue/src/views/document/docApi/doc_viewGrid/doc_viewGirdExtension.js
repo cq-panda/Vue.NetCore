@@ -94,7 +94,7 @@ let extension = {
                     class: '',
                     type: 'error',
                     onClick: function () {
-                        this.$refs.modelBody.bodyModel=true;
+                        this.$refs.modelBody.bodyModel = true;
                     }
                 })
             //弹出框明细表的按钮
@@ -125,10 +125,21 @@ let extension = {
                         return "<a>" + row.Qty + '(点我试试)' + "</a>";
                     }
                 }
+
+                if (x.field == 'Remark') {
+                    //添加事件
+                    x.click = (row, column, event) => {
+                        this.$refs.gridHeader.model = true;
+                    }
+                    //格式化
+                    x.formatter = (row) => {
+                        return "<a>" + row.Remark + '(点击弹出框)' + "</a>";
+                    }
+                }
             })
         },
         //其他可以在此处定义的事件，全部事件可参照serviceFilter.js或SellOrder.js
-        mounted() { 
+        mounted() {
             console.log('mounted');
         },
         searchBefore(param) { //查询ViewGird表数据前,param查询参数
