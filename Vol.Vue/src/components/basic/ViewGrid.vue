@@ -191,6 +191,7 @@
                 :columns="detailOptions.columns"
                 :pagination="detailOptions.pagination"
                 :height="detailOptions.height"
+                :single="detailOptions.single"
                 :pagination-hide="false"
               ></vol-table>
             </div>
@@ -222,6 +223,7 @@
       <div class="grid-container">
         <vol-table
           ref="table"
+          :single="single"
           @loadBefore="loadTableBefore"
           @loadAfter="loadTableAfter"
           :tableData="[]"
@@ -310,6 +312,7 @@ var vueParam = {
   data() {
     return {
       _inited: false,
+      single:false,//表是否单选
       const: _const, //增删改查导入导出等对应的action
       boxInit: false, //新建或编辑的弹出框初化状态，默认不做初始化，点击新建或编辑才初始化弹出框
       searchBoxShow: false, //高级查询(界面查询后的下拉框点击触发)
@@ -345,6 +348,7 @@ var vueParam = {
         data: [], //数据源
         columns: [], //从表列信息
         edit: true, //明细是否可以编辑
+        single:false,//明细表是否单选
         delKeys: [], //当编辑时删除当前明细的行主键值
         url: "", //从表加载数据的url
         pagination: { total: 0, size: 100, sortName: "" }, //从表分页配置数据

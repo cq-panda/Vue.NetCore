@@ -51,10 +51,10 @@ export default {
     getRows() {
       let rows = this.$refs.table.getSelected();
       if (rows.length == 0) {
-        return this.$message.error("请先选中行1");
+        return this.$Message.error("请先选中行1");
       }
-      this.text = "当前选中的行数据：" + JSON.stringify(rows);
-      this.viewModel = true;
+      this.$Message.info("当前选中的行数据：" + JSON.stringify(rows));
+     // this.viewModel = true;
     }
   },
   created() {},

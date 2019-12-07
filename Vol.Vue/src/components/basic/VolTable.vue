@@ -4,6 +4,7 @@
       <div class="mask" v-show="loading"></div>
       <div class="message" v-show="loading">加载中.....</div>
       <el-table
+        @selection-change="selectionChange"
         @row-click="beginEdit"
         @cell-mouse-leave="endEdit"
         ref="table"
@@ -20,6 +21,11 @@
         <!-- @row-click="rowClick" -->
         <!-- <el-table-column type="index"  :index="initIndex"></el-table-column> -->
         <el-table-column type="selection" width="55"></el-table-column>
+        <!-- <el-table-column label="选择" width="50" align="center">
+          <template scope="scope">
+            <el-radio class="radio" v-model="radio" :label="scope.$index">&nbsp;</el-radio>
+          </template>
+        </el-table-column>-->
         <el-table-column
           v-for="(column,cindex) in filterColumns()"
           :key="cindex"
@@ -209,6 +215,10 @@ export default {
     loadKey: {
       //是否自动从后台加载数据源,如【审核状态】字段是的值是数字，但要显示对应的文字，1=审核中，2=审核通过
       type: Boolean,
+      default: false
+    },
+    single: {
+      type: Boolean, //是否单选
       default: false
     }
   },
@@ -505,7 +515,7 @@ export default {
         let option = this.columns.find(x => {
           return x.field == column.property;
         });
-        if (!option.edit) {
+        if (!option || !option.edit) {
           return;
         }
         if (
@@ -668,8 +678,11 @@ export default {
       this.paginations.rows = 30;
       this.paginations.page = 1;
     },
-    handleSelectionChange(row) {
-      this.$refs.table.toggleRowSelection(row);
+    selectionChange(selection) {
+      // console.log(selection);
+      if (this.single && selection.length > 1) {
+        this.$refs.table.toggleRowSelection(selection[0]);
+      }
     },
     getColor(row, column) {
       let val = row[column.field];

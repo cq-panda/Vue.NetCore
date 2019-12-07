@@ -99,9 +99,13 @@ let extension = {
             })
         },
         mounted() {
-            this.$Notice.success({ title: '执行mounted方法' });
+          
+           // this.$Notice.success({ title: '执行mounted方法' });
         },
         onInit() {
+            //表格设置为单选
+            // this.single=true;
+            // this.detailOptions.single=true;
             //设置编辑表单数量字段的最小与最大值
             this.editFormOptions.forEach(x => {
                 x.forEach(item => {

@@ -183,7 +183,7 @@ export default {
             field: "file1",
             required: true,
             maxSize: 1, //最大1M文件
-            url: "http://127.0.0.1:9991/api/App_Appointment/Upload",
+            url: "/api/App_Appointment/Upload",
             type: "file"
           },
           {
@@ -192,7 +192,7 @@ export default {
             maxSize: 0.5, //最大0.5M文件
             multiple: true, //启用多文件
             maxFile: 2, //最多两个文件
-            url: "http://127.0.0.1:9991/api/App_Appointment/Upload",
+            url: "/api/App_Appointment/Upload",
             type: "excel"
           }
         ],
@@ -203,7 +203,7 @@ export default {
             field: "file3",
             maxSize: 1, //最大1M文件
             colSize: 12,
-            url: "http://127.0.0.1:9991/api/App_Appointment/Upload",
+            url: "/api/App_Appointment/Upload",
             type: "img"
           }
         ],
@@ -216,7 +216,7 @@ export default {
             multiple: true, //启用多文件
             maxFile: 3, //最多3个文件
             downLoad: true,
-            url: "http://127.0.0.1:9991/api/App_Appointment/Upload",
+            url: "/api/App_Appointment/Upload",
             type: "file",
             fileClick(index, file, files) {
               this.$Message.error(file.name);
@@ -230,7 +230,7 @@ export default {
             maxSize: 1, //最大1M文件
             multiple: true, //启用多文件
             maxFile: 3, //最多两个文件
-            url: "http://127.0.0.1:9991/api/App_Appointment/Upload",
+            url: "/api/App_Appointment/Upload",
             type: "img"
           }
         ]
