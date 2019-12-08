@@ -50,7 +50,7 @@
                               [{"title":"注册时间","field":"CreateDate","disabled":true},
                                {"title":"创建人","field":"Creator","disabled":true}],
                               [{"title":"备注","field":"Remark","colSize":12,"type":"textarea"}],
-                              [{"title":"头像","field":"HeadImageUrl"}]],
+                              [{"title":"头像","field":"HeadImageUrl","type":"img"}]],
                 searchFormFileds: {"UserName":"","Gender":"","DeptName":"","Role_Id":"","Token":"","AppType":"","UserTrueName":"","CreateDate":"","IsRegregisterPhone":"","PhoneNo":"","Enable":"","LastLoginDate":"","Address":"","Email":""},
                 searchFormOptions: [[{"title":"用户名","field":"UserName"},{"dataKey":"gender","title":"性别","field":"Gender","type":"drop"},{"title":"用户真实姓名","field":"UserTrueName"}],[{"title":"部门","field":"DeptName"},{"dataKey":"roles","title":"角色","field":"Role_Id","type":"drop"},{"title":"Token","field":"Token"}],[{"dataKey":"ut","title":"登陆设备类型","field":"AppType","type":"dropList"},{"dataKey":"isphone","title":"是否手机用户","field":"IsRegregisterPhone","type":"drop"},{"title":"手机号","field":"PhoneNo"}],[{"dataKey":"enable","title":"是否可用","field":"Enable","type":"drop"},{"title":"地址","field":"Address"},{"title":"Email","field":"Email"}],[{"title":"注册时间","field":"CreateDate","type":"datetime"},{"title":"最后登陆时间","field":"LastLoginDate","type":"datetime"}]],
                 columns: [{field:'UserName',title:'用户名',type:'string',link:true,width:120,readonly:true,require:true,align:'left',sortable:true},
