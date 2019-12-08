@@ -65,8 +65,8 @@
               </div>
               <i-switch
                 v-else-if="item.type=='switch'"
-                :true-value="1"
-                :false-value="0"
+                :true-value="typeof formFileds[item.field]=='boolean' ? true:1"
+                :false-value="typeof formFileds[item.field]=='boolean' ? false:0"
                 v-model="formFileds[item.field]"
               >
                 <span slot="open">是</span>
