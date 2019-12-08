@@ -304,7 +304,10 @@ let methods = {
             formData.forEach(item => {
                 item.forEach(x => {
                     let data;
-                    if (x.bind && x.bind.data) {
+                    if (x.type == 'switch') {
+                        this.keyValueType[x.field] = 1;
+                    }
+                    else if (x.bind && x.bind.data) {
                         data = x.bind.data;
                     } else if (x.data) {
                         if (x.data instanceof Array) {
@@ -314,7 +317,8 @@ let methods = {
                         }
                     }
                     if (data && data.length > 0 && !this.keyValueType.hasOwnProperty(x.field)) {
-                        this.keyValueType[x.field] = typeof data[0].key;
+
+                        this.keyValueType[x.field] = data[0].key;
                     }
                 })
             })
@@ -341,7 +345,9 @@ let methods = {
         for (const key in form) {
             if (sourceObj.hasOwnProperty(key)) {
                 let newVal = sourceObj[key];
-                if (typeof(this.keyValueType[key] == 'number') && newVal * 1 == newVal) {
+                if (this.keyValueType.hasOwnProperty(key)
+                    && typeof (this.keyValueType[key]) == 'number'
+                    && newVal * 1 == newVal) {
                     newVal = newVal * 1;
                 } else {
                     if (newVal == null || newVal == undefined) {
@@ -715,7 +721,7 @@ let methods = {
     initColumns(scoure, dicKeys, keys) {
         if (!scoure || !(scoure instanceof Array)) return;
         scoure.forEach(item => {
-            if (!item.bind || (item.bind.data&&item.bind.data.length>0)) return true;
+            if (!item.bind || (item.bind.data && item.bind.data.length > 0)) return true;
             if (this.hasKeyField.indexOf(item.field) == -1) {
                 this.hasKeyField.push(item.field);
             }
