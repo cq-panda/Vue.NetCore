@@ -252,7 +252,7 @@ namespace VOL.System.Services
                     return responseData.Error("用户名已经被注册");
                 user.UserPwd = pwd.EncryptDES(AppSetting.Secret.User);
                 //设置默认头像
-                user.HeadImageUrl = "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x1.jpg";
+                // user.HeadImageUrl = "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x1.jpg";
                 return responseData.OK();
             };
 
