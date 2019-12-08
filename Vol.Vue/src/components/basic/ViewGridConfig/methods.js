@@ -524,7 +524,16 @@ let methods = {
                 //  this.$refs.detail.rowData &&
                 this.$refs.detail.reset();
         }
-        this.resetEditForm({});
+        let obj={};
+        //如果有switch标签，默认都设置为是
+        this.editFormOptions.forEach(x=>{
+            x.forEach(item=>{
+                if (item.type=='switch') {
+                    obj[item.field]=1;
+                }
+            })
+        })
+        this.resetEditForm(obj);
         //  this.resetEditForm();
         this.boxModel = true;
         //点击新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
