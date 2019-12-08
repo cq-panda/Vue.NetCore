@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VOL.Core.Extensions;
 using VOL.Core.ManageUser;
@@ -249,6 +250,10 @@ namespace VOL.System.Services
 
         public override WebResponseContent Add(SaveModel saveDataModel)
         {
+            AddOnExecuting = (Sys_Role role, object obj) =>
+            {
+                return ValidateRoleName(role, x => x.RoleName == role.RoleName);
+            };
             return RemoveCache(base.Add(saveDataModel));
         }
 
@@ -256,8 +261,23 @@ namespace VOL.System.Services
         {
             return RemoveCache(base.Del(keys, delList));
         }
+
+        private WebResponseContent ValidateRoleName(Sys_Role role, Expression<Func<Sys_Role, bool>> predicate)
+        {
+            WebResponseContent responseContent = new WebResponseContent(true);
+            if (repository.Exists(predicate))
+            {
+                return responseContent.Error($"角色名【{role.RoleName}】已存在,请设置其他角色名");
+            }
+            return responseContent;
+        }
+
         public override WebResponseContent Update(SaveModel saveModel)
         {
+            UpdateOnExecuting = (Sys_Role role, object obj1, object obj2, List<object> obj3) =>
+            {
+                return ValidateRoleName(role, x => x.RoleName == role.RoleName && x.Role_Id != role.Role_Id);
+            };
             return RemoveCache(base.Update(saveModel));
         }
         private WebResponseContent RemoveCache(WebResponseContent webResponse)
