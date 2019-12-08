@@ -21,7 +21,11 @@
             </div>
             <img :src="getImgSrc(file)" :onerror="errorImg" />
           </div>
-          <div class="img-selector" :class="getSelector()">
+          <div
+            v-show="!autoUpload||(autoUpload&&files.length<maxFile&&fileInfo.length<maxFile)"
+            class="img-selector"
+            :class="getSelector()"
+          >
             <div class="selector" @click="handleClick">
               <Icon type="ios-camera"></Icon>
             </div>
@@ -188,6 +192,10 @@ export default {
       default: (index, file, files) => {
         return true;
       }
+    },
+    append:{//多选时，重新选择文件是否追加(默认重选直接用清原数据),逻辑待处理
+      type:Boolean,
+      default:false
     }
   },
   data() {
@@ -489,8 +497,11 @@ export default {
           this.$Message.error({
             duration: 5,
             content:
-              "选择的文件【" + file.name + "】不能超过:" + this.maxSize ||
-              3 + "M"
+              "选择的文件【" +
+              file.name +
+              "】不能超过:" +
+              (this.maxSize || 3) +
+              "M"
           });
           return false;
         }
