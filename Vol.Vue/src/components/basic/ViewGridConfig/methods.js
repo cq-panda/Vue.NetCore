@@ -77,7 +77,7 @@ let methods = {
         let boxButtons = [];
 
         let saveBtn = this.buttons.some(x => {
-            if (x.value&&(x.value.toLowerCase() == this.const.ADD.toLowerCase() || x.value.toLowerCase() == this.const.EDIT.toLowerCase())) return true;
+            if (x.value && (x.value.toLowerCase() == this.const.ADD.toLowerCase() || x.value.toLowerCase() == this.const.EDIT.toLowerCase())) return true;
         });
 
         //从表表格操作按钮
@@ -122,8 +122,8 @@ let methods = {
             this.extendBtn(boxButtons, this.extend.buttons.box)
             this.detailOptions.buttons.push(detailGridButtons);
             //弹出框扩展明细表按钮
-            this.extendBtn( this.detailOptions.buttons, this.extend.buttons.detail)
-          
+            this.extendBtn(this.detailOptions.buttons, this.extend.buttons.detail)
+
             return boxButtons;
         }
 
@@ -341,7 +341,7 @@ let methods = {
         for (const key in form) {
             if (sourceObj.hasOwnProperty(key)) {
                 let newVal = sourceObj[key];
-                if (this.keyValueType[key] == 'number' && newVal * 1 == newVal) {
+                if (typeof(this.keyValueType[key] == 'number') && newVal * 1 == newVal) {
                     newVal = newVal * 1;
                 } else {
                     if (newVal == null || newVal == undefined) {
@@ -377,7 +377,7 @@ let methods = {
         //上传文件以逗号隔开
         if (this.uploadfiled) {
             for (const key in this.editFormFileds) {
-                if (this.uploadfiled.indexOf(key)!=-1 && this.editFormFileds[key] instanceof Array) {
+                if (this.uploadfiled.indexOf(key) != -1 && this.editFormFileds[key] instanceof Array) {
                     let allPath = this.editFormFileds[key].map(x => {
                         return x.path;
                     })
@@ -715,7 +715,7 @@ let methods = {
     initColumns(scoure, dicKeys, keys) {
         if (!scoure || !(scoure instanceof Array)) return;
         scoure.forEach(item => {
-            if (!item.bind) return true;
+            if (!item.bind || (item.bind.data&&item.bind.data.length>0)) return true;
             if (this.hasKeyField.indexOf(item.field) == -1) {
                 this.hasKeyField.push(item.field);
             }
