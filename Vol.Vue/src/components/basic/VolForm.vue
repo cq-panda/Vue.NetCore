@@ -326,9 +326,14 @@ export default {
     getText(formFileds, item) {
       //2019.10.24修复表单select组件为只读的属性时没有绑定数据源
       let text = formFileds[item.field];
+
+      if (typeof text == "function") {
+        return text(formFileds);
+      }
       if (text == "null" || text == "") {
         return "--";
       }
+
       if (!item.data) return text;
       let data;
       if (item.data.data) {
