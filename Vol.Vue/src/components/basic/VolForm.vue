@@ -562,15 +562,15 @@ export default {
           max: item.max,
           type: item.columnType || item.type,
           validator: (rule, value, callback) => {
-            if (rule.required) {
-              if (value == "") {
-                formFileds[rule.field] = 0;
-                // rule.message = rule.title + "不能为空";
-                // return callback(new Error(rule.message));
-                return callback();
+            if (!rule.min && !rule.max) {
+              if (rule.required) {
+                if (value == "") {
+                  formFileds[rule.field] = 0;
+                  return callback();
+                }
               }
+              if (value == "" || value == undefined) return callback();
             }
-            if (value == "" || value == undefined) return callback();
             if (rule.type == "number") {
               if (!this.rule.number.test(value)) {
                 rule.message = rule.title + "只能是整数";
