@@ -330,7 +330,7 @@ export default {
       if (typeof text == "function") {
         return text(formFileds);
       }
-      if (text == "null" || text == "") {
+      if (text === "null" || text === "" ||text===null ||text===undefined) {
         return "--";
       }
 
