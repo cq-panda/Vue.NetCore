@@ -93,7 +93,7 @@ namespace VOL.Core.UserManager
         /// <returns></returns>
         public static IQueryable<int> GetCurrentAllChildUser()
         {
-            var roles = GetAllChildrenIds(UserContext.Current.UserId);
+            var roles = GetAllChildrenIds(UserContext.Current.RoleId);
             if (roles == null)
             {
                 throw new Exception("未获取到当前角色");
