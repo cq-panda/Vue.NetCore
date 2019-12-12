@@ -53,8 +53,8 @@
               ></DatePicker>
               <i-switch
                 v-else-if="column.edit.type=='switch'"
-                :true-value="1"
-                :false-value="0"
+                :true-value="scope.row[column.field]=='boolean' ? true:1"
+                :false-value="scope.row[column.field]=='boolean' ? false:0"
                 v-model="scope.row[column.field]"
               >
                 <span slot="open">是</span>
