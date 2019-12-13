@@ -45,6 +45,53 @@ let base = {
         }
         return url.indexOf(ip.replace('https://', '').replace('http://', '')) >= 0
     },
+    priviewImg(src, httpUrl) { //图片预览，目前只支持单图片预览
+        if (src && !this.isUrl(src) && httpUrl) {
+            if (src.substr(0, 1) == "/" && httpUrl.substr(httpUrl.length - 1, 1) == "/") {
+                src = src.substr(1)
+            }
+            src = (httpUrl + src);
+        }
+        let id = "vol-priview";
+        let $div = document.getElementById(id);
+        if (!$div) {
+            $div = document.createElement("div");
+            $div.setAttribute("id", "vol-priview");
+            let $mask = document.createElement("div");
+            $mask.style.position = "absolute";
+            $mask.style.width = "100%";
+            $mask.style.height = "100%";
+            $mask.style.background = "black"
+            $mask.style.opacity = "0.6";
+            $div.appendChild($mask);
+            $div.style.position = "fixed";
+            $div.style.width = "100%";
+            $div.style.height = "100%";
+            // $div.style.overflow = "scroll";
+            $div.style.top = 0;
+            $div.style['z-index'] = 9999999;
+            let $img = document.createElement("img");
+            $img.setAttribute("class", "vol-priview-img");
+            $img.style.position = "absolute";
+            $img.style.top = "50%";
+            $img.style.left = "50%";
+            $img.style['max-width'] = "90%";
+            $img.style['max-height'] = "90%";
+            $img.style.transform = "translate(-50%,-50%)";
+            // $img.src = src;
+            $img.setAttribute("src", src);
+            $div.appendChild($img);
+            $div.addEventListener("click", function () {
+                this.style.display = "none";
+            })
+            document.body.appendChild($div);
+            return;
+        }
+        let $img1 = document.body.appendChild($div).querySelector(".vol-priview-img");
+        // img.src = src;
+        $img1.setAttribute("src", src);
+        $div.style.display = "block";
+    },
     //下载文件 $element 标签, url完整url, fileName 文件名, header 以key/value传值
     //backGroundUrl 后台url，如果后台url直接从后台下载，其他全部通过点击a标签下载
     dowloadFile(url, fileName, header, backGroundUrl) {
@@ -57,6 +104,7 @@ let base = {
             $element = document.createElement('a');
             $element.setAttribute("id", "dowonloadfile-a");
             document.body.append($element);
+
         }
         //url为一个完整的地址，并且不是后台api的地址，直接点击a标签下载
         if (this.isUrl(url) && !this.matchUrlIp(url, backGroundUrl)) {

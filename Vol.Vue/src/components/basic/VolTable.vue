@@ -594,7 +594,8 @@ export default {
       this.rowData.push(row);
     },
     viewImg(row, column) {
-      window.open(row[column.field]);
+      this.base.priviewImg(row[column.field],this.http.ipAddress);
+     // window.open(row[column.field]);
     },
     link(row, column) {
       this.$props.linkView(row, column);

@@ -14,7 +14,7 @@
           <div v-for="(file,index) in  files.length>0?files:fileInfo" :key="index" class="img-item">
             <div class="operation">
               <div class="action">
-                <Icon type="md-eye" @click="viewBigImg(index)" class="view"></Icon>
+                <Icon type="md-eye" @click="priviewImg(index)" class="view"></Icon>
                 <Icon type="md-close" @click="removeFile(index)" class="remove"></Icon>
               </div>
               <div class="mask"></div>
@@ -193,9 +193,10 @@ export default {
         return true;
       }
     },
-    append:{//多选时，重新选择文件是否追加(默认重选直接用清原数据),逻辑待处理
-      type:Boolean,
-      default:false
+    append: {
+      //多选时，重新选择文件是否追加(默认重选直接用清原数据),逻辑待处理
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -215,40 +216,28 @@ export default {
     }
   },
   methods: {
-    getPreview() {
-      return this.files.map(x => {
-        return x.getImgSrc();
-      });
-    },
-    viewBigImg(index) {
+    priviewImg(index) {
       //查看大图预览模式待完
-      window.open(this.getImgSrc(this.files[index]));
-      // let $img_model = document.getElementById("upload-img-model");
-      // if ($img_model) {
-      //   $img_model.display = "block";
-      // }
-      //       <div v-show="model" class="big-model">
-      //   <div class="m-img">
-      //     <img :src="bigImg" />
-      //   </div>
-      //   <div class="mask"></div>
-      // </div>
-      // this.model = true;
-      // this.bigImg = this.getImgSrc(this.files[index]);
+      this.base.priviewImg(
+        this.getImgSrc(
+          (this.files.length > 0 ? this.files : this.fileInfo)[index]
+        )
+      );
+      //  window.open(this.getImgSrc((this.files.length>0?this.files:this.fileInfo)[index]));
     },
     getSelector() {
       if (this.autoUpload) {
         return "auto-selector";
       }
-
       return "submit-selector";
     },
     getImgSrc(file) {
       if (file.hasOwnProperty("path")) {
         if (this.base.isUrl(file.path)) {
-          // if (!this.base.matchUrlIp(file.path, this.http.ipAddress)) {
           return file.path;
-          // }
+        }
+        if (file.path.substr(0, 1) == "/") {
+          file.path = file.path.substr(1);
         }
         return this.http.ipAddress + file.path;
       }
@@ -377,8 +366,13 @@ export default {
           .split(".")
           .pop()
           .toLocaleLowerCase() || "";
-      let type = "ios-document-outline";
-
+      let fileIcon = "ios-document-outline";
+      if (this.fileTypes.length > 0 && checkFileType != undefined) {
+        if (this.fileTypes.indexOf(format) != -1) {
+          return true;
+        }
+        return false;
+      }
       if (
         checkFileType &&
         !(checkFileType instanceof Array) &&
@@ -405,20 +399,20 @@ export default {
             return false;
           }
         }
-        type = "ios-image";
+        fileIcon = "ios-image";
       }
       if (
         ["mp4", "m3u8", "rmvb", "avi", "swf", "3gp", "mkv", "flv"].indexOf(
           format
         ) > -1
       ) {
-        type = "ios-film";
+        fileIcon = "ios-film";
       }
       if (["mp3", "wav", "wma", "ogg", "aac", "flac"].indexOf(format) > -1) {
-        type = "ios-musical-notes";
+        fileIcon = "ios-musical-notes";
       }
       if (["doc", "txt", "docx", "pages", "epub", "pdf"].indexOf(format) > -1) {
-        type = "md-document";
+        fileIcon = "md-document";
       }
       if (
         checkFileType == "excel" ||
@@ -431,13 +425,13 @@ export default {
             return false;
           }
         }
-        type = "ios-podium";
+        fileIcon = "ios-podium";
       }
       if (["keynote", "ppt", "pptx"].indexOf(format) > -1) {
-        type = "ios-videocam";
+        fileIcon = "ios-videocam";
       }
 
-      return type;
+      return fileIcon;
     },
     beforeUpload() {},
     checkFile(files) {

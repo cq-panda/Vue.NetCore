@@ -21,7 +21,7 @@
                 v-for="(img,imgIndex) in formFileds[item.field]"
                 :key="imgIndex"
               >
-                <img :src="getSrc(img.path)" :onerror="errorImg" />
+                <img :src="getSrc(img.path)" :onerror="errorImg" @click="priviewImg(img.path)" />
               </div>
             </div>
             <div v-else>
@@ -228,6 +228,9 @@ export default {
     };
   },
   methods: {
+    priviewImg(url) {
+      this.base.priviewImg(url, this.http.ipAddress);
+    },
     getSrc(path) {
       if (!path) return;
       if (!this.base.isUrl(path) && path.indexOf(".") != -1) {
@@ -330,7 +333,12 @@ export default {
       if (typeof text == "function") {
         return text(formFileds);
       }
-      if (text === "null" || text === "" ||text===null ||text===undefined) {
+      if (
+        text === "null" ||
+        text === "" ||
+        text === null ||
+        text === undefined
+      ) {
         return "--";
       }
 
