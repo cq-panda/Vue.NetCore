@@ -195,7 +195,7 @@ namespace VOL.Core.Dapper
             Expression<Func<T, object>> columns = null,
             SqlBulkCopyOptions? sqlBulkCopyOptions = null)
         {
-            DataTable table = entities.ToDataTable(columns);
+            DataTable table = entities.ToDataTable(columns,false);
             return BulkInsert(table, tableName ?? typeof(T).GetEntityTableName(), sqlBulkCopyOptions);
         }
         public int BulkInsert(DataTable table, string tableName, SqlBulkCopyOptions? sqlBulkCopyOptions = null, string fileName = null, string tmpPath = null)

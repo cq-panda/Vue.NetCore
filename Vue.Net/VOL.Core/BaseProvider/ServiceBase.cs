@@ -15,7 +15,6 @@ using VOL.Core.Extensions.AutofacManager;
 using VOL.Core.Filters;
 using VOL.Core.ManageUser;
 using VOL.Core.Services;
-using VOL.Core.UserManager;
 using VOL.Core.Utilities;
 using VOL.Entity;
 using VOL.Entity.DomainModels;
@@ -150,7 +149,7 @@ namespace VOL.Core.BaseProvider
                 x.DisplayType = x.DisplayType.GetDBCondition();
                 if (string.IsNullOrEmpty(x.Value))
                 {
-                  //  searchParametersList.Remove(x);
+                    //  searchParametersList.Remove(x);
                     continue;
                 }
 
@@ -162,7 +161,7 @@ namespace VOL.Core.BaseProvider
                 // if (string.IsNullOrEmpty(x.Value))
                 if (values == null || values.Length == 0)
                 {
-                 //   searchParametersList.Remove(x);
+                    //   searchParametersList.Remove(x);
                     continue;
                 }
                 if (x.DisplayType == HtmlElementType.Contains)
@@ -172,7 +171,7 @@ namespace VOL.Core.BaseProvider
                               ? queryable.Where(x.Name.CreateExpression<T>(values, expressionType))
                               : queryable.Where(x.Name.CreateExpression<T>(x.Value, expressionType));
             }
-         //   options.Wheres = searchParametersList.GetEntitySql();
+            //   options.Wheres = searchParametersList.GetEntitySql();
             options.TableName = base.TableName ?? typeof(T).Name;
             return options;
         }
@@ -244,10 +243,15 @@ namespace VOL.Core.BaseProvider
             var queryeable = repository.DbContext.Set<Detail>().Where(whereExpression);
 
             gridData.total = queryeable.Count();
-            //生成排序字段
-            var sort = (options.Sort ?? typeof(Detail).GetKeyName()).GetExpression<Detail>();
+
+            string sortName = options.Sort ?? typeof(Detail).GetKeyName();
+            Dictionary<string, QueryOrderBy> orderBy = new Dictionary<string, QueryOrderBy>() { {
+                     sortName,
+                     options.Order == "asc" ?
+                     QueryOrderBy.Asc :
+                     QueryOrderBy.Desc } };
             gridData.rows = queryeable
-                .OrderByDescending(sort)
+                 .GetIQueryableOrderBy(orderBy)
                 .Skip((options.Page - 1) * options.Rows)
                 .Take(options.Rows)
                 .ToList();
