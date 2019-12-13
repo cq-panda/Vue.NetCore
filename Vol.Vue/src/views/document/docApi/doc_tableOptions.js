@@ -12,7 +12,7 @@ let editTable = {
             BindKeyValue: "1",
             Enable: 1,
             ReallyName: "七秒的记忆",
-            filetest:"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx",//也是设置为api服务器的文件，地址如：static/20191206/xx.xlsx
+            filetest: "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx",//也是设置为api服务器的文件，地址如：static/20191206/xx.xlsx
             CreateDate: "2018-09-18 17:45:54"
         },
         {
@@ -28,7 +28,7 @@ let editTable = {
             Enable: 0,
             ReallyName: "月穿潭底水無痕",
             CreateDate: "2018-09-18 17:45:54",
-            filetest:"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx,https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/exceltest.xlsx" //也是设置为api服务器的文件，地址如：static/20191206/xx.xlsx
+            filetest: "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx,https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/exceltest.xlsx" //也是设置为api服务器的文件，地址如：static/20191206/xx.xlsx
         }
     ],
     columns: [
@@ -65,7 +65,7 @@ let editTable = {
             field: "filetest",
             title: "点击文件下载",
             width: 190,
-            type:'file'//指定为file与excel即可下载文件
+            type: 'file'//指定为file与excel即可下载文件
         },
         {
             field: "LimitNumber",
@@ -152,11 +152,13 @@ let remoteColumns = [
     {
         field: "UserName",
         title: "申请人帐号",
+        sort: true,
         link: true, //设置link=true后此单元格可以点击获取当前行的数据进行其他操作
         width: 120
     },
     {
         field: "UserTrueName",
+        sort: true,
         title: "申请人",
         width: 120
     },

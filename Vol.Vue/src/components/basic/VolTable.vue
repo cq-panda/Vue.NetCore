@@ -34,7 +34,7 @@
           :min-width="column.width"
           :formatter="formatter"
           :fixed="column.fixed"
-          :sortable="cindex==0?'custom':false"
+          :sortable="column.sort||cindex==0?'custom':false"
         >
           <template slot-scope="scope">
             <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
@@ -583,7 +583,7 @@ export default {
       this.columns.forEach(x => {
         if (x.edit && x.edit.type == "switch") {
           if (!row.hasOwnProperty(x.field)) {
-            row[x.field] = 0;
+            row[x.field] = x.type == "bool" ? false : 0;
           }
         }
       });
@@ -594,8 +594,8 @@ export default {
       this.rowData.push(row);
     },
     viewImg(row, column) {
-      this.base.priviewImg(row[column.field],this.http.ipAddress);
-     // window.open(row[column.field]);
+      this.base.priviewImg(row[column.field], this.http.ipAddress);
+      // window.open(row[column.field]);
     },
     link(row, column) {
       this.$props.linkView(row, column);

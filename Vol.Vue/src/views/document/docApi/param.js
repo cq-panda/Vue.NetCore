@@ -87,10 +87,10 @@ let param = {
         { name: "field", desc: "字段", type: "string", default: "" },
         { name: "title", desc: "table列名", type: "string", default: "" },
         { name: "width", desc: "列宽度", type: "number", default: "" },
-        { name: "sortable", desc: "是否排序,目前只对第一列生效", type: "bool", default: "false" },
+        { name: "sort", desc: "是否排序列", type: "bool", default: "false" },
         { name: "hidden", desc: "是否隐藏列", type: "bool", default: "false" },
         { name: "fixed", desc: "是否固定列", type: "bool", default: "false" },
-        { name: "type", desc: "目前只有img,其他不需要设置", type: "string", default: "" },
+        { name: "type", desc: "目前只有img,file(设置了此属性，点击即可下载文件),其他不需要设置", type: "string", default: "" },
         { name: "required", desc: "是否必填项(设置edit了属性才会生效)", type: "bool", default: "false" },
         { name: "edit{", desc: "表格编辑配置", type: "json", default: "" },
         { name: "type", desc: "编辑创建的标签类型：number、decimal、text、datetime、date、switch、select", type: "", default: "" },
@@ -199,7 +199,8 @@ let param = {
         </div>
         <p>&nbsp;</p>`, type: "json", default: "" },
         ],
-        methods: [{ name: "refresh", desc: "刷新查询界面的表数据", param: "" },
+        methods: [{ name: "refresh", desc: "刷新查询界面的表数据,使用：this.refresh()", param: "" },
+        { name: "getSelectRows", desc: "查询界面获取选中的行,使用：this.getSelectRows()", param: "" },
         { name: "扩展js方法使用", desc: "扩展js为当前数据库表生成页面扩展js,如:SellOrder.js,文件由代码生成，可自行在js中实现下面列出的方法", param: "" },
         { name: "扩展js方法使用", desc: `<div class="cnblogs_code">
         <pre>let extension =<span style="color: #000000;"> {
