@@ -26,7 +26,7 @@
             </ul>
           </div>
           <div>
-            <img class="user-header" :src="userImg" />
+            <img class="user-header" :src="userImg" :onerror="errorImg" />
           </div>
           <div class="user">
             <span>{{userName}}</span>
@@ -58,12 +58,11 @@
       <div class="vol-main" id="vol-main">
         <el-scrollbar style="height:100%;">
           <!-- <transition name="fade" mode="in-out">  -->
-          <transition  enter-active-class="animated fadeInLeftBig">
-            
-          <keep-alive>
-            <router-view></router-view>
-          </keep-alive>
-           </transition>
+          <transition enter-active-class="animated fadeInLeftBig">
+            <keep-alive>
+              <router-view></router-view>
+            </keep-alive>
+          </transition>
         </el-scrollbar>
       </div>
     </div>
@@ -76,6 +75,7 @@ var $vueIndex;
 export default {
   data() {
     return {
+      errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       userName: "--",
       userImg: "",
       selectId: 0,
@@ -98,7 +98,7 @@ export default {
   created() {
     let userInfo = this.$store.getters.getUserInfo();
     this.userName = userInfo.userName;
-    this.userImg =this.base.getImgSrc(userInfo.img,this.http.ipAddress);
+    this.userImg = this.base.getImgSrc(userInfo.img, this.http.ipAddress);
     $vueIndex = this;
     this.showTime();
     setInterval(function() {
@@ -359,7 +359,7 @@ body {
   width: 100%;
   position: relative;
   /* line-height: 60px; */
-  background-color:#272929;
+  background-color: #272929;
 }
 .vol-main {
   position: absolute;
@@ -429,8 +429,8 @@ body {
   cursor: pointer;
 }
 .header-navigation {
-      box-shadow: 0px 0px 4px #888888;
-      border-bottom: 1px solid #eee;
+  box-shadow: 0px 0px 4px #888888;
+  border-bottom: 1px solid #eee;
   height: 32px;
   overflow: hidden;
   line-height: 32px;
@@ -535,38 +535,38 @@ img:not([src]) {
   border-radius: 5px;
   background: #dadac9;
 }
- .animated {
-    -webkit-animation-duration:1s;
-    animation-duration:1s;
-    -webkit-animation-fill-mode:both;
-    animation-fill-mode:both
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 @-webkit-keyframes fadeInLeftBig {
-    0% {
-        opacity:0;
-        -webkit-transform:translate3d(-50px, 0, 0);
-        transform:translate3d(-50px, 0, 0)
-    }
-    to {
-        opacity:1;
-        -webkit-transform:none;
-        transform:none
-    }
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-50px, 0, 0);
+    transform: translate3d(-50px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
 }
 @keyframes fadeInLeftBig {
-    0% {
-        opacity:0;
-        -webkit-transform:translate3d(-50px, 0, 0);
-        transform:translate3d(-50px, 0, 0)
-    }
-    to {
-        opacity:1;
-        -webkit-transform:none;
-        transform:none
-    }
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-50px, 0, 0);
+    transform: translate3d(-50px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
 }
 .fadeInLeftBig {
-    -webkit-animation-name:fadeInLeftBig;
-    animation-name:fadeInLeftBig
+  -webkit-animation-name: fadeInLeftBig;
+  animation-name: fadeInLeftBig;
 }
 </style>

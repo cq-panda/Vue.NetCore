@@ -2,7 +2,7 @@
   <div class="user-info">
     <div class="left">
       <div>
-        <img class="header-img" :src="userInfo.img" />
+        <img class="header-img" :src="userInfo.img" :onerror="errorImg" />
         <div class="text">
           <p class="name">
             <span>{{userInfo.userName}}</span>
@@ -153,6 +153,7 @@ export default {
   },
   data() {
     return {
+      errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       modifyOptions: {
         model: false,
         fileds: { oldPwd: "", newPwd: "", newPwd1: "" },
@@ -288,7 +289,7 @@ img:not([src]) {
   position: absolute;
   transform: translateY(-40%);
   top: 40%;
-  position: absolute;
+  position: relative;
   margin: 0 auto;
   left: 0;
   width: 895px;
