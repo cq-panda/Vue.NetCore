@@ -98,7 +98,7 @@ export default {
   created() {
     let userInfo = this.$store.getters.getUserInfo();
     this.userName = userInfo.userName;
-    this.userImg = userInfo.img;
+    this.userImg =this.base.getImgSrc(userInfo.img,this.http.ipAddress);
     $vueIndex = this;
     this.showTime();
     setInterval(function() {

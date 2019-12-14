@@ -45,6 +45,15 @@ let base = {
         }
         return url.indexOf(ip.replace('https://', '').replace('http://', '')) >= 0
     },
+    getImgSrc(src, httpUrl) {
+        if (this.isUrl(src)) {
+            return src;
+        }
+        if (httpUrl) {
+            return httpUrl + src;
+        }
+        return src;
+    },
     priviewImg(src, httpUrl) { //图片预览，目前只支持单图片预览
         if (src && !this.isUrl(src) && httpUrl) {
             if (src.substr(0, 1) == "/" && httpUrl.substr(httpUrl.length - 1, 1) == "/") {

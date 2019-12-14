@@ -69,7 +69,13 @@
         </div>
       </vol-form>
     </div>
-    <VolBox :width="500" :height="260" :footer="false" :model.sync="modifyOptions.model" title="修改密码">
+    <VolBox
+      :width="500"
+      :height="260"
+      :footer="false"
+      :model.sync="modifyOptions.model"
+      title="修改密码"
+    >
       <div style="padding:10px;20px;">
         <VolForm ref="pwd" :formRules="modifyOptions.data" :formFileds="modifyOptions.fileds"></VolForm>
         <Button type="info" size="large" icon="md-checkmark-circle" long @click="savePwd">保存</Button>
@@ -134,7 +140,10 @@ export default {
       x.data.createDate = (x.data.createDate || "").replace("T", " ");
       x.data.gender = x.data.gender + "";
       this.$refs.form.reset(x.data);
-      this.userInfo.img = x.data.headImageUrl;
+      this.userInfo.img = this.base.getImgSrc(
+        x.data.headImageUrl,
+        this.http.ipAddress
+      );
       this.userInfo.createDate = x.data.createDate;
       this.userInfo.userName = x.data.userTrueName;
       this.userInfo.phoneNo = x.data.phoneNo;
