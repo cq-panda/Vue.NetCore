@@ -41,10 +41,51 @@
         :tableData="editTableOptions.data"
         :pagination-hide="true"
       ></vol-table>
-      <div>
+      <!-- <div>
         <docParamTable name="edittable" :onlyCode="true"></docParamTable>
+      </div>-->
+      <br />
+      <div>
+        <Button
+          type="info"
+          @click="()=>{this.viewCode=true;this.code=this.sourceCode.edittable}"
+        >查看代码</Button>
       </div>
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div>
+      <VolHeader icon="md-apps" text="使用button编辑">
+        <div slot="content">通过button编辑与额外标签事件</div>
+      </VolHeader>
+      <vol-table
+        ref="table1"
+        :doubleEdit="false"
+        :columns="eidtWithButton.columns"
+        :max-height="200"
+        :index="true"
+        :tableData="eidtWithButton.data"
+        :paginationHide="true"
+      ></vol-table>
+      <!-- <div>
+        <docParamTable name="btnedittable"></docParamTable>
+      </div>-->
+      <br />
+      <div>
+        <Button
+          type="info"
+          @click="()=>{this.viewCode=true;this.code=this.sourceCode.btnedittable}"
+        >查看代码</Button>
+      </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+
     <div style="margin-top: 30px;">
       <VolHeader icon="md-apps" text="从api加载数据">
         <div slot="content">还没想好..</div>
@@ -68,10 +109,25 @@
         @loadAfter="loadTableAfter"
       ></vol-table>
     </div>
-     <div>
-        <docParamTable name="voltable" ></docParamTable>
-      </div>
-      <br/>     <br/>     <br/>     <br/>     <br/>
+    <div>
+      <docParamTable name="voltable"></docParamTable>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <VolBox
+      icon="ios-chatbubbles"
+      :model.sync="viewCode"
+      title="table代码"
+      :height="550"
+      :width="1000"
+      :padding="15"
+    >
+      <div v-html="code"></div>
+      <!-- footer 这里不写，默认有一个关闭按钮 -->
+    </VolBox>
   </div>
 </template>
 <script>
@@ -80,6 +136,7 @@ import VolTable from "@/components/basic/VolTable.vue";
 import VolHeader from "@/components/basic/VolHeader.vue";
 import docParamTable from "./doc_ParamTable.vue";
 import { editTable, remoteColumns } from "./doc_tableOptions.js";
+import sourceCode from "./sourceCode.js";
 let $doc_vue;
 let doc_options = {
   data() {
@@ -89,7 +146,10 @@ let doc_options = {
         columns: []
       },
       viewModel: false,
+      viewCode: false,
       text: "",
+      code: "",
+      sourceCode: sourceCode,
       table: {
         columns: [],
         url: "api/App_Expert/getPageData",
@@ -100,7 +160,76 @@ let doc_options = {
         }
       },
       icon: "md-male",
-      text: "主题名称"
+      text: "主题名称",
+
+      /////////////////////////button编辑配置///////////////////
+      eidtWithButton: {
+        data: [
+          {
+            test1: "123",
+            test2: "1",
+            test3: "789",
+            test4: "2018-09-18 17:45:54",
+            test5: "123"
+          },
+          {
+            test1: "123x",
+            test2: "0",
+            test3: "789x",
+            test4: "2020-01-18 13:24:26",
+            test5: "123x"
+          }
+        ],
+        columns: [
+          {
+            field: "test1",
+            title: "测试1",
+            require: true,
+            edit: { type: "text", min: 5, max: 7 },
+            extra: {
+              icon: "ios-search",
+              text: "点击可触发事件",
+              style: "line-height: 31px;margin-left: 11px;",
+              click: (column, row, tableData) => {
+                //  this.getRows();
+                this.$Message.error("点击标签触发的事件");
+              }
+            },
+            width: 250
+          },
+          {
+            field: "test2",
+            title: "测试2",
+            require: true,
+            edit: { type: "select" },
+            onChange: (column, row, tableData) => {
+              this.$Message.error(row["test2"]);
+            },
+            bind: {
+              //如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上
+              key: "audit",
+              data: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
+            },
+            width: 130
+          },
+          {
+            field: "test3",
+            title: "测试3",
+            width: 160
+          },
+          {
+            field: "test4",
+            title: "测试4",
+            edit: { type: "datetime" },
+            width: 250
+          },
+          {
+            field: "test5",
+            title: "测试5",
+            width: 150
+          }
+        ]
+      }
     };
   },
   components: { VolTable, VolBox, docParamTable, VolHeader },

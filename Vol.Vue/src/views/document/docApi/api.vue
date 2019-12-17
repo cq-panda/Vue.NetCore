@@ -29,6 +29,7 @@ export default {
     volmenu: () => import("./doc_menu"),
     voltable: () => import("./doc_table"),
     viewGrid: () => import("./doc_viewGridApi"),
+    volupload: () => import("./doc_volupload"),
     other: () => import("./doc_other")
   }, //
   methods: {
@@ -66,21 +67,25 @@ export default {
           title: "代码生成后页面viewGrid"
         },
         {
-          com_name: "volmenu",
-          title: "菜单组件"
-        },
-        {
-          com_name: "uploadExcel",
-          title: "excel上传"
-        },
-        {
-          com_name: "uploadImg",
-          title: "图片上传"
-        },
-        {
-          com_name: "other",
-          title: "其它组件"
+          com_name: "volupload",
+          title: "volupload上传组件"
         }
+        // {
+        //   com_name: "volmenu",
+        //   title: "菜单组件"
+        // },
+        // {
+        //   com_name: "uploadExcel",
+        //   title: "excel上传"
+        // },
+        // {
+        //   com_name: "uploadImg",
+        //   title: "图片上传"
+        // },
+        // {
+        //   com_name: "other",
+        //   title: "其它组件"
+        // }
       ],
       currentComponent: "Icons"
     };
@@ -88,7 +93,6 @@ export default {
 };
 </script>
 <style>
-
 </style>
 <style lang="less" scoped>
 .i-container {

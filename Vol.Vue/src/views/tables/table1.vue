@@ -29,6 +29,21 @@
         :paginationHide="true"
       ></vol-table>
     </div>
+
+    <div class="tb" style="margin-top: 20px;">
+      <VolHeader icon="md-apps" text="使用button编辑">
+        <div slot="content">通过button编辑与额外标签事件</div>
+      </VolHeader>
+      <vol-table
+        ref="table1"
+        :doubleEdit="false"
+        :columns="eidtWithButton.columns"
+        :max-height="200"
+        :index="true"
+        :tableData="eidtWithButton.data"
+        :paginationHide="true"
+      ></vol-table>
+    </div>
   </div>
 </template>
 <script>
@@ -81,7 +96,8 @@ export default {
           AuditStatus: 0,
           Enable: 1,
           ReallyName: "孤独比夜还长",
-          CreateDate: "2018-09-18 17:45:54"
+          CreateDate: "2018-09-18 17:45:54",
+          Creator: 38.88
         },
         {
           ExpertId: 276,
@@ -93,7 +109,8 @@ export default {
           AuditStatus: 1,
           Enable: 1,
           ReallyName: "七秒钟的记忆1",
-          CreateDate: "2018-09-18 17:45:54"
+          CreateDate: "2018-09-18 17:45:54",
+          Creator: 19.2
         },
         {
           ExpertId: 276,
@@ -105,7 +122,8 @@ export default {
           AuditStatus: 2,
           Enable: 0,
           ReallyName: "月穿潭底水無痕 ",
-          CreateDate: "2018-09-18 17:45:54"
+          CreateDate: "2018-09-18 17:45:54",
+          Creator: 2.2
         }
       ],
       columns: [
@@ -129,7 +147,17 @@ export default {
           require: true,
           align: "left",
           edit: { type: "text" },
-          sortable: true //是否排序(目前第一个字段为排序字段，其他字段排序开发中)
+          sortable: true,
+          extra: {
+            icon: "ios-search", //图标
+            text: "点击事件",//显示文本
+            style: "line-height: 31px;margin-left: 3px;",//自定义样式
+            //column列配置, row数据, tableData整个table的数据源
+            click: (column, row, tableData) => {
+              //  this.getRows();
+              this.$Message.error("点击标签触发的事件");
+            }
+          }
         },
         {
           field: "HeadImageUrl",
@@ -156,7 +184,7 @@ export default {
           width: 120,
           align: "left",
           require: true,
-         // edit: { type: "text", min: 4, max: 7 },
+          // edit: { type: "text", min: 4, max: 7 },
           click: (row, column) => {
             //单元格点击事亻
             this.$message.error("此单元格没有设置为可以编辑");
@@ -207,18 +235,84 @@ export default {
           title: "真实姓名",
           type: "string",
           width: 120,
-
           edit: { type: "number", min: 10, max: 20 }
         },
         {
           field: "Creator",
-          title: "创建人",
+          title: "类型:小数",
           type: "string",
-
           width: 130,
           edit: { type: "decimal", min: 2.2, max: 5.5 }
         }
-      ]
+      ],
+      /////////////////////////button编辑配置///////////////////
+      eidtWithButton: {
+        data: [
+          {
+            test1: "123",
+            test2: "1",
+            test3: "789",
+            test4: "2018-09-18 17:45:54",
+            test5: "123"
+          },
+          {
+            test1: "123x",
+            test2: "0",
+            test3: "789x",
+            test4: "2020-01-18 13:24:26",
+            test5: "123x"
+          }
+        ],
+        columns: [
+          {
+            field: "test1",
+            title: "测试1",
+            require: true,
+            edit: { type: "text", min: 5, max: 7 },
+            extra: {
+              icon: "ios-search",
+              text: "点击可触发事件",
+              style: "line-height: 31px;margin-left: 11px;",
+              click: (column, row, tableData) => {
+                //  this.getRows();
+                this.$Message.error("点击标签触发的事件");
+              }
+            },
+            width: 250
+          },
+          {
+            field: "test2",
+            title: "测试2",
+            require: true,
+            edit: { type: "select" },
+            onChange:(column,row,tableData)=>{
+             this.$Message.error(row["test2"]);
+            },
+            bind: {
+              //如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上
+              key: "audit",
+              data: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
+            },
+            width: 130
+          },
+          {
+            field: "test3",
+            title: "测试3",
+            width: 160
+          },
+          {
+            field: "test4",
+            title: "测试4",
+            edit: { type: "datetime" },
+            width: 250
+          },
+          {
+            field: "test5",
+            title: "测试5",
+            width: 150
+          }
+        ]
+      }
     };
   }
 };

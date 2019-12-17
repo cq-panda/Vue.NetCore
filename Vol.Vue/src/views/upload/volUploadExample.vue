@@ -1,5 +1,9 @@
 <template>
   <div>
+    <Alert
+      show-icon
+    >如果需要把文件上传到后台Api服务器，必须将保存文件的路径指向Upload文件夹,如:/Upload/xxx/xxx/，因为后台目前只开启了Upload静态文件目录</Alert>
+    <!-- <img src="http://localhost:9991/Upload/Tables/App_Appointment/201911240828293464/h52.jpg"> -->
     <div class="upload-container">
       <div class="upload-item">
         <VolUpload
@@ -72,10 +76,9 @@
   </div>
 </template>
 <script>
-import docParamTable from "./doc_ParamTable.vue";
 import VolUpload from "@/components/basic/VolUpload.vue";
 export default {
-  components: { VolUpload, docParamTable },
+  components: { VolUpload },
   data() {
     return {
       url: "/api/App_Appointment/Upload",
@@ -113,6 +116,31 @@ export default {
         x.path = result.data;
       });
     },
+    fileClick(index, file) {
+      if (
+        !file.path &&
+        file.name.indexOf("/") == -1 &&
+        file.name.indexOf("\\") == -1
+      ) {
+        return this.$Message.error({ duration: 5, content: "请先上传此文件" });
+      }
+      //从api服务器下载
+      if (!this.base.checkUrl(file.path)) {
+        this.dowloadFile(
+          this.http.ipAddress +
+            "api/App_Appointment/DownLoadFile?path=" +
+            file.path +
+            file.name,
+          file.name,
+          {"":this.http}
+        );
+        return;
+      }
+      //从远程下载
+      this.$refs.downFile.href = file.path || file.name;
+      this.$refs.downFile.setAttribute("download", "download");
+      this.$refs.downFile.click();
+    },
     getFileNames(files) {
       let arr = [];
       for (let index = 0; index < files.length; index++) {
@@ -137,6 +165,11 @@ export default {
     onChange(files) {
       console.log("选择的文件:" + +this.getFileNames(files));
       return true;
+    },
+    dowloadFile(url, fileName) {
+      this.base.dowloadFile(url, fileName, {
+        Authorization: this.$store.getters.getToken()
+      });
     }
   }
 };

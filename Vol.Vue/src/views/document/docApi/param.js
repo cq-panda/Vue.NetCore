@@ -97,6 +97,32 @@ let param = {
         { name: "min", desc: "type为number、decimal时验证最小值,其他验证长度", type: "number", default: "" },
         { name: "max}", desc: "同上min", type: "number", default: "" },
         { name: "--", desc: "--", type: "--", default: "--" },
+        {
+            name: "onChange", desc: `<div class="cnblogs_Highlighter">
+        <div>select选择事件(只对编辑生效)</div>
+        <div>onChange:(column,row,tableData)=&gt;{</div>
+        <pre class="brush:javascript;gutter:true;"><em id="__mceDel">             this.$Message.error(row["test2"]);
+                    },
+        </em></pre>
+        </div>
+        <p>　　</p>`, type: "json", default: ""
+        },
+        { name: "extra", desc: "额外标签(只对编辑生效)", type: "json", default: "" },
+        {
+            name: "额外标签", desc: `<div class="cnblogs_code">
+        <pre><span style="color: #000000;">   extra: {
+                    icon: </span>"ios-search", <span style="color: #008000;">//</span><span style="color: #008000;">图标</span>
+                    text: "点击事件",<span style="color: #008000;">//</span><span style="color: #008000;">显示文本</span>
+                    style: "line-height: 31px;margin-left: 3px;",<span style="color: #008000;">//</span><span style="color: #008000;">自定义样式</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;">column列配置, row数据, tableData整个table的数据源</span>
+                    click: (column, row, tableData) =&gt;<span style="color: #000000;"> {
+                      </span><span style="color: #008000;">//</span><span style="color: #008000;">  this.getRows();</span>
+                      <span style="color: #0000ff;">this</span>.$Message.error("点击标签触发的事件"<span style="color: #000000;">);
+                    }
+                  }</span></pre>
+        </div>
+        <p>&nbsp;</p>`, type: "", default: ""
+        },
         { name: "bind{", desc: "数据源绑定配置", type: "json", default: "" },
         { name: "key", desc: "后台字典数据的key", type: "string", default: "" },
         { name: "data}", desc: "数据源,如果设置的loadKey=true,些处将设置为data:[]。格式:[{key:'1',value:'北京市'},{key:'2',value:'上海市'}],如果data长度>0，不会被loadKey从后台加载的数据源覆盖", type: "array", default: "[]" },
@@ -179,15 +205,18 @@ let param = {
         <p>&nbsp;</p>`},
         { name: "tableHeight", desc: "查询页面table的高度", type: "number", default: "0" },
         { name: "tableMaxHeight", desc: "查询页面table的最大高度,如果同时设置了tableHeight，只会tableMaxHeight起作用", type: "number", default: "0" },
-        { name: "pagination", desc: `分页参数<div class="cnblogs_code">
+        {
+            name: "pagination", desc: `分页参数<div class="cnblogs_code">
         <pre><span style="color: #000000;">pagination: {
               total: </span>0<span style="color: #000000;">, 
              size: </span>30, <span style="color: #008000;">//</span><span style="color: #008000;">分页大小</span>
             sortName: "" <span style="color: #008000;">//</span><span style="color: #008000;">排序字段</span>
          }</pre>
         </div>
-        <p>&nbsp;</p>`, type: "json", default: "" },
-        { name: "boxOptions", desc: `新建、编辑弹出框参数<div class="cnblogs_code">
+        <p>&nbsp;</p>`, type: "json", default: ""
+        },
+        {
+            name: "boxOptions", desc: `新建、编辑弹出框参数<div class="cnblogs_code">
         <div class="cnblogs_code">
         <pre><span style="color: #000000;"> boxOptions: {
            saveClose: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">新建、编辑完成后是否关闭弹出框</span>
@@ -198,12 +227,14 @@ let param = {
         </div>
         <p>&nbsp;</p>
         </div>
-        <p>&nbsp;</p>`, type: "json", default: "" },
+        <p>&nbsp;</p>`, type: "json", default: ""
+        },
         ],
         methods: [{ name: "refresh", desc: "刷新查询界面的表数据,使用：this.refresh()", param: "" },
         { name: "getSelectRows", desc: "查询界面获取选中的行,使用：this.getSelectRows()", param: "" },
         { name: "扩展js方法使用", desc: "扩展js为当前数据库表生成页面扩展js,如:SellOrder.js,文件由代码生成，可自行在js中实现下面列出的方法", param: "" },
-        { name: "扩展js方法使用", desc: `<div class="cnblogs_code">
+        {
+            name: "扩展js方法使用", desc: `<div class="cnblogs_code">
         <pre>let extension =<span style="color: #000000;"> {
             components: {</span><span style="color: #008000;">//</span><span style="color: #008000;">动态扩充组件或组件路径</span>
                 <span style="color: #008000;">//</span><span style="color: #008000;">表单header、content、footer对应位置扩充的组件</span>
@@ -419,7 +450,8 @@ let param = {
         };
         export </span><span style="color: #0000ff;">default</span> extension;</pre>
         </div>
-        <p>&nbsp;</p>`, param: "" }]
+        <p>&nbsp;</p>`, param: ""
+        }]
     }, uploadExcel: {
         attr: [],
         methods: []
@@ -428,6 +460,127 @@ let param = {
         methods: []
     }, volmenu: {
         attr: [],
+        methods: []
+    }, volupload: {
+        attr: [{ name: "组件上传参数", desc: "组件上传参数属性", type: "", default: "" },
+        { name: "组件上传参数", desc: `<div class="cnblogs_code">
+        <pre><span style="color: #000000;">
+            desc: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">是否显示默认介绍</span>
+              <span style="color: #008000;">//</span><span style="color: #008000;">是否多选</span>
+        <span style="color: #000000;">      type: Boolean,
+              </span><span style="color: #0000ff;">default</span>: <span style="color: #0000ff;">false</span><span style="color: #000000;">
+            },
+            fileInfo: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">用于接收上传的文件，也可以加以默认值，显示已上传的文件，用户上传后会覆盖默认值</span>
+        <span style="color: #000000;">      type: Array,
+              </span><span style="color: #0000ff;">default</span>: () =&gt;<span style="color: #000000;"> {
+                </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> [];
+              } </span><span style="color: #008000;">//</span><span style="color: #008000;">格式[{name:'1.jpg',path:'127.0.01/1.jpg'}]</span>
+        <span style="color: #000000;">    },
+            downLoad: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">是否可以点击文件下载</span>
+        <span style="color: #000000;">      type: Boolean,
+              </span><span style="color: #0000ff;">default</span>: <span style="color: #0000ff;">true</span><span style="color: #000000;">
+            },
+            multiple: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">是否多选</span>
+        <span style="color: #000000;">      type: Boolean,
+              </span><span style="color: #0000ff;">default</span>: <span style="color: #0000ff;">false</span><span style="color: #000000;">
+            },
+            maxFile: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">最多可选文件数量，必须multiple=true，才会生效</span>
+        <span style="color: #000000;">      type: Number,
+              </span><span style="color: #0000ff;">default</span>: 5<span style="color: #000000;">
+            },
+            maxSize: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">文件限制大小3M</span>
+        <span style="color: #000000;">      type: Number,
+              </span><span style="color: #0000ff;">default</span>: 3<span style="color: #000000;">
+            },
+        
+            autoUpload: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">选择文件后是否自动上传</span>
+        <span style="color: #000000;">      type: Boolean,
+              </span><span style="color: #0000ff;">default</span>: <span style="color: #0000ff;">true</span><span style="color: #000000;">
+            },
+            img: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">图片类型  img&gt;excel&gt;fileTypes三种文件类型优先级</span>
+        <span style="color: #000000;">      type: Boolean,
+              </span><span style="color: #0000ff;">default</span>: <span style="color: #0000ff;">false</span><span style="color: #000000;">
+            },
+            excel: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">excel文件</span>
+        <span style="color: #000000;">      type: Boolean,
+              </span><span style="color: #0000ff;">default</span>: <span style="color: #0000ff;">false</span><span style="color: #000000;">
+            },
+            fileTypes: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">指定上传文件的类型</span>
+        <span style="color: #000000;">      type: Array,
+              </span><span style="color: #0000ff;">default</span>: () =&gt;<span style="color: #000000;"> {
+                </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> [];
+              }
+            },
+            url: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">上传的url</span>
+        <span style="color: #000000;">      type: String,
+              </span><span style="color: #0000ff;">default</span>: ""<span style="color: #000000;">
+            },
+            uploadBefore: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">返回false会中止执行</span>
+              <span style="color: #008000;">//</span><span style="color: #008000;">上传前</span>
+        <span style="color: #000000;">      type: Function,
+              </span><span style="color: #0000ff;">default</span>: files =&gt;<span style="color: #000000;"> {
+                </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+              }
+            },
+            uploadAfter: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">返回false会中止执行</span>
+              <span style="color: #008000;">//</span><span style="color: #008000;">上传后</span>
+        <span style="color: #000000;">      type: Function,
+              </span><span style="color: #0000ff;">default</span>: (result, files) =&gt;<span style="color: #000000;"> {
+                </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+              }
+            },
+            onChange: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">选择文件时  //返回false会中止执行</span>
+        <span style="color: #000000;">      type: Function,
+              </span><span style="color: #0000ff;">default</span>: files =&gt;<span style="color: #000000;"> {
+                </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+              }
+            },
+            </span><span style="color: #008000;">//</span><span style="color: #008000;"> clear: {</span>
+            <span style="color: #008000;">//</span><span style="color: #008000;">   //上传完成后是否清空文件列表</span>
+            <span style="color: #008000;">//</span><span style="color: #008000;">   type: Boolean,</span>
+            <span style="color: #008000;">//</span><span style="color: #008000;">   default: true</span>
+            <span style="color: #008000;">//</span><span style="color: #008000;"> },</span>
+        <span style="color: #000000;">    fileList: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">是否显示选择的文件列表</span>
+        <span style="color: #000000;">      type: Boolean,
+              </span><span style="color: #0000ff;">default</span>: <span style="color: #0000ff;">true</span><span style="color: #000000;">
+            },
+            fileClick: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">点击文件事件</span>
+        <span style="color: #000000;">      type: Function,
+              </span><span style="color: #0000ff;">default</span>: (index, file, files) =&gt;<span style="color: #000000;"> {
+                </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+              }
+            },
+            removeBefore: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">移除文件事件</span>
+        <span style="color: #000000;">      type: Function,
+              </span><span style="color: #0000ff;">default</span>: (index, file, files) =&gt;<span style="color: #000000;"> {
+                </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+              }
+            },
+            append: {
+              </span><span style="color: #008000;">//</span><span style="color: #008000;">多选时，重新选择文件是否追加(默认重选直接用清原数据),逻辑待处理</span>
+        <span style="color: #000000;">      type: Boolean,
+              </span><span style="color: #0000ff;">default</span>: <span style="color: #0000ff;">false</span><span style="color: #000000;">
+            }
+          </span></pre>
+        </div>
+        <p>&nbsp;</p>`, type: "", default: "" }],
         methods: []
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div  v-if="showCode" class="i-text">
+    <div  class="i-text">
       <h2>
         <a @click="viewCode" v-show="!visibly" >查看代码</a>        <a v-show="visibly" @click="visibly=false">收起</a>
       </h2>

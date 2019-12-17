@@ -33,6 +33,60 @@ let codeString = {
       }
     };
     // ]]></script>`,
+  box: `<div>
+    <div>
+    <div class="cnblogs_code">
+    <pre>&lt;template&gt;
+      &lt;div&gt;
+        &lt;Button type="info" @click="model=!model"&gt;弹出框&lt;/Button&gt;
+        &lt;<span style="color: #000000;">VolBox
+          icon</span>="ios-chatbubbles"<span style="color: #000000;">
+          :model.sync</span>="model"<span style="color: #000000;">
+          title</span>="弹出框标题"<span style="color: #000000;">
+          :height</span>="400"<span style="color: #000000;">
+          :width</span>="700"<span style="color: #000000;">
+          :padding</span>="15"
+        &gt;
+          &lt;div&gt;弹出框内容&lt;/div&gt;
+          &lt;!-- footer 这里不写，默认有一个关闭按钮 --&gt;
+          &lt;div slot="footer"&gt;
+            &lt;Button type="default" @click="()=&gt;{this.$Message.error('点击确认')}"&gt;确认&lt;/Button&gt;
+            &lt;Button type="default" @click="()=&gt;{model=false}"&gt;点击关闭弹出框&lt;/Button&gt;
+          &lt;/div&gt;
+        &lt;/VolBox&gt;
+        &lt;div&gt;
+          &lt;docParamTable name="box"&gt;&lt;/docParamTable&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/template&gt;
+    &lt;script&gt;<span style="color: #000000;">
+    import VolBox from </span>"@/components/basic/VolBox.vue"<span style="color: #000000;">;
+    export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
+      data() {
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
+          model: </span><span style="color: #0000ff;">false</span><span style="color: #000000;">
+        };
+      },
+      components: { VolBox },
+      methods: {}
+    };
+    </span>&lt;/script&gt;</pre>
+    </div>
+    <p>&nbsp;</p>
+    </div>
+    </div>
+    <script type="text/javascript">// <![CDATA[
+    import VolBox from "@/components/basic/VolBox.vue";
+    export default {
+      data() {
+        return {
+          model: false
+        };
+      },
+      components: { VolBox },
+      methods: {}
+    };
+    // ]]></script>`,
   form: `<div class="cnblogs_code">
   <pre>&lt;template&gt;
     &lt;div&gt;
@@ -485,6 +539,105 @@ let codeString = {
   export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> doc_options;
   </span>&lt;/script&gt;</pre>
   </div>
+  <p>&nbsp;</p>`, btnedittable: `<div class="cnblogs_code">
+  <pre>&lt;template&gt;
+    &lt;div&gt;
+      &lt;VolHeader icon="md-apps" text="使用button编辑"&gt;
+        &lt;div slot="content"&gt;通过button编辑与额外标签事件&lt;/div&gt;
+      &lt;/VolHeader&gt;
+      &lt;vol-<span style="color: #000000;">table
+        ref</span>="table1"<span style="color: #000000;">
+        :doubleEdit</span>="false"<span style="color: #000000;">
+        :columns</span>="eidtWithButton.columns"<span style="color: #000000;">
+        :max</span>-height="500"<span style="color: #000000;">
+        :index</span>="true"<span style="color: #000000;">
+        :tableData</span>="eidtWithButton.data"<span style="color: #000000;">
+        :paginationHide</span>="true"
+      &gt;&lt;/vol-table&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+  &lt;script&gt;<span style="color: #000000;">
+  import VolTable from </span>"@/components/basic/VolTable.vue"<span style="color: #000000;">;
+  import VolHeader from </span>"@/components/basic/VolHeader.vue"<span style="color: #000000;">;
+  
+  export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
+    components: { VolTable, VolHeader },
+    created() {},
+    methods: {},
+    data() {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
+        eidtWithButton: {
+          data: [
+            {
+              test1: </span>"123"<span style="color: #000000;">,
+              test2: </span>"1"<span style="color: #000000;">,
+              test3: </span>"789"<span style="color: #000000;">,
+              test4: </span>"2018-09-18 17:45:54"<span style="color: #000000;">,
+              test5: </span>"123"<span style="color: #000000;">
+            },
+            {
+              test1: </span>"123x"<span style="color: #000000;">,
+              test2: </span>"0"<span style="color: #000000;">,
+              test3: </span>"789x"<span style="color: #000000;">,
+              test4: </span>"2020-01-18 13:24:26"<span style="color: #000000;">,
+              test5: </span>"123x"<span style="color: #000000;">
+            }
+          ],
+          columns: [
+            {
+              field: </span>"test1"<span style="color: #000000;">,
+              title: </span>"测试1"<span style="color: #000000;">,
+              require: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+              edit: { type: </span>"text", min: 5, max: 7<span style="color: #000000;"> },
+              extra: {
+                icon: </span>"ios-search"<span style="color: #000000;">,
+                text: </span>"点击可触发事件"<span style="color: #000000;">,
+                style: </span>"line-height: 31px;margin-left: 11px;"<span style="color: #000000;">,
+                click: (column, row, tableData) </span>=&gt;<span style="color: #000000;"> {
+                  </span><span style="color: #008000;">//</span><span style="color: #008000;">  this.getRows();</span>
+                  <span style="color: #0000ff;">this</span>.$Message.error("点击标签触发的事件"<span style="color: #000000;">);
+                }
+              },
+              width: </span>250<span style="color: #000000;">
+            },
+            {
+              field: </span>"test2"<span style="color: #000000;">,
+              title: </span>"测试2"<span style="color: #000000;">,
+              require: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+              edit: { type: </span>"select"<span style="color: #000000;"> },
+              onChange: (column, row, tableData) </span>=&gt;<span style="color: #000000;"> {
+                </span><span style="color: #0000ff;">this</span>.$Message.error(row["test2"<span style="color: #000000;">]);
+              },
+              bind: {
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上</span>
+                key: "audit"<span style="color: #000000;">,
+                data: [{ key: </span>"0", value: "否" }, { key: "1", value: "是"<span style="color: #000000;"> }]
+              },
+              width: </span>130<span style="color: #000000;">
+            },
+            {
+              field: </span>"test3"<span style="color: #000000;">,
+              title: </span>"测试3"<span style="color: #000000;">,
+              width: </span>160<span style="color: #000000;">
+            },
+            {
+              field: </span>"test4"<span style="color: #000000;">,
+              title: </span>"测试4"<span style="color: #000000;">,
+              edit: { type: </span>"datetime"<span style="color: #000000;"> },
+              width: </span>250<span style="color: #000000;">
+            },
+            {
+              field: </span>"test5"<span style="color: #000000;">,
+              title: </span>"测试5"<span style="color: #000000;">,
+              width: </span>150<span style="color: #000000;">
+            }
+          ]
+        }
+      };
+    }
+  };
+  </span>&lt;/script&gt;</pre>
+  </div>
   <p>&nbsp;</p>`,
   voltable: `<div class="cnblogs_code">
   <pre>&lt;template&gt;
@@ -636,6 +789,162 @@ let codeString = {
   };
   export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> doc_options;
   </span>&lt;/script&gt;</pre>
+  </div>
+  <p>&nbsp;</p>`,
+  volupload: `<div class="cnblogs_code">
+  <pre>&lt;template&gt;
+    &lt;div&gt;
+      &lt;div class="upload-container"&gt;
+        &lt;div class="upload-item"&gt;
+          &lt;<span style="color: #000000;">VolUpload
+            :url</span>="url"<span style="color: #000000;">
+            :upload</span>-before="uploadBefore"<span style="color: #000000;">
+            :upload</span>-after="uploadAfter"<span style="color: #000000;">
+            :on</span>-change="onChange"
+          &gt;
+            &lt;div&gt;单文件自动上传&lt;/div&gt;
+          &lt;/VolUpload&gt;
+        &lt;/div&gt;
+        &lt;div class="upload-item"&gt;
+          &lt;<span style="color: #000000;">VolUpload
+            :autoUpload</span>="false"<span style="color: #000000;">
+            :multiple</span>="true"<span style="color: #000000;">
+            :max</span>-file="2"<span style="color: #000000;">
+            :excel</span>="true"<span style="color: #000000;">
+            :url</span>="url"<span style="color: #000000;">
+            :upload</span>-before="uploadBefore"<span style="color: #000000;">
+            :upload</span>-after="uploadAfter"<span style="color: #000000;">
+            :on</span>-change="onChange"
+          &gt;
+            &lt;div&gt;多文件手动上传,最多2个excel文件&lt;/div&gt;
+          &lt;/VolUpload&gt;
+        &lt;/div&gt;
+        &lt;div class="upload-item"&gt;
+          &lt;a ref="downFile"&gt;&lt;/a&gt;
+          &lt;<span style="color: #000000;">VolUpload
+            :multiple</span>="true"<span style="color: #000000;">
+            :url</span>="url"<span style="color: #000000;">
+            :upload</span>-before="uploadBefore1"<span style="color: #000000;">
+            :upload</span>-after="uploadAfter1"<span style="color: #000000;">
+            :on</span>-change="onChange"<span style="color: #000000;">
+            :fileInfo</span>="fileInfo"
+          &gt;
+            &lt;div&gt;下载已经上传过的文件&lt;/div&gt;
+          &lt;/VolUpload&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+  
+      &lt;div class="upload-container"&gt;
+        &lt;div class="upload-item"&gt;
+          &lt;<span style="color: #000000;">VolUpload
+            :url</span>="url"<span style="color: #000000;">
+            :img</span>="true"<span style="color: #000000;">
+            :multiple</span>="true"<span style="color: #000000;">
+            :max</span>-size="null"<span style="color: #000000;">
+            :upload</span>-before="uploadBefore"<span style="color: #000000;">
+            :upload</span>-after="uploadAfter"<span style="color: #000000;">
+            :on</span>-change="onChange"
+          &gt;
+            &lt;div&gt;多图片自动上传,图片最大1M&lt;/div&gt;
+          &lt;/VolUpload&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="upload-container"&gt;
+        &lt;div class="upload-item"&gt;
+          &lt;<span style="color: #000000;">VolUpload
+            :autoUpload</span>="false"<span style="color: #000000;">
+            :url</span>="url"<span style="color: #000000;">
+            :img</span>="true"<span style="color: #000000;">
+            :upload</span>-before="uploadBefore"<span style="color: #000000;">
+            :upload</span>-after="uploadAfter"<span style="color: #000000;">
+            :on</span>-change="onChange"
+          &gt;
+            &lt;div&gt;单文件手动上传,只能上传图片&lt;/div&gt;
+          &lt;/VolUpload&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+  &lt;script&gt;<span style="color: #000000;">
+  import docParamTable from </span>"./doc_ParamTable.vue"<span style="color: #000000;">;
+  import VolUpload from </span>"@/components/basic/VolUpload.vue"<span style="color: #000000;">;
+  export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
+    components: { VolUpload, docParamTable },
+    data() {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
+        url: </span>"/api/App_Appointment/Upload"<span style="color: #000000;">,
+        model: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+        fileInfo: [
+          {
+            name: </span>"exceltest.xlsx"<span style="color: #000000;">,
+            path:
+              </span>"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/exceltest.xlsx"<span style="color: #000000;">
+          },
+          {
+            name: </span>"wordtest.docx"<span style="color: #000000;">,
+            path:
+              </span>"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx"<span style="color: #000000;">
+          }
+        ],
+        loadingStatus: </span><span style="color: #0000ff;">false</span><span style="color: #000000;">
+      };
+    },
+    methods: {
+      removeFile(index) {
+        </span><span style="color: #0000ff;">this</span>.fileInfo.splice(index, 1<span style="color: #000000;">);
+      },
+      uploadBefore1(files) {
+        </span><span style="color: #0000ff;">this</span>.fileInfo.splice(0<span style="color: #000000;">);
+        </span><span style="color: #0000ff;">for</span> (let index = 0; index &lt; files.length; index++<span style="color: #000000;">) {
+          const element </span>=<span style="color: #000000;"> files[index];
+          </span><span style="color: #0000ff;">this</span><span style="color: #000000;">.fileInfo.push({ name: element.name });
+        }
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+      },
+      uploadAfter1(result, files) {
+        </span><span style="color: #0000ff;">if</span> (!result.status) <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">this</span>.fileInfo.forEach(x =&gt;<span style="color: #000000;"> {
+          x.path </span>=<span style="color: #000000;"> result.data;
+        });
+      },
+      getFileNames(files) {
+        let arr </span>=<span style="color: #000000;"> [];
+        </span><span style="color: #0000ff;">for</span> (let index = 0; index &lt; files.length; index++<span style="color: #000000;">) {
+          const element </span>=<span style="color: #000000;"> files[index];
+          arr.push(element.name);
+        }
+        </span><span style="color: #0000ff;">return</span> arr.join(","<span style="color: #000000;">);
+      },
+      uploadBefore(files) {
+        console.log(</span>"上传前的文件:" + <span style="color: #0000ff;">this</span><span style="color: #000000;">.getFileNames(files));
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+      },
+      uploadAfter(result, files) {
+        console.log(
+          </span>"上传结果" +<span style="color: #000000;">
+            JSON.stringify(result) </span>+
+            "上传前的文件:" +
+            <span style="color: #0000ff;">this</span><span style="color: #000000;">.getFileNames(files)
+        );
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+      },
+      onChange(files) {
+        console.log(</span>"选择的文件:" + +<span style="color: #0000ff;">this</span><span style="color: #000000;">.getFileNames(files));
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+      }
+    }
+  };
+  </span>&lt;/script&gt;
+  &lt;style lang="less" scoped&gt;<span style="color: #000000;">
+  .upload</span>-<span style="color: #000000;">container {
+    max</span>-<span style="color: #000000;">height: 160px;
+    display: flex;
+    .upload</span>-<span style="color: #000000;">item {
+      flex: </span>1<span style="color: #000000;">;
+      padding: 20px;
+    }
+  }
+  </span>&lt;/style&gt;</pre>
   </div>
   <p>&nbsp;</p>`,
   uploadExcel: ``, uploadImg: ``, volmenu: ``, viewGrid: ``
