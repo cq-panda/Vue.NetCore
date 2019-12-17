@@ -78,7 +78,7 @@ let param = {
         { name: "}", desc: "", type: "", default: "" },
         { name: "--", desc: "--", type: "--", default: "--" },
         { name: "url", desc: "远程加载数据的地址，配置了url默认从远程加载数据", type: "string", default: "" }, { name: "defaultLoadPage", desc: "传入了url参数，是否默认加载表格数据", type: "bool", default: "true" },
-        { name: "paginationHide", desc: "是否显示分页数据", type: "string", default: "" },
+        { name: "paginationHide", desc: "是否显示分页数据", type: "bool", default: "true" },
         { name: "index", desc: "是否创建索引号,如果需要表格编辑功能，这里需要设置为true", type: "bool", default: "false" },
         { name: "tableData", desc: "table表数据，如果不需要从远程加载table数据，请设置tableData属性,格式:[{'字段1':'值1'},{'字段2':'值2'}]", type: "array", default: "[]" },
         { name: "--", desc: "--", type: "--", default: "--" },
@@ -142,6 +142,7 @@ let param = {
         { name: "boxButtons", desc: "弹出框的所有按钮", type: "array", default: "[]" },
         { name: "dicKeys", desc: "所有数据源的字典编号", type: "array", default: "[]" },
         { name: "hasKeyField", desc: "所有有数据源的字段", type: "array", default: "[]" },
+        { name: "load", desc: "页面打开后是否默认加载表格数据", type: "bool", default: "true" },
         { name: "hasDetail", desc: "是否有明细(如果有明细表就为true)", type: "bool", default: "false" },
         {
             name: "detailOptions", desc: `明细表参数<div class="cnblogs_code">

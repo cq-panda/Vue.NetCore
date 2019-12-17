@@ -193,6 +193,10 @@ export default {
             required: true,
             field: "img",
             type: "img",
+            multiple:true,
+            maxFile:3,
+            maxSize:0.2,
+            url:"api/App_Appointment/Upload",
             colSize: 12 //设置宽度100%
           }
         ]

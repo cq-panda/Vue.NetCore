@@ -39,6 +39,10 @@ let form = [
         name: 'editTable',
         component: () => import('@/views/forms/editTable.vue')
     }, {
+        path: '/volUploadExample',
+        name: 'volUploadExample',
+        component: () => import('@/views/upload/volUploadExample.vue')
+    }, {
         path: '/formUpload',
         name: 'formUpload',
         component: () => import('@/views/upload/formUpload.vue')
