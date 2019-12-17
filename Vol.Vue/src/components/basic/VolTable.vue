@@ -67,6 +67,7 @@
                 :transfer="true"
                 v-else-if="column.edit.type=='select'"
                 v-model="scope.row[column.field]"
+                :filterable="(column.filter||getSelectedOptions(column).length>10)?true:false"
                 :placeholder="'请选择'+column.title"
                 clearable
               >

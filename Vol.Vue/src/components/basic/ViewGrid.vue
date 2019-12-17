@@ -193,6 +193,7 @@
                 :height="detailOptions.height"
                 :single="detailOptions.single"
                 :pagination-hide="false"
+                :defaultLoadPage="detailOptions.load"
               ></vol-table>
             </div>
             <!--明细footer自定义组件-->
@@ -234,6 +235,7 @@
           :max-height="tableMaxHeight"
           :pagination-hide="false"
           :url="url"
+          :defaultLoadPage="load"
         ></vol-table>
       </div>
     </div>
@@ -312,7 +314,7 @@ var vueParam = {
   data() {
     return {
       _inited: false,
-      single:false,//表是否单选
+      single: false, //表是否单选
       const: _const, //增删改查导入导出等对应的action
       boxInit: false, //新建或编辑的弹出框初化状态，默认不做初始化，点击新建或编辑才初始化弹出框
       searchBoxShow: false, //高级查询(界面查询后的下拉框点击触发)
@@ -330,14 +332,15 @@ var vueParam = {
       maxBtnLength: 3, //界面按钮最多显示的个数，超过的数量都显示在更多中
       buttons: [], //查询界面按钮  如需要其他操作按钮，可在表对应的.js中添加(如:Sys_User.js中buttons添加其他按钮)
       splitButtons: [],
-      uploadfiled:[],//上传文件图片的字段
+      uploadfiled: [], //上传文件图片的字段
       boxButtons: [], //弹出框按钮 如需要其他操作按钮，可在表对应的.js中添加
-      dicKeys: [], //当前界面所有的下拉框字典编号
+      dicKeys: [], //当前界面所有的下拉框字典编号及数据源
       hasKeyField: [], //有字典数据源的字段
       keyValueType: { _dinit: false },
       url: "", //界面表查询的数据源的url
       hasDetail: false, //是否有从表(明细)表格数据
       initActivated: false,
+      load: true, //是否默认加载表数据
       // detailUrl: "",
       detailOptions: {
         //弹出框从表(明细)对象
@@ -348,7 +351,8 @@ var vueParam = {
         data: [], //数据源
         columns: [], //从表列信息
         edit: true, //明细是否可以编辑
-        single:false,//明细表是否单选
+        single: false, //明细表是否单选
+        load: true,
         delKeys: [], //当编辑时删除当前明细的行主键值
         url: "", //从表加载数据的url
         pagination: { total: 0, size: 100, sortName: "" }, //从表分页配置数据
@@ -378,7 +382,12 @@ var vueParam = {
       tableHeight: 0, //查询页面table的高度
       tableMaxHeight: 0, //查询页面table的最大高度
       pagination: { total: 0, size: 30, sortName: "" }, //从分页配置数据
-      boxOptions: { saveClose: true, labelWidth: 100, height: 0, width: 0 } //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
+      boxOptions: {
+        saveClose: true,
+        labelWidth: 100,
+        height: 0,
+        width: 0
+      } //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
     };
   },
   methods: {

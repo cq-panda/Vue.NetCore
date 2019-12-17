@@ -713,7 +713,7 @@ export default {
       }
 
       //if (item.type == "checkbox" || item.type == "select") {
-      if (item.type == "select" || item.type == "drop") {
+      if (item.type == "select" ||item.type == "selectList" || item.type == "drop") {
         let _rule = {
           required: true,
           message: "请选择" + item.title,
