@@ -524,9 +524,30 @@ img:not([src]) {
   color: #ffffff;
   z-index: 99999;
   right: 0;
-  width: 4px;
+  width: 6px;
 }
-
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 7px;
+  background-color: transparent;
+} 
+*::-webkit-scrollbar-track {
+  background-color: #f0f6ff;
+} 
+*::-webkit-scrollbar-thumb {
+  background-color: #73abb1;
+  border-radius: 3px;
+} 
+.scrollbarHide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbarShow::-webkit-scrollbar {
+  display: block;
+}
+.ivu-select-dropdown::-webkit-scrollbar {
+  width: 6px;
+  height: 13px;
+}
 .ivu-select-dropdown::-webkit-scrollbar {
   width: 6px;
   height: 14px;

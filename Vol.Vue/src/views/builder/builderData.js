@@ -114,17 +114,17 @@ let data = {
         { field: 'isColumnData', title: '数据列', width: 120, align: 'left', edit: { type: "switch" } },
         { field: 'isDisplay', title: '是否显示', width: 120, align: 'left', edit: { type: "switch" } },
         { field: 'columnWidth', title: 'table列宽度', width: 120, align: 'left', edit: { type: "text" } },
-        { field: 'colSize', title: '编辑列标签宽度colSize', width: 140, width: 120, align: 'left', edit: { type: "text" } },
-        { field: 'import', title: '导入列', hidden: true, width: 100, align: 'left', edit: { type: "switch" } },
-        { field: 'apiInPut', title: 'Api输入列(待实现)', width: 100, align: 'left', edit: { type: "switch" } },
-        { field: 'apiIsNull', title: 'Api输入列可为空(待实现)', width: 130, align: 'left', edit: { type: "switch" } },
-        { field: 'apiOutPut', title: 'Api输出列(待实现)', width: 100, align: 'left', edit: { type: "switch" } },
+        { field: 'colSize', title: '编辑列标签宽度colSize', width: 180, align: 'left', edit: { type: "text" } },
+        // { field: 'import', title: '导入列', hidden: true, width: 100, align: 'left', edit: { type: "switch" } },
+        // { field: 'apiInPut', title: 'Api输入列(待实现)', width: 100, align: 'left', edit: { type: "switch" } },
+        // { field: 'apiIsNull', title: 'Api输入列可为空(待实现)', width: 130, align: 'left', edit: { type: "switch" } },
+        // { field: 'apiOutPut', title: 'Api输出列(待实现)', width: 100, align: 'left', edit: { type: "switch" } },
         // { field: 'columnformat', title: '显示格式', width: 120, align: 'left', editor: 'text', editor: 'textarea' },
         // { field: 'script', title: '脚本', width: 120, align: 'left', editor: 'textarea' },
-        { field: 'creator', title: '创建人', width: 120, align: 'left' },
+        // { field: 'creator', title: '创建人', width: 120, align: 'left' },
         { field: 'createDate', title: '创建时间', width: 120, align: 'left' },
-        { field: 'modifier', title: '修改人', width: 120, align: 'left' },
-        { field: 'modifyDate', title: '修改时间', width: 120, align: 'left' }
+        // { field: 'modifier', title: '修改人', width: 120, align: 'left' },
+        // { field: 'modifyDate', title: '修改时间', width: 120, align: 'left' }
     ]
 }
 
