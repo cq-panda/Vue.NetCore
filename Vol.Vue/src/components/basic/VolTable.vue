@@ -5,8 +5,8 @@
       <div class="message" v-show="loading">加载中.....</div>
       <el-table
         @selection-change="selectionChange"
-        @row-click="beginEdit"
-        @cell-mouse-leave="endEdit"
+        @row-click="rowClick"
+        @cell-mouse-leave="rowEndEdit"
         ref="table"
         class="v-table"
         @sort-change="sortChange"
@@ -21,11 +21,6 @@
         <!-- @row-click="rowClick" -->
         <!-- <el-table-column type="index"  :index="initIndex"></el-table-column> -->
         <el-table-column type="selection" width="55"></el-table-column>
-        <!-- <el-table-column label="选择" width="50" align="center">
-          <template scope="scope">
-            <el-radio class="radio" v-model="radio" :label="scope.$index">&nbsp;</el-radio>
-          </template>
-        </el-table-column>-->
         <el-table-column
           v-for="(column,cindex) in filterColumns()"
           :key="cindex"
@@ -38,51 +33,64 @@
         >
           <template slot-scope="scope">
             <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
-            <!-- @click="beginEdit(scope.$index,cindex)" -->
-            <div v-if="column.edit">
-              <!-- <div @mouseover="endEdit" v-if="edit.rowIndex!=scope.$index"> -->
+            <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
+            <div v-if="column.edit" class="edit-el">
               <div v-if="edit.rowIndex!=scope.$index">{{formatter(scope.row,column,true)}}</div>
-              <DatePicker
-                :transfer="true"
-                v-else-if="column.edit.type=='date'||column.edit.type=='datetime'"
-                :type="column.edit.type"
-                :format="column.edit.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
-                :placeholder="column.title"
-                :value="scope.row[column.field]"
-                @on-change="(time)=>{scope.row[column.field]=time; return time}"
-              ></DatePicker>
-              <i-switch
-                v-else-if="column.edit.type=='switch'"
-                :true-value="scope.row[column.field]=='boolean' ? true:1"
-                :false-value="scope.row[column.field]=='boolean' ? false:0"
-                v-model="scope.row[column.field]"
-              >
-                <span slot="open">是</span>
-                <span slot="close">否</span>
-              </i-switch>
-              <!--如果是1或0请加上属性 true-value="1" false-value="0" 
+              <div v-else class="e-item">
+                <div>
+                  <DatePicker
+                    :transfer="true"
+                    v-if="column.edit.type=='date'||column.edit.type=='datetime'"
+                    :type="column.edit.type"
+                    :format="column.edit.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
+                    :placeholder="column.title"
+                    :value="scope.row[column.field]"
+                    @on-change="(time)=>{scope.row[column.field]=time; return time}"
+                  ></DatePicker>
+                  <i-switch
+                    v-else-if="column.edit.type=='switch'"
+                    :true-value="scope.row[column.field]=='boolean' ? true:1"
+                    :false-value="scope.row[column.field]=='boolean' ? false:0"
+                    v-model="scope.row[column.field]"
+                  >
+                    <span slot="open">是</span>
+                    <span slot="close">否</span>
+                  </i-switch>
+                  <!--如果是1或0请加上属性 true-value="1" false-value="0" 
                如果value是字符串数字则使用 :true-value="1" :false-value="0"
-              -->
-              <Select
-                :transfer="true"
-                v-else-if="column.edit.type=='select'"
-                v-model="scope.row[column.field]"
-                :filterable="(column.filter||getSelectedOptions(column).length>10)?true:false"
-                :placeholder="'请选择'+column.title"
-                clearable
-              >
-                <Option
-                  v-for="(kv,kvIndex) in getSelectedOptions(column)"
-                  :key="kvIndex"
-                  :value="kv.key||''"
-                >{{kv.value}}</Option>
-              </Select>
-              <Input
-                v-else
-                clearable
-                v-model="scope.row[column.field]"
-                :placeholder="'请输入'+column.title"
-              ></Input>
+                  -->
+                  <Select
+                    :transfer="true"
+                    v-else-if="column.edit.type=='select'"
+                    v-model="scope.row[column.field]"
+                    :filterable="(column.filter||getSelectedOptions(column).length>10)?true:false"
+                    :placeholder="'请选择'+column.title"
+                    @on-change="column.onChange&&column.onChange(column,scope.row,url?rowData:tableData)"
+                    clearable
+                  >
+                    <Option
+                      v-for="(kv,kvIndex) in getSelectedOptions(column)"
+                      :key="kvIndex"
+                      :value="kv.key||''"
+                    >{{kv.value}}</Option>
+                  </Select>
+                  <Input
+                    v-else
+                    clearable
+                    v-model="scope.row[column.field]"
+                    :placeholder="'请输入'+column.title"
+                  ></Input>
+                </div>
+                <div class="extra" v-if="column.extra&&edit.rowIndex==scope.$index">
+                  <a
+                    :style="column.extra.style"
+                    @click="()=>{column.extra.click&&column.extra.click(column,scope.row,url?rowData:tableData)}"
+                  >
+                    <Icon v-if="column.extra.icon" :type="column.extra.icon" />
+                    {{column.extra.text}}
+                  </a>
+                </div>
+              </div>
             </div>
             <!--没有编辑功能的直接渲染标签-->
             <div v-else>
@@ -125,6 +133,12 @@
               >{{formatter(scope.row,column,true)}}</Tag>
               <div v-else>{{formatter(scope.row,column,true)}}</div>
             </div>
+          </template>
+        </el-table-column>
+        <el-table-column v-if="!doubleEdit" :min-width="100" label="操作" fixed="right">
+          <template slot-scope="scope">
+            <Button type="info" size="small" @click="beginWithButtonEdit(scope)" ghost>编辑</Button>
+            <Button type="info" size="small" @click="endWithButtonEdit(scope)" ghost>完成</Button>
           </template>
         </el-table-column>
       </el-table>
@@ -221,6 +235,37 @@ export default {
     single: {
       type: Boolean, //是否单选
       default: false
+    },
+    // editButtons: {
+    //   //使用按钮进行编辑
+    //   //是否双击编辑
+    //   type: Array,
+    //   default: []
+    // },
+    doubleEdit: {
+      type: Boolean, //是否双击启用编辑功能
+      default: true
+    },
+    beginEdit: {
+      //编辑开始
+      type: Function,
+      default: function() {
+        return true;
+      }
+    },
+    endEditBefore: {
+      //结束编辑前
+      type: Function,
+      default: function(row, column, index) {
+        return true;
+      }
+    },
+    endEditAfter: {
+      //结束编辑前
+      type: Function,
+      default: function(row, column, index) {
+        return true;
+      }
     }
   },
   data() {
@@ -289,16 +334,19 @@ export default {
           columnBind.push(x.bind);
         }
       });
-      if (keys.length == 0) return;
-      this.http.post("/api/Sys_Dictionary/GetVueDictionary", keys).then(dic => {
-        dic.forEach(x => {
-          columnBind.forEach(c => {
-            if (c.key == x.dicNo) {
-              c.data.push(...x.data);
-            }
+      if (keys.length > 0) {
+        this.http
+          .post("/api/Sys_Dictionary/GetVueDictionary", keys)
+          .then(dic => {
+            dic.forEach(x => {
+              columnBind.forEach(c => {
+                if (c.key == x.dicNo) {
+                  c.data.push(...x.data);
+                }
+              });
+            });
           });
-        });
-      });
+      }
     }
 
     this.paginations.sort = this.pagination.sortName;
@@ -317,6 +365,12 @@ export default {
     this.defaultLoadPage && this.load();
   },
   methods: {
+    rowClick(row, column){
+      if (!this.doubleEdit) {
+        return;
+      }
+     this.rowBeginEdit(row, column);
+    },
     dowloadFile(file) {
       this.base.dowloadFile(
         file.path,
@@ -412,11 +466,43 @@ export default {
         }
       });
     },
-    beginEdit(row, column, event) {
+    //通过button按钮启用编辑
+    beginWithButtonEdit(scope) {
+      //url?rowData:tableData
+      this.rowBeginEdit(scope.row, this.columns[scope.$index]);
+    },
+    //通过button结束编辑
+    endWithButtonEdit(scope) {
+      if (this.edit.rowIndex == -1) {
+        return;
+      }
+      //
+
+      if (
+        !this.endEditBefore(scope.row, this.columns[scope.$index], scope.$index)
+      ) {
+        return;
+      }
+
+      for (let index = 0; index < this.columns.length; index++) {
+        let column = this.columns[index];
+        if (!column.hidden && (column.required || column.require)) {
+          if (!this.validateColum(column, scope.row)) return;
+        }
+      }
+      this.edit.rowIndex = -1;
+      if (
+        !this.endEditAfter(scope.row, this.columns[scope.$index], scope.$index)
+      )
+        return;
+    },
+    rowBeginEdit(row, column) {
       if (this.edit.rowIndex != -1) {
         return;
       }
       if (!this.enableEdit) return;
+      //编辑前
+      if (!this.beginEdit(row, column, row.elementIdex)) return;
       if (row.hasOwnProperty("elementIdex")) {
         if (this.edit.rowIndex == row.elementIdex) {
           return;
@@ -424,10 +510,6 @@ export default {
         this.edit.rowIndex = row.elementIdex;
       }
     },
-    // beginEdit(scopeIndex, cindex) {
-    // //  this.edit.rowIndex = scopeIndex;
-    //   //this.edit.columnIndex=cindex;
-    // },
     validateColum(option, data) {
       if (option.hidden || option.bind) return true;
       let val = data[option.field];
@@ -439,6 +521,9 @@ export default {
           }
           return false;
         }
+      }
+      if (!option.edit) {
+        return true;
       }
       let editType = option.edit.type;
       //验证数字
@@ -498,14 +583,19 @@ export default {
       }
       return true;
     },
-    endEdit(row, column, event) {
-      //   select datetime设置  :transfer="true"后，结束编辑需要鼠标移至另一行或同一行编辑列自动结束编辑
+    rowEndEdit(row, column, event) {
       if (!this.enableEdit) {
         if (!this.errorFiled) {
           this.edit.rowIndex = -1;
         }
         return;
       }
+      if (!this.doubleEdit && event) {
+        return;
+      }
+      //结束编辑前
+      if (!this.endEditBefore(row, column, this.edit.rowIndex)) return;
+
       if (
         this.edit.rowIndex != -1 &&
         (!this.errorFiled || this.errorFiled == column.property)
@@ -538,9 +628,9 @@ export default {
       if (this.errorFiled) {
         return;
       }
+      if (!this.endEditAfter(row, column, this.edit.rowIndex)) return;
       //  this.errorFiled = "";
       this.edit.rowIndex = -1;
-
       //this.edit.columnIndex=-1;
     },
     delRow() {
@@ -770,6 +860,12 @@ export default {
     line-height: 40px;
     border-radius: 4px;
     border: 1px solid #a09e9e;
+  }
+}
+.e-item {
+  display: flex;
+  > div:first-child {
+    flex: 1;
   }
 }
 </style>
