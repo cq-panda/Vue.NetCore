@@ -194,6 +194,10 @@
                 :single="detailOptions.single"
                 :pagination-hide="false"
                 :defaultLoadPage="detailOptions.load"
+                :doubleEdit="detailOptions.doubleEdit"
+                :beginEdit="detailOptions.beginEdit"
+                :endEditBefore="detailOptions.endEditBefore"
+                :endEditAfter="detailOptions.endEditAfter"
               ></vol-table>
             </div>
             <!--明细footer自定义组件-->
@@ -356,7 +360,20 @@ var vueParam = {
         delKeys: [], //当编辑时删除当前明细的行主键值
         url: "", //从表加载数据的url
         pagination: { total: 0, size: 100, sortName: "" }, //从表分页配置数据
-        height: 0 //默认从表高度
+        height: 0, //默认从表高度
+        doubleEdit: true, //使用双击编辑
+        //开启编辑时
+        beginEdit: (row, column, index) => {
+          return true;
+        },
+        //结束编辑前
+        endEditBefore: (row, column, index) => {
+          return true;
+        },
+        //结束编辑后
+        endEditAfter: (row, column, index) => {
+          return true;
+        }
       },
       auditParam: {
         //审核对象

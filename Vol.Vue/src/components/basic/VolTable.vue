@@ -249,7 +249,7 @@ export default {
     beginEdit: {
       //编辑开始
       type: Function,
-      default: function() {
+      default: function(row, column, index) {
         return true;
       }
     },

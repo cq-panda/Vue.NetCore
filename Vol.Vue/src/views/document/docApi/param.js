@@ -171,24 +171,45 @@ let param = {
         { name: "load", desc: "页面打开后是否默认加载表格数据", type: "bool", default: "true" },
         { name: "hasDetail", desc: "是否有明细(如果有明细表就为true)", type: "bool", default: "false" },
         {
-            name: "detailOptions", desc: `明细表参数<div class="cnblogs_code">
-        <pre><span style="color: #000000;">     detailOptions: {
-                </span><span style="color: #008000;">//</span><span style="color: #008000;">弹出框从表(明细)对象</span>
-                <span style="color: #008000;">//</span><span style="color: #008000;">从表配置</span>
-                buttons: [], <span style="color: #008000;">//</span><span style="color: #008000;">弹出框从表表格操作按钮,目前有删除行，添加行，刷新操作，如需要其他操作按钮，可在表对应的.js中添加</span>
-                cnName: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表名称</span>
-                key: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表主键名</span>
-                data: [], <span style="color: #008000;">//</span><span style="color: #008000;">数据源</span>
-                columns: [], <span style="color: #008000;">//</span><span style="color: #008000;">从表列信息</span>
-                edit: <span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">明细是否可以编辑</span>
-                single:<span style="color: #0000ff;">false</span>,<span style="color: #008000;">//</span><span style="color: #008000;">明细表是否单选</span>
-                delKeys: [], <span style="color: #008000;">//</span><span style="color: #008000;">当编辑时删除当前明细的行主键值</span>
-                url: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表加载数据的url</span>
-                pagination: { total: 0, size: 100, sortName: "" }, <span style="color: #008000;">//</span><span style="color: #008000;">从表分页配置数据</span>
-                height: 0 <span style="color: #008000;">//</span><span style="color: #008000;">默认从表高度</span>
-              }</pre>
-        </div>
-        <p>&nbsp;</p>`, type: "json", default: ""
+            name: "detailOptions", desc: `<div class="cnblogs_code">
+            <pre></pre>
+            <div class="cnblogs_code">
+            <pre><span style="color: #000000;">    
+                 明细表参数
+                 detailOptions: {
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">弹出框从表(明细)对象</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;">从表配置</span>
+                    buttons: [], <span style="color: #008000;">//</span><span style="color: #008000;">弹出框从表表格操作按钮,目前有删除行，添加行，刷新操作，如需要其他操作按钮，可在表对应的.js中添加</span>
+                    cnName: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表名称</span>
+                    key: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表主键名</span>
+                    data: [], <span style="color: #008000;">//</span><span style="color: #008000;">数据源</span>
+                    columns: [], <span style="color: #008000;">//</span><span style="color: #008000;">从表列信息</span>
+                    edit: <span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">明细是否可以编辑</span>
+                    single:<span style="color: #0000ff;">false</span>,<span style="color: #008000;">//</span><span style="color: #008000;">明细表是否单选</span>
+                    delKeys: [], <span style="color: #008000;">//</span><span style="color: #008000;">当编辑时删除当前明细的行主键值</span>
+                    url: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表加载数据的url</span>
+                    pagination: { total: 0, size: 100, sortName: "" }, <span style="color: #008000;">//</span><span style="color: #008000;">从表分页配置数据</span>
+                    height: 0, <span style="color: #008000;">//</span><span style="color: #008000;">默认从表高度</span>
+                    doubleEdit: <span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">使用双击编辑</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;">开启编辑时</span>
+                    beginEdit: (row, column, index) =&gt;<span style="color: #000000;"> {
+                      </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                    },
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">结束编辑前</span>
+                    endEditBefore: (row, column, index) =&gt;<span style="color: #000000;"> {
+                      </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                    },
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;">结束编辑后</span>
+                    endEditAfter: (row, column, index) =&gt;<span style="color: #000000;"> {
+                      </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                    }
+             }</span></pre>
+            </div>
+            <pre></pre>
+            <p>&nbsp;</p>
+            <pre><span style="color: #000000;">&nbsp;</span></pre>
+            </div>
+            <p>&nbsp;</p>`, type: "json", default: ""
         },
         {
             name: "auditParam", desc: `审核参数<div class="cnblogs_code">
