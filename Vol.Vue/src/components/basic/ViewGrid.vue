@@ -362,6 +362,7 @@ var vueParam = {
         pagination: { total: 0, size: 100, sortName: "" }, //从表分页配置数据
         height: 0, //默认从表高度
         doubleEdit: true, //使用双击编辑
+        currentReadonly:false,//当前用户没有编辑或新建权限时，表单只读
         //开启编辑时
         beginEdit: (row, column, index) => {
           return true;

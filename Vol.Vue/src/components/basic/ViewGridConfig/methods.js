@@ -12,6 +12,9 @@ let methods = {
         fun(this);
     },
     getCurrentAction() {
+        if (this.currentReadonly) {
+            return '';
+        }
         return "--" + (this.currentAction == this.const.ADD ? "新增" : "编辑");
     },
     quickSearchKeyPress($event) { //查询字段为input时，按回车查询
@@ -79,7 +82,7 @@ let methods = {
         let saveBtn = this.buttons.some(x => {
             if (x.value && (x.value.toLowerCase() == this.const.ADD.toLowerCase() || x.value.toLowerCase() == this.const.EDIT.toLowerCase())) return true;
         });
-
+        this.currentReadonly = !saveBtn;
         //从表表格操作按钮
         let detailGridButtons = {
             name: "刷新", icon: "md-refresh", onClick() {
