@@ -345,6 +345,7 @@ var vueParam = {
       hasDetail: false, //是否有从表(明细)表格数据
       initActivated: false,
       load: true, //是否默认加载表数据
+      activatedLoad:false,//页面触发actived时是否刷新页面数据
       // detailUrl: "",
       detailOptions: {
         //弹出框从表(明细)对象
@@ -427,7 +428,10 @@ var vueParam = {
       this._inited = true;
       return;
     }
-    console.log("activated");
+    if (this.activatedLoad) {
+      this.refresh();
+    }
+   // console.log("activated");
     // //  this.$options.components.modelHeader.template =
     // //   '<Alert type="success">88767</Alert>';
     //合并扩展组件、弹出框新建编辑页面自定义扩展组件或组件路径

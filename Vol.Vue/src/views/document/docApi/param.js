@@ -169,6 +169,7 @@ let param = {
         { name: "dicKeys", desc: "所有数据源的字典编号", type: "array", default: "[]" },
         { name: "hasKeyField", desc: "所有有数据源的字段", type: "array", default: "[]" },
         { name: "load", desc: "页面打开后是否默认加载表格数据", type: "bool", default: "true" },
+        { name: "activatedLoad", desc: "页面触发actived时是否刷新页面数据", type: "bool", default: "false" },
         { name: "hasDetail", desc: "是否有明细(如果有明细表就为true)", type: "bool", default: "false" },
         {
             name: "detailOptions", desc: `<div class="cnblogs_code">
