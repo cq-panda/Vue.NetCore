@@ -8,7 +8,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using VOL.Core.Const;
 using VOL.Core.DBManager;
+using VOL.Core.Enums;
 using VOL.Core.Extensions;
 using VOL.Core.Utilities;
 
@@ -23,7 +25,7 @@ namespace VOL.Core.Dapper
         {
             get
             {
-                if (_connection == null)
+                if (_connection == null || _connection.State == ConnectionState.Closed)
                 {
                     _connection = DBServerProvider.GetDbConnection(_connectionString);
                 }
@@ -127,6 +129,7 @@ namespace VOL.Core.Dapper
         private T Execute<T>(Func<IDbConnection, IDbTransaction, T> func, bool beginTransaction = false, bool disposeConn = true)
         {
             IDbTransaction dbTransaction = null;
+
             if (beginTransaction)
             {
                 Connection.Open();
@@ -152,27 +155,154 @@ namespace VOL.Core.Dapper
                 }
             }
         }
-        public bool Add<T>(T entity)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="updateFileds">指定插入的字段</param>
+        /// <param name="beginTransaction">是否开启事务</param>
+        /// <returns></returns>
+        public int Add<T>(T entity, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false)
         {
             return AddRange<T>(new T[] { entity });
         }
-        public bool AddRange<T>(IEnumerable<T> entities)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entities"></param>
+        /// <param name="updateFileds">指定插入的字段</param>
+        /// <param name="beginTransaction">是否开启事务</param>
+        /// <returns></returns>
+        public int AddRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> addFileds = null, bool beginTransaction = false)
         {
-            return true;
+            Type entityType = typeof(T);
+            var key = entityType.GetKeyProperty();
+            if (key == null)
+            {
+                throw new Exception("实体必须包括主键才能批量更新");
+            }
+            string[] columns;
+
+            //指定插入的字段
+            if (addFileds != null)
+            {
+                columns = addFileds.GetExpressionToArray();
+            }
+            else
+            {
+                var properties = entityType.GetGenericProperties();
+                if (key.PropertyType != typeof(Guid))
+                {
+                    properties = properties.Where(x => x.Name != key.Name).ToArray();
+                }
+                columns = properties.Select(x => x.Name).ToArray();
+            }
+            string sql = null;
+            bool mysql = DBType.Name == DbCurrentType.MySql.ToString();
+            if (mysql)
+            {
+                //mysql批量写入待优化
+                sql = $"insert into {entityType.GetEntityTableName()}({string.Join(",", columns)})" +
+                 $"values(@{string.Join(",@", columns)});";
+            }
+            else
+            {
+                //sqlserver通过临时表批量写入
+                sql = $"insert into {entityType.GetEntityTableName()}({string.Join(",", columns)})" +
+                 $"select *  from  {EntityToSqlTempName.TempInsert};";
+                sql = entities.GetEntitySql(entityType == typeof(Guid), sql, null, addFileds, null);
+            }
+            return Execute<int>((conn, dbTransaction) =>
+            {
+                return conn.Execute(sql, mysql ? entities.ToList() : null);
+            }, beginTransaction);
         }
-        public bool Update<T>(T entity, Expression<Func<T, object>> updateFileds = null)
+
+
+        /// <summary>
+        /// sqlserver使用的临时表参数化批量更新，mysql批量更新待发开
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity">实体必须带主键</param>
+        /// <param name="updateFileds">指定更新的字段x=new {x.a,x.b}</param>
+        /// <param name="beginTransaction">是否开启事务</param>
+        /// <returns></returns>
+        public int Update<T>(T entity, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false)
         {
             return UpdateRange<T>(new T[] { entity }, updateFileds);
         }
-        public bool UpdateRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null)
+        /// <summary>
+        /// sqlserver使用的临时表参数化批量更新，mysql待优化
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entities">实体必须带主键</param>
+        /// <param name="updateFileds">批定更新字段</param>
+        /// <param name="beginTransaction"></param>
+        /// <returns></returns>
+        public int UpdateRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false)
         {
-            return true;
+            Type entityType = typeof(T);
+            var key = entityType.GetKeyProperty();
+            if (key == null)
+            {
+                throw new Exception("实体必须包括主键才能批量更新");
+            }
+            if (DBType.Name == DbCurrentType.MySql.ToString())
+            {
+                throw new Exception("mysql批量更新未实现");
+            }
+            var properties = entityType.GetGenericProperties()
+                .Where(x => x.Name != key.Name);
+            if (updateFileds != null)
+            {
+                properties = properties.Where(x => updateFileds.GetExpressionToArray().Contains(x.Name));
+            }
+            string fileds = string.Join(",", properties.Select(x => $" a.{x.Name}=b.{x.Name}").ToArray());
+            string sql = $"update  a  set {fileds} from  {entityType.GetEntityTableName()} as a inner join {EntityToSqlTempName.TempInsert.ToString()} as b on a.{key.Name}=b.{key.Name}";
+            sql = entities.ToList().GetEntitySql(true, sql, null, updateFileds, null);
+            return ExcuteNonQuery(sql, null, CommandType.Text, true);
         }
 
-        public bool DelByKey<T>(params object[] keys)
+        public int DelWithKey<T>(bool beginTransaction = false, params object[] keys)
         {
-            return true;
+            Type entityType = typeof(T);
+            var keyProperty = entityType.GetKeyProperty();
+            if (keyProperty == null || keys == null || keys.Length == 0) return 0;
+
+            IEnumerable<(bool, string, object)> validation = keyProperty.ValidationValueForDbType(keys);
+            if (validation.Any(x => !x.Item1))
+            {
+                throw new Exception($"主键类型【{validation.Where(x => !x.Item1).Select(s => s.Item3).FirstOrDefault()}】不正确");
+            }
+            string tKey = entityType.GetKeyProperty().Name;
+            FieldType fieldType = entityType.GetFieldType();
+            string joinKeys = (fieldType == FieldType.Int || fieldType == FieldType.BigInt)
+                 ? string.Join(",", keys)
+                 : $"'{string.Join("','", keys)}'";
+
+            string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
+            return (int)ExecuteScalar(sql, null);
         }
+        /// <summary>
+        /// 使用key批量删除
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keys"></param>
+        /// <returns></returns>
+        public int DelWithKey<T>(params object[] keys)
+        {
+            return DelWithKey<T>(false, keys);
+        }
+        /// <summary>
+        /// 通过Bulk批量插入
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="tableName"></param>
+        /// <param name="sqlBulkCopyOptions"></param>
+        /// <param name="dbKeyName"></param>
+        /// <returns></returns>
         private int MSSqlBulkInsert(DataTable table, string tableName, SqlBulkCopyOptions sqlBulkCopyOptions = SqlBulkCopyOptions.UseInternalTransaction, string dbKeyName = null)
         {
             if (!string.IsNullOrEmpty(dbKeyName))
@@ -195,7 +325,7 @@ namespace VOL.Core.Dapper
             Expression<Func<T, object>> columns = null,
             SqlBulkCopyOptions? sqlBulkCopyOptions = null)
         {
-            DataTable table = entities.ToDataTable(columns,false);
+            DataTable table = entities.ToDataTable(columns, false);
             return BulkInsert(table, tableName ?? typeof(T).GetEntityTableName(), sqlBulkCopyOptions);
         }
         public int BulkInsert(DataTable table, string tableName, SqlBulkCopyOptions? sqlBulkCopyOptions = null, string fileName = null, string tmpPath = null)

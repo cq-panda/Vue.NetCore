@@ -30,15 +30,48 @@ namespace VOL.Core.Dapper
         (List<T1>, List<T2>) QueryMultiple<T1, T2>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
         (List<T1>, List<T2>, List<T3>) QueryMultiple<T1, T2, T3>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entities"></param>
+        /// <param name="updateFileds">指定插入的字段</param>
+        /// <param name="beginTransaction">是否开启事务</param>
+        /// <returns></returns>
+        int Add<T>(T entity, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entities"></param>
+        /// <param name="updateFileds">指定插入的字段</param>
+        /// <param name="beginTransaction">是否开启事务</param>
+        /// <returns></returns>
+        int AddRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false);
 
-        bool Add<T>(T entity);
-        bool AddRange<T>(IEnumerable<T> entities);
 
-        bool Update<T>(T entity, Expression<Func<T, object>> updateFileds = null);
-        bool UpdateRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null);
+        /// <summary>
+        /// sqlserver使用的临时表参数化批量更新，mysql批量更新待发开
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity">实体必须带主键</param>
+        /// <param name="updateFileds">指定更新的字段x=new {x.a,x.b}</param>
+        /// <param name="beginTransaction">是否开启事务</param>
+        /// <returns></returns>
+        int Update<T>(T entity, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false);
 
-        bool DelByKey<T>(params object[] keys);
+        /// <summary>
+        /// sqlserver使用的临时表参数化批量更新，mysql批量更新待发开
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity">实体必须带主键</param>
+        /// <param name="updateFileds">指定更新的字段x=new {x.a,x.b}</param>
+        /// <param name="beginTransaction">是否开启事务</param>
+        /// <returns></returns>
+        int UpdateRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false);
 
+        int DelWithKey<T>(params object[] keys);
+        int DelWithKey<T>(bool beginTransaction = false,params object[] keys);
         /// <summary>
         ///  sqlserver批量写入
         /// 使用时DataTable table表字段顺序要和数据库字段顺序一致
