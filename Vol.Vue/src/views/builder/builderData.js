@@ -44,7 +44,7 @@ let data = {
             uploadField: '', uploadMaxCount: '', enable: 0, vuePath: '',
             userPermissionDesc: '开启后当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作'
         },
-        addOptions: [[{ "title": "父级ID", "field": "parentId", "required": true, type: 'number' }],
+        addOptions: [[{ "title": "父级ID", min: 0, "field": "parentId", "required": true, type: 'number' }],
         [{
             "title": "项目命名空间", "field": "namespace", "placeholder": "项目命令空间(类库名)", "type": "select", "required": true, data: { data: [] }
         }],
@@ -54,8 +54,8 @@ let data = {
         ,
         options: [
             [
-                { "title": "ID", "field": "table_Id", "dataSource": [], readonly: true, disabled: true, columnType: 'int' },
-                { "title": "父级ID", "field": "parentId", "required": true, type: 'number' },
+                { "title": "ID",  "field": "table_Id", "dataSource": [], readonly: true, disabled: true, columnType: 'int' },
+                { "title": "父级ID", "field": "parentId",min: 0, "required": true, type: 'number' },
                 {
                     "title": "项目命名空间", "placeholder": "项目命令空间(类库名)", "field": "namespace", "type": "select", "required": true,
                     data: { data: [] }
