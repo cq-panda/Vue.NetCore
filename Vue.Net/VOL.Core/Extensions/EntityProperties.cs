@@ -837,10 +837,18 @@ namespace VOL.Core.Extensions
             {
                 int length = propertyInfo.GetTypeCustomValue<MaxLengthAttribute>(x => new { x.Length }).GetInt();
 
+
+
                 if (length == 0) { return (true, null, null); }
+                if (length > 50000)
+                {
+                    reslutMsg = $"字符不能超过5W";
+                }
                 //判断双字节与单字段
-                if ((dbType.Substring(0, 1) != "n" && Encoding.UTF8.GetBytes(val.ToCharArray()).Length > length)
-                    || val.Length > length)
+                else if (length < 8000 &&
+                    ((dbType.Substring(0, 1) != "n" && Encoding.UTF8.GetBytes(val.ToCharArray()).Length > length)
+                     || val.Length > length)
+                     )
                 {
                     reslutMsg = $"最多只能【{length}】个字符。";
                 }

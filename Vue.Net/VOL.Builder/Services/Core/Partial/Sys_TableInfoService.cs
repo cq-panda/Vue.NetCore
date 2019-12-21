@@ -887,7 +887,7 @@ DISTINCT
                     WHEN data_type IN('Date', 'DateTime', 'TimeStamp','date', 'datetime', 'timestamp') THEN
                     'DateTime' ELSE 'string'
                 END AS ColumnType,
-	            CHARACTER_MAXIMUM_LENGTH AS Maxlength,
+	              case WHEN CHARACTER_MAXIMUM_LENGTH>8000 THEN 8000 ELSE CHARACTER_MAXIMUM_LENGTH end  AS Maxlength,
             CASE
                     WHEN COLUMN_KEY <> '' THEN  
                     1 ELSE 0
