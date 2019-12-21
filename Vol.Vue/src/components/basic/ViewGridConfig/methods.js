@@ -520,19 +520,19 @@ let methods = {
     },
     add() {//新建
         this.currentAction = this.const.ADD;
-        this.currentRow = null;
+        this.currentRow = {};
         this.initBox();
         if (this.hasDetail) {
             this.$refs.detail &&
                 //  this.$refs.detail.rowData &&
                 this.$refs.detail.reset();
         }
-        let obj={};
+        let obj = {};
         //如果有switch标签，默认都设置为是
-        this.editFormOptions.forEach(x=>{
-            x.forEach(item=>{
-                if (item.type=='switch') {
-                    obj[item.field]=1;
+        this.editFormOptions.forEach(x => {
+            x.forEach(item => {
+                if (item.type == 'switch') {
+                    obj[item.field] = 1;
                 }
             })
         })

@@ -325,7 +325,7 @@ var vueParam = {
       singleSearch: "", //快速查询字段
       exportHref: "",
       currentAction: _const.ADD, //当新建或编辑时，记录当前的状态:如当前操作是新建
-      currentRow: null, //当前编辑或查看数据的行
+      currentRow: {}, //当前编辑或查看数据的行
       closable: false,
       boxModel: false, //弹出新建、编辑框
       width: 700, //弹出框查看表数据结构
@@ -363,7 +363,7 @@ var vueParam = {
         pagination: { total: 0, size: 100, sortName: "" }, //从表分页配置数据
         height: 0, //默认从表高度
         doubleEdit: true, //使用双击编辑
-        currentReadonly:false,//当前用户没有编辑或新建权限时，表单只读
+        currentReadonly:false,//当前用户没有编辑或新建权限时，表单只读(可用于判断用户是否有编辑或新建权限)
         //开启编辑时
         beginEdit: (row, column, index) => {
           return true;

@@ -87,7 +87,7 @@ const system = {
         },
         clearUserInfo(state) {
             state.permission = [];
-            state.userInfo=null;
+            state.userInfo = null;
             localStorage.removeItem(keys.USER);
         },
         test(state) {
@@ -131,9 +131,11 @@ const system = {
         }
     }
 };
+import data from './data.js'
 const store = new Vuex.Store({
     modules: {   //分成多个模块
-        system //this.$store.state.system
+        system,//this.$store.state.system
+        data
     }
 })
 export default store;

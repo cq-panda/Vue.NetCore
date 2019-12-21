@@ -28,11 +28,7 @@ let base = {
             "(:[0-9]{1,5})?" + // 端口- :80 ,1-5位数字
             "((/?)|" + // url无参数结尾 - 斜杆或这没有
             "(/[\\w_!~*'()\\.;?:@&=+$,%#-]+)+/?)$"; //请求参数结尾- 英文或数字和[]内的各种字符
-
-        // var strRegex1 =
-        //     "^(?=^.{3,255}$)((http|https|ftp)?://)?(www.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:d+)*(/)?(?:/(.+)/?$)?(/w+.w+)*([?&]w+=w*|[\u4e00-\u9fa5]+)*$";
         var re = new RegExp(strRegex, "i"); //i不区分大小写
-        //  console.log(re);
         //将url做uri转码后再匹配，解除请求参数中的中文和空字符影响
         if (re.test(encodeURI(url))) {
             return true;
@@ -54,18 +50,18 @@ let base = {
         }
         return src;
     },
-    priviewImg(src, httpUrl) { //图片预览，目前只支持单图片预览
+    previewImg(src, httpUrl) { //图片预览，目前只支持单图片预览
         if (src && !this.isUrl(src) && httpUrl) {
             if (src.substr(0, 1) == "/" && httpUrl.substr(httpUrl.length - 1, 1) == "/") {
                 src = src.substr(1)
             }
             src = (httpUrl + src);
         }
-        let id = "vol-priview";
+        let id = "vol-preview";
         let $div = document.getElementById(id);
         if (!$div) {
             $div = document.createElement("div");
-            $div.setAttribute("id", "vol-priview");
+            $div.setAttribute("id", "vol-preview");
             let $mask = document.createElement("div");
             $mask.style.position = "absolute";
             $mask.style.width = "100%";
@@ -80,7 +76,7 @@ let base = {
             $div.style.top = 0;
             $div.style['z-index'] = 9999999;
             let $img = document.createElement("img");
-            $img.setAttribute("class", "vol-priview-img");
+            $img.setAttribute("class", "vol-preview-img");
             $img.style.position = "absolute";
             $img.style.top = "50%";
             $img.style.left = "50%";
@@ -96,7 +92,7 @@ let base = {
             document.body.appendChild($div);
             return;
         }
-        let $img1 = document.body.appendChild($div).querySelector(".vol-priview-img");
+        let $img1 = document.body.appendChild($div).querySelector(".vol-preview-img");
         // img.src = src;
         $img1.setAttribute("src", src);
         $div.style.display = "block";

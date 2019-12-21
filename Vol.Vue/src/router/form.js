@@ -46,5 +46,15 @@ let form = [
         path: '/formUpload',
         name: 'formUpload',
         component: () => import('@/views/upload/formUpload.vue')
-    }]
+    }, {
+        path: '/kindEditor',
+        name: 'kindEditor',
+        component: () => import('@/views/kindEditor/kindEditor.vue')
+    }, {
+        path: '/htmlList',
+        name: 'htmlList',
+        component: () => import('@/views/kindEditor/htmlList.vue')
+    }
+
+]
 export default form

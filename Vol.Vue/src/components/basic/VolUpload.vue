@@ -14,7 +14,7 @@
           <div v-for="(file,index) in  files.length>0?files:fileInfo" :key="index" class="img-item">
             <div class="operation">
               <div class="action">
-                <Icon type="md-eye" @click="priviewImg(index)" class="view"></Icon>
+                <Icon type="md-eye" @click="previewImg(index)" class="view"></Icon>
                 <Icon type="md-close" @click="removeFile(index)" class="remove"></Icon>
               </div>
               <div class="mask"></div>
@@ -216,9 +216,9 @@ export default {
     }
   },
   methods: {
-    priviewImg(index) {
+    previewImg(index) {
       //查看大图预览模式待完
-      this.base.priviewImg(
+      this.base.previewImg(
         this.getImgSrc(
           (this.files.length > 0 ? this.files : this.fileInfo)[index]
         )
