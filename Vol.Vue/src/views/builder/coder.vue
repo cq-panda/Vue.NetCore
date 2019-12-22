@@ -279,8 +279,8 @@ export default {
           this.$message.error("请勾选设置主键");
           return false;
         }
-        if (keyInfo.isNull==1) {
-             this.$message.error("主键【可为空】必须设置为否");
+        if (keyInfo.isNull == 1) {
+          this.$message.error("主键【可为空】必须设置为否");
           return false;
         }
         if (
@@ -382,6 +382,7 @@ export default {
         });
         this.tableInfo = x.data;
         this.$refs.form.reset(x.data);
+        this.layOutOptins.fileds.vuePath = localStorage.getItem("vuePath");
         this.data = x.data.tableColumns;
         //  this.$Message.info(x);
       });
