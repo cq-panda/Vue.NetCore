@@ -144,6 +144,13 @@ export default {
       tree: []
     };
   },
+  watch: {
+    "layOutOptins.fileds.vuePath"(val) {
+      localStorage.setItem("vuePath", val);
+    },
+    deep: true
+    //localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
+  },
   methods: {
     changeMore(funName) {
       this[funName]();
@@ -272,6 +279,10 @@ export default {
           this.$message.error("请勾选设置主键");
           return false;
         }
+        if (keyInfo.isNull==1) {
+             this.$message.error("主键【可为空】必须设置为否");
+          return false;
+        }
         if (
           keyInfo.columnType != "int" &&
           keyInfo.columnType != "bigint" &&
@@ -355,7 +366,7 @@ export default {
     ceateController() {},
     checkSortName() {},
     save() {
-      localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
+      // localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
       if (!this.validateTableInfo()) return;
       this.http.post("/api/builder/Save", this.tableInfo, true).then(x => {
         if (!x.status) {
@@ -513,8 +524,8 @@ export default {
   padding-right: 26px;
 }
 .builder-content .action i {
-    top: -1px;
-    position: relative;
+  top: -1px;
+  position: relative;
 }
 .builder-content .action > span {
   padding: 0px 6px;
