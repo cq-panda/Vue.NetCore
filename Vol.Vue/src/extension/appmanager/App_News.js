@@ -17,6 +17,7 @@ let extension = {
         modelBody: () => ({ component: import("./App_News/App_NewsModelBody.vue"), loading: AsyncLoading }),
         modelFooter: ''
     },
+    text:"静态文件没有提交到github，本地重新生成下静态页面与设置封面即可预览",
     //如果不需要权限判断直接将扩展按钮加到此处
     //需要权限判断的可按下面initButton方法进行扩展按钮
     buttons: {
