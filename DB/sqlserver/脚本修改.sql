@@ -1,2 +1,0 @@
---修改sqlserver表SellOrderList字段Order_Id类型错误
-ALTER TABLE SellOrderList ALTER COLUMN Order_Id UNIQUEIDENTIFIER
