@@ -46,7 +46,7 @@ export default {
       let fileUrls = files.map(x => {
         return result.data + x.name;
       });
-      let data = { imageUrl: fileUrls.join(',') };
+      let data = { imageUrl: fileUrls.join(",") };
       //父组件vue对象
       let $parentVue;
       //获取父组件当前选中行的id用于后台更新

@@ -10,14 +10,22 @@ let extension = {
     components: {//动态扩充组件或组件路径
         //表单header、content、footer对应位置扩充的组件
         gridHeader: () => import("./App_News/App_NewGirdHeader.vue"),
-        gridBody: "",
+        gridBody: {
+            template: `<div>
+            <Alert type="success" show-icon>
+            页面打开异常
+            <template
+                slot="desc"
+            >如果本地打开此页面提示异常,请在代码生成器找到：静态页面发布->新闻列表，点击:同步表结构->生成model->保存->生成vue页面</template>
+            </Alert>
+          </div>`},
         gridFooter: '',
         //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
         modelHeader: '',
         modelBody: () => ({ component: import("./App_News/App_NewsModelBody.vue"), loading: AsyncLoading }),
         modelFooter: ''
     },
-    text:"静态文件没有提交到github，本地重新生成下静态页面与设置封面即可预览",
+    text: "静态文件没有提交到github，本地重新生成下静态页面与设置封面即可预览",
     //如果不需要权限判断直接将扩展按钮加到此处
     //需要权限判断的可按下面initButton方法进行扩展按钮
     buttons: {

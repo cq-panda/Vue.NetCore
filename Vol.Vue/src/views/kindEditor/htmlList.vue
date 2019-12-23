@@ -1,8 +1,10 @@
 <template>
-  <div style=" overflow: scroll; position: absolute;
+  <div
+    style=" overflow: scroll; position: absolute;
     background: rgb(245, 245, 245);
     height: 100%;
-    width: 100%;">
+    width: 100%;"
+  >
     <div class="com-container">
       <div class="list" v-for="(item, index) in list2" :key="index">
         <Divider>{{item.name}}</Divider>
@@ -94,18 +96,15 @@ export default {
 </script>
 <style scoped >
 .com-container {
+  overflow: visible;
   left: 0;
   margin: 0 auto;
   right: 0;
   display: flex;
   max-width: 1200px;
-  /* border: 1px solid #eee; */
-  overflow: hidden;
   height: 100%;
   position: relative;
   padding: 20px;
-}
-.com-body {
 }
 .com-body >>> .vux-slider {
   height: 100%;
