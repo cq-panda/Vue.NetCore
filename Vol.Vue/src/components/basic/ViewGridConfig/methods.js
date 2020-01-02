@@ -287,6 +287,7 @@ let methods = {
         }
         this.resetEditForm(objKey);
         //重置之后
+
         if (!this[isEdit ? 'resetUpdateFormAfter' : 'resetAddFormAfter']()) {
             return;
         }
@@ -320,8 +321,8 @@ let methods = {
                         }
                     }
                     if (data && data.length > 0 && !this.keyValueType.hasOwnProperty(x.field)) {
-
                         this.keyValueType[x.field] = data[0].key;
+                        this.keyValueType['_b_' + x.field] = x.type;
                     }
                 })
             })
@@ -348,7 +349,11 @@ let methods = {
         for (const key in form) {
             if (sourceObj.hasOwnProperty(key)) {
                 let newVal = sourceObj[key];
-                if (this.keyValueType.hasOwnProperty(key)
+                if (this.keyValueType['_b_' + key] == 'selectList') {
+                    if (newVal != "" && newVal != undefined && typeof newVal == 'string') {
+                        newVal = newVal.split(',');
+                    }
+                } else if (this.keyValueType.hasOwnProperty(key)
                     && typeof (this.keyValueType[key]) == 'number'
                     && newVal * 1 == newVal) {
                     newVal = newVal * 1;
@@ -397,6 +402,12 @@ let methods = {
             }
         } else {
             editFormFileds = this.editFormFileds;
+        }
+        //将数组转换成string
+        for (const key in editFormFileds) {
+            if (editFormFileds[key] instanceof Array) {
+                editFormFileds[key] = editFormFileds[key].join(',');
+            }
         }
 
         let formData = {
@@ -721,7 +732,7 @@ let methods = {
                 if (keys.indexOf(d.dataKey) == -1) {
                     keys.push(d.dataKey);
                     //data:[defaultOption]
-                    this.dicKeys.push({ dicNo: d.dataKey, config: "", data: [] });
+                    this.dicKeys.push({ dicNo: d.dataKey, config: "", data: [], type: d.type });
                 }
                 d.data = this.dicKeys.filter(f => {
                     return f.dicNo == d.dataKey;
