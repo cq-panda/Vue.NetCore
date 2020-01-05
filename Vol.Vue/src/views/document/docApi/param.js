@@ -37,7 +37,9 @@ let param = {
                 if ($event.keyCode == 13) {}\
               }', type: "function", default: ""
         },
-        { name: "onChange", desc: "只有type=select才可以配置此属性", type: "function", default: "" },
+        { name: "onChange", desc: "type=select生效", type: "function", default: "" },
+        { name: "url", desc: "从指定后台url(例：api/xx/xx)远程搜索，(返回的数据格式:[{key:'x',value:'x1'}])，type=select生效", type: "bool", default: "false" },
+        { name: "remote", desc: "开启后台字典远程搜索(字典必须配置必须是自定sql,如果查询结果较大，请在自定义sql上取top)，type=select生效", type: "bool", default: "false" },
         { name: "extra", desc: '添加额外标签：  extra: {//显示图标 icon: "ios-search", //显示文本 text: "点击可触发事件",//触发事件 click: item => {}}', type: "string", default: "" },
         { name: "minRows", desc: "textarea标签最小高度", type: "number", default: "2" },
         { name: "maxRows", desc: "textarea标签最大高度", type: "number", default: "10" },

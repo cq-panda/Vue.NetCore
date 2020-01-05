@@ -51,10 +51,11 @@ export default {
         IsTop: "",
         Fruits: [],
         Other: "",
-        extra1:"添加其他标签",
-        extra2:"添加其他标签可点击",
+        extra1: "添加其他标签",
+        extra2: "添加其他标签可点击",
         Switch: 1,
         SelectList: ["北京市", "上海市", "天津市", "广州市", "重庆市"],
+        remoteSearch: "",
         readonlyText: "还没想好....",
         readonlyImg:
           "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
@@ -135,7 +136,7 @@ export default {
             type: "mail"
           }
         ],
-         [
+        [
           {
             title: "额外标签",
             required: true,
@@ -153,7 +154,7 @@ export default {
             type: "text",
             extra: {
               icon: "ios-search", //显示图标
-              text: "点击可触发事件",//显示文本
+              text: "点击可触发事件", //显示文本
               //触发事件
               click: item => {
                 this.$Message.error("点击标签触发的事件");
@@ -168,7 +169,16 @@ export default {
             required: true,
             field: "SelectList",
             data: [],
-            colSize: 12,
+            type: "selectList"
+          },
+          {
+            dataKey: "city",
+            title: "远程搜索",
+            required: true,
+            field: "remoteSearch",
+            remote: true, //远程搜索(从后台字典搜索,只会搜索自定义sql,后台如果返回的数据量较大，请将字典维护的sql取top)
+            //url:'api/xx/xx'从指定url搜索 返回格式必须是[{key:'xxxx',value:'xxx'}]
+            data: [],
             type: "selectList"
           }
         ],
