@@ -825,8 +825,9 @@ export default {
       if (!val && val != 0) return val;
       //编辑多选table显示
       if (
-        column.bind.type == "selectList" ||
-        (column.bind.type == "checkbox" && val.indexOf(",") != -1)
+        (column.bind.type == "selectList" || column.bind.type == "checkbox") &&
+        typeof val == "string" &&
+        val.indexOf(",") != -1
       ) {
         return this.getSelectFormatter(column, val);
       }
