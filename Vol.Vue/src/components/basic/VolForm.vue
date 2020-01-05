@@ -45,7 +45,30 @@
                 v-if="item.type=='select'||item.type=='selectList'||item.type=='drop'||item.type=='dropList'"
               >
                 <div>
+                  <!-- 远程搜索 -->
+                  <!-- 从后台字典搜索remote  -->
+                  <!-- url：从指定url搜索返回格式必须是[{key:1,value:'xxx'}] 格式-->
                   <Select
+                    v-if="item.remote||item.url"
+                    :transfer="true"
+                    v-model="formFileds[item.field]"
+                    filterable
+                    remote
+                    @on-query-change="(val)=>{queryChange(item,formFileds,val)}"
+                    @on-clear="{queryChange(item,formFileds)}"
+                    :loading="item.loading"
+                    :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
+                    @on-change="onChange(item,formFileds[item.field])"
+                    clearable
+                  >
+                    <Option
+                      v-for="(kv,kvIndex) in getData(item)"
+                      :key="kvIndex"
+                      :value="kv.key||''"
+                    >{{kv.value}}</Option>
+                  </Select>
+                  <Select
+                    v-else
                     :transfer="true"
                     v-model="formFileds[item.field]"
                     :multiple="(item.type=='select'||item.type=='drop')?false:true"
@@ -373,6 +396,10 @@ export default {
       //初始化字典数据源
       this.formRules.forEach(item => {
         item.forEach(x => {
+          //目前只支持select单选远程搜索，remote远程从后台字典数据源进行搜索，url从指定的url搜索
+          if (item.type == "select" && (item.remote || item.url)) {
+            item.loading = false;
+          }
           if (x.dataKey && (!x.data || x.data.length == 0)) {
             // if (!x.data)
             x.data = [];
@@ -389,6 +416,54 @@ export default {
       this.http.post("/api/Sys_Dictionary/GetVueDictionary", keys).then(dic => {
         this.bindOptions(dic, binds);
       });
+    },
+    //远程搜索清空数据后还原原始数据
+    queryChange(item, formFileds, val) {
+      //没有数据时还原原始数据
+      if (val === "" || val === undefined) {
+        if (item.hasOwnProperty("originalData")) {
+          if (item.data && item.data.data) {
+            item.data.data = item.originalData;
+          } else {
+            item.data = item.originalData;
+          }
+        }
+        formFileds[item.field] = "";
+      }
+    },
+    //远程搜索
+    remoteSearch(item, val, formFileds) {
+      if (val == "") return;
+
+      let data = this.getData(item);
+      //备份原始数据
+      if (!item.hasOwnProperty("originalData")) {
+        item.originalData = [];
+        item.originalData.push(...data);
+      }
+      //清空数据源，这个数据源可能有多个地方共享
+
+      //  console.log(val);
+      let url = item.remote
+        ? "/api/Sys_Dictionary/GetSearchDictionary"
+        : item.url;
+      // formFileds[item.field] = val;
+      this.http
+        .post(url + "?dicNo=" + item.dataKey + "&value=" + val)
+        .then(dicData => {
+          if (!dicData) return;
+          if (item.data && item.data.data) {
+            item.data.data = dicData;
+          } else {
+            item.data = dicData;
+          }
+          // data = dicData;
+          // return;
+          //   data.splice(0);
+          // return data.push(...dicData);
+          //没有获取到数据，设置为原来的数据源
+          //  data.push(...item.originalData);
+        });
     },
     bindOptions(dic, binds) {
       dic.forEach(d => {
@@ -713,7 +788,11 @@ export default {
       }
 
       //if (item.type == "checkbox" || item.type == "select") {
-      if (item.type == "select" ||item.type == "selectList" || item.type == "drop") {
+      if (
+        item.type == "select" ||
+        item.type == "selectList" ||
+        item.type == "drop"
+      ) {
         let _rule = {
           required: true,
           message: "请选择" + item.title,
