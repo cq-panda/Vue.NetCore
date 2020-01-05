@@ -33,13 +33,13 @@ namespace VOL.System.Services
         {
             if (dicNos == null || dicNos.Count() == 0) return new string[] { };
             var dicConfig = await Task.Run(() =>
-                      DictionaryManager.GetDictionaries(dicNos,false).Select(s => new
+                      DictionaryManager.GetDictionaries(dicNos, false).Select(s => new
                       {
                           dicNo = s.DicNo,
                           config = s.Config,
                           dbSql = s.DbSql,
                           list = s.Sys_DictionaryList.OrderByDescending(o => o.OrderNo)
-                          .Select(list => new { key = list.DicValue, value = list.DicName })
+                           .Select(list => new { key = list.DicValue, value = list.DicName })
                       }).ToList());
 
             return dicConfig.Select(item => new
@@ -49,6 +49,27 @@ namespace VOL.System.Services
                 data = string.IsNullOrEmpty(item.dbSql) ? item.list as object
                        : repository.DapperContext.QueryList<object>(item.dbSql, null)
             }).ToList();
+        }
+
+        /// <summary>
+        /// 通过远程搜索
+        /// </summary>
+        /// <param name="dicNo"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<object> GetSearchDictionary(string dicNo, string value)
+        {
+            if (string.IsNullOrEmpty(dicNo) || string.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+            string sql = Dictionaries.Where(x => x.DicNo == dicNo).FirstOrDefault()?.DbSql;
+            if (string.IsNullOrEmpty(sql))
+            {
+                return null;
+            }
+            sql = $"SELECT * FROM ({sql}) AS t WHERE value LIKE @value";
+            return await Task.Run(() => repository.DapperContext.QueryList<object>(sql, new { value = "%" + value + "%" }));
         }
 
         public override PageGridData<Sys_Dictionary> GetPageData(PageDataOptions pageData)
@@ -62,7 +83,7 @@ namespace VOL.System.Services
         }
         public override WebResponseContent Update(SaveModel saveDataModel)
         {
-            if (saveDataModel.MainData.DicKeyIsNullOrEmpty("DicNo") 
+            if (saveDataModel.MainData.DicKeyIsNullOrEmpty("DicNo")
                 || saveDataModel.MainData.DicKeyIsNullOrEmpty("Dic_ID"))
                 return base.Add(saveDataModel);
             //判断修改的字典编号是否在其他ID存在
