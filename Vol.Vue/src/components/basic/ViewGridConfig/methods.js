@@ -307,6 +307,9 @@ let methods = {
         try {
             formData.forEach(item => {
                 item.forEach(x => {
+                    if (this.keyValueType.hasOwnProperty('_b_' + x.field)) {
+                        return true;
+                    }
                     let data;
                     if (x.type == 'switch') {
                         this.keyValueType[x.field] = 1;
@@ -342,8 +345,8 @@ let methods = {
             : this.editFormFileds;
         //获取数据源的data类型，否则如果数据源data的key是数字，重置的值是字符串就无法绑定值
         if (!this.keyValueType._dinit) {
-            this.getKeyValueType(this.searchFormOptions);
             this.getKeyValueType(this.editFormOptions);
+            this.getKeyValueType(this.searchFormOptions);
             this.keyValueType._dinit = true;
         }
         for (const key in form) {
@@ -516,6 +519,7 @@ let methods = {
     setEditForm(row) {
         //重置编辑表单数据
         this.editFormFileds[this.table.key] = row[this.table.key];
+
         this.resetEditForm(row);
         this.currentAction = this.const.EDIT;
         this.boxModel = true;
