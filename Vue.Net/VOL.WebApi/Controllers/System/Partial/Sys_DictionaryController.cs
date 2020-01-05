@@ -15,16 +15,27 @@ namespace VOL.System.Controllers
         {
             return Content((await Service.GetVueDictionary(dicNos)).Serialize());
         }
+        /// <summary>
+        /// 远程搜索
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost, Route("getSearchDictionary")]
+        public async Task<IActionResult> GetSearchDictionary(string dicNo, string value)
+        {
+            return Json(await Service.GetSearchDictionary(dicNo,value));
+        }
 
         /// <summary>
         /// 代码生成器获取所有字典项(超级管理权限)
         /// </summary>
         /// <returns></returns>
         [HttpPost, Route("GetBuilderDictionary")]
-        [ApiActionPermission(ActionRolePermission.SuperAdmin|ActionRolePermission.Admin)]
+        [ApiActionPermission(ActionRolePermission.SuperAdmin)]
         public async Task<IActionResult> GetBuilderDictionary()
         {
             return Json(await Service.GetBuilderDictionary());
         }
+
     }
 }
