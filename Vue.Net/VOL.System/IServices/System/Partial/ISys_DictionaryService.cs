@@ -11,8 +11,9 @@ namespace VOL.System.IServices
         /// 代码生成器获取所有字典项(超级管理权限)
         /// </summary>
         /// <returns></returns>
-       Task<List<string>> GetBuilderDictionary();
+        Task<List<string>> GetBuilderDictionary();
         Task<object> GetVueDictionary(string[] dicNos);
+        Task<object> GetSearchDictionary(string dicNo, string value);
     }
- }
+}
 
