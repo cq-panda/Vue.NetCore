@@ -93,7 +93,7 @@
                   ref="table"
                   :paginationHide="true"
                   :tableData="data"
-                  :height="600"
+                  :height="tableHeight"
                   :columns="layOutOptins.columns"
                   :color="false"
                   :index="true"
@@ -132,7 +132,7 @@ export default {
       },
       addModel: false,
       helpModel: false,
-      tableHeight: 200,
+      tableHeight: 500,
       addOptions: builderData.form.addOptions,
       layOutOptins: {
         fileds: builderData.form.fields,
@@ -420,6 +420,8 @@ export default {
   },
   mounted() {},
   created() {
+    let clientHeight = document.documentElement.clientHeight - 170;
+    this.tableHeight = clientHeight < 400 ? 400 : clientHeight;
     this.http
       .post("/api/Sys_Dictionary/GetBuilderDictionary", {}, true)
       .then(dic => {
@@ -437,8 +439,6 @@ export default {
       });
 
     builderData.form.fields.vuePath = this.getVuePath();
-    let clientHeight = document.documentElement.clientHeight - 425;
-    this.tableHeight = clientHeight < 200 ? 150 : clientHeight;
     this.http.post("/api/builder/GetTableTree", {}, false).then(x => {
       this.tree = JSON.parse(x.list);
       if (!x.nameSpace) {

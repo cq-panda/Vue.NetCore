@@ -72,7 +72,7 @@ let data = {
                 { "title": "明细表名", "field": "detailName" }
             ],
             [
-                { "title": "连接字段", "field": "expressField" },
+                { "title": "快捷编辑字段", "field": "expressField" ,placeholder:"字段可直接点击表格编辑或查看"},
                 { "title": "排序字段", "field": "sortName", "placeholder": "非自增主键需要输入排序字段" },
                 { "title": "还没想好", "field": "richtitle" }
             ],
