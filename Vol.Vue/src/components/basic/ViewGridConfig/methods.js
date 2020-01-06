@@ -440,8 +440,8 @@ let methods = {
             } else {
                 if (!this.updateAfter(x)) return;
             }
-            if (!x.status) return this.$Message.error(x.message);
-            this.$Message.info(x.message);
+            if (!x.status) return this.$error(x.message);
+            this.$success(x.message);
             //如果保存成功后需要关闭编辑框，直接返回不处理后面
             if (this.boxOptions.saveClose) {
                 this.boxModel = false;
@@ -476,12 +476,12 @@ let methods = {
     del() {
         //删除数据
         let rows = this.$refs.table.getSelected();
-        if (rows.length == 0) return this.$message.error("请选择要删除的行!");
+        if (rows.length == 0) return this.$error("请选择要删除的行!");
         let delKeys = rows.map(x => {
             return x[this.table.key];
         });
         if (!delKeys || delKeys.length == 0)
-            return this.$message.error("没有获取要删除的行数据!");
+            return this.$error("没有获取要删除的行数据!");
         //删除前
         if (!this.delBefore(delKeys, rows)) {
             return;
@@ -496,8 +496,8 @@ let methods = {
                 tigger = true;
                 let url = this.getUrl(this.const.DEL);
                 this.http.post(url, delKeys, "正在删除数据....").then(x => {
-                    if (!x.status) return this.$Message.error(x.message);
-                    this.$Message.info(x.message);
+                    if (!x.status) return this.$error(x.message);
+                    this.$success(x.message);
                     //删除后
                     if (!this.delAfter(x)) {
                         return;
@@ -561,7 +561,7 @@ let methods = {
     edit() {//编辑
         let rows = this.$refs.table.getSelected();
         if (rows.length == 0) {
-            return this.$message.error("请选择要编辑的行!");
+            return this.$error("请选择要编辑的行!");
         }
         //记录当前编辑的行
         this.currentRow = rows[0];
@@ -605,7 +605,7 @@ let methods = {
         xmlResquest.onload = function (oEvent) {
 
             if (xmlResquest.status != 200) {
-                this.$Message.error('下载文件出错了..');
+                this.$error('下载文件出错了..');
                 return
             }
             let content = xmlResquest.response;
@@ -631,7 +631,7 @@ let methods = {
         let $http = this.http;
         $http.post(url, param, "正在导出数据....").then(result => {
             if (!result.status) {
-                return this.$message.error(result.message);
+                return this.$error(result.message);
             }
             let path = this.getUrl(this.const.DOWNLOAD);
             path = path[0] == "/" ? path.substring(1) : path;
@@ -653,21 +653,21 @@ let methods = {
     },
     audit() {//审核弹出框
         let rows = this.$refs.table.getSelected();
-        if (rows.length == 0) return this.$message.error("请选择要审核的行!");
+        if (rows.length == 0) return this.$error("请选择要审核的行!");
         let checkStatus = rows.every(x => {
             return x.AuditStatus > 0;
         });
-        if (checkStatus) return this.$message.error("只能选择审核中的数据!");
+        if (checkStatus) return this.$error("只能选择审核中的数据!");
         this.auditParam.rows = rows.length;
         this.auditParam.model = true;
     },
     saveAudit() {//保存审核
         let rows = this.$refs.table.getSelected();
         if (this.auditParam.status == -1)
-            return this.$message.error("请选择审核结果!");
+            return this.$error("请选择审核结果!");
 
         if (rows.length != this.auditParam.rows)
-            return this.$message.error("所选数据已发生变化,请重新选择审数据!");
+            return this.$error("所选数据已发生变化,请重新选择审数据!");
 
         let keys = rows.map(x => {
             return x[this.table.key];
@@ -685,12 +685,12 @@ let methods = {
             if (!this.auditAfter(x, rows)) {
                 return;
             }
-            if (!x.status) return this.$Message.error(x.message);
+            if (!x.status) return this.$error(x.message);
             this.auditParam.rows = 0;
             this.auditParam.status = -1;
             this.auditParam.reason = '';
             this.auditParam.model = false;
-            this.$Message.info(x.message);
+            this.$success(x.message);
             this.refresh();
         });
     },
@@ -909,7 +909,19 @@ let methods = {
         if (!this.boxOptions.width) {
             this.boxOptions.width = clientWidth;
         }
-    }
+    },
+    $error(message) {
+        this.$Message.error({
+            content: message,
+            duration: 5
+        });
+    },
+    $success(message) {
+        this.$Message.success({
+            content: message,
+            duration: 3
+        });
+    },
 };
 //合并扩展方法
 methods = Object.assign(methods, detailMethods, serviceFilter);
