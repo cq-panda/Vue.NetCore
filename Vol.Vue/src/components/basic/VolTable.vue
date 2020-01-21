@@ -4,6 +4,8 @@
       <div class="mask" v-show="loading"></div>
       <div class="message" v-show="loading">加载中.....</div>
       <el-table
+        :show-summary="summary"
+        :summary-method="(columns,row)=>{return this.summaryData;}"
         @selection-change="selectionChange"
         @row-click="rowClick"
         @cell-mouse-leave="rowEndEdit"
@@ -18,9 +20,7 @@
         :row-class-name="initIndex"
         style="width: 100%"
       >
-        <!-- @row-click="rowClick" -->
-        <!-- <el-table-column type="index"  :index="initIndex"></el-table-column> -->
-        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column v-if="ck" type="selection" width="55"></el-table-column>
         <el-table-column
           v-for="(column,cindex) in filterColumns()"
           :key="cindex"
@@ -77,6 +77,7 @@
                   <Input
                     v-else
                     clearable
+                    @on-change="(event)=>{onChange	(scope,scope.row[column.field],event,column);}"
                     v-model="scope.row[column.field]"
                     :placeholder="'请输入'+column.title"
                   ></Input>
@@ -162,6 +163,7 @@ export default {
   components: {},
   props: {
     tableData: {
+      //表数据源,配置了url就不用传这个参数了
       type: Array,
       default: () => {
         return [];
@@ -175,7 +177,6 @@ export default {
       //   title: "数据类型",
       //   width: 120,
       //   hidden:false,
-      //   align: "left",
       //   edit: { type: "text", status: false, data: [], key: "" }
       // }] //列的的数据格式edit格式： type类型(text,date,datetime,select,switch),status是否默认为编辑状态
       //data如果是select这里data应该有数据源，如果没有数据请设置key字典编号
@@ -236,12 +237,6 @@ export default {
       type: Boolean, //是否单选
       default: false
     },
-    // editButtons: {
-    //   //使用按钮进行编辑
-    //   //是否双击编辑
-    //   type: Array,
-    //   default: []
-    // },
     doubleEdit: {
       type: Boolean, //是否双击启用编辑功能
       default: true
@@ -266,10 +261,16 @@ export default {
       default: function(row, column, index) {
         return true;
       }
+    },
+    ck: {
+      //是否显示checkbox
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
+      visiblyColumns: [],
       key: "",
       realHeight: 0,
       realMaxHeight: 0,
@@ -317,36 +318,52 @@ export default {
       },
       errorFiled: "",
       edit: { columnIndex: -1, rowIndex: -1 }, //当前双击编辑的行与列坐标
-      editStatus: {}
+      editStatus: {},
+      summary: false, //是否显示合计
+      //目前只支持从后台返回的summaryData数据
+      summaryData: [],
+      summaryIndex: {},
+      remoteColumns: [] //需要每次刷新或分页后从后台加载字典数据源的列配置
     };
   },
   created() {
     this.realHeight = this.getHeight();
     this.realMaxHeight = this.getMaxHeight();
-    if (this.loadKey) {
-      //从后台加下拉框的[是否启用的]数据源
-      let keys = [];
-      let columnBind = [];
-      this.columns.forEach(x => {
-        if (x.bind && x.bind.key && (!x.bind.data || x.bind.data.length == 0)) {
+
+    //从后台加下拉框的[是否启用的]数据源
+    let keys = [];
+    let columnBind = [];
+    this.summaryData.push("合计");
+    this.columns.forEach((x, _index) => {
+      if (!x.hidden) {
+        this.summaryIndex[x.field] = _index;
+        this.summaryData.push("");
+      }
+      //求和
+      if (x.summary && !this.summary) {
+        //强制开启选择框
+        this.ck = true;
+        this.summary = true;
+      }
+      if (x.bind && x.bind.key && (!x.bind.data || x.bind.data.length == 0)) {
+        //写入远程
+        if (!x.bind.data) x.bind.data = [];
+        if (x.bind.remote) {
+          this.remoteColumns.push(x);
+        } else if (this.loadKey) {
           keys.push(x.bind.key);
-          if (!x.bind.data) x.bind.data = [];
           columnBind.push(x.bind);
         }
-      });
-      if (keys.length > 0) {
-        this.http
-          .post("/api/Sys_Dictionary/GetVueDictionary", keys)
-          .then(dic => {
-            dic.forEach(x => {
-              columnBind.forEach(c => {
-                if (c.key == x.dicNo) {
-                  c.data.push(...x.data);
-                }
-              });
-            });
-          });
       }
+    });
+    if (keys.length > 0) {
+      this.http.post("/api/Sys_Dictionary/GetVueDictionary", keys).then(dic => {
+        dic.forEach(x => {
+          columnBind.forEach(c => {
+            if (c.key == x.dicNo) c.data.push(...x.data);
+          });
+        });
+      });
     }
 
     this.paginations.sort = this.pagination.sortName;
@@ -473,16 +490,12 @@ export default {
     },
     //通过button结束编辑
     endWithButtonEdit(scope) {
-      if (this.edit.rowIndex == -1) {
-        return;
-      }
-      //
+      if (this.edit.rowIndex == -1) return;
 
       if (
         !this.endEditBefore(scope.row, this.columns[scope.$index], scope.$index)
-      ) {
+      )
         return;
-      }
 
       for (let index = 0; index < this.columns.length; index++) {
         let column = this.columns[index];
@@ -704,6 +717,39 @@ export default {
       });
       return indexArr ? indexArr : [];
     },
+    GetTableDictionary(rows) {
+      //分页或刷新或重新绑定数据源
+      if (this.remoteColumns.length == 0 || !rows || rows.length == 0) return;
+      let remoteInfo = {};
+      for (let index = 0; index < this.remoteColumns.length; index++) {
+        const column = this.remoteColumns[index];
+        //  column.bind.data.splice(0);
+        let key = column.bind.key;
+        let data = [];
+        rows.forEach(row => {
+          if (data.indexOf(row[column.field]) == -1) {
+            data.push(row[column.field]);
+          }
+        });
+        if (data.length > 0) {
+          remoteInfo[key] = data;
+        }
+      }
+      if (remoteInfo.length == 0) return;
+      //ha= Object.assign([], ha, hb)
+      this.http
+        .post("/api/Sys_Dictionary/GetTableDictionary", remoteInfo)
+        .then(dic => {
+          dic.forEach(x => {
+            this.remoteColumns.forEach(column => {
+              if (column.bind.key == x.key) {
+                column.bind.data = Object.assign([], column.bind.data, x.data);
+                //column.bind.data.push(...x.data);
+              }
+            });
+          });
+        });
+    },
     load(query, isResetPage) {
       //isResetPage重置分页数据
       if (!this.url) return;
@@ -738,15 +784,39 @@ export default {
             status = result;
           });
           if (!status) return;
+          this.GetTableDictionary(data.rows);
           this.rowData = data.rows || [];
           this.paginations.total = data.total;
+          //合计
+          this.getSummaries(data);
         },
         error => {
           this.loading = false;
           // this.$Message.error(error || "网络异常");
         }
       );
+    }, //获取统计
+    getSummaries(data) {
+      if (!this.summary || !data.summary) return;
+      this.summaryData.splice(0);
+      //如果有checkbox，应该算作是第一行
+      if (this.ck) {
+        this.summaryData.push(0);
+      }
+      this.columns.forEach(col => {
+        if (!col.hidden) {
+          if (data.summary.hasOwnProperty(col.field)) {
+            this.summaryData.push(data.summary[col.field]);
+          } else {
+            this.summaryData.push("");
+          }
+        }
+      });
+      if (this.summaryData.length > 0 && this.summaryData[0] == "") {
+        this.summaryData[0] = "合计";
+      }
     },
+    getInputChangeSummaries() {},
     filterColumns() {
       return this.columns.filter(x => {
         return !x.hidden;
@@ -848,6 +918,28 @@ export default {
         });
       }
       return valArr.join(",");
+    },
+    onChange(scope, val, event, column) {
+      let row = scope.row;
+      if (row.onChange && !row.onChange(row, val, event)) {
+        return;
+      }
+      //输入框求和实时计算
+      this.getInputSummaries(scope, val, event, column);
+    },
+    //input输入实时求和
+    getInputSummaries(scope, val, event, column) { 
+      //column列设置了summary属性的才计算值
+      if (!column.summary) return;
+      let sum = 0;
+      let _index = 0;
+      (this.url ? this.rowData : this.tableData).forEach((x, index) => {
+        if (x.hasOwnProperty(column.field) && !isNaN(x[column.field])) {
+          _index = index;
+          sum += x[column.field] * 1;
+        }
+      });
+      this.$set(this.summaryData, this.summaryIndex[column.field]-1, sum);
     }
   }
 };
@@ -914,6 +1006,10 @@ export default {
 }
 .v-table >>> .el-table__body td {
   padding: 7px 0 !important;
+}
+
+.v-table >>> .el-table__footer td {
+  padding: 5px 0 !important;
 }
 .vol-table >>> .el-table th > .cell {
   white-space: inherit !important;

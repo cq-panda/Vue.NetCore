@@ -49,6 +49,8 @@
                   <!-- 远程搜索 -->
                   <!-- 从后台字典搜索remote  -->
                   <!-- url：从指定url搜索返回格式必须是[{key:1,value:'xxx'}] 格式-->
+                  <!-- :remote-method="(val)=>{remoteSearch(item,val,formFileds)}"
+                  @on-query-change="(val)=>{queryChange(item,formFileds,val)}"-->
                   <Select
                     v-if="item.remote||item.url"
                     :transfer="true"
@@ -56,14 +58,13 @@
                     filterable
                     remote
                     :remote-method="(val)=>{remoteSearch(item,val,formFileds)}"
-                    @on-query-change="(val)=>{queryChange(item,formFileds,val)}"
                     :loading="item.loading"
                     :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
                     @on-change="onChange(item,formFileds[item.field])"
                     clearable
                   >
                     <Option
-                      v-for="(kv,kvIndex) in getData(item)"
+                      v-for="(kv,kvIndex) in item.remoteData"
                       :key="kvIndex"
                       :value="kv.key||''"
                     >{{kv.value}}</Option>
@@ -384,7 +385,7 @@ export default {
         item.onChange(value, item);
       }
     },
-    getData(item) {
+    getData(item, isRemote) {
       if (item.data && item.data.data) {
         return item.data.data;
       }
@@ -396,7 +397,7 @@ export default {
       //初始化字典数据源
       this.formRules.forEach(item => {
         item.forEach(x => {
-          if (x.dataKey && (!x.data || x.data.length == 0)) {
+          if (x.dataKey && (!x.data || x.data.length == 0) && !x.remote) {
             // if (!x.data)
             x.data = [];
             binds.push({ key: x.dataKey, data: x.data });
@@ -430,31 +431,21 @@ export default {
     //远程搜索
     remoteSearch(item, val, formFileds) {
       if (val == "") return;
-
-      let data = this.getData(item);
+      // let data = item.data.data; //this.getData(item);
       //备份原始数据
-      if (!item.hasOwnProperty("originalData")) {
-        item.originalData = [];
-        item.originalData.push(...data);
-      }
-      //清空数据源，这个数据源可能有多个地方共享
-
-      //  console.log(val);
+      // if (!item.hasOwnProperty("originalData")) {
+      //   item.originalData = [];
+      //   item.originalData.push(...data);
+      // }
+      //弹出框或初始化表单时给remoteData设置数组默认值，现在没有默认值
       let url = item.remote
         ? "/api/Sys_Dictionary/GetSearchDictionary"
         : item.url;
-      item.loading = true;
-      // formFileds[item.field] = val;
       this.http
         .post(url + "?dicNo=" + item.dataKey + "&value=" + val)
         .then(dicData => {
-          item.loading = false;
-          if (!dicData) return;
-          if (item.data && item.data.data) {
-            item.data.data = dicData;
-          } else {
-            item.data = dicData;
-          }
+          this.$set(item, "loading", false);
+          this.$set(item, "remoteData", dicData);
         });
     },
     bindOptions(dic, binds) {
@@ -574,6 +565,10 @@ export default {
         row.forEach(item => {
           //目前只支持select单选远程搜索，remote远程从后台字典数据源进行搜索，url从指定的url搜索
           if (item.type == "select" && (item.remote || item.url)) {
+            // if (!item.data) {
+            //   item.data = [];
+            // }
+            item.remoteData = [];
             item.loading = false;
           }
           //初始化上传文件信息

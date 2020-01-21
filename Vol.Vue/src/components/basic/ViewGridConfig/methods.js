@@ -463,7 +463,6 @@ let methods = {
             }
             this.resetEditForm(resultRow.data);
             // console.log(resultRow);
-            //重置数据,待测试
             if (this.hasDetail) {
                 this.detailOptions.delKeys = [];
                 if (resultRow.list) {
@@ -517,6 +516,18 @@ let methods = {
         }
     },
     setEditForm(row) {
+        // if (this.remoteColumns.length == 0 || !rows || rows.length == 0) return;
+        let remoteColumns = this.$refs.table.remoteColumns;
+        remoteColumns.forEach(column => {
+            this.editFormOptions.forEach(option => {
+                option.forEach(x => {
+                    if (x.field == column.field) {
+                        x.data.data = Object.assign([], x.data, column.bind.data);
+                    }
+                })
+            });
+        });
+        this.editFormFileds
         //重置编辑表单数据
         this.editFormFileds[this.table.key] = row[this.table.key];
 
@@ -733,6 +744,11 @@ let methods = {
                     this.uploadfiled.push(d.field);
                 }
                 if (!d.dataKey) return true;
+                if (this.remoteKeys.indexOf(d.dataKey) != -1) {
+                    d.remote = true;
+                    d.data = { dicNo: d.dataKey, data: [] };
+                    return true;
+                }
                 if (keys.indexOf(d.dataKey) == -1) {
                     keys.push(d.dataKey);
                     //data:[defaultOption]
@@ -749,10 +765,14 @@ let methods = {
         if (!scoure || !(scoure instanceof Array)) return;
         scoure.forEach(item => {
             if (!item.bind || (item.bind.data && item.bind.data.length > 0)) return true;
+            let key = item.bind.key || item.bind.dicNo;
+            if (this.remoteKeys.indexOf(key) != -1) {
+                item.bind.remote = true;
+                return true;
+            }
             if (this.hasKeyField.indexOf(item.field) == -1) {
                 this.hasKeyField.push(item.field);
             }
-            let key = item.bind.key || item.bind.dicNo;
             var dic = dicKeys.filter(x => {
                 return x.dicNo == key;
             });

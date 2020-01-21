@@ -103,36 +103,6 @@
             </div>
           </vol-form>
         </div>
-        <!-- <Dropdown trigger="click" @on-click="changeDropdown" v-if="buttons.length> maxBtnLength">
-          <Button type="info" ghost>
-            更多
-            <Icon type="ios-arrow-down"></Icon>
-          </Button>
-          <DropdownMenu slot="list">
-            <div class="search-box">
-              <vol-form
-                ref="searchForm"
-                :label-width="labelWidth"
-                :formRules="searchFormOptions"
-                :formFileds="searchFormFileds"
-              >
-                <div class="form-closex" slot="footer">
-                  <Button size="small" type="info" ghost @click="search">
-                    <Icon type="md-search" />查询
-                  </Button>
-               
-                  <Button size="small" type="success" ghost @click="resetSearch">
-                    <Icon type="md-refresh" />重置
-                  </Button>
-                  <Button size="small" type="warning" ghost @click="searchBoxShow=!searchBoxShow">
-                    <Icon type="md-power" />关闭
-                  </Button>
-                </div>
-              </vol-form>
-            </div>
-          </DropdownMenu>
-        </Dropdown>-->
-        <!-- 新建、编辑、查看表单 -->
         <vol-box
           v-if="boxInit"
           :model.sync="boxModel"
@@ -198,6 +168,7 @@
                 :beginEdit="detailOptions.beginEdit"
                 :endEditBefore="detailOptions.endEditBefore"
                 :endEditAfter="detailOptions.endEditAfter"
+                :summary="detailOptions.summary"
               ></vol-table>
             </div>
             <!--明细footer自定义组件-->
@@ -240,6 +211,7 @@
           :pagination-hide="false"
           :url="url"
           :defaultLoadPage="load"
+          :summary="summary"
         ></vol-table>
       </div>
     </div>
@@ -296,15 +268,6 @@ let _components = {
 import VolTable from "@/components/basic/VolTable.vue";
 var vueParam = {
   components: {
-    //表单header、content、footer对应位置扩充的组件
-    // gridHeader: function(resolve, reject) {
-    //   setTimeout(function() {
-    //     // 向 `resolve` 回调传递组件定义
-    //     resolve({
-    //       template: ""
-    //     });
-    //   }, 1000);
-    // },
     ..._components,
     VolForm: () => import("@/components/basic/VolForm.vue"),
     VolBoxForm: () => import("@/components/basic/VolBoxForm.vue"),
@@ -345,7 +308,11 @@ var vueParam = {
       hasDetail: false, //是否有从表(明细)表格数据
       initActivated: false,
       load: true, //是否默认加载表数据
-      activatedLoad:false,//页面触发actived时是否刷新页面数据
+      activatedLoad: false, //页面触发actived时是否刷新页面数据
+      summary: false, //查询界面table是否显示合计
+      //需要从远程绑定数据源的字典编号,如果字典数据源的查询结果较多，请在onInit中将字典编号添加进来
+      //只对自定sql有效
+      remoteKeys:[],
       // detailUrl: "",
       detailOptions: {
         //弹出框从表(明细)对象
@@ -363,7 +330,7 @@ var vueParam = {
         pagination: { total: 0, size: 100, sortName: "" }, //从表分页配置数据
         height: 0, //默认从表高度
         doubleEdit: true, //使用双击编辑
-        currentReadonly:false,//当前用户没有编辑或新建权限时，表单只读(可用于判断用户是否有编辑或新建权限)
+        currentReadonly: false, //当前用户没有编辑或新建权限时，表单只读(可用于判断用户是否有编辑或新建权限)
         //开启编辑时
         beginEdit: (row, column, index) => {
           return true;
@@ -405,7 +372,8 @@ var vueParam = {
         saveClose: true,
         labelWidth: 100,
         height: 0,
-        width: 0
+        width: 0,
+        summary: false //弹出框明细table是否显示合计
       } //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
     };
   },
@@ -431,7 +399,7 @@ var vueParam = {
     if (this.activatedLoad) {
       this.refresh();
     }
-   // console.log("activated");
+    // console.log("activated");
     // //  this.$options.components.modelHeader.template =
     // //   '<Alert type="success">88767</Alert>';
     //合并扩展组件、弹出框新建编辑页面自定义扩展组件或组件路径
