@@ -99,10 +99,14 @@ let extension = {
             })
         },
         mounted() {
-          
-           // this.$Notice.success({ title: '执行mounted方法' });
+
+            // this.$Notice.success({ title: '执行mounted方法' });
         },
         onInit() {
+            //设置主表合计
+            this.summary = true;
+            //设置明细表合计
+            this.detailOptions.summary = true;
             //表格设置为单选
             // this.single=true;
             // this.detailOptions.single=true;
@@ -130,12 +134,24 @@ let extension = {
             })
 
             //动态设置弹出框table的高度
-            this.detailOptions.height = 110;
+            this.detailOptions.height = 160;
             //动态设置查询界面table高度
-            this.tableHeight = 200;;
+            this.tableMaxHeight = 220;;
             this.$Notice.success({ title: 'create方法执行时,你可以此处编写业务逻辑' });
         },
         onInited() {
+            //设置主表求字段，后台需要实现SummaryExpress方法
+            this.columns.forEach(x => {
+                if (x.field == 'Qty') {
+                    x.summary = true;
+                }
+            })
+            //设置明细表求字和段，后台需要实现GetDetailSummary方法
+            this.detailOptions.columns.forEach(x => {
+                if (x.field == 'Weight' || x.field == 'Qty') {
+                    x.summary = true;
+                }
+            })
             //   this.$Notice.success({ title: 'create方法执行后', desc: '你可以SellOrder.js中编写业务逻辑,其他方法同样适用' });
         },
         searchBefore(param) { //查询ViewGird表数据前,param查询参数

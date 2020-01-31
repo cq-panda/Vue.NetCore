@@ -24,43 +24,52 @@ let extension = {
                     onClick: function () {
                         this.$refs.modelHeader.formFileds.test1 = "";
                         this.$refs.modelHeader.formFileds.test2 = "";
-                        this.$refs.modelHeader.formRules=[
+                        this.$refs.modelHeader.formRules = [
                             [
-                              {
-                                columnType: "string",
-                                title: "test1",
-                                required: true,
-                                dataKey: "city",
-                                field: "test1",
-                                colSize: 12,
-                                type: "datetime"
-                              }
+                                {
+                                    columnType: "string",
+                                    title: "test1",
+                                    required: true,
+                                    dataKey: "city",
+                                    field: "test1",
+                                    colSize: 12,
+                                    type: "datetime"
+                                }
                             ],
                             [
-                              {
-                                   columnType: "string",
-                                title: "test2",
-                                dataKey: "city",
-                                required:false ,
-                                field:"test2",
-                                colSize: 12,
-                                type: "datetime"
-                              }
+                                {
+                                    columnType: "string",
+                                    title: "test2",
+                                    dataKey: "city",
+                                    required: false,
+                                    field: "test2",
+                                    colSize: 12,
+                                    type: "datetime"
+                                }
                             ]
-                          ]
+                        ]
                     }
                 }],
     },//扩展的按钮
     methods: {//事件扩展
         onInit() {
+            this.activatedLoad = true;
             this.boxOptions.saveClose = false;
+            //设置后台字典远程模糊搜索
+            this.editFormOptions.forEach(x => {
+                x.forEach(item => {
+                    if (item.field == 'City') {
+                        item.remote = true;
+                    }
+                })
+            })
         },
         modelOpenBefore(row) {
             this.boxButtons.forEach(x => {
                 if (x.name == '保 存') {
-                //    x.hidden = this.currentAction == this.const.ADD
+                    //    x.hidden = this.currentAction == this.const.ADD
                 }
-               // if (x.name == '重 置') x.disabled = true;
+                // if (x.name == '重 置') x.disabled = true;
             })
         },
         modelOpenAfter(row) {

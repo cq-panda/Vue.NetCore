@@ -179,7 +179,7 @@ export default {
             remote: true, //远程搜索(从后台字典搜索,只会搜索自定义sql,后台如果返回的数据量较大，请将字典维护的sql取top)
             //url:'api/xx/xx'从指定url搜索 返回格式必须是[{key:'xxxx',value:'xxx'}]
             data: [],
-            type: "selectList"
+            type: "select"
           }
         ],
         [

@@ -25,6 +25,11 @@ let extension = {
                     }
                 })
             })
+            this.detailOptions.columns.forEach(x => {
+                if (x.field == 'OrderNo') {
+                    x.summary = true;
+                }
+            })
             //保存后不关闭编辑框
             this.boxOptions.saveClose = false;
         },

@@ -109,14 +109,26 @@ let base = {
             $element = document.createElement('a');
             $element.setAttribute("id", "dowonloadfile-a");
             document.body.append($element);
-
         }
         //url为一个完整的地址，并且不是后台api的地址，直接点击a标签下载
-        if (this.isUrl(url) && !this.matchUrlIp(url, backGroundUrl)) {
-            $element.href = url;
-            $element.click();
-            return;
+        // if (this.isUrl(url) && !this.matchUrlIp(url, backGroundUrl)) {
+        // $element.href = url;
+        // $element.click();
+        // return;
+        //  }
+
+        if (!this.isUrl(url)) {
+            if (!this.isUrl(backGroundUrl + url)) {
+                console.log("文件路径不正确");
+                alert('文件路径不正确')
+                return;
+            }
+            url = backGroundUrl + url;
         }
+        $element.href = url;
+        $element.click();
+        return;
+
         //通过后台api服务器下载
         if (!this.isUrl(url)) {
             if (!this.isUrl(backGroundUrl + url)) {
@@ -124,9 +136,7 @@ let base = {
                 return;
             }
             url = backGroundUrl + url;
-
         }
-
         let xmlResquest = new XMLHttpRequest();
         xmlResquest.open("GET", url, true);
         xmlResquest.setRequestHeader("Content-type", "application/json");

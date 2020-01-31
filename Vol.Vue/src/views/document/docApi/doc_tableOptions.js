@@ -70,6 +70,7 @@ let editTable = {
         {
             field: "LimitNumber",
             title: "数字限制大小",
+            summary:true,//设置求和，并可以实时计算
             width: 110,
             require: true,
             edit: { type: "number", min: 3, max: 5 }

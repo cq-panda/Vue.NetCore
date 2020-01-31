@@ -89,7 +89,7 @@ function getToken() {
     return $httpVue.$store.getters.getToken();
 }
 let _showLoading;
- //_showLoading=true异步请求时会显示遮罩层,_showLoading=字符串，异步请求时遮罩层显示当前字符串
+//_showLoading=true异步请求时会显示遮罩层,_showLoading=字符串，异步请求时遮罩层显示当前字符串
 function post(url, params, showLoading) {
     _showLoading = showLoading;
     axios.defaults.headers[_Authorization] = getToken();
@@ -115,7 +115,7 @@ function post(url, params, showLoading) {
     })
 }
 
- //_showLoading=true异步请求时会显示遮罩层,_showLoading=字符串，异步请求时遮罩层显示当前字符串
+//_showLoading=true异步请求时会显示遮罩层,_showLoading=字符串，异步请求时遮罩层显示当前字符串
 function get(url, param, showLoading) {
     _showLoading = showLoading;
     axios.defaults.headers[_Authorization] = getToken();
@@ -185,7 +185,7 @@ function redirect(responseText, message) {
     }
 }
 function toLogin() {
-    currentToken="";
+    currentToken = "";
     $httpVue.$router.push({ path: '/login', params: { r: Math.random() } });
 }
 //当前token快要过期时，用现有的token换成一个新的token
@@ -230,7 +230,7 @@ function ajax(param) {
     httpParam.url = axios.defaults.baseURL + httpParam.url.replace(/\/?/, '');
     httpParam.headers[_Authorization] = getToken();
     var xhr = createXHR();
-    console.log(xhr.readyState);
+   // console.log(xhr.readyState);
     xhr.onreadystatechange = function () {
         if (xhr.status == 403 || xhr.status == 401) {
             redirect(xhr.responseText);
@@ -264,7 +264,12 @@ function ajax(param) {
     for (const key in httpParam.param) {
         dataStr += key + "=" + httpParam.param[key];
     }
-    xhr.send(dataStr);
+    try {
+        xhr.send(dataStr);
+    } catch (error) {
+        toLogin();
+      //  console.log(error)
+    }
 }
 
 ajax.post = function (url, param, success, errror) {

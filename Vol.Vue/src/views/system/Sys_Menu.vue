@@ -32,6 +32,7 @@
           </Divider>
           <Alert style="box-shadow: rgb(214, 214, 214) 0px 4px 21px;" show-icon>
             <p>1、 如果是用代码生器生成的Vue页面,菜单配置的Url则为Vue项目中src->router->viewGrid.js对应表名的path路径</p>
+            <p>2、 如果只是建一级菜单或空菜单url不用填写,【视图/表名】填写.或者/</p>
           </Alert>
           <vol-form class="form-content" ref="form" :formRules="options" :formFileds="fields">
             <div slot="footer">
@@ -62,7 +63,10 @@
                       @click="removeIcon"
                       class="remove ivu-icon ivu-icon-md-remove-circle"
                     ></i>
-                    <i style="margin-right: 15px;font-size: 32px;" :class="['ivu-icon ivu-icon-'+icon]"></i>
+                    <i
+                      style="margin-right: 15px;font-size: 32px;"
+                      :class="['ivu-icon ivu-icon-'+icon]"
+                    ></i>
                   </span>
                   <Button @click="model=true" type="dashed">选择图标</Button>
                 </div>
@@ -326,7 +330,10 @@ export default {
             dataType: "int",
             required: true,
             type: "switch",
-            data: [{ key: "1", value: "是" }, { key: "是", value: "否" }]
+            data: [
+              { key: "1", value: "是" },
+              { key: "是", value: "否" }
+            ]
           },
           {
             title: "创建时间",
