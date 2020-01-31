@@ -506,7 +506,6 @@ let methods = {
             } //, onCancel: () => {}
         });
     },
-
     initBox() { //初始化新建、编辑的弹出框
         this.modelOpenBefore(this.currentRow);
         if (!this.boxInit) {
@@ -541,6 +540,8 @@ let methods = {
         this.initBox();
         this.resetDetailTable(row);
         this.setEditForm(row);
+        //设置远程查询表单的默认key/value
+        this.getRemoteFormDefaultKeyValue();
         //点击编辑按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
         this.modelOpenProcess(row);
     },
@@ -583,9 +584,28 @@ let methods = {
 
         //设置当前的数据到表单上
         this.setEditForm(rows[0]);
+        //设置远程查询表单的默认key/value
+        this.getRemoteFormDefaultKeyValue();
         //点击编辑按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
         this.modelOpenProcess(rows[0]);
         // this.modelOpenAfter(rows[0]);
+    },
+    getRemoteFormDefaultKeyValue() {
+        //设置表单远程数据源的默认key.value
+        if (this.currentAction != this.const.EDIT || this.remoteKeys.length == 0) return;
+        this.editFormOptions.forEach(x => {
+            x.forEach(item => {
+                if (item.remote) {
+                    let column = this.columns.find(x => { return x.bind && x.bind.key == item.dataKey });
+                    if (!column) return;
+                    let key = this.currentRow[item.field];
+                    let obj = column.bind.data.find(x => { return x.key == key });
+                    if (!obj) return;
+                    this.$set(item, 'data', [{ key: key + '', value: obj.value }])
+                    //  item.data = [{ key: key + '', value: obj.value }];
+                }
+            })
+        })
     },
     modelOpenProcess(row) {
         this.$nextTick(() => {
@@ -744,19 +764,25 @@ let methods = {
                     this.uploadfiled.push(d.field);
                 }
                 if (!d.dataKey) return true;
+                //开启远程搜索
                 if (this.remoteKeys.indexOf(d.dataKey) != -1) {
                     d.remote = true;
-                    d.data = { dicNo: d.dataKey, data: [] };
+                    d.data = [] //{ dicNo: d.dataKey, data: [] };
                     return true;
                 }
                 if (keys.indexOf(d.dataKey) == -1) {
                     keys.push(d.dataKey);
                     //data:[defaultOption]
-                    this.dicKeys.push({ dicNo: d.dataKey, config: "", data: [], type: d.type });
+                    this.dicKeys.push({ dicNo: d.dataKey, data: [], type: d.type });
                 }
-                d.data = this.dicKeys.filter(f => {
+                //2020.01.30移除内部表单formOptions数据源配置格式data.data，所有参数改为与组件api格式相同
+                Object.assign(d, this.dicKeys.filter(f => {
                     return f.dicNo == d.dataKey;
-                })[0];
+                })[0])
+                // d.data = [];
+                // d.data.push(... this.dicKeys.filter(f => {
+                //     return f.dicNo == d.dataKey;
+                // })[0].data);
             });
         });
     },
