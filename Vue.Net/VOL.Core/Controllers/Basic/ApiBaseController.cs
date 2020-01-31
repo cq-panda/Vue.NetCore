@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
@@ -9,7 +10,7 @@ using VOL.Entity.DomainModels;
 
 namespace VOL.Core.Controllers.Basic
 {
-    [JWTAuthorize]
+    [JWTAuthorize, ApiController]
     public class ApiBaseController<IServiceBase> : BaseController<IServiceBase>
     {
         public ApiBaseController(IServiceBase service)
@@ -40,6 +41,17 @@ namespace VOL.Core.Controllers.Basic
             return await base.GetDetailPage(loadData);
         }
 
+        ///// <summary>
+        ///// 上传文件
+        ///// </summary>
+        ///// <param name="fileInput"></param>
+        ///// <returns></returns>
+        //[HttpPost, Route("Upload")]
+        //[ApiActionPermission(Enums.ActionPermissionOptions.Upload)]
+        //public new async Task<IActionResult> Upload(List<IFormFile> fileInput)
+        //{
+        //    return await base.Upload(fileInput);
+        //}
         /// <summary>
         /// 上传文件
         /// </summary>
@@ -47,11 +59,10 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [HttpPost, Route("Upload")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Upload)]
-        public new async Task<IActionResult> Upload(List<IFormFile> fileInput)
+        public   async Task<IActionResult> Upload(IEnumerable<IFormFile> fileInput)
         {
-            return await base.Upload(fileInput);
+            return await base.Upload(fileInput.ToList());
         }
-
         /// <summary>
         /// 下载导入Excel模板
         /// </summary>
@@ -62,7 +73,6 @@ namespace VOL.Core.Controllers.Basic
         {
             return await base.DownLoadTemplate();
         }
-
         /// <summary>
         /// 导入表数据Excel
         /// </summary>
@@ -93,8 +103,9 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Export)]
         [HttpGet, Route("DownLoadFile")]
-        public new IActionResult DownLoadFile(string path)
+        public  IActionResult DownLoadFile()
         {
+            string path = HttpContext.Request("path");
             return base.DownLoadFile(path);
         }
 

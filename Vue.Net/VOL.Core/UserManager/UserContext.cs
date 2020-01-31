@@ -54,7 +54,7 @@ namespace VOL.Core.ManageUser
                 {
                     return _userInfo;
                 }
-                return GetUserInfo(UserId).Result;
+                return GetUserInfo(UserId);
             }
         }
 
@@ -65,7 +65,7 @@ namespace VOL.Core.ManageUser
         /// </summary>
         public bool IsSuperAdmin
         {
-            get { return this.RoleId == 1; }
+            get { return IsRoleIdSuperAdmin(this.RoleId); }
         }
         /// <summary>
         /// 角色ID为1的默认为超级管理员
@@ -75,7 +75,7 @@ namespace VOL.Core.ManageUser
             return roleId == 1;
         }
 
-        public async Task<UserInfo> GetUserInfo(int userId)
+        public UserInfo GetUserInfo(int userId)
         {
             if (_userInfo != null) return _userInfo;
             if (userId <= 0)
@@ -87,7 +87,7 @@ namespace VOL.Core.ManageUser
             _userInfo = CacheService.Get<UserInfo>(key);
             if (_userInfo != null && _userInfo.User_Id > 0) return _userInfo;
 
-            _userInfo = await DBServerProvider.DbContext.Set<Sys_User>()
+            _userInfo = DBServerProvider.DbContext.Set<Sys_User>()
                 .Where(x => x.User_Id == userId).Select(s => new UserInfo()
                 {
                     User_Id = userId,
@@ -97,13 +97,13 @@ namespace VOL.Core.ManageUser
                     UserName = s.UserName,
                     UserTrueName = s.UserTrueName,
                     Enable = s.Enable
-                }).FirstOrDefaultAsync();
+                }).FirstOrDefault();
 
             if (_userInfo != null && _userInfo.User_Id > 0)
             {
                 CacheService.AddObject(key, _userInfo);
             }
-            return _userInfo??new UserInfo();
+            return _userInfo ?? new UserInfo();
         }
 
         /// <summary>
@@ -287,7 +287,6 @@ namespace VOL.Core.ManageUser
         {
             get
             {
-                //   if (!Context.User.Identity.IsAuthenticated)  return 0;
                 return (Context.User.FindFirstValue(JwtRegisteredClaimNames.Jti)
                     ?? Context.User.FindFirstValue(ClaimTypes.NameIdentifier)).GetInt();
             }

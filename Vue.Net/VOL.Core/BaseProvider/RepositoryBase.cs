@@ -331,11 +331,13 @@ namespace VOL.Core.BaseProvider
         {
             if (properties != null && properties.Length > 0)
             {
-                string keyName = typeof(TSource).GetKeyName();
+                PropertyInfo[] entityProperty = typeof(TSource).GetProperties();
+                string keyName = entityProperty.GetKeyName();
                 if (properties.Contains(keyName))
                 {
                     properties = properties.Where(x => x != keyName).ToArray();
                 }
+                properties = properties.Where(x => entityProperty.Select(s => s.Name).Contains(x)).ToArray();
             }
             foreach (TSource item in entities)
             {
@@ -571,24 +573,20 @@ namespace VOL.Core.BaseProvider
                   parameters.
                   Select(x => ((DbParameter)x).ParameterName + (((DbParameter)x).Direction.ToString() == "Output" ? " Output" : "")));
             }
-            return DBSet.FromSql($"{sql}", parameters).ToList();
+            return null;
+            //    return DBSet.FromSql($"{sql}", parameters).ToList();
         }
-
 
         public virtual int ExecuteSqlCommand(string sql, params SqlParameter[] sqlParameters)
         {
-            //直接拼接防注入的sql
-            //string userName = "admin";
-            //sql = $@"SELECT * FROM Sys_user WHERE Name = {userName}";
-            return DbContext.Database.ExecuteSqlCommand(sql, sqlParameters);
+            return DbContext.Database.ExecuteSqlRaw(sql, sqlParameters);
         }
 
         public virtual List<TEntity> FromSql(string sql, params SqlParameter[] sqlParameters)
         {
-            return DBSet.FromSql(sql, sqlParameters).ToList();
+            return null;
+            // return DBSet.FromSql(sql, sqlParameters).ToList();
         }
-
-
 
     }
 }

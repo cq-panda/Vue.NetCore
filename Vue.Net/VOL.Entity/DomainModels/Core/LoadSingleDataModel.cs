@@ -19,10 +19,7 @@ namespace VOL.Entity.DomainModels
         /// </summary>
         public string Order { get; set; }
         public string Wheres { get; set; }
-    
-        public string Foots { get; set; }
         public bool Export { get; set; }
-
         public object Value { get; set; }
     }
     public class SearchParameters

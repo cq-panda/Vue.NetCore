@@ -39,8 +39,7 @@ namespace VOL.Entity.DomainModels
        ///新闻内容
        /// </summary>
        [Display(Name ="新闻内容")]
-       [MaxLength(8000)]
-       [Column(TypeName="nvarchar(8000)")]
+       [Column(TypeName="nvarchar(max)")]
        [Editable(true)]
        public string Content { get; set; }
 
@@ -103,9 +102,9 @@ namespace VOL.Entity.DomainModels
        public int NewsType { get; set; }
 
        /// <summary>
-       ///内容推荐
+       ///是否今日推荐
        /// </summary>
-       [Display(Name ="内容推荐")]
+       [Display(Name ="是否今日推荐")]
        [Column(TypeName="sbyte")]
        [Editable(true)]
        [Required(AllowEmptyStrings=false)]
@@ -173,5 +172,7 @@ namespace VOL.Entity.DomainModels
        [Column(TypeName="datetime")]
        [Editable(true)]
        public DateTime? ModifyDate { get; set; }
+
+       
     }
 }

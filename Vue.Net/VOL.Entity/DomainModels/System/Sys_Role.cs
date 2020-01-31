@@ -118,7 +118,7 @@ namespace VOL.Entity.DomainModels
         [Column(TypeName = "tinyint")]
         [Editable(true)]
         public byte? Enable { get; set; }
-
+        [ForeignKey("Role_Id")]
         public List<Sys_RoleAuth> RoleAuths { get; set; }
 
     }

@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace VOL.WebApi
@@ -14,12 +14,21 @@ namespace VOL.WebApi
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseKestrel().UseUrls("http://*:9991")
-                .UseStartup<Startup>()
-                .Build();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+               Host.CreateDefaultBuilder(args)
+                   .ConfigureWebHostDefaults(webBuilder =>
+                   {
+                       webBuilder.ConfigureKestrel(serverOptions =>
+                       {
+                           serverOptions.Limits.MaxRequestBodySize = 10485760;
+                           // Set properties and call methods on options
+                       });
+                       webBuilder.UseKestrel().UseUrls("http://*:9991");
+                       webBuilder.UseIIS();
+                       webBuilder.UseStartup<Startup>();
+                   }).UseServiceProviderFactory(new AutofacServiceProviderFactory());
     }
 }

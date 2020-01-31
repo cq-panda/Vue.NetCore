@@ -8,17 +8,19 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>VOL.AppManager</AssemblyName>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,24 +34,9 @@
     <Folder Include="Controllers\Price\Partial\" />
     <Folder Include="Controllers\Record\Partial\" />
     <Folder Include="Controllers\Technical\Partial\" />
-    <Folder Include="IRepositories\Comment\" />
-    <Folder Include="IRepositories\Message\" />
-    <Folder Include="IRepositories\My\" />
     <Folder Include="IRepositories\News\" />
-    <Folder Include="IRepositories\Price\" />
-    <Folder Include="IRepositories\Record\" />
-    <Folder Include="IRepositories\Technical\" />
-    <Folder Include="IServices\CJoin\" />
-    <Folder Include="IServices\Comment\" />
-    <Folder Include="IServices\Feedback\" />
     <Folder Include="IServices\Meeting\Partial\" />
-    <Folder Include="IServices\Message\" />
-    <Folder Include="IServices\My\Partial\" />
     <Folder Include="IServices\News\" />
-    <Folder Include="IServices\Other\" />
-    <Folder Include="IServices\Price\" />
-    <Folder Include="IServices\Record\Partial\" />
-    <Folder Include="IServices\Technical\" />
     <Folder Include="Repositories\Message\" />
     <Folder Include="Repositories\My\" />
     <Folder Include="Repositories\Record\" />

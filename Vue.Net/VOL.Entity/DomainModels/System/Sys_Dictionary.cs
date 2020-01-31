@@ -152,6 +152,7 @@ namespace VOL.Entity.DomainModels
        public DateTime? ModifyDate { get; set; }
 
        [Display(Name ="字典明细")]
+       [ForeignKey("Dic_ID")]
        public List<Sys_DictionaryList> Sys_DictionaryList { get; set; }
 
     }

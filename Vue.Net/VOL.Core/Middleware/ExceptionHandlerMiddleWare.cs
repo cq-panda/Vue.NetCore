@@ -4,8 +4,10 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using VOL.Core.Const;
+using VOL.Core.EFDbContext;
 using VOL.Core.Enums;
 using VOL.Core.Extensions;
+using VOL.Core.ManageUser;
 using VOL.Core.Services;
 
 namespace VOL.Core.Middleware
@@ -28,7 +30,7 @@ namespace VOL.Core.Middleware
             }
             catch (Exception exception)
             {
-                (context.RequestServices.GetService(typeof(ActionObserver)) as ActionObserver).IsWrite = false;
+                //  (context.RequestServices.GetService(typeof(ActionObserver)) as ActionObserver).IsWrite = false;
                 string message = exception.Message
                     + exception.InnerException
                     ?.InnerException

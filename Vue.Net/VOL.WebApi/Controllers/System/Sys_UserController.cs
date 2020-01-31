@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System.Threading.Tasks;
 using VOL.Core.Controllers.Basic;
 using VOL.Entity.AttributeManager;
@@ -16,7 +17,7 @@ namespace VOL.System.Controllers
         public Sys_UserController(ISys_UserService service)
         : base("System", "System", "Sys_User", service)
         {
-            
+            //, IMemoryCache cache
         }
     }
 }

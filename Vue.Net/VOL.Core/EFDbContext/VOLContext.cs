@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using VOL.Core.DBManager;
 using VOL.Core.Extensions;
 using VOL.Core.Extensions.AutofacManager;
 using VOL.Entity.SystemModels;
@@ -70,10 +71,19 @@ namespace VOL.Core.EFDbContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            string connectionString = DBServerProvider.GetConnectionString(null);
+            if (Const.DBType.Name == Enums.DbCurrentType.MySql.ToString())
+            {
+                optionsBuilder.UseMySql(connectionString);
+            }
+            else
+            {
+                optionsBuilder.UseSqlServer(connectionString);
+            }
             //默认禁用实体跟踪
             optionsBuilder = optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            var loggerFactory = new LoggerFactory();
-            loggerFactory.AddProvider(new EFLoggerProvider());
+            //var loggerFactory = new LoggerFactory();
+            //loggerFactory.AddProvider(new EFLoggerProvider());
             //  optionsBuilder.UseLoggerFactory(loggerFactory);
             base.OnConfiguring(optionsBuilder);
         }
@@ -86,7 +96,7 @@ namespace VOL.Core.EFDbContext
                 var compilationLibrary = DependencyContext
                     .Default
                     .CompileLibraries
-                    .Where(x => !x.Serviceable && x.Type != "package");
+                    .Where(x => !x.Serviceable && x.Type != "package" && x.Type == "project");
                 foreach (var _compilation in compilationLibrary)
                 {
                     //加载指定类
@@ -98,8 +108,8 @@ namespace VOL.Core.EFDbContext
                         && x.BaseType == (typeof(BaseEntity)))
                         .ToList().ForEach(t =>
                         {
-                            type = t;
-                            modelBuilder.Model.GetOrAddEntityType(t);
+                            modelBuilder.Entity(t);
+                          //  modelBuilder.Model.AddEntityType(t);
                         });
                 }
                 //modelBuilder.AddEntityConfigurationsFromAssembly(GetType().Assembly);

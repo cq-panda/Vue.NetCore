@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -26,7 +27,9 @@ namespace VOL.Core.Filters
         /// <param name="context"></param>
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if (context.Filters.Any(item => item is IAllowAnonymousFilter))
+           // is Microsoft.AspNetCore.Authentication.AllowAnonymousAttribute
+            //if (context.Filters.Any(item => item is IAllowAnonymousFilter))
+            if (context.ActionDescriptor.EndpointMetadata.Any(item => item is AllowAnonymousAttribute))
             {
                 //如果使用了固定Token不过期，直接对token的合法性及token是否存在进行验证
                 if (context.Filters

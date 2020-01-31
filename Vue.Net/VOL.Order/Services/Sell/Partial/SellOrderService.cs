@@ -103,7 +103,33 @@ namespace VOL.Order.Services
                 //可对查询的结果的数据操作
                 List<SellOrder> sellOrders = grid.rows;
             };
+            //查询table界面显示求和
+            SummaryExpress = (IQueryable<SellOrder> queryable) =>
+            {
+                return queryable.GroupBy(x => 1).Select(x => new
+                {
+                    //AvgPrice注意大小写和数据库字段大小写一样
+                    Qty = x.Sum(o => o.Qty).ToString("f2")
+                })
+                .FirstOrDefault();
+            };
+
             return base.GetPageData(options);
+        }
+        /// <summary>
+        /// 设置弹出框明细表的合计信息
+        /// </summary>
+        /// <typeparam name="detail"></typeparam>
+        /// <param name="queryeable"></param>
+        /// <returns></returns>
+        protected override object GetDetailSummary<detail>(IQueryable<detail> queryeable)
+        {
+            return (queryeable as IQueryable<SellOrderList>).GroupBy(x => 1).Select(x => new
+            {
+                //Weight/Qty注意大小写和数据库字段大小写一样
+                Weight = x.Sum(o => o.Weight),
+                Qty = x.Sum(o => o.Qty)
+            }).FirstOrDefault();
         }
 
         /// <summary>

@@ -32,7 +32,8 @@ namespace VOL.AppManager.Controllers
         /// <returns></returns>
         [ApiActionPermission("App_News", ActionPermissionOptions.Add)]
         [HttpPost, Route("setCover")]
-        public IActionResult SetCover([FromBody]App_News news)
+   
+        public IActionResult SetCover([FromBody]App_News news,string t1,string t2)
         {
             return Json(Service.SetCover(news));
         }

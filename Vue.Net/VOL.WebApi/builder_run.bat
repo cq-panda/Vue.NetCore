@@ -1,2 +1,1 @@
-dotnet restore
 dotnet run

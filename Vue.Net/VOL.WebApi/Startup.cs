@@ -1,20 +1,30 @@
-ï»¿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Autofac;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
+using VOL.Core.Infrastructure;
 using VOL.Core.Middleware;
 
 namespace VOL.WebApi
@@ -27,136 +37,170 @@ namespace VOL.WebApi
         }
 
         public IConfiguration Configuration { get; }
-
+        private IServiceCollection Services { get; set; }
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //³õÊ¼»¯Ä£ĞÍÑéÖ¤ÅäÖÃ
+            services.UseMethodsModelParameters().UseMethodsGeneralParameters();
+            services.AddSingleton<IObjectModelValidator>(new NullObjectModelValidator());
+            Services = services;
+            // services.Replace( ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
+            services.AddSession();
+            services.AddMemoryCache();
+            services.AddHttpContextAccessor();
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(ApiAuthorizeFilter));
                 options.Filters.Add(typeof(ActionExecuteFilter));
+                //  options.SuppressAsyncSuffixInActionNames = false;
             });
-            services.AddCors();
-            services.AddMvc()
-            .AddJsonOptions(op =>
-            {
-                op.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
-                // op.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-            });
+            services.AddControllers()
+              .AddNewtonsoftJson(op =>
+              {
+                  op.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+                  op.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+              });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+            Services.AddAuthentication(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    SaveSigninToken = true,//ä¿å­˜token,åå°éªŒè¯tokenæ˜¯å¦ç”Ÿæ•ˆ(é‡è¦)
-                    ValidateIssuer = true,//æ˜¯å¦éªŒè¯Issuer
-                    ValidateAudience = true,//æ˜¯å¦éªŒè¯Audience
-                    ValidateLifetime = true,//æ˜¯å¦éªŒè¯å¤±æ•ˆæ—¶é—´
-                    ValidateIssuerSigningKey = true,//æ˜¯å¦éªŒè¯SecurityKey
-                    ValidAudience = AppSetting.Secret.Audience,//Audience
-                    ValidIssuer = AppSetting.Secret.Issuer,//Issuerï¼Œè¿™ä¸¤é¡¹å’Œå‰é¢ç­¾å‘jwtçš„è®¾ç½®ä¸€è‡´
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSetting.Secret.JWT)),
-                    AudienceValidator = (IEnumerable<string> audiences, SecurityToken securityToken,
-                    TokenValidationParameters validationParameters) =>
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+             .AddJwtBearer(options =>
+             {
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     SaveSigninToken = true,//±£´ætoken,ºóÌ¨ÑéÖ¤tokenÊÇ·ñÉúĞ§(ÖØÒª)
+                     ValidateIssuer = true,//ÊÇ·ñÑéÖ¤Issuer
+                     ValidateAudience = true,//ÊÇ·ñÑéÖ¤Audience
+                     ValidateLifetime = true,//ÊÇ·ñÑéÖ¤Ê§Ğ§Ê±¼ä
+                     ValidateIssuerSigningKey = true,//ÊÇ·ñÑéÖ¤SecurityKey
+                     ValidAudience = AppSetting.Secret.Audience,//Audience
+                     ValidIssuer = AppSetting.Secret.Issuer,//Issuer£¬ÕâÁ½ÏîºÍÇ°ÃæÇ©·¢jwtµÄÉèÖÃÒ»ÖÂ
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSetting.Secret.JWT))
+                 };
+                 options.Events = new JwtBearerEvents()
+                 {
+                     OnChallenge = context =>
+                     {
+                         context.HandleResponse();
+                         context.Response.Clear();
+                         context.Response.ContentType = "application/json";
+                         context.Response.StatusCode = 401;
+                         context.Response.WriteAsync(new { message = "ÊÚÈ¨Î´Í¨¹ı", status = false, code = 401 }.Serialize());
+                         return Task.CompletedTask;
+                     }
+                 };
+             });
+            //±ØĞëappsettings.jsonÖĞÅäÖÃ
+            string corsUrls = Configuration["CorsUrls"];
+            if (string.IsNullOrEmpty(corsUrls))
+            {
+                throw new Exception("ÇëÅäÖÃ¿çÇëÇóµÄÇ°¶ËUrl");
+            }
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
                     {
-                        bool audienceValidator = true;
-                        return audienceValidator;
-                    }
-                };
+                        builder.WithOrigins(corsUrls.Split(",")).AllowCredentials()
+                        .AllowAnyHeader().AllowAnyMethod();
+                    });
             });
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "Vueåå°Api",
-                    Description = "Vueåå°Api",
-                    TermsOfService = "None"
-                });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VOL.CoreºóÌ¨Api", Version = "v1" });
                 var security = new Dictionary<string, IEnumerable<string>>
                 { { AppSetting.Secret.Issuer, new string[] { } }};
-                c.AddSecurityRequirement(security);
-
-                c.AddSecurityDefinition(AppSetting.Secret.Issuer, new ApiKeyScheme
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
-                    Description = "JWTæˆæƒtokenå‰é¢éœ€è¦åŠ ä¸Šå­—æ®µBearerä¸ä¸€ä¸ªç©ºæ ¼,å¦‚Bearer 12345x",
-                    Name = AppSetting.TokenHeaderName,//jwté»˜è®¤çš„å‚æ•°åç§°
-                    In = "header",//jwté»˜è®¤å­˜æ”¾Authorizationä¿¡æ¯çš„ä½ç½®(è¯·æ±‚å¤´ä¸­)
-                    Type = "apiKey"
+                    Description = "JWTÊÚÈ¨tokenÇ°ÃæĞèÒª¼ÓÉÏ×Ö¶ÎBearerÓëÒ»¸ö¿Õ¸ñ,ÈçBearer token",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
                 });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
+            })
+             .AddControllers()
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressConsumesConstraintForFormFileParameters = true;
+                options.SuppressInferBindingSourcesForParameters = true;
+                options.SuppressModelStateInvalidFilter = true;
+                options.SuppressMapClientErrors = true;
+                options.ClientErrorMapping[404].Link =
+                    "https://*/404";
             });
-            return services.AddModule(Configuration);
+            //ApiBehaviorOptions
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void ConfigureContainer(ContainerBuilder builder)
         {
-            app.UseAuthentication();
-            app.UseMiddleware<ExceptionHandlerMiddleWare>();
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
-            app.UseMvc();
-            //ä½¿ç”¨webapiæ—¶è®¾ç½®Bodyå†…å®¹å¯ä»¥é‡å¤è¯»å–
-            app.Use(HttpRequestMiddleware.Context);
-            app.Use(async (context, next) =>
-            {
-                context.Request.EnableRewind();
-                await next();
-            });
-
-            string path = Directory.GetCurrentDirectory() + "/Upload";
-            Console.Write(path);
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(), @"Upload")),
-                //é…ç½®è®¿é—®è™šæ‹Ÿç›®å½•æ—¶æ–‡ä»¶å¤¹åˆ«å
-                RequestPath = "/Upload",
-                OnPrepareResponse = (Microsoft.AspNetCore.StaticFiles.StaticFileResponseContext staticFile) =>
-                {
-                    //å¯ä»¥åœ¨æ­¤å¤„è¯»å–è¯·æ±‚çš„ä¿¡æ¯è¿›è¡Œæƒé™è®¤è¯
-                    //  staticFile.File
-                    //  staticFile.Context.Response.StatusCode;
-                }
-            });
-
-            //é…ç½®HttpContext
-            app.UseStaticHttpContext()
-                .UseStaticFiles(new StaticFileOptions
-                {      //è®¾ç½®ä¸é™åˆ¶content-type
-                    ServeUnknownFileTypes = true
-                });
+            Services.AddModule(builder, Configuration);
+        }
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            //é…ç½®å…¨å±€å¼‚å¸¸
+            app.UseMiddleware<ExceptionHandlerMiddleWare>();
+            app.UseStaticFiles().UseStaticFiles(new StaticFileOptions
+            {  
+                ServeUnknownFileTypes = true
+            });
+            app.UseDefaultFiles();
+            app.Use(HttpRequestMiddleware.Context);
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), @"Upload")),
+                //ÅäÖÃ·ÃÎÊĞéÄâÄ¿Â¼Ê±ÎÄ¼ş¼Ğ±ğÃû
+                RequestPath = "/Upload",
+                OnPrepareResponse = (Microsoft.AspNetCore.StaticFiles.StaticFileResponseContext staticFile) =>
+                {
+                    //¿ÉÒÔÔÚ´Ë´¦¶ÁÈ¡ÇëÇóµÄĞÅÏ¢½øĞĞÈ¨ÏŞÈÏÖ¤
+                    //  staticFile.File
+                    //  staticFile.Context.Response.StatusCode;
+                }
+            });
+            //ÅäÖÃHttpContext
+            app.UseStaticHttpContext();
+              
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "apiæ¥å£");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "VOL.CoreºóÌ¨Api");
             });
-
-            app.UseMvc(routes =>
-             {
-                 routes.MapRoute(
-                     name: "ApiDefault",
-                     template: "{controller}/{action}/{id?}",
-                     defaults: new { controller = "ApiHome", action = "Index" }
-                 );
-             });
-            app.UseMvc();
-
+            app.UseRouting();
+            //UseCors,UseAuthenticationgÁ½¸öÎ»ÖÃµÄË³ĞòºÜÖØÒª 
+            app.UseCors();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=ApiHome}/{action=Index}/{id?}");
+            });
         }
     }
 }

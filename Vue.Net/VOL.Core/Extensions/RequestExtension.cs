@@ -10,6 +10,10 @@ namespace VOL.Core.Extensions
     public static class HttpContextExtension
     {
 
+        public static T GetService<T>(this HttpContext context) where T : class
+        {
+            return context.RequestServices.GetService(typeof(T)) as T;
+        }
         public static string GetUserIp(this HttpContext context)
         {
             string realIP = null;

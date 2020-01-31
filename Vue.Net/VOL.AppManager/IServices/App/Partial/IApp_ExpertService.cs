@@ -7,8 +7,6 @@ namespace VOL.AppManager.IServices
 {
     public partial interface IApp_ExpertService
     {
-        Task<ApiResponseContent> ApiQueryByPage(string bizContent);
-        Task<object> ApiQueryByPage(int pageIndex);
     }
  }
 

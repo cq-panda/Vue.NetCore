@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using VOL.Core.Controllers.Basic;
 using VOL.Core.Extensions;
@@ -16,6 +17,16 @@ namespace VOL.System.Controllers
             return Content((await Service.GetVueDictionary(dicNos)).Serialize());
         }
         /// <summary>
+        /// table加载数据后刷新当前table数据的字典项(适用字典数据量比较大的情况)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost, Route("getTableDictionary")]
+        public IActionResult GetTableDictionary([FromBody] Dictionary<string, object[]> keyData)
+        {
+            return Json(Service.GetTableDictionary(keyData));
+        }
+        /// <summary>
         /// 远程搜索
         /// </summary>
         /// <param name="value"></param>
@@ -23,9 +34,20 @@ namespace VOL.System.Controllers
         [HttpPost, Route("getSearchDictionary")]
         public async Task<IActionResult> GetSearchDictionary(string dicNo, string value)
         {
-            return Json(await Service.GetSearchDictionary(dicNo,value));
+            return Json(await Service.GetSearchDictionary(dicNo, value));
         }
 
+        /// <summary>
+        /// 表单设置为远程查询，重置或第一次添加表单时，获取字典的key、value
+        /// </summary>
+        /// <param name="dicNo"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        [HttpPost, Route("getRemoteDefaultKeyValue")]
+        public async Task<IActionResult> GetRemoteDefaultKeyValue(string dicNo, string key)
+        {
+            return Json(await Service.GetRemoteDefaultKeyValue(dicNo, key));
+        }
         /// <summary>
         /// 代码生成器获取所有字典项(超级管理权限)
         /// </summary>

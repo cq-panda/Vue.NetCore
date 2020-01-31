@@ -11,9 +11,31 @@ using VOL.Core.Extensions.AutofacManager;
 using VOL.Entity.DomainModels;
 using System.Linq;
 using VOL.Core.Extensions;
+using System.Linq.Expressions;
+using System;
+
 namespace VOL.AppManager.Services
 {
     public partial class App_TransactionAvgPriceService
     {
+        public override PageGridData<App_TransactionAvgPrice> GetPageData(PageDataOptions options)
+        {
+            SummaryExpress = (IQueryable<App_TransactionAvgPrice> queryable) =>
+            {
+                return queryable.GroupBy(x => 1).Select(x => new
+                {
+                    AvgPrice = x.Average(o => o.AvgPrice),
+                    Enable = x.Sum(o => o.Enable)
+                })
+                .FirstOrDefault();
+            };
+            return base.GetPageData(options);
+        }
+
+        protected override object GetDetailSummary<Detail>(IQueryable<Detail> queryeable)
+        {
+            return base.GetDetailSummary(queryeable);
+        }
+
     }
 }

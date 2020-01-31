@@ -13,7 +13,16 @@ namespace VOL.System.IServices
         /// <returns></returns>
         Task<List<string>> GetBuilderDictionary();
         Task<object> GetVueDictionary(string[] dicNos);
+        object GetTableDictionary(Dictionary<string, object[]> keyData);
         Task<object> GetSearchDictionary(string dicNo, string value);
+
+        /// <summary>
+        /// 表单设置为远程查询，重置或第一次添加表单时，获取字典的key、value
+        /// </summary>
+        /// <param name="dicNo"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        Task<object> GetRemoteDefaultKeyValue(string dicNo, string key);
     }
 }
 

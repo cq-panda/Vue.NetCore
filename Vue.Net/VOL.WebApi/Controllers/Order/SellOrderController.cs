@@ -3,7 +3,6 @@
  *如果要增加方法请在当前目录下Partial文件夹SellOrderController编写
  */
 using Microsoft.AspNetCore.Mvc;
-using VOL.AppManager.IServices;
 using VOL.Core.Controllers.Basic;
 using VOL.Entity.AttributeManager;
 using VOL.Order.IServices;
@@ -14,7 +13,7 @@ namespace VOL.Order.Controllers
     public partial class SellOrderController : ApiBaseController<ISellOrderService>
     {
         public SellOrderController(ISellOrderService service)
-        : base("Order","Sell","SellOrder", service)
+        : base(service)
         {
         }
     }

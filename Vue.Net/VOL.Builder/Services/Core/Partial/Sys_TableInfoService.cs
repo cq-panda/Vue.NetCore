@@ -163,25 +163,33 @@ DISTINCT
             var compilationLibrary = DependencyContext
                 .Default
                 .CompileLibraries
-                .Where(x => !x.Serviceable && x.Type != "package");
+                .Where(x => !x.Serviceable && x.Type == "project");
             foreach (var _compilation in compilationLibrary)
             {
-                foreach (var entity in AssemblyLoadContext.Default
-                 .LoadFromAssemblyName(new AssemblyName(_compilation.Name))
-                 .GetTypes().Where(x => x.GetTypeInfo().BaseType != null
-                     && x.BaseType == typeof(BaseEntity)))
+                try
                 {
-                    if (entity.Name == tableTrueName && !string.IsNullOrEmpty(tableName) && tableName != tableTrueName)
-                        return webResponse.Error($"实际表名【{tableTrueName }】已创建实体，不能创建别名【{tableName}】实体");
-
-                    if (entity.Name != tableName)
+                    foreach (var entity in AssemblyLoadContext.Default
+                .LoadFromAssemblyName(new AssemblyName(_compilation.Name))
+                .GetTypes().Where(x => x.GetTypeInfo().BaseType != null
+                    && x.BaseType == typeof(BaseEntity)))
                     {
-                        var tableAttr = entity.GetCustomAttribute<TableAttribute>();
-                        if (tableAttr != null && tableAttr.Name == tableTrueName)
+                        if (entity.Name == tableTrueName && !string.IsNullOrEmpty(tableName) && tableName != tableTrueName)
+                            return webResponse.Error($"实际表名【{tableTrueName }】已创建实体，不能创建别名【{tableName}】实体");
+
+                        if (entity.Name != tableName)
                         {
-                            return webResponse.Error($"实际表名【{tableTrueName }】已被【{entity.Name}】创建建实体,不能创建别名【{tableName}】实体,请将别名更换为【{entity.Name}】");
+                            var tableAttr = entity.GetCustomAttribute<TableAttribute>();
+                            if (tableAttr != null && tableAttr.Name == tableTrueName)
+                            {
+                                return webResponse.Error($"实际表名【{tableTrueName }】已被【{entity.Name}】创建建实体,不能创建别名【{tableName}】实体,请将别名更换为【{entity.Name}】");
+                            }
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine("查找文件异常：" + ex.Message);
                 }
             }
             return webResponse;
@@ -308,7 +316,7 @@ DISTINCT
                     continue;
                 }
                 //修改了数据类库或字段长度
-                if (item.ColumnType != tableColumn.ColumnType || item.Maxlength != tableColumn.Maxlength||(item.IsNull??0)!=(tableColumn.IsNull??0))
+                if (item.ColumnType != tableColumn.ColumnType || item.Maxlength != tableColumn.Maxlength || (item.IsNull ?? 0) != (tableColumn.IsNull ?? 0))
                 {
                     tableColumn.ColumnType = item.ColumnType;
                     tableColumn.Maxlength = item.Maxlength;
@@ -324,7 +332,7 @@ DISTINCT
             }
             repository.AddRange(addColumns);
             repository.DbContext.Set<Sys_TableColumn>().RemoveRange(delColumns);
-            repository.UpdateRange(updateColumns, x => new { x.ColumnType, x.Maxlength,x.IsNull });
+            repository.UpdateRange(updateColumns, x => new { x.ColumnType, x.Maxlength, x.IsNull });
             await repository.DbContext.SaveChangesAsync();
 
             return webResponse.OK($"新加字段【{addColumns.Count}】个,删除字段【{delColumns.Count}】,修改字段【{updateColumns.Count}】");
@@ -887,7 +895,7 @@ DISTINCT
                     WHEN data_type IN('Date', 'DateTime', 'TimeStamp','date', 'datetime', 'timestamp') THEN
                     'DateTime' ELSE 'string'
                 END AS ColumnType,
-	              case WHEN CHARACTER_MAXIMUM_LENGTH>8000 THEN 8000 ELSE CHARACTER_MAXIMUM_LENGTH end  AS Maxlength,
+	              case WHEN CHARACTER_MAXIMUM_LENGTH>8000 THEN 0 ELSE CHARACTER_MAXIMUM_LENGTH end  AS Maxlength,
             CASE
                     WHEN COLUMN_KEY <> '' THEN  
                     1 ELSE 0
@@ -973,7 +981,7 @@ DISTINCT
                             col.name AS ColumnName ,
                             CONVERT(NVARCHAR(100),ISNULL(ep.[value], '')) AS ColumnCNName,
                             t.name AS ColumnType ,
-                           CASE WHEN  col.length<1 THEN 20000 ELSE  col.length END  AS[Maxlength],
+                           CASE WHEN  col.length<1 THEN 0 ELSE  col.length END  AS[Maxlength],
                             CASE WHEN EXISTS (SELECT   1
                                                FROM dbo.sysindexes si
                                                         INNER JOIN dbo.sysindexkeys sik ON si.id = sik.id
@@ -1332,8 +1340,17 @@ DISTINCT
                     string.IsNullOrEmpty(column.ColumnCnName) ? column.ColumnName : column.ColumnCnName
                     ) + "\")]");
                 AttributeBuilder.Append("\r\n");
-                if (column.ColumnType == "string")
+
+                TableColumnInfo tableColumnInfo = tableColumnInfoList.Where(x => x.ColumnName.ToLower().Trim() == column.ColumnName.ToLower().Trim()).FirstOrDefault();
+                if (tableColumnInfo != null && (tableColumnInfo.ColumnType == "varchar" && column.Maxlength > 8000)
+                             || (tableColumnInfo.ColumnType == "nvarchar" && column.Maxlength > 4000))
                 {
+                    column.Maxlength = 0;
+                }
+
+                if (column.ColumnType == "string" && column.Maxlength > 0&& column.Maxlength < 8000)
+                {
+                 
                     AttributeBuilder.Append("       [MaxLength(" + column.Maxlength + ")]");
                     AttributeBuilder.Append("\r\n");
                 }
@@ -1345,7 +1362,7 @@ DISTINCT
                     AttributeBuilder.Append("\r\n");
                 }
                 //[Column(TypeName="bigint")]如果与字段类型不同会产生异常
-                TableColumnInfo tableColumnInfo = tableColumnInfoList.Where(x => x.ColumnName.ToLower().Trim() == column.ColumnName.ToLower().Trim()).FirstOrDefault();
+          
                 if (tableColumnInfo != null)
                 {
                     if (!string.IsNullOrEmpty(tableColumnInfo.Prec_Scale) && !tableColumnInfo.Prec_Scale.EndsWith(",0"))
@@ -1353,7 +1370,6 @@ DISTINCT
                         AttributeBuilder.Append("       [DisplayFormat(DataFormatString=\"" + tableColumnInfo.Prec_Scale + "\")]");
                         AttributeBuilder.Append("\r\n");
                     }
-
 
                     if ((column.IsKey == 1 && (column.ColumnType == "string" || column.ColumnType == "uniqueidentifier")) ||
                         tableColumnInfo.ColumnType.ToLower() == "guid"
@@ -1365,12 +1381,22 @@ DISTINCT
                     string maxLength = string.Empty;
                     if (tableColumnInfo.ColumnType != "uniqueidentifier")
                     {
-                        if (column.IsKey != 1 && column.ColumnType.ToLower() == "string" && column.Maxlength > 0)
+                        if (column.IsKey != 1 && column.ColumnType.ToLower() == "string")
                         {
-                            maxLength = "(" + column.Maxlength + ")";
+                            //没有指定长度的字符串字段 ，如varchar,nvarchar，text等都默认生成varchar(max),nvarchar(max)
+                            if (column.Maxlength <= 0 
+                                || (tableColumnInfo.ColumnType=="varchar"&& column.Maxlength>8000)
+                                || (tableColumnInfo.ColumnType == "nvarchar" && column.Maxlength > 4000))
+                            {
+                                maxLength = "(max)";
+                            }
+                            else
+                            {
+                                maxLength = "(" + column.Maxlength + ")";
+                            }
+
                         }
                     }
-
                     AttributeBuilder.Append("       [Column(TypeName=\"" + tableColumnInfo.ColumnType + maxLength + "\")]");
                     AttributeBuilder.Append("\r\n");
 
@@ -1413,7 +1439,7 @@ DISTINCT
                        || column.ColumnType == "guid"
                    || (IsMysql() && column.ColumnType == "string" && column.Maxlength == 36))
                 {
-                    columnType = "Guid"+(column.IsNull == 1?"?":"");
+                    columnType = "Guid" + (column.IsNull == 1 ? "?" : "");
                 }
                 AttributeBuilder.Append("       public " + columnType + " " + column.ColumnName + " { get; set; }");
                 AttributeBuilder.Append("\r\n\r\n       ");
@@ -1421,6 +1447,9 @@ DISTINCT
             if (!string.IsNullOrEmpty(tableInfo.DetailName) && createType == 1)
             {
                 AttributeBuilder.Append("[Display(Name =\"" + tableInfo.DetailCnName + "\")]");
+                AttributeBuilder.Append("\r\n       ");
+                //2019.12.20增加明细表属性的ForeignKey配置(EF Core 3.1配项)
+                AttributeBuilder.Append("[ForeignKey(\"" + sysColumn.Where(x => x.IsKey == 1).FirstOrDefault().ColumnName + "\")]");
                 AttributeBuilder.Append("\r\n       ");
                 AttributeBuilder.Append("public List<" + tableInfo.DetailName + "> " + tableInfo.DetailName + " { get; set; }");
                 AttributeBuilder.Append("\r\n");
@@ -1640,10 +1669,10 @@ DISTINCT
 
             }
 
-            if (tableInfo.TableColumns.Exists(x => x.ColumnType == "string" && (x.Maxlength ?? 0) <= 0))
-            {
-                webResponse.Error("数据类型为string的列，必须输入[列最大长度]的值");
-            }
+            //if (tableInfo.TableColumns.Exists(x => x.ColumnType == "string" && (x.Maxlength ?? 0) <= 0))
+            //{
+            //    webResponse.Error("数据类型为string的列，必须输入[列最大长度]的值");
+            //}
             return webResponse;
         }
 

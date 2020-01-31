@@ -201,7 +201,6 @@ namespace VOL.Core.BaseProvider
             {
                 queryable = QueryRelativeExpression.Invoke(queryable);
             }
-
             if (options.Export)
             {
                 pageGridData.rows = queryable.GetIQueryableOrderBy(orderbyDic).Take(Limit).ToList();
@@ -214,6 +213,13 @@ namespace VOL.Core.BaseProvider
                                     out int rowCount,
                                     orderbyDic).ToList();
                 pageGridData.total = rowCount;
+                //查询界面统计求等字段
+                if (SummaryExpress != null)
+                {
+                    pageGridData.summary = SummaryExpress.Invoke(queryable);
+                    //Func<T, T> groupExpress = x =>x;
+                    //pageGridData.summary = queryable.GroupBy(groupExpress).Select(SummaryExpress).FirstOrDefault();
+                }
             }
             GetPageDataOnExecuted?.Invoke(pageGridData);
             return pageGridData;
@@ -222,11 +228,19 @@ namespace VOL.Core.BaseProvider
 
         public virtual object GetDetailPage(PageDataOptions pageData)
         {
-            Type detailType = typeof(T).GetCustomAttribute<EntityAttribute>().DetailTable[0];
+            Type detailType = typeof(T).GetCustomAttribute<EntityAttribute>()?.DetailTable?[0];
+            if (detailType == null)
+            {
+                return null;
+            }
             object obj = typeof(ServiceBase<T, TRepository>)
                  .GetMethod("GetDetailPage", BindingFlags.Instance | BindingFlags.NonPublic)
                  .MakeGenericMethod(new Type[] { detailType }).Invoke(this, new object[] { pageData });
             return obj;
+        }
+        protected override object GetDetailSummary<Detail>(IQueryable<Detail> queryeable)
+        {
+            return null;
         }
 
         private PageGridData<Detail> GetDetailPage<Detail>(PageDataOptions options) where Detail : class
@@ -255,6 +269,7 @@ namespace VOL.Core.BaseProvider
                 .Skip((options.Page - 1) * options.Rows)
                 .Take(options.Rows)
                 .ToList();
+            gridData.summary = GetDetailSummary<Detail>(queryeable);
             return gridData;
         }
 
@@ -497,18 +512,18 @@ namespace VOL.Core.BaseProvider
             {
                 repository.Add(entity);
                 repository.DbContext.SaveChanges();
-                //保存明细
-                if (list != null && list.Count > 0)
+            //保存明细
+            if (list != null && list.Count > 0)
                 {
-                    //获取保存后的主键值
-                    PropertyInfo mainKey = typeof(T).GetKeyProperty();
+                //获取保存后的主键值
+                PropertyInfo mainKey = typeof(T).GetKeyProperty();
                     PropertyInfo detailMainKey = typeof(TDetail).GetProperties()
                         .Where(q => q.Name.ToLower() == mainKey.Name.ToLower()).FirstOrDefault();
                     object keyValue = mainKey.GetValue(entity);
                     list.ForEach(x =>
                     {
-                        //设置用户默认值
-                        x.SetCreateDefaultVal();
+                    //设置用户默认值
+                    x.SetCreateDefaultVal();
                         detailMainKey.SetValue(x, keyValue);
                         repository.DbContext.Entry<TDetail>(x).State = EntityState.Added;
                     });
@@ -656,18 +671,18 @@ namespace VOL.Core.BaseProvider
             //明细修改
             editList.ForEach(x =>
                 {
-                    //获取编辑的字段
-                    string[] updateField = saveModel.DetailData
-                            .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
-                            .Equal(detailKeyInfo.GetValue(x)))
-                            .FirstOrDefault()
-                            .Keys.Where(k => k != detailKeyInfo.Name)
-                            .Where(r => !CreateFields.Contains(r))
-                            .ToArray();
-                    //設置默認值
-                    x.SetModifyDefaultVal();
-                    //添加修改字段
-                    repository.Update<DetailT>(x, updateField);
+                //获取编辑的字段
+                string[] updateField = saveModel.DetailData
+                    .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
+                    .Equal(detailKeyInfo.GetValue(x)))
+                    .FirstOrDefault()
+                    .Keys.Where(k => k != detailKeyInfo.Name)
+                    .Where(r => !CreateFields.Contains(r))
+                    .ToArray();
+                //設置默認值
+                x.SetModifyDefaultVal();
+                //添加修改字段
+                repository.Update<DetailT>(x, updateField);
                 });
 
             //明细新增
@@ -797,7 +812,7 @@ namespace VOL.Core.BaseProvider
 
             //获取主建类型的默认值用于判断后面数据是否正确,int long默认值为0,guid :0000-000....
             object keyDefaultVal = mainKeyProperty.PropertyType.Assembly.CreateInstance(mainKeyProperty.PropertyType.FullName);//.ToString();
-            //判断是否包含主键
+                                                                                                                               //判断是否包含主键
             if (mainKeyProperty == null
                 || !saveModel.MainData.ContainsKey(mainKeyProperty.Name)
                 || saveModel.MainData[mainKeyProperty.Name] == null

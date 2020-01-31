@@ -9,7 +9,6 @@ namespace VOL.Core.CacheManager
     public class MemoryCacheService : ICacheService
     {
         protected IMemoryCache _cache;
-
         public MemoryCacheService(IMemoryCache cache)
         {
             _cache = cache;

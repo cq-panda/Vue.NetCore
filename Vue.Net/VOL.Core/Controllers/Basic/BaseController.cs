@@ -15,9 +15,6 @@ namespace VOL.Core.Controllers.Basic
     public class BaseController<IServiceBase> : Controller
     {
         protected IServiceBase Service;
-        private readonly string projectName;
-        private readonly string folder;
-        private readonly string TableName;
         private WebResponseContent ResponseContent { get; set; }
         /// <summary>
         /// 
@@ -32,9 +29,6 @@ namespace VOL.Core.Controllers.Basic
         }
         public BaseController(string projectName, string folder, string tablename, IServiceBase service)
         {
-            this.projectName = projectName;
-            this.folder = folder;
-            TableName = tablename;
             Service = service;
         }
         /// <summary>
@@ -44,22 +38,23 @@ namespace VOL.Core.Controllers.Basic
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual ActionResult Manager()
         {
-            if (System.IO.File.Exists(($"Views\\PageExtension\\{projectName }\\{TableName}Extension.cshtml").MapPath()))
-            {
-                ViewBag.UrlExtension = $"~/Views/PageExtension/{projectName}/{TableName}Extension.cshtml";
-            }
-            return View("~/Views/" + projectName + "/" + folder + "/" + TableName + ".cshtml");
+            return View();
+            //if (System.IO.File.Exists(($"Views\\PageExtension\\{projectName }\\{TableName}Extension.cshtml").MapPath()))
+            //{
+            //    ViewBag.UrlExtension = $"~/Views/PageExtension/{projectName}/{TableName}Extension.cshtml";
+            //}
+            //  return View("~/Views/" + projectName + "/" + folder + "/" + TableName + ".cshtml");
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual async Task<ActionResult> GetPageData(PageDataOptions loadData)
         {
-            string pageData = await Task.Run(() => InvokeService("GetPageData", new object[] { loadData }).Serialize());
+            string pageData = await Task.FromResult(InvokeService("GetPageData", new object[] { loadData }).Serialize());
             return Content(pageData);
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual async Task<ActionResult> GetDetailPage(PageDataOptions loadData)
         {
-            string pageData = await Task.Run(() => InvokeService("GetDetailPage", new object[] { loadData }).Serialize());
+            string pageData = await Task.FromResult(InvokeService("GetDetailPage", new object[] { loadData }).Serialize());
             return Content(pageData);
         }
 
@@ -71,7 +66,7 @@ namespace VOL.Core.Controllers.Basic
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual async Task<ActionResult> Upload(List<IFormFile> fileInput)
         {
-            object result = await Task.Run(() => InvokeService("Upload", new object[] { fileInput }));
+            object result = await Task.FromResult(InvokeService("Upload", new object[] { fileInput }));
             return Json(result);
         }
 
@@ -84,7 +79,7 @@ namespace VOL.Core.Controllers.Basic
         [HttpPost]
         public virtual async Task<ActionResult> Import(List<IFormFile> fileInput)
         {
-            object result = await Task.Run(() => InvokeService("Import", new object[] { fileInput }));
+            object result = await Task.FromResult(InvokeService("Import", new object[] { fileInput }));
             return Json(result);
         }
 
@@ -92,7 +87,7 @@ namespace VOL.Core.Controllers.Basic
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual async Task<ActionResult> Export(PageDataOptions loadData)
         {
-            return Json(await Task.Run(() => InvokeService("Export", new object[] { loadData })));
+            return Json(await Task.FromResult(InvokeService("Export", new object[] { loadData })));
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -128,7 +123,7 @@ namespace VOL.Core.Controllers.Basic
         [ApiExplorerSettings(IgnoreApi = true)]
         public async virtual Task<ActionResult> DownLoadTemplate()
         {
-            ResponseContent = await Task.Run(() => InvokeService("DownLoadTemplate", new object[] { })) as WebResponseContent;
+            ResponseContent = await Task.FromResult(InvokeService("DownLoadTemplate", new object[] { })) as WebResponseContent;
             if (!ResponseContent.Status)
             {
                 return Json(ResponseContent);
@@ -140,28 +135,28 @@ namespace VOL.Core.Controllers.Basic
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual async Task<ActionResult> Del(object[] keys)
         {
-            ResponseContent = await Task.Run(() => InvokeService("Del", new object[] { keys, true })) as WebResponseContent;
+            ResponseContent = await Task.FromResult(InvokeService("Del", new object[] { keys, true })) as WebResponseContent;
             Logger.Info(Enums.LoggerType.Del, keys.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return Json(ResponseContent);
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual async Task<ActionResult> Audit(object[] id, int? auditStatus, string auditReason)
         {
-            ResponseContent = await Task.Run(() => InvokeService("Audit", new object[] { id, auditStatus, auditReason })) as WebResponseContent;
+            ResponseContent = await Task.FromResult(InvokeService("Audit", new object[] { id, auditStatus, auditReason })) as WebResponseContent;
             Logger.Info(Enums.LoggerType.Del, id?.Serialize() + "," + (auditStatus ?? -1) + "," + auditReason, ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return Json(ResponseContent);
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual async Task<WebResponseContent> Add(SaveModel saveModel)
         {
-            ResponseContent = await Task.Run(() => InvokeService("Add", new Type[] { typeof(SaveModel) }, new object[] { saveModel })) as WebResponseContent;
+            ResponseContent = await Task.FromResult(InvokeService("Add", new Type[] { typeof(SaveModel) }, new object[] { saveModel })) as WebResponseContent;
             Logger.Info(Enums.LoggerType.Add, saveModel.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return ResponseContent;
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual async Task<WebResponseContent> Update(SaveModel saveModel)
         {
-            ResponseContent = await Task.Run(() => InvokeService("Update", new object[] { saveModel })) as WebResponseContent;
+            ResponseContent = await Task.FromResult(InvokeService("Update", new object[] { saveModel })) as WebResponseContent;
             Logger.Info(Enums.LoggerType.Edit, saveModel.Serialize(), ResponseContent.Status ? "Ok" : ResponseContent.Message);
             return ResponseContent;
         }
