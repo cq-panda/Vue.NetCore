@@ -600,8 +600,8 @@ let methods = {
                     if (!column) return;
                     let key = this.currentRow[item.field];
                     let obj = column.bind.data.find(x => { return x.key == key });
-                    if (!obj) return;
-                    item.data = [{ key: key, value: obj.value }];
+                    // obj ? obj.value : key如果没有查到数据源，直接使用原数据
+                    item.data = [{ key: key, value: obj ? obj.value : key }];
                     this.editFormOptions[cellIndex].splice(0, 1, item);
                     // this.$set(item, 'data', [{ key: key + '', value: obj.value }])
                     //  item.data = [{ key: key + '', value: obj.value }];
