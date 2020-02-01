@@ -13,6 +13,9 @@ const data = {
     }, getters: {
         getData: (state) => () => {  //调用方式 store.getters.getData()
             return data;
+        },
+        data: (state) => () => {
+            return data;
         }
     }, actions: {
         // setData(context, data) {

@@ -99,7 +99,7 @@ let extension = {
             this.initButton();
             //将当前vue对象写入vuex来操作kindeditor
             //或者使用 this.$emit("parentCall", $vue => {})在子组件中操作父组件
-            this.$store.getters.getData().editor = this;
+            this.$store.getters.data().editor = this;
             //设置保存成功后，不关闭弹出框
             this.boxOptions.saveClose = false;
             //设置查询表格只能单选

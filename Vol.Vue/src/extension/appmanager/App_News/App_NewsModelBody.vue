@@ -6,7 +6,7 @@
     <div>
       <kind-editor
         ref="editor"
-        :content.sync="$store.getters.getData().editor.currentRow.Content"
+        :content.sync="$store.getters.data().editor.currentRow.Content"
         height="360px"
       ></kind-editor>
     </div>
