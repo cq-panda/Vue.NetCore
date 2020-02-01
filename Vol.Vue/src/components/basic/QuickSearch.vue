@@ -8,7 +8,7 @@
       :placeholder="'请选择'+singleSearch.title"
     >
       <Option
-        v-for="(kv,kvIndex) in singleSearch.data.data"
+        v-for="(kv,kvIndex) in singleSearch.data"
         :key="kvIndex"
         :value="kv.key||''"
       >{{kv.value}}</Option>
