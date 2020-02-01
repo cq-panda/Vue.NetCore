@@ -37,7 +37,13 @@ let param = {
                 if ($event.keyCode == 13) {}\
               }', type: "function", default: ""
         },
-        { name: "onChange", desc: "type=select生效", type: "function", default: "" },
+        { name: "onChange", desc: `type=select生效
+        <p>
+	onChange: (value, option) =&gt; {
+</p>
+<p>
+	}
+</p>`, type: "function", default: "" },
         { name: "url", desc: "从指定后台url(例：api/xx/xx)远程搜索，(返回的数据格式:[{key:'x',value:'x1'}])，type=select生效", type: "bool", default: "false" },
         { name: "remote", desc: "开启后台字典远程搜索(后台字典必须配置必须是自定sql)，type=select才会生效", type: "bool", default: "false" },
         { name: "extra", desc: '添加额外标签：  extra: {//显示图标 icon: "ios-search", //显示文本 text: "点击可触发事件",//触发事件 click: item => {}}', type: "string", default: "" },
