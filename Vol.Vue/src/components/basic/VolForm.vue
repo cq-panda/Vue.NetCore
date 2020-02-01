@@ -44,27 +44,25 @@
               <div
                 v-if="item.type=='select'||item.type=='selectList'||item.type=='drop'||item.type=='dropList'"
               >
+              <!--select绑定默认值时，如果设置了默认值，数据源也有数据，但没绑定上，问题在于key与默认值类型不一致，如:默认值是字符串，数据源的key是数字，类型不至会导致绑定失败-->
                 <div>
                   <!-- {{ item.remote||item.url?"1":"0"}} -->
                   <!-- 远程搜索 -->
                   <!-- 从后台字典搜索remote  -->
-                  <!-- url：从指定url搜索返回格式必须是[{key:1,value:'xxx'}] 格式-->
-                  <!-- :remote-method="(val)=>{remoteSearch(item,val,formFileds)}"
-                  @on-query-change="(val)=>{queryChange(item,formFileds,val)}"-->
                   <Select
                     v-if="item.remote||item.url"
                     :transfer="true"
                     v-model="formFileds[item.field]"
                     filterable
                     remote
-                    :remote-method="(val)=>{remoteSearch(item,val,formFileds)}"
+                    :remote-method="(val)=>{remoteSearch(item,formFileds,val)}"
                     :loading="item.loading"
                     :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
-                    @on-change="onChange(item,formFileds[item.field])"
+                    @on-change="onRemoteChange(item,formFileds[item.field])"
                     clearable
                   >
                     <Option
-                      v-for="(kv,kvIndex) in item.remoteData"
+                      v-for="(kv,kvIndex) in getData(item)"
                       :key="kvIndex"
                       :value="kv.key||''"
                     >{{kv.value}}</Option>
@@ -74,13 +72,13 @@
                     :transfer="true"
                     v-model="formFileds[item.field]"
                     :multiple="(item.type=='select'||item.type=='drop')?false:true"
-                    :filterable="(item.filter||getData(item).length>10)?true:false"
+                    :filterable="(item.filter||item.length>10)?true:false"
                     :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
                     @on-change="onChange(item,formFileds[item.field])"
                     clearable
                   >
                     <Option
-                      v-for="(kv,kvIndex) in getData(item)"
+                      v-for="(kv,kvIndex) in item.data"
                       :key="kvIndex"
                       :value="kv.key||''"
                     >{{kv.value}}</Option>
@@ -113,11 +111,7 @@
                 </Col>
               </Row>
               <CheckboxGroup v-else-if="item.type=='checkbox'" v-model="formFileds[item.field]">
-                <Checkbox
-                  v-for="(kv,kvIndex) in getData(item)"
-                  :key="kvIndex"
-                  :label="kv.key"
-                >{{kv.value}}</Checkbox>
+                <Checkbox v-for="(kv,kvIndex) in item" :key="kvIndex" :label="kv.key">{{kv.value}}</Checkbox>
               </CheckboxGroup>
               <vol-upload
                 v-else-if="isFile(item,formFileds)"
@@ -218,17 +212,13 @@ export default {
       default: {}
     }
   },
-  watch: {
-    formRules(newObject, oldObject) {
-      //if (!newObject) {}
-      this.initFormRules();
-    }
-  },
+  watch: {},
   created() {
     this.initFormRules(true);
   },
   data() {
     return {
+      remoteCall: true,
       errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       rule: {
         change: ["checkbox", "select", "date", "datetime", "drop", "radio"],
@@ -367,12 +357,12 @@ export default {
       }
 
       if (!item.data) return text;
-      let data;
-      if (item.data.data) {
-        data = item.data.data;
-      } else {
-        data = item.data;
-      }
+      let data = item.data;
+      // if (item.data.data) {
+      //   data = item.data.data;
+      // } else {
+      //   data = item.data;
+      // }
       data.forEach(x => {
         if (x.key == text) {
           text = x.value;
@@ -385,11 +375,19 @@ export default {
         item.onChange(value, item);
       }
     },
-    getData(item, isRemote) {
-      if (item.data && item.data.data) {
-        return item.data.data;
+    onRemoteChange(item, value) {
+      //第二次打开时，默认值成了undefined，待查viewgrid中重置代码
+      if (value == undefined) {
+        this.formFileds[item.field] = item.data[0].key;
+        //  console.log('undefined');
       }
-      return item.data || [];
+      this.remoteCall = false;
+      if (item.onChange && typeof item.onChange == "function") {
+        item.onChange(value, item);
+      }
+    },
+    getData(item) {
+      return item.data;
     },
     initSource() {
       let keys = [],
@@ -414,30 +412,19 @@ export default {
         this.bindOptions(dic, binds);
       });
     },
-    //远程搜索清空数据后还原原始数据
-    queryChange(item, formFileds, val) {
-      //没有数据时还原原始数据
-      if (val === "" || val === undefined) {
-        if (item.hasOwnProperty("originalData")) {
-          if (item.data && item.data.data) {
-            item.data.data = item.originalData;
-          } else {
-            item.data = item.originalData;
-          }
-        }
-        formFileds[item.field] = "";
-      }
-    },
-    //远程搜索
-    remoteSearch(item, val, formFileds) {
-      if (val == "") return;
-      // let data = item.data.data; //this.getData(item);
+    //远程搜索(打开弹出框时应该禁止搜索)
+    remoteSearch(item, formFileds, val) {
+      if (val == "" || (item.data.length == 1 && val == item.data[0].key))
+        return;
+      // let data = item.data.data; //this.item;
       //备份原始数据
       // if (!item.hasOwnProperty("originalData")) {
-      //   item.originalData = [];
-      //   item.originalData.push(...data);
+      //   item.originalData = item.data;
       // }
-      //弹出框或初始化表单时给remoteData设置数组默认值，现在没有默认值
+      // this.$set(item, "data", [{ key: val, value: val }]);
+      //  item.data = [{ key: val, value: val }];
+      // return;
+      //弹出框或初始化表单时给data设置数组默认值
       let url = item.remote
         ? "/api/Sys_Dictionary/GetSearchDictionary"
         : item.url;
@@ -445,7 +432,8 @@ export default {
         .post(url + "?dicNo=" + item.dataKey + "&value=" + val)
         .then(dicData => {
           this.$set(item, "loading", false);
-          this.$set(item, "remoteData", dicData);
+          item.data = dicData;
+          this.formRules[item.cellIndex].splice(0, 1, item);
         });
     },
     bindOptions(dic, binds) {
@@ -469,10 +457,6 @@ export default {
           }
         });
       });
-
-      // binds.forEach(x => {
-      //   x.data.push(...[]);
-      // });
     },
     getObject(date) {
       if (typeof date == "object") {
@@ -489,6 +473,8 @@ export default {
       return time + "";
     },
     reset(sourceObj) {
+      //重置表单时，禁用远程查询
+      //  this.remoteCall = false;
       this.$refs["formValidate"].resetFields();
       if (!sourceObj) return;
       for (const key in this.formFileds) {
@@ -496,6 +482,7 @@ export default {
           this.formFileds[key] = sourceObj[key];
         }
       }
+      //  this.remoteCall = true;
     },
     validate() {
       let result = false;
@@ -560,16 +547,15 @@ export default {
         this.initSource();
       }
       //  this.ruleValidate={};
-      this.formRules.forEach(row => {
+      this.formRules.forEach((row, cellIndex) => {
         if (row.length > this.span) this.span = row.length;
+
         row.forEach(item => {
           //目前只支持select单选远程搜索，remote远程从后台字典数据源进行搜索，url从指定的url搜索
-          if (item.type == "select" && (item.remote || item.url)) {
-            // if (!item.data) {
-            //   item.data = [];
-            // }
-            item.remoteData = [];
+          if (item.remote || item.url) {
+            // item.remoteData = [];
             item.loading = false;
+            item.cellIndex = cellIndex;
           }
           //初始化上传文件信息
           this.initUpload(item, init);
@@ -577,20 +563,8 @@ export default {
           if (item.dataKey) {
             //下拉框都强制设置为字符串类型
             item.columnType = "string";
-            if (item.data && item.data instanceof Array) {
-              // item.data.forEach(x => {
-              //   x.key = x.key + "";
-              // });
-            } else {
-              if (!item.data) {
-                item.data = { data: [] };
-              } else if (!item.data.data) {
-                item.data.data = [];
-              }
-              //数据源的key为数字时，可能存在配置不统一，有的是数据有的是字符，此处统一转换成字符
-              // item.data.data.forEach(x => {
-              //   x.key = x.key //+ "";
-              // });
+            if (!item.data) {
+              item.data = [];
             }
           }
         });

@@ -15,7 +15,7 @@ let extension = {
     buttons: [],//扩展的按钮
     methods: {//事件扩展
         onInit() {
-            this.remoteKeys = ["roles"];
+            this.boxOptions.height = 530;
         },
         onInited() {
         },
@@ -37,6 +37,10 @@ let extension = {
                         this.$set(x, "disabled", isEDIT)
                     }
                 })
+                //不是新建，性别默认值设置为男
+                if (!isEDIT) {
+                    this.editFormFileds.Gender = "0";
+                }
             })
         }
 

@@ -13,7 +13,21 @@ let extension = {
     buttons: [],//扩展的按钮
     methods: {//事件扩展
         onInit() {
-            this.summary = true;
+            //手动调整弹出框表单的label宽度
+            this.boxOptions.labelWidth = 130;
+            //设置IsTop字段为远程搜索
+            this.editFormOptions.forEach(x => {
+                x.forEach(item => {
+                    if (item.field != "IsTop") return;
+                    //指定IsTop为远程搜索(代码生成器中页面配置编辑类型必须是select，并指定数据源字典编号,数据源必须是自定义sql)
+                    item.remote = true;
+                    item.extra = {
+                        icon: "md-sad",//显示图标 
+                        text: "远程搜索,在App_TransactionAvgPrice.js中查看详细配置" //显示文本
+                       //触发事件 click: item => {}
+                    }
+                })
+            })
         }
     }
 };
