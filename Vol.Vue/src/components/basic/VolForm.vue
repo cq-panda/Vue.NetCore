@@ -44,7 +44,7 @@
               <div
                 v-if="item.type=='select'||item.type=='selectList'||item.type=='drop'||item.type=='dropList'"
               >
-              <!--select绑定默认值时，如果设置了默认值，数据源也有数据，但没绑定上，问题在于key与默认值类型不一致，如:默认值是字符串，数据源的key是数字，类型不至会导致绑定失败-->
+                <!--select绑定默认值时，如果设置了默认值，数据源也有数据，但没绑定上，问题在于key与默认值类型不一致，如:默认值是字符串，数据源的key是数字，类型不至会导致绑定失败-->
                 <div>
                   <!-- {{ item.remote||item.url?"1":"0"}} -->
                   <!-- 远程搜索 -->
@@ -414,7 +414,11 @@ export default {
     },
     //远程搜索(打开弹出框时应该禁止搜索)
     remoteSearch(item, formFileds, val) {
-      if (val == "" || (item.data.length == 1 && val == item.data[0].key))
+      if (
+        val == "" ||
+        (item.data.length == 1 &&
+          (val == item.data[0].key || val == item.data[0].value))
+      )
         return;
       // let data = item.data.data; //this.item;
       //备份原始数据
