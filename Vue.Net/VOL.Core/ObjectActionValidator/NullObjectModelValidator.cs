@@ -8,7 +8,7 @@ using System.Text;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
 
-namespace VOL.Core.Infrastructure
+namespace VOL.Core.ObjectActionValidator
 {
     public class NullObjectModelValidator : IObjectModelValidator
     {

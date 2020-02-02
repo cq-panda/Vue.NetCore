@@ -17,8 +17,8 @@ using VOL.Core.DBManager;
 using VOL.Core.EFDbContext;
 using VOL.Core.Enums;
 using VOL.Core.Extensions.AutofacManager;
-using VOL.Core.Infrastructure;
 using VOL.Core.ManageUser;
+using VOL.Core.ObjectActionValidator;
 using VOL.Core.Services;
 
 namespace VOL.Core.Extensions

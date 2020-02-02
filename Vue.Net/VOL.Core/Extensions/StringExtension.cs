@@ -70,7 +70,7 @@ namespace VOL.Core.Extensions
         {
             if (string.IsNullOrEmpty(input))
                 return false;
-            if (input.Length < 11)
+            if (input.Length != 11)
                 return false;
 
             if (new Regex(@"^1[3578][01379]\d{8}$").IsMatch(input)
@@ -249,8 +249,7 @@ namespace VOL.Core.Extensions
         {
             if (obj == null)
                 return 0;
-            int _number = 0;
-            bool reslut = Int32.TryParse(obj.ToString(), out _number);
+            int.TryParse(obj.ToString(), out int _number);
             return _number;
 
         }

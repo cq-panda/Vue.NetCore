@@ -9,6 +9,7 @@ using VOL.Core.DBManager;
 using VOL.Core.EFDbContext;
 using VOL.Core.Filters;
 using VOL.Core.Infrastructure;
+using VOL.Core.ObjectActionValidator;
 using VOL.Entity.AttributeManager;
 using VOL.Entity.DomainModels;
 using VOL.System.IServices;

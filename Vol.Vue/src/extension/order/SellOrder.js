@@ -12,8 +12,8 @@
 //this.$refs.gridHeader获取gridHeader为自己扩展的对象
 //9、在子组件gridHeader、gridBody、gridFooter、modelHeader、modelBody、modelFooter的方法中调用并获得父组件
 // this.$emit("parentCall", $vue => {}) //$vue为父组件对象，具体使用参考order->GridHeaderExtend.vue文件
-//10、子父件传参除8、9方式，另可使用已封装的vuex,使用方式:this.$store.getters.data().xxx = this;使用实例：App_News.js
 
+//10、子父件传参除8、9方式，另可使用已封装的vuex,使用方式:this.$store.getters.data().xxx = this;使用实例：App_News.js
 
 //此处的下面的属性与方法都是对基础业务代码的扩展，如果不需要扩展则忽略对应的方法也不要写在下面
 //serviceFilter.js
@@ -191,7 +191,14 @@ let extension = {
             return true;
         },
         addBefore(formData) { //新建保存前formData为对象，包括明细表
-
+            //formData格式：
+            // {
+            //     mainData: { 主表字段1: 'x1', 主表字段2: 'x2' },
+            //     detailData: [{ 明细表字段1: d1 }],
+            //     delKeys: null //删除明细表行数据的id
+            // }
+            //如果需要同时提交其他数据到后台，请设置formData.extra=xxxx
+            //后台在表xxxxService.cs中重写Add方法即可从saveDataModel参数中拿到extra提交的对象
             this.$Notice.success({ title: this.detailOptions.cnName + '新建前：', desc: '提前的数据：' + JSON.stringify(formData) });
             return true;
         },
@@ -200,6 +207,15 @@ let extension = {
             return true;
         },
         updateBefore(formData) { //编辑保存前formData为对象，包括明细表、删除行的Id
+           //formData格式：
+            // {
+            //     mainData: { 主表字段1: 'x1', 主表字段2: 'x2' },
+            //     detailData: [{ 明细表字段1: d1 }],
+            //     delKeys: null //删除明细表行数据的id
+            // }
+            //如果需要同时提交其他数据到后台，请设置formData.extra=xxxx
+            //后台在表xxxxService.cs中重写Update方法即可从saveDataModel参数中拿到extra提交的对象
+
             this.$Notice.success({ title: this.detailOptions.cnName + '编辑前：', desc: '提前的数据：' + JSON.stringify(formData) });
             //获取扩展的modelFooter属性text
             console.log(this.$refs.modelFooter.text)

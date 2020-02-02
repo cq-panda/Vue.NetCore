@@ -58,7 +58,4 @@
     <ProjectReference Include="..\VOL.Entity\VOL.Entity.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-  </ItemGroup>
-
 </Project>

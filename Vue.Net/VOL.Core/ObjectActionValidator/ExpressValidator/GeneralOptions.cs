@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VOL.Core.Infrastructure
+namespace VOL.Core.ObjectActionValidator
 {
     /// <summary>
     /// 普通参数配置
@@ -81,8 +81,8 @@ namespace VOL.Core.Infrastructure
     public enum ParamType
     {
         Int,
-        Long,
-        Byte,
+        //Long,
+        //Byte,
         Bool,
         String,
         DateTime,

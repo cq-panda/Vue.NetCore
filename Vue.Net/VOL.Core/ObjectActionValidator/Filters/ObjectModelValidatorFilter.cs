@@ -3,14 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using VOL.Core.Extensions;
-using VOL.Core.Infrastructure;
-using VOL.Entity.DomainModels;
 
-namespace VOL.Core.Filters
+namespace VOL.Core.ObjectActionValidator
 {
     public class ObjectModelValidatorFilter : Attribute
     {

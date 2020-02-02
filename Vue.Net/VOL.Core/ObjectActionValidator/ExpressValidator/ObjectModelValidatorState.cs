@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VOL.Core.Infrastructure
+namespace VOL.Core.ObjectActionValidator
 {
     public class ObjectModelValidatorState
     {

@@ -11,9 +11,9 @@ using System.Text;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
 using VOL.Core.Utilities;
-using static VOL.Core.Infrastructure.ValidatorMembers;
 
-namespace VOL.Core.Infrastructure
+
+namespace VOL.Core.ObjectActionValidator
 {
     public static class MethodsValidator
     {
@@ -155,7 +155,7 @@ namespace VOL.Core.Infrastructure
             if (!objectModel.Status)
             {
                 context.Result = new JsonResult(objectModel);
-				 return;
+                return;
             }
 
             //判断是否提交了model参数
@@ -271,10 +271,24 @@ namespace VOL.Core.Infrastructure
             if (options.Min == null && options.Max == null) return;
             switch (options.ParamType)
             {
-                //待完
+                //待完ParamType.Long,Byte类型
                 case ParamType.Int:
-                case ParamType.Long:
-                case ParamType.Byte:
+                    //case ParamType.Long:
+                    //case ParamType.Byte:
+                    if (!int.TryParse(model.ToString(), out int _number))
+                    {
+                        actionContext.ActionErrorResult($"[{options.CNName}]必须是整数");
+                        break;
+                    }
+                    if (options.Min != null && _number < options.Min)
+                    {
+                        actionContext.ActionErrorResult($"[{options.CNName}]不能小于[{options.Min}]");
+                        break;
+                    }
+                    if (options.Max != null && _number > options.Max)
+                    {
+                        actionContext.ActionErrorResult($"[{options.CNName}]不能大于[{options.Max}]");
+                    }
                     break;
                 case ParamType.String:
                     string value = model.ToString();
@@ -287,11 +301,35 @@ namespace VOL.Core.Infrastructure
                         actionContext.ActionErrorResult($"[{options.CNName}]最多[{options.Max}]个字符");
                     }
                     break;
+                //待完日期大小
                 case ParamType.DateTime:
+                    if (!DateTime.TryParse(model.ToString(),out _))
+                    {
+                        actionContext.ActionErrorResult($"[{options.CNName}]应该是日期格式");
+                    }
                     break;
+                //min,max应该是decimal类型，待完
                 case ParamType.Decimal:
+                    if (!decimal.TryParse(model.ToString(), out decimal _decimal))
+                    {
+                        actionContext.ActionErrorResult($"[{options.CNName}]不是数字");
+                        break;
+                    }
+                    if (options.Min != null && _decimal < options.Min)
+                    {
+                        actionContext.ActionErrorResult($"[{options.CNName}]不能小于[{options.Min}]");
+                        break;
+                    }
+                    if (options.Max != null && _decimal > options.Max)
+                    {
+                        actionContext.ActionErrorResult($"[{options.CNName}]不能大于[{options.Max}]");
+                    }
                     break;
                 case ParamType.Guid:
+                    if (!Guid.TryParse(model.ToString(), out _))
+                    {
+                        actionContext.ActionErrorResult($"[{options.CNName}]不是Guid类型");
+                    }
                     break;
                 default:
                     break;

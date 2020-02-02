@@ -54,7 +54,10 @@ let form = [
         path: '/htmlList',
         name: 'htmlList',
         component: () => import('@/views/kindEditor/htmlList.vue')
+    }, {
+        path: '/validator',
+        name: 'validator',
+        component: () => import('@/views/forms/objectValidator.vue')
     }
-
 ]
 export default form

@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using VOL.Core.Enums;
 using VOL.Core.Extensions;
-using VOL.Core.Infrastructure;
+using VOL.Core.ObjectActionValidator;
 using VOL.Core.Services;
 using VOL.Core.Utilities;
 

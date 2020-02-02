@@ -416,7 +416,16 @@ let param = {
                     </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
                 },
                 addBefore(formData) { </span><span style="color: #008000;">//</span><span style="color: #008000;">新建保存前formData为对象，包括明细表</span>
-        
+                <div style="color: #008000;"> 
+                //formData格式：
+                // {
+                //&nbsp; &nbsp; &nbsp;mainData: { 主表字段1: 'x1', 主表字段2: 'x2' },
+                //&nbsp; &nbsp; &nbsp;detailData: [{ 明细表字段1: d1 }],
+                //&nbsp; &nbsp; &nbsp;delKeys: null //删除明细表行数据的id
+                // }
+                //如果需要同时提交其他数据到后台，请设置formData.extra=xxxx
+                //后台在表xxxxService.cs中重写Add方法即可从saveDataModel参数中拿到extra提交的对象
+                </div>
                     <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '新建前：', desc: '提前的数据：' +<span style="color: #000000;"> JSON.stringify(formData) });
                     </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
                 },
@@ -425,6 +434,16 @@ let param = {
                     </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
                 },
                 updateBefore(formData) { </span><span style="color: #008000;">//</span><span style="color: #008000;">编辑保存前formData为对象，包括明细表、删除行的Id</span>
+                    <div style="color: #008000;"> 
+                    //formData格式：
+                    // {
+                    //&nbsp; &nbsp; &nbsp;mainData: { 主表字段1: 'x1', 主表字段2: 'x2' },
+                    //&nbsp; &nbsp; &nbsp;detailData: [{ 明细表字段1: d1 }],
+                    //&nbsp; &nbsp; &nbsp;delKeys: null //删除明细表行数据的id
+                    // }
+                    //如果需要同时提交其他数据到后台，请设置formData.extra=xxxx
+                    //后台在表xxxxService.cs中重写update方法即可从saveDataModel参数中拿到extra提交的对象
+                    </div>
                     <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.detailOptions.cnName + '编辑前：', desc: '提前的数据：' +<span style="color: #000000;"> JSON.stringify(formData) });
                     </span><span style="color: #008000;">//</span><span style="color: #008000;">获取扩展的modelFooter属性text</span>
                     console.log(<span style="color: #0000ff;">this</span><span style="color: #000000;">.$refs.modelFooter.text)
