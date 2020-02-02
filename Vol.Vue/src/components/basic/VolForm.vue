@@ -111,7 +111,7 @@
                 </Col>
               </Row>
               <CheckboxGroup v-else-if="item.type=='checkbox'" v-model="formFileds[item.field]">
-                <Checkbox v-for="(kv,kvIndex) in item" :key="kvIndex" :label="kv.key">{{kv.value}}</Checkbox>
+                <Checkbox v-for="(kv,kvIndex) in item.data" :key="kvIndex" :label="kv.key">{{kv.value}}</Checkbox>
               </CheckboxGroup>
               <vol-upload
                 v-else-if="isFile(item,formFileds)"
