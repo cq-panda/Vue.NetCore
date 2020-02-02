@@ -522,7 +522,8 @@ img:not([src]) {
 .el-scrollbar__bar.is-vertical {
   /*background: #e9e7e7;*/
   color: #ffffff;
-  z-index: 99999;
+  /*z-index不能超过1058，否则会影响弹出框select标签(2020-02-02)*/
+  z-index: 999;
   right: 0;
   width: 6px;
 }
