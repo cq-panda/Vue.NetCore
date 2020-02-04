@@ -55,6 +55,7 @@
                     v-model="formFileds[item.field]"
                     filterable
                     remote
+                    @on-clear="()=>{onClear(item,formFileds)}"
                     :remote-method="(val)=>{remoteSearch(item,formFileds,val)}"
                     :loading="item.loading"
                     :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
@@ -111,7 +112,11 @@
                 </Col>
               </Row>
               <CheckboxGroup v-else-if="item.type=='checkbox'" v-model="formFileds[item.field]">
-                <Checkbox v-for="(kv,kvIndex) in item.data" :key="kvIndex" :label="kv.key">{{kv.value}}</Checkbox>
+                <Checkbox
+                  v-for="(kv,kvIndex) in item.data"
+                  :key="kvIndex"
+                  :label="kv.key"
+                >{{kv.value}}</Checkbox>
               </CheckboxGroup>
               <vol-upload
                 v-else-if="isFile(item,formFileds)"
@@ -370,6 +375,11 @@ export default {
       });
       return text;
     },
+    onClear(item, formFileds) {
+      //远程select标签清空选项
+      item.data.splice(0);
+      // console.log(2);
+    },
     onChange(item, value) {
       if (item.onChange && typeof item.onChange == "function") {
         item.onChange(value, item);
@@ -377,7 +387,7 @@ export default {
     },
     onRemoteChange(item, value) {
       //第二次打开时，默认值成了undefined，待查viewgrid中重置代码
-      if (value == undefined) {
+      if (value == undefined && item.data.length > 0) {
         this.formFileds[item.field] = item.data[0].key;
         //  console.log('undefined');
       }
@@ -420,14 +430,6 @@ export default {
           (val == item.data[0].key || val == item.data[0].value))
       )
         return;
-      // let data = item.data.data; //this.item;
-      //备份原始数据
-      // if (!item.hasOwnProperty("originalData")) {
-      //   item.originalData = item.data;
-      // }
-      // this.$set(item, "data", [{ key: val, value: val }]);
-      //  item.data = [{ key: val, value: val }];
-      // return;
       //弹出框或初始化表单时给data设置数组默认值
       let url = item.remote
         ? "/api/Sys_Dictionary/GetSearchDictionary"
@@ -437,7 +439,7 @@ export default {
         .then(dicData => {
           this.$set(item, "loading", false);
           item.data = dicData;
-          this.formRules[item.cellIndex].splice(0, 1, item);
+          this.formRules[item.point.x].splice(item.point.y, 1, item);
         });
     },
     bindOptions(dic, binds) {
@@ -551,15 +553,15 @@ export default {
         this.initSource();
       }
       //  this.ruleValidate={};
-      this.formRules.forEach((row, cellIndex) => {
+      this.formRules.forEach((row, xIndex) => {
         if (row.length > this.span) this.span = row.length;
 
-        row.forEach(item => {
+        row.forEach((item, yIndex) => {
           //目前只支持select单选远程搜索，remote远程从后台字典数据源进行搜索，url从指定的url搜索
           if (item.remote || item.url) {
             // item.remoteData = [];
             item.loading = false;
-            item.cellIndex = cellIndex;
+            item.point = { x: xIndex, y: yIndex };
           }
           //初始化上传文件信息
           this.initUpload(item, init);

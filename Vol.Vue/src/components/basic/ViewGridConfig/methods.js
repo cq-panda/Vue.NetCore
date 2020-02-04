@@ -593,8 +593,8 @@ let methods = {
     getRemoteFormDefaultKeyValue() {
         //设置表单远程数据源的默认key.value
         if (this.currentAction != this.const.EDIT || this.remoteKeys.length == 0) return;
-        this.editFormOptions.forEach((x, cellIndex) => {
-            x.forEach(item => {
+        this.editFormOptions.forEach((x, xIndex) => {
+            x.forEach((item,yIndex) => {
                 if (item.remote) {
                     let column = this.columns.find(x => { return x.bind && x.bind.key == item.dataKey });
                     if (!column) return;
@@ -602,7 +602,7 @@ let methods = {
                     let obj = column.bind.data.find(x => { return x.key == key });
                     // obj ? obj.value : key如果没有查到数据源，直接使用原数据
                     item.data = [{ key: key, value: obj ? obj.value : key }];
-                    this.editFormOptions[cellIndex].splice(0, 1, item);
+                    this.editFormOptions[xIndex].splice(yIndex, 1, item);
                     // this.$set(item, 'data', [{ key: key + '', value: obj.value }])
                     //  item.data = [{ key: key + '', value: obj.value }];
                 }
