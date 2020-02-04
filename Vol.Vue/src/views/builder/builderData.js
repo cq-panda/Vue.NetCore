@@ -46,7 +46,7 @@ let data = {
         },
         addOptions: [[{ "title": "父级ID", min: 0, "field": "parentId", "required": true, type: 'number' }],
         [{
-            "title": "项目命名空间", "field": "namespace", "placeholder": "项目命令空间(类库名)", "type": "select", "required": true, data: { data: [] }
+            "title": "项目命名空间", "field": "namespace", "placeholder": "项目命令空间(类库名)", "type": "select", "required": true, data: []
         }],
         [{ "title": "表中文名", "field": "columnCNName", "required": true }],
         [{ "title": "实际表名", "field": "tableName", "required": true }],
@@ -54,11 +54,10 @@ let data = {
         ,
         options: [
             [
-                { "title": "ID",  "field": "table_Id", "dataSource": [], readonly: true, disabled: true, columnType: 'int' },
-                { "title": "父级ID", "field": "parentId",min: 0, "required": true, type: 'number' },
+                { "title": "ID", "field": "table_Id", "dataSource": [], readonly: true, disabled: true, columnType: 'int' },
+                { "title": "父级ID", "field": "parentId", min: 0, "required": true, type: 'number' },
                 {
-                    "title": "项目命名空间", "placeholder": "项目命令空间(类库名)", "field": "namespace", "type": "select", "required": true,
-                    data: { data: [] }
+                    "title": "项目命名空间", "placeholder": "项目命令空间(类库名)", "field": "namespace", "type": "select", "required": true, data: []
                 }
             ],
             [
@@ -72,7 +71,7 @@ let data = {
                 { "title": "明细表名", "field": "detailName" }
             ],
             [
-                { "title": "快捷编辑字段", "field": "expressField" ,placeholder:"字段可直接点击表格编辑或查看"},
+                { "title": "快捷编辑字段", "field": "expressField", placeholder: "字段可直接点击表格编辑或查看" },
                 { "title": "排序字段", "field": "sortName", "placeholder": "非自增主键需要输入排序字段" },
                 { "title": "还没想好", "field": "richtitle" }
             ],

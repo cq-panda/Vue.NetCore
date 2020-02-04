@@ -459,14 +459,14 @@ export default {
       this.layOutOptins.options.forEach(option => {
         option.forEach(item => {
           if (item.field == "namespace") {
-            item.data.data.push(...nameSpaceArr);
+            item.data.push(...nameSpaceArr);
           }
         });
       });
       this.addOptions.forEach(option => {
         option.forEach(item => {
           if (item.field == "namespace") {
-            item.data.data.push(...nameSpaceArr);
+            item.data.push(...nameSpaceArr);
           }
         });
       });
