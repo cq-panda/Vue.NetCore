@@ -845,6 +845,12 @@ export default {
       if (this.single && selection.length > 1) {
         this.$refs.table.toggleRowSelection(selection[0]);
       }
+      //选择行事件,只有单选才触发
+      if (this.single && selection.length > 0) {
+        this.$emit("rowChange", selection[0]); //
+      }
+
+      // this.rowChange(selection[0]);
     },
     getColor(row, column) {
       let val = row[column.field];
@@ -928,7 +934,7 @@ export default {
       this.getInputSummaries(scope, val, event, column);
     },
     //input输入实时求和
-    getInputSummaries(scope, val, event, column) { 
+    getInputSummaries(scope, val, event, column) {
       //column列设置了summary属性的才计算值
       if (!column.summary) return;
       let sum = 0;
@@ -939,7 +945,7 @@ export default {
           sum += x[column.field] * 1;
         }
       });
-      this.$set(this.summaryData, this.summaryIndex[column.field]-1, sum);
+      this.$set(this.summaryData, this.summaryIndex[column.field] - 1, sum);
     }
   }
 };

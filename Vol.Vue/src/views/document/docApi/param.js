@@ -147,7 +147,8 @@ let param = {
         { name: "load", desc: "刷新表数据，this.$refs.自定义的名字.load({条件:}),条件可以任意写你自己接收的格式", param: "" },
         { name: "resetPage", desc: "重置分页信息，this.$refs.自定义的名字.resetPage()", param: "" },
         { name: "loadBefore", desc: "从后台加载数据前处理，可参照【从api加载数据】Demo", param: "(param, callBack) 参数：param为查询相关配置，可自己修改此配置;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
-        { name: "loadTableAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" }]
+        { name: "loadTableAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
+        { name: "rowChange", desc: "行选中事件,只有设置single=true单选才会生效", param: "row,当前选中的行 " }]
     }, edittable: {
         attr: [],
         methods: []
@@ -498,6 +499,10 @@ let param = {
                 },
                 modelOpenAfter(row) {  </span><span style="color: #008000;">//</span><span style="color: #008000;">点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据</span>
                     <span style="color: #0000ff;">this</span>.$message.error("此处是打开弹出框后事件,当前操作：" + <span style="color: #0000ff;">this</span>.currentAction + "，你可以在此处编写逻辑，如，从后台获取数据"<span style="color: #000000;">);
+                },
+                rowChange(row) {  </span><span style="color: #008000;">//</span><span style="color: #008000;">查询界面table点击行事件，只有设置了single=true单选才会生效</span>
+                },
+                detailRowChange(row) {  </span><span style="color: #008000;">//</span><span style="color: #008000;">明细表界面table点击行事件，只有设置了single=true单选才会生效</span>
                 },
             }
         };

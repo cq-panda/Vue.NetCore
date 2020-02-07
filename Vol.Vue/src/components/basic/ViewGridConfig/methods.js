@@ -594,7 +594,7 @@ let methods = {
         //设置表单远程数据源的默认key.value
         if (this.currentAction != this.const.EDIT || this.remoteKeys.length == 0) return;
         this.editFormOptions.forEach((x, xIndex) => {
-            x.forEach((item,yIndex) => {
+            x.forEach((item, yIndex) => {
                 if (item.remote) {
                     let column = this.columns.find(x => { return x.bind && x.bind.key == item.dataKey });
                     if (!column) return;
@@ -963,6 +963,12 @@ let methods = {
             this.boxOptions.width = clientWidth;
         }
     },
+    rowOnChange(row) {
+        this.rowChange(row);
+    },
+    rowChange(row) {//选中行事件
+         
+    },
     $error(message) {
         this.$Message.error({
             content: message,
@@ -974,7 +980,7 @@ let methods = {
             content: message,
             duration: 3
         });
-    },
+    }
 };
 //合并扩展方法
 methods = Object.assign(methods, detailMethods, serviceFilter);

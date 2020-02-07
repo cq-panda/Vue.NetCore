@@ -12,6 +12,12 @@ let detailMethods = {
         }
         return this.loadDetailTableBefore(param, callBack);
     },
+    detailRowOnChange(row) {
+        this.detailRowChange(row);
+    },
+    detailRowChange(row) {//选中行事件
+
+    },
     resetDetailTable(row) {//编辑和查看明细时重置从表数据
         if (!this.detailOptions.columns || this.detailOptions.columns.length == 0) {
             return;

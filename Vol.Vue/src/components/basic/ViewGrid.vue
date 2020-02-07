@@ -155,6 +155,7 @@
                 ref="detail"
                 @loadBefore="loadInternalDetailTableBefore"
                 @loadAfter="loadDetailTableAfter"
+                @rowChange="detailRowOnChange"
                 :url="detailOptions.url"
                 :index="detailOptions.edit"
                 :tableData="detailOptions.data"
@@ -202,6 +203,7 @@
           :single="single"
           @loadBefore="loadTableBefore"
           @loadAfter="loadTableAfter"
+          @rowChange="rowOnChange"
           :tableData="[]"
           :linkView="linkData"
           :columns="columns"
@@ -312,7 +314,7 @@ var vueParam = {
       summary: false, //查询界面table是否显示合计
       //需要从远程绑定数据源的字典编号,如果字典数据源的查询结果较多，请在onInit中将字典编号添加进来
       //只对自定sql有效
-      remoteKeys:[],
+      remoteKeys: [],
       // detailUrl: "",
       detailOptions: {
         //弹出框从表(明细)对象
@@ -351,7 +353,10 @@ var vueParam = {
         status: -1, //审核结果
         reason: "", //审核原因
         //审核选项(可自行再添加)
-        data: [{ text: "通过", status: 1 }, { text: "拒绝", status: 2 }]
+        data: [
+          { text: "通过", status: 1 },
+          { text: "拒绝", status: 2 }
+        ]
       },
       upload: {
         //导入上传excel对象
