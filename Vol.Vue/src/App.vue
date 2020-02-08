@@ -18,6 +18,11 @@ export default {
 .el-loading {
   z-index: 999999;
 }
+ /* 解决element-ui的table表格控件表头与内容列不对齐问题 */
+  /* .el-table th.gutter{
+    display: table-cell !important;
+  } */
+  .el-table th { display: table-cell!important; }
 .el-loading .el-loading-spinner {
   padding: 7px;
   background: #ececec;
