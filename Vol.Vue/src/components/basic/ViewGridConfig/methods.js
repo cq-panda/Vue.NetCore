@@ -388,24 +388,33 @@ let methods = {
     },
     save() {
         //新增或编辑时保存
-        if (!this.$refs.form.validate()) return;
-
+        // if (!this.$refs.form.validate()) return;
+        this.$refs.form.validate(result => {
+            if (result) {
+                this.saveExecute();
+            }
+        })
+    },
+    saveExecute() {
         let editFormFileds = {};
         //上传文件以逗号隔开
-        if (this.uploadfiled) {
-            for (const key in this.editFormFileds) {
-                if (this.uploadfiled.indexOf(key) != -1 && this.editFormFileds[key] instanceof Array) {
-                    let allPath = this.editFormFileds[key].map(x => {
-                        return x.path;
-                    })
-                    editFormFileds[key] = allPath.join(',');
-                } else {
-                    editFormFileds[key] = this.editFormFileds[key];
-                }
+        for (const key in this.editFormFileds) {
+            if (this.uploadfiled &&
+                this.uploadfiled.length > 0
+                && this.uploadfiled.indexOf(key) != -1
+                && this.editFormFileds[key] instanceof Array) {
+                let allPath = this.editFormFileds[key].map(x => {
+                    return x.path;
+                })
+                editFormFileds[key] = allPath.join(',');
+            } else {
+                editFormFileds[key] = this.editFormFileds[key];
             }
-        } else {
-            editFormFileds = this.editFormFileds;
         }
+
+        // else {
+        //     editFormFileds = this.editFormFileds;
+        // }
         //将数组转换成string
         for (const key in editFormFileds) {
             if (editFormFileds[key] instanceof Array) {
@@ -967,7 +976,7 @@ let methods = {
         this.rowChange(row);
     },
     rowChange(row) {//选中行事件
-         
+
     },
     $error(message) {
         this.$Message.error({
