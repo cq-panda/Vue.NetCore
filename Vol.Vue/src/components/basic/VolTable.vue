@@ -760,19 +760,26 @@ export default {
         page: this.paginations.page,
         rows: this.paginations.rows,
         sort: this.paginations.sort,
-        order: this.paginations.order
+        order: this.paginations.order,
+        wheres: [] //查询条件，格式为[{ name: "字段", value: "xx" }]
       };
       let status = true;
+      //合并查询信息(包查询分页、排序、查询条件等)
       if (query) {
         param = Object.assign(param, query);
       }
-      //查询前处理
+      /*查询前处理(如果需要查询条件，实现组件方法loadBefore方法即可:
+        loadBefore=(param, callBack)=>{
+          param.wheres = [{ name: "PhoneNo", value: "13419098211" }];
+          callBack(true);
+        })
+      */
       this.$emit("loadBefore", param, result => {
         status = result;
       });
       if (!status) return;
 
-      if (param.wheres && typeof param.wheres == "object") {
+      if (param.wheres && param.wheres instanceof Array) {
         param.wheres = JSON.stringify(param.wheres);
       }
       this.loading = true;
@@ -842,14 +849,13 @@ export default {
     },
     selectionChange(selection) {
       // console.log(selection);
+      //选择行事件,只有单选才触发
+      if (this.single && selection.length == 1) {
+        this.$emit("rowChange", selection[0]); //
+      }
       if (this.single && selection.length > 1) {
         this.$refs.table.toggleRowSelection(selection[0]);
       }
-      //选择行事件,只有单选才触发
-      if (this.single && selection.length > 0) {
-        this.$emit("rowChange", selection[0]); //
-      }
-
       // this.rowChange(selection[0]);
     },
     getColor(row, column) {
