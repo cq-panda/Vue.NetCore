@@ -11,10 +11,11 @@ let extension = {
         modelBody: '',
         modelFooter: ''
     },
-    text:"只能看到当前角色下的所有帐号",
+    text: "只能看到当前角色下的所有帐号",
     buttons: [],//扩展的按钮
     methods: {//事件扩展
         onInit() {
+            this.boxOptions.height = 530;
         },
         onInited() {
         },
@@ -36,6 +37,10 @@ let extension = {
                         this.$set(x, "disabled", isEDIT)
                     }
                 })
+                //不是新建，性别默认值设置为男
+                if (!isEDIT) {
+                    this.editFormFileds.Gender = "0";
+                }
             })
         }
 

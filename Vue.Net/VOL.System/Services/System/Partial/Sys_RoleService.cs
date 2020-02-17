@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VOL.Core.Extensions;
 using VOL.Core.ManageUser;
 using VOL.Core.Services;
+using VOL.Core.UserManager;
 using VOL.Core.Utilities;
 using VOL.Entity;
 using VOL.Entity.DomainModels;
@@ -62,7 +64,7 @@ namespace VOL.System.Services
             return webResponse.OK(null, data);
         }
 
-        private List<Sys_Actions> GetActions(int menuId,List<Sys_Actions> menuActions, List<Permissions> permissions, int roleId)
+        private List<Sys_Actions> GetActions(int menuId, List<Sys_Actions> menuActions, List<Permissions> permissions, int roleId)
         {
             if (UserContext.IsRoleIdSuperAdmin(roleId))
             {
@@ -93,6 +95,12 @@ namespace VOL.System.Services
         }
 
         private List<RoleNodes> roles = null;
+        /// <summary>
+        /// 此处将所有角色添加到缓存中，待开发....
+        /// 获取当前角色下的所有角色
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
         public async Task<List<RoleNodes>> GetAllChildren(int roleId)
         {
             roles = await repository
@@ -110,7 +118,7 @@ namespace VOL.System.Services
 
         public async Task<List<int>> GetAllChildrenRoleId(int roleId)
         {
-            return (await GetAllChildren(roleId)).Select(x=>x.Id).ToList();
+            return (await GetAllChildren(roleId)).Select(x => x.Id).ToList();
         }
 
         /// <summary>
@@ -164,10 +172,10 @@ namespace VOL.System.Services
                       .Select(s => s.Value).ToArray();
 
                     //如果当前权限没有分配过，设置Auth_Id默认为0，表示新增的权限
-                    var auth = roleAuths.Where(r => r.Menu_Id == x.Id).Select(s =>new { s.Auth_Id,s.AuthValue,s.Menu_Id}).FirstOrDefault();
-                    string newAuthValue= string.Join(",", arr);
+                    var auth = roleAuths.Where(r => r.Menu_Id == x.Id).Select(s => new { s.Auth_Id, s.AuthValue, s.Menu_Id }).FirstOrDefault();
+                    string newAuthValue = string.Join(",", arr);
                     //权限没有发生变化则不处理
-                    if (auth==null||auth.AuthValue != newAuthValue)
+                    if (auth == null || auth.AuthValue != newAuthValue)
                     {
                         updateAuths.Add(new Sys_RoleAuth()
                         {
@@ -181,10 +189,11 @@ namespace VOL.System.Services
                             Creator = user.UserTrueName
                         });
                     }
-                    else {
+                    else
+                    {
                         originalMeunIds.Add(auth.Menu_Id);
                     }
-              
+
                 }
                 //更新权限
                 repository.UpdateRange(updateAuths.Where(x => x.Auth_Id > 0), x => new
@@ -198,7 +207,7 @@ namespace VOL.System.Services
                 repository.AddRange(updateAuths.Where(x => x.Auth_Id <= 0));
 
                 //获取权限取消的权限
-                int[] authIds = roleAuths.Where(x =>userPermissions.Select(u => u.Id)
+                int[] authIds = roleAuths.Where(x => userPermissions.Select(u => u.Id)
                  .ToList().Contains(x.Menu_Id) || originalMeunIds.Contains(x.Menu_Id))
                 .Select(s => s.Auth_Id)
                 .ToArray();
@@ -216,9 +225,9 @@ namespace VOL.System.Services
                     x.ModifyDate
                 });
 
-                int addCount=  updateAuths.Where(x => x.Auth_Id <= 0).Count();
+                int addCount = updateAuths.Where(x => x.Auth_Id <= 0).Count();
                 int updateCount = updateAuths.Where(x => x.Auth_Id > 0).Count();
-                await repository.SaverChangesAsync();
+                await repository.SaveChangesAsync();
 
                 string _version = DateTime.Now.ToString("yyyyMMddHHMMssfff");
                 //标识缓存已更新
@@ -235,6 +244,48 @@ namespace VOL.System.Services
                 Logger.Info($"权限分配置:{message}{webResponse.Message}");
             }
 
+            return webResponse;
+        }
+
+
+        public override WebResponseContent Add(SaveModel saveDataModel)
+        {
+            AddOnExecuting = (Sys_Role role, object obj) =>
+            {
+                return ValidateRoleName(role, x => x.RoleName == role.RoleName);
+            };
+            return RemoveCache(base.Add(saveDataModel));
+        }
+
+        public override WebResponseContent Del(object[] keys, bool delList = true)
+        {
+            return RemoveCache(base.Del(keys, delList));
+        }
+
+        private WebResponseContent ValidateRoleName(Sys_Role role, Expression<Func<Sys_Role, bool>> predicate)
+        {
+            WebResponseContent responseContent = new WebResponseContent(true);
+            if (repository.Exists(predicate))
+            {
+                return responseContent.Error($"角色名【{role.RoleName}】已存在,请设置其他角色名");
+            }
+            return responseContent;
+        }
+
+        public override WebResponseContent Update(SaveModel saveModel)
+        {
+            UpdateOnExecuting = (Sys_Role role, object obj1, object obj2, List<object> obj3) =>
+            {
+                return ValidateRoleName(role, x => x.RoleName == role.RoleName && x.Role_Id != role.Role_Id);
+            };
+            return RemoveCache(base.Update(saveModel));
+        }
+        private WebResponseContent RemoveCache(WebResponseContent webResponse)
+        {
+            if (webResponse.Status)
+            {
+                RoleContext.Refresh();
+            }
             return webResponse;
         }
     }

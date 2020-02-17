@@ -252,9 +252,9 @@ namespace VOL.Core.BaseProvider
 
        void BulkInsert(IEnumerable<TEntity> entities, bool setOutputIdentity = false);
 
-        int SaverChanges();
+        int SaveChanges();
 
-        Task<int> SaverChangesAsync();
+        Task<int> SaveChangesAsync();
 
         //执行存储过程
         List<TEntity> RunProc(string sql, params SqlParameter[] pamrs);

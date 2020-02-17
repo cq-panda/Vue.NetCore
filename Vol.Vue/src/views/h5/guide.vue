@@ -19,7 +19,7 @@
             </p>
           </TimelineItem>
           <TimelineItem>
-            <p class="time content">H5前端开发建议使用Vux或Muse-UI作为组件。</p>
+            <p class="time content">H5前端开发可使用移动组件vant、Vux、Muse-UI。</p>
           </TimelineItem>
           <TimelineItem>
             <p class="time content">本地H5开发时建议使用谷歌浏览器切换至手机模式,在当前项目Views->H5文件夹开发。</p>

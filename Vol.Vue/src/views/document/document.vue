@@ -2,23 +2,8 @@
   <div class="view-model-content" style="width: 100%;
     display: inline-block;
     height: 99%;">
-    <!-- <div class="affix">
-      <Timeline>
-        <TimelineItem
-          class="item"
-          :color="activedIndex==index?'red':'#2d8cf0'"
-          :class="{actived:index==activedIndex}"
-          v-for="(item,index) in timeline"
-          :key="index"
-        >
-          <span @click="change(item,index)">{{item.text}}</span>
-        </TimelineItem>
-      </Timeline>
-    </div>-->
     <el-scrollbar style="height:100%;">
       <div class="links">
-        <div class="item"></div>
-        <div class="item"></div>
         <div
           class="item"
           :color="activedIndex==index?'red':'#2d8cf0'"
@@ -30,8 +15,13 @@
         </div>
       </div>
       <div>
-        <div class="content">
-          <Divider>{{text}}</Divider>
+        <div
+          class="content"
+          :class="{'doc-api':
+        (activedIndex>0&&timeline[activedIndex].text== '组件api')
+        }"
+        >
+          <!-- <Divider>{{text}}</Divider> -->
           <router-view></router-view>
         </div>
       </div>
@@ -42,6 +32,13 @@
 export default {
   methods: {
     change(item, index) {
+      if (item.text == "框架介绍") {
+        window.open("https://www.cnblogs.com/-clouds/p/11633786.html");
+        return;
+      }
+      if (item.path == "#") {
+        return this.$Message.error("框架1.0文档正在整理中...");
+      }
       this.activedIndex = index;
       this.text = item.text;
       this.$router.push({ path: item.path });
@@ -55,6 +52,7 @@ export default {
       }
     }
     this.text = this.timeline[this.activedIndex].text;
+    this.$Message.error("开发文档已在整理中。。。");
   },
   data() {
     return {
@@ -62,18 +60,28 @@ export default {
       activedIndex: 0,
       timeline: [
         {
-          text: "框架介绍",
-          path: "/document/guide",
-          actived: true
+          text: "QQ群：还没想好!",
+          path: "#",
+          actived: false
         },
-        // {
-        //   text: "操作手册",
-        //   path: "/document/guide",
-        //   actived: false
-        // },
         {
-          text: "代码生成器",
+          text: "返回首页",
+          path: "/home",
+          actived: false
+        },
+        {
+          text: "项目启动",
+          path: "/document/guide",
+          actived: false
+        },
+        {
+          text: "代码生成",
           path: "/document/coder",
+          actived: false
+        },
+        {
+          text: "组件api",
+          path: "/document/api",
           actived: false
         },
         {
@@ -85,6 +93,21 @@ export default {
           text: "后台开发",
           path: "/document/netCoreDev",
           actived: false
+        },
+        // {
+        //   text: "H5开发",
+        //   path: "/app/guide",
+        //   actived: false
+        // },
+        {
+          text: "常见问题",
+          path: "/document/issue",
+          actived: false
+        },
+        {
+          text: "更新记录",
+          path: "/document/log",
+          actived: false
         }
       ]
     };
@@ -93,7 +116,7 @@ export default {
     "$route.path": function(newVal, oldVal) {
       //  var navItem = this.getNavigation(this.selectId);
       // this.activedIndex=2;
-    //  console.log(navItem.name);
+      //  console.log(navItem.name);
     }
   }
 };
@@ -103,20 +126,34 @@ export default {
   display: flex;
   font-size: 15px;
   position: fixed;
-  z-index: 9999;
+  z-index: 999;
   width: 100%;
   background: black;
+  box-shadow: 0px 0px 10px #524747;
   > .item {
-    line-height: 60px;
-    padding: 10px;
-    /* float: right; */
+    position: relative;
     text-align: center;
+    line-height: 55px;
+    // padding: 10px;
+    /* float: right; */
     flex: 1;
     color: #b1b0b0;
   }
-    .actived {
+  > .item:hover {
+    cursor: pointer;
+    color: white;
+  }
+  .actived {
     color: white;
     font-weight: bold;
+    span {
+      border-bottom: 2px solid #fff;
+    }
+  }
+  span {
+    height: 100%;
+    position: relative;
+    padding: 17px 0;
   }
 }
 
@@ -136,14 +173,18 @@ export default {
 }
 .content {
   position: relative;
-  margin-top: 80px;
+
   height: 100%;
   max-width: 1200px;
   left: 0;
   right: 0;
   margin: 0 auto;
-  padding: 30px;
-  top: 80px;
+  padding: 10px;
+  padding-top: 80px;
+}
+.doc-api {
+  max-width: 100%;
+  padding: 80px 40px;
 }
 </style>
 <style scoped>

@@ -8,7 +8,7 @@
       :placeholder="'请选择'+singleSearch.title"
     >
       <Option
-        v-for="(kv,kvIndex) in singleSearch.data.data"
+        v-for="(kv,kvIndex) in singleSearch.data"
         :key="kvIndex"
         :value="kv.key||''"
       >{{kv.value}}</Option>
@@ -28,6 +28,7 @@
       v-else
       v-model="searchFormFileds[singleSearch.field]"
       :placeholder="singleSearch.title"
+      @on-keypress="tiggerPress"
     />
   </div>
 </template>
@@ -41,6 +42,10 @@ export default {
     searchFormFileds: {
       type: Object,
       default: {}
+    },
+    tiggerPress: {
+      type: Function,
+      default: () => {}
     }
   }
 };

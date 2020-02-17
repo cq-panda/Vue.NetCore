@@ -4,17 +4,12 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection;
-using VOL.Core.Configuration;
 using VOL.Core.Enums;
-using VOL.Core.Extensions;
 using VOL.Core.ManageUser;
-using VOL.Core.Services;
+using VOL.Core.UserManager;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
-using VOL.Order.Repositories;
 
 namespace VOL.Order.Services
 {
@@ -72,31 +67,29 @@ namespace VOL.Order.Services
         // type.GetKeyName();
         //判断某个字段是否有EditableAttribute属性
         //  key.ContainsCustomAttributes(typeof(EditableAttribute));
-        
+
         //12、常用工具类Vol.Core->Utilities 
 
         //写入日志 : Logger.Info();
 
         //其中有一部分真实扩展代码实现:Partial->Sys_UserService.cs  , Partial->Sys_RoleService ,Partial->Sys_DictionaryService
 
-        /// <summary>
-        /// 查询业务代码编写
-        /// </summary>
-        /// <param name="pageData"></param>
-        /// <returns></returns>
-        public override object GetDetailPage(PageDataOptions pageData)
+
+        public override PageGridData<SellOrder> GetPageData(PageDataOptions options)
         {
-           
-            //此处是从前台提交的原生的查询条件，这里可以自己过滤
-            QueryRelativeList = (List<SearchParameters> parameters) =>
-            {
-               
-            };
             //查询前可以自已设定查询表达式的条件
             QueryRelativeExpression = (IQueryable<SellOrder> queryable) =>
             {
-                queryable = queryable.Where(x => 1 == 1);
+                //当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作
+                IQueryable<int> userQuery = RoleContext.GetCurrentAllChildUser();
+                queryable = queryable.Where(x => x.CreateID == UserContext.Current.UserId || userQuery.Contains(x.CreateID ?? 0));
                 return queryable;
+            };
+
+            //此处是从前台提交的原生的查询条件，这里可以自己过滤
+            QueryRelativeList = (List<SearchParameters> parameters) =>
+            {
+
             };
             //指定多个字段进行排序
             OrderByExpression = x => new Dictionary<object, QueryOrderBy>() {
@@ -110,6 +103,42 @@ namespace VOL.Order.Services
                 //可对查询的结果的数据操作
                 List<SellOrder> sellOrders = grid.rows;
             };
+            //查询table界面显示求和
+            SummaryExpress = (IQueryable<SellOrder> queryable) =>
+            {
+                return queryable.GroupBy(x => 1).Select(x => new
+                {
+                    //AvgPrice注意大小写和数据库字段大小写一样
+                    Qty = x.Sum(o => o.Qty).ToString("f2")
+                })
+                .FirstOrDefault();
+            };
+
+            return base.GetPageData(options);
+        }
+        /// <summary>
+        /// 设置弹出框明细表的合计信息
+        /// </summary>
+        /// <typeparam name="detail"></typeparam>
+        /// <param name="queryeable"></param>
+        /// <returns></returns>
+        protected override object GetDetailSummary<detail>(IQueryable<detail> queryeable)
+        {
+            return (queryeable as IQueryable<SellOrderList>).GroupBy(x => 1).Select(x => new
+            {
+                //Weight/Qty注意大小写和数据库字段大小写一样
+                Weight = x.Sum(o => o.Weight),
+                Qty = x.Sum(o => o.Qty)
+            }).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 查询业务代码编写
+        /// </summary>
+        /// <param name="pageData"></param>
+        /// <returns></returns>
+        public override object GetDetailPage(PageDataOptions pageData)
+        {
 
             return base.GetDetailPage(pageData);
         }
@@ -121,7 +150,7 @@ namespace VOL.Order.Services
         /// <returns></returns>
         public override WebResponseContent Add(SaveModel saveDataModel)
         {
-            WebResponseContent responseContent= WebResponseContent.Instance;
+            WebResponseContent responseContent = WebResponseContent.Instance;
             //此处saveModel是从前台提交的原生数据，可对数据进修改过滤
             AddOnExecute = (SaveModel saveModel) =>
             {
@@ -173,7 +202,7 @@ namespace VOL.Order.Services
               {
                   if (order.TranNo == "2019000001810001")
                   {
-                      return new WebResponseContent().Error("不能删除此[" + order.TranNo + "]单号");
+                      return new WebResponseContent().Error("不能更新此[" + order.TranNo + "]单号");
                   }
                   //新增的明细
                   List<SellOrderList> add = addList as List<SellOrderList>;

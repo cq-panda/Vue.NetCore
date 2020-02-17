@@ -31,7 +31,7 @@ namespace VOL.Core.Extensions
         /// <returns></returns>
         public static long GetTimeStamp(this DateTime dateTime)
         {
-          return (dateTime.ToUniversalTime().Ticks - longTime) / samllTime;
+            return (dateTime.ToUniversalTime().Ticks - longTime) / samllTime;
         }
         /// <summary>
         /// 时间戳转换成日期
@@ -40,7 +40,7 @@ namespace VOL.Core.Extensions
         /// <returns></returns>
         public static DateTime GetTimeSpmpToDate(this object timeStamp)
         {
-            if (timeStamp == null)  return dateStart;
+            if (timeStamp == null) return dateStart;
             DateTime dateTime = new DateTime(longTime + Convert.ToInt64(timeStamp) * samllTime, DateTimeKind.Utc).ToLocalTime();
             return dateTime;
         }
@@ -70,7 +70,7 @@ namespace VOL.Core.Extensions
         {
             if (string.IsNullOrEmpty(input))
                 return false;
-            if (input.Length < 11)
+            if (input.Length != 11)
                 return false;
 
             if (new Regex(@"^1[3578][01379]\d{8}$").IsMatch(input)
@@ -184,7 +184,6 @@ namespace VOL.Core.Extensions
             }
             return DateTime.TryParse(str.ToString(), out dateTime);
         }
-
         /// <summary>
         /// 根据传入格式判断是否为小数
         /// </summary>
@@ -199,9 +198,17 @@ namespace VOL.Core.Extensions
             int scale = 5;
             try
             {
-                string[] numbers = formatString.Split(',');
-                precision = Convert.ToInt32(numbers[0]);
-                scale = Convert.ToInt32(numbers[1]);
+                if (string.IsNullOrEmpty(formatString))
+                {
+                    precision = 10;
+                    scale = 2;
+                }
+                else
+                {
+                    string[] numbers = formatString.Split(',');
+                    precision = Convert.ToInt32(numbers[0]);
+                    scale = numbers.Length == 0 ? 2 : Convert.ToInt32(numbers[1]);
+                }
             }
             catch { };
             return IsNumber(str, precision, scale);
@@ -242,8 +249,7 @@ namespace VOL.Core.Extensions
         {
             if (obj == null)
                 return 0;
-            int _number = 0;
-            bool reslut = Int32.TryParse(obj.ToString(), out _number);
+            int.TryParse(obj.ToString(), out int _number);
             return _number;
 
         }

@@ -1,5 +1,5 @@
 <template>
-    <!-- :draggable="draggable" -->
+  <!-- :draggable="draggable" -->
   <Modal
     :mask-closable="false"
     :closable="false"
@@ -13,12 +13,12 @@
       <i class="ivu-icon ivu-icon-ios-close"></i>
     </a>
     <p slot="header" class="header">
-      <Icon type="ios-information-circle-outline"></Icon>
+      <Icon :type="icon"></Icon>
       <span>{{title}}</span>
     </p>
     <div class="view-model-content" :style="{height:height+'px'}">
       <el-scrollbar style="height:100%;">
-        <div class="srcoll-content">
+        <div class="srcoll-content" :style="{padding:padding+'px'}">
           <slot name="content"></slot>
           <slot></slot>
         </div>
@@ -33,6 +33,10 @@
 <script>
 export default {
   props: {
+    icon: {
+      type: String,
+      default: "ios-information-circle-outline"
+    },
     title: {
       type: String,
       default: "基本信息"
@@ -48,6 +52,10 @@ export default {
     width: {
       type: Number,
       default: 650
+    },
+    padding: {
+      type: Number,
+      default: 16
     },
     hideMask: {
       type: Boolean,
@@ -73,11 +81,11 @@ export default {
       this.vModel = this.model;
     }
   },
-  mounted(){
-        console.log("cm");
+  mounted() {
+    // console.log("cm");
   },
   created() {
-    console.log("c1");
+    // console.log("c1");
     if (this.$slots.footer) {
       this.footer = false;
     }
@@ -95,8 +103,7 @@ export default {
 .vertical-center-modal {
   display: flex;
   align-items: center;
-  justify-content: center;
-
+  //   justify-content: center;
   .ivu-modal {
     top: 0;
   }
@@ -104,11 +111,12 @@ export default {
     color: white;
   }
   .view-model-content {
-    min-height: 300px;
+    min-height: 180px;
   }
   .srcoll-content {
     height: 100%;
-    padding: 16px;
+    word-break: break-all;
+    //  padding: 16px;
   }
   .ivu-modal-body {
     padding: 0px;
@@ -135,8 +143,8 @@ export default {
 }
 </style>
 <style scoped>
-.view-model-content >>> .el-scrollbar > .el-scrollbar__wrap{
-  overflow-x:hidden;
+.view-model-content >>> .el-scrollbar > .el-scrollbar__wrap {
+  overflow-x: hidden;
 }
 </style>
 

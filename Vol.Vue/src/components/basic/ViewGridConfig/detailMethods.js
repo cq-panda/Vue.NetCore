@@ -12,13 +12,22 @@ let detailMethods = {
         }
         return this.loadDetailTableBefore(param, callBack);
     },
+    detailRowOnChange(row) {
+        this.detailRowChange(row);
+    },
+    detailRowChange(row) {//选中行事件
+
+    },
     resetDetailTable(row) {//编辑和查看明细时重置从表数据
         if (!this.detailOptions.columns || this.detailOptions.columns.length == 0) {
             return;
         }
         let key = this.table.key;
         let query = { value: row ? row[key] : this.currentRow[key] }
-        this.$refs.detail && this.$refs.detail.load(query);
+        if (this.$refs.detail) {
+            this.$refs.detail.reset();
+            this.$refs.detail.load(query);
+        }
     },
     //从后面加载从表数据
     refreshRow() {

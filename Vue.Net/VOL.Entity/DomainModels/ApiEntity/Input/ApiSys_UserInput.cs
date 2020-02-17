@@ -15,8 +15,8 @@ namespace VOL.Entity.DomainModels
        ///用户名
        /// </summary>
        [Display(Name ="用户名")]
-       [MaxLength(100)]
-       [Column(TypeName="nvarchar(100)")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
        [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string UserName { get; set; }
@@ -25,8 +25,8 @@ namespace VOL.Entity.DomainModels
        ///密码
        /// </summary>
        [Display(Name ="密码")]
-       [MaxLength(200)]
-       [Column(TypeName="nvarchar(200)")]
+       [MaxLength(400)]
+       [Column(TypeName="nvarchar(400)")]
        [Required(AllowEmptyStrings=false)]
        public string UserPwd { get; set; }
 
@@ -34,8 +34,8 @@ namespace VOL.Entity.DomainModels
        ///手机号
        /// </summary>
        [Display(Name ="手机号")]
-       [MaxLength(11)]
-       [Column(TypeName="nvarchar(11)")]
+       [MaxLength(22)]
+       [Column(TypeName="nvarchar(22)")]
        [Required(AllowEmptyStrings=false)]
        public string PhoneNo { get; set; }
 

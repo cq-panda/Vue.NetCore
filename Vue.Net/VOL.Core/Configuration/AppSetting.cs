@@ -60,7 +60,7 @@ namespace VOL.Core.Configuration
 
 
             var provider = services.BuildServiceProvider();
-            IHostingEnvironment environment = provider.GetRequiredService<IHostingEnvironment>();
+            IWebHostEnvironment environment = provider.GetRequiredService<IWebHostEnvironment>();
             CurrentPath = Path.Combine(environment.ContentRootPath, "").ReplacePath();
 
             Secret = provider.GetRequiredService<IOptions<Secret>>().Value;

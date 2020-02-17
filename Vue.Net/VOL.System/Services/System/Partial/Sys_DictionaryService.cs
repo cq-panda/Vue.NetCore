@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VOL.Core.BaseProvider;
+using VOL.Core.Const;
+using VOL.Core.Enums;
 using VOL.Core.Extensions;
 using VOL.Core.Infrastructure;
 using VOL.Core.Utilities;
@@ -33,13 +35,13 @@ namespace VOL.System.Services
         {
             if (dicNos == null || dicNos.Count() == 0) return new string[] { };
             var dicConfig = await Task.Run(() =>
-                      DictionaryManager.GetDictionaries(dicNos).Select(s => new
+                      DictionaryManager.GetDictionaries(dicNos, false).Select(s => new
                       {
                           dicNo = s.DicNo,
                           config = s.Config,
                           dbSql = s.DbSql,
                           list = s.Sys_DictionaryList.OrderByDescending(o => o.OrderNo)
-                          .Select(list => new { key = list.DicValue, value = list.DicName })
+                           .Select(list => new { key = list.DicValue, value = list.DicName })
                       }).ToList());
 
             return dicConfig.Select(item => new
@@ -49,6 +51,75 @@ namespace VOL.System.Services
                 data = string.IsNullOrEmpty(item.dbSql) ? item.list as object
                        : repository.DapperContext.QueryList<object>(item.dbSql, null)
             }).ToList();
+        }
+
+        /// <summary>
+        /// 通过远程搜索
+        /// </summary>
+        /// <param name="dicNo"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<object> GetSearchDictionary(string dicNo, string value)
+        {
+            if (string.IsNullOrEmpty(dicNo) || string.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+            string sql = Dictionaries.Where(x => x.DicNo == dicNo).FirstOrDefault()?.DbSql;
+            if (string.IsNullOrEmpty(sql))
+            {
+                return null;
+            }
+            sql = $"SELECT * FROM ({sql}) AS t WHERE value LIKE @value";
+            return await Task.FromResult(repository.DapperContext.QueryList<object>(sql, new { value = "%" + value + "%" }));
+        }
+
+        /// <summary>
+        /// 表单设置为远程查询，重置或第一次添加表单时，获取字典的key、value
+        /// </summary>
+        /// <param name="dicNo"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<object> GetRemoteDefaultKeyValue(string dicNo, string key)
+        {
+            return await Task.FromResult(1);
+            //if (string.IsNullOrEmpty(dicNo) || string.IsNullOrEmpty(key))
+            //{
+            //    return null;
+            //}
+            //string sql = Dictionaries.Where(x => x.DicNo == dicNo).FirstOrDefault()?.DbSql;
+            //if (string.IsNullOrEmpty(sql))
+            //{
+            //    return null;
+            //}
+            //sql = $"SELECT * FROM ({sql}) AS t WHERE t.key = @key";
+            //return await Task.FromResult(repository.DapperContext.QueryFirst<object>(sql, new { key }));
+        }
+
+
+        /// <summary>
+        ///  table加载数据后刷新当前table数据的字典项(适用字典数据量比较大的情况)
+        /// </summary>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
+        public object GetTableDictionary(Dictionary<string, object[]> keyData)
+        {
+            var dicInfo = Dictionaries.Where(x => keyData.ContainsKey(x.DicNo) && !string.IsNullOrEmpty(x.DbSql))
+                .Select(x => new { x.DicNo, x.DbSql })
+                .ToList();
+            List<object> list = new List<object>();
+            string keySql = DBType.Name == DbCurrentType.MySql.ToString() ? "t.key" : "t.[key]";
+            dicInfo.ForEach(x =>
+            {
+                if (keyData.TryGetValue(x.DicNo, out object[] data))
+                {
+                    string sql = $"SELECT * FROM ({x.DbSql}) AS t WHERE " +
+                    $"{keySql}" +
+                    $" in @data";
+                    list.Add(new { key = x.DicNo, data = repository.DapperContext.QueryList<object>(sql, new { data }) });
+                }
+            });
+            return list;
         }
 
         public override PageGridData<Sys_Dictionary> GetPageData(PageDataOptions pageData)
@@ -62,7 +133,7 @@ namespace VOL.System.Services
         }
         public override WebResponseContent Update(SaveModel saveDataModel)
         {
-            if (saveDataModel.MainData.DicKeyIsNullOrEmpty("DicNo") 
+            if (saveDataModel.MainData.DicKeyIsNullOrEmpty("DicNo")
                 || saveDataModel.MainData.DicKeyIsNullOrEmpty("Dic_ID"))
                 return base.Add(saveDataModel);
             //判断修改的字典编号是否在其他ID存在

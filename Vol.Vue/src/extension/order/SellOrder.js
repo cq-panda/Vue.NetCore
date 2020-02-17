@@ -13,6 +13,8 @@
 //9、在子组件gridHeader、gridBody、gridFooter、modelHeader、modelBody、modelFooter的方法中调用并获得父组件
 // this.$emit("parentCall", $vue => {}) //$vue为父组件对象，具体使用参考order->GridHeaderExtend.vue文件
 
+//10、子父件传参除8、9方式，另可使用已封装的vuex,使用方式:this.$store.getters.data().xxx = this;使用实例：App_News.js
+
 //此处的下面的属性与方法都是对基础业务代码的扩展，如果不需要扩展则忽略对应的方法也不要写在下面
 //serviceFilter.js
 //所的文件都最终会合并到ViewGrid.vue文件中
@@ -26,11 +28,21 @@ let extension = {
         gridFooter: () => import("./SellOrderComponents/GridFooterExtend.vue"),
         //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
         modelHeader: "",
-        modelBody: { template: '<Alert type="error">你可以在此处添加业务相关内容</Alert>' },
+        modelBody: {
+            template: '<Alert style="background: white;" type="success" show-icon>\
+         你可以在此modelBody扩展处添加业务相关内容 <template slot="desc">\
+          <Steps :current="2" size="small">\
+        <Step title="已完成"></Step>\
+        <Step title="进行中"></Step>\
+        <Step title="待进行"></Step>\
+        <Step title="待进行"></Step>\
+        </Steps></template>\
+       </Alert>' },
         modelFooter: () => import("./SellOrderComponents/ModelFooter.vue"),
     },
     text: "示例覆盖全部可扩展方法,前台扩展文件SellOrder.js，后台Partial->SellOrdeService.cs",
     buttons: { //扩展按钮
+        //注：没有编辑或新建权限的情况下，是不会显示此处添加的扩展按钮，如果仍需要显示此处的按钮，可以把按钮在methods的onInited方法中添加,如：this.boxButtons.push(...)
         view: [//ViewGrid查询界面按钮
             {
                 name: "点我",
@@ -89,19 +101,64 @@ let extension = {
             })
         },
         mounted() {
-            this.$Notice.success({ title: '执行mounted方法' });
+
+            // this.$Notice.success({ title: '执行mounted方法' });
         },
         onInit() {
+            //设置主表合计
+            this.summary = true;
+            //设置明细表合计
+            this.detailOptions.summary = true;
+            //表格设置为单选
+            // this.single=true;
+            // this.detailOptions.single=true;
+            //设置编辑表单数量字段的最小与最大值
+            this.editFormOptions.forEach(x => {
+                x.forEach(item => {
+                    //设置输入的数量的最小值与最大值(默认是1)
+                    if (item.field == "Qty") {
+                        item.min = 10;
+                        item.max = 200;
+                    }
+                });
+            })
+
+            //动态修改table并给列添加事件
+            this.columns.forEach(x => {
+                if (x.field == "Qty") {
+                    x.formatter = (row) => {
+                        return '<a>' + row.Qty + "(弹出框)" + '</a>'
+                    }
+                    x.click = (row, column, event) => {
+                        this.$refs.gridHeader.model = true;
+                    }
+                }
+            })
+
+            //动态设置弹出框table的高度
+            this.detailOptions.height = 160;
+            //动态设置查询界面table高度
+            this.tableMaxHeight = 220;;
             this.$Notice.success({ title: 'create方法执行时,你可以此处编写业务逻辑' });
         },
         onInited() {
-            //添加扩展属性gridHeader/body/footer后，可以自定再设置表格高度
-            this.height = this.height - 140;
-            this.$Notice.success({ title: 'create方法执行后', desc: '你可以SellOrder.js中编写业务逻辑,其他方法同样适用' });
+            //设置主表求字段，后台需要实现SummaryExpress方法
+            this.columns.forEach(x => {
+                if (x.field == 'Qty') {
+                    x.summary = true;
+                }
+            })
+            //设置明细表求字和段，后台需要实现GetDetailSummary方法
+            this.detailOptions.columns.forEach(x => {
+                if (x.field == 'Weight' || x.field == 'Qty') {
+                    x.summary = true;
+                }
+            })
+            //   this.$Notice.success({ title: 'create方法执行后', desc: '你可以SellOrder.js中编写业务逻辑,其他方法同样适用' });
         },
         searchBefore(param) { //查询ViewGird表数据前,param查询参数
             //你可以指定param查询的参数，处如果返回false，则不会执行查询
-            this.$Notice.success({ title: this.table.cnName + ',查询前' });
+            // this.$Notice.success({ title: this.table.cnName + ',查询前' });
             // console.log("扩展的"this.detailOptions.cnName + '触发loadDetailTableBefore');
             return true;
         },
@@ -110,7 +167,7 @@ let extension = {
             return true;
         },
         searchDetailBefore(param) {//查询从表表数据前,param查询参数
-            this.$Notice.success({ title: this.detailOptions.cnName + '查询前' });
+            //  this.$Notice.success({ title: this.detailOptions.cnName + '查询前' });
             return true;
         },
         searchDetailAfter(data) {//查询从表后param查询参数,result回返查询的结果
@@ -134,7 +191,14 @@ let extension = {
             return true;
         },
         addBefore(formData) { //新建保存前formData为对象，包括明细表
-
+            //formData格式：
+            // {
+            //     mainData: { 主表字段1: 'x1', 主表字段2: 'x2' },
+            //     detailData: [{ 明细表字段1: d1 }],
+            //     delKeys: null //删除明细表行数据的id
+            // }
+            //如果需要同时提交其他数据到后台，请设置formData.extra=xxxx
+            //后台在表xxxxService.cs中重写Add方法即可从saveDataModel参数中拿到extra提交的对象
             this.$Notice.success({ title: this.detailOptions.cnName + '新建前：', desc: '提前的数据：' + JSON.stringify(formData) });
             return true;
         },
@@ -143,6 +207,15 @@ let extension = {
             return true;
         },
         updateBefore(formData) { //编辑保存前formData为对象，包括明细表、删除行的Id
+           //formData格式：
+            // {
+            //     mainData: { 主表字段1: 'x1', 主表字段2: 'x2' },
+            //     detailData: [{ 明细表字段1: d1 }],
+            //     delKeys: null //删除明细表行数据的id
+            // }
+            //如果需要同时提交其他数据到后台，请设置formData.extra=xxxx
+            //后台在表xxxxService.cs中重写Update方法即可从saveDataModel参数中拿到extra提交的对象
+
             this.$Notice.success({ title: this.detailOptions.cnName + '编辑前：', desc: '提前的数据：' + JSON.stringify(formData) });
             //获取扩展的modelFooter属性text
             console.log(this.$refs.modelFooter.text)
@@ -191,6 +264,9 @@ let extension = {
         },
         importAfter(data) { //导入excel后刷新table表格数据
             this.search(); //刷新table
+        },
+        modelOpenBefore(row) { //点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据
+
         },
         modelOpenAfter(row) {  //点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
             this.$message.error("此处是打开弹出框后事件,当前操作：" + this.currentAction + "，你可以在此处编写逻辑，如，从后台获取数据");

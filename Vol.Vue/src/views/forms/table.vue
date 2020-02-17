@@ -19,6 +19,7 @@
     </div>
     <vol-table
       ref="table"
+      :loadKey="true"
       :linkView="_linkView"
       :columns="columns"
       :pagination="pagination"
@@ -85,26 +86,6 @@ export default {
     }
   },
   created() {
-    //从后台加下拉框的[是否启用的]数据源
-    let keys = [];
-    let columnBind = [];
-    this.columns.forEach(x => {
-      if (x.bind && x.bind.key && (!x.bind.data || x.bind.data.length == 0)) {
-        keys.push(x.bind.key);
-        if (!x.bind.data) x.bind.data = [];
-        columnBind.push(x.bind);
-      }
-    });
-    if (keys.length == 0) return;
-    this.http.post("/api/Sys_Dictionary/GetVueDictionary", keys).then(dic => {
-      dic.forEach(x => {
-        columnBind.forEach(c => {
-          if (c.key == x.dicNo) {
-            c.data.push(...x.data);
-          }
-        });
-      });    
-    });
   },
   data() {
     return {

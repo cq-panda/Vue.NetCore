@@ -59,7 +59,8 @@ export default {
       this.tableData.splice(0);
     },
     add() {
-      this.tableData.push({});
+      this.$refs.table.addRow({});
+      //  this.tableData.push({});
     },
     getRows() {
       let rows = this.$refs.table.getSelected();
@@ -107,6 +108,8 @@ export default {
           UserTrueName: "起名太麻烦 ",
           AuditStatus: 0,
           Enable: 1,
+          filetest:
+            "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/exceltest.xlsx", //也是设置为api服务器的文件，地址如：static/20191206/xx.xlsx
           ReallyName: "艹船借贱",
           CreateDate: "2018-09-18 17:45:54"
         },
@@ -119,6 +122,8 @@ export default {
           UserTrueName: "月穿潭底水無痕 ",
           AuditStatus: 1,
           Enable: 1,
+          filetest:
+            "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx", //也是设置为api服务器的文件，地址如：static/20191206/xx.xlsx
           ReallyName: "月穿潭底水無痕 ",
           CreateDate: "2018-09-18 17:45:54"
         },
@@ -131,6 +136,8 @@ export default {
           UserTrueName: "乌拉圭 ",
           AuditStatus: 2,
           Enable: 0,
+          filetest:
+            "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx,https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/exceltest.xlsx", //也是设置为api服务器的文件，地址如：static/20191206/xx.xlsx
           ReallyName: "月穿潭底水無痕 ",
           CreateDate: "2018-09-18 17:45:54"
         }
@@ -190,6 +197,12 @@ export default {
           }
         },
         {
+          field: "filetest",
+          title: "点击文件下载",
+          width: 190,
+          type: "file" //指定为file与excel即可下载文件
+        },
+        {
           field: "AuditStatus",
           title: "审核状态",
           type: "int",
@@ -214,7 +227,7 @@ export default {
           require: true,
           align: "left",
           edit: { type: "switch" }
-        }, 
+        },
         {
           field: "CreateDate",
           title: "创建时间",

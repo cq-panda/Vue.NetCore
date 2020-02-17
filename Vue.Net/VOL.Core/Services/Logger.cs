@@ -86,8 +86,8 @@ namespace VOL.Core.Services
                 ActionObserver cctionObserver = (context.RequestServices.GetService(typeof(ActionObserver)) as ActionObserver);
 
                 //如果当前请求已经写过日志就不再写日志
-                if (cctionObserver.IsWrite) return;
-                cctionObserver.IsWrite = true;
+                //if (cctionObserver.IsWrite) return;
+                //cctionObserver.IsWrite = true;
 
 
                 if (context == null)

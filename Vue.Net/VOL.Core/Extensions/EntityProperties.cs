@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Text;
 using VOL.Core.Configuration;
 using VOL.Core.Const;
-using VOL.Core.Enums;
 using VOL.Core.Utilities;
 using VOL.Entity;
 using VOL.Entity.DomainModels;
@@ -90,15 +89,30 @@ namespace VOL.Core.Extensions
             return dictionary;
         }
 
-
-
+        private static readonly Dictionary<Type, string> entityMapDbColumnType = new Dictionary<Type, string>() {
+                    {typeof(int),SqlDbTypeName.Int },
+                    {typeof(int?),SqlDbTypeName.Int },
+                    {typeof(long),SqlDbTypeName.BigInt },
+                    {typeof(long?),SqlDbTypeName.BigInt },
+                    {typeof(decimal),"decimal(18, 5)" },
+                    {typeof(decimal?),"decimal(18, 5)"  },
+                    {typeof(double),"decimal(18, 5)" },
+                    {typeof(double?),"decimal(18, 5)" },
+                    {typeof(float),"decimal(18, 5)" },
+                    {typeof(float?),"decimal(18, 5)" },
+                    {typeof(Guid),"UniqueIdentifier" },
+                    {typeof(Guid?),"UniqueIdentifier" },
+                    {typeof(byte),"tinyint" },
+                    {typeof(byte?),"tinyint" },
+                    {typeof(string),"nvarchar" }
+        };
         /// <summary>
         /// 返回属性的字段及数据库类型
         /// </summary>
         /// <param name="property"></param>
-        /// <param name="containLenght">是否包括后字段具体长度:nvarchar(100)</param>
+        /// <param name="lenght">是否包括后字段具体长度:nvarchar(100)</param>
         /// <returns></returns>
-        public static KeyValuePair<string, string> GetColumnType(this PropertyInfo property, bool containLenght)
+        public static KeyValuePair<string, string> GetColumnType(this PropertyInfo property, bool lenght = false)
         {
             string colType = "";
             object objAtrr = property.GetTypeCustomAttributes(typeof(ColumnAttribute), out bool asType);
@@ -108,7 +122,7 @@ namespace VOL.Core.Extensions
                 if (!string.IsNullOrEmpty(colType))
                 {
                     //不需要具体长度直接返回
-                    if (!containLenght)
+                    if (!lenght)
                     {
                         return new KeyValuePair<string, string>(property.Name, colType);
                     }
@@ -119,66 +133,34 @@ namespace VOL.Core.Extensions
 
                     }
                     ///如果是string,根据 varchar或nvarchar判断最大长度
-                    if (property.PropertyType.ToString() == "System.String" && !colType.Contains("("))
+                    if (property.PropertyType.ToString() == "System.String")
                     {
+                        colType = colType.Split("(")[0];
                         objAtrr = property.GetTypeCustomAttributes(typeof(MaxLengthAttribute), out asType);
                         if (asType)
                         {
                             int length = ((MaxLengthAttribute)objAtrr).Length;
-                            colType += "(" + (length < 1 ? "max" : length.ToString()) + ")";
+                            colType += "(" + (length < 1 || length > (colType.StartsWith("n") ? 8000 : 4000) ? "max" : length.ToString()) + ")";
                         }
                         else
                         {
                             colType += "(max)";
                         }
                     }
-
                     return new KeyValuePair<string, string>(property.Name, colType);
                 }
             }
-
-            switch (property.PropertyType.ToString())
+            if (entityMapDbColumnType.TryGetValue(property.PropertyType, out string value))
             {
-                case "System.Nullable`1[System.Int32]":
-                case "System.Int32":
-                    colType = "int";
-                    break;
-                case "System.Nullable`1[System.Int64]":
-                case "System.Int64":
-                    colType = "bigint";
-                    break;
-                case "System.Nullable`1[System.Decimal]":
-                case "System.Decimal":
-                case "System.Nullable`1[System.Double]":
-                case "System.Double":
-                case "System.Nullable`1[System.Float]":
-                case "System.Float":
-                    colType = "decimal(18, 5)";
-                    break;
-
-                case "System.Nullable`1[System.DateTime]":
-                case "System.DateTime":
-                    colType = "DateTime";
-                    break;
-                case "System.Guid":
-                case "System.Nullable`1[System.Guid]":
-                    colType = "UniqueIdentifier";
-                    break;
-                case "System.Byte":
-                case "System.Nullable`1[System.Byte]":
-                    colType = "tinyint";
-                    break;
-                default:
-                    if (containLenght)
-                    {
-                        colType = "nvarchar(max)";
-                    }
-                    else
-                    {
-                        colType = "nvarchar";
-                    }
-
-                    break;
+                colType = value;
+            }
+            else
+            {
+                colType = SqlDbTypeName.NVarChar;
+            }
+            if (lenght && colType == SqlDbTypeName.NVarChar)
+            {
+                colType = "nvarchar(max)";
             }
             return new KeyValuePair<string, string>(property.Name, colType);
         }
@@ -243,70 +225,35 @@ namespace VOL.Core.Extensions
             }
             return fieldType;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="entityList"></param>
-        ///<param name="ignoreFileds">忽略字段</param>
-        ///<param name="fixedColumns">生成sql insert每列的固定的位置</param>
-        /// <param name="containsKey"><是否包含主键/param>
-        /// <returns></returns>
-        //public static string GetEntitySql<T>(this List<T> entityList,
-        //    Expression<Func<T, object>> ignoreFileds=null,
-        //    Expression<Func<T, object>> fixedColumns = null,
-        //    string sql=null,
-        //    bool containsKey=false)
-        //{
-        //    return entityList.GetEntitySql(null, null, containsKey);
-        //}
-        /// <param name="sql">要执行的sql语句如：通过EntityToSqlTempName.Temp_Insert0.ToString()字符串占位，生成的的sql语句会把EntityToSqlTempName.Temp_Insert0.ToString()替换成生成的sql临时表数据
-        ///    string sql = " ;DELETE FROM " + typeEntity.Name + " where " + typeEntity.GetKeyName() +
-        ///      " in (select * from " + EntityToSqlTempName.Temp_Insert0.ToString() + ")";
-        /// </param>
-        //private static string GetEntitySql<T>(this List<T> entityList, FieldType? fieldType, string sql, bool containsKey)
-        //{
-        //    return entityList.GetEntitySql<T>(fieldType, sql, "*", containsKey);
-        //}
-        /// <summary>
-        ///此方法适用于数据量少,只有几列数据，不超过1W行，或几十列数据不超过1000行的情况下使用
-        /// 大批量的数据考虑其他方式
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="entityList"></param>
-        /// <param name="fieldType">指定所有列的字段类型</param>
-        ///<param name="ignoreFileds">忽略字段</param>
-        ///<param name="fixedColumns">生成sql insert每列的固定的位置</param>
-        /// <param name="containsKey">是否包含主键</param>
-        /// <param name="fixedColumns">查询列(解决每次生成的列的顺序可能发生变化的问题)</param>
-        /// <param name="sql">要执行的sql语句如：通过EntityToSqlTempName.Temp_Insert0.ToString()字符串占位，生成的的sql语句会把EntityToSqlTempName.Temp_Insert0.ToString()替换成生成的sql临时表数据
-        ///    string sql = " ;DELETE FROM " + typeEntity.Name + " where " + typeEntity.GetKeyName() +
-        ///      " in (select * from " + EntityToSqlTempName.TempInsert.ToString() + ")";
-        /// </param>
-
-        /// <returns></returns>
-        public static string GetEntitySql<T>(this List<T> entityList,
-            bool containsKey = false,
-            string sql = null,
-            Expression<Func<T, object>> ignoreFileds = null,
-            Expression<Func<T, object>> fixedColumns = null,
-            FieldType? fieldType = null
-            )
+        public static string GetEntitySql<T>(this IEnumerable<T> entityList,
+                  bool containsKey = false,
+                  string sql = null,
+                  Expression<Func<T, object>> ignoreFileds = null,
+                  Expression<Func<T, object>> fixedColumns = null,
+                  FieldType? fieldType = null
+                  )
         {
-            if (entityList == null || entityList.Count == 0)
-                return "";
-            PropertyInfo[] propertyInfo = typeof(T).GetProperties();
+
+            if (entityList == null || entityList.Count() == 0) return "";
+            PropertyInfo[] propertyInfo = typeof(T).GetProperties().ToArray();
             if (propertyInfo.Count() == 0)
             {
-                propertyInfo = entityList[0].GetType().GetProperties();
+                propertyInfo = entityList.ToArray()[0].GetType().GetGenericProperties().ToArray();
+            }
+            propertyInfo = propertyInfo.GetGenericProperties().ToArray();
+
+            string[] arr = null;
+            if (fixedColumns != null)
+            {
+                arr = fixedColumns.GetExpressionToArray();
+                PropertyInfo keyProperty = typeof(T).GetKeyProperty();
+                propertyInfo = propertyInfo.Where(x => (containsKey && x.Name == keyProperty.Name) || arr.Contains(x.Name)).ToArray();
             }
             if (ignoreFileds != null)
             {
-                string[] arr = ignoreFileds.GetExpressionToArray();
+                arr = ignoreFileds.GetExpressionToArray();
                 propertyInfo = propertyInfo.Where(x => !arr.Contains(x.Name)).ToArray();
             }
-
 
             Dictionary<string, string> dictProperties = propertyInfo.GetColumType(containsKey);
             if (fieldType != null)
@@ -318,7 +265,7 @@ namespace VOL.Core.Extensions
                 }
                 dictProperties = new Dictionary<string, string> { { dictProperties.Select(x => x.Key).ToList()[0], realType } };
             }
-            if (dictProperties.Keys.Count * entityList.Count > 50 * 3000)
+            if (dictProperties.Keys.Count * entityList.Count() > 50 * 3000)
             {
                 throw new Exception("写入数据太多,请分开写入。");
             }
@@ -332,7 +279,7 @@ namespace VOL.Core.Extensions
             declareTable.Append("\r\n");
 
             //参数总数量
-            int parCount = (dictProperties.Count) * (entityList.Count);
+            int parCount = (dictProperties.Count) * (entityList.Count());
             int takeCount = 0;
             int maxParsCount = 2050;
             if (parCount > maxParsCount)
@@ -604,7 +551,7 @@ namespace VOL.Core.Extensions
         {
             get
             {
-                if (_userEditFields != null)   return _userEditFields;
+                if (_userEditFields != null) return _userEditFields;
                 _userEditFields = AppSetting.CreateMember.GetType().GetProperties()
                      .Select(x => x.GetValue(AppSetting.ModifyMember)?.ToString()?.ToLower())
                      .Where(w => !string.IsNullOrEmpty(w)).ToArray();
@@ -715,7 +662,7 @@ namespace VOL.Core.Extensions
         public static WebResponseContent ValidationEntity<T>(this T entity, string[] specificProperties, string[] validateProperties = null)
         {
             WebResponseContent responseData = new WebResponseContent();
-            if (entity == null)   return responseData.Error("对象不能为null");
+            if (entity == null) return responseData.Error("对象不能为null");
 
             PropertyInfo[] propertyArray = typeof(T).GetProperties();
             //若T为object取不到属性
@@ -813,6 +760,40 @@ namespace VOL.Core.Extensions
                 yield return dbTypeName.ValidationVal(value, propertyInfo);
             }
         }
+
+        public static bool ValidationRquiredValueForDbType(this PropertyInfo propertyInfo, object value, out string message)
+        {
+            if (value == null || value?.ToString()?.Trim() == "")
+            {
+                message = $"{propertyInfo.GetDisplayName()}不能为空";
+                return false;
+            }
+            var result = propertyInfo.GetProperWithDbType().ValidationVal(value, propertyInfo);
+            message = result.Item2;
+            return result.Item1;
+        }
+
+        private static readonly Dictionary<Type, string> ProperWithDbType = new Dictionary<Type, string>() {
+            {  typeof(string),SqlDbTypeName.NVarChar },
+            { typeof(DateTime),SqlDbTypeName.DateTime},
+            {typeof(long),SqlDbTypeName.BigInt },
+            {typeof(int),SqlDbTypeName.Int},
+            { typeof(decimal),SqlDbTypeName.Decimal },
+            { typeof(float),SqlDbTypeName.Float },
+            { typeof(double),SqlDbTypeName.Double },
+            {  typeof(byte),SqlDbTypeName.Int },//类型待完
+            { typeof(Guid),SqlDbTypeName.UniqueIdentifier}
+        };
+        public static string GetProperWithDbType(this PropertyInfo propertyInfo)
+        {
+            bool result = ProperWithDbType.TryGetValue(propertyInfo.PropertyType, out string value);
+            if (result)
+            {
+                return value;
+            }
+            return SqlDbTypeName.NVarChar;
+        }
+
         /// <summary>
         /// 验证数据库字段类型与值是否正确，
         /// </summary>
@@ -823,8 +804,9 @@ namespace VOL.Core.Extensions
         public static (bool, string, object) ValidationVal(this string dbType, object value, PropertyInfo propertyInfo = null)
         {
             if (string.IsNullOrEmpty(dbType))
-                dbType = SqlDbTypeName.NVarChar;
-
+            {
+                dbType = propertyInfo != null ? propertyInfo.GetProperWithDbType() : SqlDbTypeName.NVarChar;
+            }
             dbType = dbType.ToLower();
             string val = value?.ToString();
             //验证长度
@@ -853,7 +835,7 @@ namespace VOL.Core.Extensions
 
                 if (!val.IsNumber(formatString))
                 {
-                    string[] arr = formatString.Split(',');
+                    string[] arr = (formatString ?? "10,0").Split(',');
                     reslutMsg = $"整数{arr[0]}最多位,小数最多{arr[1]}位";
                 }
             }
@@ -871,22 +853,42 @@ namespace VOL.Core.Extensions
                 || dbType == SqlDbTypeName.Char
                 || dbType == SqlDbTypeName.Text))
             {
-                int length = propertyInfo.GetTypeCustomValue<MaxLengthAttribute>(x => new { x.Length }).GetInt();
 
-                if (length == 0) { return (true, null, null); }
-                //判断双字节与单字段
-                if ((dbType.Substring(0, 1) != "n" && Encoding.UTF8.GetBytes(val.ToCharArray()).Length > length)
-                    || val.Length > length)
+                //默认nvarchar(max) 、text 长度不能超过20000
+                if (val.Length > 20000)
                 {
-                    reslutMsg = $"最多只能【{length}】个字符。";
+                    reslutMsg = $"字符长度最多【20000】";
+                }
+                else
+                {
+                    int length = propertyInfo.GetTypeCustomValue<MaxLengthAttribute>(x => new { x.Length }).GetInt();
+                    if (length == 0) { return (true, null, null); }
+                    //判断双字节与单字段
+                    else if (length < 8000 &&
+                        ((dbType.Substring(0, 1) != "n"
+                        && Encoding.UTF8.GetBytes(val.ToCharArray()).Length > length)
+                         || val.Length > length)
+                         )
+                    {
+                        reslutMsg = $"最多只能【{length}】个字符。";
+                    }
                 }
             }
             if (!string.IsNullOrEmpty(reslutMsg) && propertyInfo != null)
             {
-                string displayName = propertyInfo.GetTypeCustomValue<DisplayAttribute>(x => new { x.Name });
-                reslutMsg = (string.IsNullOrEmpty(displayName) ? propertyInfo.Name : displayName) + reslutMsg;
+                reslutMsg = propertyInfo.GetDisplayName() + reslutMsg;
             }
             return (reslutMsg == "" ? true : false, reslutMsg, value);
+        }
+
+        public static string GetDisplayName(this PropertyInfo property)
+        {
+            string displayName = property.GetTypeCustomValue<DisplayAttribute>(x => new { x.Name });
+            if (string.IsNullOrEmpty(displayName))
+            {
+                return property.Name;
+            }
+            return displayName;
         }
 
         /// <summary>
@@ -999,7 +1001,6 @@ namespace VOL.Core.Extensions
             }
             return propertyKeyValues.First().Value ?? "";
         }
-
         /// <summary>
         /// 判断hash的列是否为对应的实体，并且值是否有效
         /// </summary>
@@ -1068,6 +1069,7 @@ namespace VOL.Core.Extensions
                         && property.PropertyType != typeof(int)
                         && property.PropertyType != typeof(long)
                         && property.PropertyType != typeof(byte)
+                        && property.PropertyType != typeof(decimal)
                         )
                     {
                         return property.GetTypeCustomValue<DisplayAttribute>(x => x.Name) + "为必须提交项";
@@ -1343,11 +1345,11 @@ namespace VOL.Core.Extensions
 
             KeyValuePair<string, object> valuePair = dic.Where(x => x.Key.ToLower() == defaultColumns.UserIdField?.ToLower()).FirstOrDefault();
 
-            if (valuePair.Key!=null|| defaultColumns.UserIdField!=null)
+            if (valuePair.Key != null || defaultColumns.UserIdField != null)
             {
                 dic[valuePair.Key ?? defaultColumns.UserIdField] = userInfo.User_Id;
             }
-    
+
             valuePair = dic.Where(x => x.Key.ToLower() == defaultColumns.UserNameField?.ToLower()).FirstOrDefault();
             if (valuePair.Key != null || defaultColumns.UserNameField != null)
             {

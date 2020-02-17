@@ -26,7 +26,7 @@
             </ul>
           </div>
           <div>
-            <img class="user-header" :src="userImg" />
+            <img class="user-header" :src="userImg" :onerror="errorImg" />
           </div>
           <div class="user">
             <span>{{userName}}</span>
@@ -57,12 +57,12 @@
       </div>
       <div class="vol-main" id="vol-main">
         <el-scrollbar style="height:100%;">
-          <!-- <transition name="fade" mode="in-out"> -->
-          <!-- <transition > -->
-          <keep-alive>
-            <router-view></router-view>
-          </keep-alive>
-          <!-- </transition> -->
+          <!-- <transition name="fade" mode="in-out">  -->
+          <transition enter-active-class="animated fadeInLeftBig">
+            <keep-alive>
+              <router-view></router-view>
+            </keep-alive>
+          </transition>
         </el-scrollbar>
       </div>
     </div>
@@ -75,6 +75,7 @@ var $vueIndex;
 export default {
   data() {
     return {
+      errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       userName: "--",
       userImg: "",
       selectId: 0,
@@ -97,7 +98,7 @@ export default {
   created() {
     let userInfo = this.$store.getters.getUserInfo();
     this.userName = userInfo.userName;
-    this.userImg = userInfo.img;
+    this.userImg = this.base.getImgSrc(userInfo.img, this.http.ipAddress);
     $vueIndex = this;
     this.showTime();
     setInterval(function() {
@@ -118,8 +119,16 @@ export default {
       type: "get",
       async: false
     });
+
     //当前刷新是不是首页
     if (this.$route.path != this.navigation[0].path) {
+      let linkNow = this.links.find(x => {
+        return x.path == this.$route.path;
+      });
+      if (linkNow) {
+        this.selectId = linkNow.id;
+        return;
+      }
       let item = this.menuOptions.find(x => {
         return x.path == this.$route.path;
       });
@@ -350,7 +359,7 @@ body {
   width: 100%;
   position: relative;
   /* line-height: 60px; */
-  background-color: #03535e;
+  background-color: #272929;
 }
 .vol-main {
   position: absolute;
@@ -420,6 +429,8 @@ body {
   cursor: pointer;
 }
 .header-navigation {
+  box-shadow: 0px 0px 4px #888888;
+  border-bottom: 1px solid #eee;
   height: 32px;
   overflow: hidden;
   line-height: 32px;
@@ -462,7 +473,7 @@ body {
 .vol-header .user span:first-child {
   font-size: 15px;
   font-weight: bolder;
-  letter-spacing: 3px;
+  /* letter-spacing: 3px; */
 }
 
 .h-link ul {
@@ -511,11 +522,33 @@ img:not([src]) {
 .el-scrollbar__bar.is-vertical {
   /*background: #e9e7e7;*/
   color: #ffffff;
-  z-index: 99999;
+  /*z-index不能超过1058，否则会影响弹出框select标签(2020-02-02)*/
+  z-index: 999;
   right: 0;
-  width: 4px;
+  width: 6px;
 }
-
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 7px;
+  background-color: transparent;
+} 
+*::-webkit-scrollbar-track {
+  background-color: #f0f6ff;
+} 
+*::-webkit-scrollbar-thumb {
+  background-color: #73abb1;
+  border-radius: 3px;
+} 
+.scrollbarHide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbarShow::-webkit-scrollbar {
+  display: block;
+}
+.ivu-select-dropdown::-webkit-scrollbar {
+  width: 6px;
+  height: 13px;
+}
 .ivu-select-dropdown::-webkit-scrollbar {
   width: 6px;
   height: 14px;
@@ -523,5 +556,39 @@ img:not([src]) {
 .ivu-select-dropdown::-webkit-scrollbar-thumb {
   border-radius: 5px;
   background: #dadac9;
+}
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes fadeInLeftBig {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-50px, 0, 0);
+    transform: translate3d(-50px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes fadeInLeftBig {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-50px, 0, 0);
+    transform: translate3d(-50px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+.fadeInLeftBig {
+  -webkit-animation-name: fadeInLeftBig;
+  animation-name: fadeInLeftBig;
 }
 </style>

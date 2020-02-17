@@ -3,5 +3,6 @@
   <PropertyGroup>
     <ShowAllFiles>true</ShowAllFiles>
     <_LastSelectedProfileId>E:\xz20180307\DairyStarBeef1.0\DairyStar.Beef.System\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+    <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
   </PropertyGroup>
 </Project>

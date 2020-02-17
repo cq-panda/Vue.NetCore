@@ -13,7 +13,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Entity(TableCnName = "销售订单",DetailTable =  new Type[] { typeof(SellOrderList)},DetailTableCnName = "订单明细")]
+    [Entity(TableCnName = "销售订单",TableName = "SellOrder",DetailTable =  new Type[] { typeof(SellOrderList)},DetailTableCnName = "订单明细")]
     public class SellOrder:BaseEntity
     {
         /// <summary>
@@ -151,6 +151,7 @@ namespace VOL.Entity.DomainModels
        public DateTime? ModifyDate { get; set; }
 
        [Display(Name ="订单明细")]
+       [ForeignKey("Order_Id")]
        public List<SellOrderList> SellOrderList { get; set; }
 
     }

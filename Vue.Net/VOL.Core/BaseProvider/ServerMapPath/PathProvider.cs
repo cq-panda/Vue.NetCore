@@ -1,11 +1,8 @@
 ﻿
-using VOL.Core.Extensions.AutofacManager;
 using Microsoft.AspNetCore.Hosting;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using VOL.Core.Extensions;
+using VOL.Core.Extensions.AutofacManager;
 
 namespace VOL.Core.BaseProvider.ServerMapPath
 {
@@ -13,18 +10,18 @@ namespace VOL.Core.BaseProvider.ServerMapPath
     {
         string MapPath(string path);
         string MapPath(string path, bool rootPath);
-        IHostingEnvironment GetHostingEnvironment();
+        IWebHostEnvironment GetHostingEnvironment();
     }
 
     public class PathProvider : IPathProvider
     {
-        private IHostingEnvironment _hostingEnvironment;
+        private IWebHostEnvironment _hostingEnvironment;
 
-        public PathProvider(IHostingEnvironment environment)
+        public PathProvider(IWebHostEnvironment environment)
         {
             _hostingEnvironment = environment;
         }
-        public IHostingEnvironment GetHostingEnvironment()
+        public IWebHostEnvironment GetHostingEnvironment()
         {
             return _hostingEnvironment;
         }
@@ -43,6 +40,10 @@ namespace VOL.Core.BaseProvider.ServerMapPath
         {
             if (rootPath)
             {
+                if (_hostingEnvironment.WebRootPath == null)
+                {
+                    _hostingEnvironment.WebRootPath = _hostingEnvironment.ContentRootPath + "/wwwroot".ReplacePath();
+                }
                 return Path.Combine(_hostingEnvironment.WebRootPath, path).ReplacePath();
             }
             return Path.Combine(_hostingEnvironment.ContentRootPath, path).ReplacePath();

@@ -18,8 +18,20 @@ let extension = {
     buttons: [],//扩展的按钮
     methods: {//事件扩展
         onInit() {
-            // this.editFormFileds.Config = "功能暂未开放,随便填写";
-            // this.editFormFileds.Config = "{\r\n valueField: '数据库字段',\r\n textField: '数据库字段',\r\n  containField:null \r\n}"
+            this.editFormOptions.forEach(x => {
+                x.forEach(item => {
+                    if (item.field == 'ParentId') {
+                        item.min = 0;
+                    }
+                })
+            })
+            this.detailOptions.columns.forEach(x => {
+                if (x.field == 'OrderNo') {
+                    x.summary = true;
+                }
+            })
+            //保存后不关闭编辑框
+            this.boxOptions.saveClose = false;
         },
         onInited() {
             this.height = this.height - 36;
@@ -34,10 +46,10 @@ let extension = {
             }
             return true;
         },
-        searchBefore(param) { 
+        searchBefore(param) {
             return true;
         },
-        searchAfter(result) { 
+        searchAfter(result) {
             return true;
         }
     }

@@ -10,7 +10,7 @@
 ## 框架特点
  - 支持前端、后台基础业务代码动态扩展，可在现有框架增、删、改、查、导入、导出、审核基础业务上扩展复杂的业务代码
  - 基本业务全部由框架完成，上手即可对基础业务以外的代码进行扩展
- - 上手简单，需要.net core2.1、VsCode mysql/sqlservcer 2012、redis(可选) 及以上版本的开发环境
+ - 上手简单，需要.net core3.1、VsCode mysql/sqlservcer 2012、redis(可选) 及以上版本的开发环境
  - 学习成本低，封装了常用可扩展组件及Demo(前端基于Iview/Element-UI组件进行了二次封装、后台提供了大量的扩展方法)
  - 开发效率高,内定制开发的代码生成器,生成前端(Vue、后台代码),代码生成器已完成90%以上的重复工作，只需要在提供的扩展类型中实现其他业务
  - 前端vue页面表单下拉/多选框完成自动绑定数据源，不需要写任何代码,并支持扩展自定开发绑定。
@@ -20,7 +20,7 @@
 
 
 ## 开发及依赖环境
-VS2017 、.NetCore2.1 、EFCore2.1、JWT、Dapper、Autofac、SqlServer/MySql、Redis(可选，没有redis的在appsetting.json中不用配置，默认使用内置IMemory)、<br>VsCode、Vue2.0（webpack、node.js,如果没有此环境自行搜索:vue webpack npm)、Vuex、axios、promise、IView、Element-ui
+VS2017 、.NetCore3.1 、EFCore3.1、JWT、Dapper、Autofac、SqlServer/MySql、Redis(可选，没有redis的在appsetting.json中不用配置，默认使用内置IMemory)、<br>VsCode、Vue2.0（webpack、node.js,如果没有此环境自行搜索:vue webpack npm)、Vuex、axios、promise、IView、Element-ui
 
 ## 项目运行
 如果你没有前端环境，请先安装node.js, 前端开发使用VsCode  
@@ -108,7 +108,7 @@ H5只是做了一个简单的Demo,如果你有H5开发经验，请忽略，如�
 - 此框架由代码生成器完成了大部分工作能极大减少代码量,并支持前台端代码的扩展。如果你对前后端分离开发的方式或H5开发有兴趣,那么希望此框架对能你有所帮助！
 - 如果你觉得框架对你有用，帮忙点个星，非常感谢!
 - 如果有什么问题或建议，提issue或加QQ283591387
-- [Demo地址： 帐号：admin666密码：123456（本地超级管理员帐号：admin密码123456](http://132.232.2.109)
+- [Demo地址：http://www.volcore.xyz 帐号：admin666密码：123456（本地超级管理员帐号：admin密码123456](http://www.volcore.xyz)
 - [GitHub地址：](https://github.com/cq-panda/Vue.NetCore.git)https://github.com/cq-panda/Vue.NetCore.git
 - [如果你需要Quartz.Net做定时任务管理，你可以试试这个：](https://github.com/cq-panda/Quartz.NetUI)https://github.com/cq-panda/Quartz.NetUI
 - (站点与MySql部署在同一个1G1核1M带宽的Centos服务器上,访问可能会出现延迟现象)

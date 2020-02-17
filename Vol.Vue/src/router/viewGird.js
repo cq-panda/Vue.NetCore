@@ -46,5 +46,9 @@ let viewgird = [
         path: '/App_ReportPrice',
         name: 'App_ReportPrice',
         component: () => import('@/views/appmanager/App_ReportPrice.vue')
+    }    ,{
+        path: '/App_News',
+        name: 'App_News',
+        component: () => import('@/views/appmanager/App_News.vue')
     }]
 export default viewgird

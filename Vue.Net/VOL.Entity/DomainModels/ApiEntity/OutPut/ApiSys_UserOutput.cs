@@ -15,8 +15,8 @@ namespace VOL.Entity.DomainModels
        ///用户名
        /// </summary>
        [Display(Name ="用户名")]
-       [MaxLength(100)]
-       [Column(TypeName="nvarchar(100)")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
        [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string UserName { get; set; }
@@ -25,8 +25,8 @@ namespace VOL.Entity.DomainModels
        ///部门
        /// </summary>
        [Display(Name ="部门")]
-       [MaxLength(150)]
-       [Column(TypeName="nvarchar(150)")]
+       [MaxLength(300)]
+       [Column(TypeName="nvarchar(300)")]
        [Editable(true)]
        public string DeptName { get; set; }
 

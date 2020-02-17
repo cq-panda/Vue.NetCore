@@ -13,7 +13,7 @@ namespace {Namespace}.Controllers
     public partial class {TableName}Controller : ApiBaseController<I{TableName}Service>
     {
         public {TableName}Controller(I{TableName}Service service)
-        : base({BaseOptions}, service)
+        : base(service)
         {
         }
     }

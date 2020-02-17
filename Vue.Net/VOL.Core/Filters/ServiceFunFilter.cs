@@ -10,8 +10,43 @@ namespace VOL.Core.Filters
 {
     public abstract class ServiceFunFilter<T> where T : class
     {
+
+        /// <summary>
+        /// 查询界面table 统计、求和、平均值等
+        /// 实现方式
+        ///SummaryExpress = (IQueryable<App_TransactionAvgPrice> queryable) =>
+        //                {
+        //                return queryable.GroupBy(x => 1).Select(x => new
+        //                {
+        //                    AvgPrice = x.Average(o => o.AvgPrice),
+        //                    Enable = x.Sum(o => o.Enable)
+        //            }).FirstOrDefault();
+        //};
+        /// </summary>
+        //   protected Func<IGrouping<T, T>, object> SummaryExpress = null;
+        protected Func<IQueryable<T>, object> SummaryExpress = null;
+
+        /// <summary>
+        /// 明细table 统计、求和、平均值等
+        /// </summary>
+        /// <typeparam name="Detail"></typeparam>
+        /// <param name="queryeable"></param>
+        /// <returns></returns>
+        protected abstract object GetDetailSummary<Detail>(IQueryable<Detail> queryeable);
+
+        /// <summary>
+        /// 是否开启用户数据权限,true=用户只能操作自己(及下级角色)创建的数据,如:查询、删除、修改等操作
+        /// 注意：需要在代码生成器界面选择【是】及生成Model才会生效)
+        /// </summary>
+        protected bool LimitCurrentUserPermission { get; set; } = false;
+
         ///默认导出最大数量5K数据
         protected int Limit { get; set; } = 5000;
+
+        /// <summary>
+        /// 默认上传文件大小限制3M
+        /// </summary>
+        protected int LimitUpFileSizee { get; set; } = 3;
 
         /// <summary>
         /// 查询前,对现在有的查询字符串条件增加或删除
@@ -22,7 +57,7 @@ namespace VOL.Core.Filters
         protected Func<IQueryable<T>, IQueryable<T>> QueryRelativeExpression { get; set; }
 
         /// <summary>
-        /// 指定查询的列，格式:Expression<Func<T, object>> exp = x => new { x.字段1, x.字段2 }
+        /// 指定查询的列，格式:Expression<Func<T, object>> exp = x => new { x.字段1, x.字段2 }(暂时未启用)
         /// </summary>
         protected Expression<Func<T, object>> Columns { get; set; }
 
@@ -118,12 +153,12 @@ namespace VOL.Core.Filters
         protected Func<List<T>, List<string>, WebResponseContent> ExportOnExecuting;
 
         /// <summary>
-        /// 导入保存前
+        /// 导入保存后
         /// </summary>
         protected Func<List<T>, WebResponseContent> ImportOnExecuted;
 
         /// <summary>
-        /// 导入保存后
+        /// 导入保存前
         /// </summary>
         protected Func<List<T>, WebResponseContent> ImportOnExecuting;
     }

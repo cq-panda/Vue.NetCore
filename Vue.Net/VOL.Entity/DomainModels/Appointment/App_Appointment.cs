@@ -13,7 +13,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Entity(TableCnName = "基础表单查询")]
+    
     public class App_Appointment:BaseEntity
     {
         /// <summary>
@@ -22,6 +22,7 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="姓名")]
        [MaxLength(50)]
        [Column(TypeName="nvarchar(50)")]
+       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string Name { get; set; }
 
@@ -31,6 +32,7 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="描述")]
        [MaxLength(250)]
        [Column(TypeName="nvarchar(250)")]
+       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string Describe { get; set; }
 
@@ -40,6 +42,7 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="电话")]
        [MaxLength(15)]
        [Column(TypeName="nvarchar(15)")]
+       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string PhoneNo { get; set; }
 
@@ -50,6 +53,7 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="Id")]
        [MaxLength(36)]
        [Column(TypeName="uniqueidentifier")]
+       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public Guid Id { get; set; }
 
@@ -58,6 +62,7 @@ namespace VOL.Entity.DomainModels
        /// </summary>
        [Display(Name ="创建时间")]
        [Column(TypeName="datetime")]
+       [Editable(true)]
        public DateTime? CreateDate { get; set; }
 
        /// <summary>
@@ -73,6 +78,7 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="创建人")]
        [MaxLength(30)]
        [Column(TypeName="nvarchar(30)")]
+       [Editable(true)]
        public string Creator { get; set; }
 
        /// <summary>
@@ -81,6 +87,7 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="修改人")]
        [MaxLength(30)]
        [Column(TypeName="nvarchar(30)")]
+       [Editable(true)]
        public string Modifier { get; set; }
 
        /// <summary>
@@ -88,6 +95,7 @@ namespace VOL.Entity.DomainModels
        /// </summary>
        [Display(Name ="修改时间")]
        [Column(TypeName="datetime")]
+       [Editable(true)]
        public DateTime? ModifyDate { get; set; }
 
        /// <summary>

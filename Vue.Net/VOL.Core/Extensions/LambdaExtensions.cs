@@ -415,6 +415,24 @@ namespace VOL.Core.Extensions
         {
             return CreateMemberInitExpression<Source, object>(resultType);
         }
+        /// <summary>
+        /// 属性判断待完
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static IEnumerable<PropertyInfo> GetGenericProperties(this Type type)
+        {
+            return type.GetProperties().GetGenericProperties();
+        }
+        /// <summary>
+        /// 属性判断待完
+        /// </summary>
+        /// <param name="properties"></param>
+        /// <returns></returns>
+        public static IEnumerable<PropertyInfo> GetGenericProperties(this IEnumerable<PropertyInfo> properties)
+        {
+            return properties.Where(x => !x.PropertyType.IsGenericType && x.PropertyType.GetInterface("IList") == null || x.PropertyType.GetInterface("IEnumerable", false) == null);
+        }
     }
 
     public class ExpressionParameters
