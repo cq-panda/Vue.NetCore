@@ -3,14 +3,16 @@
     <div></div>
     <div class="i-container">
       <div class="nav">
-        <ul>
-          <li class="n-item" v-for="(item,index) in data" :key="index">
-            <a
-              :class="{active:active==index}"
-              @click="scrollIntoView(index)"
-            >{{item.secondTitle||item.title}}</a>
-          </li>
-        </ul>
+        <el-scrollbar style="height:100%;">
+          <ul>
+            <li class="n-item" v-for="(item,index) in data" :key="index">
+              <a
+                :class="{active:active==index}"
+                @click="scrollIntoView(index)"
+              >{{item.secondTitle||item.title}}</a>
+            </li>
+          </ul>
+        </el-scrollbar>
       </div>
       <div class="list">
         <Alert type="success" show-icon>
@@ -36,15 +38,19 @@
 export default {
   methods: {
     scrollIntoView(index) {
+      let top = document.getElementById("i-" + index).offsetTop - 100;
+      if (index == 0) {
+        top = 0;
+      }
+      window.scrollTo(0, top);
       this.active = index;
-      document.getElementById("i-" + index).scrollIntoView(false);
     }
   },
   data() {
     return {
       active: 0,
       data: [
-          {
+        {
           title: "如何上手",
           desc: [
             {
@@ -56,7 +62,7 @@ export default {
         {
           title: "如何写扩展业务及组件",
           desc: [
-              {
+            {
               text:
                 "前端、后台扩展业务，只能在指定的位置编写，如：SellOrder表，后台业务在Sell->Partial->SellOrderService.cs编写，前端在SellOrder.js中编写"
             },
@@ -99,63 +105,76 @@ export default {
               text: "可参照SellOrder.js"
             }
           ]
-        }, {
+        },
+        {
           title: "使用EF、Daper、事务、缓存",
           desc: [
             {
               text: "Sell->Partial->SellOrderService.cs中有详细介绍"
             }
           ]
-        },{
+        },
+        {
           title: "实体校验、常用扩展、日志",
           desc: [
             {
               text: "Sell->Partial->SellOrderService.cs中有详细介绍"
             }
           ]
-        }, {
+        },
+        {
           title: "后台获取用户信息",
           desc: [
             {
-              text: "UserContext.Current在Sell->Partial->SellOrderService.cs中有详细介绍"
+              text:
+                "UserContext.Current在Sell->Partial->SellOrderService.cs中有详细介绍"
             }
           ]
-        },{
+        },
+        {
           title: "前端获取用户信息/权限等",
           desc: [
             {
               text: "菜单->其他组件"
             }
           ]
-        },{
+        },
+        {
           title: "如何使用一对多",
           desc: [
             {
-              text: "目前代码生成只有主从一对一，一对多需要自己扩展，可参照【表单一对多】页面"
+              text:
+                "目前代码生成只有主从一对一，一对多需要自己扩展，可参照【表单一对多】页面"
             },
-              {
-              text: "1、提交自定义的一对多页面的数据，能过【如何获取自定义扩展的组件】介绍拿到自己定义的组件，在提交保存前将数据写入请参数中(SellOrder.js中有列出所有操作事件的方法)"
+            {
+              text:
+                "1、提交自定义的一对多页面的数据，能过【如何获取自定义扩展的组件】介绍拿到自己定义的组件，在提交保存前将数据写入请参数中(SellOrder.js中有列出所有操作事件的方法)"
             },
-              {
-              text: "2、后台通过HttpContext.Request<T>(),拿到请求的数据进行业务处理(如：写入数据库中)，参照Sell->Partial->SellOrderService.cs中有介绍所有方法操作"
-            } ,
-              {
-              text: "使用一对多加载自定义表数据,如点击编辑弹出框时加载表数据：可以使用this.modelOpenAtfter，可参照SellOrder.js中有列出所有操作事件的方法，实际使用方式与上面介绍的一样,"
+            {
+              text:
+                "2、后台通过HttpContext.Request<T>(),拿到请求的数据进行业务处理(如：写入数据库中)，参照Sell->Partial->SellOrderService.cs中有介绍所有方法操作"
+            },
+            {
+              text:
+                "使用一对多加载自定义表数据,如点击编辑弹出框时加载表数据：可以使用this.modelOpenAtfter，可参照SellOrder.js中有列出所有操作事件的方法，实际使用方式与上面介绍的一样,"
             }
-
           ]
-        }, {
+        },
+        {
           title: "数据库表字段发生变化怎么处理",
           desc: [
             {
-              text: "数据库字段发生变化后，在代码生成器页面点击->【同步表结构->【生成model】->【生成vue页面】"
+              text:
+                "数据库字段发生变化后，在代码生成器页面点击->【同步表结构->【生成model】->【生成vue页面】"
             }
           ]
-        },{
+        },
+        {
           title: "如何删除菜单配置",
           desc: [
             {
-              text: "目前不支持删除菜单，如果想删除菜单，将父级ID设置为其他不用节点的id即可"
+              text:
+                "目前不支持删除菜单，如果想删除菜单，将父级ID设置为其他不用节点的id即可"
             }
           ]
         },
@@ -169,9 +188,10 @@ export default {
               text:
                 "2、菜单设置页面,当前菜单的【视图/表名】字段在Sys_Menu表中是否有重复(【视图/表名】字段在Sys_Menu表中不能有重复)"
             },
-             {
-              text: "2、如果是代码生成器生成的页面也分配权限后还是提示权限，请检查代码生成器配置中的【真实表名】与菜单设置中的【视图/表名】是否一样"
-            },
+            {
+              text:
+                "2、如果是代码生成器生成的页面也分配权限后还是提示权限，请检查代码生成器配置中的【真实表名】与菜单设置中的【视图/表名】是否一样"
+            }
           ]
         },
         {
@@ -201,14 +221,14 @@ export default {
             }
           ]
         },
-            {
+        {
           title: "select组件不能手动设置值",
           desc: [
             {
               text:
                 "1、select的数据源如果是从字典项中加载的，设置select的值必须是字符串类型"
             },
-              {
+            {
               text:
                 "2、请检查select绑定的数据源中key的类型，设置的值必须也key的类型一致"
             }
@@ -239,11 +259,19 @@ export default {
           ]
         },
         {
-          title: "代码生成业务类异常或没有生成业务类",
+          title: "代码生成器生成业务类异常",
           desc: [
             {
               text:
                 "后台必须运行builder_run.bat命令才可以生成业务类，生成其他运行dev_run.bat或builder_run.bat"
+            }
+          ]
+        },
+        {
+          title: "代码生成器生成业务类找不到文件",
+          desc: [
+            {
+              text: "同上"
             }
           ]
         },
@@ -337,7 +365,7 @@ export default {
 .i-container {
   display: flex;
   > .nav {
-    overflow-y: scroll;
+    // overflow-y: scroll;
     border-right: 1px solid #ccc3c3;
     margin-right: 50px;
     width: 250px;
@@ -346,7 +374,7 @@ export default {
     bottom: 20px;
     top: 81px;
     .n-item {
-      text-align: right;
+      text-align: left;
       padding-right: 29px;
       list-style: none;
       a {

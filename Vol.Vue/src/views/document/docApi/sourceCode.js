@@ -769,10 +769,13 @@ let codeString = {
         </span><span style="color: #008000;">//</span><span style="color: #008000;">  this.$message.error(JSON.stringify(row));</span>
   <span style="color: #000000;">    },
       loadTableBefore(param, callBack) {
-        </span><span style="color: #008000;">//</span><span style="color: #008000;">此处是从后台加数据前的处理，自己在此处自定义查询条件,查询数据格式自己定义或参考代码生成器查询页面请求的数据格式</span>
-        console.log("加载数据前" +<span style="color: #000000;"> param);
-        callBack(</span><span style="color: #0000ff;">true</span>); <span style="color: #008000;">//</span><span style="color: #008000;">此处必须进行回调，返回处理结果，如果是false，则不会执行后台查询</span>
-  <span style="color: #000000;">    },
+        callBack(true);
+        &nbsp; &nbsp; /*查询前处理(如果需要查询条件，实现组件方法loadBefore方法即可:<br />
+          &nbsp; &nbsp; &nbsp; &nbsp; loadBefore=(param, callBack)=&gt;{<br />
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; param.wheres = [{ name: "PhoneNo", value: "13419098211" }];<br />
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; callBack(true);<br />
+          &nbsp; &nbsp; &nbsp; &nbsp; })<br />
+          &nbsp; &nbsp; &nbsp; */<br />   },
       loadTableAfter(data, callBack) {
         </span><span style="color: #008000;">//</span><span style="color: #008000;">此处是从后台加数据后，你可以在渲染表格前，预先处理返回的数据</span>
         console.log("加载数据后" +<span style="color: #000000;"> data);

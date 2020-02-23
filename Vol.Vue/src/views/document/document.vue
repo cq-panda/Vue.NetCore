@@ -2,7 +2,7 @@
   <div class="view-model-content" style="width: 100%;
     display: inline-block;
     height: 99%;">
-    <el-scrollbar style="height:100%;">
+    <!-- <el-scrollbar style="height:100%;"> -->
       <div class="links">
         <div
           class="item"
@@ -25,7 +25,7 @@
           <router-view></router-view>
         </div>
       </div>
-    </el-scrollbar>
+    <!-- </el-scrollbar> -->
   </div>
 </template>
 <script>

@@ -87,7 +87,7 @@ let param = {
         { name: "}", desc: "", type: "", default: "" },
         { name: "--", desc: "--", type: "--", default: "--" },
         { name: "url", desc: "远程加载数据的地址，配置了url默认从远程加载数据", type: "string", default: "" }, { name: "defaultLoadPage", desc: "传入了url参数，是否默认加载表格数据", type: "bool", default: "true" },
-        { name: "paginationHide", desc: "是否显示分页数据", type: "bool", default: "true" },
+        { name: "paginationHide", desc: "是否隐藏分页数据", type: "bool", default: "true" },
         { name: "index", desc: "是否创建索引号,如果需要表格编辑功能，这里需要设置为true", type: "bool", default: "false" },
         { name: "tableData", desc: "table表数据，如果不需要从远程加载table数据，请设置tableData属性,格式:[{'字段1':'值1'},{'字段2':'值2'}]", type: "array", default: "[]" },
         { name: "--", desc: "--", type: "--", default: "--" },
@@ -146,7 +146,15 @@ let param = {
         { name: "selection", desc: "获取选中的行，this.$refs.自定义的名字.selection,注意此处selection是属性", param: "" },
         { name: "load", desc: "刷新表数据，this.$refs.自定义的名字.load({条件:}),条件可以任意写你自己接收的格式", param: "" },
         { name: "resetPage", desc: "重置分页信息，this.$refs.自定义的名字.resetPage()", param: "" },
-        { name: "loadBefore", desc: "从后台加载数据前处理，可参照【从api加载数据】Demo", param: "(param, callBack) 参数：param为查询相关配置，可自己修改此配置;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
+        { name: "loadBefore", desc: `从后台加载数据前处理，也可参照【从api加载数据】Demo", param: "(param, callBack) 参数：param为查询相关配置，可自己修改此配置;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行,<span style="display:none;"></span><span style="line-height:2;font-size:18px;"><span style="display:none;"></span><span style="font-size:14px;">&nbsp; &nbsp; 
+        <br/>
+        /*查询前处理(如果需要查询条件，实现组件方法loadBefore方法即可:</span><br />
+            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; loadBefore=(param, callBack)=&gt;{</span><br />
+            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; param.wheres = [{ name: "PhoneNo", value: "1234567890" }];</span><br />
+            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; callBack(true);</span><br />
+            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; })</span><br />
+            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; */</span><br />
+            </span><span style="line-height:1.5;font-size:18px;"><span style="display:none;"></span></span><br />` },
         { name: "loadTableAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
         { name: "rowChange", desc: "行选中事件,只有设置single=true单选才会生效", param: "row,当前选中的行 " }]
     }, edittable: {
