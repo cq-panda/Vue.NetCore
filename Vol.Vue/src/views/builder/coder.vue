@@ -191,55 +191,54 @@ export default {
       });
     },
     add() {
-      if (!this.$refs.form.validate()) {
-        return;
-      }
-      this.layOutOptins.fileds.tableName =
-        this.layOutOptins.fileds.tableName.slice(0, 1).toUpperCase() +
-        this.layOutOptins.fileds.tableName.slice(1);
-      if (!this.layOutOptins.fileds.tableTrueName) {
-        this.layOutOptins.fileds.tableTrueName = this.layOutOptins.fileds.tableName;
-      }
+      this.$refs.form.validate(() => {
+        this.layOutOptins.fileds.tableName =
+          this.layOutOptins.fileds.tableName.slice(0, 1).toUpperCase() +
+          this.layOutOptins.fileds.tableName.slice(1);
+        if (!this.layOutOptins.fileds.tableTrueName) {
+          this.layOutOptins.fileds.tableTrueName = this.layOutOptins.fileds.tableName;
+        }
 
-      let queryParam =
-        "parentId=" +
-        this.layOutOptins.fileds.parentId +
-        "&tableName=" +
-        this.layOutOptins.fileds.tableName +
-        "&columnCNName=" +
-        this.layOutOptins.fileds.columnCNName +
-        "&nameSpace=" +
-        this.layOutOptins.fileds.namespace +
-        "&foldername=" +
-        this.layOutOptins.fileds.folderName +
-        "&isTreeLoad=false";
-      this.http
-        .post("/api/builder/LoadTableInfo?" + queryParam, {}, true)
-        .then(x => {
-          if (!x.status) {
-            this.$message.error(x.message);
-            return;
-          }
-          let hasTree = this.tree.some(t => {
-            return t.id == x.data.table_Id;
-          });
-          if (!hasTree) {
-            this.tree.push({
-              id: x.data.table_Id,
-              pId: x.data.parentId,
-              parentId: x.data.parentId,
-              name: x.data.columnCNName,
-              orderNo: x.data.orderNo
+        let queryParam =
+          "parentId=" +
+          this.layOutOptins.fileds.parentId +
+          "&tableName=" +
+          this.layOutOptins.fileds.tableName +
+          "&columnCNName=" +
+          this.layOutOptins.fileds.columnCNName +
+          "&nameSpace=" +
+          this.layOutOptins.fileds.namespace +
+          "&foldername=" +
+          this.layOutOptins.fileds.folderName +
+          "&isTreeLoad=false";
+        this.http
+          .post("/api/builder/LoadTableInfo?" + queryParam, {}, true)
+          .then(x => {
+            if (!x.status) {
+              this.$message.error(x.message);
+              return;
+            }
+            let hasTree = this.tree.some(t => {
+              return t.id == x.data.table_Id;
             });
-          }
-          if (!x.data.tableTrueName) {
-            x.data.tableTrueName = x.data.tableName;
-          }
-          this.addModel = false;
-          this.tableInfo = x.data;
-          this.$refs.form.reset(x.data);
-          this.data = x.data.tableColumns;
-        });
+            if (!hasTree) {
+              this.tree.push({
+                id: x.data.table_Id,
+                pId: x.data.parentId,
+                parentId: x.data.parentId,
+                name: x.data.columnCNName,
+                orderNo: x.data.orderNo
+              });
+            }
+            if (!x.data.tableTrueName) {
+              x.data.tableTrueName = x.data.tableName;
+            }
+            this.addModel = false;
+            this.tableInfo = x.data;
+            this.$refs.form.reset(x.data);
+            this.data = x.data.tableColumns;
+          });
+      });
     },
     addChild() {
       // this.$message.info("开发中");
@@ -263,60 +262,60 @@ export default {
         }
       });
     },
-    validateTableInfo() {
-      if (!this.$refs.form.validate()) {
-        return;
-      }
-      if (!this.tableInfo) {
-        this.$message.error("请先加载数据");
-        return false;
-      }
-      if (this.data && this.data.length > 0) {
-        let keyInfo = this.data.find(x => {
-          return x.isKey;
-        });
-        if (!keyInfo) {
-          this.$message.error("请勾选设置主键");
+    validateTableInfo(callback) {
+      this.$refs.form.validate(() => {
+        if (!this.tableInfo) {
+          this.$message.error("请先加载数据");
           return false;
         }
-        if (keyInfo.isNull == 1) {
-          this.$message.error("主键【可为空】必须设置为否");
-          return false;
+        if (this.data && this.data.length > 0) {
+          let keyInfo = this.data.find(x => {
+            return x.isKey;
+          });
+          if (!keyInfo) {
+            this.$message.error("请勾选设置主键");
+            return false;
+          }
+          if (keyInfo.isNull == 1) {
+            this.$message.error("主键【可为空】必须设置为否");
+            return false;
+          }
+          if (
+            keyInfo.columnType != "int" &&
+            keyInfo.columnType != "bigint" &&
+            !this.layOutOptins.fileds.sortName
+          ) {
+            this.$message.error("主键非自增类型,必须设置排序字段");
+            return false;
+          }
         }
-        if (
-          keyInfo.columnType != "int" &&
-          keyInfo.columnType != "bigint" &&
-          !this.layOutOptins.fileds.sortName
-        ) {
-          this.$message.error("主键非自增类型,必须设置排序字段");
-          return false;
+        for (const key in this.tableInfo) {
+          if (this.layOutOptins.fileds.hasOwnProperty(key)) {
+            let newVal = this.layOutOptins.fileds[key];
+            this.tableInfo[key] = newVal;
+          }
         }
-      }
-      for (const key in this.tableInfo) {
-        if (this.layOutOptins.fileds.hasOwnProperty(key)) {
-          let newVal = this.layOutOptins.fileds[key];
-          this.tableInfo[key] = newVal;
-        }
-      }
-      return true;
+        callback();
+      });
     },
     ceateVuePage() {
-      if (!this.validateTableInfo()) return;
-      let vuePath = localStorage.getItem("vuePath");
-      if (!vuePath) {
-        return this.$message.error(
-          "请先设置Vue项目对应Views的绝对路径,然后再保存!"
-        );
-      }
-      this.http
-        .post(
-          "/api/builder/createVuePage?vuePath=" + vuePath,
-          this.tableInfo,
-          true
-        )
-        .then(x => {
-          this.$Message.info(x);
-        });
+      this.validateTableInfo(() => {
+        let vuePath = localStorage.getItem("vuePath");
+        if (!vuePath) {
+          return this.$message.error(
+            "请先设置Vue项目对应Views的绝对路径,然后再保存!"
+          );
+        }
+        this.http
+          .post(
+            "/api/builder/createVuePage?vuePath=" + vuePath,
+            this.tableInfo,
+            true
+          )
+          .then(x => {
+            this.$Message.info(x);
+          });
+      });
     },
     createService() {
       if (!this.validateTableInfo()) return;
@@ -334,15 +333,16 @@ export default {
         });
     },
     ceateModel() {
-      if (!this.validateTableInfo()) return;
-      this.http
-        .post("/api/builder/CreateModel", this.tableInfo, true)
-        .then(x => {
-          this.$Message.info({
-            content: x,
-            duration: 5
+      this.validateTableInfo(() => {
+        this.http
+          .post("/api/builder/CreateModel", this.tableInfo, true)
+          .then(x => {
+            this.$Message.info({
+              content: x,
+              duration: 5
+            });
           });
-        });
+      });
     },
     syncTable() {
       if (!this.layOutOptins.fileds.tableName)
@@ -367,24 +367,25 @@ export default {
     checkSortName() {},
     save() {
       // localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
-      if (!this.validateTableInfo()) return;
-      this.http.post("/api/builder/Save", this.tableInfo, true).then(x => {
-        if (!x.status) {
-          this.$Message.error(x.message);
-          return;
-        }
-        this.$Message.info(x.message);
-        this.tree.forEach(x => {
-          if (x.id == this.layOutOptins.fileds.table_Id) {
-            x.name = this.layOutOptins.fileds.columnCNName;
-            x.parentId = this.layOutOptins.fileds.parentId;
+      this.validateTableInfo(() => {
+        this.http.post("/api/builder/Save", this.tableInfo, true).then(x => {
+          if (!x.status) {
+            this.$Message.error(x.message);
+            return;
           }
+          this.$Message.info(x.message);
+          this.tree.forEach(x => {
+            if (x.id == this.layOutOptins.fileds.table_Id) {
+              x.name = this.layOutOptins.fileds.columnCNName;
+              x.parentId = this.layOutOptins.fileds.parentId;
+            }
+          });
+          this.tableInfo = x.data;
+          this.$refs.form.reset(x.data);
+          this.layOutOptins.fileds.vuePath = localStorage.getItem("vuePath");
+          this.data = x.data.tableColumns;
+          //  this.$Message.info(x);
         });
-        this.tableInfo = x.data;
-        this.$refs.form.reset(x.data);
-        this.layOutOptins.fileds.vuePath = localStorage.getItem("vuePath");
-        this.data = x.data.tableColumns;
-        //  this.$Message.info(x);
       });
     },
     onSelect(node) {

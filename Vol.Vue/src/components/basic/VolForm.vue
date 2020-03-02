@@ -490,15 +490,17 @@ export default {
       }
       //  this.remoteCall = true;
     },
-    validate(callback) {//表单验证回调方法callback
+    validate(callback) {
+      //表单验证回调方法callback
       let result = false;
       this.$refs["formValidate"].validate(valid => {
         if (!valid) {
           this.$Message.error("数据验证未通过!");
+          result = false;
         } else {
           result = true;
         }
-        if (typeof callback == "function") {
+        if (result && typeof callback == "function") {
           callback(valid);
         }
       });
