@@ -18,16 +18,12 @@ namespace VOL.Core.Utilities
 
         public static void SetActionResult(ActionExecutingContext context, WebResponseContent responseData)
         {
-            //if (context.HttpContext.IsAjaxRequest())
-            //{
             context.Result = new ContentResult()
             {
-                Content =new { status=false, message= responseData.Message}.Serialize(),//Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(responseData.Message)),
+                Content = new { status = false, message = responseData.Message }.Serialize(),
                 ContentType = ApplicationContentType.JSON,
-                StatusCode =(int)HttpStatusCode.Unauthorized
+                StatusCode = (int)HttpStatusCode.Unauthorized
             };
-            return;
-            //    }   
         }
 
         public static void GetContentResult(FilterContext context, IActionResult actionResult, WebResponseContent responseData)

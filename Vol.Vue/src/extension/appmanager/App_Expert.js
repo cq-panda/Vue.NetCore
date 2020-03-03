@@ -53,8 +53,11 @@ let extension = {
     },//扩展的按钮
     methods: {//事件扩展
         onInit() {
+            //每次点击菜单时都加载表数据
             this.activatedLoad = true;
+            //保存后不关闭编辑框
             this.boxOptions.saveClose = false;
+            this.boxOptions.height=510;
             //设置后台字典远程模糊搜索
             this.editFormOptions.forEach(x => {
                 x.forEach(item => {

@@ -54,7 +54,7 @@ namespace VOL.Core.Filters
                 || (
                 UserContext.Current.Token != ((ClaimsIdentity)context.HttpContext.User.Identity)
                 ?.BootstrapContext?.ToString()
-                && UserContext.Current.UserName != "admin666"
+                && UserContext.Current.UserName != "admin666" 
                 ))
             {
                 Console.Write($"IsAuthenticated:{context.HttpContext.User.Identity.IsAuthenticated}," +
