@@ -318,19 +318,24 @@ export default {
       });
     },
     createService() {
-      if (!this.validateTableInfo()) return;
-      let queryParam =
-        "tableName=" +
-        this.layOutOptins.fileds.tableName +
-        "&nameSpace=" +
-        this.layOutOptins.fileds.namespace +
-        "&foldername=" +
-        this.layOutOptins.fileds.folderName;
-      this.http
-        .post("/api/builder/CreateServices?" + queryParam, this.tableInfo, true)
-        .then(x => {
-          this.$Message.info(x);
-        });
+      this.validateTableInfo(() => {
+        let queryParam =
+          "tableName=" +
+          this.layOutOptins.fileds.tableName +
+          "&nameSpace=" +
+          this.layOutOptins.fileds.namespace +
+          "&foldername=" +
+          this.layOutOptins.fileds.folderName;
+        this.http
+          .post(
+            "/api/builder/CreateServices?" + queryParam,
+            this.tableInfo,
+            true
+          )
+          .then(x => {
+            this.$Message.info(x);
+          });
+      });
     },
     ceateModel() {
       this.validateTableInfo(() => {
