@@ -850,7 +850,11 @@ let methods = {
                 } else {
                     x.data.push(...d.data);
                 }
-                //   x.data.push(...d.data);
+                if (this.singleSearch
+                    && this.singleSearch.dataKey
+                    && this.singleSearch.dataKey == x.dicNo) {
+                    this.singleSearch.data.splice(0, 1, ...x.data);
+                }
             });
         });
     },
@@ -874,18 +878,17 @@ let methods = {
         if (this.detailOptions && this.detailOptions.columns) {
             this.initColumns(this.detailOptions.columns, this.dicKeys, keys)
         }
-        //初始化快速查询字段
+        //初始化快速查询字段,默认使用代码生成器配置的第一个查询字段
         if (this.searchFormOptions.length > 0) {
-            if (!this.singleField) {
-                this.singleSearch = this.searchFormOptions[0][0];
-            } else {
-                this.searchFormOptions.forEach(x => {
-                    if (this.singleSearch) return false;
-                    this.singleSearch = x.find(item => {
-                        return item.field == this.singleField;
-                    });
-                });
-            }
+            this.singleSearch = {
+                dataKey: this.searchFormOptions[0][0].dataKey,
+                dicNo: this.searchFormOptions[0][0].dicNo,
+                field: this.searchFormOptions[0][0].field,
+                title: this.searchFormOptions[0][0].title,
+                type: this.searchFormOptions[0][0].type,
+                data: []
+            };
+            // this.singleSearch = this.searchFormOptions[0][0];
         }
         if (keys.length == 0) return;
         let $internalVue = this;
