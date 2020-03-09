@@ -287,7 +287,7 @@ var vueParam = {
       const: _const, //增删改查导入导出等对应的action
       boxInit: false, //新建或编辑的弹出框初化状态，默认不做初始化，点击新建或编辑才初始化弹出框
       searchBoxShow: false, //高级查询(界面查询后的下拉框点击触发)
-      singleSearch: "", //快速查询字段
+      singleSearch: [], //快速查询字段
       exportHref: "",
       currentAction: _const.ADD, //当新建或编辑时，记录当前的状态:如当前操作是新建
       currentRow: {}, //当前编辑或查看数据的行
