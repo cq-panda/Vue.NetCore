@@ -260,7 +260,7 @@ namespace VOL.Core.Extensions
             return expression.GetExpressionToPair().ToList().ToDictionary(x => x.Key, x => x.Value);
         }
         /// <summary>
-        /// 添加order数据
+        /// 解析多字段排序
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="queryable"></param>
@@ -269,21 +269,21 @@ namespace VOL.Core.Extensions
         public static IQueryable<TEntity> GetIQueryableOrderBy<TEntity>(this IQueryable<TEntity> queryable, Dictionary<string, QueryOrderBy> orderBySelector)
         {
             string[] orderByKeys = orderBySelector.Select(x => x.Key).ToArray();
+            if (orderByKeys == null || orderByKeys.Length == 0) return queryable;
 
-            //   typeof(TEntity).GetProperties().Where(x=>x.)
+            IOrderedQueryable<TEntity> queryableOrderBy = null;
+            string orderByKey = orderByKeys[^1];
+            queryableOrderBy = orderBySelector[orderByKey] == QueryOrderBy.Desc
+                ? queryableOrderBy = queryable.OrderByDescending(orderByKey.GetExpression<TEntity>())
+                : queryable.OrderBy(orderByKey.GetExpression<TEntity>());
 
-            for (int i = orderByKeys.Length - 1; i >= 0; i--)
+            for (int i = orderByKeys.Length - 2; i >= 0; i--)
             {
-                if (orderBySelector[orderByKeys[i]] == QueryOrderBy.Desc)
-                {
-                    queryable = queryable.OrderByDescending(orderByKeys[i].GetExpression<TEntity>());
-                }
-                else
-                {
-                    queryable = queryable.OrderBy(orderByKeys[i].GetExpression<TEntity>());
-                }
+                queryableOrderBy = orderBySelector[orderByKeys[i]] == QueryOrderBy.Desc
+                    ? queryableOrderBy.ThenByDescending(orderByKeys[i].GetExpression<TEntity>())
+                    : queryableOrderBy.ThenBy(orderByKeys[i].GetExpression<TEntity>());
             }
-            return queryable;
+            return queryableOrderBy;
         }
 
         /// <summary>
