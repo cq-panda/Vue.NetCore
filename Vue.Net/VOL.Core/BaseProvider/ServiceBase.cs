@@ -83,19 +83,27 @@ namespace VOL.Core.BaseProvider
         /// <param name="propertyInfo"></param>
         private void GetPageDataSort(PageDataOptions pageData, PropertyInfo[] propertyInfo)
         {
-
             if (base.OrderByExpression != null)
             {
-                pageData.Sort = string.Join(" ,", base.OrderByExpression.GetExpressionToDic().Select(x => x.Key + "  " + x.Value.ToString()).ToList());
+                pageData.Sort = string.Join(" ,",
+                    base.OrderByExpression
+                    .GetExpressionToDic()
+                    .Select(x => x.Key + "  " + x.Value.ToString())
+                    .ToList());
                 return;
             }
             pageData.Sort = (pageData.Sort ?? "").Trim().ToLower();
 
+            //排序字段不存在直接移除
+            if (!string.IsNullOrEmpty(pageData.Sort) && !propertyInfo.Any(x => x.Name.ToLower() == pageData.Sort))
+            {
+                pageData.Sort = null;
+            }
             //如果没有排序字段，则使用主键作为排序字段
-            //如果主键不是自增Int类型则使用appsettings.json中CreateMember->DateField配置的创建时间作为排序
-            if (!string.IsNullOrEmpty(pageData.Sort))
+            if (string.IsNullOrEmpty(pageData.Sort))
             {
                 PropertyInfo property = propertyInfo.GetKeyProperty();
+                //如果主键不是自增类型则使用appsettings.json中CreateMember->DateField配置的创建时间作为排序
                 if (property.PropertyType == typeof(int) || property.PropertyType == typeof(Int64))
                 {
                     if (!propertyInfo.Any(x => x.Name.ToLower() == pageData.Sort))
@@ -105,11 +113,9 @@ namespace VOL.Core.BaseProvider
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(AppSetting.CreateMember.DateField))
-                        throw new Exception("未配置好查询的排序默认排序字段");
+                    if (string.IsNullOrEmpty(AppSetting.CreateMember.DateField)) throw new Exception("未配置好查询的排序默认排序字段");
                     pageData.Sort = AppSetting.CreateMember.DateField;
                 }
-
             }
             pageData.Order = (pageData.Order ?? _desc).Trim().ToLower();
             if (pageData.Order != _desc && pageData.Order != _asc)
@@ -512,18 +518,18 @@ namespace VOL.Core.BaseProvider
             {
                 repository.Add(entity);
                 repository.DbContext.SaveChanges();
-            //保存明细
-            if (list != null && list.Count > 0)
+                //保存明细
+                if (list != null && list.Count > 0)
                 {
-                //获取保存后的主键值
-                PropertyInfo mainKey = typeof(T).GetKeyProperty();
+                    //获取保存后的主键值
+                    PropertyInfo mainKey = typeof(T).GetKeyProperty();
                     PropertyInfo detailMainKey = typeof(TDetail).GetProperties()
                         .Where(q => q.Name.ToLower() == mainKey.Name.ToLower()).FirstOrDefault();
                     object keyValue = mainKey.GetValue(entity);
                     list.ForEach(x =>
                     {
-                    //设置用户默认值
-                    x.SetCreateDefaultVal();
+                        //设置用户默认值
+                        x.SetCreateDefaultVal();
                         detailMainKey.SetValue(x, keyValue);
                         repository.DbContext.Entry<TDetail>(x).State = EntityState.Added;
                     });
@@ -671,18 +677,18 @@ namespace VOL.Core.BaseProvider
             //明细修改
             editList.ForEach(x =>
                 {
-                //获取编辑的字段
-                string[] updateField = saveModel.DetailData
-                    .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
-                    .Equal(detailKeyInfo.GetValue(x)))
-                    .FirstOrDefault()
-                    .Keys.Where(k => k != detailKeyInfo.Name)
-                    .Where(r => !CreateFields.Contains(r))
-                    .ToArray();
-                //設置默認值
-                x.SetModifyDefaultVal();
-                //添加修改字段
-                repository.Update<DetailT>(x, updateField);
+                    //获取编辑的字段
+                    string[] updateField = saveModel.DetailData
+                        .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
+                        .Equal(detailKeyInfo.GetValue(x)))
+                        .FirstOrDefault()
+                        .Keys.Where(k => k != detailKeyInfo.Name)
+                        .Where(r => !CreateFields.Contains(r))
+                        .ToArray();
+                    //設置默認值
+                    x.SetModifyDefaultVal();
+                    //添加修改字段
+                    repository.Update<DetailT>(x, updateField);
                 });
 
             //明细新增
