@@ -73,7 +73,7 @@
                     :transfer="true"
                     v-model="formFileds[item.field]"
                     :multiple="(item.type=='select'||item.type=='drop')?false:true"
-                    :filterable="(item.filter||item.length>10)?true:false"
+                    :filterable="(item.filter||item.data.length>10)?true:false"
                     :placeholder="item.placeholder?item.placeholder:( '请选择'+item.title)"
                     @on-change="onChange(item,formFileds[item.field])"
                     clearable
