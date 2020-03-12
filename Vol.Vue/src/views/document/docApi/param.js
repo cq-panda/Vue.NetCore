@@ -512,6 +512,8 @@ let param = {
                 },
                 detailRowChange(row) {  </span><span style="color: #008000;">//</span><span style="color: #008000;">明细表界面table点击行事件，只有设置了single=true单选才会生效</span>
                 },
+                reloadDicSource() { <span style="color: #008000;">//重新加载字典绑定的数据源</span>
+                }
             }
         };
         export </span><span style="color: #0000ff;">default</span> extension;</pre>

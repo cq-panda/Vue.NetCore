@@ -32,7 +32,7 @@ let serviceFilter = {
     delAfter(result) {//查询界面的表删除后
         return true;
     },
-    delDetailRow(rows){ //弹出框删除明细表的行数据(只是对table操作，并没有操作后台)
+    delDetailRow(rows) { //弹出框删除明细表的行数据(只是对table操作，并没有操作后台)
         return true;
     },
     addBefore(formData) { //新建保存前formData为对象，包括明细表
@@ -53,26 +53,29 @@ let serviceFilter = {
     auditAfter(result, rows) {// 审核后
         return true;
     },
-    resetAddFormBefore(){ //重置新建表单前的内容
+    resetAddFormBefore() { //重置新建表单前的内容
         return true;
     },
-    resetAddFormAfter(){ //重置新建表单后的内容
+    resetAddFormAfter() { //重置新建表单后的内容
         return true;
     },
-    resetUpdateFormBefore(){ //重置编辑表单前的内容
+    resetUpdateFormBefore() { //重置编辑表单前的内容
         return true;
     },
-    resetUpdateFormAfter(){ //重置编辑表单后的内容
+    resetUpdateFormAfter() { //重置编辑表单后的内容
         return true;
     },
-    modelOpenBefore(row){ //点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据
+    modelOpenBefore(row) { //点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据
 
     },
-    modelOpenAfter(row){  //点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
+    modelOpenAfter(row) {  //点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
 
     },
     importAfter(data) { //导入excel后刷新table表格数据
         this.search();
+    },
+    reloadDicSource() { //重新加载字典绑定的数据源
+        this.initDicKeys();
     }
 
 }
