@@ -35,8 +35,7 @@
             <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
             <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
             <div v-if="column.edit" class="edit-el">
-              <div v-if="edit.rowIndex!=scope.$index">{{formatter(scope.row,column,true)}}</div>
-              <div v-else class="e-item">
+              <div v-if="column.edit.keep|| edit.rowIndex==scope.$index" class="e-item">
                 <div>
                   <DatePicker
                     :transfer="true"
@@ -52,6 +51,7 @@
                     :true-value="typeof scope.row[column.field]=='boolean' ? true:1"
                     :false-value="typeof scope.row[column.field]=='boolean' ? false:0"
                     v-model="scope.row[column.field]"
+                    @on-change="(value)=>{column.onChange&&column.onChange(column,scope.row,url?rowData:tableData,value);}"
                   >
                     <span slot="open">是</span>
                     <span slot="close">否</span>
@@ -92,6 +92,7 @@
                   </a>
                 </div>
               </div>
+              <div v-else>{{formatter(scope.row,column,true)}}</div>
             </div>
             <!--没有编辑功能的直接渲染标签-->
             <div v-else>
@@ -1038,6 +1039,8 @@ export default {
   height: 70px;
   border-radius: 5px;
   margin-right: 10px;
+  width: 100px;
+  object-fit: cover;
 }
 .vol-table .table-img:hover {
   cursor: pointer;
