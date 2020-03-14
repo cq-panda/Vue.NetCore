@@ -1,11 +1,38 @@
 <template>
-  <div>
+  <div style="background: #f3f3f3;">
+    <VolBox
+      icon="ios-chatbubbles"
+      :model.sync="model"
+      title="选择图片"
+      :height="220"
+      :url="url"
+      :width="520"
+      :desc="true"
+      :padding="15"
+    >
+      <VolUpload
+        style="text-align: center; border: 1px dotted #FF9800;padding: 20px;"
+        :autoUpload="false"
+        :multiple="true"
+        :url="url"
+        :max-file="3"
+        :img="true"
+        :fileInfo="fileInfo"
+        :upload-after="uploadAfter"
+      >
+        <div>选择图片</div>
+      </VolUpload>
+    </VolBox>
+
     <vol-box :model.sync="viewModel" :height="300" :width="600" title="点击表的弹出框">
       <div slot="content" style="word-break: break-all;">{{text}}</div>
     </vol-box>
     <Alert type="success" show-icon>
       关于table
-      <div slot="desc">table都是基于element table进行的二次封装，目前只需要配置好json数据即可使用,表字段的配置此处为手动配置，也可以由代码生成器完成...</div>
+      <div slot="desc">
+        <p>table都是基于element table进行的二次封装，目前只需要配置好json数据即可使用,表字段的配置此处为手动配置，也可以由代码生成器完成...</p>
+        <p>具体属性配置参照组件api,--要开启table编辑必须开启index=true属性</p>
+      </div>
     </Alert>
     <div class="tb">
       <VolHeader icon="md-apps" text="双击表即可编辑">
@@ -19,7 +46,6 @@
           </div>
         </slot>
       </VolHeader>
-
       <vol-table
         ref="table"
         :columns="columns"
@@ -30,6 +56,23 @@
       ></vol-table>
     </div>
 
+    <div class="tb keep-edit">
+      <VolHeader icon="md-apps" text="始终开启编辑">
+        <div slot="content">配置columns属性edit.keep=true即可始终开启编辑状态</div>
+        <slot>
+          <div style="text-align: right;">
+            <Button type="info" ghost >还没想好</Button>
+          </div>
+        </slot>
+      </VolHeader>
+      <vol-table
+        ref="table3"
+        :columns="allowTable.columns"
+        :height="250"
+        :index="true"
+        :tableData="allowTable.data"
+      ></vol-table>
+    </div>
     <div class="tb" style="margin-top: 20px;">
       <VolHeader icon="md-apps" text="使用button编辑">
         <div slot="content">通过button编辑与额外标签事件</div>
@@ -44,14 +87,22 @@
         :paginationHide="true"
       ></vol-table>
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
   </div>
 </template>
 <script>
 import VolTable from "@/components/basic/VolTable.vue";
 import VolHeader from "@/components/basic/VolHeader.vue";
 import VolBox from "@/components/basic/VolBox.vue";
+
+import VolUpload from "@/components/basic/VolUpload.vue";
+
 export default {
-  components: { VolTable, VolBox, VolHeader },
+  components: { VolTable, VolBox, VolHeader, VolUpload },
   methods: {
     del() {
       let rows = this.$refs.table.getSelected();
@@ -78,10 +129,28 @@ export default {
       this.text =
         "点击单元格的弹出框，当前点击的行数据：" + JSON.stringify(row);
       this.viewModel = true;
+    },
+    uploadAfter(result, files) {
+      if (!result.status) return true;
+      let imgs = [];
+      files.forEach(x => {
+        imgs.push(result.data + x.name);
+      });
+      // //将图片填写表格中
+      this.uploadRow.imgs = imgs.join(",");
+      //强制刷新表格数据
+      let _rows = this.allowTable.data.splice(0);
+      this.allowTable.data.push(..._rows);
+      this.model = false;
+      return true;
     }
   },
   data() {
     return {
+      url: "/api/app_news/upload", //使用后台自带的上传文件方法，也可以自定义方法上传
+      uploadRow: {},
+      fileInfo: [],
+      model: false,
       text: "",
       viewModel: false, //点击单元格时弹出框
       tableData: [
@@ -150,8 +219,8 @@ export default {
           sortable: true,
           extra: {
             icon: "ios-search", //图标
-            text: "点击事件",//显示文本
-            style: "line-height: 31px;margin-left: 3px;",//自定义样式
+            text: "点击事件", //显示文本
+            style: "line-height: 31px;margin-left: 3px;", //自定义样式
             //column列配置, row数据, tableData整个table的数据源
             click: (column, row, tableData) => {
               //  this.getRows();
@@ -245,6 +314,95 @@ export default {
           edit: { type: "decimal", min: 2.2, max: 5.5 }
         }
       ],
+      allowTable: {
+        data: [
+          {
+            userName: "拉美西斯",
+            imgs:
+              "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
+            enable: 1,
+            date: "2020-03-18 17:45:54"
+          },
+          {
+            userName: "梁什么伟",
+            imgs:
+              "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
+            enable: 0,
+            date: "2020-03-20 12:20:30"
+          }
+        ],
+        columns: [
+          {
+            field: "userName",
+            title: "用户名",
+            require: true,
+            edit: { type: "text", keep: true },
+            width: 150
+          },
+          {
+            field: "imgs",
+            title: "图文介绍",
+            type: "img",
+            width: 200
+          },
+          {
+            field: "upload",
+            title: "上传头像",
+            width: 160,
+            formatter: () => {
+              return "<div class='img-btn'>选择图片</div>";
+            },
+            click: (row, column, event) => {
+              this.uploadRow = row; //记录当前上传图片的行
+              //清空上传组件的默认图片
+              this.fileInfo.splice(0);
+              //如果当前的row行有图片，直接将图片添加上传组件中
+              if (row.imgs) {
+                let _imgs = row.imgs.split(",");
+                for (let i = 0; i < _imgs.length; i++) {
+                  this.fileInfo.push({ path: _imgs[i], name: "11" });
+                }
+              }
+              this.model = true;
+            }
+          },
+          {
+            field: "enable",
+            title: "是否可用",
+            require: true,
+            width: 130,
+            edit: { type: "switch", keep: true },
+            bind: {
+              //如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上
+              key: "audit",
+              data: [
+                { key: 0, value: "否" },
+                { key: 1, value: "是" }
+              ]
+            },
+            onChange: (row, column, data, value) => {
+              this.$Message.info(value ? "是" : "否");
+            }
+          },
+          {
+            field: "date",
+            title: "日期",
+            edit: { type: "datetime", keep: true },
+            width: 150
+          },
+          {
+            field: "save",
+            title: "操作",
+            width: 150,
+            formatter: () => {
+              return "<div  class='oper-btn'>保存</div>";
+            },
+            click: (row, column, event) => {
+              this.$Message.info("当前保存的行数据：" + JSON.stringify(row));
+            }
+          }
+        ]
+      },
       /////////////////////////button编辑配置///////////////////
       eidtWithButton: {
         data: [
@@ -285,13 +443,16 @@ export default {
             title: "测试2",
             require: true,
             edit: { type: "select" },
-            onChange:(column,row,tableData)=>{
-             this.$Message.error(row["test2"]);
+            onChange: (column, row, tableData) => {
+              this.$Message.error(row["test2"]);
             },
             bind: {
               //如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上
               key: "audit",
-              data: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
+              data: [
+                { key: "0", value: "否" },
+                { key: "1", value: "是" }
+              ]
             },
             width: 130
           },
@@ -320,5 +481,29 @@ export default {
 <style lang="less" scoped>
 .tb {
   padding: 0px 20px;
+  margin-top: 20px;
+}
+.v-header {
+  background: white;
+  padding: 10px;
+}
+</style>
+<style scoped>
+.keep-edit >>> .oper-btn,
+.keep-edit >>> .img-btn {
+  width: 75px;
+  border-radius: 4px;
+  padding: 2px 15px;
+  background: #eee;
+  color: #fff;
+  background-color: #03a9f4;
+  border-color: #19be6b;
+  text-align: center;
+  font-size: 12px;
+  line-height: 24px;
+  cursor: pointer;
+}
+.keep-edit >>> .oper-btn {
+  background-color: #19be6b;
 }
 </style>

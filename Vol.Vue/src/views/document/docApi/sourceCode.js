@@ -338,6 +338,196 @@ let codeString = {
   </span>&lt;/script&gt;</pre>
   </div>
   <p>&nbsp;</p></p>`,
+  editTableKeep:`&lt;template&gt;<br />
+  &nbsp; &lt;div&gt;<br />
+  &nbsp; &nbsp; &lt;div class="vol-demo keep-edit"&gt;<br />
+  &nbsp; &nbsp; &nbsp; &lt;VolHeader icon="md-podium" text="始终开启编辑"&gt;<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &lt;div slot="content"&gt;配置columns属性edit.keep=true即可始终开启编辑状态..&lt;/div&gt;<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &lt;div style="text-align: right;"&gt;<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;Button type="info" size="small" ghost &gt;还没好想好&lt;/Button&gt;<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &lt;/div&gt;<br />
+  &nbsp; &nbsp; &nbsp; &lt;/VolHeader&gt;<br />
+  &nbsp; &nbsp; &nbsp; &lt;vol-table ref="table3" :columns="columns" :index="true" :tableData="tableData"&gt;&lt;/vol-table&gt;<br />
+  &nbsp; &nbsp; &lt;/div&gt;<br />
+  &nbsp; &nbsp; &lt;!-- 上传图片弹出框 --&gt;<br />
+  &nbsp; &nbsp; &lt;VolBox<br />
+  &nbsp; &nbsp; &nbsp; icon="ios-chatbubbles"<br />
+  &nbsp; &nbsp; &nbsp; :model.sync="model"<br />
+  &nbsp; &nbsp; &nbsp; title="选择图片"<br />
+  &nbsp; &nbsp; &nbsp; :height="220"<br />
+  &nbsp; &nbsp; &nbsp; :url="url"<br />
+  &nbsp; &nbsp; &nbsp; :width="520"<br />
+  &nbsp; &nbsp; &nbsp; :desc="true"<br />
+  &nbsp; &nbsp; &nbsp; :padding="15"<br />
+  &nbsp; &nbsp; &gt;<br />
+  &nbsp; &nbsp; &nbsp; &lt;VolUpload<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; style="text-align: center; border: 1px dotted #FF9800;padding: 20px;"<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; :autoUpload="false"<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; :multiple="true"<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; :url="url"<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; :max-file="3"<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; :img="true"<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; :fileInfo="fileInfo"<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; :upload-after="uploadAfter"<br />
+  &nbsp; &nbsp; &nbsp; &gt;<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &lt;div&gt;选择图片&lt;/div&gt;<br />
+  &nbsp; &nbsp; &nbsp; &lt;/VolUpload&gt;<br />
+  &nbsp; &nbsp; &lt;/VolBox&gt;<br />
+  &nbsp; &lt;/div&gt;<br />
+  &lt;/template&gt;<br />
+  &lt;script&gt;<br />
+  import VolBox from "@/components/basic/VolBox.vue";<br />
+  import VolTable from "@/components/basic/VolTable.vue";<br />
+  import VolUpload from "@/components/basic/VolUpload.vue";<br />
+  import VolHeader from "@/components/basic/VolHeader.vue";<br />
+  <br />
+  export default {<br />
+  &nbsp; components: { VolTable, VolBox, VolHeader, VolUpload },<br />
+  &nbsp; data() {<br />
+  &nbsp; &nbsp; return {<br />
+  &nbsp; &nbsp; &nbsp; url: "/api/app_news/upload", //使用后台自带的上传文件方法，也可以自定义方法上传<br />
+  &nbsp; &nbsp; &nbsp; uploadRow: {},<br />
+  &nbsp; &nbsp; &nbsp; fileInfo: [],<br />
+  &nbsp; &nbsp; &nbsp; model: false,<br />
+  &nbsp; &nbsp; &nbsp; tableData: [<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; userName: "拉美西斯",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; imgs:<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enable: 1,<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; date: "2020-03-18 17:45:54"<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; userName: "梁什么伟",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; imgs:<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; enable: 0,<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; date: "2020-03-20 12:20:30"<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+  &nbsp; &nbsp; &nbsp; ],<br />
+  &nbsp; &nbsp; &nbsp; columns: [<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; field: "userName",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; title: "用户名",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; require: true,<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; edit: { type: "text", keep: true },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; width: 150<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; field: "imgs",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; title: "图文介绍",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; type: "img",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; width: 200<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; field: "upload",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; title: "上传头像",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; width: 160,<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; formatter: () =&gt; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return "&lt;div class='img-btn'&gt;选择图片&lt;/div&gt;";<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; click: (row, column, event) =&gt; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; this.uploadRow = row; //记录当前上传图片的行<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //清空上传组件的默认图片<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; this.fileInfo.splice(0);<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //如果当前的row行有图片，直接将图片添加上传组件中<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (row.imgs) {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let _imgs = row.imgs.split(",");<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (let i = 0; i &lt; _imgs.length; i++) {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; this.fileInfo.push({ path: _imgs[i], name: "11" });<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; this.model = true;<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; field: "enable",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; title: "是否可用",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; require: true,<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; width: 130,<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; edit: { type: "switch", keep: true },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bind: {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; key: "audit",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; data: [<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; { key: 0, value: "否" },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; { key: 1, value: "是" }<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; onChange: (row, column, data, value) =&gt; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; this.$Message.info(value ? "是" : "否");<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; field: "date",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; title: "日期",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; edit: { type: "datetime", keep: true },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; width: 150<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; field: "save",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; title: "操作",<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; width: 150,<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; formatter: () =&gt; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return "&lt;div&nbsp; class='oper-btn'&gt;保存&lt;/div&gt;";<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; click: (row, column, event) =&gt; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; this.$Message.info("当前保存的行数据：" + JSON.stringify(row));<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+  &nbsp; &nbsp; &nbsp; ]<br />
+  &nbsp; &nbsp; };<br />
+  &nbsp; },<br />
+  &nbsp; created() {},<br />
+  &nbsp; methods: {<br />
+  &nbsp; &nbsp; //文件上传后<br />
+  &nbsp; &nbsp; uploadAfter(result, files) {<br />
+  &nbsp; &nbsp; &nbsp; if (!result.status) return true;<br />
+  &nbsp; &nbsp; &nbsp; let imgs = [];<br />
+  &nbsp; &nbsp; &nbsp; files.forEach(x =&gt; {<br />
+  &nbsp; &nbsp; &nbsp; &nbsp; imgs.push(result.data + x.name);<br />
+  &nbsp; &nbsp; &nbsp; });<br />
+  &nbsp; &nbsp; &nbsp; // //将图片填写表格中<br />
+  &nbsp; &nbsp; &nbsp; this.uploadRow.imgs = imgs.join(",");<br />
+  &nbsp; &nbsp; &nbsp; //强制刷新表格数据<br />
+  &nbsp; &nbsp; &nbsp; let _rows = this.tableData.splice(0);<br />
+  &nbsp; &nbsp; &nbsp; this.tableData.push(..._rows);<br />
+  &nbsp; &nbsp; &nbsp; this.model = false;<br />
+  &nbsp; &nbsp; &nbsp; return true;<br />
+  &nbsp; &nbsp; }<br />
+  &nbsp; }<br />
+  };<br />
+  &lt;/script&gt;<br />
+  <br />
+  &lt;style lang="less" scoped&gt;<br />
+  .vol-demo {<br />
+  &nbsp; box-shadow: 0px 0px 10px #ccc9c9;<br />
+  &nbsp; padding: 23px;<br />
+  }<br />
+  &lt;/style&gt;<br />
+  <br />
+  &lt;style scoped&gt;<br />
+  .keep-edit &gt;&gt;&gt; .oper-btn,<br />
+  .keep-edit &gt;&gt;&gt; .img-btn {<br />
+  &nbsp; width: 75px;<br />
+  &nbsp; border-radius: 4px;<br />
+  &nbsp; padding: 2px 15px;<br />
+  &nbsp; background: #eee;<br />
+  &nbsp; color: #fff;<br />
+  &nbsp; background-color: #03a9f4;<br />
+  &nbsp; border-color: #19be6b;<br />
+  &nbsp; text-align: center;<br />
+  &nbsp; font-size: 12px;<br />
+  &nbsp; line-height: 24px;<br />
+  &nbsp; cursor: pointer;<br />
+  }<br />
+  .keep-edit &gt;&gt;&gt; .oper-btn {<br />
+  &nbsp; background-color: #19be6b;<br />
+  }<br />
+  &lt;/style&gt;<br />
+  <br />
+  <span style="display:none;"></span>`
+  ,
   edittable: `<div class="cnblogs_code">
   <pre>&lt;template&gt;
     &lt;div&gt;

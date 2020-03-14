@@ -42,16 +42,16 @@ let editTable = {
         {
             field: "NotNull",
             title: "不可为空",
-            width: 120,
+            width: 70,
             required: true,
             edit: { type: "text" },
             sortable: true //是否排序(目前第一个字段为排序字段，其他字段排序开发中)
         },
         {
             field: "LimitLenght",
-            title: "限制字符长度",
+            title: "限制长度",
             fixed: true,
-            width: 150,
+            width: 80,
             required: true,
             edit: { type: "text", min: 2, max: 4 }
         },
@@ -59,27 +59,27 @@ let editTable = {
             field: "UserImg",
             title: "图片",
             type: "img",
-            width: 150
+            width: 120
         },
         {
             field: "filetest",
-            title: "点击文件下载",
-            width: 190,
+            title: "文件下载",
+            width: 110,
             type: 'file'//指定为file与excel即可下载文件
         },
         {
             field: "LimitNumber",
-            title: "数字限制大小",
+            title: "数字大小",
             summary:true,//设置求和，并可以实时计算
-            width: 110,
+            width: 70,
             require: true,
             edit: { type: "number", min: 3, max: 5 }
         },
         {
             field: "EventClick",
-            title: "点击自定义事件",
+            title: "不可编辑",
             type: "string",
-            width: 120,
+            width: 80,
             require: true
             // ,
             // click: (row, column) => {
@@ -92,7 +92,7 @@ let editTable = {
         {
             field: "FormatString",
             title: "格式化日期",
-            width: 120,
+            width: 90,
             require: true,
             formatter: row => {
                 //对单元格的数据格式化处理
@@ -116,21 +116,21 @@ let editTable = {
                     { key: "2", value: "审核未通过" }
                 ]
             },
-            width: 180
+            width: 110
         },
         {
             field: "Enable",
             title: "自动绑定KeyValue",
             type: "byte",
             bind: { key: "enable", data: [] }, //此处值为data空数据，自行从后台字典数据源加载
-            width: 150,
+            width: 110,
             edit: { type: "switch" }
         },
         {
             field: "CreateDate",
             title: "日期",
             type: "datetime",
-            width: 150,
+            width: 110,
             edit: { type: "datetime" }
         }
     ]

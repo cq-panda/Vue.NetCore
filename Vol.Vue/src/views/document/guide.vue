@@ -124,8 +124,7 @@
         style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;"
       >
         <span style="line-height:3;font-size:14px;">
-          <span style="font-size:16px;">输入htt</span>
-          <span style="font-size:16px;">p://localhost:8080访问（本地超级管理员帐号：admin 密码:123456）</span>
+          <span style="font-size:16px;">输入http://localhost:8080访问（本地超级管理员帐号：admin 密码:123456）</span>
         </span>
       </li>
     </ul>

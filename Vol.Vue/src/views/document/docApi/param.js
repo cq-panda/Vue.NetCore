@@ -88,7 +88,7 @@ let param = {
         { name: "--", desc: "--", type: "--", default: "--" },
         { name: "url", desc: "远程加载数据的地址，配置了url默认从远程加载数据", type: "string", default: "" }, { name: "defaultLoadPage", desc: "传入了url参数，是否默认加载表格数据", type: "bool", default: "true" },
         { name: "paginationHide", desc: "是否隐藏分页数据", type: "bool", default: "true" },
-        { name: "index", desc: "是否创建索引号,如果需要表格编辑功能，这里需要设置为true", type: "bool", default: "false" },
+        { name: "index", desc: "是否创建索引号(如果启用编辑功能,index必须设置为true)", type: "bool", default: "false" },
         { name: "tableData", desc: "table表数据，如果不需要从远程加载table数据，请设置tableData属性,格式:[{'字段1':'值1'},{'字段2':'值2'}]", type: "array", default: "[]" },
         { name: "--", desc: "--", type: "--", default: "--" },
         { name: "columns", desc: "table表参数配置", type: "array", default: "[]" },
@@ -102,15 +102,16 @@ let param = {
         { name: "type", desc: "目前只有img,file(设置了此属性，点击即可下载文件),其他不需要设置", type: "string", default: "" },
         { name: "required", desc: "是否必填项(设置edit了属性才会生效)", type: "bool", default: "false" },
         { name: "summary", desc: "是否显示统计求和,目前远程api返回的数据才有效，前台参照sellorder.js配置,后台可参照SellOrder表查询数据返回的格式", type: "bool", default: "false" },
-        { name: "edit{", desc: "表格编辑配置", type: "json", default: "" },
+        { name: "edit:{", desc: "表格编辑配置", type: "json", default: "" },
         { name: "type", desc: "编辑创建的标签类型：number、decimal、text、datetime、date、switch、select", type: "", default: "" },
+        { name: "keep", desc: "当前单元格始终处于编辑状态", type: "bool", default: "false" },
         { name: "min", desc: "type为number、decimal时验证最小值,其他验证长度", type: "number", default: "" },
         { name: "max}", desc: "同上min", type: "number", default: "" },
         { name: "--", desc: "--", type: "--", default: "--" },
         {
             name: "onChange", desc: `<div class="cnblogs_Highlighter">
-        <div>select选择事件(只对编辑生效)</div>
-        <div>onChange:(column,row,tableData)=&gt;{</div>
+        <div>select、switch组件选择事件(只对编辑生效)</div>
+        <div>onChange:(column,row,tableData,value)=&gt;{</div>
         <pre class="brush:javascript;gutter:true;"><em id="__mceDel">             this.$Message.error(row["test2"]);
                     },
         </em></pre>
@@ -513,6 +514,7 @@ let param = {
                 detailRowChange(row) {  </span><span style="color: #008000;">//</span><span style="color: #008000;">明细表界面table点击行事件，只有设置了single=true单选才会生效</span>
                 },
                 reloadDicSource() { <span style="color: #008000;">//重新加载字典绑定的数据源</span>
+                &nbsp;&nbsp;&nbsp; <span style="color: #0000ff;">this</span>.initDicKeys();
                 }
             }
         };
