@@ -113,60 +113,64 @@ namespace VOL.Core.Extensions
         /// <param name="expressionType">创建表达式的类型,如:p=>p.propertyName != propertyValue 
         /// p=>p.propertyName.Contains(propertyValue)</param>
         /// <returns></returns>
-        private static Expression<Func<T, bool>> CreateExpression<T>(this string propertyName, object propertyValue, ParameterExpression parameter, LinqExpressionType expressionType)
+        private static Expression<Func<T, bool>> CreateExpression<T>(
+          this string propertyName,
+          object propertyValue,
+          ParameterExpression parameter,
+          LinqExpressionType expressionType)
         {
-            Expression<Func<T, bool>> expression;
             Type proType = typeof(T).GetProperty(propertyName).PropertyType;
             //创建节点变量如p=>的节点p
-            parameter = parameter ?? Expression.Parameter(typeof(T), "p");//创建参数p
+            parameter ??= Expression.Parameter(typeof(T), "p");//创建参数p
             //创建节点的属性p=>p.name 属性name
             MemberExpression memberProperty = Expression.PropertyOrField(parameter, propertyName);
             if (expressionType == LinqExpressionType.In)
             {
-                System.Collections.IList list = propertyValue as System.Collections.IList;
-                if (list == null || list.Count == 0)
-                    throw new Exception("属性值类型不正确");
+                if (!(propertyValue is System.Collections.IList list) || list.Count == 0) throw new Exception("属性值类型不正确");
+
+                bool isStringValue = true;
                 List<object> objList = new List<object>();
-                bool isString = true;
+
                 if (proType.ToString() != "System.String")
                 {
-                    foreach (var item in list)
+                    isStringValue = false;
+                    foreach (var value in list)
                     {
-                        objList.Add(item.ToString().ChangeType(proType));
+                        objList.Add(value.ToString().ChangeType(proType));
                     }
                     list = objList;
-                    isString = false;
-                }
-                //typeof(List<string>)
-                MethodInfo method = typeof(System.Collections.IList).GetMethod("Contains");
-                //创建集合常量并设置为常量的值
-                ConstantExpression constantCollection = Expression.Constant(list);
-                //创建一个表示调用带参数的方法的：new string[]{"1","a"}.Contains("a");
-                MethodCallExpression methodCall = null;
-                if (isString)
-                {
-                    methodCall = Expression.Call(constantCollection, method, memberProperty);
-                }
-                else
-                {
-                    methodCall = Expression.Call(constantCollection, method, Expression.Convert(memberProperty, typeof(object)));
                 }
 
-                //Expression.Convert(
-                //创建委托p=>new string[]{"1","a"}.Contains(p.name);
-                expression = Expression.Lambda<Func<T, bool>>(methodCall, parameter);
-                return expression;
+                if (isStringValue)
+                {
+                    //string 类型的字段，如果值带有'单引号,EF会默认变成''两个单引号
+                    MethodInfo method = typeof(System.Collections.IList).GetMethod("Contains");
+                    //创建集合常量并设置为常量的值
+                    ConstantExpression constantCollection = Expression.Constant(list);
+                    //创建一个表示调用带参数的方法的：new string[]{"1","a"}.Contains("a");
+                    MethodCallExpression methodCall = Expression.Call(constantCollection, method, memberProperty);
+                    return Expression.Lambda<Func<T, bool>>(methodCall, parameter);
+                }
+                //非string字段，按上面方式处理报异常Null TypeMapping in Sql Tree
+                BinaryExpression body = null;
+                foreach (var value in list)
+                {
+                    ConstantExpression constantExpression = Expression.Constant(value);
+                    UnaryExpression unaryExpression = Expression.Convert(memberProperty, constantExpression.Type);
+
+                    body = body == null
+                        ? Expression.Equal(unaryExpression, constantExpression)
+                        : Expression.OrElse(body, Expression.Equal(unaryExpression, constantExpression));
+                }
+                return Expression.Lambda<Func<T, bool>>(body, parameter);
             }
-
-
-
 
             //  object value = propertyValue;
             ConstantExpression constant = proType.ToString() == "System.String"
                 ? Expression.Constant(propertyValue) : Expression.Constant(propertyValue.ToString().ChangeType(proType));
 
             UnaryExpression member = Expression.Convert(memberProperty, constant.Type);
-
+            Expression<Func<T, bool>> expression;
             switch (expressionType)
             {
                 //p=>p.propertyName == propertyValue
@@ -215,7 +219,6 @@ namespace VOL.Core.Extensions
             }
             return expression;
         }
-
 
         /// <summary>
         /// 表达式转换成KeyValList(主要用于多字段排序，并且多个字段的排序规则不一样)
