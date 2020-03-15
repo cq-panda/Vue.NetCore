@@ -166,14 +166,7 @@ namespace VOL.Core.Extensions
         }
         public static bool IsDate(this object str)
         {
-            DateTime dateTime = DateTime.Now;
-            if (str.IsDate(out dateTime))
-            {
-                if (dateTime.Year <= 1990)
-                    return false;
-                return true;
-            }
-            return false;
+            return str.IsDate(out _);
         }
         public static bool IsDate(this object str, out DateTime dateTime)
         {
