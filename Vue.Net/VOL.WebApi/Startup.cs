@@ -103,7 +103,10 @@ namespace VOL.WebApi
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins(corsUrls.Split(",")).AllowCredentials()
+                        builder.WithOrigins(corsUrls.Split(","))
+                        //添加预检请求过期时间
+                         .SetPreflightMaxAge(TimeSpan.FromSeconds(2520))
+                        .AllowCredentials()
                         .AllowAnyHeader().AllowAnyMethod();
                     });
             });
