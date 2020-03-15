@@ -1036,10 +1036,10 @@ export default {
   background: #ddd;
 }
 .vol-table .table-img {
-  height: 70px;
+  height: 40px;
   border-radius: 5px;
   margin-right: 10px;
-  width: 100px;
+  width: 40px;
   object-fit: cover;
 }
 .vol-table .table-img:hover {
