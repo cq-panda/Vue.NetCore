@@ -229,11 +229,16 @@ export default {
           try {
             if (x.auth) {
               x.auth = JSON.parse(x.auth);
+              this.action.splice(8, this.action.length);
               this.actions = x.auth.map(element => {
+                if (this.actionValues.indexOf(element.value) == -1) {
+                  this.action.push(element);
+                }
                 return element.value;
               });
               this.icon = x.icon;
             } else {
+              this.action.splice(8, this.action.length);
               x.auth = [];
               this.icon = "";
               this.actions = [];
@@ -249,6 +254,9 @@ export default {
     }
   },
   created() {
+    this.actionValues = this.action.map(x => {
+      return x.value;
+    });
     this.http.post("/api/menu/getMenu", {}, true).then(x => {
       this.tree = x;
     });
@@ -270,6 +278,7 @@ export default {
         { text: "上传", value: "Upload" },
         { text: "审核", value: "Audit" }
       ],
+      actionValues: [],
       actions: [],
       icon: "",
       model: false,
