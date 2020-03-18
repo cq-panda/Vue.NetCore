@@ -10,7 +10,7 @@ let extension = {
         modelBody: '',
         modelFooter: ''
     },
-    text: "代码生成器中，如果字段是图片地址，勾选启用图片支持即可",
+    text: "代码生成器中，如果字段是图片地址或文件，选择[table列显示类型]即可",
     buttons: {
         box: //新建、编辑弹出框按钮
             [//ViewGrid查询界面按钮
