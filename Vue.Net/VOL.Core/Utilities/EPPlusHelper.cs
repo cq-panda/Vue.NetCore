@@ -344,8 +344,9 @@ namespace VOL.Core.Utilities
         private static List<CellOptions> GetExportColumnInfo(string tableName, bool temlate = false, bool filterKeyValue = true)
         {
             //&& x.IsDisplay == 1&&x.IsReadDataset==0只导出代码生器中设置为显示并且不是只读的列，可根据具体业务设置导出列
+			// && x.IsReadDataset == 0
             List<CellOptions> cellOptions = DBServerProvider.DbContext.Set<Sys_TableColumn>()
-              .Where(x => x.TableName == tableName && x.IsDisplay == 1 && x.IsReadDataset == 0).Select(c => new CellOptions()
+              .Where(x => x.TableName == tableName && x.IsDisplay == 1).Select(c => new CellOptions()
               {
                   ColumnName = c.ColumnName,
                   ColumnCNName = c.ColumnCnName,
