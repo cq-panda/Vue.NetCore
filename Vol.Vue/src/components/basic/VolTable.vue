@@ -107,7 +107,7 @@
                 v-for="(file,vIndex ) in  getFilePath(scope.row[column.field])"
                 :key="vIndex"
                 :onerror="defaultImg"
-                @click="viewImg(scope.row,column)"
+                @click="viewImg(scope.row,column,file.path)"
                 class="table-img"
                 :src="file.path"
               />
@@ -698,8 +698,8 @@ export default {
       }
       this.rowData.push(row);
     },
-    viewImg(row, column) {
-      this.base.previewImg(row[column.field], this.http.ipAddress);
+    viewImg(row, column,url) {
+      this.base.previewImg(url, this.http.ipAddress);
       // window.open(row[column.field]);
     },
     link(row, column) {
