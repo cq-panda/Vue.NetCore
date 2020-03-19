@@ -11,7 +11,7 @@
           v-for="(item,index) in timeline"
           :key="index"
         >
-          <span @click="change(item,index)">{{item.text}}</span>
+          <span @click="change(item,index)" :class="{new:item.new}">{{item.text}}</span>
         </div>
       </div>
       <div>
@@ -87,7 +87,8 @@ export default {
         {
           text: "前端开发",
           path: "/document/vueDev",
-          actived: false
+          actived: false,
+          new:true
         },
         {
           text: "后台开发",
@@ -185,6 +186,15 @@ export default {
 .doc-api {
   max-width: 100%;
   padding: 80px 40px;
+}
+.new:after{
+    content: ".";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #ececea;
+    top: 11px;
+    border-radius: 50%;
 }
 </style>
 <style scoped>
