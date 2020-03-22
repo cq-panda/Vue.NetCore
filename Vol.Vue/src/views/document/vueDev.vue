@@ -84,10 +84,80 @@ export default {
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/02.png"
         },
         {
-          title: "编写中--待完",
+          title: "手动设置排序列",
           content: [
-            `编写中`
+            ` &nbsp; &nbsp; onInit() {<br />
+              &nbsp; &nbsp; &nbsp; this.columns.forEach(row =&gt; {<br />
+              &nbsp; &nbsp; &nbsp; &nbsp; if (row.field == "AuditStatus") {<br />
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; row.sort = true;<br />
+              &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+              &nbsp; &nbsp; &nbsp; })<br />
+              &nbsp; &nbsp; }<br />`
           ],
+          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，具体参数配置见VolTable组件文档`,
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/03.png"
+        },
+        {
+          title: "触发switch",
+          content: [
+            `&nbsp; &nbsp; onInit() {<br />
+            &nbsp; &nbsp; &nbsp; this.columns.forEach(row =&gt; {<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; if (row.field == "Enable") {<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //强制设置为编辑列，类型为switch<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; row.edit = { type: "switch", keep: true };<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //手动绑定数据源<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //如果设置key的字典编号，data设置空数组会自动绑定数据源<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; row.bind = { key: "enable", data: [{ key: 0, value: '禁用' }, { key: 1, value: '启用' }] };<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //绑定switch切换事件<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let $this=this;<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; row.onChange = function (options, row,_columns,status) {<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //在此处可以将数据提到后台处理<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this.$Message.info(status?"true":"false");<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+            &nbsp; &nbsp; &nbsp; })<br />
+            &nbsp; &nbsp; }<br />`
+          ],
+          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，具体参数配置见VolTable组件文档`,
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/04.png"
+        },
+         {
+          title: "动态添加一列按钮",
+          content: [
+            `&nbsp; onInit() {<br />
+&nbsp; &nbsp; &nbsp; //在指定的列后面手动增加一列<br />
+&nbsp; &nbsp; &nbsp; for (let index = 0; index &lt; this.columns.length; index++) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; const row = this.columns[index];<br />
+&nbsp; &nbsp; &nbsp; &nbsp; if (row.field != 'City') { continue; }<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; //参数配置为组件文档VolTable中columns的属性<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let options = {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; field: 'oper', title: '操作',<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; type: 'text', width: 100,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //返回一个标签<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; formatter: (row) =&gt; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return '&lt;div style="cursor: pointer; \<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; background: #9C27B0; color: white;\<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; padding: 3px 7px;width: 81px;\<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; text-align: center;\<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border-radius: 4px;"&gt;测试按钮&lt;/div&gt;'<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //触发事件,可以在此事件再打开一个弹出框等操作<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; click: (row, column, event) =&gt; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; this.$Message.info("触发事件");<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; };<br />
+&nbsp; &nbsp; &nbsp; &nbsp; //在city(地区)列后添加一行<br />
+&nbsp; &nbsp; &nbsp; &nbsp; this.columns.splice(index + 1, 0, options)<br />
+&nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; }<br />`
+          ],
+          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，具体参数配置见VolTable组件文档`,
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/05.png"
+        },
+        {
+          title: "编写中--待完",
+          content: [`编写中`],
           tips: ` 编写中`,
           img: ""
         }
@@ -167,7 +237,7 @@ h2 {
   box-shadow: 0 8px 12px #ebedf0;
   .code {
     margin-right: 15px;
-    border-right: 1px solid #9eb2c1;
+    border-right: 1px solid #dbddde;
     flex: 1;
   }
   .img {
