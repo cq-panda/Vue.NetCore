@@ -178,9 +178,9 @@
             <td>明细从表,&nbsp;用于生成主从表关系及UI,&nbsp;生成代码前,&nbsp;必须先生成明细表代码</td>
           </tr>
           <tr>
-            <td>连接字段</td>
+            <td>快捷编辑字段</td>
             <td>
-              设置连接字段后，前台界面表格点击此链接可快速查看详细信息&nbsp;
+              设置[快捷编辑字段]后，前台界面表格点击此链接可快速查看详细信息&nbsp;
               <img
                 height="110"
                 src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/link.png"
