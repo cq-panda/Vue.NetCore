@@ -260,7 +260,7 @@ namespace VOL.Core.Extensions
         /// <returns></returns>
         public static Dictionary<string, QueryOrderBy> GetExpressionToDic<T>(this Expression<Func<T, Dictionary<object, QueryOrderBy>>> expression)
         {
-            return expression.GetExpressionToPair().ToList().ToDictionary(x => x.Key, x => x.Value);
+            return expression.GetExpressionToPair().Reverse().ToList().ToDictionary(x => x.Key, x => x.Value);
         }
         /// <summary>
         /// 解析多字段排序
