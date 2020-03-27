@@ -34,27 +34,31 @@ axios.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
+
 //返回状态判断(添加响应拦截器)
 axios.interceptors.response.use((res) => {
-    _showLoading && loading.close();
-    //对响应数据做些事
-    if (res.data.success) {
-        return res;
-    }
-    return Promise.resolve(res);
+  _showLoading && loading.close();
+  //对响应数据做些事
+  if (res.data.success) {
+    return res;
+  }
+  return Promise.resolve(res);
 }, (error) => {
-    _showLoading && loading.close();
-    let httpMessage = '';
+  _showLoading && loading.close();
+  let httpMessage = '';
+  if (error.response) {
     if (error.response.data && error.response.data.message) {
-        httpMessage = error.response.data.message;
+      httpMessage = error.response.data.message;
     } else if (error.response.status == '404') {
-        httpMessage = "没有找到请求的地址";
-    } else {
-        httpMessage = '网络好像出了点问题~'
+      httpMessage = "没有找到请求的地址";
     }
+  }
+  else {
+    httpMessage = '网络好像出了点问题~'
+  }
 
-    redirect(error.response, httpMessage);
-    return Promise.reject(error.response);
+  redirect(error.response||{}, httpMessage);
+  return Promise.reject(error.response);
 });
 
 let $httpVue = null, currentToken = '';
