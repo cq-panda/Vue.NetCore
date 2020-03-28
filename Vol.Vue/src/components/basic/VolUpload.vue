@@ -347,7 +347,9 @@ export default {
               // this.files = null;
               return;
             }
-            this.fileInfo.splice(0);
+            if (!this.append) {
+              this.fileInfo.splice(0);
+            }
             this.files.forEach(file => {
               this.fileInfo.push({ name: file.name, path: x.data + file.name });
             });
@@ -438,7 +440,10 @@ export default {
       if (!files) {
         files = this.files;
       }
-      if (this.multiple && files.length > (this.maxFile || 5)) {
+      if (
+        this.multiple &&
+        files.length + this.fileInfo.length > (this.maxFile || 5)
+      ) {
         this.$Message.error({
           duration: 5,
           content:

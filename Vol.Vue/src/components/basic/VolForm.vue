@@ -132,6 +132,7 @@
                 :fileTypes="item.fileTypes?item.fileTypes:[]"
                 :upload-before="item.uploadBefore"
                 :upload-after="item.uploadAfter"
+                :append="item.append?true:false"
                 :on-change="item.onChange"
                 :file-click="item.fileClick"
                 :remove-before="item.removeBefore"
