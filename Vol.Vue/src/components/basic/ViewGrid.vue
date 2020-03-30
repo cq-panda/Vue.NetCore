@@ -143,6 +143,7 @@
                   <Button
                     v-for="(btn,bIndex) in detailOptions.buttons"
                     :key="bIndex"
+                    v-show="!btn.hasOwnProperty('hidden')||!btn.hidden"
                     @click="onClick(btn.onClick)"
                     type="dashed"
                     ghost
