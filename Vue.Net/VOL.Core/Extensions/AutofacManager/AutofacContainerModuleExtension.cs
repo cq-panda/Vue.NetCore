@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ using System.Runtime.Loader;
 using VOL.Core.CacheManager;
 using VOL.Core.Configuration;
 using VOL.Core.Const;
+using VOL.Core.Dapper;
 using VOL.Core.DBManager;
 using VOL.Core.EFDbContext;
 using VOL.Core.Enums;
@@ -64,6 +66,10 @@ namespace VOL.Core.Extensions
 
             if (DBType.Name == DbCurrentType.MySql.ToString())
             {
+                //2020.03.31增加dapper对mysql字段Guid映射
+                SqlMapper.AddTypeHandler(new DapperParseGuidTypeHandler());
+                SqlMapper.RemoveTypeMap(typeof(Guid?));
+
                 //services.AddDbContext<VOLContext>();
                 //mysql8.x的版本使用Pomelo.EntityFrameworkCore.MySql 3.1会产生异常，需要在字符串连接上添加allowPublicKeyRetrieval=true
                 services.AddDbContextPool<VOLContext>(optionsBuilder => { optionsBuilder.UseMySql(connectionString); }, 64);
