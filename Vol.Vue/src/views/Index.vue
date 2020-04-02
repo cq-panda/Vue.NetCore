@@ -1,5 +1,5 @@
 <template>
-  <div id="vol-container">
+  <div id="vol-container" :class="['vol-them-'+them]">
     <div class="vol-aside">
       <div class="header">
         <img v-bind:src="log" />
@@ -34,6 +34,10 @@
             <span>{{date}}</span>
             <!-- <span>星期五</span> -->
           </div>
+          <div class="settings">
+            <Icon :size="20" type="md-settings" @click="()=>{them_moel=true;}" />
+            <!-- <Icon type="md-paw" /> -->
+          </div>
         </div>
       </div>
       <div class="vol-path">
@@ -66,6 +70,16 @@
         </el-scrollbar>
       </div>
     </div>
+    <!-- 2020.04.02增加换皮肤功能 -->
+    <Drawer class="them-selector" title="选择皮肤颜色" :closable="false" v-model="them_moel">
+      <div
+        @click="changeThen(item.name)"
+        class="item"
+        v-for="(item,index) in them_color"
+        :key="index"
+        :style="{background:item.color}"
+      ></div>
+    </Drawer>
   </div>
 </template>
 <script>
@@ -75,6 +89,17 @@ var $vueIndex;
 export default {
   data() {
     return {
+      them_moel: false,
+      them: "dark",
+      them_color: [
+        { name: "dark", color: "#272929" },
+        { name: "blue", color: "rgb(45, 140, 240)" },
+        { name: "red", color: "rgb(237, 64, 20)" },
+        { name: "orange", color: "rgb(255, 153, 0)" },
+        { name: "green", color: "rgb(25, 190, 107)" },
+        { name: "white", color: "#fff" },
+        { name: "gray", color: "#546e7a" }
+      ], //2020.04.02增加换皮肤功能
       errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       userName: "--",
       userImg: "",
@@ -96,6 +121,10 @@ export default {
     VolMenu
   },
   created() {
+    let them = localStorage.getItem("vol_them");
+    if (them) {
+      this.them = them;
+    }
     let userInfo = this.$store.getters.getUserInfo();
     this.userName = userInfo.userName;
     this.userImg = this.base.getImgSrc(userInfo.img, this.http.ipAddress);
@@ -139,6 +168,12 @@ export default {
     }
   },
   methods: {
+    changeThen(name) {
+      if (this.them != name) {
+        this.them = name;
+      }
+      localStorage.setItem("vol_them", name);
+    },
     to(item) {
       if (item.path == "#") {
         window.open("https://github.com/cq-panda/Vue.NetCore");
@@ -274,17 +309,6 @@ export default {
 };
 </script>
 
-<style>
-/* #vol-container {
-  width: 100%;
-  left: 0;
-  height: 100%;
-  position: fixed;
-  right: 0;
-  z-index: 1106;
-} */
-</style>
-
 <style scoped>
 body {
   height: 100%;
@@ -311,7 +335,7 @@ body {
   width: 199px;
   position: relative;
   line-height: 60px;
-  background-color: rgb(1, 5, 8);
+  /* background-color: rgb(1, 5, 8); */
 }
 .vol-aside .vol-menu {
   position: absolute;
@@ -319,17 +343,10 @@ body {
   top: 60px;
   bottom: 0;
   border-right: 1px solid #e3e3e3;
-  background: black;
 }
 .vol-aside .vol-menu >>> .ivu-menu {
-  color: hsla(0, 0%, 100%, 0.7);
-  background: black;
   text-align: left;
   width: 100% !important;
-}
-.vol-aside .vol-menu >>> .ivu-menu-item-active.ivu-menu-item-selected {
-  color: white !important;
-  background: #0fa0e1 !important;
 }
 .vol-container {
   min-width: 800px;
@@ -346,6 +363,7 @@ body {
   position: relative;
   width: 100%;
   display: inline-block;
+  border-top: 1px solid #e4e4e4;
   border-bottom: 2px solid #eee;
   /* z-index: 1; */
 }
@@ -359,9 +377,10 @@ body {
   width: 100%;
   position: relative;
   /* line-height: 60px; */
-  background-color: #272929;
+  /* background-color: #272929; */
 }
 .vol-main {
+  /* background: #ecebeb; */
   position: absolute;
   width: 100%;
   /* height: 100%; */
@@ -371,6 +390,9 @@ body {
   /* padding: 15px; */
   overflow: auto;
 }
+</style>
+
+<style lang="less" scoped>
 .header {
   padding: 5px;
 }
@@ -379,7 +401,7 @@ body {
   margin-right: 25px;
 }
 .header-info {
-  right: 30px;
+  right: 20px;
   display: inline-block;
   position: absolute;
   height: 100%;
@@ -405,22 +427,22 @@ body {
   vertical-align: middle;
   height: 100%;
   position: absolute;
-  color: #dcdfe6;
+
   text-align: center;
   font-size: 15px;
   left: 21px;
   line-height: 60px;
-  /* padding-top: 11px; */
   letter-spacing: 2px;
 }
 .vol-header .user {
   padding: 12px;
   position: relative;
-  /* right: 20px; */
-  color: #ececec;
-  /* float: right; */
   display: inline-block;
   height: 100%;
+}
+.vol-header .settings {
+  padding-top: 10px;
+  color: #d4d2d2;
 }
 .vol-header .user span {
   position: relative;
@@ -429,8 +451,10 @@ body {
   cursor: pointer;
 }
 .header-navigation {
-  box-shadow: 0px 0px 4px #888888;
+  cursor: pointer;
+  box-shadow: 4px 6px 6px #f6f7f7;
   border-bottom: 1px solid #eee;
+  // border-top: 1px solid #eee;
   height: 32px;
   overflow: hidden;
   line-height: 32px;
@@ -450,17 +474,7 @@ body {
   min-width: 80px;
   border-right: 1px solid #eee;
 }
-.header-navigation li.active {
-  background: #607d8b;
-  /* border-bottom: 3px solid #03a9f4; */
-  color: white;
-  /* border-bottom: 2px solid #03a9f4; */
-}
-.header-navigation li:hover {
-  cursor: pointer;
-  background: #607d8b;
-  color: white;
-}
+
 .header-navigation li .icon-romve {
   top: 5px;
   position: absolute;
@@ -499,22 +513,288 @@ body {
   padding: 20px 20px;
 }
 
-.h-link .actived {
-  border-bottom: 2px solid;
-  color: white;
-}
-
-.h-link .actived a {
-  color: white !important;
-}
-.h-link a:hover {
-  color: #dfdfdf !important;
-}
 img[src=""],
 img:not([src]) {
   opacity: 0;
 }
 </style>
+
+<style lang="less" scoped>
+//黑色
+.vol-them-dark {
+  .header-text {
+    color: #dcdfe6;
+  }
+  .vol-header,
+  .header {
+    background-color: #272929;
+  }
+  .h-link a:hover {
+    color: #b0b0b0;
+  }
+  .h-link a:hover {
+    color: #dfdfdf;
+  }
+  .h-link .actived {
+    border-bottom: 2px solid white;
+  }
+  .h-link .actived a {
+    color: white !important;
+  }
+  .vol-header .user {
+    color: #ececec;
+  }
+  .vol-header .settings {
+    color: #d4d2d2;
+  }
+  .vol-aside .vol-menu {
+    background: black;
+  }
+  .header-navigation li.active {
+    background: #607d8b;
+    /* border-bottom: 3px solid #03a9f4; */
+    color: white;
+    /* border-bottom: 2px solid #03a9f4; */
+  }
+  .header-navigation li:hover {
+    cursor: pointer;
+    background: #607d8b;
+    color: white;
+  }
+}
+</style>
+
+<style  scoped>
+/* 黑色左侧菜单 */
+.vol-them-dark .vol-aside .vol-menu >>> .ivu-menu {
+  color: hsla(0, 0%, 100%, 0.7);
+  background: black;
+}
+.vol-them-dark
+  .vol-aside
+  .vol-menu
+  >>> .ivu-menu-item-active.ivu-menu-item-selected {
+  color: white !important;
+  background: #0fa0e1 !important;
+}
+</style>
+
+
+
+<style lang="less" scoped>
+//红色
+.vol-them-red {
+  .header-text {
+    color: #dcdfe6;
+  }
+  .vol-header,
+  .header {
+    background-color: rgb(237, 64, 20);
+  }
+
+  .h-link a:hover {
+    color: #dfdfdf;
+  }
+  .h-link .actived {
+    border-bottom: 2px solid white;
+  }
+
+  .h-link a,
+  .h-link .actived a,
+  .vol-header .settings,
+  .vol-header .user {
+    color: white;
+  }
+
+  .header-navigation li.active,
+  .header-navigation li:hover {
+    background: rgb(237, 64, 20);
+    color: #fff;
+  }
+  .vol-header .header-text {
+    color: #fbfbfb;
+  }
+  .vol-aside .vol-menu {
+    background: #515a6e;
+  }
+}
+</style>
+
+
+
+<style lang="less" scoped>
+//橙色
+.vol-them-orange {
+  .header-text {
+    color: #dcdfe6;
+  }
+  .vol-header,
+  .header {
+    background-color: rgb(255, 153, 0);
+  }
+
+  .h-link a:hover {
+    color: #dfdfdf;
+  }
+  .h-link .actived {
+    border-bottom: 2px solid white;
+  }
+
+  .h-link a,
+  .h-link .actived a,
+  .vol-header .settings,
+  .vol-header .user {
+    color: white;
+  }
+
+  .header-navigation li.active,
+  .header-navigation li:hover {
+    background: rgb(255, 153, 0);
+    color: #fff;
+  }
+  .vol-header .header-text {
+    color: #fbfbfb;
+  }
+  .vol-aside .vol-menu {
+    background: #515a6e;
+  }
+}
+</style>
+
+
+<style lang="less" scoped>
+//绝色
+.vol-them-green {
+  .header-text {
+    color: #dcdfe6;
+  }
+  .vol-header,
+  .header {
+    background-color: rgb(25, 190, 107);
+  }
+
+  .h-link a:hover {
+    color: #dfdfdf;
+  }
+  .h-link .actived {
+    border-bottom: 2px solid white;
+  }
+
+  .h-link a,
+  .h-link .actived a,
+  .vol-header .settings,
+  .vol-header .user {
+    color: white;
+  }
+
+  .header-navigation li.active,
+  .header-navigation li:hover {
+    background: rgb(25, 190, 107);
+    color: #fff;
+  }
+  .vol-header .header-text {
+    color: #fbfbfb;
+  }
+  .vol-aside .vol-menu {
+    background: #515a6e;
+  }
+}
+</style>
+
+
+<style lang="less" scoped>
+//蓝色
+.vol-them-blue {
+  .header-text {
+    color: #dcdfe6;
+  }
+  .vol-header,
+  .header {
+    background-color: rgb(45, 140, 240);
+  }
+
+  .h-link a:hover {
+    color: #dfdfdf;
+  }
+  .h-link .actived {
+    border-bottom: 2px solid white;
+  }
+
+  .h-link a,
+  .h-link .actived a,
+  .vol-header .settings,
+  .vol-header .user {
+    color: white;
+  }
+
+  .header-navigation li.active,
+  .header-navigation li:hover {
+    background: #1a89ff;
+    color: white;
+  }
+  .vol-header .header-text {
+    color: #fbfbfb;
+  }
+  .vol-aside .vol-menu {
+    background: #005bb8;
+  }
+}
+</style>
+
+<style  scoped>
+.vol-them-blue >>> .ivu-menu-submenu-title {
+  background: #005bb8 !important;
+}
+.vol-them-blue >>> .ivu-menu-opened {
+  background: #006cdf !important;
+  color: white;
+}
+</style>
+
+
+
+<style lang="less" scoped>
+//白色
+.vol-them-white {
+  // .header-text {
+  //   color: #dcdfe6;
+  // }
+  // .vol-header,
+  // .header {
+  //   background-color: rgb(45, 140, 240);
+  // }
+
+  .h-link a:hover {
+    color: #dfdfdf;
+  }
+  // .h-link .actived {
+  //   border-bottom: 2px solid white;
+  // }
+
+  // .h-link a,
+  // .h-link .actived a,
+  // .vol-header .settings,
+  // .vol-header .user {
+  //   color: white;
+  // }
+  .header-navigation {
+    border-top: 1px solid #eee;
+  }
+  .header-navigation li.active,
+  .header-navigation li:hover {
+    background: #f6f6f6;
+    color: #de1111;
+  }
+  // .vol-header .header-text {
+  //   color: #fbfbfb;
+  // }
+  .vol-aside .vol-menu {
+    background: #515a6e;
+  }
+}
+</style>
+
+
 <style>
 .el-scrollbar__wrap {
   overflow-x: hidden;
@@ -531,14 +811,14 @@ img:not([src]) {
   width: 10px;
   height: 7px;
   background-color: transparent;
-} 
+}
 *::-webkit-scrollbar-track {
   background-color: #f0f6ff;
-} 
+}
 *::-webkit-scrollbar-thumb {
   background-color: #73abb1;
   border-radius: 3px;
-} 
+}
 .scrollbarHide::-webkit-scrollbar {
   display: none;
 }
@@ -590,5 +870,17 @@ img:not([src]) {
 .fadeInLeftBig {
   -webkit-animation-name: fadeInLeftBig;
   animation-name: fadeInLeftBig;
+}
+</style>
+<style lang="less" scoped>
+.them-selector {
+  .item {
+    cursor: pointer;
+    width: 230px;
+    height: 80px;
+    border-radius: 5px;
+    margin-bottom: 17px;
+    border: 1px solid #d4d2d2;
+  }
 }
 </style>
