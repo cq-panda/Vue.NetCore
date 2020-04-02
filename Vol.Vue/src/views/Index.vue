@@ -453,7 +453,7 @@ body {
 }
 .header-navigation {
   cursor: pointer;
-  box-shadow: 4px 6px 6px #f6f7f7;
+    box-shadow: 3px 0px 6px #f6f7f7;
   border-bottom: 1px solid #eee;
   // border-top: 1px solid #eee;
   height: 32px;
@@ -743,15 +743,14 @@ img:not([src]) {
 </style>
 
 <style  scoped>
-.vol-them-blue >>> .ivu-menu-submenu-title {
+.vol-them-blue .vol-aside >>> .ivu-menu-submenu-title {
   background: #005bb8 !important;
 }
-.vol-them-blue >>> .ivu-menu-opened {
+.vol-them-blue .vol-aside >>> .ivu-menu-opened {
   background: #006cdf !important;
   color: white;
 }
 </style>
-
 
 
 <style lang="less" scoped>
