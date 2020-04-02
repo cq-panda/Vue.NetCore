@@ -96,9 +96,8 @@ export default {
         { name: "blue", color: "rgb(45, 140, 240)" },
         { name: "red", color: "rgb(237, 64, 20)" },
         { name: "orange", color: "rgb(255, 153, 0)" },
-        { name: "green", color: "rgb(25, 190, 107)" },
         { name: "white", color: "#fff" },
-        { name: "gray", color: "#546e7a" }
+        { name: "green", color: "rgb(25, 190, 107)" }
       ], //2020.04.02增加换皮肤功能
       errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       userName: "--",
