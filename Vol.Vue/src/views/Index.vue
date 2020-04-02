@@ -189,11 +189,13 @@ export default {
         this.$store.commit("clearUserInfo", "");
       } else {
         this.selectId = item.id;
-        this.navigation.push({
-          id: item.id,
-          name: item.text,
-          path: item.path
-        });
+        if (!hasId) {
+          this.navigation.push({
+            id: item.id,
+            name: item.text,
+            path: item.path
+          });
+        }
       }
       this.$router.push({
         path: item.path
