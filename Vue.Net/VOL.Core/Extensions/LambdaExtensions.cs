@@ -10,6 +10,38 @@ namespace VOL.Core.Extensions
     public static class LambdaExtensions
     {
         /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="queryable"></param>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static IQueryable<T> TakePage<T>(this IQueryable<T> queryable, int page, int size = 15)
+        {
+            return queryable.TakeOrderByPage<T>(page, size);
+        }
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="queryable"></param>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="orderBy"></param>
+        /// <returns></returns>
+        public static IQueryable<T> TakeOrderByPage<T>(this IQueryable<T> queryable, int page, int size = 15, Expression<Func<T, Dictionary<object, QueryOrderBy>>> orderBy = null)
+        {
+            if (page <= 0)
+            {
+                page = 1;
+            }
+            return queryable.GetIQueryableOrderBy(orderBy.GetExpressionToDic())
+                  .Skip((page - 1) * size)
+                 .Take(size);
+        }
+
+        /// <summary>
         /// 创建lambda表达式：p=>true
         /// </summary>
         /// <typeparam name="T"></typeparam>

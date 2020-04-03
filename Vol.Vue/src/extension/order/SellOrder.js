@@ -23,8 +23,10 @@
 let extension = {
     components: {//动态扩充组件或组件路径
         //表单header、content、footer对应位置扩充的组件
-        gridHeader: () => import("./SellOrderComponents/GridHeaderExtend.vue"),//{ template: "<div>扩展组xx件</div>" },
-        gridBody: () => import("./SellOrderComponents/GridBodyExtend.vue"),
+        gridHeader:() => import("./SellOrderComponents/GridHeaderExtend.vue"),//{ template: "<div>扩展组xx件</div>" },
+        gridBody:  {
+          template: `<div>
+        <Alert type="success" show-icon> <p style="color:red;">一对一全部由代码生成，不需要写任何代码,点击新建或编辑查看明细表</p><p>如需要扩展，根据需要实现gridHeader、gridBody、gridFooter、modelHeader、modelBody、modelFooter任意位置</p></Alert></div>`},//() => import("./SellOrderComponents/GridBodyExtend.vue"),
         gridFooter: () => import("./SellOrderComponents/GridFooterExtend.vue"),
         //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
         modelHeader: "",
@@ -38,10 +40,10 @@ let extension = {
         <Step title="待进行"></Step>\
         </Steps></template>\
        </Alert>' },
-        modelFooter: () => import("./SellOrderComponents/ModelFooter.vue"),
+        modelFooter:"", //() => import("./SellOrderComponents/ModelFooter.vue"),
     },
     text: "示例覆盖全部可扩展方法,前台扩展文件SellOrder.js，后台Partial->SellOrdeService.cs",
-    buttons: { //扩展按钮
+    buttons: { //根据需要自行实现扩展按钮
         //注：没有编辑或新建权限的情况下，是不会显示此处添加的扩展按钮，如果仍需要显示此处的按钮，可以把按钮在methods的onInited方法中添加,如：this.boxButtons.push(...)
         view: [//ViewGrid查询界面按钮
             {
@@ -94,7 +96,8 @@ let extension = {
                     }
                 }]
     },//扩展的按钮
-    methods: {//方法扩展
+    methods: {
+      //扩展方法使用示例,根据需要实行下面的方法
         getServiceDate() {
             this.http.post("/api/SellOrder/getServiceDate", {}, '正在调用后台数据').then(date => {
                 this.$message.error("从后台获取的服务器时间是：" + date);

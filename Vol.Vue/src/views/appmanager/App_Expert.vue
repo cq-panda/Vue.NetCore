@@ -44,7 +44,7 @@
                               [{"title":"个人简介","field":"Resume","colSize":12,"type":"textarea"}],
                               [{"title":"头像","field":"HeadImageUrl","type":"img"}]],
                 searchFormFileds: {"ExpertName":"","AuditStatus":"","ReallyName":"","IDNumber":"","Education":"","Professional":"","Company":"","City":"","AuditDate":""},
-                searchFormOptions: [[{"title":"名称","field":"ExpertName"},{"title":"真实姓名","field":"ReallyName"},{"title":"身份证号","field":"IDNumber"}],[{"title":"学历","field":"Education","type":"text"},{"title":"职业","field":"Professional"},{"title":"所在公司","field":"Company"}],[{"dataKey":"audit","title":"审核状态","field":"AuditStatus","type":"dropList"},{"dataKey":"city","title":"地区","field":"City","type":"dropList"},{"title":"审核时间","field":"AuditDate","type":"datetime"}]],
+                searchFormOptions: [[{"title":"名称","field":"ExpertName","type":"like"},{"title":"真实姓名","field":"ReallyName"},{"title":"身份证号","field":"IDNumber"}],[{"title":"学历","field":"Education","type":"text"},{"title":"职业","field":"Professional"},{"title":"所在公司","field":"Company"}],[{"dataKey":"audit","title":"审核状态","field":"AuditStatus","type":"dropList"},{"dataKey":"city","title":"地区","field":"City","type":"dropList"},{"title":"审核时间","field":"AuditDate","type":"datetime"}]],
                 columns: [{field:'ExpertId',title:'主键ID',type:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'User_Id',title:'申请人帐号Id',type:'int',width:90,hidden:true,align:'left'},
                        {field:'ExpertName',title:'名称',type:'string',link:true,width:120,align:'left',sortable:true},

@@ -1,0 +1,175 @@
+<template>
+  <div class="vol-tabs">
+    <Tabs>
+      <TabPane label="从表1" icon="ios-aperture">
+        <!-- 从表1配置 -->
+        <div class="tabs1-header">
+          <div class="message">tableColumns1中设置edit属性可以开启编辑,table编辑完整功能见vol-table组件api</div>
+          <!-- 显示操作按钮 -->
+          <div class="btn-group">
+            <Button type="info" size="small" ghost @click="del">删除行</Button>
+            <Button type="info" size="small" ghost @click="add">添加行</Button>
+            <Button type="info" size="small" ghost @click="getRows">获取选中的行</Button>
+            <Button type="info" size="small" ghost @click="()=>{$refs.table1.load()}">刷新</Button>
+          </div>
+        </div>
+        <vol-table
+          ref="table1"
+          :loadKey="true"
+          :columns="tableColumns1"
+          :pagination-hide="false"
+          :height="200"
+          :url="table1Url"
+          :index="true"
+          @loadBefore="loadTableBefore1"
+          @loadAfter="loadTableAfter1"
+        ></vol-table>
+      </TabPane>
+
+      <TabPane label="从表2" icon="ios-aperture">
+        <!-- 从表2配置 ,双击可以开启编辑-->
+        <div class="tabs1-header">
+          <!-- 显示操作按钮 -->
+          <div class="message">tableColumns2配置,双击可以开启编辑</div>
+          <div class="btn-group">
+            <Button type="info" size="small" ghost @click="()=>{$refs.table2.addRow({});}">添加行</Button>
+            <Button type="info" size="small" ghost @click="()=>{$refs.table2.load()}">刷新</Button>
+          </div>
+        </div>
+        <vol-table
+          ref="table2"
+          :loadKey="true"
+          :columns="tableColumns2"
+          :pagination-hide="false"
+          :max-height="450"
+          :url="table2Ur"
+          :index="true"
+          @loadBefore="loadTableBefore2"
+          @loadAfter="loadTableAfter2"
+        ></vol-table>
+      </TabPane>
+      <TabPane label="一对多3" icon="ios-apps">一对多3(此处可以写任意内容)</TabPane>
+      <TabPane label="一对多4" icon="ios-apps">一对多4(此处可以写任意内容)</TabPane>
+      <TabPane label="一对多5" icon="ios-apps">一对多5(此处可以写任意内容)</TabPane>
+    </Tabs>
+  </div>
+</template>
+<script>
+//开发一对多从表需要参照voltable与viewgrid组件api
+import VolTable from "@/components/basic/VolTable.vue";
+export default {
+  components: { VolTable },
+  data() {
+    return {
+      //从表1
+      table1Url: "api/App_ReportPrice/getTable1Data", //table1获取数据的接口
+      //表配置的字段注意要与后台返回的查询字段大小写一致
+      tableColumns1: [
+        { field: "id", title: "主键ID", type: "int", width: 80, hidden: true },
+        { field: "title",  title: "标题", type: "string",  width: 200,  require: true,
+          sortable: true, edit: { type: "text", keep: true } //keep:true始终开启编辑，false双击才能编辑
+        },
+        { field: "imageUrl", title: "封面图片", type: "img", width: 170 },
+        { field: "dailyRecommend",  title: "内容推荐",  type: "sbyte",
+          bind: { key: "dr", data: [] }, edit: { type: "switch", keep: true },
+          width: 120, require: true,
+          onChange: (column, row, tableData, value) => { this.$Message.info(value + "");}
+        },
+        { field: "enable", title: "是否启用",  type: "int", width: 90,
+          bind: { key: "enable", data: [] }, //自动绑定数据源
+          //配置为select编辑类型,keep=true始终处于编辑状态(如果想要双击编辑，去掉keep属性，具体配置可见voltable组件api)
+          edit: { type: "select", keep: true },
+          onChange: (column, row, tableData) => { this.$Message.info(row.enable + ""); }
+        },
+        { field: "createDate",  title: "发布时间", type: "datetime",
+          width: 150, readonly: true,  sortable: true, edit: { type: "datetime", keep: true }}
+      ],
+      //从表2
+      table2Ur: "api/App_ReportPrice/getTable2Data", //table1获取数据的接口
+      //表配置的字段注意要与后台返回的查询字段大小写一致
+      tableColumns2: [
+        { field: "id", title: "主键ID", type: "int", width: 80, hidden: true },
+        { field: "name", title: "姓名",  edit: { type: "text" }, type: "text", width: 120 },
+        { field: "phoneNo", title: "电话", type: "text",edit: { type: "text" },  width: 150 },
+        { field: "describe", title: "描述", type: "text", edit: { type: "text" }, width: 300 },
+        { field: "createDate", title: "创建时间", type: "text",edit: { type: "datetime" },width: 150 }
+      ]
+    };
+  },
+  methods: {
+    //第一次打开弹出框时，如果是新建功能，禁止从后台查询
+    loadTableBefore(param, callBack) {
+      //获取查询页面的整个vue对象(对象是在App_ReportPrice.js的onInit时缓存起来的)
+      let _this = this.$store.getters.data().reportPrice;
+      //如果是新建功能，禁止从后台查询
+      if (_this.currentAction == "Add") {
+        // this.$refs.table1.reset();
+        return callBack(false);
+      }
+      //获取当前选中行的主键
+      let id = _this.currentRow.Id;
+      //添加从表的查询参数(条件)
+      //将当前选中的行主键传到后台用于查询(后台在GetTable2Data(PageDataOptions loadData)会接收到此参数)
+      param.wheres.push({ id: id });
+      callBack(true);
+    },
+    //加载从表1数据数前
+    loadTableBefore1(param, callBack) {
+      this.loadTableBefore(param, callBack);
+    },
+    //加载从表2数据数前
+    loadTableBefore2(param, callBack) {
+      this.loadTableBefore(param, callBack);
+    },
+    //从后台加载从表1数据后
+    loadTableAfter1(data, callBack) {
+      //将[是否启用]列的值数字类型转换成字符串(enable编辑类型是select,字典数据源都是字符类型，此处需要转义一下，否则绑定不上select)
+      if (data) {
+        data.forEach(x => {
+          x.enable = x.enable + "";
+        });
+      }
+      return true;
+    },
+    //从后台加载从表2数据后
+    loadTableAfter2(data, callBack) {
+      return true;
+    },
+    remoteLoad() {},
+    del() {
+      let rows = this.$refs.table1.getSelected();
+      if (rows.length == 0) {
+        return this.$Message.error("请先选中行");
+      }
+      this.$refs.table1.delRow();
+    },
+    clear() {
+      this.$refs.table1.reset();
+    },
+    add() {
+      this.$refs.table1.addRow({});
+    },
+    getRows() {
+      //获取选中的行
+      let rows = this.$refs.table1.getSelected();
+      if (rows.length == 0) {
+        return this.$Message.error("请先选中行");
+      }
+      this.$Message.error(JSON.stringify(rows));
+    }
+  }
+};
+</script>
+<style lang="less" scoped>
+.vol-tabs {
+  background: white;
+}
+.tabs1-header {
+  display: flex;
+  text-align: right;
+  padding: 10px;
+  .btn-group {
+    flex: 1;
+  }
+}
+</style>

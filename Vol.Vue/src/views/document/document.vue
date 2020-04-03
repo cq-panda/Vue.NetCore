@@ -52,7 +52,12 @@ export default {
       }
     }
     this.text = this.timeline[this.activedIndex].text;
-    this.$Message.error("开发文档已在整理中。。。");
+      this.$Notice.success({
+                    title: '文档更新提示',
+                    desc: '文档已在持续更新中,见[前端开发]',
+                    duration: 0
+                });
+   // this.$Message.error("开发文档已在整理中。。。");
   },
   data() {
     return {

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Alert type="error">
+    <!-- <Alert type="error">
       <h5>SellOrder.js文件中的扩展SellOrder表的头部信息,你可以在此处定义需要显示的信息,如果需要获取界面的Vue对象属性,参照此扩展组件GridHeaderExtend.vue的说明</h5>
-    </Alert>
+    </Alert> -->
     <!--点击扩展按钮对应的弹出框-->
     <vol-box :model.sync="model" title="动态扩展组件测试" :width="600" :height="450">
       <Alert type="error">
