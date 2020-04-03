@@ -12,6 +12,15 @@
  -  可作为一个独立站点来发布Editor编辑器生成的静态html网页.
  - 可直接用于H5移动App开发H5开发看这里
 
+## 框架2.0已更新(部分新增功能截图)
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/home_them.png.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/validator.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/editor.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/multi.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/charts.png)  
+
+
+
 ## 框架特点
  - 支持前端、后台基础业务代码动态扩展，可在现有框架增、删、改、查、导入、导出、审核基础业务上扩展复杂的业务代码
  - 基本业务全部由框架完成，上手即可对基础业务以外的代码进行扩展
