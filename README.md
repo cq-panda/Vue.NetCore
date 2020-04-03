@@ -1,8 +1,13 @@
 # Vue+.NetCore前后端分离，支持对前端、后台基础业务代码扩展的快速发开框架
+
+## 框架核心
+ - 代码生成
+ - 支持前端、后台自定义扩展
+ - 快速开发
+
 ## 框架可直上手开发这些功能
  - Vol.WebApi类库可独立用于restful api服务单独部署,用于其他系统单独提供接口,直接上手编写业务代码即可。
  -  Vue+Vol.WebApi 可用于现有框架前后端分离进行开发
- - Vol.Web类库可用于传统MVC+Razor方式进行项目开发
  -  Vol.Builder类库可作为一个独立的代码生成器,可生成cshtml页面、Vue页面、Model文件、Service与Repository.cs业务处理代码类
  -  可作为一个独立站点来发布Editor编辑器生成的静态html网页.
  - 可直接用于H5移动App开发H5开发看这里
