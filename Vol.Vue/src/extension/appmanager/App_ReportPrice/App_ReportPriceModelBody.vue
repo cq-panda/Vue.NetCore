@@ -79,7 +79,9 @@ export default {
           bind: { key: "enable", data: [] }, //自动绑定数据源
           //配置为select编辑类型,keep=true始终处于编辑状态(如果想要双击编辑，去掉keep属性，具体配置可见voltable组件api)
           edit: { type: "select", keep: true },
-          onChange: (column, row, tableData) => { this.$Message.info(row.enable + ""); }
+          onChange: (column, row, tableData) => {
+             this.$Message.info(row.enable + "");
+          }
         },
         { field: "createDate",  title: "发布时间", type: "datetime",
           width: 150, readonly: true,  sortable: true, edit: { type: "datetime", keep: true }}
@@ -123,12 +125,6 @@ export default {
     },
     //从后台加载从表1数据后
     loadTableAfter1(data, callBack) {
-      //将[是否启用]列的值数字类型转换成字符串(enable编辑类型是select,字典数据源都是字符类型，此处需要转义一下，否则绑定不上select)
-      if (data) {
-        data.forEach(x => {
-          x.enable = x.enable + "";
-        });
-      }
       return true;
     },
     //从后台加载从表2数据后
