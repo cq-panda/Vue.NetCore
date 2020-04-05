@@ -673,13 +673,13 @@ namespace VOL.Core.Extensions
             List<PropertyInfo> compareProper = new List<PropertyInfo>();
 
             //只验证数据合法性，验证非空
-            if (specificProperties != null)
+            if (specificProperties != null && specificProperties.Length > 0)
             {
                 compareProper.AddRange(propertyArray.Where(x => specificProperties.Contains(x.Name)));
             }
 
             //只验证数据合法性，不验证非空
-            if (validateProperties != null)
+            if (validateProperties != null && validateProperties.Length > 0)
             {
                 compareProper.AddRange(propertyArray.Where(x => validateProperties.Contains(x.Name)));
             }
