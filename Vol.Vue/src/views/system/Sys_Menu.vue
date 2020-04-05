@@ -176,8 +176,12 @@ export default {
         }
         this.fields.icon = this.icon;
         this.http.post("/api/menu/save", this.fields, true).then(x => {
-          this.$message.success(x.message);
-          if (!x.status) return;
+          if (!x.status) {
+            this.$Message.error(x.message);
+            return;
+          }
+
+          this.$Message.info(x.message);
           if (this.fields.menu_Id) {
             this.tree.forEach(t => {
               if (t.id == this.fields.menu_Id) {
