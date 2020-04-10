@@ -201,12 +201,7 @@ let methods = {
     }
   },
   emptyValue(value) {
-    if (
-      (typeof value == "string" && value != "" && value.trim() != "") ||
-      (value instanceof Array && value.length > 0)
-    )
-      return false;
-    return true;
+    return (value === null || value === undefined || value === "");
   },
   getSearchParameters() {//获取查询参数
     this.searchBoxShow = false;
@@ -214,6 +209,9 @@ let methods = {
     for (const key in this.searchFormFileds) {
       let value = this.searchFormFileds[key];
       if (this.emptyValue(value)) continue;
+      if (typeof value == 'number') {
+        value = value + '';
+      }
       let displayType = this.getSearchItem(key);
       if (typeof value == "string" || ["date", "datetime"].indexOf(displayType) == -1) {
         query.wheres.push({
