@@ -92,7 +92,10 @@
                   </a>
                 </div>
               </div>
-              <div v-else>{{formatter(scope.row,column,true)}}</div>
+              <div v-else>
+                <div v-if="column.formatter" v-html="column.formatter(scope.row,column)"></div>
+                <div v-else>{{formatter(scope.row,column,true)}}</div>
+              </div>
             </div>
             <!--没有编辑功能的直接渲染标签-->
             <div v-else>
@@ -123,7 +126,7 @@
               <div
                 v-else-if="column.formatter"
                 @click="formatterClick(scope.row,column)"
-                v-html="column.formatter&&column.formatter(scope.row,column)"
+                v-html="column.formatter(scope.row,column)"
               ></div>
               <div
                 v-else-if="column.click"
