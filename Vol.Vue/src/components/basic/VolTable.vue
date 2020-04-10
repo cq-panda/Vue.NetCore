@@ -92,10 +92,10 @@
                   </a>
                 </div>
               </div>
-              <div v-else>
+              <template v-else>
                 <div v-if="column.formatter" v-html="column.formatter(scope.row,column)"></div>
                 <div v-else>{{formatter(scope.row,column,true)}}</div>
-              </div>
+              </template>
             </div>
             <!--没有编辑功能的直接渲染标签-->
             <div v-else>
