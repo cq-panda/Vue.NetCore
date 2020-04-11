@@ -153,7 +153,9 @@ namespace VOL.Core.Extensions
         {
             Type proType = typeof(T).GetProperty(propertyName).PropertyType;
             //创建节点变量如p=>的节点p
-            parameter ??= Expression.Parameter(typeof(T), "p");//创建参数p
+            //  parameter ??= Expression.Parameter(typeof(T), "p");//创建参数p
+            parameter = parameter ?? Expression.Parameter(typeof(T), "p");
+
             //创建节点的属性p=>p.name 属性name
             MemberExpression memberProperty = Expression.PropertyOrField(parameter, propertyName);
             if (expressionType == LinqExpressionType.In)
@@ -307,7 +309,8 @@ namespace VOL.Core.Extensions
             if (orderByKeys == null || orderByKeys.Length == 0) return queryable;
 
             IOrderedQueryable<TEntity> queryableOrderBy = null;
-            string orderByKey = orderByKeys[^1];
+            //  string orderByKey = orderByKeys[^1];
+            string orderByKey = orderByKeys[orderByKeys.Length-1];
             queryableOrderBy = orderBySelector[orderByKey] == QueryOrderBy.Desc
                 ? queryableOrderBy = queryable.OrderByDescending(orderByKey.GetExpression<TEntity>())
                 : queryable.OrderBy(orderByKey.GetExpression<TEntity>());
