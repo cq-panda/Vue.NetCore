@@ -75,7 +75,7 @@ export default {
           actived: false
         },
         {
-          text: "项目启动",
+          text: "项目启动与发布",
           path: "/document/guide",
           actived: false
         },
