@@ -175,7 +175,7 @@ namespace VOL.Core.Dapper
         /// <param name="updateFileds">指定插入的字段</param>
         /// <param name="beginTransaction">是否开启事务</param>
         /// <returns></returns>
-        public int AddRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> addFileds = null, bool beginTransaction = false)
+        public int AddRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> addFileds = null, bool beginTransaction = true)
         {
             Type entityType = typeof(T);
             var key = entityType.GetKeyProperty();
@@ -229,19 +229,20 @@ namespace VOL.Core.Dapper
         /// <param name="updateFileds">指定更新的字段x=new {x.a,x.b}</param>
         /// <param name="beginTransaction">是否开启事务</param>
         /// <returns></returns>
-        public int Update<T>(T entity, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false)
+        public int Update<T>(T entity, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = true)
         {
-            return UpdateRange<T>(new T[] { entity }, updateFileds);
+            return UpdateRange<T>(new T[] { entity }, updateFileds, beginTransaction);
         }
+
         /// <summary>
-        /// sqlserver使用的临时表参数化批量更新，mysql待优化
+        ///(根据主键批量更新实体) sqlserver使用的临时表参数化批量更新，mysql待优化
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entities">实体必须带主键</param>
         /// <param name="updateFileds">批定更新字段</param>
         /// <param name="beginTransaction"></param>
         /// <returns></returns>
-        public int UpdateRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false)
+        public int UpdateRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = true)
         {
             Type entityType = typeof(T);
             var key = entityType.GetKeyProperty();
@@ -249,15 +250,25 @@ namespace VOL.Core.Dapper
             {
                 throw new Exception("实体必须包括主键才能批量更新");
             }
-            if (DBType.Name == DbCurrentType.MySql.ToString())
-            {
-                throw new Exception("mysql批量更新未实现");
-            }
+
             var properties = entityType.GetGenericProperties()
-                .Where(x => x.Name != key.Name);
+            .Where(x => x.Name != key.Name);
             if (updateFileds != null)
             {
                 properties = properties.Where(x => updateFileds.GetExpressionToArray().Contains(x.Name));
+            }
+
+            if (DBType.Name == DbCurrentType.MySql.ToString())
+            {
+                List<string> paramsList = new List<string>();
+                foreach (var item in properties)
+                {
+                    paramsList.Add(item.Name + "=@" + item.Name);
+                }
+                string sqltext = $@"UPDATE { entityType.GetEntityTableName()} SET {string.Join(",", paramsList)} WHERE {entityType.GetKeyName()} = @{entityType.GetKeyName()} ;";
+
+                return ExcuteNonQuery(sqltext, entities, CommandType.Text, true);
+                // throw new Exception("mysql批量更新未实现");
             }
             string fileds = string.Join(",", properties.Select(x => $" a.{x.Name}=b.{x.Name}").ToArray());
             string sql = $"update  a  set {fileds} from  {entityType.GetEntityTableName()} as a inner join {EntityToSqlTempName.TempInsert.ToString()} as b on a.{key.Name}=b.{key.Name}";
