@@ -184,8 +184,16 @@ let param = {
         { name: "currentRow", desc: "当前编辑的行数据", type: "json", default: "" },
         { name: "labelWidth", desc: "高级查询label标签的宽度", type: "number", default: "100" },
         { name: "maxBtnLength", desc: "查询界面显示的按钮最大数量，超过的在更多中显示", type: "number", default: "3" },
-        { name: "buttons", desc: "查询界面的所有按钮", type: "array", default: "[]" },
-        { name: "boxButtons", desc: "弹出框的所有按钮", type: "array", default: "[]" },
+        { name: "buttons", desc: `查询界面的所有按钮，[{<br />
+          &nbsp; &nbsp; name: "刷 新",//按钮名称<br />
+          &nbsp; &nbsp; icon: 'md-refresh',//按钮图标，参照iview图标<br />
+          &nbsp; &nbsp; type: 'success',//按钮类型,可参照iview buttons设置此属性<br />
+          &nbsp; &nbsp; hidden:false,//是否隐藏按钮(如果想要隐藏按钮，在onInited方法中遍历buttons，设置hidden=true)<br />
+          &nbsp; &nbsp; onClick: function () { //触发事件<br />
+          &nbsp; &nbsp; &nbsp; &nbsp; this.refresh();<br />
+          &nbsp; &nbsp; }<br />
+          }]<br />`, type: "array", default: "[]" },
+        { name: "boxButtons", desc: "弹出框的所有按钮，格式同上", type: "array", default: "[]" },
         { name: "dicKeys", desc: "所有数据源的字典编号", type: "array", default: "[]" },
         { name: "hasKeyField", desc: "所有有数据源的字段", type: "array", default: "[]" },
         { name: "load", desc: "页面打开后是否默认加载表格数据", type: "bool", default: "true" },
