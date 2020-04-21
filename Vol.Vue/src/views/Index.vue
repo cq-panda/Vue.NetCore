@@ -106,7 +106,7 @@ export default {
       navigation: [{ name: "首页", id: 0, path: "/home" }],
       log: imgUrl,
       date: "",
-      theme: "dark",
+      theme: "blue",//2020.04.21修改默认主题为蓝色
       links: [
         { text: "框架文档", path: "/document", id: -2 },
         { text: "GitHub", path: "#", id: -3 },
