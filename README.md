@@ -18,7 +18,6 @@
 ## 框架2.0已更新(部分新增功能截图)
 增加切换皮肤功能
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/home_them.png)  
-增加文本编辑器直接发布静态页面功能
 增加可复用的后台请求参数校验
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/validator.png)  
 增加文本编辑器直接发布静态页面功能
