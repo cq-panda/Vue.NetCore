@@ -65,11 +65,6 @@ export default {
       activedIndex: 0,
       timeline: [
         {
-          text: "QQ群：还没想好!",
-          path: "#",
-          actived: false
-        },
-        {
           text: "返回首页",
           path: "/home",
           actived: false

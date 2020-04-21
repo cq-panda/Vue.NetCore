@@ -132,6 +132,37 @@
     </ul>
     <br />
 
+<h2
+      style="padding-left: 24px;white-space:normal;box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;font-family:&quot;background:#00BCD4;font-size:20px;line-height:37px;margin:18px 0px !important;"
+    >
+      <span>
+        <span style="color:#666666;">快速上手</span>
+        <span style="display:none;"></span>
+      </span>
+    </h2>
+
+    <p></p>
+    <ul style="padding-left: 24px;">
+      <li>
+        <span style="font-size:16px;line-height:3;">
+          <span style="display:none;"></span>文档【代码生成】:先用代码生成器生成完整代码
+        </span>
+      </li>
+      <li>
+        <span
+          style="font-size:16px;line-height:3;"
+        >编写扩展业务代码:文档->[前端开发]->[后台开发]->[组件api(ViewGrid组件)]</span>
+      </li>
+       <li>
+        <span
+          style="font-size:16px;line-height:3;"
+        >编写扩展业务代码依赖于:</span>
+      </li>
+    </ul>
+    <p>
+      <br />
+    </p>
+
     <h2
       style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;color:#EBEBEB;font-family:&quot;background:#00BCD4;font-size:20px;line-height:37px;white-space:normal;margin:18px 0px !important;"
     >
@@ -235,34 +266,7 @@
       </li>
     </ul>
 
-    <h2
-      style="padding-left: 24px;white-space:normal;box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;font-family:&quot;background:#00BCD4;font-size:20px;line-height:37px;margin:18px 0px !important;"
-    >
-      <span>
-        <span style="color:#666666;">项目开发</span>
-        <span style="display:none;"></span>
-      </span>
-    </h2>
 
-    <p></p>
-    <ul style="   padding-left: 24px;">
-      <li>
-        <span style="font-size:16px;line-height:3;">
-          <span style="display:none;"></span>使用代码生成器自动生成前端、后台代码【代码生成介绍】
-        </span>
-      </li>
-      <li>
-        <span
-          style="font-size:16px;line-height:3;"
-        >如果生成的代码满足不了业务，可使用扩展代码进行业务编写，扩展业务编写参照【组件Api】使用，重点是【ViewGird组件】使用</span>
-      </li>
-    </ul>
-    <p>
-      <br />
-    </p>
-    <p>
-      <br />
-    </p>
     <h2
       style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;color:#EBEBEB;font-family:&quot;background:#00BCD4;font-size:20px;line-height:37px;white-space:normal;margin:18px 0px !important;"
     >
