@@ -1,12 +1,12 @@
 <template>
-  <div id="vol-container" :class="['vol-them-'+them]">
+  <div id="vol-container" :class="['vol-theme-'+theme]">
     <div class="vol-aside">
       <div class="header">
         <img v-bind:src="log" />
       </div>
       <div class="vol-menu">
         <el-scrollbar style="height:100%;">
-          <VolMenu :theme="theme" :onSelect="onSelect" :options="menuOptions"></VolMenu>
+          <VolMenu theme="dark" :onSelect="onSelect" :options="menuOptions"></VolMenu>
         </el-scrollbar>
       </div>
     </div>
@@ -35,7 +35,7 @@
             <!-- <span>星期五</span> -->
           </div>
           <div class="settings">
-            <Icon :size="20" type="md-settings" @click="()=>{them_moel=true;}" />
+            <Icon :size="20" type="md-settings" @click="()=>{theme_moel=true;}" />
             <!-- <Icon type="md-paw" /> -->
           </div>
         </div>
@@ -71,11 +71,11 @@
       </div>
     </div>
     <!-- 2020.04.02增加换皮肤功能 -->
-    <Drawer class="them-selector" title="选择皮肤颜色" :closable="false" v-model="them_moel">
+    <Drawer class="theme-selector" title="选择皮肤颜色" :closable="false" v-model="theme_moel">
       <div
         @click="changeThen(item.name)"
         class="item"
-        v-for="(item,index) in them_color"
+        v-for="(item,index) in theme_color"
         :key="index"
         :style="{background:item.color}"
       ></div>
@@ -89,9 +89,8 @@ var $vueIndex;
 export default {
   data() {
     return {
-      them_moel: false,
-      them: "dark",
-      them_color: [
+      theme_moel: false,
+      theme_color: [
         { name: "dark", color: "#272929" },
         { name: "blue", color: "rgb(45, 140, 240)" },
         { name: "red", color: "rgb(237, 64, 20)" },
@@ -106,7 +105,7 @@ export default {
       navigation: [{ name: "首页", id: 0, path: "/home" }],
       log: imgUrl,
       date: "",
-      theme: "blue",//2020.04.21修改默认主题为蓝色
+      theme: "blue",
       links: [
         { text: "框架文档", path: "/document", id: -2 },
         { text: "GitHub", path: "#", id: -3 },
@@ -120,9 +119,9 @@ export default {
     VolMenu
   },
   created() {
-    let them = localStorage.getItem("vol_them");
-    if (them) {
-      this.them = them;
+    let theme = localStorage.getItem("vol_theme");
+    if (theme) {
+      this.theme = theme;
     }
     let userInfo = this.$store.getters.getUserInfo();
     this.userName = userInfo.userName;
@@ -168,10 +167,10 @@ export default {
   },
   methods: {
     changeThen(name) {
-      if (this.them != name) {
-        this.them = name;
+      if (this.theme != name) {
+        this.theme = name;
       }
-      localStorage.setItem("vol_them", name);
+      localStorage.setItem("vol_theme", name);
     },
     to(item) {
       if (item.path == "#") {
@@ -522,7 +521,7 @@ img:not([src]) {
 
 <style lang="less" scoped>
 //黑色
-.vol-them-dark {
+.vol-theme-dark {
   .header-text {
     color: #dcdfe6;
   }
@@ -567,11 +566,11 @@ img:not([src]) {
 
 <style  scoped>
 /* 黑色左侧菜单 */
-.vol-them-dark .vol-aside .vol-menu >>> .ivu-menu {
+.vol-theme-dark .vol-aside .vol-menu >>> .ivu-menu {
   color: hsla(0, 0%, 100%, 0.7);
   background: black;
 }
-.vol-them-dark
+.vol-theme-dark
   .vol-aside
   .vol-menu
   >>> .ivu-menu-item-active.ivu-menu-item-selected {
@@ -584,7 +583,7 @@ img:not([src]) {
 
 <style lang="less" scoped>
 //红色
-.vol-them-red {
+.vol-theme-red {
   .header-text {
     color: #dcdfe6;
   }
@@ -625,7 +624,7 @@ img:not([src]) {
 
 <style lang="less" scoped>
 //橙色
-.vol-them-orange {
+.vol-theme-orange {
   .header-text {
     color: #dcdfe6;
   }
@@ -665,7 +664,7 @@ img:not([src]) {
 
 <style lang="less" scoped>
 //绝色
-.vol-them-green {
+.vol-theme-green {
   .header-text {
     color: #dcdfe6;
   }
@@ -705,7 +704,7 @@ img:not([src]) {
 
 <style lang="less" scoped>
 //蓝色
-.vol-them-blue {
+.vol-theme-blue {
   .header-text {
     color: #dcdfe6;
   }
@@ -743,10 +742,10 @@ img:not([src]) {
 </style>
 
 <style  scoped>
-.vol-them-blue .vol-aside >>> .ivu-menu-submenu-title {
+.vol-theme-blue .vol-aside >>> .ivu-menu-submenu-title {
   background: #005bb8 !important;
 }
-.vol-them-blue .vol-aside >>> .ivu-menu-opened {
+.vol-theme-blue .vol-aside >>> .ivu-menu-opened {
   background: #006cdf !important;
   color: white;
 }
@@ -755,7 +754,7 @@ img:not([src]) {
 
 <style lang="less" scoped>
 //白色
-.vol-them-white {
+.vol-theme-white {
   // .header-text {
   //   color: #dcdfe6;
   // }
@@ -873,7 +872,7 @@ img:not([src]) {
 }
 </style>
 <style lang="less" scoped>
-.them-selector {
+.theme-selector {
   .item {
     cursor: pointer;
     width: 230px;
