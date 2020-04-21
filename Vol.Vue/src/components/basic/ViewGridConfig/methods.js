@@ -131,6 +131,8 @@ let methods = {
       })
       //弹出框扩展按钮
       this.extendBtn(boxButtons, this.extend.buttons.box)
+      //弹出弹框按钮(2020.04.21),没有编辑或新建权限时，也可以通过buttons属性添加自定义弹出框按钮
+      this.boxButtons.push(...boxButtons);
       this.detailOptions.buttons.push(detailGridButtons);
       //弹出框扩展明细表按钮
       this.extendBtn(this.detailOptions.buttons, this.extend.buttons.detail)
