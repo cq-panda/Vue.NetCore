@@ -39,6 +39,8 @@
       <br />
       <br />
 
+   <h2 style="color:red;font-weight: 500; margin-bottom: 20px;">创建mysql表，只有字段类型是guid时设置成varchar(36)或char(36),其他字段的长度都不要设置成长度36，否则会替换成guid类型</h2>
+    <h2 style="color:red;font-weight: 500; margin-bottom: 20px;">数据库字段不要设置类型bit，请用int或byte替代</h2>
       <div id="doc-3" class="coder-doc">
         <h1 style="    margin-bottom: 20px;">生成代码</h1>
         <div class="title">
