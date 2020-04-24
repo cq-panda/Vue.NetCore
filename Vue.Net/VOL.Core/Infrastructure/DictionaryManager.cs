@@ -45,7 +45,7 @@ namespace VOL.Core.Infrastructure
                     return DBServerProvider.SqlDapper.QueryList<SourceKeyVaule>(sql, null).Select(s => new Sys_DictionaryList()
                     {
                         DicName = s.Value,
-                        DicValue = s.Key
+                        DicValue = s.Key.ToString()
                     }).ToList();
                 }
                 catch (Exception ex)
@@ -103,7 +103,7 @@ namespace VOL.Core.Infrastructure
 
     public class SourceKeyVaule
     {
-        public string Key { get; set; }
+        public object Key { get; set; }
         public string Value { get; set; }
     }
 }

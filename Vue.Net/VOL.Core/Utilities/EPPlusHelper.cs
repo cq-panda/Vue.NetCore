@@ -365,7 +365,7 @@ namespace VOL.Core.Utilities
             //获取绑定字典数据源下拉框的值
             foreach (string dicNo in dicNos.Distinct())
             {
-                Dictionary<string, string> keyValues = new Dictionary<string, string>(); ;
+                Dictionary<string, string> keyValues = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                 List<Sys_DictionaryList> dictionaryLists = dictionaries
                    .Where(x => x.DicNo == dicNo && x.Sys_DictionaryList != null)
                    .Select(s => s.Sys_DictionaryList).FirstOrDefault();
