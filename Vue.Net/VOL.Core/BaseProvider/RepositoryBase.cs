@@ -346,15 +346,46 @@ namespace VOL.Core.BaseProvider
                     DbContext.Entry<TSource>(item).State = EntityState.Modified;
                     continue;
                 }
+                var entry = DbContext.Entry(item);
                 properties.ToList().ForEach(x =>
                 {
-                    DbContext.Entry(item).Property(x).IsModified = true;
+                    entry.Property(x).IsModified = true;
                 });
-
             }
-            if (saveChanges)
+            if (!saveChanges) return 0;
+
+            //2020.04.24增加更新时并行重试处理
+            try
+            {
+                // Attempt to save changes to the database
                 return DbContext.SaveChanges();
-            return 0;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                int affectedRows = 0;
+                foreach (var entry in ex.Entries)
+                {
+                    var proposedValues = entry.CurrentValues;
+
+                    var databaseValues = entry.GetDatabaseValues();
+                    //databaseValues == null说明数据已被删除
+                    if (databaseValues != null)
+                    {
+                        foreach (var property in properties == null
+                            || properties.Length == 0 ? proposedValues.Properties
+                            : proposedValues.Properties.Where(x => properties.Contains(x.Name)))
+                        {
+                            var proposedValue = proposedValues[property];
+                            var databaseValue = databaseValues[property];
+                        }
+                        affectedRows++;
+                        entry.OriginalValues.SetValues(databaseValues);
+                    }
+                }
+                if (affectedRows == 0) return 0;
+
+                return DbContext.SaveChanges();
+            }
         }
 
 
