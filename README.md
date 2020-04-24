@@ -74,7 +74,6 @@ excel导入整个页面都由代码生成器生成，导入的字段、字段是
 
 
 ## 7、H5开发
-H5只是做了一个简单的Demo,如果你有H5开发经验，请忽略，如果你没有H5开发经验，<a title="H5开发看这里" href="http://132.232.2.109/app/guide" target="_blank">可看看这里</a>
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/h5.jpg)  
 
 ## 8、权限分配
