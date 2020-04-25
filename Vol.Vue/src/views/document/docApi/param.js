@@ -402,17 +402,26 @@ let param = {
                     </span><span style="color: #008000;">//</span><span style="color: #008000;">   this.$Notice.success({ title: 'create方法执行后', desc: '你可以SellOrder.js中编写业务逻辑,其他方法同样适用' });</span>
         <span style="color: #000000;">        },
                 searchBefore(param) { </span><span style="color: #008000;">//</span><span style="color: #008000;">查询ViewGird表数据前,param查询参数</span>
-                    <span style="color: #008000;">//</span><span style="color: #008000;">你可以指定param查询的参数，处如果返回false，则不会执行查询</span>
-                    <span style="color: #008000;">//</span><span style="color: #008000;"> this.$Notice.success({ title: this.table.cnName + ',查询前' });</span>
-                    <span style="color: #008000;">//</span><span style="color: #008000;"> console.log("扩展的"this.detailOptions.cnName + '触发loadDetailTableBefore');</span>
-                    <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+                  &nbsp; &nbsp; //添加任意查询参数
+                  &nbsp; &nbsp; //在后台GetPageData()方法读取options.value
+                  &nbsp; &nbsp; //见后台开发-&gt;后台代码扩展实现
+                  &nbsp; &nbsp; //param.value="xxx";
+
+                  &nbsp; &nbsp; //添加其他查询条件,也可以在后台扩展中写查询条件
+                  &nbsp; &nbsp; // param.wheres = [{
+                  &nbsp; &nbsp; //&nbsp; &nbsp;'name': '字段名',
+                  &nbsp; &nbsp; //&nbsp; &nbsp;'value': '查询的值',
+                  &nbsp; &nbsp; //&nbsp; &nbsp;'displayType': 'like'//设置为模糊查询
+                  &nbsp; &nbsp; // }]
+                  &nbsp; &nbsp; //返回false，则不会执行查询
+                   &nbsp; return true;
                 },
                 searchAfter(result) { </span><span style="color: #008000;">//</span><span style="color: #008000;">查询ViewGird表数据后param查询参数,result回返查询的结果</span>
                     <span style="color: #0000ff;">this</span>.$Notice.success({ title: <span style="color: #0000ff;">this</span>.table.cnName + ',查询结果', desc: '返回的对象：' +<span style="color: #000000;"> JSON.stringify(result) });
                     </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
                 },
                 searchDetailBefore(param) {</span><span style="color: #008000;">//</span><span style="color: #008000;">查询从表表数据前,param查询参数</span>
-                    <span style="color: #008000;">//</span><span style="color: #008000;">  this.$Notice.success({ title: this.detailOptions.cnName + '查询前' });</span>
+                    <span style="color: #008000;">//</span><span style="color: #008000;"> 同上searchBefore操作</span>
                     <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
                 },
                 searchDetailAfter(data) {</span><span style="color: #008000;">//</span><span style="color: #008000;">查询从表后param查询参数,result回返查询的结果</span>
