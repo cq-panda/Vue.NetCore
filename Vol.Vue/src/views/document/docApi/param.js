@@ -285,7 +285,7 @@ let param = {
         methods: [{ name: "refresh", desc: "刷新查询界面的表数据,使用：this.refresh()", param: "" },
         { name: "getSelectRows", desc: "查询界面获取选中的行,使用：this.getSelectRows()", param: "" },
         { name: "获取从表明细选择中的行", desc: "获取从表明细选择中的行,使用：this.$refs.detail.getSelected()", param: "" },
-        { name: "刷新从表数量", desc: " this.resetDetailTable()", param: "" },
+        { name: "刷新从表数据", desc: " this.resetDetailTable()", param: "" },
         { name: "扩展js方法使用", desc: "扩展js为当前数据库表生成页面扩展js,如:SellOrder.js,文件由代码生成，可自行在js中实现下面列出的方法", param: "" },
         {
             name: "扩展js方法使用", desc: `<div class="cnblogs_code">

@@ -4,10 +4,7 @@
       <el-scrollbar style="height:100%;">
         <ul>
           <li class="n-item" v-for="(item,index) in items" :key="index">
-            <a
-              :class="{active:active==index}"
-              @click="scrollIntoView(index)"
-            >{{item.title}}</a>
+            <a :class="{active:active==index}" @click="scrollIntoView(index)">{{item.title}}</a>
           </li>
         </ul>
       </el-scrollbar>
@@ -31,9 +28,9 @@
         提示
         <template slot="desc">
           <p>每个表由代码生成器生后的文件名都包括表名,直接在vs中搜索表名就可以看到所有生成相关表的文件</p>
-            <p>所有自定义接口与业务实现都统一在Partial文件夹下实现</p>
-            <p>表xxRepository.Instance用于调用仓储方法，如SellOrderRepository.Instance</p>
-            <p>表xxService.Instance用于调用或编写业务，如SellOrderService.Instance，建议接口注入IxxService</p>
+          <p>所有自定义接口与业务实现都统一在Partial文件夹下实现</p>
+          <p>表xxRepository.Instance用于调用仓储方法，如SellOrderRepository.Instance</p>
+          <p>表xxService.Instance用于调用或编写业务，如SellOrderService.Instance，建议接口注入IxxService</p>
         </template>
       </Alert>
 
@@ -57,10 +54,6 @@
 export default {
   methods: {
     scrollIntoView(index) {
-
-
-
-
       let top = document.getElementById("i-" + index).offsetTop - 100;
       if (index == 0) {
         top = 0;
@@ -113,9 +106,26 @@ export default {
           ],
           tips: ` repository.DapperContext或DBServerProvider.SqlDapper可直接使用dapper，内部已封装好常用功能`
         },
-          {
+        {
+          title: "获取表依赖注入service实例",
+          content: [
+            `表名xxxService.Instance；如:Sys_UserService.Instance(仅限在同一个类库中使用)`
+          ],
+          tips: ` 还没想好`,
+          img: ""
+        },
+        {
+          title: "获取表依赖注入Repository实例",
+          content: [
+            `表名xxxRepository.Instance；如:Sys_UserRepository.Instance(仅限在同一个类库中使用)`
+          ],
+          tips: ` 还没想好`,
+          img: ""
+        },
+        {
           title: "使用EF事务",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<br />
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//repository.DbContextBeginTransaction或&nbsp;SellOrderRepository.Instance.DbContextBeginTransaction</span>
@@ -149,12 +159,14 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
 <br />
-</div>`],
+</div>`
+          ],
           tips: ` 在表的业务类,xxxService.cs中文件直接可调用EF事务,或使用SellOrderRepository.Instance.DbContextBeginTransaction(()=> { })`
         },
-    {
+        {
           title: "Memory/Redis对象",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 		<br />
 		<div>
@@ -179,13 +191,15 @@ export default {
 			<br />
 		</div>
 	</div>
-</div>`],
+</div>`
+          ],
           tips: `还没想好`,
           img: ""
         },
         {
           title: "实体校验",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<br />
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">SellOrder</span>&nbsp;<span style="color:#9cdcfe;">order</span>&nbsp;=&nbsp;<span style="color:#569cd6;">new</span>&nbsp;<span style="color:#4ec9b0;">SellOrder</span>();
@@ -200,41 +214,133 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果是list调用&nbsp;ValidationEntityList方法</span>
 	</div>
 <br />
-</div>`],
+</div>`
+          ],
           tips: ` 必须指定要校验的字段`,
           img: ""
         },
-         {
+        {
           title: "获取当前用户信息",
-          content: [`
-            UserContext.Current/UserContext.Current.Permissions`],
+          content: [
+            `
+            UserContext.Current.xxx`
+          ],
           tips: ` 还没想好`,
           img: ""
         },
-            {
+        {
+          title: "获取当前用户权限",
+          content: [
+            `<p>UserContext.Current.Permissions</p>
+             <p>UserContext.Current.GetPermissions("菜单上配置的表名")</p>
+             <p>UserContext.Current.GetPermissions(x => x.TableName.ToLower()=="xxx")</p>
+             <p>获取更多用户信息：UserContext.Current.xxx</p>
+             `
+          ],
+          tips: ` 还没想好`,
+          img: ""
+        },
+        {
+          title: "接口(控制器方法)添加权限过滤",
+          content: [
+            `
+            <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color:#9cdcfe;">[HttpPost,&nbsp;</span><span style="color:#dcdcaa;">Route</span><span style="color:#9cdcfe;">(</span><span style="color:#ce9178;">"xxx"</span><span style="color:#9cdcfe;">)]</span>
+	</div>
+	<div>
+		<span style="color:#9cdcfe;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[</span><span style="color:#dcdcaa;">ApiActionPermission</span><span style="color:#9cdcfe;">(</span><span style="color:#ce9178;">"Sys_Role"</span><span style="color:#9cdcfe;">,&nbsp;ActionPermissionOptions.Update)]</span>
+	</div>
+	<div>
+		<span style="color:#9cdcfe;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#6a9955;">//ApiActionPermission权限过滤,第一个参数为菜单上配置的表名，如果是代码生成的partial控制器中的方法，表名不用填写</span>
+	</div>
+	<div>
+		<span style="color:#9cdcfe;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#6a9955;">//更多参数见方法重载</span>
+	</div>
+	<div>
+		<span style="color:#9cdcfe;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;async&nbsp;Task&lt;IActionResult&gt;&nbsp;xxx()</span>
+	</div>
+	<div>
+		<span style="color:#9cdcfe;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</span>
+	</div>
+	<div>
+		<span style="color:#9cdcfe;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;Json(await&nbsp;Task.FromResult(1));</span>
+	</div>
+	<div>
+		<span style="color:#9cdcfe;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+	</div>
+</div>`
+          ],
+          tips: ` 还没想好`,
+          img: ""
+        },
+        {
+          title: "手动获取HttpContext参数",
+          content: [
+            `<p>VOL.Core.Utilities.HttpContext.Current.Request<T>("参数名")</p>
+             <p>VOL.Core.Utilities.HttpContext.Current.RequestString("参数名")</p>`
+          ],
+          tips: ` 还没想好`,
+          img: ""
+        },
+        {
+          title: "手动获取依赖注入的对象",
+          content: [
+            `<p>VOL.Core.Utilities.HttpContext.Current.GetService<T>("如：IxxService")</p>`
+          ],
+          tips: ` 还没想好`,
+          img: ""
+        },
+        {
           title: "接口不验证是否登陆",
-          content: [`
-            在控制器的方法上加属性[AllowAnonymous]`],
+          content: [
+            `
+            在控制器的方法上加属性[AllowAnonymous]`
+          ],
           tips: ` 还没想好`,
           img: ""
         },
-             {
+        {
           title: "接口token永不过期",
-          content: [`
-            在控制器的方法上加属性[FixedToken]`],
+          content: [
+            `
+            在控制器的方法上加属性[FixedToken]`
+          ],
           tips: ` 还没想好`,
           img: ""
         },
         {
           title: "写入日志",
-          content: [`
-             VOL.Core.Services.Logger.Info()/Error()`],
+          content: [
+            `
+             VOL.Core.Services.Logger.Info()/Error()`
+          ],
           tips: ` 还没想好`,
           img: ""
         },
-          {
+        {
+          title: "获取字典数据源",
+          content: [
+            ` <p> DictionaryManager.Dictionaries</p>
+            <p> DictionaryManager.GetDictionary("字典编号")</p>`
+          ],
+          tips: ` 还没想好`,
+          img: ""
+        },
+        {
+          title: "SqlBulkInsert批量插入",
+          content: [
+            ` <p> DBServerProvider.SqlDapper.BulkInsert()</p>
+              <p>sqlserver与mysql都可以使用</p>`
+          ],
+          tips: ` 还没想好`,
+          img: ""
+        },
+        {
           title: "其他常用工具",
-          content: [`<p>扩展方法：Vol.Core->Extensions</p><p>工具类：Vol.Core->Utilities </p>`],
+          content: [
+            `<p>扩展方法：Vol.Core->Extensions</p><p>工具类：Vol.Core->Utilities </p>`
+          ],
           tips: ` 还没想好`,
           img: ""
         },
@@ -244,9 +350,11 @@ export default {
           tips: ` 可复用后台校验，一次性配置好参数，不再需要在方法中写if else判断参数合法性`,
           img: ""
         },
+
         {
           title: "后台代码扩展实现",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<br />
 	<div>
 		<span style="color:#6a9955;">//后台代码扩展实现，如果代码生成的增加改查，满足不了业务，请根据需要实现以下代码</span>
@@ -906,15 +1014,14 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
-          tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`,
+</div>`
+          ],
+          tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`
         }
       ]
     };
   }
 };
-
-
 </script>
 <style lang="less" scoped>
 .doc {
@@ -923,7 +1030,7 @@ export default {
     margin-right: 30px;
     color: #d2d2d2;
     position: fixed;
-    width: 180px;
+    width: 250px;
     padding: 0 10px;
     bottom: 20px;
     top: 81px;
@@ -937,10 +1044,10 @@ export default {
   }
   display: flex;
   .doc-right {
-    margin-left: 210px;
+    margin-left: 270px;
 
     flex: 1;
-    width: 1000px;
+    width: 900px;
   }
 }
 h2 {

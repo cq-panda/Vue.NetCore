@@ -156,7 +156,7 @@
        <li>
         <span
           style="font-size:16px;line-height:3;"
-        >编写扩展业务代码依赖于:</span>
+        >编写扩展业务代码涉及组件:ViewGird.vue、VolForm.vue、VolTable.vue、VolBox.vue、VolUpload,根据需要找这几个组件参数即可</span>
       </li>
     </ul>
     <p>
