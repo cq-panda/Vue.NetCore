@@ -776,13 +776,28 @@ img:not([src]) {
   // .vol-header .user {
   //   color: white;
   // }
+
+
   .header-navigation {
+    box-shadow: -7px 11px 10px -13px #678aa7;
+    border-bottom: 1px solid #eee;
     border-top: 1px solid #eee;
+    height: 32px;
+    overflow: hidden;
+    line-height: 32px;
+    display: block;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    list-style: none;
+    position: relative;
+    z-index: 900;
+    font-weight: 400;
   }
   .header-navigation li.active,
   .header-navigation li:hover {
-    background: #f6f6f6;
-    color: #de1111;
+    background: #1a89ff;
+    color: white;
   }
   // .vol-header .header-text {
   //   color: #fbfbfb;
@@ -792,7 +807,16 @@ img:not([src]) {
   }
 }
 </style>
+<style  scoped>
 
+.vol-theme-white .vol-aside >>> .ivu-menu-submenu-title {
+  background: #005bb8 !important;
+}
+.vol-theme-white .vol-aside >>> .ivu-menu-opened {
+  background: #006cdf !important;
+  color: white;
+}
+</style>
 
 <style>
 .el-scrollbar__wrap {
