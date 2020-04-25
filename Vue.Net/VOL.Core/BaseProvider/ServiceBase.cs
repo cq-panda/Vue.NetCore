@@ -801,6 +801,17 @@ namespace VOL.Core.BaseProvider
 
                 result = detailType.ValidateDicInEntity(saveModel.DetailData, true, false, new string[] { mainKeyProperty.Name });
                 if (result != string.Empty) return Response.Error(result);
+
+                //主从关系指定外键,即从表的外键可以不是主键的主表,还需要改下代码生成器设置属性外键,功能预留后面再开发(2020.04.25)
+                //string foreignKey = type.GetTypeCustomValue<System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute>(x => new { x.Name });
+                //if (!string.IsNullOrEmpty(foreignKey))
+                //{
+                //    var _mainKeyProperty = detailType.GetProperties().Where(x => x.Name.ToLower() == foreignKey.ToLower()).FirstOrDefault();
+                //    if (_mainKeyProperty != null)
+                //    {
+                //        mainKeyProperty = _mainKeyProperty;
+                //    }
+                //}
             }
 
             //获取主建类型的默认值用于判断后面数据是否正确,int long默认值为0,guid :0000-000....
