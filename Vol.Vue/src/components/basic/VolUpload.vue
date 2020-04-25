@@ -35,7 +35,7 @@
                 v-if="!autoUpload"
                 style="border-radius: 0px;"
                 type="info"
-                icon="md-arrow-round-up"
+                size="small"
                 @click="upload"
                 :loading="loadingStatus"
               >上传文件</Button>
@@ -566,12 +566,12 @@ export default {
     cursor: pointer;
     margin: 0 10px 10px 0;
     float: left;
-    width: 100px;
-    height: 100px;
-    border: 1px solid #9e9e9e;
+    width: 70px;
+    height: 70px;
+    border: 1px solid #c7c7c7;
     overflow: hidden;
     border-radius: 5px;
-    width: 100px;
+    // width: 100px;
     img {
       margin: 0;
       padding: 0;
@@ -626,20 +626,28 @@ export default {
   }
 
   .auto-selector {
-    line-height: 100px;
     .selector {
-      height: 64px;
+      line-height: 64px;
     }
+  }
+  .selector {
+    color: #a0a0a0;
   }
   .submit-selector {
     position: relative;
     .s-btn {
-      line-height: 33px;
-      // bottom: 26px;
-      // position: absolute;
+      position: relative;
+      top: 5px;
+      /* width: 80px; */
+      left: -6px;
+      button {
+        width: 77px;
+      }
     }
     .selector {
-      line-height: 62px;
+      position: relative;
+      height: 10px;
+      top: -14px;
     }
   }
 }
@@ -657,6 +665,39 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
+  }
+}
+
+.auto-upload {
+  z-index: 9999999;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  .j-content {
+    text-align: center;
+    font-size: 17px;
+    top: 40%;
+    position: absolute;
+    z-index: 999;
+    left: 0;
+    right: 0;
+    width: 240px;
+    /* height: 100%; */
+    margin: auto;
+    background: white;
+    /* bottom: 30px; */
+    line-height: 50px;
+    border-radius: 6px;
+    border: 1px solid #d2d2d2;
+  }
+  .mask {
+    cursor: pointer;
+    opacity: 0.6;
+    width: 100%;
+    height: 100%;
+    background: #101010;
   }
 }
 </style>
