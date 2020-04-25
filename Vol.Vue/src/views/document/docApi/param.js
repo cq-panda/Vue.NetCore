@@ -282,10 +282,21 @@ let param = {
         <p>&nbsp;</p>`, type: "json", default: ""
         },
         ],
+
+
         methods: [{ name: "refresh", desc: "刷新查询界面的表数据,使用：this.refresh()", param: "" },
         { name: "getSelectRows", desc: "查询界面获取选中的行,使用：this.getSelectRows()", param: "" },
         { name: "获取从表明细选择中的行", desc: "获取从表明细选择中的行,使用：this.$refs.detail.getSelected()", param: "" },
-        { name: "刷新从表数据", desc: " this.resetDetailTable()", param: "" },
+        { name: "刷新从表数据", desc: `<p> this.resetDetailTable()</p>
+        <br />
+//如果是新建弹出框中，此方法不会执行<br />
+//新建中刷新从表解决办法：<br />
+/*<br />
+&nbsp;let _currentAction= this.currentAction;<br />
+&nbsp; this.currentAction="";<br />
+&nbsp; this.resetDetailTable()<br />
+&nbsp; this.currentAction=_currentAction;<br />
+*/<br />`, param: "" },
         { name: "扩展js方法使用", desc: "扩展js为当前数据库表生成页面扩展js,如:SellOrder.js,文件由代码生成，可自行在js中实现下面列出的方法", param: "" },
         {
             name: "扩展js方法使用", desc: `<div class="cnblogs_code">
