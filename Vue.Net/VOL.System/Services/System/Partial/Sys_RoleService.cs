@@ -112,7 +112,7 @@ namespace VOL.System.Services
                 return roles;
             }
             rolesChildren = GetChildren(roleId);
-            return roles;
+            return rolesChildren;
         }
 
 

@@ -58,6 +58,14 @@ let form = [
         path: '/validator',
         name: 'validator',
         component: () => import('@/views/forms/objectValidator.vue')
-    }
+    }, {
+      path: '/treetable1',
+      name: 'treetable1',
+      component: () => import('@/views/treetable/treetable1.vue')
+  }, {
+    path: '/treetable2',
+    name: 'treetable2',
+    component: () => import('@/views/treetable/treetable2.vue')
+}
 ]
 export default form

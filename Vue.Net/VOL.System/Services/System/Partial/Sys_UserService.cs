@@ -198,17 +198,31 @@ namespace VOL.System.Services
         /// <returns></returns>
         public override PageGridData<Sys_User> GetPageData(PageDataOptions pageData)
         {
-
+            int roleId = -1;
+            //树形菜单传查询角色下所有用户
+            if (pageData.Value != null)
+            {
+                roleId = pageData.Value.ToString().GetInt();
+            }
             QueryRelativeExpression = (IQueryable<Sys_User> queryable) =>
             {
-                if (UserContext.Current.IsSuperAdmin) return queryable;
+                if (roleId <= 0)
+                {
+                    if (UserContext.Current.IsSuperAdmin) return queryable;
+                    roleId = UserContext.Current.RoleId;
+                }
 
                 //查看用户时，只能看下自己角色下的所有用户
                 List<int> roleIds = Sys_RoleService
                    .Instance
-                   .GetAllChildrenRoleId(UserContext.Current.RoleId).Result;
-                //roleIds.Contains(x.Role_Id) || x.User_Id == UserContext.Current.UserId此处查询存在性能问题，根据实际情况自行解决
-                return queryable.Where(x => roleIds.Contains(x.Role_Id) || x.User_Id == UserContext.Current.UserId);
+                   .GetAllChildrenRoleId(roleId).Result;
+                roleIds.Add(roleId);
+                //判断查询的角色是否越权
+                if (roleId != UserContext.Current.RoleId && !roleIds.Contains(roleId))
+                {
+                    roleId = -999;
+                }
+                return queryable.Where(x => roleIds.Contains(x.Role_Id));
             };
             base.OrderByExpression = x => new Dictionary<object, Core.Enums.QueryOrderBy>() {
                 { x.CreateDate, Core.Enums.QueryOrderBy.Desc },
@@ -231,7 +245,7 @@ namespace VOL.System.Services
                 if (roleId > 0)
                 {
                     string roleName = GetChildrenName(roleId);
-                    if (!UserContext.Current.IsSuperAdmin || roleId == 1 || string.IsNullOrEmpty(roleName))
+                    if ((!UserContext.Current.IsSuperAdmin && roleId == 1) || string.IsNullOrEmpty(roleName))
                         return responseData.Error("不能选择此角色");
                     //选择新建的角色ID，手动添加角色ID的名称
                     userModel.MainData["RoleName"] = roleName;
@@ -329,8 +343,8 @@ namespace VOL.System.Services
                     saveInfo.MainData.Add("RoleName", roleName);
                     return responseContent.OK();
                 }
-                if (saveInfo.MainData.ContainsKey("RoleName"))
-                    saveInfo.MainData.Remove("RoleName");
+                saveInfo.MainData.TryAdd("RoleName", roleName);
+
                 if (string.IsNullOrEmpty(roleName)) return responseContent.Error("不能选择此角色");
 
                 return responseContent.OK();
