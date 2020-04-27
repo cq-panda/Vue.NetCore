@@ -36,7 +36,9 @@
       </Alert>
       <div style=" color: #4c403b;padding: 10px 0;">
         <h4 style="color:red;">下面都是对表App_Expert.js进行的扩展操作,将下面代码复制到App_Expert.js文件methods下即可直接运行</h4>
-        <h4 style="color:red;font-size: 20px; padding: 20px 0">没有特别标明的，都是实现的App_Expert.js扩展,也适用其它所有代码生成的页面(菜单:Table+单表数据->审核、启用图片支持)</h4>
+        <h4
+          style="color:red;font-size: 20px; padding: 20px 0"
+        >没有特别标明的，都是实现的App_Expert.js扩展,也适用其它所有代码生成的页面(菜单:Table+单表数据->审核、启用图片支持)</h4>
         <h3>所有图片点击即可查看大图</h3>
       </div>
       <div :id="'i-'+index" class="doc-wrapper" v-for="(item,index) in items" :key="index">
@@ -48,7 +50,7 @@
             <div class="code">
               <p v-for="(line,key) in item.content" :key="key" class="desc" v-html="line"></p>
             </div>
-            <div class="img">
+            <div class="img" :class="{'full-code':!item.img}">
               <img :src="item.img" @click="()=>{base.previewImg(item.img)}" />
             </div>
           </div>
@@ -266,7 +268,8 @@ export default {
         },
         {
           title: "编辑查询界面table",
-          content: [ `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
@@ -358,7 +361,8 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`
+          ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/13.png"
         },
@@ -503,9 +507,10 @@ export default {
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`,
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/05.png"
         },
-              {
+        {
           title: "动态隐藏table列",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
@@ -536,7 +541,8 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`
+          ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`
         },
         {
@@ -621,7 +627,7 @@ export default {
           tips: `在前端表的扩展js中,onInit与onInited初始化要统计的字段，后台在xxxService.cs中重写查询方法，并实现要统计的字段即可完成表格统计，无需其他操作`,
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/09.png"
         },
-         {
+        {
           title: "编辑多图/文件上传",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
@@ -744,7 +750,7 @@ export default {
           tips: ` 代码生成默认使用的是单图上传，多图上传更多属性配置参照volupload组件`,
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/11.png"
         },
-           {
+        {
           title: "编辑表单添加额外属性(事件)",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
@@ -813,7 +819,7 @@ export default {
 	</div>
 </div>`
           ],
-        tips: ` 可给编辑表单添加描述或触发事件，更多属性配置参照volform组件api`,
+          tips: ` 可给编辑表单添加描述或触发事件，更多属性配置参照volform组件api`,
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/12.png"
         },
         {
@@ -841,6 +847,52 @@ export default {
           ],
           tips: ` 从表图片上传，是对代码生成进行的扩展实现.按此方法可自行实现任意功能`,
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png"
+        },
+        {
+          title: "子父组件传值(vuex)",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		<span style="color:#6a9955;">//写入缓存对象(xxx为全局缓存的唯一key)</span>
+	</div>
+	<div>
+		<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$store</span>.<span style="color:#9cdcfe;">getters</span>.<span style="color:#dcdcaa;">data</span>().<span style="color:#9cdcfe;">xxx</span>={<span style="color:#9cdcfe;">obj:</span><span style="color:#ce9178;">'123'</span>};
+	</div>
+	<div>
+		<span style="color:#6a9955;">//读取缓存对象</span>
+	</div>
+	<div>
+		<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$store</span>.<span style="color:#9cdcfe;">getters</span>.<span style="color:#dcdcaa;">data</span>().<span style="color:#9cdcfe;">xxx</span>.<span style="color:#9cdcfe;">obj</span>;
+	</div>
+	<div>
+		<span style="color:#6a9955;">//修改缓存对象</span>
+	</div>
+	<div>
+		<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$store</span>.<span style="color:#9cdcfe;">getters</span>.<span style="color:#dcdcaa;">data</span>().<span style="color:#9cdcfe;">xxx</span>.<span style="color:#9cdcfe;">obj</span>=<span style="color:#ce9178;">"456"</span>;
+	</div>
+<br />
+	<div>
+		<span style="color:#6a9955;">//代码生成页面使用全局缓存,在methods方法中：</span>
+	</div>
+	<div>
+		<span style="color:#dcdcaa;">onInit</span>(){
+	</div>
+	<div>
+		&nbsp;&nbsp;<span style="color:#6a9955;">//将整个查询页面的viewgrid组件全部缓存起来</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$store</span>.<span style="color:#9cdcfe;">getters</span>.<span style="color:#dcdcaa;">data</span>().<span style="color:#9cdcfe;">viewPageTest</span>=<span style="color:#569cd6;">this</span>;
+	</div>
+	<div>
+		&nbsp;<span style="color:#6a9955;">//在子组件中可以直接使用,如刷新查询页面:this.$store.getters.data().viewPageTest.refresh()</span>
+	</div>
+	<div>
+		}
+	</div>
+</div>`
+          ],
+          tips: `子父组件通过this.$store.getters.data().xxx缓存或读取数据(注意xxx作为key的唯一性)`,
+          img: ""
         },
         {
           title: "完整前端功能扩展",
@@ -944,6 +996,9 @@ h2 {
     img {
       width: 100%;
     }
+  }
+  .full-code {
+    display: none;
   }
   > p {
     padding: 5px 0;
