@@ -30,6 +30,8 @@
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/home_them.png)  
 增加可复用的后台请求参数校验
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/validator.png)  
+增加树形菜单与代码生成页面使用
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/x7tree.png)  
 增加文本编辑器直接发布静态页面功能
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/editor.png)  
 增加真实可用的一对多从表(不限从表数量)扩展
