@@ -55,7 +55,7 @@
                        {field:'HeadImageUrl',title:'头像',type:'img',width:150,align:'left'},
                        {field:'Dept_Id',title:'Dept_Id',type:'int',width:90,hidden:true,align:'left'},
                        {field:'DeptName',title:'部门',type:'string',width:150,hidden:true,align:'left'},
-                       {field:'Role_Id',title:'角色',type:'int',bind:{ key:'roles',data:[]},width:150,hidden:true,require:true,align:'left'},
+                       {field:'Role_Id',title:'角色',type:'int',bind:{ key:'roles',data:[]},width:150,require:true,align:'left'},
                        {field:'RoleName',title:'RoleName',type:'string',width:90,hidden:true,require:true,align:'left'},
                        {field:'Token',title:'Token',type:'string',width:180,hidden:true,align:'left'},
                        {field:'AppType',title:'登陆设备类型',type:'int',bind:{ key:'ut',data:[]},width:150,hidden:true,align:'left'},

@@ -337,10 +337,14 @@ namespace VOL.System.Services
             base.UpdateOnExecute = (SaveModel saveInfo) =>
             {
                 int roleId = saveModel.MainData["Role_Id"].GetInt();
-                string roleName = userInfo.Role_Id == roleId ? userInfo.RoleName : GetChildrenName(roleId);
+                string roleName =  GetChildrenName(roleId);
                 saveInfo.MainData.TryAdd("RoleName", roleName);
                 if (UserContext.IsRoleIdSuperAdmin(userInfo.Role_Id))
                 {
+                    if (userInfo.Role_Id == roleId)
+                    {
+                        saveInfo.MainData["RoleName"]=userInfo.RoleName;
+                    }
                     return responseContent.OK();
                 }
                 if (string.IsNullOrEmpty(roleName)) return responseContent.Error("不能选择此角色");

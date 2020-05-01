@@ -38,7 +38,7 @@ namespace VOL.Core.Infrastructure
         /// <returns></returns>
         public static IEnumerable<Sys_Dictionary> GetDictionaries(IEnumerable<string> dicNos, bool executeSql = true)
         {
-            List<Sys_DictionaryList> query(string sql)
+            static List<Sys_DictionaryList> query(string sql)
             {
                 try
                 {
@@ -50,23 +50,28 @@ namespace VOL.Core.Infrastructure
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error($"字典执行sql异常,sql:{sql},异常信息：{ex.Message+ex.StackTrace}");
+                    Logger.Error($"字典执行sql异常,sql:{sql},异常信息：{ex.Message + ex.StackTrace}");
                     throw ex;
-                  //  Console.WriteLine(ex.Message);
-                   // return null;
+                    //  Console.WriteLine(ex.Message);
+                    // return null;
                 }
             }
             foreach (var item in Dictionaries.Where(x => dicNos.Contains(x.DicNo)))
             {
-                if (executeSql && !string.IsNullOrEmpty(item.DbSql))
+                if (executeSql)
                 {
-                    item.Sys_DictionaryList = query(item.DbSql);
+                    //  2020.05.01增加根据用户信息加载字典数据源sql
+                    string sql = DictionaryHandler.GetCustomDBSql(item.DicNo, item.DbSql);
+                    if (!string.IsNullOrEmpty(item.DbSql))
+                    {
+                        item.Sys_DictionaryList = query(sql);
+                    }
                 }
                 yield return item;
             }
         }
         /// <summary>
-        /// 当出现多人请求字典数据时，此方法可能会出现延迟现象(自行根据实际处理)
+        /// 每次变更字典配置的时候会重新拉取所有配置进行缓存(自行根据实际处理)
         /// </summary>
         /// <returns></returns>
         private static List<Sys_Dictionary> GetAllDictionary()

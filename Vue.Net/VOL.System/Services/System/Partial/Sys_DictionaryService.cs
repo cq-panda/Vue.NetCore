@@ -34,7 +34,7 @@ namespace VOL.System.Services
         public async Task<object> GetVueDictionary(string[] dicNos)
         {
             if (dicNos == null || dicNos.Count() == 0) return new string[] { };
-            var dicConfig = await Task.Run(() =>
+            var dicConfig = await Task.FromResult(
                       DictionaryManager.GetDictionaries(dicNos, false).Select(s => new
                       {
                           dicNo = s.DicNo,
@@ -44,14 +44,24 @@ namespace VOL.System.Services
                            .Select(list => new { key = list.DicValue, value = list.DicName })
                       }).ToList());
 
+            object GetSourceData(string dicNo, string dbSql, object data)
+            {
+                //  2020.05.01增加根据用户信息加载字典数据源sql
+                dbSql = DictionaryHandler.GetCustomDBSql(dicNo, dbSql);
+                if (string.IsNullOrEmpty(dbSql))
+                {
+                    return data as object;
+                }
+                return repository.DapperContext.QueryList<object>(dbSql, null);
+            }
             return dicConfig.Select(item => new
             {
                 item.dicNo,
                 item.config,
-                data = string.IsNullOrEmpty(item.dbSql) ? item.list as object
-                       : repository.DapperContext.QueryList<object>(item.dbSql, null)
+                data = GetSourceData(item.dicNo, item.dbSql, item.list)
             }).ToList();
         }
+
 
         /// <summary>
         /// 通过远程搜索
@@ -65,7 +75,9 @@ namespace VOL.System.Services
             {
                 return null;
             }
+            //  2020.05.01增加根据用户信息加载字典数据源sql
             string sql = Dictionaries.Where(x => x.DicNo == dicNo).FirstOrDefault()?.DbSql;
+            sql = DictionaryHandler.GetCustomDBSql(dicNo,sql);
             if (string.IsNullOrEmpty(sql))
             {
                 return null;
@@ -113,7 +125,9 @@ namespace VOL.System.Services
             {
                 if (keyData.TryGetValue(x.DicNo, out object[] data))
                 {
-                    string sql = $"SELECT * FROM ({x.DbSql}) AS t WHERE " +
+                    //  2020.05.01增加根据用户信息加载字典数据源sql
+                    string sql = DictionaryHandler.GetCustomDBSql(x.DicNo, x.DbSql);
+                     sql = $"SELECT * FROM ({sql}) AS t WHERE " +
                     $"{keySql}" +
                     $" in @data";
                     list.Add(new { key = x.DicNo, data = repository.DapperContext.QueryList<object>(sql, new { data }) });
