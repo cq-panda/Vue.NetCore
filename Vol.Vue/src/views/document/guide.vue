@@ -15,11 +15,6 @@
       <a
         target="_blank"
         style="border-bottom: 1px solid;margin: 0 10px"
-        href="https://www.cnblogs.com/-clouds/p/11633786.html"
-      >博客园介绍</a>
-      <a
-        target="_blank"
-        style="border-bottom: 1px solid;margin: 0 10px"
         href="http://132.232.2.109"
       >演示环境</a>
       <a

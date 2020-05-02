@@ -362,7 +362,7 @@ export default {
         },
 
         {
-          title: "后台代码扩展实现",
+          title: "后台基础代码扩展实现",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<br />
@@ -1028,6 +1028,49 @@ export default {
           ],
           tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`
         }
+          ,   {
+          title: "绑定数据源及自定义sql数据源",
+          content: [`<p>前端数据源绑定在菜单：系统->下拉框绑定设置中配置</p>
+          <p>同时可以配置成自定义成sql语句,参照现有的配置</p>`],
+          tips: `前端数据源绑定及导出，都在菜单:下拉框绑定设置中配置好，代码生成器中选择数据源后，其他都全部由框架自动完成`,
+          img: ""
+        },
+        {
+          title: "根据用户绑定数据源",
+          content: [`根据用户信息动态绑定前端数据源:实现后台：在DictionaryHandler.GetCustomDBSql方法中添加`],
+          tips: `某些情况可能用户只需要看到自己权限内的数据，可按此方法实现`,
+          img: ""
+        },
+        {
+          title: "视图操作",
+          content: [`如果查询过于复杂或不想多表关联，请创建视图，再将视图生成代码`],
+          tips: `使用视图某些情况能减下操作的复杂性`,
+          img: ""
+        },   {
+          title: "视图新增/删除/修改",
+          content: [`<p>视图不能直接新增/删除/修改操作</p>
+          <p>&nbsp; &nbsp; //以视图为例：VAppOrderWxPaid<br />
+&nbsp; &nbsp; public partial class VAppOrderWxPaidService<br />
+&nbsp; &nbsp; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; /// &lt;summary&gt;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; /// 编辑操作<br />
+&nbsp; &nbsp; &nbsp; &nbsp; /// &lt;/summary&gt;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; /// &lt;param name="saveModel"&gt;&lt;/param&gt;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; /// &lt;returns&gt;&lt;/returns&gt;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; public override WebResponseContent Update(SaveModel saveModel)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //VAppOrderWxPaid为视图<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //直接操作原表App_OrderWxPaid的编辑功能<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //saveModel为视图编辑字段信息，如果当前视图提交的saveModel字段与原表App_OrderWxPaid不一致，<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //可以直接修改视图提交saveModel里面的字段信息<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return App_OrderWxPaidService.Instance.Update(saveModel);<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //&nbsp; return base.Update(saveModel);<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; //其他删除、新增处理方式同上<br />
+&nbsp; &nbsp; }<br /></p>`],
+          tips: `使用视图某些情况能减下操作的复杂性`,
+          img: ""
+        },
       ]
     };
   }
