@@ -1,5 +1,26 @@
 <template>
   <div class="kindeditor">
+    <div>
+      <VolBox
+        icon="ios-chatbubbles"
+        :model.sync="uploadModel"
+        title="图片上传"
+        :height="180"
+        :width="520"
+        :padding="15"
+      >
+        <VolUpload
+          style="text-align: center; border: 1px dotted #FF9800;padding: 20px;"
+          :autoUpload="false"
+          :multiple="true"
+          :url="UploadImgUrl"
+          :max-file="uploadCount"
+          :img="true"
+          :upload-after="uploadAfter"
+          :upload-before="uploadBefore"
+        ></VolUpload>
+      </VolBox>
+    </div>
     <!-- <Button type="info" @click="appendContent()">插入内容</Button> -->
     <textarea :height="height" :width="width" :id="id" name="content" v-model="outContent"></textarea>
   </div>
@@ -10,16 +31,32 @@ import "@/../static/kindeditor/themes/default/default.css";
 import "@/../static/kindeditor/kindeditor-all-min.js";
 // import "@/../static/kindeditor/kindeditor-all.js";
 import "@/../static/kindeditor/lang/zh-CN.js";
+let $this;
 export default {
+  components: {
+    VolBox: () => import("@/components/basic/VolBox.vue"),
+    VolUpload: () => import("@/components/basic/VolUpload.vue")
+  },
   name: "kindeditor",
   data() {
     return {
+      uploadModel: false,
       id: "vue-kind" + ~~(Math.random() * 1000),
       editor: null,
       outContent: this.content
     };
   },
   props: {
+    UploadImgUrl: {
+      //上传图片的url
+      type: String,
+      default: ""
+    },
+    uploadCount: {
+      //最多可以上传(图片)的数量
+      type: Number,
+      default: 3
+    },
     content: {
       type: String,
       default: ""
@@ -388,29 +425,50 @@ export default {
     }
   },
   methods: {
+    uploadBefore(files) {
+      //上传前,建议上传至第三方进行存储
+      return true;
+    },
+    uploadAfter(result, files) {
+      if (!result.status) {
+        return;
+      }
+      let urls = files.map(x => {
+        return (
+          `<img style="width:100%;" src="` +
+          (this.http.ipAddress + result.data + x.name) +
+          `"/>`
+        );
+      });
+      this.editor.insertHtml(urls.join(","));
+      this.uploadModel = false;
+    },
     getContent() {
       return this.outContent;
     },
-    setContent(content) {  //设置内容
+    setContent(content) {
+      //设置内容
       this.outContent = content || "";
       this.editor.html(this.outContent);
     },
-    appendContent(htmlContent) { //kindEditor中当前光标的位置插入内容 
-      var startOffset = this.editor.cmd.range.startOffset; 
-      this.editor.insertHtml( htmlContent);
+    appendContent(htmlContent) {
+      //kindEditor中当前光标的位置插入内容
+      var startOffset = this.editor.cmd.range.startOffset;
+      this.editor.insertHtml(htmlContent);
     }
   },
   mounted() {
+    $this = this;
     KindEditor.plugin("vue-img", function(K) {
       var editor = this,
         name = "vue-img";
       // 点击图标时执行
       editor.clickToolbar(name, function() {
-        alert("上传图片正在开发中..");
-        // editor.insertHtml(
-        //   '[IT学习者官网：<a href="http://www.itxxz.com">http://www.itxxz.com</a>] '
-        // );
+        $this.uploadModel = true;
       });
+    });
+    KindEditor.lang({
+      "vue-img": "上传图片"
     });
     var _this = this;
     _this.editor = window.KindEditor.create("#" + this.id, {
