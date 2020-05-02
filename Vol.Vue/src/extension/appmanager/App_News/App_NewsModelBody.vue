@@ -6,6 +6,7 @@
     <div>
       <kind-editor
         ref="editor"
+        :UploadImgUrl="uploadUrl"
         :content.sync="$store.getters.data().editor.currentRow.Content"
         height="360px"
       ></kind-editor>
@@ -29,6 +30,7 @@ export default {
   },
   data() {
     return {
+      uploadUrl:'/api/app_news/upload'//上传图片保存的接口地址，可以自己写一个接口存储
     //  content:"" //文本编辑器内容
     };
   }
