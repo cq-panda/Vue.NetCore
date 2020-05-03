@@ -311,11 +311,12 @@ let methods = {
     }
     this.resetForm("form", sourceObj);
   },
-  getKeyValueType(formData) {
+  getKeyValueType(formData, isEditForm) {
     try {
+      let keyLeft = (isEditForm ? 'e' : 's') + '_b_'
       formData.forEach(item => {
         item.forEach(x => {
-          if (this.keyValueType.hasOwnProperty('_b_' + x.field)) {
+          if (this.keyValueType.hasOwnProperty(keyLeft + x.field)) {
             return true;
           }
           let data;
@@ -333,7 +334,7 @@ let methods = {
           }
           if (data && data.length > 0 && !this.keyValueType.hasOwnProperty(x.field)) {
             this.keyValueType[x.field] = data[0].key;
-            this.keyValueType['_b_' + x.field] = x.type;
+            this.keyValueType[keyLeft + x.field] = x.type;
           }
         })
       })
@@ -348,21 +349,30 @@ let methods = {
     }
 
     if (!sourceObj) return;
-    let form = formName == "searchForm"
-      ? this.searchFormFileds
-      : this.editFormFileds;
+    let form, keyLeft;
+    if (formName == "searchForm") {
+      form = this.searchFormFileds;
+      keyLeft = 's' + '_b_';
+    } else {
+      form = this.editFormFileds;
+      keyLeft = 'e' + '_b_';
+    }
     //获取数据源的data类型，否则如果数据源data的key是数字，重置的值是字符串就无法绑定值
     if (!this.keyValueType._dinit) {
-      this.getKeyValueType(this.editFormOptions);
-      this.getKeyValueType(this.searchFormOptions);
+      this.getKeyValueType(this.editFormOptions, true);
+      this.getKeyValueType(this.searchFormOptions, false);
       this.keyValueType._dinit = true;
     }
     for (const key in form) {
       if (sourceObj.hasOwnProperty(key)) {
         let newVal = sourceObj[key];
-        if (this.keyValueType['_b_' + key] == 'selectList') {
+        let kv_type = this.keyValueType[keyLeft + key];
+        if (kv_type == 'selectList'
+          || kv_type == 'checkbox') {
           if (newVal != "" && newVal != undefined && typeof newVal == 'string') {
             newVal = newVal.split(',');
+          } else if (kv_type == 'checkbox') {
+            newVal = [];
           }
         } else if (this.keyValueType.hasOwnProperty(key)
           && typeof (this.keyValueType[key]) == 'number'
@@ -773,9 +783,11 @@ let methods = {
   viewModelCancel() {//查看表结构
     this.viewModel = false;
   },
-  initFormOptions(formOptions, keys, setMinVal) {//初始化查询、编辑对象的下拉框数据源、图片上传链接地址
+  initFormOptions(formOptions, keys, formFileds, isEdit) {//初始化查询、编辑对象的下拉框数据源、图片上传链接地址
     //let defaultOption = { key: "", value: "请选择" };
     //有上传的字段
+    //2020.05.03新增
+    //编辑数据源的类型
     formOptions.forEach(item => {
       item.forEach(d => {
         if (d.type == 'img' || d.type == 'excel' || d.type == 'file' || d.columnType == 'img') {
@@ -789,24 +801,27 @@ let methods = {
           d.data = [] //{ dicNo: d.dataKey, data: [] };
           return true;
         }
-        // if (this.remoteKeys.indexOf(d.dataKey) != -1) {
-        //     d.remote = true;
-        //     d.data = [] //{ dicNo: d.dataKey, data: [] };
-        //     return true;
-        // }
-        if (keys.indexOf(d.dataKey) == -1) {
-          keys.push(d.dataKey);
-          //data:[defaultOption]
-          this.dicKeys.push({ dicNo: d.dataKey, data: [], type: d.type });
+        //2020.05.03增加编辑表单对checkbox的支持
+        if (d.type == "checkbox" && !(formFileds[d.field] instanceof Array)) {
+          formFileds[d.field] = [];
         }
+        if (keys.indexOf(d.dataKey) == -1) {
+          //2020.05.03增加记录编辑字段的数据源类型
+
+          keys.push(d.dataKey);
+          //2020.05.03修复查询表单与编辑表单type类型变成强一致性的问题
+          //this.dicKeys.push({ dicNo: d.dataKey, data: [], type: d.type });
+          let _dic = { dicNo: d.dataKey, data: [] };
+          if (isEdit) {
+            _dic['e_type'] = d.type;
+          }
+          this.dicKeys.push(_dic);
+        }
+
         //2020.01.30移除内部表单formOptions数据源配置格式data.data，所有参数改为与组件api格式相同
         Object.assign(d, this.dicKeys.filter(f => {
           return f.dicNo == d.dataKey;
         })[0])
-        // d.data = [];
-        // d.data.push(... this.dicKeys.filter(f => {
-        //     return f.dicNo == d.dataKey;
-        // })[0].data);
       });
     });
   },
@@ -832,6 +847,8 @@ let methods = {
         keys.push(key);
       }
       item.bind = dic[0];
+      //2020.05.03优化table数据源checkbox与select类型从编辑列中选取
+      item.bind.type = item.bind.e_type || 'string';
     });
   },
   bindOptions(dic) { //绑定下拉框的数据源
@@ -873,9 +890,9 @@ let methods = {
     let keys = [];
     this.dicKeys.splice(0);
     //初始化编辑数据源,默认为一个空数组，如果要求必填设置type=number/decimal的最小值
-    this.initFormOptions(this.editFormOptions, keys, true);
+    this.initFormOptions(this.editFormOptions, keys, this.editFormFileds, true);
     //初始化查询数据源,默认为一个空数组
-    this.initFormOptions(this.searchFormOptions, keys, false);
+    this.initFormOptions(this.searchFormOptions, keys, this.searchFormFileds, false);
     //查询日期设置为可选开始与结果日期
     this.searchFormOptions.forEach(item => {
       item.forEach(x => {

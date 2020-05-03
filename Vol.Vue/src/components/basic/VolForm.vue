@@ -111,7 +111,11 @@
                   </FormItem>
                 </Col>
               </Row>
-              <CheckboxGroup v-else-if="item.type=='checkbox'" v-model="formFileds[item.field]">
+              <CheckboxGroup
+                @on-change="(arr)=>{item.onChange&&item.onChange(arr)}"
+                v-else-if="item.type=='checkbox'"
+                v-model="formFileds[item.field]"
+              >
                 <Checkbox
                   v-for="(kv,kvIndex) in item.data"
                   :key="kvIndex"
@@ -768,6 +772,7 @@ export default {
       if (
         item.type == "select" ||
         item.type == "selectList" ||
+        item.type == "checkbox" ||
         item.type == "drop"
       ) {
         let _rule = {
@@ -800,6 +805,11 @@ export default {
       return {
         required: false
       };
+    },
+    getCheckBoxModel(arr) {
+      return arr;
+      console.log(arr);
+      return arr || [];
     }
   }
 };
