@@ -95,8 +95,8 @@ namespace VOL.Core.Filters
                     return ResponseContent.Error(ResponseType.NoRolePermissions);
                 }
             }
-
-            var actionAuth =  _userContext.GetPermissions(x => x.TableName.ToLower() == ActionPermission.TableName.ToLower())?.UserAuthArr;
+            //2020.05.05移除x.TableName.ToLower()转换,获取权限时已经转换成为小写
+            var actionAuth =  _userContext.GetPermissions(x => x.TableName == ActionPermission.TableName.ToLower())?.UserAuthArr;
 
             if (actionAuth == null
                  || actionAuth.Count() == 0

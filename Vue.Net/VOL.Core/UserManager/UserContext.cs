@@ -206,7 +206,8 @@ namespace VOL.Core.ManageUser
                 {
                     Menu_Id = a.Menu_Id,
                     ParentId = a.ParentId,
-                    TableName = a.TableName ?? "",
+                    //2020.05.06增加默认将表名转换成小写，权限验证时不再转换
+                    TableName = (a.TableName ?? "").ToLower(),
                     //MenuAuth = a.Auth,
                     UserAuth = a.Auth,
                 }).ToList();
@@ -246,7 +247,8 @@ namespace VOL.Core.ManageUser
                                                   {
                                                       Menu_Id = a.Menu_Id,
                                                       ParentId = a.ParentId,
-                                                      TableName = a.TableName ?? "",
+                                                      //2020.05.06增加默认将表名转换成小写，权限验证时不再转换
+                                                      TableName = (a.TableName ?? "").ToLower(),
                                                       MenuAuth = a.Auth,
                                                       UserAuth = b.AuthValue ?? ""
                                                   }).ToList();
