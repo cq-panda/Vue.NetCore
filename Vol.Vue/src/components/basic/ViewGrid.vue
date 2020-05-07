@@ -20,7 +20,7 @@
     <vol-box
       v-if="upload.url"
       :model.sync="upload.excel"
-      :height="260"
+      :height="285"
       :width="600"
       :title="table.cnName+'--导入'"
     >
