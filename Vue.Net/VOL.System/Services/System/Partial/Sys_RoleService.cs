@@ -42,7 +42,7 @@ namespace VOL.System.Services
         public async Task<WebResponseContent> GetUserTreePermission(int roleId)
         {
             WebResponseContent webResponse = new WebResponseContent();
-            if (roleId != 1)
+            if (!UserContext.IsRoleIdSuperAdmin(roleId) && UserContext.Current.RoleId != roleId)
             {
                 if (!(await GetAllChildren(UserContext.Current.RoleId)).Exists(x => x.Id == roleId))
                 {
@@ -277,9 +277,13 @@ namespace VOL.System.Services
             UpdateOnExecuting = (Sys_Role role, object obj1, object obj2, List<object> obj3) =>
             {
                 //2020.05.07新增禁止选择上级角色为自己
-                if (role.Role_Id==role.ParentId)
+                if (role.Role_Id == role.ParentId)
                 {
                     return WebResponseContent.Instance.Error($"上级角色不能选择自己");
+                }
+                if (repository.Exists(x => x.ParentId == role.Role_Id&&role.ParentId==x.Role_Id))
+                {
+                    return WebResponseContent.Instance.Error($"不能选择此上级角色，选择的上级角色与当前角色形成依赖关系");
                 }
                 return ValidateRoleName(role, x => x.RoleName == role.RoleName && x.Role_Id != role.Role_Id);
             };

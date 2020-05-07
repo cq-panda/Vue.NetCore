@@ -195,6 +195,10 @@ namespace VOL.System.Services
                     {
                         return WebResponseContent.Instance.Error($"父级id不能为自己");
                     }
+                    if (repository.Exists(x => x.ParentId == menu.Menu_Id && menu.ParentId == x.Menu_Id))
+                    {
+                        return WebResponseContent.Instance.Error($"不能选择此父级id，选择的父级id与当前菜单形成依赖关系");
+                    }
                     repository.Update(menu.SetModifyDefaultVal(), p => new
                     {
                         p.ParentId,
