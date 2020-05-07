@@ -326,8 +326,8 @@ namespace VOL.Core.BaseProvider
             string dicPath = $"Download/{DateTime.Now.ToString("yyyMMdd")}/Template/".MapPath();
             if (!Directory.Exists(dicPath)) Directory.CreateDirectory(dicPath);
             string fileName = tableName + DateTime.Now.ToString("yyyyMMddHHssmm") + ".xlsx";
-
-            EPPlusHelper.ExportTemplate<T>(GetIgnoreTemplate(), dicPath, fileName);
+            //DownLoadTemplateColumns 2020.05.07增加扩展指定导出模板的列
+            EPPlusHelper.ExportTemplate<T>(DownLoadTemplateColumns,GetIgnoreTemplate(), dicPath, fileName);
             return Response.OK(null, dicPath + fileName);
         }
 
@@ -351,7 +351,7 @@ namespace VOL.Core.BaseProvider
             }
             try
             {
-                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, GetIgnoreTemplate());
+                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate());
             }
             catch (Exception ex)
             {
@@ -393,7 +393,8 @@ namespace VOL.Core.BaseProvider
                 Response = ExportOnExecuting(list, ignoreColumn);
                 if (!Response.Status) return Response;
             }
-            EPPlusHelper.Export(list, ignoreColumn, savePath, fileName);
+            //ExportColumns 2020.05.07增加扩展指定导出模板的列
+            EPPlusHelper.Export(list, ExportColumns?.GetExpressionToArray(), ignoreColumn, savePath, fileName);
             return Response.OK(null, (savePath + "/" + fileName).EncryptDES(AppSetting.Secret.ExportFile));
         }
 

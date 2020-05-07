@@ -146,11 +146,26 @@ namespace VOL.Core.Filters
         /// 审核后处理
         /// </summary>
         protected Func<List<T>, WebResponseContent> AuditOnExecuted;
+
         /// <summary>
         ///导出前处理,DataTable导出的表数据
         ///List<T>导出的数据, List<string>忽略不需要导出的字段
+        ///此方法不建议使用,由下面ExportColumns委托替代2020.05.07
         /// </summary>
         protected Func<List<T>, List<string>, WebResponseContent> ExportOnExecuting;
+
+        /// <summary>
+        /// 2020.05.07
+        /// 导出表数据(界面上导出操作),指定要导出的列，格式:Expression<Func<T, object>> exp = x => new { x.字段1, x.字段2 }
+        /// </summary>
+        protected Expression<Func<T, object>> ExportColumns { get; set; }
+
+
+        /// <summary>
+        /// 2020.05.07
+        /// 导出下载模板，指定要导出的模板列，格式:Expression<Func<T, object>> exp = x => new { x.字段1, x.字段2 }
+        /// </summary>
+        protected Expression<Func<T, object>> DownLoadTemplateColumns { get; set; }
 
         /// <summary>
         /// 导入保存后
@@ -161,5 +176,6 @@ namespace VOL.Core.Filters
         /// 导入保存前
         /// </summary>
         protected Func<List<T>, WebResponseContent> ImportOnExecuting;
+
     }
 }

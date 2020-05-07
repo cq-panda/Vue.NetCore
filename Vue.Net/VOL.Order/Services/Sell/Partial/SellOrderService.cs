@@ -266,6 +266,7 @@ namespace VOL.Order.Services
             };
             return base.Audit(keys, auditStatus, auditReason);
         }
+
         /// <summary>
         /// 导出
         /// </summary>
@@ -275,22 +276,43 @@ namespace VOL.Order.Services
         {
             //设置最大导出的数量
             Limit = 1000;
+            //指定导出的字段(2020.05.07)
+            ExportColumns = x => new { x.SellNo, x.TranNo, x.CreateDate };
+
             //查询要导出的数据后，在生成excel文件前处理
             //list导出的实体，ignore过滤不导出的字段
             ExportOnExecuting = (List<SellOrder> list, List<string> ignore) =>
             {
                 return new WebResponseContent().OK();
             };
+
             return base.Export(pageData);
         }
+
         /// <summary>
-        /// 保存
+        /// 下载模板(导入时弹出框中的下载模板)(2020.05.07)
+        /// </summary>
+        /// <returns></returns>
+        public override WebResponseContent DownLoadTemplate()
+        {
+            //指定导出模板的字段,如果不设置DownLoadTemplateColumns，默认导出查所有页面上能看到的列(2020.05.07)
+            DownLoadTemplateColumns =  x => new { x.SellNo, x.TranNo,x.Remark, x.CreateDate };
+            return base.DownLoadTemplate();
+        }
+
+        /// <summary>
+        /// 导入
         /// </summary>
         /// <param name="files"></param>
         /// <returns></returns>
         public override WebResponseContent Import(List<IFormFile> files)
         {
-            //导入保存前处理
+            //(2020.05.07)
+            //设置导入的字段(如果指定了上面导出模板的字段，这里配置应该与上面DownLoadTemplate方法里配置一样)
+            //如果不设置导入的字段DownLoadTemplateColumns,默认显示所有界面上所有可以看到的字段
+            DownLoadTemplateColumns = x => new { x.SellNo, x.TranNo, x.Remark, x.CreateDate };
+
+            //导入保存前处理(可以对list设置新的值)
             ImportOnExecuting = (List<SellOrder> list) =>
             {
                 return new WebResponseContent(true);
