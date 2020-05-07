@@ -190,6 +190,11 @@ namespace VOL.System.Services
                 }
                 else
                 {
+                    //2020.05.07新增禁止选择上级角色为自己
+                    if (menu.Menu_Id == menu.ParentId)
+                    {
+                        return WebResponseContent.Instance.Error($"父级id不能为自己");
+                    }
                     repository.Update(menu.SetModifyDefaultVal(), p => new
                     {
                         p.ParentId,

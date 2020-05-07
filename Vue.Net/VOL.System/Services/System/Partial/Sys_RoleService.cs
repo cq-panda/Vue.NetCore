@@ -276,6 +276,11 @@ namespace VOL.System.Services
         {
             UpdateOnExecuting = (Sys_Role role, object obj1, object obj2, List<object> obj3) =>
             {
+                //2020.05.07新增禁止选择上级角色为自己
+                if (role.Role_Id==role.ParentId)
+                {
+                    return WebResponseContent.Instance.Error($"上级角色不能选择自己");
+                }
                 return ValidateRoleName(role, x => x.RoleName == role.RoleName && x.Role_Id != role.Role_Id);
             };
             return RemoveCache(base.Update(saveModel));

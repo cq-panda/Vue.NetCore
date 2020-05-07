@@ -252,7 +252,11 @@ DISTINCT
         {
             WebResponseContent webResponse = ValidColumnString(sysTableInfo);
             if (!webResponse.Status) return webResponse;
-
+            //2020.05.07新增禁止选择上级角色为自己
+            if (sysTableInfo.Table_Id == sysTableInfo.ParentId)
+            {
+                return WebResponseContent.Instance.Error($"父级id不能为自己");
+            }
             if (sysTableInfo.TableColumns != null)
             {
                 sysTableInfo.TableColumns.ForEach(x =>
