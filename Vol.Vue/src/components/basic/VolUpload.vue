@@ -29,16 +29,8 @@
             <div class="selector" @click="handleClick">
               <Icon type="ios-camera"></Icon>
             </div>
-            <div class="s-btn">
-              <Button
-                :disabled="changed"
-                v-if="!autoUpload"
-                style="border-radius: 0px;"
-                type="info"
-                size="small"
-                @click="upload"
-                :loading="loadingStatus"
-              >上传文件</Button>
+            <div v-if="!autoUpload" class="s-btn" :class="{readonly:changed}" @click="upload">
+              <div>{{loadText}}</div>
             </div>
           </div>
         </div>
@@ -206,7 +198,8 @@ export default {
       model: true,
       files: [],
       bigImg: "",
-      loadingStatus: false
+      loadingStatus: false,
+      loadText:'上传文件'
     };
   },
   created() {
@@ -329,12 +322,14 @@ export default {
       });
       // forms.append("fileInput", this.files);
       this.loadingStatus = true;
+        this.loadText="上传中..";
       this.http
         .post(this.url, forms, this.autoUpload ? "正在上传文件" : "")
         .then(
           x => {
             // this.$refs.uploadFile.clearFiles();
             this.loadingStatus = false;
+            this.loadText="上传文件";
             if (!this.uploadAfter(x, this.files)) {
               this.changed = false;
               return;
@@ -358,6 +353,7 @@ export default {
             // }
           },
           error => {
+            this.loadText="上传文件";
             this.loadingStatus = false;
           }
         );
@@ -634,20 +630,20 @@ export default {
     color: #a0a0a0;
   }
   .submit-selector {
-    position: relative;
     .s-btn {
+          line-height: 22px;
+      font-size: 12px;
+      top: -7px;
+      // padding: 2px;
       position: relative;
-      top: 5px;
-      /* width: 80px; */
-      left: -6px;
-      button {
-        width: 77px;
-      }
+      background: #2db7f5;
+      color: white;
     }
     .selector {
-      position: relative;
-      height: 10px;
-      top: -14px;
+      line-height: 50px;
+    }
+    .readonly {
+      background: #8c8c8c;
     }
   }
 }
