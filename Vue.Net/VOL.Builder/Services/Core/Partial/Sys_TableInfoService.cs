@@ -148,7 +148,7 @@ DISTINCT
             FROM
                 information_schema.COLUMNS
             WHERE
-                table_name = ?tableName {GetMysqlDB()};";
+                table_name = ?tableName {GetMysqlTableSchema()};";
         }
 
 
@@ -947,7 +947,7 @@ DISTINCT
                 FROM
                     information_schema.COLUMNS
                 WHERE
-                    table_name = ?tableName {GetMysqlDB()}";
+                    table_name = ?tableName {GetMysqlTableSchema()}";
         }
 
         /// <summary>
