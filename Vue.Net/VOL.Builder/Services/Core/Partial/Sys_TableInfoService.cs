@@ -12,6 +12,7 @@ using System.Runtime.Loader;
 using System.Text;
 using System.Threading.Tasks;
 using VOL.Core.Const;
+using VOL.Core.DBManager;
 using VOL.Core.Enums;
 using VOL.Core.Extensions;
 using VOL.Core.ManageUser;
@@ -99,6 +100,28 @@ namespace DairyStar.Builder.Services
         }
 
         /// <summary>
+        /// 2020.05.17增加mysql获取表结构时区分当前所在数据库
+        /// </summary>
+        /// <returns></returns>
+        private string GetMysqlTableSchema()
+        {
+            try
+            {
+                string dbName = DBServerProvider.GetConnectionString().Split("Database=")[1].Split(";")[0]?.Trim();
+                if (!string.IsNullOrEmpty(dbName))
+                {
+                    dbName = $" and table_schema = '{dbName}' ";
+                }
+                return dbName;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"获取mysql数据库名异常:{ex.Message}");
+                return "";
+            }
+        }
+
+        /// <summary>
         /// 获取Mysql表结构信息
         /// </summary>
         /// <returns></returns>
@@ -125,8 +148,9 @@ DISTINCT
             FROM
                 information_schema.COLUMNS
             WHERE
-                table_name = ?tableName;";
+                table_name = ?tableName {GetMysqlTableSchema()};";
         }
+
 
         /// <summary>
         /// 获取SqlServer表结构信息
@@ -923,7 +947,7 @@ DISTINCT
                 FROM
                     information_schema.COLUMNS
                 WHERE
-                    table_name = ?tableName";
+                    table_name = ?tableName {GetMysqlTableSchema()}";
         }
 
         /// <summary>
@@ -1352,9 +1376,9 @@ DISTINCT
                     column.Maxlength = 0;
                 }
 
-                if (column.ColumnType == "string" && column.Maxlength > 0&& column.Maxlength < 8000)
+                if (column.ColumnType == "string" && column.Maxlength > 0 && column.Maxlength < 8000)
                 {
-                 
+
                     AttributeBuilder.Append("       [MaxLength(" + column.Maxlength + ")]");
                     AttributeBuilder.Append("\r\n");
                 }
@@ -1366,7 +1390,7 @@ DISTINCT
                     AttributeBuilder.Append("\r\n");
                 }
                 //[Column(TypeName="bigint")]如果与字段类型不同会产生异常
-          
+
                 if (tableColumnInfo != null)
                 {
                     if (!string.IsNullOrEmpty(tableColumnInfo.Prec_Scale) && !tableColumnInfo.Prec_Scale.EndsWith(",0"))
@@ -1388,8 +1412,8 @@ DISTINCT
                         if (column.IsKey != 1 && column.ColumnType.ToLower() == "string")
                         {
                             //没有指定长度的字符串字段 ，如varchar,nvarchar，text等都默认生成varchar(max),nvarchar(max)
-                            if (column.Maxlength <= 0 
-                                || (tableColumnInfo.ColumnType=="varchar"&& column.Maxlength>8000)
+                            if (column.Maxlength <= 0
+                                || (tableColumnInfo.ColumnType == "varchar" && column.Maxlength > 8000)
                                 || (tableColumnInfo.ColumnType == "nvarchar" && column.Maxlength > 4000))
                             {
                                 maxLength = "(max)";
