@@ -15,6 +15,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
+    [Table("sys_menu")]
     [EntityAttribute(TableCnName = "菜单配置")]
     public class Sys_Menu:BaseEntity
     {

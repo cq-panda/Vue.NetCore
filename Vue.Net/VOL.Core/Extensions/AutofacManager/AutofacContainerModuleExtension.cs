@@ -74,7 +74,10 @@ namespace VOL.Core.Extensions
                 //mysql8.x的版本使用Pomelo.EntityFrameworkCore.MySql 3.1会产生异常，需要在字符串连接上添加allowPublicKeyRetrieval=true
                 services.AddDbContextPool<VOLContext>(optionsBuilder => { optionsBuilder.UseMySql(connectionString); }, 64);
             }
-            else
+            else if (DBType.Name == DbCurrentType.PgSql.ToString())
+            {
+                services.AddDbContextPool<VOLContext>(optionsBuilder => { optionsBuilder.UseNpgsql(connectionString); }, 64);
+            }
             {
                 services.AddDbContextPool<VOLContext>(optionsBuilder => { optionsBuilder.UseSqlServer(connectionString); }, 64);
             }

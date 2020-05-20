@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VOL.Entity.DomainModels
 {
+    [Table("sys_tablecolumn")]
     public class Sys_TableColumn : BaseEntity
     {
         /// <summary>

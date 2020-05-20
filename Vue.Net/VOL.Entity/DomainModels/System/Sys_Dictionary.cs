@@ -13,6 +13,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
+    [Table("Sys_Dictionary")]
     [Entity(TableCnName = "字典数据",DetailTable =  new Type[] { typeof(Sys_DictionaryList)},DetailTableCnName = "字典明细")]
     public class Sys_Dictionary:BaseEntity
     {
