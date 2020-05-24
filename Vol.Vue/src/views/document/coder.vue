@@ -39,8 +39,10 @@
       <br />
       <br />
 
-   <h2 style="color:red;font-weight: 500; margin-bottom: 20px;">创建mysql表，只有字段类型是guid时设置成varchar(36)或char(36),其他字段的长度都不要设置成长度36，否则会替换成guid类型</h2>
-    <h2 style="color:red;font-weight: 500; margin-bottom: 20px;">数据库字段不要设置类型bit，请用int或byte替代</h2>
+      <h2
+        style="color:red;font-weight: 500; margin-bottom: 20px;"
+      >创建mysql表，只有字段类型是guid时设置成char(36),其他字段的长度都不要设置成长度36，否则会替换成guid类型</h2>
+      <h2 style="color:red;font-weight: 500; margin-bottom: 20px;">数据库字段不要设置类型bit(bool)，请用int或byte替代</h2>
       <div id="doc-3" class="coder-doc">
         <h1 style="    margin-bottom: 20px;">生成代码</h1>
         <div class="title">
@@ -48,7 +50,10 @@
         </div>
         <ul class="coder-group">
           <li class="coder-list">点击新建,弹出选择框，如果只是做修改跳过此步，直接修改页面配置后点保存，再点各种生成操作</li>
-          <li class="coder-img"  @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step1.png')">
+          <li
+            class="coder-img"
+            @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step1.png')"
+          >
             <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step1.png" />
           </li>
         </ul>
@@ -64,7 +69,10 @@
           <li class="coder-list">项目文件夹：生成的文件放在文件夹,此文件夹由代码生成器创建,不需要手动创建</li>
           <li class="coder-list">表名:可以是视图或表,名字必须和数据库一样</li>
           <li class="coder-list">如果只想创建一个空菜单，上面表名随便填写</li>
-          <li class="coder-img" @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step2.png')">
+          <li
+            class="coder-img"
+            @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step2.png')"
+          >
             <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step2.png" />
           </li>
         </ul>
@@ -81,7 +89,10 @@
             class="coder-list"
             style="color:#0b906d;"
           >Vue视图绝对路径：生成Vue页面必须指定此路径，路径为当前Vue项目的views文件夹，如E:/VOL.Vue/src/views</li>
-          <li class="coder-img"  @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep3.png')">
+          <li
+            class="coder-img"
+            @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep3.png')"
+          >
             <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep3.png" />
           </li>
         </ul>
@@ -115,7 +126,10 @@
             class="coder-list"
           >Url:通过VsCode打开vue项目,找到router文件夹下viewGird.js找当前生成表的path属性/SellOrder就是配置菜单需要配置的url,直接复制过来即可</li>
           <li class="coder-list">表名:在生成代码时填写的表名或视图名，必须一致，否则权限验证通不过</li>
-          <li class="coder-img"  @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep5.png')">
+          <li
+            class="coder-img"
+            @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep5.png')"
+          >
             <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep5.png" />
           </li>
         </ul>
@@ -128,7 +142,10 @@
         <ul class="coder-group">
           <li class="coder-list" style="color:red;">确认后台项目运行的是路径 …/VOL.WebApi/dev_run.bat 文件,</li>
           <li class="coder-list">输入http://localhost:8080/sellOrder</li>
-          <li class="coder-img"  @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep6.png')">
+          <li
+            class="coder-img"
+            @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep6.png')"
+          >
             <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep6.png" />
           </li>
         </ul>
@@ -283,6 +300,26 @@
       <br />
       <br />
     </div>
+
+    <Drawer :width="800" class="q-drawer" title="代码生成器使用常见问题" :closable="false" v-model="q_moel">
+      <Alert type="success" show-icon>
+        关于生成model
+        <template slot="desc">
+          <p>如果修改了编辑行或者编辑列，必须点生成model；如果只允许编辑，但不想显示出来，编辑行设置为0，再点生成model</p>
+          <p>框架不支持多主键，如果有多个主键，在生成页面，主键列只勾选一个即可</p>
+        </template>
+      </Alert>
+      <el-collapse v-model="activeName" accordion>
+        <el-collapse-item
+          v-for="(item,index) in q_items"
+          :key="index"
+          :title="item.title"
+          :name="index+1"
+        >
+          <div>{{item.desc}}</div>
+        </el-collapse-item>
+      </el-collapse>
+    </Drawer>
   </div>
 </template>
 <script>
@@ -290,8 +327,32 @@ export default {
   data() {
     return {
       activedIndex: 0,
+      q_moel: false,
+      activeName: "1",
+      q_items: [
+        {
+          title: "编辑或查询弹出框空白",
+          desc:
+            "请配置编辑行或查询行,同时点击[生成vue页面],如果配置是编辑行，同时需要点击[生成model]"
+        },
+        {
+          title: "编辑或新建,保存后数据没有变化",
+          desc: "1、确认是否设置了编辑行；2、修改编辑行后需要点击【生成model】与生成vue页面，如果主从表，在主表上点击生成vue页面"
+        },
+        {
+          title: "点击[生成业务类]异常",
+          desc:
+            "请双击运行后台项目.../VOL.WebApi/builder_run.bat命令,只有生成业务类时才需要运行此命令，其他操作运行dev_run.bat即可"
+        },
+        {
+          title: "代码生成后,打开页面报错",
+          desc:
+            "代码生成后，如果页面报错，请确认后台运行的是.../VOL.WebApi/dev_run.bat命令"
+        }
+      ],
       nav: [
         "可实现功能",
+        "常见问题",
         "准备工作",
         "主从(明细)表生成代码",
         "1.开始生成代码",
@@ -321,16 +382,22 @@ export default {
     };
   },
   methods: {
-	  preview(img){
-         window.open(img)
-	  },
+    preview(img) {
+      window.open(img);
+    },
     to(index) {
+      this.activedIndex = index;
+      if (index == 1) {
+        this.q_moel = true;
+
+        return;
+      }
+
       let top = document.getElementById("doc-" + index).offsetTop - 100;
       if (index == 0) {
         top = 0;
       }
       window.scrollTo(0, top);
-      this.activedIndex = index;
     }
   },
   created() {}
@@ -375,6 +442,8 @@ export default {
     margin-right: 5px;
   }
   .coder-group {
+    background: #e0fffb;
+    border-radius: 5px;
     width: 100%;
     display: inline-block;
     padding: 15px 25px;
@@ -389,7 +458,7 @@ export default {
     list-style: none;
   }
   .coder-img img {
-	  cursor: pointer;
+    cursor: pointer;
     width: 100%;
   }
   .coder-list:before {
@@ -404,10 +473,10 @@ export default {
   }
 }
 
-  .step {
-    padding-left: 20px !important;
-    color: black;
-  }
+.step {
+  padding-left: 20px !important;
+  color: black;
+}
 //   .step:first {
 //     margin-top: 15px;
 //   }

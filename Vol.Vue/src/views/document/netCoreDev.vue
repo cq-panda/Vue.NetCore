@@ -1133,26 +1133,68 @@ export default {
           img: ""
         },   {
           title: "视图新增/删除/修改",
-          content: [`<p>视图不能直接新增/删除/修改操作</p>
-          <p>&nbsp; &nbsp; //以视图为例：VAppOrderWxPaid<br />
-&nbsp; &nbsp; public partial class VAppOrderWxPaidService<br />
-&nbsp; &nbsp; {<br />
-&nbsp; &nbsp; &nbsp; &nbsp; /// &lt;summary&gt;<br />
-&nbsp; &nbsp; &nbsp; &nbsp; /// 编辑操作<br />
-&nbsp; &nbsp; &nbsp; &nbsp; /// &lt;/summary&gt;<br />
-&nbsp; &nbsp; &nbsp; &nbsp; /// &lt;param name="saveModel"&gt;&lt;/param&gt;<br />
-&nbsp; &nbsp; &nbsp; &nbsp; /// &lt;returns&gt;&lt;/returns&gt;<br />
-&nbsp; &nbsp; &nbsp; &nbsp; public override WebResponseContent Update(SaveModel saveModel)<br />
-&nbsp; &nbsp; &nbsp; &nbsp; {<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //VAppOrderWxPaid为视图<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //直接操作原表App_OrderWxPaid的编辑功能<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //saveModel为视图编辑字段信息，如果当前视图提交的saveModel字段与原表App_OrderWxPaid不一致，<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //可以直接修改视图提交saveModel里面的字段信息<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return App_OrderWxPaidService.Instance.Update(saveModel);<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //&nbsp; return base.Update(saveModel);<br />
-&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-&nbsp; &nbsp; &nbsp; &nbsp; //其他删除、新增处理方式同上<br />
-&nbsp; &nbsp; }<br /></p>`],
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//视图不能直接新增/删除/修改操作</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//以视图为例：VAppOrderWxPaid</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">partial</span>&nbsp;<span style="color:#569cd6;">class</span>&nbsp;<span style="color:#4ec9b0;">VAppOrderWxPaidService</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;summary&gt;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;编辑操作</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;/summary&gt;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;param&nbsp;name="saveModel"&gt;&lt;/param&gt;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;returns&gt;&lt;/returns&gt;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">WebResponseContent</span>&nbsp;<span style="color:#dcdcaa;">Update</span>(<span style="color:#9cdcfe;">SaveModel</span>&nbsp;<span style="color:#9cdcfe;">saveModel</span>)
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//VAppOrderWxPaid为视图</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//直接操作原表App_OrderWxPaid的编辑功能</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//saveModel为视图编辑字段信息，如果当前视图提交的saveModel字段与原表App_OrderWxPaid不一致，</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//可以直接修改视图提交saveModel里面的字段信息</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">App_OrderWxPaidService</span>.<span style="color:#9cdcfe;">Instance</span>.<span style="color:#dcdcaa;">Update</span>(<span style="color:#9cdcfe;">saveModel</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;return&nbsp;base.Update(saveModel);</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//其他删除、新增处理方式同上</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`],
           tips: `使用视图某些情况能减下操作的复杂性`,
           img: ""
         },

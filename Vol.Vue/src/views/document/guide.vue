@@ -7,7 +7,7 @@
     border-radius: 5px;
     margin-bottom: 20px;"
     >
-        <a
+      <a
         target="_blank"
         style="border-bottom: 1px solid;margin: 0 10px"
         href="http://donate.volcore.xyz"
@@ -39,10 +39,12 @@
       >组件Api</a>
       <a
         target="_blank"
-        style="border-bottom: 1px solid;margin: 0 10px"
+        style="margin: 0 10px"
         @click="()=>{ this.$router.push({ path: '/document/issue' });}"
       >常见问题</a>
+      <a style="border-bottom: 1px solid;margin: 0 10px">QQ群:45221949</a>
     </div>
+
     <h2
       style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;color:#EBEBEB;font-family:&quot;background:#00BCD4;font-size:20px;line-height:37px;white-space:normal;margin:18px 0px !important;"
     >
@@ -132,7 +134,7 @@
     </ul>
     <br />
 
-<h2
+    <h2
       style="padding-left: 24px;white-space:normal;box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;font-family:&quot;background:#00BCD4;font-size:20px;line-height:37px;margin:18px 0px !important;"
     >
       <span>
@@ -149,11 +151,9 @@
         </span>
       </li>
       <li>
-        <span
-          style="font-size:16px;line-height:3;"
-        >编写扩展业务代码:文档->[前端开发]->[后台开发]->[组件api(ViewGrid组件)]</span>
+        <span style="font-size:16px;line-height:3;">编写扩展业务代码:文档->[前端开发]->[后台开发]->[组件api(ViewGrid组件)]</span>
       </li>
-       <li>
+      <li>
         <span
           style="font-size:16px;line-height:3;"
         >编写扩展业务代码涉及组件:ViewGird.vue、VolForm.vue、VolTable.vue、VolBox.vue、VolUpload,根据需要找这几个组件参数即可</span>
@@ -221,16 +221,14 @@
     </h2>
     <ul style="   padding-left: 24px;">
       <li>
+        <p style="font-size:16px;line-height:3;color:red;">发布后台</p>
         <p
-          style="font-size:16px;line-height:3;color:red;"
-        >发布后台</p>
-           <p
           style="font-size:16px;line-height:3;"
         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1、直接右击发布(发布方法，选文件系统即可)，发布完成后，将upload文件夹复制到发布后的路径</p>
         <p
           style="font-size:16px;line-height:3;"
         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、配置跨域,发布后的文件夹下，配置appsettings.json属性CorsUrls,将部署好的前端vue站点url添加到CorsUrls中</p>
-            <p
+        <p
           style="font-size:16px;line-height:3;"
         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、部署后台项目站点</p>
       </li>
@@ -239,13 +237,13 @@
         <p
           style="font-size:16px;line-height:3;"
         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1、修改src\api\http.js文件，修改process.env.NODE_ENV 配置：axios.defaults.baseURL ='部署的后台地址'，如：http://132.232.2.109:9991</p>
-           <p
+        <p
           style="font-size:16px;line-height:3;"
         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2、执行前端发布：../vol.vue/目录下双击build.bat运行，发布完成后的项目在dist文件夹里</p>
       </li>
       <li>
         <p style="font-size:16px;line-height:3;color:red;">访问报错</p>
-           <p
+        <p
           style="font-size:16px;line-height:3;"
         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1、确认后台部署的站点能不能打开</p>
         <p
@@ -258,14 +256,13 @@
           style="font-size:16px;line-height:3;"
         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4、如果logs文件夹下没有日志，查数据库sys_log表或Logger\Queue\路径下日志</p>
       </li>
-          <li>
+      <li>
         <span style="font-size:16px;line-height:3;color:red;">前端刷新页面404报错</span>
-           <p
+        <p
           style="font-size:16px;line-height:3;"
-        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1、修改前端route文件夹下index.js文件，将 mode: 'history'改为  history: true</p>
+        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1、修改前端route文件夹下index.js文件，将 mode: 'history'改为 history: true</p>
       </li>
     </ul>
-
 
     <h2
       style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;color:#EBEBEB;font-family:&quot;background:#00BCD4;font-size:20px;line-height:37px;white-space:normal;margin:18px 0px !important;"
