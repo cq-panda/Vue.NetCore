@@ -22,12 +22,30 @@ namespace VOL.Core.Infrastructure
             switch (dicNo)
             {
                 case "roles":
-                    originalSql = GetRolesSql( originalSql);
+                    originalSql = GetRolesSql(originalSql);
+                    break;
+                //2020.05.24增加绑定table表时，获取所有的角色列表
+                //注意，如果是2020.05.24之前获取的数据库脚本
+                //请在菜单【下拉框绑定设置】添加一个字典编号【t_roles】,除了字典编号，其他内容随便填写
+                case "t_roles":
+                    originalSql = GetRolesSql();
                     break;
                 default:
                     break;
             }
             return originalSql;
+        }
+        /// <summary>
+        /// 2020.05.24增加绑定table表时，获取所有的角色列表
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="originalSql"></param>
+        /// <returns></returns>
+        public static string GetRolesSql()
+        {
+            string sql = $@"SELECT Role_Id as 'key',RoleName as 'value' FROM Sys_Role 
+                           WHERE Enable=1 ";
+            return sql;
         }
 
         /// <summary>

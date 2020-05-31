@@ -215,7 +215,7 @@ namespace VOL.System.Services
                 //查看用户时，只能看下自己角色下的所有用户
                 List<int> roleIds = Sys_RoleService
                    .Instance
-                   .GetAllChildrenRoleId(roleId).Result;
+                   .GetAllChildrenRoleId(roleId);
                 roleIds.Add(roleId);
                 //判断查询的角色是否越权
                 if (roleId != UserContext.Current.RoleId && !roleIds.Contains(roleId))
@@ -291,8 +291,7 @@ namespace VOL.System.Services
                 var delUserIds = repository.Find(x => userIds.Contains(x.User_Id), s => new { s.User_Id, s.Role_Id, s.UserTrueName });
                 List<int> roleIds = Sys_RoleService
                    .Instance
-                   .GetAllChildrenRoleId(UserContext.Current.RoleId)
-                   .Result;
+                   .GetAllChildrenRoleId(UserContext.Current.RoleId);
 
                 string[] userNames = delUserIds.Where(x => !roleIds.Contains(x.Role_Id))
                  .Select(s => s.UserTrueName)
@@ -317,8 +316,7 @@ namespace VOL.System.Services
             //只能修改当前角色能看到的用户
             string roleName = Sys_RoleService
                 .Instance
-                .GetAllChildren(UserContext.Current.UserInfo.Role_Id)
-                .Result.Where(x => x.Id == roleId)
+                .GetAllChildren(UserContext.Current.UserInfo.Role_Id).Where(x => x.Id == roleId)
                 .Select(s => s.RoleName).FirstOrDefault();
             return roleName;
         }
@@ -386,8 +384,7 @@ namespace VOL.System.Services
                 if (UserContext.Current.IsSuperAdmin) return queryable;
                 List<int> roleIds = Sys_RoleService
                  .Instance
-                 .GetAllChildrenRoleId(UserContext.Current.RoleId)
-                 .Result;
+                 .GetAllChildrenRoleId(UserContext.Current.RoleId);
                 return queryable.Where(x => roleIds.Contains(x.Role_Id) || x.User_Id == UserContext.Current.UserId);
             };
 
