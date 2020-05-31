@@ -20,7 +20,7 @@ let param = {
         { name: "required", desc: "是否必填", type: "bool", default: "false" },
         { name: "field", desc: "字段，与表单字段必须相同", type: "string", default: "" },
         { name: "filter", desc: "启用搜索,只对select/selectList生效,默认下拉框数据源超出10个开启搜索", type: "bool", default: "false" },
-        { name: "type", desc: "渲染的标签类型,可选值,mail、text、textarea、img、checkbox、number、decimal、date、datetime、phone、switch、select、selectList(多选下拉框)", type: "string", default: "text" },
+        { name: "type", desc: "渲染的标签类型,可选值,mail、text、textarea、img、checkbox、number、decimal、date、datetime、phone、switch、select、selectList(多选下拉框)、cascader(Iview级联组件,具体配置见上面[查看代码],2020.05.31)", type: "string", default: "text" },
         { name: "range", desc: "如果type是日期，需要选开始与结束日期", type: "bool", default: "false" },
         { name: "min", desc: "1、数字类型标签：最小值,如果是type=number(整数)类型，默认验证最小值是1(decimal最小默认值0.1)，如果在代码生后的页面需要修改默认值，在扩展js的方法onInit中遍历form对象，可参考SellOrder.js中onInit方法。    2、其他标签,如：input/textarea设置min就是指的字符的最大长度", type: "number", default: "" },
         { name: "max", desc: "最大值,操作与min相同", type: "number", default: "" },

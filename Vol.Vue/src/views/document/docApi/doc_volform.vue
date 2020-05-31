@@ -57,11 +57,13 @@ export default {
         SelectList: ["北京市", "上海市", "天津市", "广州市", "重庆市"],
         remoteSearch: "",
         readonlyText: "还没想好....",
+        //多个图片可以用逗号隔开
         readonlyImg:
           "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
         ProImg:
-          "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg"
-        //多个图片可以用逗号隔开
+          "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg",
+        cascader1: ["beijing", "tiantan"], //级联默认值2020.05.31
+        cascader2: [] //懒加载的级联默认值
       },
       formRules1: [
         //两列的表单，formRules数据格式为:[[{},{}]]
@@ -79,7 +81,10 @@ export default {
             dataKey: "age",
             placeholder: "在这里可设置提示描述",
             //如果这里绑定了data数据，后台不会加载此数据源
-            data: [{ key: 1, value: "是" }, { key: 0, value: "否" }],
+            data: [
+              { key: 1, value: "是" },
+              { key: 0, value: "否" }
+            ],
             required: false,
             field: "Variety",
             type: "select"
@@ -222,6 +227,96 @@ export default {
             readonly: true, //设置readonly或disabled都行
             field: "readonlyText",
             type: "text"
+          }
+        ],
+        [
+          {
+            title: "级联1",//2020.05.31联级操作
+            //如果这里绑定了data数据，后台不会加载此数据源
+            data: [
+              {
+                value: "beijing",
+                label: "北京",
+                loading: false,
+                children: [
+                  {
+                    value: "gugong",
+                    label: "故宫"
+                  },
+                  {
+                    value: "tiantan",
+                    label: "天坛"
+                  },
+                  {
+                    value: "wangfujing",
+                    label: "王府井"
+                  }
+                ]
+              }
+            ],
+            field: "cascader1",
+            type: "cascader",
+            required: true,
+            //格式化显示(非必须)
+            formatter: (labels, selectedData) => {
+              const index = labels.length - 1;
+              const data = selectedData[index] || false;
+              if (data && data.label) {
+                return labels[index] + " - " + data.label + " - (格式化测试)";
+              }
+              return labels[index];
+            }
+          },
+          {
+            title: "级联懒加载", //2020.05.31联级操作
+            //如果这里绑定了data数据，后台不会加载此数据源
+            data: [
+              {
+                value: "zhejiang",
+                label: "浙江",
+                loading: false,
+                children: []
+              }
+            ],
+            field: "cascader2",
+            required: true,
+            type: "cascader",
+            //懒加载数据源
+            loadData: (item, callback) => {
+              if (item.children.length > 0) return;
+              item.loading = true;
+              setTimeout(() => {
+                item.loading = false;
+                item.children = [
+                  {
+                    value: "hangzhou",
+                    label: "杭州",
+                    children: [
+                      {
+                        value: "xihu",
+                        label: "西湖",
+                        code: 1000
+                      }
+                    ]
+                  }
+                ];
+                callback();
+              }, 1000);
+              // this.http.post("xxx").then(children => {
+              //   item.loading = false;
+              //   item.children = children;
+              //   //children格式或参照iview组件cascader动态加载选项的配置
+              //   // [{
+              //   //   value: 'hangzhou',
+              //   //   label: '杭州',
+              //   //   children: [{
+              //   //     value: 'xihu',
+              //   //     label: '西湖',
+              //   //     code: 1000
+              //   //   }]
+              //   // }]
+              // });
+            }
           }
         ],
         [

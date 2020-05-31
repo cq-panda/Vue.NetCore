@@ -367,8 +367,10 @@ let methods = {
       if (sourceObj.hasOwnProperty(key)) {
         let newVal = sourceObj[key];
         let kv_type = this.keyValueType[keyLeft + key];
+
         if (kv_type == 'selectList'
-          || kv_type == 'checkbox') {
+          || kv_type == 'checkbox'
+          || kv_type == "cascader") { // 2020.05.31增加iview组件Cascader
           if (newVal != "" && newVal != undefined && typeof newVal == 'string') {
             newVal = newVal.split(',');
           } else if (kv_type == 'checkbox') {

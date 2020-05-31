@@ -142,6 +142,15 @@
                 :remove-before="item.removeBefore"
                 :down-load="item.downLoad?true:false"
               ></vol-upload>
+              <!-- 2020.05.31增加iview组件Cascader -->
+              <Cascader
+                v-else-if="item.type=='cascader'"
+                :load-data="item.loadData"
+                :data="item.data"
+                filterable
+                :render-format="item.formatter"
+                v-model="formFileds[item.field]"
+              ></Cascader>
               <Input
                 v-else-if="item.type=='textarea'"
                 v-model="formFileds[item.field]"
@@ -231,7 +240,7 @@ export default {
       remoteCall: true,
       errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       rule: {
-        change: ["checkbox", "select", "date", "datetime", "drop", "radio"],
+        change: ["checkbox", "select","date", "datetime", "drop", "radio","cascader"],//2020.05.31增加级联类型
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
         number: /(^[\-0-9][0-9]*([0-9]+)?)$/
@@ -773,7 +782,8 @@ export default {
         item.type == "select" ||
         item.type == "selectList" ||
         item.type == "checkbox" ||
-        item.type == "drop"
+        item.type == "drop"||
+        item.type == "cascader"//2020.05.31增加级联类型
       ) {
         let _rule = {
           required: true,
