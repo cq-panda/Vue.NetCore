@@ -41,23 +41,24 @@
         </div>
       </div>
       <div class="vol-path">
-        <ul class="header-navigation">
-          <li
+        <!-- 2020.05.31增加顶部导tabs超出后滚动 -->
+        <Tabs
+          @on-click="selectNav"
+          @on-tab-remove="removeNav"
+          v-model="selectId"
+          type="card"
+          :animated="false"
+          class="header-navigation"
+        >
+          <TabPane
             :class="{active:item.id==selectId}"
+            :name="item.id+''"
+            :closable="navIndex!=0"
             v-for="(item,navIndex) in navigation"
             :key="navIndex"
-            @click="selectNav(item.id)"
-          >
-            {{item.name}}
-            <Icon
-              @click="removeNav(item.id)"
-              v-if="navIndex!=0"
-              class="icon-romve"
-              type="md-close-circle"
-              @click.stop
-            />
-          </li>
-        </ul>
+            :label="item.name"
+          ></TabPane>
+        </Tabs>
       </div>
       <div class="vol-main" id="vol-main">
         <el-scrollbar style="height:100%;">
@@ -200,7 +201,7 @@ export default {
       });
     },
     selectNav(id) {
-      this.selectId = id;
+      this.selectId = id + "";
       this.$router.push({
         path: this.getNavigation(id).path
       });
@@ -217,7 +218,7 @@ export default {
         return this.$message("菜单关闭发生错误");
       }
       var navItem = this.navigation[_index - 1];
-      this.selectId = navItem.id;
+      this.selectId = navItem.id+"";
       this.navigation.splice(_index, 1);
       this.$router.push({
         path: navItem.path
@@ -250,7 +251,7 @@ export default {
           path: item.path
         });
       }
-      $vueIndex.selectId = treeId;
+      $vueIndex.selectId = treeId+"";
     },
     showTime() {
       var week = new Array(
@@ -904,5 +905,25 @@ img:not([src]) {
     margin-bottom: 17px;
     border: 1px solid #d4d2d2;
   }
+}
+</style>
+
+<style scoped>
+/* 2020.05.31增加顶部导tabs超出后滚动 */
+.header-navigation >>> .ivu-tabs-nav-prev {
+  z-index: 999;
+  border-radius: 3px;
+  text-align: center;
+  width: 30px;
+  background: #f8f8f9;
+  border-right: 1px solid #d8d7d7;
+}
+.header-navigation >>> .ivu-tabs-nav-next {
+  z-index: 999;
+  border-radius: 3px;
+  text-align: center;
+  width: 30px;
+  background: #f8f8f9;
+  border-left: 1px solid #d8d7d7;
 }
 </style>
