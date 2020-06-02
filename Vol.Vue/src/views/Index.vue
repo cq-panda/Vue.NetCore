@@ -44,7 +44,7 @@
         <!-- 2020.05.31增加顶部导tabs超出后滚动 -->
         <Tabs
           @on-click="selectNav"
-          @on-tab-remove="removeNav"
+          :before-remove="removeNav"
           v-model="selectId"
           type="card"
           :animated="false"
@@ -206,22 +206,14 @@ export default {
         path: this.getNavigation(id).path
       });
     },
-    removeNav(id) {
-      var _index = -1;
-      this.navigation.forEach((item, index) => {
-        if (item.id == id) {
-          _index = index;
-          return;
-        }
-      });
-      if (_index == -1) {
-        return this.$message("菜单关闭发生错误");
-      }
-      var navItem = this.navigation[_index - 1];
-      this.selectId = navItem.id+"";
-      this.navigation.splice(_index, 1);
-      this.$router.push({
-        path: navItem.path
+    removeNav(_index) { //2020.06.02修复关闭tabs时，可能关闭两个tabs的问题
+      return new Promise(() => {
+        var navItem = this.navigation[_index - 1];
+        this.selectId = navItem.id + "";
+        this.navigation.splice(_index, 1);
+        this.$router.push({
+          path: navItem.path
+        });
       });
     },
     getNavigation(id) {
@@ -251,7 +243,7 @@ export default {
           path: item.path
         });
       }
-      $vueIndex.selectId = treeId+"";
+      $vueIndex.selectId = treeId + "";
     },
     showTime() {
       var week = new Array(
@@ -292,20 +284,6 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     }
-  },
-  watch: {
-    "$route.path": function(newVal, oldVal) {
-      var navItem = this.getNavigation(this.selectId);
-      console.log(navItem.name);
-      // if (item.path != newVal) {
-      //   //根据newVal获取当前路径的selectid
-      // }
-      console.log(newVal + "," + oldVal);
-    }
-    // ,
-    // $route(to, from) {
-
-    // }
   }
 };
 </script>
