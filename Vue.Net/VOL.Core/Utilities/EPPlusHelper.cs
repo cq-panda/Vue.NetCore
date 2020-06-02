@@ -270,8 +270,9 @@ namespace VOL.Core.Utilities
             if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
 
             //获取代码生成器对应的配置信息
-            List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).GetEntityTableName(), template);
-
+            //  List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).GetEntityTableName(), template);
+            //2020.06.02修复使用表别名时读取不到配置信息
+            List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).Name, template);
             string fullPath = savePath + fileName;
             //获取所有有值的数据源
             var dicNoKeys = cellOptions
@@ -279,25 +280,38 @@ namespace VOL.Core.Utilities
                  .Select(x => new { x.DropNo, x.ColumnName }).Distinct().ToList();
 
             List<PropertyInfo> propertyInfo = null;
+
+            /*导出时，代码生成器中的表配置信息Sys_TableInfo/Sys_TableColumn必须与当前数据库相同，否则导出来可能没有数据*/
+
+            //2020.06.02优化读取导出列配置信息
+            //导出指定的列
             //如果指定了导出的标题列，忽略的标题列不再起作用
             if (exportColumns != null && exportColumns.Count() > 0)
             {
                 propertyInfo =
                    typeof(T).GetProperties()
-                  .Where(x => exportColumns.Select(g => g.ToLower()).Contains(x.Name.ToLower()))
-                  .Where(x => cellOptions.Select(s => s.ColumnName) //获取代码生成器配置的列
-                  .Contains(x.Name)).ToList();
+                  .Where(x => exportColumns.Select(g => g.ToLower()).Contains(x.Name.ToLower())).ToList();
+                //.Where(x => cellOptions.Select(s => s.ColumnName) //获取代码生成器配置的列
+                //.Contains(x.Name)).ToList();
+            }
+            else if (ignoreColumns != null && ignoreColumns.Count() > 0)
+            {
+                propertyInfo = typeof(T).GetProperties()
+                  .Where(x => !ignoreColumns.Select(g => g.ToLower()).Contains(x.Name.ToLower()))
+                  .Where(x => cellOptions.Select(s => s.ColumnName).Contains(x.Name)) //获取代码生成器配置的列
+                  .ToList();
             }
             else
             {
-                propertyInfo = (
-                   ignoreColumns == null
-                  ? typeof(T).GetProperties()
-                  .ToList()
-                  : typeof(T).GetProperties()
-                  .Where(x => !ignoreColumns.Select(g => g.ToLower()).Contains(x.Name.ToLower())))
-                  .Where(x => cellOptions.Select(s => s.ColumnName) //获取代码生成器配置的列
-                  .Contains(x.Name)).ToList();
+                //默认导出代码生成器中配置【是否显示】=是的列
+                propertyInfo = typeof(T).GetProperties()
+                  .Where(x => cellOptions.Select(s => s.ColumnName).Contains(x.Name)) //获取代码生成器配置的列
+                  .ToList();
+                /*
+                 * 如果propertyInfo查出来的长度=0
+                 * 1、代码生成器中的配置信息是否同步到当前数据库
+                 * 2、代码生成器中的配置列名与model的字段是否大小写一致
+                 */
             }
             string[] dateArr = null;
             if (!template)
@@ -397,8 +411,10 @@ namespace VOL.Core.Utilities
         {
             //&& x.IsDisplay == 1&&x.IsReadDataset==0只导出代码生器中设置为显示并且不是只读的列，可根据具体业务设置导出列
             // && x.IsReadDataset == 0
+            //2020.06.02增加不区分大表名大小写: 原因mysql可能是表名是小写，但生成model的时候强制大写
+            //x => x.TableName.ToLower() == tableName.ToLower()
             List<CellOptions> cellOptions = DBServerProvider.DbContext.Set<Sys_TableColumn>()
-              .Where(x => x.TableName == tableName && x.IsDisplay == 1).Select(c => new CellOptions()
+              .Where(x => x.TableName.ToLower() == tableName.ToLower() && x.IsDisplay == 1).Select(c => new CellOptions()
               {
                   ColumnName = c.ColumnName,
                   ColumnCNName = c.ColumnCnName,
