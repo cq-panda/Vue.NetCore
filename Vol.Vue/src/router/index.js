@@ -77,7 +77,8 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   store.getters.getUserInfo()
   if (to.matched.length == 0) return next({ path: '/404' });
-
+  //2020.06.03增加路由切换时加载提示
+  store.dispatch("onLoading", true);
   if ((to.hasOwnProperty('meta') && to.meta.anonymous) || store.getters.isLogin()) {
     return next();
   }
@@ -85,6 +86,10 @@ router.beforeEach((to, from, next) => {
   next({ path: '/login', query: { redirect: Math.random() } });
 })
 
+//2020.06.03增加路由切换时加载提示
+router.afterEach((to, from) => {
+  store.dispatch("onLoading", false);
+})
 router.onError((error) => {
   const pattern = /Loading chunk (\d)+ failed/g;
   const isChunkLoadFailed = error.message.match(pattern);

@@ -62,12 +62,14 @@
       </div>
       <div class="vol-main" id="vol-main">
         <el-scrollbar style="height:100%;">
+           <!-- 2020.06.03增加路由切换时加载提示 -->
+          <loading v-show="$store.getters.isLoading()"></loading>
           <!-- <transition name="fade" mode="in-out">  -->
-          <transition enter-active-class="animated fadeInLeftBig">
-            <keep-alive>
-              <router-view></router-view>
-            </keep-alive>
-          </transition>
+          <!-- <transition enter-active-class="animated fadeInLeftBig"> -->
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+          <!-- </transition> -->
         </el-scrollbar>
       </div>
     </div>
@@ -84,6 +86,7 @@
   </div>
 </template>
 <script>
+import loading from "@/components/basic/RouterLoading";
 import VolMenu from "@/components/basic/VolMenu.vue";
 let imgUrl = require("@/assets/imgs/log.png");
 var $vueIndex;
@@ -117,7 +120,8 @@ export default {
     };
   },
   components: {
-    VolMenu
+    VolMenu,
+    loading
   },
   created() {
     let theme = localStorage.getItem("vol_theme");
@@ -206,7 +210,8 @@ export default {
         path: this.getNavigation(id).path
       });
     },
-    removeNav(_index) { //2020.06.02修复关闭tabs时，可能关闭两个tabs的问题
+    removeNav(_index) {
+      //2020.06.02修复关闭tabs时，可能关闭两个tabs的问题
       return new Promise(() => {
         var navItem = this.navigation[_index - 1];
         this.selectId = navItem.id + "";
