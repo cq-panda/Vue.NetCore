@@ -44,17 +44,17 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #54dfff;
+  background: #04d2e7;
   position: absolute;
-  -webkit-animation: load 1.04s ease infinite;
+  animation: r_load 1.04s ease infinite;
 }
-@-webkit-keyframes load {
+@keyframes r_load {
   0% {
-    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
     opacity: 1;
   }
   100% {
-    -webkit-transform: scale(0.3);
+    transform: scale(0.3);
     opacity: 0.5;
   }
 }
@@ -62,44 +62,44 @@ export default {
   left: 0;
   top: 50%;
   margin-top: -10px;
-  -webkit-animation-delay: 0.13s;
+  animation-delay: 0.13s;
 }
 .router-loading span:nth-child(2) {
   left: 14px;
   top: 14px;
-  -webkit-animation-delay: 0.26s;
+  animation-delay: 0.26s;
 }
 .router-loading span:nth-child(3) {
   left: 50%;
   top: 0;
   margin-left: -10px;
-  -webkit-animation-delay: 0.39s;
+  animation-delay: 0.39s;
 }
 .router-loading span:nth-child(4) {
   top: 14px;
   right: 14px;
-  -webkit-animation-delay: 0.52s;
+  animation-delay: 0.52s;
 }
 .router-loading span:nth-child(5) {
   right: 0;
   top: 50%;
   margin-top: -10px;
-  -webkit-animation-delay: 0.65s;
+  animation-delay: 0.65s;
 }
 .router-loading span:nth-child(6) {
   right: 14px;
   bottom: 14px;
-  -webkit-animation-delay: 0.78s;
+  animation-delay: 0.78s;
 }
 .router-loading span:nth-child(7) {
   bottom: 0;
   left: 50%;
   margin-left: -10px;
-  -webkit-animation-delay: 0.91s;
+  animation-delay: 0.91s;
 }
 .router-loading span:nth-child(8) {
   bottom: 14px;
   left: 14px;
-  -webkit-animation-delay: 1.04s;
+  animation-delay: 1.04s;
 }
 </style>
