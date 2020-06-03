@@ -29,6 +29,7 @@
           :min-width="column.width"
           :formatter="formatter"
           :fixed="column.fixed"
+          :align="column.align"
           :sortable="column.sort||cindex==0?'custom':false"
         >
           <template slot-scope="scope">
