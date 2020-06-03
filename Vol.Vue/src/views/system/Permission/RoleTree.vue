@@ -99,6 +99,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .com-el-tree {
+  //2020.06.03增加左侧tree固定宽度
+  width: 180px;
   display: inline-block;
   // width: 210px;
   .el-role-tree {
