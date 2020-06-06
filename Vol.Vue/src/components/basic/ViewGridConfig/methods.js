@@ -873,8 +873,15 @@ let methods = {
               value: source['value']//source[index][x.config.textField]
             };
           }
+
           x.data.push(...newSource);
         } else {
+          //2020.06.06，如果是selectList数据源使用的自定义sql并且key是数字，强制转换成字符串
+          if (x.e_type == "selectList" && d.data.length > 0 && typeof d.data[0].key == "number") {
+            d.data.forEach(c=>{
+              c.key=c.key+"";
+            })
+          }
           x.data.push(...d.data);
         }
         if (this.singleSearch
