@@ -348,6 +348,11 @@ export default {
           title: "代码生成后,打开页面报错",
           desc:
             "代码生成后，如果页面报错，请确认后台运行的是.../VOL.WebApi/dev_run.bat命令"
+        },
+        {
+          title: "select/selectList编辑时不能绑定默认值",
+          desc:
+            "原因在于如果自定义sql的key是数字与数据库字段的类型不一致时就可能导致绑定失败；解决办法：将自定义sql里key字段转换成字符串。"
         }
       ],
       nav: [
