@@ -938,7 +938,8 @@ export default {
       let valArr = val.split(",");
       for (let index = 0; index < valArr.length; index++) {
         column.bind.data.forEach(x => {
-          if (x.key != "" && x.key == valArr[index]) {
+           //2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
+          if (x.key !== "" && x.key !== undefined && x.key+'' == valArr[index]+'') {
             valArr[index] = x.value;
           }
         });
