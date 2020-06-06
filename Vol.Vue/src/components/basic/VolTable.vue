@@ -926,7 +926,9 @@ export default {
         return this.getSelectFormatter(column, val);
       }
       let source = column.bind.data.filter(x => {
-        return x.key != "" && x.key == val;
+        // return x.key != "" && x.key == val;
+        //2020.06.06修复单独使用table组件时,key为数字0时转换成文本失败的问题
+        return x.key !== "" && x.key !== undefined && x.key + "" === val + "";
       });
       if (source && source.length > 0) val = source[0].value;
       return val;
