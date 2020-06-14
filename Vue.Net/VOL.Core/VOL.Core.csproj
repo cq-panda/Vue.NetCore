@@ -33,6 +33,9 @@
     <None Remove="Services\API\**" />
     <None Remove="Services\Base\**" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />

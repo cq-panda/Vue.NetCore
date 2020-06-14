@@ -85,7 +85,7 @@ namespace VOL.Core.EFDbContext
                 optionsBuilder.UseSqlServer(connectionString);
             }
             //默认禁用实体跟踪
-            optionsBuilder = optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
+            optionsBuilder = optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             //var loggerFactory = new LoggerFactory();
             //loggerFactory.AddProvider(new EFLoggerProvider());
             //  optionsBuilder.UseLoggerFactory(loggerFactory);

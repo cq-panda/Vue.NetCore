@@ -1594,6 +1594,12 @@ ORDER BY a.attnum;";
             //}
             if (!string.IsNullOrEmpty(tableInfo.TableTrueName) && tableInfo.TableName != tableInfo.TableTrueName)
             {
+                string tableTrueName = tableInfo.TableTrueName;
+                //2020.06.14 pgsql数据库，设置表名为小写(数据库创建表的时候也要使用小写)
+                if (DBType.Name == DbCurrentType.PgSql.ToString())
+                {
+                    tableTrueName = tableTrueName.ToLower();
+                }
                 tableAttr = tableAttr + "\r\n[Table(\"" + tableInfo.TableTrueName + "\")]";
             }
             domainContent = domainContent.Replace("{AttributeManager}", tableAttr).Replace("{Namespace}", modelNameSpace);
