@@ -1,27 +1,335 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 腾讯云3M
+ Source Server         : pgsql
  Source Server Type    : PostgreSQL
- Source Server Version : 120001
- Source Host           : 193.112.89.206:5432
- Source Catalog        : paopao
+ Source Server Version : 100013
+ Source Host           : 132.232.2.109:5432
+ Source Catalog        : netcoredev
  Source Schema         : public
 
  Target Server Type    : PostgreSQL
- Target Server Version : 120001
+ Target Server Version : 100013
  File Encoding         : 65001
 
- Date: 20/05/2020 03:21:22
+ Date: 14/06/2020 21:44:33
 */
 
+
+-- ----------------------------
+-- Sequence structure for app_expert_id_seq1
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_expert_id_seq1";
+CREATE SEQUENCE "public"."app_expert_id_seq1" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for app_news111seq_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_news111seq_id_seq";
+CREATE SEQUENCE "public"."app_news111seq_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 10
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for app_news_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_news_id_seq";
+CREATE SEQUENCE "public"."app_news_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for app_reportprice_id1_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_reportprice_id1_seq";
+CREATE SEQUENCE "public"."app_reportprice_id1_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for app_reportprice_id2_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_reportprice_id2_seq";
+CREATE SEQUENCE "public"."app_reportprice_id2_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for app_reportprice_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_reportprice_id_seq";
+CREATE SEQUENCE "public"."app_reportprice_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for app_transaction_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_transaction_id_seq";
+CREATE SEQUENCE "public"."app_transaction_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for app_transactionavgprice_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_transactionavgprice_id_seq";
+CREATE SEQUENCE "public"."app_transactionavgprice_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for appnews_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."appnews_id_seq";
+CREATE SEQUENCE "public"."appnews_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for apptest_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."apptest_id_seq";
+CREATE SEQUENCE "public"."apptest_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for city_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."city_id_seq";
+CREATE SEQUENCE "public"."city_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for dic_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."dic_id_seq";
+CREATE SEQUENCE "public"."dic_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sellorder_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sellorder_id_seq";
+CREATE SEQUENCE "public"."sellorder_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sellorderlist_id1_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sellorderlist_id1_seq";
+CREATE SEQUENCE "public"."sellorderlist_id1_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sellorderlist_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sellorderlist_id_seq";
+CREATE SEQUENCE "public"."sellorderlist_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_dictionary_id_seq1
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_dictionary_id_seq1";
+CREATE SEQUENCE "public"."sys_dictionary_id_seq1" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_dictionarylist_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_dictionarylist_id_seq";
+CREATE SEQUENCE "public"."sys_dictionarylist_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 500
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_log_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_log_id_seq";
+CREATE SEQUENCE "public"."sys_log_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_menu_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_menu_id_seq";
+CREATE SEQUENCE "public"."sys_menu_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_province1_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_province1_id_seq";
+CREATE SEQUENCE "public"."sys_province1_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 500
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_province_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_province_id_seq";
+CREATE SEQUENCE "public"."sys_province_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_role_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_role_id_seq";
+CREATE SEQUENCE "public"."sys_role_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_role_id_seq1
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_role_id_seq1";
+CREATE SEQUENCE "public"."sys_role_id_seq1" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_roleauth_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_roleauth_id_seq";
+CREATE SEQUENCE "public"."sys_roleauth_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_roleauthdata_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_roleauthdata_id_seq";
+CREATE SEQUENCE "public"."sys_roleauthdata_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_tablecolumn_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_tablecolumn_id_seq";
+CREATE SEQUENCE "public"."sys_tablecolumn_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 800
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_tableinfo_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_tableinfo_id_seq";
+CREATE SEQUENCE "public"."sys_tableinfo_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for sys_user_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_user_id_seq";
+CREATE SEQUENCE "public"."sys_user_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
 
 -- ----------------------------
 -- Table structure for Sys_Dictionary
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_Dictionary";
 CREATE TABLE "public"."Sys_Dictionary" (
-  "Dic_ID" int4 NOT NULL,
+  "Dic_ID" int4 NOT NULL DEFAULT nextval('sys_dictionary_id_seq1'::regclass),
   "Config" varchar(4000) COLLATE "pg_catalog"."default",
   "CreateDate" timestamp(6),
   "CreateID" int4,
@@ -43,13 +351,138 @@ CREATE TABLE "public"."Sys_Dictionary" (
 -- ----------------------------
 -- Records of Sys_Dictionary
 -- ----------------------------
+INSERT INTO "public"."Sys_Dictionary" VALUES (3, '{valueField: ''Enable'',
+textField: ''Enable'',
+ containField: null,
+  handler: null }', NULL, NULL, 'admi', '1', NULL, '是否值', 'enable', 1, '超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (30, '{valueField: ''Success'',
+ textField: ''Success'', 
+ containField: null,
+ handler: null }
+', NULL, 0, '测试超级管理员', NULL, NULL, '响应状态', 'restatus', 1, '测试超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (31, '{valueField: ''LogType'',
+ textField: ''LogType'', 
+ containField: null,
+ handler: null }
+', NULL, NULL, '测试超级管理员', NULL, NULL, '日志类型', 'log', 1, '测试超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (34, '{valueField: ''PINType'',
+ textField: ''PINTypeV'', 
+ containField:null
+}', NULL, NULL, '测试超级管理员', NULL, NULL, '验证码获取记录', 'pi', 1, '测试超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (35, '{
+ valueField: ''AuditStatus'',
+ textField: ''AuditStatus'',
+  containField:null 
+}', NULL, NULL, '测试超级管理员', NULL, NULL, '审核状态', 'audit', 1, '测试超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (36, '{
+ valueField: ''Variety'',
+ textField: ''Variety'',
+  containField:null 
+}', NULL, 1, '测试超级管理员', NULL, NULL, '品种', 'pz', 1, '超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (37, '{
+ valueField: ''AgeRange'',
+ textField: ''AgeRange'',
+  containField:null 
+}', NULL, NULL, '测试超级管理员', NULL, NULL, '月龄', 'age', 1, '测试超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (39, '{
+ valueField: ''ReplyStatus'',
+ textField: ''ReplyStatus'',
+  containField:null 
+}', NULL, NULL, '测试超级管理员', NULL, NULL, '回复状态', 'reply', 1, '测试超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (41, '{
+ valueField: ''Sex'',
+ textField: ''Sex'',
+  containField:null 
+}', NULL, 1, '测试超级管理员', NULL, NULL, '公母牛', 'sex', 1, '超级管理员', NULL, 1, NULL, 1, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (42, '{
+ valueField: ''Temperature'',
+ textField: ''Temperature'',
+  containField:null 
+}', NULL, 1, '测试超级管理员', NULL, NULL, '温度', 'wd', 1, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (44, '{
+ valueField: ''NewsType'',
+ textField: ''NewsType'',
+  containField:null 
+}', NULL, 1, '测试超级管理员', NULL, NULL, '新闻类型', 'news', 1, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (45, '{
+ valueField: ''Expire'',
+ textField: ''Expire'',
+  containField:null 
+}', NULL, 1, '测试超级管理员', NULL, NULL, '是否过期', 'expire', 1, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (48, '{
+ valueField: ''ClassifyId'',
+ textField: ''ClassifyTitle'',
+  containField:null 
+}', NULL, NULL, '测试超级管理员', NULL, NULL, '是否买入', 'nav', 1, '超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (49, '{
+ valueField: ''Gender'',
+ textField: ''Gender'',
+  containField:null 
+}', NULL, NULL, '测试超级管理员', NULL, NULL, '性别', 'gender', 1, '测试超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (50, '{
+ valueField: ''Enable'',
+ textField: ''Enable'',
+  containField:null 
+}', NULL, 1, '测试超级管理员', NULL, NULL, '启用状态', 'status', 1, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (52, '{
+ valueField: ''Choiceness'',
+ textField: ''Choiceness'',
+  containField:null 
+}', NULL, 1, '测试超级管理员', NULL, NULL, '是否买入', 'cq', 1, '超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (53, '{
+ valueField: ''SourceType'',
+ textField: ''SourceType'',
+  containField:null 
+}', NULL, 1, '测试超级管理员', NULL, NULL, '图片来源', 'ps', 1, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (59, '{
+ valueField: ''IsRegregisterPhone'',
+ textField: ''IsRegregisterPhone'',
+  containField:null 
+}', NULL, 1, '测试超级管理员', NULL, NULL, '是否手机用户', 'isphone', 1, '超级管理员', NULL, 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (60, '{
+ valueField: ''DailyRecommend'',
+ textField: ''DailyRecommend'',
+  containField:null 
+}', NULL, 1, '超级管理员', NULL, NULL, '是否今日推荐', 'dr', 1, '超级管理员', NULL, 1, NULL, 1, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (62, '{
+ valueField: ''IsTop'',
+ textField: ''IsTop'',
+  containField:null 
+}', NULL, 1, '超级管理员', NULL, NULL, '推荐价格', 'top', 1, '超级管理员', NULL, 1, NULL, 1, 'dddd');
+INSERT INTO "public"."Sys_Dictionary" VALUES (64, NULL, NULL, 1, '超级管理员', NULL, NULL, '订单类型', 'ordertype', 1, '超级管理员', NULL, 1, NULL, 0, 'xxxxx');
+INSERT INTO "public"."Sys_Dictionary" VALUES (66, NULL, NULL, 3362, 'zs', NULL, NULL, 'table中的角色列表', 't_roles', 1, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (65, NULL, NULL, 1, '超级管理员', NULL, NULL, '商品名称', 'p', 1, 'admin', '2020-06-14 20:55:07.253138', 1, 2, 0, '测试');
+INSERT INTO "public"."Sys_Dictionary" VALUES (1, NULL, '2020-06-14 20:58:26.970561', 1, 'admin', NULL, NULL, 'test0615', 'test0615', 0, NULL, NULL, NULL, NULL, 0, '11');
+INSERT INTO "public"."Sys_Dictionary" VALUES (32, '{valueField: ''Role_Id'',
+ textField: ''RoleName'', 
+ containField: ''Role_Id'',''RoleName'',
+ handler: null }
+', NULL, NULL, '测试超级管理员', NULL, 'SELECT "Role_Id" as key,"RoleName" as value from Sys_Role', '角色列表', 'roles', 1, 'admin', '2020-06-14 21:10:10.292789', 1, 123, 0, 'sql语句需要key,value列，界面才能绑定数据源');
+INSERT INTO "public"."Sys_Dictionary" VALUES (38, '{
+ valueField: ''City'',
+ textField: ''City'',
+  containField:null 
+}', NULL, NULL, '测试超级管理员', NULL, '
+SELECT  CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName" end  as  key,CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName" end  as value  FROM Sys_City AS a 
+INNER JOIN Sys_Province AS b 
+ON a."ProvinceCode"=b."ProvinceCode"
+WHERE a."CityName"<> ''县''', '城市', 'city', 1, 'admin', '2020-06-14 21:13:04.515754', 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (46, '{
+ valueField: ''ProvinceName'',
+ textField: ''ProvinceName'',
+  containField:null 
+}', NULL, NULL, '测试超级管理员', NULL, '
+SELECT  CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName" end  as  key,CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName" end  as value  FROM Sys_City AS a 
+INNER JOIN Sys_Province AS b 
+ON a."ProvinceCode"=b."ProvinceCode"
+WHERE a."CityName"<> ''县''', '省列表', 'pro', 1, 'admin', '2020-06-14 21:13:12.159191', 1, NULL, 0, 'sql语句需要key,value列，界面才能绑定数据源');
 
 -- ----------------------------
 -- Table structure for Sys_DictionaryList
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_DictionaryList";
 CREATE TABLE "public"."Sys_DictionaryList" (
-  "DicList_ID" int4 NOT NULL,
+  "DicList_ID" int4 NOT NULL DEFAULT nextval('sys_dictionarylist_id_seq'::regclass),
   "CreateDate" timestamp(6),
   "CreateID" int4,
   "Creator" varchar(30) COLLATE "pg_catalog"."default",
@@ -68,13 +501,96 @@ CREATE TABLE "public"."Sys_DictionaryList" (
 -- ----------------------------
 -- Records of Sys_DictionaryList
 -- ----------------------------
+INSERT INTO "public"."Sys_DictionaryList" VALUES (3, NULL, 1, 'admi', '否', '0', 3, NULL, '超级管理员', NULL, 1, 2, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (4, NULL, 1, 'xxx', '是', '1', 3, NULL, '超级管理员', NULL, 1, 1, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (22, NULL, 1, '测试超级管理员', '其他', '0', 30, NULL, '超级管理员', NULL, 1, 10, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (23, NULL, 1, '测试超级管理员', '成功', '1', 30, NULL, '超级管理员', NULL, 1, 100, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (24, NULL, 1, '测试超级管理员', '异常', '2', 30, NULL, '超级管理员', NULL, 1, 50, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (25, NULL, 1, '测试超级管理员', '系统', 'System', 31, NULL, '超级管理员', NULL, 1, 100, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (26, NULL, 1, '测试超级管理员', '登陆', 'Logi', 31, NULL, '超级管理员', NULL, 1, 90, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (27, NULL, 1, '测试超级管理员', '新建', 'Add', 31, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (28, NULL, 1, '测试超级管理员', '删除', 'Del', 31, 1, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (29, NULL, 1, '测试超级管理员', '编辑', 'Edit', 31, 1, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (33, NULL, 1, '测试超级管理员', '注册', '1', 34, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (34, NULL, 1, '测试超级管理员', '忘记密码', '2', 34, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (35, NULL, 1, '测试超级管理员', '验证码登录', '3', 34, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (36, NULL, 1, '测试超级管理员', '修改密码', '4', 34, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (37, NULL, 1, '测试超级管理员', '审核中', '0', 35, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (38, NULL, 1, '测试超级管理员', '审核通过', '1', 35, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (39, NULL, 1, '测试超级管理员', '审核未通过', '2', 35, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (40, NULL, 1, '测试超级管理员', '西门塔尔', '8', 36, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (41, NULL, 1, '测试超级管理员', '利木赞牛', '7', 36, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (42, NULL, 1, '测试超级管理员', '夏洛莱牛', '6', 36, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (43, NULL, 1, '测试超级管理员', '鲁西黄牛', '5', 36, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (44, NULL, 1, '测试超级管理员', '神户肉牛', '4', 36, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (45, NULL, 1, '测试超级管理员', '南阳牛', '3', 36, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (46, NULL, 1, '测试超级管理员', '秦川牛', '2', 36, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (47, NULL, 1, '测试超级管理员', '0-2月龄', '0-2月龄', 37, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (48, NULL, 1, '测试超级管理员', '2-6月龄', '2-6月龄', 37, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (49, NULL, 1, '测试超级管理员', '7-12月龄', '7-12月龄', 37, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (50, NULL, 1, '测试超级管理员', '12-16月龄', '12-16月龄', 37, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (51, NULL, 1, '测试超级管理员', '16月龄以上', '16月龄以上', 37, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (52, NULL, 1, '测试超级管理员', '未回复', '0', 39, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (53, NULL, 1, '测试超级管理员', '已回复', '1', 39, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (56, NULL, 1, '测试超级管理员', '公牛', '公牛', 41, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (57, NULL, 1, '测试超级管理员', '母牛', '母牛', 41, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (58, NULL, 1, '测试超级管理员', '39.5°C以上(升高);', '39.5°C以上(升高);', 42, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (59, NULL, 1, '测试超级管理员', '38°C~39.5°C以上(正常);', '38°C~39.5°C以上(正常);', 42, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (60, NULL, 1, '测试超级管理员', '38°C以下(降低);', '38°C以下(降低);', 42, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (64, NULL, 1, '测试超级管理员', '行业新闻', '1', 44, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (65, NULL, 1, '测试超级管理员', '行情资讯', '2', 44, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (66, NULL, 1, '测试超级管理员', '否', '0', 45, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (67, NULL, 1, '测试超级管理员', '是', '1', 45, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (68, NULL, 1, '测试超级管理员', 'App登陆', 'ApiLogi', 31, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (69, NULL, 1, '测试超级管理员', 'App发送验证码', 'ApiSendPI', 31, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (70, NULL, 1, '测试超级管理员', 'App请求异常', 'ApiExceptio', 31, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (71, NULL, 1, '测试超级管理员', 'PC请求异常', 'Exceptio', 31, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (77, NULL, 1, '测试超级管理员', '现金', '1', 48, NULL, '超级管理员', NULL, 1, 120, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (78, NULL, 1, '测试超级管理员', '赊账', '2', 48, NULL, '超级管理员', NULL, 1, 70, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (79, NULL, 1, '测试超级管理员', '抵扣', '3', 48, NULL, '超级管理员', NULL, 1, 100, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (86, NULL, 1, '测试超级管理员', 'App首页', 'AppHome', 31, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (89, NULL, 1, '测试超级管理员', '加入会议', 'JoinMeeting', 31, NULL, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (90, NULL, 1, '测试超级管理员', '男', '0', 49, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (91, NULL, 1, '测试超级管理员', '女', '1', 49, NULL, '测试超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (92, NULL, 1, '测试超级管理员', '修改密码', 'ApiModifyPwd', 31, 0, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (93, NULL, 1, '测试超级管理员', '加入我们', 'JoinUs', 31, 0, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (96, NULL, 1, '测试超级管理员', '未启用', '0', 50, 1, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (97, NULL, 1, '测试超级管理员', '已启用', '1', 50, 1, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (98, NULL, 1, '测试超级管理员', '已删除', '2', 50, 1, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (101, NULL, 1, '测试超级管理员', '否', '0', 52, 0, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (102, NULL, 1, '测试超级管理员', '是', '1', 52, 0, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (104, NULL, 1, '测试超级管理员', 'iPhone测试', 'IPhoneTest', 31, 0, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (109, NULL, 1, '测试超级管理员', 'PC后台上传', '0', 53, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (110, NULL, 1, '测试超级管理员', '专家提问', '1', 53, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (111, NULL, 1, '测试超级管理员', '公开提问', '2', 53, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (112, NULL, 1, '测试超级管理员', '首面轮播', '3', 53, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (128, NULL, 1, '测试超级管理员', '是', '1', 59, 0, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (129, NULL, 1, '测试超级管理员', '否', '0', 59, 1, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (130, NULL, 1, '测试超级管理员', '安格斯', '1', 36, 1, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (137, NULL, 1, '超级管理员', '是', '1', 60, 1, '超级管理员', NULL, 1, 2, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (138, NULL, 1, '超级管理员', '否', '0', 60, 1, '超级管理员', NULL, 1, 1, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (142, NULL, 1, '超级管理员', '是', '1', 62, 1, '超级管理员', NULL, 1, NULL, '1');
+INSERT INTO "public"."Sys_DictionaryList" VALUES (143, NULL, 1, '超级管理员', '否', '0', 62, 1, '超级管理员', NULL, 1, NULL, '测试');
+INSERT INTO "public"."Sys_DictionaryList" VALUES (144, NULL, 1, '超级管理员', '刷新Toke', 'ReplaceToeke', 31, NULL, '超级管理员', NULL, 1, 110, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (145, NULL, 1, '超级管理员', 'Info', '3', 30, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (147, NULL, 1, '超级管理员', 'xx', '2', 62, 1, '超级管理员', NULL, 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (149, NULL, 1, '超级管理员', '发货', '1', 64, 1, '超级管理员', NULL, 1, NULL, 'fd');
+INSERT INTO "public"."Sys_DictionaryList" VALUES (150, NULL, 1, '超级管理员', '退货', '2', 64, 0, '超级管理员', NULL, 1, NULL, 'fs');
+INSERT INTO "public"."Sys_DictionaryList" VALUES (151, NULL, 1, '超级管理员', '返单', '3', 64, 1, '超级管理员', NULL, 1, NULL, 'xx');
+INSERT INTO "public"."Sys_DictionaryList" VALUES (422, NULL, 1, '超级管理员', 'xx11', '2', 3, 0, NULL, NULL, NULL, 2, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (152, NULL, 1, '超级管理员', '家居', '家居', 65, 1, 'admin', '2020-06-14 20:55:07.260139', 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (153, NULL, 1, '超级管理员', '男装', '男装', 65, 1, 'admin', '2020-06-14 20:55:07.260139', 1, 4, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (154, NULL, 1, '超级管理员', '女装', '女装', 65, NULL, 'admin', '2020-06-14 20:55:07.259139', 1, 6, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (155, NULL, 1, '超级管理员', '食品', '食品', 65, NULL, 'admin', '2020-06-14 20:55:07.257138', 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (500, '2020-06-14 20:58:28.303638', 1, 'admin', 'tt', '1', 1, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (501, '2020-06-14 20:58:28.35064', 1, 'admin', 't', '2', 1, 0, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for app_appointment
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."app_appointment";
 CREATE TABLE "public"."app_appointment" (
-  "Id" varchar(36) COLLATE "pg_catalog"."default" NOT NULL,
+  "Id" uuid NOT NULL,
   "CreateDate" timestamp(6),
   "CreateID" int4,
   "Creator" varchar(30) COLLATE "pg_catalog"."default",
@@ -93,13 +609,58 @@ CREATE TABLE "public"."app_appointment" (
 INSERT INTO "public"."app_appointment" VALUES ('08d73c0e-edef-0a68-ab81-c3dc5e0fe407', '2019-09-18 16:05:11', 1, '超级管理员', '来自火星。。。', '超级管理员', '2020-04-24 13:47:46', 1, '元霸', '138888887698');
 INSERT INTO "public"."app_appointment" VALUES ('08d73c0e-edf8-595b-9a8f-2ff134751833', '2019-09-18 16:05:11', 1, '超级管理员', '元歌有8个技能..', '超级管理员', '2020-04-24 13:44:04', 1, '元歌', '1300111235');
 INSERT INTO "public"."app_appointment" VALUES ('08d73c11-6a43-97e8-ca70-e8b0d906807e', '2019-09-18 16:22:59', 1, '超级管理员', '来自火星。。。', '超级管理员', '2020-04-27 14:20:58', 1, '元华', '138888887698');
+INSERT INTO "public"."app_appointment" VALUES ('1f140d53-1277-4294-9f87-cc2e6c0f3076', NULL, NULL, '0', '111', NULL, NULL, NULL, '222', '333');
+INSERT INTO "public"."app_appointment" VALUES ('31dff565-cc48-4d52-8b3f-87122e79ebe3', NULL, NULL, '1', '111', NULL, NULL, NULL, '222', '333');
+INSERT INTO "public"."app_appointment" VALUES ('58b8043f-8f57-4eec-ae92-8812708959f0', NULL, NULL, '2', '111', NULL, NULL, NULL, '222', '333');
+INSERT INTO "public"."app_appointment" VALUES ('e59b2996-c518-4ce2-9b09-7482e8d8543d', NULL, NULL, '3', '111', NULL, NULL, NULL, '222', '333');
+INSERT INTO "public"."app_appointment" VALUES ('3aa40cfa-2c12-4032-92e9-ab7c6e2372e2', NULL, NULL, '4', '111', NULL, NULL, NULL, '222', '333');
+INSERT INTO "public"."app_appointment" VALUES ('952b2764-3ae4-471d-aae6-cef871af6de9', NULL, NULL, '5', '111', NULL, NULL, NULL, '222', '333');
+INSERT INTO "public"."app_appointment" VALUES ('ae8e4087-bcd7-4f89-9843-744f0fd33b11', NULL, NULL, '6', '111', NULL, NULL, NULL, '222', '333');
+INSERT INTO "public"."app_appointment" VALUES ('99544037-4f73-41be-b926-054bd6ce0b77', NULL, NULL, '7', '111', NULL, NULL, NULL, '222', '333');
+INSERT INTO "public"."app_appointment" VALUES ('ebfe0081-a2c9-4585-b09e-bb14a595d06f', NULL, NULL, '8', '111', NULL, NULL, NULL, '222', '333');
+INSERT INTO "public"."app_appointment" VALUES ('7f4aa284-300d-4f68-b78a-699141dfec4e', NULL, NULL, '9', '111', NULL, NULL, NULL, '222', '333');
+
+-- ----------------------------
+-- Table structure for app_expert
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."app_expert";
+CREATE TABLE "public"."app_expert" (
+  "ExpertId" int4 NOT NULL DEFAULT nextval('app_expert_id_seq1'::regclass),
+  "AuditDate" timestamp(6),
+  "AuditId" int4,
+  "AuditStatus" int4 NOT NULL,
+  "Auditor" varchar(20) COLLATE "pg_catalog"."default",
+  "Certificate" varchar(2500) COLLATE "pg_catalog"."default",
+  "City" varchar(50) COLLATE "pg_catalog"."default",
+  "Company" varchar(50) COLLATE "pg_catalog"."default",
+  "CreateDate" timestamp(6),
+  "CreateID" int4,
+  "Creator" varchar(30) COLLATE "pg_catalog"."default",
+  "Education" varchar(50) COLLATE "pg_catalog"."default",
+  "ExpertName" varchar(20) COLLATE "pg_catalog"."default",
+  "HeadImageUrl" varchar(500) COLLATE "pg_catalog"."default",
+  "IDNumber" varchar(18) COLLATE "pg_catalog"."default",
+  "Modifier" varchar(30) COLLATE "pg_catalog"."default",
+  "ModifyDate" timestamp(6),
+  "ModifyID" int4,
+  "PhoneNo" varchar(11) COLLATE "pg_catalog"."default",
+  "Professional" varchar(50) COLLATE "pg_catalog"."default",
+  "ReallyName" varchar(20) COLLATE "pg_catalog"."default",
+  "Resume" varchar(500) COLLATE "pg_catalog"."default",
+  "SpecialField" varchar(800) COLLATE "pg_catalog"."default",
+  "UserName" varchar(30) COLLATE "pg_catalog"."default",
+  "UserTrueName" varchar(50) COLLATE "pg_catalog"."default",
+  "User_Id" int4,
+  "Enable" bytea
+)
+;
 
 -- ----------------------------
 -- Table structure for app_news
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."app_news";
 CREATE TABLE "public"."app_news" (
-  "Id" int4 NOT NULL,
+  "Id" int4 NOT NULL DEFAULT nextval('app_news_id_seq'::regclass),
   "Author" varchar(50) COLLATE "pg_catalog"."default",
   "BigImageUrls" varchar(500) COLLATE "pg_catalog"."default",
   "Content" text COLLATE "pg_catalog"."default",
@@ -124,13 +685,14 @@ CREATE TABLE "public"."app_news" (
 -- ----------------------------
 -- Records of app_news
 -- ----------------------------
+INSERT INTO "public"."app_news" VALUES (1, '2', '2', '2', '2020-06-14 19:59:26', 2, '2', 2, '2', 1, NULL, NULL, NULL, 1, 1, 2, '2020-06-14 19:59:34', '2', 2);
 
 -- ----------------------------
 -- Table structure for app_reportprice
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."app_reportprice";
 CREATE TABLE "public"."app_reportprice" (
-  "Id" int4 NOT NULL,
+  "Id" int4 NOT NULL DEFAULT nextval('app_reportprice_id_seq'::regclass),
   "Age" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "AuditDate" timestamp(6),
   "AuditId" int4,
@@ -163,7 +725,7 @@ INSERT INTO "public"."app_reportprice" VALUES (85, '0-2月龄', '2019-10-21 16:4
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."app_transaction";
 CREATE TABLE "public"."app_transaction" (
-  "Id" int4 NOT NULL,
+  "Id" int4 NOT NULL DEFAULT nextval('app_transaction_id_seq'::regclass),
   "CowType" varchar(100) COLLATE "pg_catalog"."default",
   "CreateDate" timestamp(6),
   "CreateID" int4,
@@ -192,7 +754,7 @@ INSERT INTO "public"."app_transaction" VALUES (6, '3', '2019-09-18 18:22:25', 1,
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."app_transactionavgprice";
 CREATE TABLE "public"."app_transactionavgprice" (
-  "Id" int4 NOT NULL,
+  "Id" int4 NOT NULL DEFAULT nextval('app_transactionavgprice_id_seq'::regclass),
   "AgeRange" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "AvgPrice" numeric(10,2) NOT NULL,
   "City" varchar(15) COLLATE "pg_catalog"."default" NOT NULL,
@@ -238,15 +800,11 @@ CREATE TABLE "public"."news_article" (
 ;
 
 -- ----------------------------
--- Records of news_article
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sellorder
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sellorder";
 CREATE TABLE "public"."sellorder" (
-  "Order_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
+  "Order_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL DEFAULT nextval('sellorder_id_seq'::regclass),
   "OrderType" int4 NOT NULL,
   "TranNo" varchar(100) COLLATE "pg_catalog"."default" NOT NULL,
   "SellNo" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
@@ -266,15 +824,11 @@ CREATE TABLE "public"."sellorder" (
 ;
 
 -- ----------------------------
--- Records of sellorder
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sellorderlist
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sellorderlist";
 CREATE TABLE "public"."sellorderlist" (
-  "OrderList_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
+  "OrderList_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL DEFAULT nextval('sellorderlist_id_seq'::regclass),
   "Order_Id" varchar(36) COLLATE "pg_catalog"."default" NOT NULL,
   "ProductName" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
   "MO" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
@@ -291,15 +845,11 @@ CREATE TABLE "public"."sellorderlist" (
 ;
 
 -- ----------------------------
--- Records of sellorderlist
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sys_city
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sys_city";
 CREATE TABLE "public"."sys_city" (
-  "CityId" int4 NOT NULL,
+  "CityId" int4 NOT NULL DEFAULT nextval('city_id_seq'::regclass),
   "CityCode" varchar(20) COLLATE "pg_catalog"."default",
   "CityName" varchar(30) COLLATE "pg_catalog"."default",
   "ProvinceCode" varchar(20) COLLATE "pg_catalog"."default"
@@ -314,353 +864,13 @@ INSERT INTO "public"."sys_city" VALUES (2, '110200', '县', '110000');
 INSERT INTO "public"."sys_city" VALUES (3, '120100', '市辖区', '120000');
 INSERT INTO "public"."sys_city" VALUES (4, '120200', '县', '120000');
 INSERT INTO "public"."sys_city" VALUES (5, '130100', '石家庄市', '130000');
-INSERT INTO "public"."sys_city" VALUES (6, '130200', '唐山市', '130000');
-INSERT INTO "public"."sys_city" VALUES (7, '130300', '秦皇岛市', '130000');
-INSERT INTO "public"."sys_city" VALUES (8, '130400', '邯郸市', '130000');
-INSERT INTO "public"."sys_city" VALUES (9, '130500', '邢台市', '130000');
-INSERT INTO "public"."sys_city" VALUES (10, '130600', '保定市', '130000');
-INSERT INTO "public"."sys_city" VALUES (11, '130700', '张家口市', '130000');
-INSERT INTO "public"."sys_city" VALUES (12, '130800', '承德市', '130000');
-INSERT INTO "public"."sys_city" VALUES (13, '130900', '沧州市', '130000');
-INSERT INTO "public"."sys_city" VALUES (14, '131000', '廊坊市', '130000');
-INSERT INTO "public"."sys_city" VALUES (15, '131100', '衡水市', '130000');
-INSERT INTO "public"."sys_city" VALUES (16, '140100', '太原市', '140000');
-INSERT INTO "public"."sys_city" VALUES (17, '140200', '大同市', '140000');
-INSERT INTO "public"."sys_city" VALUES (18, '140300', '阳泉市', '140000');
-INSERT INTO "public"."sys_city" VALUES (19, '140400', '长治市', '140000');
-INSERT INTO "public"."sys_city" VALUES (20, '140500', '晋城市', '140000');
-INSERT INTO "public"."sys_city" VALUES (21, '140600', '朔州市', '140000');
-INSERT INTO "public"."sys_city" VALUES (22, '140700', '晋中市', '140000');
-INSERT INTO "public"."sys_city" VALUES (23, '140800', '运城市', '140000');
-INSERT INTO "public"."sys_city" VALUES (24, '140900', '忻州市', '140000');
-INSERT INTO "public"."sys_city" VALUES (25, '141000', '临汾市', '140000');
-INSERT INTO "public"."sys_city" VALUES (26, '141100', '吕梁市', '140000');
-INSERT INTO "public"."sys_city" VALUES (27, '150100', '呼和浩特市', '150000');
-INSERT INTO "public"."sys_city" VALUES (28, '150200', '包头市', '150000');
-INSERT INTO "public"."sys_city" VALUES (29, '150300', '乌海市', '150000');
-INSERT INTO "public"."sys_city" VALUES (30, '150400', '赤峰市', '150000');
-INSERT INTO "public"."sys_city" VALUES (31, '150500', '通辽市', '150000');
-INSERT INTO "public"."sys_city" VALUES (32, '150600', '鄂尔多斯市', '150000');
-INSERT INTO "public"."sys_city" VALUES (33, '150700', '呼伦贝尔市', '150000');
-INSERT INTO "public"."sys_city" VALUES (34, '150800', '巴彦淖尔市', '150000');
-INSERT INTO "public"."sys_city" VALUES (35, '150900', '乌兰察布市', '150000');
-INSERT INTO "public"."sys_city" VALUES (36, '152200', '兴安盟', '150000');
-INSERT INTO "public"."sys_city" VALUES (37, '152500', '锡林郭勒盟', '150000');
-INSERT INTO "public"."sys_city" VALUES (38, '152900', '阿拉善盟', '150000');
-INSERT INTO "public"."sys_city" VALUES (39, '210100', '沈阳市', '210000');
-INSERT INTO "public"."sys_city" VALUES (40, '210200', '大连市', '210000');
-INSERT INTO "public"."sys_city" VALUES (41, '210300', '鞍山市', '210000');
-INSERT INTO "public"."sys_city" VALUES (42, '210400', '抚顺市', '210000');
-INSERT INTO "public"."sys_city" VALUES (43, '210500', '本溪市', '210000');
-INSERT INTO "public"."sys_city" VALUES (44, '210600', '丹东市', '210000');
-INSERT INTO "public"."sys_city" VALUES (45, '210700', '锦州市', '210000');
-INSERT INTO "public"."sys_city" VALUES (46, '210800', '营口市', '210000');
-INSERT INTO "public"."sys_city" VALUES (47, '210900', '阜新市', '210000');
-INSERT INTO "public"."sys_city" VALUES (48, '211000', '辽阳市', '210000');
-INSERT INTO "public"."sys_city" VALUES (49, '211100', '盘锦市', '210000');
-INSERT INTO "public"."sys_city" VALUES (50, '211200', '铁岭市', '210000');
-INSERT INTO "public"."sys_city" VALUES (51, '211300', '朝阳市', '210000');
-INSERT INTO "public"."sys_city" VALUES (52, '211400', '葫芦岛市', '210000');
-INSERT INTO "public"."sys_city" VALUES (53, '220100', '长春市', '220000');
-INSERT INTO "public"."sys_city" VALUES (54, '220200', '吉林市', '220000');
-INSERT INTO "public"."sys_city" VALUES (55, '220300', '四平市', '220000');
-INSERT INTO "public"."sys_city" VALUES (56, '220400', '辽源市', '220000');
-INSERT INTO "public"."sys_city" VALUES (57, '220500', '通化市', '220000');
-INSERT INTO "public"."sys_city" VALUES (58, '220600', '白山市', '220000');
-INSERT INTO "public"."sys_city" VALUES (59, '220700', '松原市', '220000');
-INSERT INTO "public"."sys_city" VALUES (60, '220800', '白城市', '220000');
-INSERT INTO "public"."sys_city" VALUES (61, '222400', '延边朝鲜族自治州', '220000');
-INSERT INTO "public"."sys_city" VALUES (62, '230100', '哈尔滨市', '230000');
-INSERT INTO "public"."sys_city" VALUES (63, '230200', '齐齐哈尔市', '230000');
-INSERT INTO "public"."sys_city" VALUES (64, '230300', '鸡西市', '230000');
-INSERT INTO "public"."sys_city" VALUES (65, '230400', '鹤岗市', '230000');
-INSERT INTO "public"."sys_city" VALUES (66, '230500', '双鸭山市', '230000');
-INSERT INTO "public"."sys_city" VALUES (67, '230600', '大庆市', '230000');
-INSERT INTO "public"."sys_city" VALUES (68, '230700', '伊春市', '230000');
-INSERT INTO "public"."sys_city" VALUES (69, '230800', '佳木斯市', '230000');
-INSERT INTO "public"."sys_city" VALUES (70, '230900', '七台河市', '230000');
-INSERT INTO "public"."sys_city" VALUES (71, '231000', '牡丹江市', '230000');
-INSERT INTO "public"."sys_city" VALUES (72, '231100', '黑河市', '230000');
-INSERT INTO "public"."sys_city" VALUES (73, '231200', '绥化市', '230000');
-INSERT INTO "public"."sys_city" VALUES (74, '232700', '大兴安岭地区', '230000');
-INSERT INTO "public"."sys_city" VALUES (75, '310100', '市辖区', '310000');
-INSERT INTO "public"."sys_city" VALUES (76, '310200', '县', '310000');
-INSERT INTO "public"."sys_city" VALUES (77, '320100', '南京市', '320000');
-INSERT INTO "public"."sys_city" VALUES (78, '320200', '无锡市', '320000');
-INSERT INTO "public"."sys_city" VALUES (79, '320300', '徐州市', '320000');
-INSERT INTO "public"."sys_city" VALUES (80, '320400', '常州市', '320000');
-INSERT INTO "public"."sys_city" VALUES (81, '320500', '苏州市', '320000');
-INSERT INTO "public"."sys_city" VALUES (82, '320600', '南通市', '320000');
-INSERT INTO "public"."sys_city" VALUES (83, '320700', '连云港市', '320000');
-INSERT INTO "public"."sys_city" VALUES (84, '320800', '淮安市', '320000');
-INSERT INTO "public"."sys_city" VALUES (85, '320900', '盐城市', '320000');
-INSERT INTO "public"."sys_city" VALUES (86, '321000', '扬州市', '320000');
-INSERT INTO "public"."sys_city" VALUES (87, '321100', '镇江市', '320000');
-INSERT INTO "public"."sys_city" VALUES (88, '321200', '泰州市', '320000');
-INSERT INTO "public"."sys_city" VALUES (89, '321300', '宿迁市', '320000');
-INSERT INTO "public"."sys_city" VALUES (90, '330100', '杭州市', '330000');
-INSERT INTO "public"."sys_city" VALUES (91, '330200', '宁波市', '330000');
-INSERT INTO "public"."sys_city" VALUES (92, '330300', '温州市', '330000');
-INSERT INTO "public"."sys_city" VALUES (93, '330400', '嘉兴市', '330000');
-INSERT INTO "public"."sys_city" VALUES (94, '330500', '湖州市', '330000');
-INSERT INTO "public"."sys_city" VALUES (95, '330600', '绍兴市', '330000');
-INSERT INTO "public"."sys_city" VALUES (96, '330700', '金华市', '330000');
-INSERT INTO "public"."sys_city" VALUES (97, '330800', '衢州市', '330000');
-INSERT INTO "public"."sys_city" VALUES (98, '330900', '舟山市', '330000');
-INSERT INTO "public"."sys_city" VALUES (99, '331000', '台州市', '330000');
-INSERT INTO "public"."sys_city" VALUES (100, '331100', '丽水市', '330000');
-INSERT INTO "public"."sys_city" VALUES (101, '340100', '合肥市', '340000');
-INSERT INTO "public"."sys_city" VALUES (102, '340200', '芜湖市', '340000');
-INSERT INTO "public"."sys_city" VALUES (103, '340300', '蚌埠市', '340000');
-INSERT INTO "public"."sys_city" VALUES (104, '340400', '淮南市', '340000');
-INSERT INTO "public"."sys_city" VALUES (105, '340500', '马鞍山市', '340000');
-INSERT INTO "public"."sys_city" VALUES (106, '340600', '淮北市', '340000');
-INSERT INTO "public"."sys_city" VALUES (107, '340700', '铜陵市', '340000');
-INSERT INTO "public"."sys_city" VALUES (108, '340800', '安庆市', '340000');
-INSERT INTO "public"."sys_city" VALUES (109, '341000', '黄山市', '340000');
-INSERT INTO "public"."sys_city" VALUES (110, '341100', '滁州市', '340000');
-INSERT INTO "public"."sys_city" VALUES (111, '341200', '阜阳市', '340000');
-INSERT INTO "public"."sys_city" VALUES (112, '341300', '宿州市', '340000');
-INSERT INTO "public"."sys_city" VALUES (113, '341400', '巢湖市', '340000');
-INSERT INTO "public"."sys_city" VALUES (114, '341500', '六安市', '340000');
-INSERT INTO "public"."sys_city" VALUES (115, '341600', '亳州市', '340000');
-INSERT INTO "public"."sys_city" VALUES (116, '341700', '池州市', '340000');
-INSERT INTO "public"."sys_city" VALUES (117, '341800', '宣城市', '340000');
-INSERT INTO "public"."sys_city" VALUES (118, '350100', '福州市', '350000');
-INSERT INTO "public"."sys_city" VALUES (119, '350200', '厦门市', '350000');
-INSERT INTO "public"."sys_city" VALUES (120, '350300', '莆田市', '350000');
-INSERT INTO "public"."sys_city" VALUES (121, '350400', '三明市', '350000');
-INSERT INTO "public"."sys_city" VALUES (122, '350500', '泉州市', '350000');
-INSERT INTO "public"."sys_city" VALUES (123, '350600', '漳州市', '350000');
-INSERT INTO "public"."sys_city" VALUES (124, '350700', '南平市', '350000');
-INSERT INTO "public"."sys_city" VALUES (125, '350800', '龙岩市', '350000');
-INSERT INTO "public"."sys_city" VALUES (126, '350900', '宁德市', '350000');
-INSERT INTO "public"."sys_city" VALUES (127, '360100', '南昌市', '360000');
-INSERT INTO "public"."sys_city" VALUES (128, '360200', '景德镇市', '360000');
-INSERT INTO "public"."sys_city" VALUES (129, '360300', '萍乡市', '360000');
-INSERT INTO "public"."sys_city" VALUES (130, '360400', '九江市', '360000');
-INSERT INTO "public"."sys_city" VALUES (131, '360500', '新余市', '360000');
-INSERT INTO "public"."sys_city" VALUES (132, '360600', '鹰潭市', '360000');
-INSERT INTO "public"."sys_city" VALUES (133, '360700', '赣州市', '360000');
-INSERT INTO "public"."sys_city" VALUES (134, '360800', '吉安市', '360000');
-INSERT INTO "public"."sys_city" VALUES (135, '360900', '宜春市', '360000');
-INSERT INTO "public"."sys_city" VALUES (136, '361000', '抚州市', '360000');
-INSERT INTO "public"."sys_city" VALUES (137, '361100', '上饶市', '360000');
-INSERT INTO "public"."sys_city" VALUES (138, '370100', '济南市', '370000');
-INSERT INTO "public"."sys_city" VALUES (139, '370200', '青岛市', '370000');
-INSERT INTO "public"."sys_city" VALUES (140, '370300', '淄博市', '370000');
-INSERT INTO "public"."sys_city" VALUES (141, '370400', '枣庄市', '370000');
-INSERT INTO "public"."sys_city" VALUES (142, '370500', '东营市', '370000');
-INSERT INTO "public"."sys_city" VALUES (143, '370600', '烟台市', '370000');
-INSERT INTO "public"."sys_city" VALUES (144, '370700', '潍坊市', '370000');
-INSERT INTO "public"."sys_city" VALUES (145, '370800', '济宁市', '370000');
-INSERT INTO "public"."sys_city" VALUES (146, '370900', '泰安市', '370000');
-INSERT INTO "public"."sys_city" VALUES (147, '371000', '威海市', '370000');
-INSERT INTO "public"."sys_city" VALUES (148, '371100', '日照市', '370000');
-INSERT INTO "public"."sys_city" VALUES (149, '371200', '莱芜市', '370000');
-INSERT INTO "public"."sys_city" VALUES (150, '371300', '临沂市', '370000');
-INSERT INTO "public"."sys_city" VALUES (151, '371400', '德州市', '370000');
-INSERT INTO "public"."sys_city" VALUES (152, '371500', '聊城市', '370000');
-INSERT INTO "public"."sys_city" VALUES (153, '371600', '滨州市', '370000');
-INSERT INTO "public"."sys_city" VALUES (154, '371700', '荷泽市', '370000');
-INSERT INTO "public"."sys_city" VALUES (155, '410100', '郑州市', '410000');
-INSERT INTO "public"."sys_city" VALUES (156, '410200', '开封市', '410000');
-INSERT INTO "public"."sys_city" VALUES (157, '410300', '洛阳市', '410000');
-INSERT INTO "public"."sys_city" VALUES (158, '410400', '平顶山市', '410000');
-INSERT INTO "public"."sys_city" VALUES (159, '410500', '安阳市', '410000');
-INSERT INTO "public"."sys_city" VALUES (160, '410600', '鹤壁市', '410000');
-INSERT INTO "public"."sys_city" VALUES (161, '410700', '新乡市', '410000');
-INSERT INTO "public"."sys_city" VALUES (162, '410800', '焦作市', '410000');
-INSERT INTO "public"."sys_city" VALUES (163, '410900', '濮阳市', '410000');
-INSERT INTO "public"."sys_city" VALUES (164, '411000', '许昌市', '410000');
-INSERT INTO "public"."sys_city" VALUES (165, '411100', '漯河市', '410000');
-INSERT INTO "public"."sys_city" VALUES (166, '411200', '三门峡市', '410000');
-INSERT INTO "public"."sys_city" VALUES (167, '411300', '南阳市', '410000');
-INSERT INTO "public"."sys_city" VALUES (168, '411400', '商丘市', '410000');
-INSERT INTO "public"."sys_city" VALUES (169, '411500', '信阳市', '410000');
-INSERT INTO "public"."sys_city" VALUES (170, '411600', '周口市', '410000');
-INSERT INTO "public"."sys_city" VALUES (171, '411700', '驻马店市', '410000');
-INSERT INTO "public"."sys_city" VALUES (172, '420100', '武汉市', '420000');
-INSERT INTO "public"."sys_city" VALUES (173, '420200', '黄石市', '420000');
-INSERT INTO "public"."sys_city" VALUES (174, '420300', '十堰市', '420000');
-INSERT INTO "public"."sys_city" VALUES (175, '420500', '宜昌市', '420000');
-INSERT INTO "public"."sys_city" VALUES (176, '420600', '襄樊市', '420000');
-INSERT INTO "public"."sys_city" VALUES (177, '420700', '鄂州市', '420000');
-INSERT INTO "public"."sys_city" VALUES (178, '420800', '荆门市', '420000');
-INSERT INTO "public"."sys_city" VALUES (179, '420900', '孝感市', '420000');
-INSERT INTO "public"."sys_city" VALUES (180, '421000', '荆州市', '420000');
-INSERT INTO "public"."sys_city" VALUES (181, '421100', '黄冈市', '420000');
-INSERT INTO "public"."sys_city" VALUES (182, '421200', '咸宁市', '420000');
-INSERT INTO "public"."sys_city" VALUES (183, '421300', '随州市', '420000');
-INSERT INTO "public"."sys_city" VALUES (184, '422800', '恩施土家族苗族自治州', '420000');
-INSERT INTO "public"."sys_city" VALUES (185, '429000', '省直辖行政单位', '420000');
-INSERT INTO "public"."sys_city" VALUES (186, '430100', '长沙市', '430000');
-INSERT INTO "public"."sys_city" VALUES (187, '430200', '株洲市', '430000');
-INSERT INTO "public"."sys_city" VALUES (188, '430300', '湘潭市', '430000');
-INSERT INTO "public"."sys_city" VALUES (189, '430400', '衡阳市', '430000');
-INSERT INTO "public"."sys_city" VALUES (190, '430500', '邵阳市', '430000');
-INSERT INTO "public"."sys_city" VALUES (191, '430600', '岳阳市', '430000');
-INSERT INTO "public"."sys_city" VALUES (192, '430700', '常德市', '430000');
-INSERT INTO "public"."sys_city" VALUES (193, '430800', '张家界市', '430000');
-INSERT INTO "public"."sys_city" VALUES (194, '430900', '益阳市', '430000');
-INSERT INTO "public"."sys_city" VALUES (195, '431000', '郴州市', '430000');
-INSERT INTO "public"."sys_city" VALUES (196, '431100', '永州市', '430000');
-INSERT INTO "public"."sys_city" VALUES (197, '431200', '怀化市', '430000');
-INSERT INTO "public"."sys_city" VALUES (198, '431300', '娄底市', '430000');
-INSERT INTO "public"."sys_city" VALUES (199, '433100', '湘西土家族苗族自治州', '430000');
-INSERT INTO "public"."sys_city" VALUES (200, '440100', '广州市', '440000');
-INSERT INTO "public"."sys_city" VALUES (201, '440200', '韶关市', '440000');
-INSERT INTO "public"."sys_city" VALUES (202, '440300', '深圳市', '440000');
-INSERT INTO "public"."sys_city" VALUES (203, '440400', '珠海市', '440000');
-INSERT INTO "public"."sys_city" VALUES (204, '440500', '汕头市', '440000');
-INSERT INTO "public"."sys_city" VALUES (205, '440600', '佛山市', '440000');
-INSERT INTO "public"."sys_city" VALUES (206, '440700', '江门市', '440000');
-INSERT INTO "public"."sys_city" VALUES (207, '440800', '湛江市', '440000');
-INSERT INTO "public"."sys_city" VALUES (208, '440900', '茂名市', '440000');
-INSERT INTO "public"."sys_city" VALUES (209, '441200', '肇庆市', '440000');
-INSERT INTO "public"."sys_city" VALUES (210, '441300', '惠州市', '440000');
-INSERT INTO "public"."sys_city" VALUES (211, '441400', '梅州市', '440000');
-INSERT INTO "public"."sys_city" VALUES (212, '441500', '汕尾市', '440000');
-INSERT INTO "public"."sys_city" VALUES (213, '441600', '河源市', '440000');
-INSERT INTO "public"."sys_city" VALUES (214, '441700', '阳江市', '440000');
-INSERT INTO "public"."sys_city" VALUES (215, '441800', '清远市', '440000');
-INSERT INTO "public"."sys_city" VALUES (216, '441900', '东莞市', '440000');
-INSERT INTO "public"."sys_city" VALUES (217, '442000', '中山市', '440000');
-INSERT INTO "public"."sys_city" VALUES (218, '445100', '潮州市', '440000');
-INSERT INTO "public"."sys_city" VALUES (219, '445200', '揭阳市', '440000');
-INSERT INTO "public"."sys_city" VALUES (220, '445300', '云浮市', '440000');
-INSERT INTO "public"."sys_city" VALUES (221, '450100', '南宁市', '450000');
-INSERT INTO "public"."sys_city" VALUES (222, '450200', '柳州市', '450000');
-INSERT INTO "public"."sys_city" VALUES (223, '450300', '桂林市', '450000');
-INSERT INTO "public"."sys_city" VALUES (224, '450400', '梧州市', '450000');
-INSERT INTO "public"."sys_city" VALUES (225, '450500', '北海市', '450000');
-INSERT INTO "public"."sys_city" VALUES (226, '450600', '防城港市', '450000');
-INSERT INTO "public"."sys_city" VALUES (227, '450700', '钦州市', '450000');
-INSERT INTO "public"."sys_city" VALUES (228, '450800', '贵港市', '450000');
-INSERT INTO "public"."sys_city" VALUES (229, '450900', '玉林市', '450000');
-INSERT INTO "public"."sys_city" VALUES (230, '451000', '百色市', '450000');
-INSERT INTO "public"."sys_city" VALUES (231, '451100', '贺州市', '450000');
-INSERT INTO "public"."sys_city" VALUES (232, '451200', '河池市', '450000');
-INSERT INTO "public"."sys_city" VALUES (233, '451300', '来宾市', '450000');
-INSERT INTO "public"."sys_city" VALUES (234, '451400', '崇左市', '450000');
-INSERT INTO "public"."sys_city" VALUES (235, '460100', '海口市', '460000');
-INSERT INTO "public"."sys_city" VALUES (236, '460200', '三亚市', '460000');
-INSERT INTO "public"."sys_city" VALUES (237, '469000', '省直辖县级行政单位', '460000');
-INSERT INTO "public"."sys_city" VALUES (238, '500100', '市辖区', '500000');
-INSERT INTO "public"."sys_city" VALUES (239, '500200', '县', '500000');
-INSERT INTO "public"."sys_city" VALUES (240, '500300', '市', '500000');
-INSERT INTO "public"."sys_city" VALUES (241, '510100', '成都市', '510000');
-INSERT INTO "public"."sys_city" VALUES (242, '510300', '自贡市', '510000');
-INSERT INTO "public"."sys_city" VALUES (243, '510400', '攀枝花市', '510000');
-INSERT INTO "public"."sys_city" VALUES (244, '510500', '泸州市', '510000');
-INSERT INTO "public"."sys_city" VALUES (245, '510600', '德阳市', '510000');
-INSERT INTO "public"."sys_city" VALUES (246, '510700', '绵阳市', '510000');
-INSERT INTO "public"."sys_city" VALUES (247, '510800', '广元市', '510000');
-INSERT INTO "public"."sys_city" VALUES (248, '510900', '遂宁市', '510000');
-INSERT INTO "public"."sys_city" VALUES (249, '511000', '内江市', '510000');
-INSERT INTO "public"."sys_city" VALUES (250, '511100', '乐山市', '510000');
-INSERT INTO "public"."sys_city" VALUES (251, '511300', '南充市', '510000');
-INSERT INTO "public"."sys_city" VALUES (252, '511400', '眉山市', '510000');
-INSERT INTO "public"."sys_city" VALUES (253, '511500', '宜宾市', '510000');
-INSERT INTO "public"."sys_city" VALUES (254, '511600', '广安市', '510000');
-INSERT INTO "public"."sys_city" VALUES (255, '511700', '达州市', '510000');
-INSERT INTO "public"."sys_city" VALUES (256, '511800', '雅安市', '510000');
-INSERT INTO "public"."sys_city" VALUES (257, '511900', '巴中市', '510000');
-INSERT INTO "public"."sys_city" VALUES (258, '512000', '资阳市', '510000');
-INSERT INTO "public"."sys_city" VALUES (259, '513200', '阿坝藏族羌族自治州', '510000');
-INSERT INTO "public"."sys_city" VALUES (260, '513300', '甘孜藏族自治州', '510000');
-INSERT INTO "public"."sys_city" VALUES (261, '513400', '凉山彝族自治州', '510000');
-INSERT INTO "public"."sys_city" VALUES (262, '520100', '贵阳市', '520000');
-INSERT INTO "public"."sys_city" VALUES (263, '520200', '六盘水市', '520000');
-INSERT INTO "public"."sys_city" VALUES (264, '520300', '遵义市', '520000');
-INSERT INTO "public"."sys_city" VALUES (265, '520400', '安顺市', '520000');
-INSERT INTO "public"."sys_city" VALUES (266, '522200', '铜仁地区', '520000');
-INSERT INTO "public"."sys_city" VALUES (267, '522300', '黔西南布依族苗族自治州', '520000');
-INSERT INTO "public"."sys_city" VALUES (268, '522400', '毕节地区', '520000');
-INSERT INTO "public"."sys_city" VALUES (269, '522600', '黔东南苗族侗族自治州', '520000');
-INSERT INTO "public"."sys_city" VALUES (270, '522700', '黔南布依族苗族自治州', '520000');
-INSERT INTO "public"."sys_city" VALUES (271, '530100', '昆明市', '530000');
-INSERT INTO "public"."sys_city" VALUES (272, '530300', '曲靖市', '530000');
-INSERT INTO "public"."sys_city" VALUES (273, '530400', '玉溪市', '530000');
-INSERT INTO "public"."sys_city" VALUES (274, '530500', '保山市', '530000');
-INSERT INTO "public"."sys_city" VALUES (275, '530600', '昭通市', '530000');
-INSERT INTO "public"."sys_city" VALUES (276, '530700', '丽江市', '530000');
-INSERT INTO "public"."sys_city" VALUES (277, '530800', '思茅市', '530000');
-INSERT INTO "public"."sys_city" VALUES (278, '530900', '临沧市', '530000');
-INSERT INTO "public"."sys_city" VALUES (279, '532300', '楚雄彝族自治州', '530000');
-INSERT INTO "public"."sys_city" VALUES (280, '532500', '红河哈尼族彝族自治州', '530000');
-INSERT INTO "public"."sys_city" VALUES (281, '532600', '文山壮族苗族自治州', '530000');
-INSERT INTO "public"."sys_city" VALUES (282, '532800', '西双版纳傣族自治州', '530000');
-INSERT INTO "public"."sys_city" VALUES (283, '532900', '大理白族自治州', '530000');
-INSERT INTO "public"."sys_city" VALUES (284, '533100', '德宏傣族景颇族自治州', '530000');
-INSERT INTO "public"."sys_city" VALUES (285, '533300', '怒江傈僳族自治州', '530000');
-INSERT INTO "public"."sys_city" VALUES (286, '533400', '迪庆藏族自治州', '530000');
-INSERT INTO "public"."sys_city" VALUES (287, '540100', '拉萨市', '540000');
-INSERT INTO "public"."sys_city" VALUES (288, '542100', '昌都地区', '540000');
-INSERT INTO "public"."sys_city" VALUES (289, '542200', '山南地区', '540000');
-INSERT INTO "public"."sys_city" VALUES (290, '542300', '日喀则地区', '540000');
-INSERT INTO "public"."sys_city" VALUES (291, '542400', '那曲地区', '540000');
-INSERT INTO "public"."sys_city" VALUES (292, '542500', '阿里地区', '540000');
-INSERT INTO "public"."sys_city" VALUES (293, '542600', '林芝地区', '540000');
-INSERT INTO "public"."sys_city" VALUES (294, '610100', '西安市', '610000');
-INSERT INTO "public"."sys_city" VALUES (295, '610200', '铜川市', '610000');
-INSERT INTO "public"."sys_city" VALUES (296, '610300', '宝鸡市', '610000');
-INSERT INTO "public"."sys_city" VALUES (297, '610400', '咸阳市', '610000');
-INSERT INTO "public"."sys_city" VALUES (298, '610500', '渭南市', '610000');
-INSERT INTO "public"."sys_city" VALUES (299, '610600', '延安市', '610000');
-INSERT INTO "public"."sys_city" VALUES (300, '610700', '汉中市', '610000');
-INSERT INTO "public"."sys_city" VALUES (301, '610800', '榆林市', '610000');
-INSERT INTO "public"."sys_city" VALUES (302, '610900', '安康市', '610000');
-INSERT INTO "public"."sys_city" VALUES (303, '611000', '商洛市', '610000');
-INSERT INTO "public"."sys_city" VALUES (304, '620100', '兰州市', '620000');
-INSERT INTO "public"."sys_city" VALUES (305, '620200', '嘉峪关市', '620000');
-INSERT INTO "public"."sys_city" VALUES (306, '620300', '金昌市', '620000');
-INSERT INTO "public"."sys_city" VALUES (307, '620400', '白银市', '620000');
-INSERT INTO "public"."sys_city" VALUES (308, '620500', '天水市', '620000');
-INSERT INTO "public"."sys_city" VALUES (309, '620600', '武威市', '620000');
-INSERT INTO "public"."sys_city" VALUES (310, '620700', '张掖市', '620000');
-INSERT INTO "public"."sys_city" VALUES (311, '620800', '平凉市', '620000');
-INSERT INTO "public"."sys_city" VALUES (312, '620900', '酒泉市', '620000');
-INSERT INTO "public"."sys_city" VALUES (313, '621000', '庆阳市', '620000');
-INSERT INTO "public"."sys_city" VALUES (314, '621100', '定西市', '620000');
-INSERT INTO "public"."sys_city" VALUES (315, '621200', '陇南市', '620000');
-INSERT INTO "public"."sys_city" VALUES (316, '622900', '临夏回族自治州', '620000');
-INSERT INTO "public"."sys_city" VALUES (317, '623000', '甘南藏族自治州', '620000');
-INSERT INTO "public"."sys_city" VALUES (318, '630100', '西宁市', '630000');
-INSERT INTO "public"."sys_city" VALUES (319, '632100', '海东地区', '630000');
-INSERT INTO "public"."sys_city" VALUES (320, '632200', '海北藏族自治州', '630000');
-INSERT INTO "public"."sys_city" VALUES (321, '632300', '黄南藏族自治州', '630000');
-INSERT INTO "public"."sys_city" VALUES (322, '632500', '海南藏族自治州', '630000');
-INSERT INTO "public"."sys_city" VALUES (323, '632600', '果洛藏族自治州', '630000');
-INSERT INTO "public"."sys_city" VALUES (324, '632700', '玉树藏族自治州', '630000');
-INSERT INTO "public"."sys_city" VALUES (325, '632800', '海西蒙古族藏族自治州', '630000');
-INSERT INTO "public"."sys_city" VALUES (326, '640100', '银川市', '640000');
-INSERT INTO "public"."sys_city" VALUES (327, '640200', '石嘴山市', '640000');
-INSERT INTO "public"."sys_city" VALUES (328, '640300', '吴忠市', '640000');
-INSERT INTO "public"."sys_city" VALUES (329, '640400', '固原市', '640000');
-INSERT INTO "public"."sys_city" VALUES (330, '640500', '中卫市', '640000');
-INSERT INTO "public"."sys_city" VALUES (331, '650100', '乌鲁木齐市', '650000');
-INSERT INTO "public"."sys_city" VALUES (332, '650200', '克拉玛依市', '650000');
-INSERT INTO "public"."sys_city" VALUES (333, '652100', '吐鲁番地区', '650000');
-INSERT INTO "public"."sys_city" VALUES (334, '652200', '哈密地区', '650000');
-INSERT INTO "public"."sys_city" VALUES (335, '652300', '昌吉回族自治州', '650000');
-INSERT INTO "public"."sys_city" VALUES (336, '652700', '博尔塔拉蒙古自治州', '650000');
-INSERT INTO "public"."sys_city" VALUES (337, '652800', '巴音郭楞蒙古自治州', '650000');
-INSERT INTO "public"."sys_city" VALUES (338, '652900', '阿克苏地区', '650000');
-INSERT INTO "public"."sys_city" VALUES (339, '653000', '克孜勒苏柯尔克孜自治州', '650000');
-INSERT INTO "public"."sys_city" VALUES (340, '653100', '喀什地区', '650000');
-INSERT INTO "public"."sys_city" VALUES (341, '653200', '和田地区', '650000');
-INSERT INTO "public"."sys_city" VALUES (342, '654000', '伊犁哈萨克自治州', '650000');
-INSERT INTO "public"."sys_city" VALUES (343, '654200', '塔城地区', '650000');
-INSERT INTO "public"."sys_city" VALUES (344, '654300', '阿勒泰地区', '650000');
-INSERT INTO "public"."sys_city" VALUES (345, '659000', '省直辖行政单位', '650000');
 
 -- ----------------------------
 -- Table structure for sys_log
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sys_log";
 CREATE TABLE "public"."sys_log" (
-  "Id" int4 NOT NULL,
+  "Id" int4 NOT NULL DEFAULT nextval('sys_log_id_seq'::regclass),
   "BeginDate" timestamp(6),
   "BrowserType" varchar(200) COLLATE "pg_catalog"."default",
   "ElapsedTime" int4,
@@ -682,13 +892,23 @@ CREATE TABLE "public"."sys_log" (
 -- ----------------------------
 -- Records of sys_log
 -- ----------------------------
+INSERT INTO "public"."sys_log" VALUES (1, '2020-06-14 20:08:21.224643', NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."sys_log" VALUES (2, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."sys_log" VALUES (3, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."sys_log" VALUES (4, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."sys_log" VALUES (5, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '4', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."sys_log" VALUES (6, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."sys_log" VALUES (7, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."sys_log" VALUES (8, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '7', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."sys_log" VALUES (9, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."sys_log" VALUES (10, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '9', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sys_menu";
 CREATE TABLE "public"."sys_menu" (
-  "Menu_Id" int4 NOT NULL,
+  "Menu_Id" int4 NOT NULL DEFAULT nextval('sys_menu_id_seq'::regclass),
   "MenuName" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "Auth" varchar(4000) COLLATE "pg_catalog"."default",
   "Icon" varchar(50) COLLATE "pg_catalog"."default",
@@ -885,7 +1105,7 @@ INSERT INTO "public"."sys_menu_copy1" VALUES (78, '混合表单一对多', '[{"t
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sys_province";
 CREATE TABLE "public"."sys_province" (
-  "ProvinceId" int4 NOT NULL,
+  "ProvinceId" int4 NOT NULL DEFAULT nextval('sys_province1_id_seq'::regclass),
   "ProvinceCode" varchar(20) COLLATE "pg_catalog"."default" NOT NULL,
   "ProvinceName" varchar(30) COLLATE "pg_catalog"."default" NOT NULL,
   "RegionCode" varchar(20) COLLATE "pg_catalog"."default"
@@ -937,7 +1157,7 @@ INSERT INTO "public"."sys_province" VALUES (43, '测试1', '测试1', '港澳台
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sys_role";
 CREATE TABLE "public"."sys_role" (
-  "Role_Id" int4 NOT NULL,
+  "Role_Id" int4 NOT NULL DEFAULT nextval('sys_role_id_seq'::regclass),
   "CreateDate" timestamp(6),
   "Creator" varchar(50) COLLATE "pg_catalog"."default",
   "DeleteBy" varchar(50) COLLATE "pg_catalog"."default",
@@ -947,7 +1167,7 @@ CREATE TABLE "public"."sys_role" (
   "Modifier" varchar(50) COLLATE "pg_catalog"."default",
   "ModifyDate" timestamp(6),
   "OrderNo" int4,
-  "ParentId" int4 NOT NULL,
+  "ParentId" int4 NOT NULL DEFAULT nextval('sys_role_id_seq1'::regclass),
   "RoleName" varchar(50) COLLATE "pg_catalog"."default"
 )
 ;
@@ -955,13 +1175,16 @@ CREATE TABLE "public"."sys_role" (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
+INSERT INTO "public"."sys_role" VALUES (1, '2020-06-14 21:05:55', 'admin', NULL, NULL, NULL, 1, NULL, NULL, 1, 0, '超级管理员');
+INSERT INTO "public"."sys_role" VALUES (100, '2020-06-14 21:18:59', 'admin', NULL, NULL, NULL, 1, '', NULL, NULL, 1, '2');
+INSERT INTO "public"."sys_role" VALUES (101, '2020-06-14 21:22:18', 'admin', NULL, NULL, NULL, 1, 'admin', '2020-06-14 21:22:29', NULL, 100, '测试');
 
 -- ----------------------------
 -- Table structure for sys_roleauth
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sys_roleauth";
 CREATE TABLE "public"."sys_roleauth" (
-  "Auth_Id" int4 NOT NULL,
+  "Auth_Id" int4 NOT NULL DEFAULT nextval('sys_roleauth_id_seq'::regclass),
   "AuthValue" varchar(1000) COLLATE "pg_catalog"."default" NOT NULL,
   "CreateDate" timestamp(6),
   "Creator" varchar(1000) COLLATE "pg_catalog"."default",
@@ -1039,7 +1262,7 @@ INSERT INTO "public"."sys_roleauth" VALUES (207, 'Search', '2020-05-05 12:05:34'
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sys_roleauthdata";
 CREATE TABLE "public"."sys_roleauthdata" (
-  "Auth_Id" int4 NOT NULL,
+  "Auth_Id" int4 NOT NULL DEFAULT nextval('sys_roleauthdata_id_seq'::regclass),
   "DataType_Id" int4,
   "Role_Id" int4,
   "User_Id" int4,
@@ -1054,20 +1277,16 @@ CREATE TABLE "public"."sys_roleauthdata" (
 ;
 
 -- ----------------------------
--- Records of sys_roleauthdata
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sys_tablecolumn
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sys_tablecolumn";
 CREATE TABLE "public"."sys_tablecolumn" (
-  "ColumnId" int4 NOT NULL,
+  "ColumnId" int4 NOT NULL DEFAULT nextval('sys_tablecolumn_id_seq'::regclass),
   "ApiInPut" int4,
   "ApiIsNull" int4,
   "ApiOutPut" int4,
   "ColSize" int4,
-  "ColumnCNName" varchar(100) COLLATE "pg_catalog"."default",
+  "ColumnCnName" varchar(100) COLLATE "pg_catalog"."default",
   "ColumnName" varchar(100) COLLATE "pg_catalog"."default",
   "ColumnType" text COLLATE "pg_catalog"."default",
   "ColumnWidth" int4,
@@ -1328,7 +1547,7 @@ INSERT INTO "public"."sys_tablecolumn" VALUES (763, NULL, NULL, NULL, NULL, NULL
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sys_tableinfo";
 CREATE TABLE "public"."sys_tableinfo" (
-  "Table_Id" int4 NOT NULL,
+  "Table_Id" int4 NOT NULL DEFAULT nextval('sys_tableinfo_id_seq'::regclass),
   "CnName" varchar(50) COLLATE "pg_catalog"."default",
   "ColumnCNName" varchar(100) COLLATE "pg_catalog"."default",
   "DBServer" varchar(2000) COLLATE "pg_catalog"."default",
@@ -1379,7 +1598,7 @@ INSERT INTO "public"."sys_tableinfo" VALUES (80, '基础表单查询', '基础�
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sys_user";
 CREATE TABLE "public"."sys_user" (
-  "User_Id" int4 NOT NULL,
+  "User_Id" int4 NOT NULL DEFAULT nextval('sys_user_id_seq'::regclass),
   "Address" varchar(200) COLLATE "pg_catalog"."default",
   "AppType" int4,
   "AuditDate" timestamp(6),
@@ -1417,12 +1636,39 @@ CREATE TABLE "public"."sys_user" (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO "public"."sys_user" VALUES (1, '北京市西城区', 0, '2019-08-18 00:54:06', 1, '超级管理员', '2012-06-10 11:10:03', NULL, NULL, NULL, 0, '283591387@qq.com', 1, 1, 'https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/head.png', 0, '2017-08-28 09:58:55', '2019-12-14 15:13:49', NULL, '超级管理员', '2019-05-30 11:37:41', 1, 0, 1, '超级管理员', '13888888888', '~还没想好...', NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', '超级管理员', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTU4ODY1MTk1MCIsIm5iZiI6IjE1ODg2NTE5NTAiLCJleHAiOiIxNTg4NjU5MTUwIiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.7tK6vx4hCHejJBx5IF5nw-5-ZXeLw4U8yyJQSeA-0J8');
-INSERT INTO "public"."sys_user" VALUES (3364, '北京市西城区', NULL, NULL, NULL, NULL, '2019-10-10 17:29:14', 1, '超级管理员', NULL, NULL, '123@qq.com', 1, 0, 'Upload/Tables/Sys_User/202004270952013790/06.jpg', 0, NULL, NULL, '139999999999', '超级管理员', '2020-04-27 09:52:01', 1, NULL, 2, '测试管理员', NULL, NULL, NULL, 'admin777', 'E2J_2bOfPPSTYWeMKksiaw==', '你猜？', NULL);
-INSERT INTO "public"."sys_user" VALUES (3365, '北京市还没注册', NULL, NULL, NULL, NULL, '2019-10-24 11:39:22', 1, '超级管理员', NULL, NULL, NULL, 1, NULL, 'Upload/Tables/Sys_User/202004270952176882/111.jpg', 0, NULL, NULL, '01012345678', '超级管理员', '2020-04-27 09:52:18', 1, NULL, 4, '信息员', NULL, NULL, NULL, 'test123', 'CfpTfV6KXdeC5TVoy5WL~w==', 'zs j', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzY1IiwiaWF0IjoiMTU3MTg4ODc5MyIsIm5iZiI6IjE1NzE4ODg3OTMiLCJleHAiOiIxNTcxODk1OTkzIiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.ZXzbz9ckdsTPOb2eDf3xTrHEFZv5MqDMiBglGJ9o-rI');
-INSERT INTO "public"."sys_user" VALUES (3367, NULL, NULL, NULL, NULL, NULL, '2020-03-25 11:24:59', 1, '超级管理员', NULL, NULL, NULL, 1, 0, 'Upload/Tables/Sys_User/202004270952259380/1111.jpg', 0, NULL, NULL, NULL, '超级管理员', '2020-04-27 09:52:25', 1, NULL, 4, '信息员', NULL, NULL, NULL, 'admin111', 'tr8aEOCW6YdvgRfzgxf4mg==', '11', NULL);
-INSERT INTO "public"."sys_user" VALUES (3362, '北京市还没注册', NULL, '2019-08-18 00:54:06', 1, '超级管理员', '2019-08-13 14:24:27', NULL, NULL, NULL, NULL, NULL, 1, 0, 'Upload/Tables/Sys_User/202004241341311851/04.jpg', 0, NULL, '2019-09-22 23:12:33', '01012345678', '超级管理员', '2020-04-27 09:48:53', 1, NULL, 2, '测试管理员', NULL, NULL, NULL, 'admin666', 'j79rYYvCz4vdhcboB1Ausg==', '演示帐号', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzYyIiwiaWF0IjoiMTU4OTkxNTcyMCIsIm5iZiI6IjE1ODk5MTU3MjAiLCJleHAiOiIxNTg5OTIyOTIwIiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.cuGjlinizCkOxI92G9XQQxhiIJKbjUJwnva3HeYqVL4');
-INSERT INTO "public"."sys_user" VALUES (3371, NULL, NULL, NULL, NULL, NULL, '2020-04-29 15:44:15', 1, '超级管理员', NULL, NULL, NULL, 1, 0, 'Upload/Tables/Sys_User/202004291544153171/1111s.jpg', 0, NULL, NULL, NULL, '演示帐号', '2020-05-20 03:16:29', 3362, NULL, 6, '测试003', NULL, NULL, NULL, 'treetest1', 'kba29e~WKmea~Dis3YNQKg==', 'tree00', NULL);
+INSERT INTO "public"."sys_user" VALUES (1, NULL, NULL, NULL, 1, NULL, '2020-06-14 20:14:58', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '超级管理员', '12345678', NULL, NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', 'admin', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTU5MjE0MTc3NyIsIm5iZiI6IjE1OTIxNDE3NzciLCJleHAiOiIxNTkyMTQ4OTc3IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.4WWROov_2hT0W1i2e6LSqRGRUaehR5DRqgbACPsnB1g');
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+SELECT setval('"public"."app_expert_id_seq1"', 101, false);
+SELECT setval('"public"."app_news111seq_id_seq"', 12, true);
+SELECT setval('"public"."app_news_id_seq"', 2, true);
+SELECT setval('"public"."app_reportprice_id1_seq"', 101, false);
+SELECT setval('"public"."app_reportprice_id2_seq"', 101, false);
+SELECT setval('"public"."app_reportprice_id_seq"', 8, true);
+SELECT setval('"public"."app_transaction_id_seq"', 2, false);
+SELECT setval('"public"."app_transactionavgprice_id_seq"', 2, false);
+SELECT setval('"public"."appnews_id_seq"', 6, true);
+SELECT setval('"public"."apptest_id_seq"', 5, true);
+SELECT setval('"public"."city_id_seq"', 2, false);
+SELECT setval('"public"."dic_id_seq"', 2, true);
+SELECT setval('"public"."sellorder_id_seq"', 2, false);
+SELECT setval('"public"."sellorderlist_id1_seq"', 2, false);
+SELECT setval('"public"."sellorderlist_id_seq"', 2, false);
+SELECT setval('"public"."sys_dictionary_id_seq1"', 101, false);
+SELECT setval('"public"."sys_dictionarylist_id_seq"', 502, true);
+SELECT setval('"public"."sys_log_id_seq"', 11, true);
+SELECT setval('"public"."sys_menu_id_seq"', 101, false);
+SELECT setval('"public"."sys_province1_id_seq"', 501, false);
+SELECT setval('"public"."sys_province_id_seq"', 101, false);
+SELECT setval('"public"."sys_role_id_seq"', 102, true);
+SELECT setval('"public"."sys_role_id_seq1"', 2, false);
+SELECT setval('"public"."sys_roleauth_id_seq"', 101, false);
+SELECT setval('"public"."sys_roleauthdata_id_seq"', 101, false);
+SELECT setval('"public"."sys_tablecolumn_id_seq"', 801, false);
+SELECT setval('"public"."sys_tableinfo_id_seq"', 101, false);
+SELECT setval('"public"."sys_user_id_seq"', 4, true);
 
 -- ----------------------------
 -- Primary Key structure for table Sys_Dictionary
@@ -1432,94 +1678,89 @@ ALTER TABLE "public"."Sys_Dictionary" ADD CONSTRAINT "Sys_Dictionary_pkey" PRIMA
 -- ----------------------------
 -- Primary Key structure for table Sys_DictionaryList
 -- ----------------------------
-ALTER TABLE "public"."Sys_DictionaryList" ADD CONSTRAINT "_copy_19" PRIMARY KEY ("DicList_ID");
+ALTER TABLE "public"."Sys_DictionaryList" ADD CONSTRAINT "Sys_DictionaryList_pkey" PRIMARY KEY ("DicList_ID");
 
 -- ----------------------------
--- Primary Key structure for table app_appointment
+-- Primary Key structure for table app_expert
 -- ----------------------------
-ALTER TABLE "public"."app_appointment" ADD CONSTRAINT "_copy_18" PRIMARY KEY ("Id");
+ALTER TABLE "public"."app_expert" ADD CONSTRAINT "app_expert_pkey" PRIMARY KEY ("ExpertId");
 
 -- ----------------------------
 -- Primary Key structure for table app_news
 -- ----------------------------
-ALTER TABLE "public"."app_news" ADD CONSTRAINT "_copy_17" PRIMARY KEY ("Id");
+ALTER TABLE "public"."app_news" ADD CONSTRAINT "app_news_pkey" PRIMARY KEY ("Id");
 
 -- ----------------------------
 -- Primary Key structure for table app_reportprice
 -- ----------------------------
-ALTER TABLE "public"."app_reportprice" ADD CONSTRAINT "_copy_16" PRIMARY KEY ("Id");
+ALTER TABLE "public"."app_reportprice" ADD CONSTRAINT "app_reportprice_pkey" PRIMARY KEY ("Id");
 
 -- ----------------------------
 -- Primary Key structure for table app_transaction
 -- ----------------------------
-ALTER TABLE "public"."app_transaction" ADD CONSTRAINT "_copy_15" PRIMARY KEY ("Id");
+ALTER TABLE "public"."app_transaction" ADD CONSTRAINT "app_transaction_pkey" PRIMARY KEY ("Id");
 
 -- ----------------------------
 -- Primary Key structure for table app_transactionavgprice
 -- ----------------------------
-ALTER TABLE "public"."app_transactionavgprice" ADD CONSTRAINT "_copy_14" PRIMARY KEY ("Id");
-
--- ----------------------------
--- Primary Key structure for table news_article
--- ----------------------------
-ALTER TABLE "public"."news_article" ADD CONSTRAINT "_copy_13" PRIMARY KEY ("Id");
+ALTER TABLE "public"."app_transactionavgprice" ADD CONSTRAINT "app_transactionavgprice_pkey" PRIMARY KEY ("Id");
 
 -- ----------------------------
 -- Primary Key structure for table sellorder
 -- ----------------------------
-ALTER TABLE "public"."sellorder" ADD CONSTRAINT "_copy_12" PRIMARY KEY ("Order_Id");
+ALTER TABLE "public"."sellorder" ADD CONSTRAINT "sellorder_pkey" PRIMARY KEY ("Order_Id");
 
 -- ----------------------------
 -- Primary Key structure for table sellorderlist
 -- ----------------------------
-ALTER TABLE "public"."sellorderlist" ADD CONSTRAINT "_copy_11" PRIMARY KEY ("OrderList_Id");
+ALTER TABLE "public"."sellorderlist" ADD CONSTRAINT "sellorderlist_pkey" PRIMARY KEY ("OrderList_Id");
+
+-- ----------------------------
+-- Primary Key structure for table sys_city
+-- ----------------------------
+ALTER TABLE "public"."sys_city" ADD CONSTRAINT "sys_city_pkey" PRIMARY KEY ("CityId");
 
 -- ----------------------------
 -- Primary Key structure for table sys_log
 -- ----------------------------
-ALTER TABLE "public"."sys_log" ADD CONSTRAINT "_copy_10" PRIMARY KEY ("Id");
+ALTER TABLE "public"."sys_log" ADD CONSTRAINT "sys_log_pkey" PRIMARY KEY ("Id");
 
 -- ----------------------------
 -- Primary Key structure for table sys_menu
 -- ----------------------------
-ALTER TABLE "public"."sys_menu" ADD CONSTRAINT "_copy_9" PRIMARY KEY ("Menu_Id");
-
--- ----------------------------
--- Primary Key structure for table sys_menu_copy1
--- ----------------------------
-ALTER TABLE "public"."sys_menu_copy1" ADD CONSTRAINT "_copy_8" PRIMARY KEY ("Menu_Id");
+ALTER TABLE "public"."sys_menu" ADD CONSTRAINT "sys_menu_pkey" PRIMARY KEY ("Menu_Id");
 
 -- ----------------------------
 -- Primary Key structure for table sys_province
 -- ----------------------------
-ALTER TABLE "public"."sys_province" ADD CONSTRAINT "_copy_7" PRIMARY KEY ("ProvinceId");
+ALTER TABLE "public"."sys_province" ADD CONSTRAINT "sys_province_pkey" PRIMARY KEY ("ProvinceId");
 
 -- ----------------------------
 -- Primary Key structure for table sys_role
 -- ----------------------------
-ALTER TABLE "public"."sys_role" ADD CONSTRAINT "_copy_6" PRIMARY KEY ("Role_Id");
+ALTER TABLE "public"."sys_role" ADD CONSTRAINT "sys_role_pkey" PRIMARY KEY ("Role_Id");
 
 -- ----------------------------
 -- Primary Key structure for table sys_roleauth
 -- ----------------------------
-ALTER TABLE "public"."sys_roleauth" ADD CONSTRAINT "_copy_5" PRIMARY KEY ("Auth_Id");
+ALTER TABLE "public"."sys_roleauth" ADD CONSTRAINT "sys_roleauth_pkey" PRIMARY KEY ("Auth_Id");
 
 -- ----------------------------
 -- Primary Key structure for table sys_roleauthdata
 -- ----------------------------
-ALTER TABLE "public"."sys_roleauthdata" ADD CONSTRAINT "_copy_4" PRIMARY KEY ("Auth_Id");
+ALTER TABLE "public"."sys_roleauthdata" ADD CONSTRAINT "sys_roleauthdata_pkey" PRIMARY KEY ("Auth_Id");
 
 -- ----------------------------
 -- Primary Key structure for table sys_tablecolumn
 -- ----------------------------
-ALTER TABLE "public"."sys_tablecolumn" ADD CONSTRAINT "_copy_3" PRIMARY KEY ("ColumnId");
+ALTER TABLE "public"."sys_tablecolumn" ADD CONSTRAINT "sys_tablecolumn_pkey" PRIMARY KEY ("ColumnId");
 
 -- ----------------------------
 -- Primary Key structure for table sys_tableinfo
 -- ----------------------------
-ALTER TABLE "public"."sys_tableinfo" ADD CONSTRAINT "_copy_2" PRIMARY KEY ("Table_Id");
+ALTER TABLE "public"."sys_tableinfo" ADD CONSTRAINT "sys_tableinfo_pkey" PRIMARY KEY ("Table_Id");
 
 -- ----------------------------
 -- Primary Key structure for table sys_user
 -- ----------------------------
-ALTER TABLE "public"."sys_user" ADD CONSTRAINT "_copy_1" PRIMARY KEY ("User_Id");
+ALTER TABLE "public"."sys_user" ADD CONSTRAINT "sys_user_pkey" PRIMARY KEY ("User_Id");
