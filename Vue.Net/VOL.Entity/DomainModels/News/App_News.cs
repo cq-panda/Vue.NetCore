@@ -13,6 +13,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
+    [Table("app_news")]
     [Entity(TableCnName = "新闻列表",TableName = "App_News")]
     public class App_News:BaseEntity
     {

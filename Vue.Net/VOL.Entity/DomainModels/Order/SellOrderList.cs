@@ -13,6 +13,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
+    [Table("sellorderlist")]
     [Entity(TableCnName = "订单明细")]
     public class SellOrderList:BaseEntity
     {

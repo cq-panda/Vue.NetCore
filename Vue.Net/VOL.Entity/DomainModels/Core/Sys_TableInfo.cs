@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace VOL.Entity.DomainModels
 {
+    [Table("sys_tableinfo")]
     [EntityAttribute(DetailTable = new Type[] { typeof(Sys_TableColumn) })]
     public class Sys_TableInfo : BaseEntity
     {

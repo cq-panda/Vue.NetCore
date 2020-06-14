@@ -200,12 +200,17 @@ namespace VOL.Core.Dapper
                 columns = properties.Select(x => x.Name).ToArray();
             }
             string sql = null;
-            bool mysql = DBType.Name == DbCurrentType.MySql.ToString();
-            if (mysql)
+            if (DBType.Name == DbCurrentType.MySql.ToString())
             {
                 //mysql批量写入待优化
                 sql = $"insert into {entityType.GetEntityTableName()}({string.Join(",", columns)})" +
                  $"values(@{string.Join(",@", columns)});";
+            }
+            else if (DBType.Name == DbCurrentType.PgSql.ToString())
+            {
+				//todo pgsql批量写入 待检查是否正确
+                sql = $"insert into {entityType.GetEntityTableName()}({string.Join(",", columns)})" +
+                    $"values(@{string.Join(",@", columns)});";
             }
             else
             {
@@ -216,7 +221,8 @@ namespace VOL.Core.Dapper
             }
             return Execute<int>((conn, dbTransaction) =>
             {
-                return conn.Execute(sql, mysql ? entities.ToList() : null);
+			    //todo pgsql待实现
+                return conn.Execute(sql, DBType.Name == DbCurrentType.MySql.ToString() ? entities.ToList() : null);
             }, beginTransaction);
         }
 
@@ -347,6 +353,11 @@ namespace VOL.Core.Dapper
             }
             if (Connection.GetType().Name == "MySqlConnection")
                 return MySqlBulkInsert(table, tableName, fileName, tmpPath);
+            else if (Connection.GetType().Name == "NpgsqlConnection")
+            {
+			    //todo pgsql待实现
+                throw new Exception("Pgsql的批量插入没实现,可以先把日志start注释跑起来，\\Vue.Net\\VOL.Core\\Services\\Logger.cs");
+            }
             return MSSqlBulkInsert(table, tableName, sqlBulkCopyOptions ?? SqlBulkCopyOptions.KeepIdentity);
         }
 

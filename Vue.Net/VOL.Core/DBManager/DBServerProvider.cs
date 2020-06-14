@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -57,12 +58,16 @@ namespace VOL.Core.DBManager
         {
             return GetConnectionString(DefaultConnName);
         }
-        private static bool _isMysql= DBType.Name == DbCurrentType.MySql.ToString();
+        //private static bool _isMysql= DBType.Name == DbCurrentType.MySql.ToString();
         public static IDbConnection GetDbConnection(string connString = null)
         {
-            if (_isMysql)
+            if (DBType.Name == DbCurrentType.MySql.ToString())
             {
                 return new MySql.Data.MySqlClient.MySqlConnection(connString ?? ConnectionPool[DefaultConnName]);
+            }
+            else if (DBType.Name == DbCurrentType.PgSql.ToString())
+            {
+                return new NpgsqlConnection(connString ?? ConnectionPool[DefaultConnName]);
             }
             return new SqlConnection(connString ?? ConnectionPool[DefaultConnName]); 
         }
