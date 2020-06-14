@@ -123,6 +123,7 @@ namespace DairyStar.Builder.Services
 
         /// <summary>
         /// 获取Mysql表结构信息
+        /// 2020.06.14增加对mysql数据类型double区分
         /// </summary>
         /// <returns></returns>
         private string GetMySqlModelInfo()
@@ -138,8 +139,10 @@ DISTINCT
                 'int'
                 WHEN data_type in ( 'BIGINT','bigint') THEN
                 'bigint'
-                WHEN data_type IN('FLOAT', 'DOUBLE', 'DECIMAL','float', 'double', 'decimal') THEN
+                WHEN data_type IN('FLOAT',  'DECIMAL','float', 'decimal') THEN
                 'decimal'
+							 WHEN data_type IN( 'DOUBLE', 'double') THEN
+                'double'
                 WHEN data_type IN('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB', 'LONGBLOB', 'Time','char', 'varchar', 'tiny text', 'text', 'mediumtext', 'longtext', 'tinyblob', 'blob', 'mediumblob', 'longblob', 'time') THEN
                 'nvarchar'
                 WHEN data_type IN('Date', 'DateTime', 'TimeStamp','date', 'datetime', 'timestamp') THEN
