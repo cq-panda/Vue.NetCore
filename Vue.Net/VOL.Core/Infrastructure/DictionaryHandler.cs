@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using VOL.Core.Const;
+using VOL.Core.Enums;
 using VOL.Core.ManageUser;
 using VOL.Core.UserManager;
 
@@ -43,9 +45,12 @@ namespace VOL.Core.Infrastructure
         /// <returns></returns>
         public static string GetRolesSql()
         {
-            string sql = $@"SELECT Role_Id as 'key',RoleName as 'value' FROM Sys_Role 
+            if (DBType.Name == DbCurrentType.PgSql.ToString())
+            {
+                return "SELECT \"Role_Id\" as key,\"RoleName\" as value from Sys_Role";
+            }
+            return $@"SELECT Role_Id as 'key',RoleName as 'value' FROM Sys_Role 
                            WHERE Enable=1 ";
-            return sql;
         }
 
         /// <summary>
