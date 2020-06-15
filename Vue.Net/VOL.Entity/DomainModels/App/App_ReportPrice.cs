@@ -13,7 +13,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Table("app_reportprice")]
+    [Table("App_ReportPrice")]
     [Entity(TableCnName = "新增编辑表单",TableName = "App_ReportPrice")]
     public class App_ReportPrice:BaseEntity
     {
