@@ -14,7 +14,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Table("sys_user")]
+    [Table("Sys_User")]
     [Entity(ApiInput = typeof(ApiSys_UserInput),ApiOutput = typeof(ApiSys_UserOutput))]
     public class Sys_User:BaseEntity
     {
