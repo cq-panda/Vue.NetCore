@@ -66,7 +66,7 @@ export default {
     return {
       active: 0,
       items: [
-           {
+        {
           title: "调试",
           content: [
             `运行dev_run.bat，调试->附加到进程->进程里选择vol.webapi.exe`
@@ -172,6 +172,65 @@ export default {
           tips: ` 在表的业务类,xxxService.cs中文件直接可调用EF事务,或使用SellOrderRepository.Instance.DbContextBeginTransaction(()=> { })`
         },
         {
+          title: "使用Dapper事务",
+          content: [
+            `<span style="display:none;"></span>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">DBServerProvider</span>.<span style="color:#9cdcfe;">SqlDapper</span>.<span style="color:#dcdcaa;">BeginTransaction</span>((<span style="color:#9cdcfe;">ISqlDapper</span>&nbsp;<span style="color:#9cdcfe;">dapper</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">string</span>&nbsp;<span style="color:#9cdcfe;">sql</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"UPDATE&nbsp;App_Expert&nbsp;SET&nbsp;CreateDate=GETDATE()"</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//return&nbsp;false;回滚事务</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">dapper</span>.<span style="color:#dcdcaa;">ExcuteNonQuery</span>(<span style="color:#9cdcfe;">sql</span>,&nbsp;<span style="color:#569cd6;">null</span>)&nbsp;==&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">false</span>;
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//do&nbsp;something&nbsp;.....</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">sql</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"UPDATE&nbsp;App_ReportPrice&nbsp;SET&nbsp;CreateDate=GETDATE()"</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">dapper</span>.<span style="color:#dcdcaa;">ExcuteNonQuery</span>(<span style="color:#9cdcfe;">sql</span>,&nbsp;<span style="color:#569cd6;">null</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//返回true才会提交事务</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},&nbsp;(<span style="color:#9cdcfe;">Exception</span>&nbsp;<span style="color:#9cdcfe;">ex</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//上面不需要处理异常，请在此处处理异常</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//DBServerProvider.SqlDapper.xxx</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">Console</span>.<span style="color:#dcdcaa;">WriteLine</span>(<span style="color:#9cdcfe;">ex</span>.<span style="color:#9cdcfe;">Message</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+	</div>
+</div>
+<br />`
+          ],
+          tips: ""
+        },
+        {
           title: "Memory/Redis对象",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
@@ -206,11 +265,13 @@ export default {
         },
         {
           title: "读写分离与分库",
-          content: [`<p style="line-height: 34px;">读写分离与分库，不同的业务实现细节区别很大，可以根据自己实际情况修改框架</p>
+          content: [
+            `<p style="line-height: 34px;">读写分离与分库，不同的业务实现细节区别很大，可以根据自己实际情况修改框架</p>
           <p style="line-height: 34px;">1、将所有数据库连接配置缓存到DBServerProvider.ConnectionPool中</p>
           <p style="line-height: 34px;">2、根据登陆用户操作所属数据库：EF修改DBServerProvider.GetDbContextConnection()，如果是读写分离，可以考虑增加ToList扩展方法</p>
           <p style="line-height: 34px;">3、使用Dapper读写分离或分库:DBServerProvider.GetSqlDapper('数据库连接key),key为ConnectionPool中的key'</p>
-          <p style="line-height: 34px;">4、全自动操作读写分离或分库，可以考虑在model上使用Attribute(需要改代码生成器，将model对应数据库生成上去),使用EF或Dapper时，从model上获取Attribute里的数据库配置信息</p>`],
+          <p style="line-height: 34px;">4、全自动操作读写分离或分库，可以考虑在model上使用Attribute(需要改代码生成器，将model对应数据库生成上去),使用EF或Dapper时，从model上获取Attribute里的数据库配置信息</p>`
+          ],
           tips: `还没想好`,
           img: ""
         },
@@ -1112,28 +1173,36 @@ export default {
 <span style="display:none;"></span><br />`
           ],
           tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`
-        }
-          ,   {
+        },
+        {
           title: "绑定数据源及自定义sql数据源",
-          content: [`<p>前端数据源绑定在菜单：系统->下拉框绑定设置中配置</p>
-          <p>同时可以配置成自定义成sql语句,参照现有的配置</p>`],
+          content: [
+            `<p>前端数据源绑定在菜单：系统->下拉框绑定设置中配置</p>
+          <p>同时可以配置成自定义成sql语句,参照现有的配置</p>`
+          ],
           tips: `前端数据源绑定及导出，都在菜单:下拉框绑定设置中配置好，代码生成器中选择数据源后，其他都全部由框架自动完成`,
           img: ""
         },
         {
           title: "根据用户绑定数据源",
-          content: [`根据用户信息动态绑定前端数据源:实现后台：在DictionaryHandler.GetCustomDBSql方法中添加`],
+          content: [
+            `根据用户信息动态绑定前端数据源:实现后台：在DictionaryHandler.GetCustomDBSql方法中添加`
+          ],
           tips: `某些情况可能用户只需要看到自己权限内的数据，可按此方法实现`,
           img: ""
         },
         {
           title: "视图操作",
-          content: [`如果查询过于复杂或不想多表关联，请创建视图，再将视图生成代码`],
+          content: [
+            `如果查询过于复杂或不想多表关联，请创建视图，再将视图生成代码`
+          ],
           tips: `使用视图某些情况能减下操作的复杂性`,
           img: ""
-        },   {
+        },
+        {
           title: "视图新增/删除/修改",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//视图不能直接新增/删除/修改操作</span>
 	</div>
@@ -1194,10 +1263,11 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`
+          ],
           tips: `使用视图某些情况能减下操作的复杂性`,
           img: ""
-        },
+        }
       ]
     };
   }

@@ -32,6 +32,8 @@ namespace VOL.Core.Dapper
                 return _connection;
             }
         }
+     
+
         public SqlDapper()
         {
             _connectionString = DBServerProvider.GetConnectionString();
@@ -45,6 +47,43 @@ namespace VOL.Core.Dapper
         public SqlDapper(string connKeyName)
         {
             _connectionString = DBServerProvider.GetConnectionString(connKeyName);
+        }
+
+
+        private bool _transaction { get; set; }
+
+        /// <summary>
+        /// 2020.06.15增加Dapper事务处理
+        /// <param name="action"></param>
+        /// <param name="error"></param>
+        public void BeginTransaction(Func<ISqlDapper, bool> action, Action<Exception> error)
+        {
+            _transaction = true;
+            try
+            {
+                Connection.Open();
+                dbTransaction = Connection.BeginTransaction();
+                bool result = action(this);
+                if (result)
+                {
+                    dbTransaction?.Commit();
+                }
+                else
+                {
+                    dbTransaction?.Rollback();
+                }
+            }
+            catch (Exception ex)
+            {
+                dbTransaction?.Rollback();
+                error(ex);
+            }
+            finally
+            {
+                Connection?.Dispose();
+                dbTransaction?.Dispose();
+                _transaction = false;
+            }
         }
 
         /// <summary>
@@ -61,9 +100,9 @@ namespace VOL.Core.Dapper
         public List<T> QueryList<T>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false) where T : class
         {
             return Execute((conn, dbTransaction) =>
-             {
-                 return conn.Query<T>(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text).ToList();
-             }, beginTransaction);
+            {
+                return conn.Query<T>(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text).ToList();
+            }, beginTransaction);
         }
         public T QueryFirst<T>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false) where T : class
         {
@@ -124,12 +163,10 @@ namespace VOL.Core.Dapper
                 return (reader.Read<T1>().ToList(), reader.Read<T2>().ToList(), reader.Read<T3>().ToList());
             }
         }
-
+        IDbTransaction dbTransaction = null;
 
         private T Execute<T>(Func<IDbConnection, IDbTransaction, T> func, bool beginTransaction = false, bool disposeConn = true)
         {
-            IDbTransaction dbTransaction = null;
-
             if (beginTransaction)
             {
                 Connection.Open();
@@ -138,22 +175,30 @@ namespace VOL.Core.Dapper
             try
             {
                 T reslutT = func(Connection, dbTransaction);
-                dbTransaction?.Commit();
+                if (!_transaction && dbTransaction != null)
+                {
+                    dbTransaction.Commit();
+                }
                 return reslutT;
             }
             catch (Exception ex)
             {
-                dbTransaction?.Rollback();
-                Connection.Dispose();
+                if (!_transaction && dbTransaction != null)
+                {
+                    dbTransaction.Rollback();
+                }
                 throw ex;
             }
             finally
             {
-                if (disposeConn)
+                if (!_transaction)
                 {
-                    Connection.Dispose();
+                    if (disposeConn)
+                    {
+                        Connection.Dispose();
+                    }
+                    dbTransaction?.Dispose();
                 }
-                dbTransaction?.Dispose();
             }
         }
         /// <summary>

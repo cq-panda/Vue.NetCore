@@ -9,6 +9,9 @@ namespace VOL.Core.Dapper
 {
     public interface ISqlDapper
     {
+
+        void BeginTransaction(Func<ISqlDapper, bool> action, Action<Exception> error);
+
         /// <summary>
         /// var p = new object();
         //        p.Add("@a", 11);
