@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace VOL.Entity.DomainModels
 {
-    [Table("Sys_Roleauth")]
+    [Table("Sys_RoleAuth")]
     public class Sys_RoleAuth: BaseEntity
     {
         /// <summary>
