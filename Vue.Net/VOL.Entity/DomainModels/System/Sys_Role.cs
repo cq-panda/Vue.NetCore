@@ -13,7 +13,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Table("sys_role")]
+    [Table("Sys_Role")]
     [EntityAttribute(TableCnName = "角色管理")]
     public class Sys_Role : BaseEntity
     {
