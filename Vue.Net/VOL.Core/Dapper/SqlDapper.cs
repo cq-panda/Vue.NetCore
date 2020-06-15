@@ -153,6 +153,7 @@ namespace VOL.Core.Dapper
                 {
                     Connection.Dispose();
                 }
+                dbTransaction?.Dispose();
             }
         }
         /// <summary>
