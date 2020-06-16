@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,18 @@ namespace VOL.System.Services
         {
             string msg = string.Empty;
             WebResponseContent responseContent = new WebResponseContent();
+            //   2020.06.12增加验证码
+            IMemoryCache memoryCache = HttpContext.Current.GetService<IMemoryCache>();
+            string cacheCode = (memoryCache.Get(loginInfo.UUID) ?? "").ToString();
+            if (string.IsNullOrEmpty(cacheCode))
+            {
+                return responseContent.Error("验证码已失效");
+            }
+            if (cacheCode.ToLower() != loginInfo.VerificationCode.ToLower())
+            {
+                memoryCache.Remove(loginInfo.UUID);
+                return responseContent.Error("验证码不正确");
+            }
             try
             {
                 Sys_User user = await repository.FindAsIQueryable(x => x.UserName == loginInfo.UserName)
@@ -55,6 +68,7 @@ namespace VOL.System.Services
             }
             finally
             {
+                memoryCache.Remove(loginInfo.UUID);
                 Logger.Info(LoggerType.Login, loginInfo.Serialize(), responseContent.Message, msg);
             }
         }
