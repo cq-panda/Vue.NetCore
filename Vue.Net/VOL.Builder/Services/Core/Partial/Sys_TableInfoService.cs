@@ -279,33 +279,21 @@ DISTINCT
                 tableName = sysTableInfo.TableTrueName;
             }
 
-            List<Sys_TableColumn> list = sysTableInfo.TableColumns;
-            List<TableColumnInfo> tableColumnInfoList = new List<TableColumnInfo>();
+            string sql = "";
             switch (DBType.Name)
             {
                 case "MySql":
-                    {
-                        tableColumnInfoList = repository.DapperContext.QueryList<TableColumnInfo>(
-                            GetMySqlModelInfo(), new { tableName = tableName });
-                        break;
-                    }
-                case "SqlServer":
-                    {
-                        tableColumnInfoList = repository.DapperContext.QueryList<TableColumnInfo>(
-                             GetSqlServerModelInfo(), new { tableName = tableName });
-                        break;
-                    }
+                    sql = GetMySqlModelInfo();
+                    break;
                 case "PgSql":
-                    {
-                        tableColumnInfoList = repository.DapperContext.QueryList<TableColumnInfo>(
-                            GetPgSqlModelInfo(), new { tableName = tableName });
-                        break;
-                    }
-                default: break;
+                    sql = GetPgSqlModelInfo();
+                    break;
+                default:
+                    sql = GetSqlServerModelInfo();
+                    break;
             }
-
-
-
+            List<TableColumnInfo> tableColumnInfoList = repository.DapperContext.QueryList<TableColumnInfo>(sql, new { tableName });
+            List<Sys_TableColumn> list = sysTableInfo.TableColumns;
             string msg = CreateEntityModel(list, sysTableInfo, tableColumnInfoList, 1);
             if (msg != "")
                 return msg;
