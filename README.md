@@ -27,6 +27,7 @@
 
 ## 框架2.0已更新(部分新增功能截图)
 增加切换皮肤功能
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/h.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/home_them.png)  
 增加可复用的后台请求参数校验
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/validator.png)  
@@ -91,6 +92,7 @@ excel导入整个页面都由代码生成器生成，导入的字段、字段是
  - demo地址：http://www.volcore.xyz
  - 帐号：admin666密码：123456（本地超级管理员帐号：admin密码123456)
  - github地址：https://github.com/cq-panda/vue.netcore
+ - gitee码云：https://gitee.com/x_discoverer/Vue.NetCore
  - 框架文档：http://www.volcore.xyz/document/guide
  - 框架更新日志：http://www.volcore.xyz/document/log
  
