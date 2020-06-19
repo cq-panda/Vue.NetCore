@@ -33,9 +33,17 @@
           :sortable="column.sort||cindex==0?'custom':false"
         >
           <template slot-scope="scope">
+            <!-- 2020.06.18增加render渲染自定义内容 -->
+            <table-render
+              v-if="column.render&&typeof column.render=='function'"
+              :row="scope.row"
+              :index="scope.$index"
+              :column="column"
+              :render="column.render"
+            ></table-render>
             <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
             <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
-            <div v-if="column.edit" class="edit-el">
+            <div v-else-if="column.edit" class="edit-el">
               <div v-if="column.edit.keep|| edit.rowIndex==scope.$index" class="e-item">
                 <div>
                   <DatePicker
@@ -164,8 +172,9 @@
 </template>
 <script>
 var $vue;
+import VolTableRender from "./VolTable/VolTableRender";
 export default {
-  components: {},
+  components: { "table-render": VolTableRender },
   props: {
     tableData: {
       //表数据源,配置了url就不用传这个参数了
@@ -938,8 +947,12 @@ export default {
       let valArr = val.split(",");
       for (let index = 0; index < valArr.length; index++) {
         column.bind.data.forEach(x => {
-           //2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
-          if (x.key !== "" && x.key !== undefined && x.key+'' == valArr[index]+'') {
+          //2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
+          if (
+            x.key !== "" &&
+            x.key !== undefined &&
+            x.key + "" == valArr[index] + ""
+          ) {
             valArr[index] = x.value;
           }
         });

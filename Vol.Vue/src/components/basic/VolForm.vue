@@ -9,12 +9,15 @@
     <slot name="header"></slot>
     <Row class="line-row" v-for="(row,findex) in formRules" :key="findex">
       <Col :span="(item.colSize?item.colSize*2:24/span)" v-for="(item,index) in row" :key="index">
+        <!-- 2020.06.18增加render渲染自定义内容 -->
+        <form-expand v-if="item.render&&typeof item.render=='function'" :render="item.render"></form-expand>
         <FormItem
+          v-else
           :rules="getRule(item,formFileds)"
           :label="item.title?(item.title+'：'):''"
           :prop="item.field"
         >
-          <div v-if="isReadonlyImgFile(item,formFileds)">
+          <template v-if="isReadonlyImgFile(item,formFileds)">
             <div v-if="item.type=='img'||item.columnType=='img'" class="form-imgs">
               <div
                 class="img-item"
@@ -24,7 +27,7 @@
                 <img :src="getSrc(img.path)" :onerror="errorImg" @click="previewImg(img.path)" />
               </div>
             </div>
-            <div v-else>
+            <template v-else>
               <div
                 class="form-file-list"
                 v-for="(file,fileIndex) in formFileds[item.field]"
@@ -32,8 +35,8 @@
               >
                 <a @click="dowloadFile(formFileds[item.field][fileIndex])">{{file.name}}</a>
               </div>
-            </div>
-          </div>
+            </template>
+          </template>
           <label
             v-else-if="item.disabled||item.readonly"
             class="readonly-input"
@@ -45,7 +48,7 @@
                 v-if="item.type=='select'||item.type=='selectList'||item.type=='drop'||item.type=='dropList'"
               >
                 <!--select绑定默认值时，如果设置了默认值，数据源也有数据，但没绑定上，问题在于key与默认值类型不一致，如:默认值是字符串，数据源的key是数字，类型不至会导致绑定失败-->
-                <div>
+                <template>
                   <!-- {{ item.remote||item.url?"1":"0"}} -->
                   <!-- 远程搜索 -->
                   <!-- 从后台字典搜索remote  -->
@@ -84,7 +87,7 @@
                       :value="kv.key||''"
                     >{{kv.value}}</Option>
                   </Select>
-                </div>
+                </template>
               </div>
               <i-switch
                 v-else-if="item.type=='switch'"
@@ -151,6 +154,7 @@
                 :render-format="item.formatter"
                 v-model="formFileds[item.field]"
               ></Cascader>
+
               <Input
                 v-else-if="item.type=='textarea'"
                 v-model="formFileds[item.field]"
@@ -199,9 +203,10 @@
 </template>
 <script>
 import moment from "moment";
-
+import FormExpand from "./VolForm/VolFormRender";
 export default {
   components: {
+    FormExpand,
     VolUpload: () => import("@/components/basic/VolUpload.vue")
   },
   props: {
@@ -240,7 +245,15 @@ export default {
       remoteCall: true,
       errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       rule: {
-        change: ["checkbox", "select","date", "datetime", "drop", "radio","cascader"],//2020.05.31增加级联类型
+        change: [
+          "checkbox",
+          "select",
+          "date",
+          "datetime",
+          "drop",
+          "radio",
+          "cascader"
+        ], //2020.05.31增加级联类型
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
         number: /(^[\-0-9][0-9]*([0-9]+)?)$/
@@ -782,8 +795,8 @@ export default {
         item.type == "select" ||
         item.type == "selectList" ||
         item.type == "checkbox" ||
-        item.type == "drop"||
-        item.type == "cascader"//2020.05.31增加级联类型
+        item.type == "drop" ||
+        item.type == "cascader" //2020.05.31增加级联类型
       ) {
         let _rule = {
           required: true,
