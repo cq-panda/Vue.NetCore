@@ -84,7 +84,7 @@
     <br />
 
     <div class="vol-demo">
-      <VolHeader icon="md-apps" text="使用button编辑">
+      <VolHeader icon="md-apps" text="使用button编辑,render动态渲染单元格">
         <div slot="content">通过button编辑与额外标签事件</div>
       </VolHeader>
       <vol-table
@@ -357,12 +357,69 @@ let doc_options = {
             title: "测试3",
             width: 160
           },
-          {
-            field: "test4",
-            title: "测试4",
-            edit: { type: "datetime" },
-            width: 250
-          },
+        {
+        title: 'render动态生成组件', width: 165, render: (h, { row, column, index }) => {
+          return h(
+            "div",
+            { style: {} },
+            [
+              h(
+                "Button",
+                {
+                  props: { type: "success", size: "small" },
+                  style: {},
+                  on: {
+                    click: (e) => {
+                      e.stopPropagation()
+                      //弹出框编辑
+                    this.$Notice.open({
+                        title: '当前操作的行',
+                        desc: JSON.stringify(row)
+                      });
+                    }
+                  }
+                },
+                "render按钮"
+              ),
+              h(
+                "Button",
+                {
+                  props: { type: "info", size: "small" },
+                  style: { "margin-left": "10px" },
+                  on: {
+                    click: (e) => {
+                      e.stopPropagation()
+                      this.$Notice.open({
+                        title: '当前操作的行',
+                        desc: JSON.stringify(row)
+                      });
+                    }
+                  }
+                },
+                "审核"
+              ),
+              h(
+                "Dropdown",
+                {
+                  props: {
+                    transfer:true
+                  },
+                  style: {
+                    "margin-left": "10px"
+                  },
+                  on: {
+                    'on-click': (name) => {
+                      this.$Message.info(name);
+                    }
+                  }
+                },
+                [h('a', {}, ['更多', h('Icon', { props: { type: 'ios-arrow-down' } })]),
+                h('DropdownMenu', { slot: "list" }, [h('DropdownItem', { props: { name: '明细' } }, '明细'), h('DropdownItem', { props: { name: '签收' } }, '签收'), h('DropdownItem', { props: { name: 'bubu..' } }, 'bubu..')])]
+              )
+            ]
+          );
+        }
+      },
           {
             field: "test5",
             title: "测试5",

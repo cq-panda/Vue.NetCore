@@ -14,6 +14,7 @@ let param = {
         { name: "[[{", desc: "表单字段formRules的参数配置说明", type: "", default: "" },
         { name: "dataKey", desc: "数据源字典编号(菜单->系统->下拉框绑定中的字典编号)", type: "string", default: "" },
         { name: "data", desc: "数据源，可以手动绑定格式[{key:1,value:'是'}],也可以自动绑定,自定绑定需要设置属性loadKey='true'", type: "array", default: "[]" },
+        { name: "render", desc: "<span style='color:red;'>支持vue原生render处理,[前端开发->render渲染form对象1/2]为配置示例，render完整用法见vue官方文档(2020.06.20)</span>", type: "function", default: "" },
         { name: "title", desc: "标签名称", type: "string", default: "" },
         //
         { name: "readonly/readonly", desc: "是否只读", type: "bool", default: "false" },
@@ -94,6 +95,7 @@ let param = {
         { name: "columns", desc: "table表参数配置", type: "array", default: "[]" },
         { name: "{-----", desc: "-----columns属性介绍开始处-----", type: "-----", default: "-----" },
         { name: "field", desc: "字段", type: "string", default: "" },
+        { name: "render", desc: "<span style='color:red;'>支持vue原生render处理,[前端开发->render渲染form对象1/2]为配置示例，render完整用法见vue官方文档(2020.06.20)</span>", type: "function", default: "" },
         { name: "title", desc: "table列名", type: "string", default: "" },
         { name: "width", desc: "列宽度", type: "number", default: "" },
         { name: "sort", desc: "是否排序列", type: "bool", default: "false" },
