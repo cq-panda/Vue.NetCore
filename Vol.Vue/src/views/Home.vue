@@ -2,25 +2,35 @@
   <div class="home-contianer">
     <el-scrollbar style="height:100%;">
       <div style>
-        <div data-v-542f4644 class="ivu-row" style="padding:15px;background: white;">
-          <div
-            v-for="item in topColor"
-            :key="item.name"
-            class="ivu-col ivu-col-span-6"
-            style="padding-left: 8px; padding-right: 8px;"
-          >
-            <div data-v-542f4644 class="ivu-card" :style="{background:item.background}">
-              <div class="icon-left">
-                <Icon :type="item.icon" />
-              </div>
-              <div class="ivu-card-body">
-                <div data-v-542f4644 class="demo-color-name">{{item.name}}</div>
-                <div data-v-542f4644 class="demo-color-desc">{{item.desc}}</div>
-              </div>
+        <div data-v-542f4644 class="ivu-row">
+          <div v-for="item in topColor" :key="item.name" class="ivu-col ivu-col-span-6">
+            <div class="item-name">
+              {{item.name}}
+              <Tooltip class="icon" placement="left-start">
+                <Icon type="ios-information-circle-outline" />
+                <div slot="content">
+                  <p>{{item.name}}</p>
+                </div>
+              </Tooltip>
             </div>
+            <div class="total">￥{{(item.total+'').replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")}}</div>
+            <div class="rate">
+              <span>
+                <span>环比{{item.down}}%</span>
+                <Icon class="down" type="md-arrow-dropdown" />
+              </span>
+              <span>
+                <span>同比{{item.up}}%</span>
+                <Icon class="up" type="md-arrow-dropup" />
+              </span>
+            </div>
+            <div class="bottom">平均增长趋势{{item.up}}%</div>
           </div>
         </div>
-        <div style="background:#fff;">
+        <div class="charts-line">
+          <div id="charts-line" style="height:350px;"></div>
+        </div>
+        <div style="background:#fff; margin: 0 13px;">
           <div class="h5-desc">
             <Divider>移动H5页面(此处是H5页面,可点击--功能未实现)</Divider>
           </div>
@@ -115,26 +125,37 @@ export default {
       ],
       topColor: [
         {
-          name: "订单数",
+          name: "订单金额",
           desc: "#205",
           background: "rgb(25, 190, 107)",
+          total: 670000,
+          down: -10,
+          up: 60,
           icon: "ios-home"
         },
         {
-          name: "支付数",
+          name: "支付金额",
           desc: "#412",
+          total: 540000,
+          down: -15,
+          up: 45,
           background: "rgb(45, 183, 245)",
           icon: "ios-help-buoy"
         },
         {
-          name: "已取消",
+          name: "取消金额",
           desc: "#200",
+          total: 872500,
+          down: -18,
+          up: 70,
           background: "rgb(255, 153, 0)",
           icon: "md-ionic"
         },
         {
-          name: "退货",
-          desc: "#12",
+          name: "退货金额",
+          total: 253500,
+          down: -25,
+          up: 45,
           background: "rgb(237, 64, 20)",
           icon: "ios-navigate"
         }
@@ -164,10 +185,120 @@ export default {
         }
       ]
     });
+    var $charts_line = echarts.init(document.getElementById("charts-line"));
+    $charts_line.setOption({
+    title: {
+      text: '日销售订单统计'
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        label: {
+          backgroundColor: '#6a7985'
+        }
+      }
+    },
+
+    color: ['#ffab6f', '#09b916', '#83cddc'], //图例颜色
+    legend: {
+      icon: "roundRect",
+       data:['销售订单', '退货订单', '折扣订单']
+    },
+    toolbox: {
+      feature: {
+
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2020.06.15', '2020.06.16', '2020.06.17',
+        '2020.06.18', '2020.06.19', '2020.06.20', '2020.06.21','2020.06.22']
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value'
+      }
+    ],
+    series: [
+       {
+         name: '销售订单',
+         type: 'line',
+         smooth: true,
+         lineStyle: {
+           color: "#45d4ba",
+           width: 1
+         }, //线条的样式
+         areaStyle: {
+           color: new
+             echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+               offset: 0,
+               color: '#83cddc'
+             }, {
+               offset: 1,
+               color: '#bfdffbb5'
+             }])
+         },
+         data: [5, 22, 150, 54, 1, 230, 4,1]
+       },
+       {
+         name: '退货订单',
+         type: 'line',
+
+         smooth: true,
+         lineStyle: {
+           color: "#04a710",
+           width: 1
+         }, //
+         areaStyle: {
+           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+             offset: 0,
+             color: '#0cbf22'
+           }, {
+             offset: 1,
+             color: '#b8f7d1b5'
+           }])
+         },
+         data: [10, 150, 1, 250,
+           20, 100, 10,150]
+       },
+       {
+         name: '折扣订单',
+         type: 'line',
+
+         lineStyle: {
+           color:
+             "#0864c3",
+           width: 1
+         }, //线条的样式
+         smooth: true,
+         areaStyle: {
+           color: new
+             echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+               offset: 0,
+               color: '#29d7ff'
+             }, {
+               offset: 1,
+               color: '#34ccef85'
+             }])
+         },
+         data: [100, 2, 260, 1, 200, 30, 101,40]
+       }
+    ]
+});
   }
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
 .home-contianer {
   background: #efefef;
   width: 100%;
@@ -212,9 +343,53 @@ export default {
   color: white;
 }
 .ivu-row {
+  display: flex;
   border-bottom: 2px dotted #eee;
-  padding: 15px;
-  margin-bottom: 15px;
+  padding: 0px 5px;
+  .ivu-col {
+    border-radius: 4px;
+    background: white;
+    flex: 1;
+    margin: 13px 8px;
+    padding: 20px 20px;
+    padding-bottom: 15px;
+  }
+  .total {
+    word-break: break-all;
+    color: #282727;
+    font-size: 30px;
+    padding-bottom: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC,
+      Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial,
+      sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  }
+  .item-name {
+    position: relative;
+    .icon {
+      position: absolute;
+      right: 0;
+      top: -1px;
+    }
+  }
+  .item-name,
+  .rate,
+  .bottom {
+    color: #5f5f5f;
+    font-size: 14px;
+  }
+  .rate {
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 10px;
+  }
+  .bottom {
+    padding-top: 8px;
+  }
+  .down {
+    color: #10d310;
+  }
+  .up {
+    color: red;
+  }
 }
 
 .h5-desc {
@@ -222,10 +397,15 @@ export default {
 }
 </style>
 <style lang="less">
+.charts-line {
+  margin: 0px 13px 13px 13px;
+  background: white;
+  padding-top: 10px;
+}
 .charts {
+  margin: 25px 13px;
   display: inline-block;
   width: 100%;
-  margin-top: 20px;
   // padding: 0px 24px;
   .left {
     padding: 25px;
