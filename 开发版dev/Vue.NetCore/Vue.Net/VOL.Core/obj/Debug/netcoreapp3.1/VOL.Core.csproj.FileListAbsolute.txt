@@ -1,0 +1,11 @@
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\obj\Debug\netcoreapp3.1\VOL.Core.csprojAssemblyReference.cache
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\obj\Debug\netcoreapp3.1\VOL.Core.AssemblyInfoInputs.cache
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\obj\Debug\netcoreapp3.1\VOL.Core.AssemblyInfo.cs
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\bin\Debug\netcoreapp3.1\VOL.Core.deps.json
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\bin\Debug\netcoreapp3.1\VOL.Core.dll
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\bin\Debug\netcoreapp3.1\VOL.Core.pdb
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\bin\Debug\netcoreapp3.1\VOL.Entity.dll
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\bin\Debug\netcoreapp3.1\VOL.Entity.pdb
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\obj\Debug\netcoreapp3.1\VOL.Core.csproj.CopyComplete
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\obj\Debug\netcoreapp3.1\VOL.Core.dll
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Core\obj\Debug\netcoreapp3.1\VOL.Core.pdb

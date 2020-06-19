@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!-- <meta id="viewport" name="viewport"
+   content="width=device-width,initial-scale=1,minimum-scale=1,
+   maximum-scale=1,user-scalable=no,viewport-fit=cover"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>vol-vue</title>
+  <style type="text/css">
+    #vue-loading{position:fixed;top:0;left:0;width:100%;height:100%;overflow:hidden;background:#49a9ee;z-index:9999;transition:opacity 0.65s;}#vue-loading .loading-message{font-size:20px;}.loading-container-hidden-add{opacity:1;display:block;}.loading-container-hidden-add-active{opacity:0;}.loading-container-hidden{display:none;}.loading-box{position:absolute;top:0;left:0;height:100%;width:100%;}.loading-box-inner{transform:translateY(-50%);top:50%;position:absolute;width:100%;color:#fff;text-align:center;}.loading-box-inner label{font-size:20px;opacity:0;display:inline-block;}@keyframes lol{0%{opacity:0;transform:translateX(-300px);}33%{opacity:1;transform:translateX(0);}66%{opacity:1;transform:translateX(0);}100%{opacity:0;transform:translateX(300px);}}.loading-box-inner label:nth-child(6){animation:lol 3s infinite ease-in-out;}.loading-box-inner label:nth-child(5){animation:lol 3s 0.1s infinite ease-in-out;}.loading-box-inner label:nth-child(4){animation:lol 3s 0.2s infinite ease-in-out;}.loading-box-inner label:nth-child(3){animation:lol 3s 0.3s infinite ease-in-out;}.loading-box-inner label:nth-child(2){animation:lol 3s 0.4s infinite ease-in-out;}.loading-box-inner label:nth-child(1){animation:lol 3s 0.5s infinite ease-in-out;}
+  </style>
+</head>
+
+<body style="margin: 0px;">
+  <div class="loading-container" id="vue-loading">
+    <div class="loading-box">
+      <div class="loading-box-inner">
+        <div class="loading-message">
+          <div>正在加载资源,请稍后...</div>
+        </div>
+        <label>●</label>
+        <label>●</label>
+        <label>●</label>
+        <label>●</label>
+        <label>●</label>
+        <label>●</label>
+      </div>
+    </div>
+  </div>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <div id="loading-container" style="position: unset !important;"></div>
+</body>
+
+</html>
+<style>
+  body html,
+  #app {
+    height: 100%;
+  }
+</style>

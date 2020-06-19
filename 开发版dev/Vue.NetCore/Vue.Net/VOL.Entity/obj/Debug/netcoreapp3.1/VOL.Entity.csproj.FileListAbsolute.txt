@@ -1,0 +1,8 @@
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Entity\bin\Debug\netcoreapp3.1\VOL.Entity.deps.json
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Entity\bin\Debug\netcoreapp3.1\VOL.Entity.dll
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Entity\bin\Debug\netcoreapp3.1\VOL.Entity.pdb
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Entity\obj\Debug\netcoreapp3.1\VOL.Entity.csprojAssemblyReference.cache
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Entity\obj\Debug\netcoreapp3.1\VOL.Entity.AssemblyInfoInputs.cache
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Entity\obj\Debug\netcoreapp3.1\VOL.Entity.AssemblyInfo.cs
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Entity\obj\Debug\netcoreapp3.1\VOL.Entity.dll
+E:\GitHub2019\开发版dev\Vue.NetCore\Vue.Net\VOL.Entity\obj\Debug\netcoreapp3.1\VOL.Entity.pdb

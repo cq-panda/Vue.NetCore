@@ -1,0 +1,54 @@
+﻿<!--
+*Author：jxx
+ *Contact：283591387@qq.com
+ *代码由框架生成,任何更改都可能导致被代码生成器覆盖
+ *业务请在@/extension/#folder/#TableName.js此处编写
+ -->
+<template>
+    <div>
+        <view-grid :columns="columns"
+                   :detail="detail"
+                   :editFormFileds="editFormFileds"
+                   :editFormOptions="editFormOptions"
+                   :searchFormFileds="searchFormFileds"
+                   :searchFormOptions="searchFormOptions"
+                   :table="table"
+                   :extend="extend">
+        </view-grid>
+    </div>
+</template>
+
+<script>
+    import extend from "@/extension/#folder/#TableName.js";
+    import ViewGrid from "@/components/basic/ViewGrid.vue";
+    var vueParam = {
+        components: {
+            ViewGrid
+        },
+        data() {
+            return {
+                table: {
+                    key: '#key',
+                    footer: "Foots",
+                    cnName: '#cnName',
+                    name: '#TableName',
+                    url: "#url",
+                    sortName: "#SortName"
+                },
+                extend: extend,
+                editFormFileds: #editFormFileds,
+                editFormOptions: #editFormOptions,
+                searchFormFileds: #searchFormFileds,
+                searchFormOptions: #searchFormOptions,
+                columns: [#columns],
+                detail: {
+                    cnName:"#detailCnName",
+                    columns: [#detailColumns],
+                    sortName: "#detailSortName",
+                    key:"#detailKey"
+                }
+            };
+        }
+    };
+    export default vueParam;
+</script>

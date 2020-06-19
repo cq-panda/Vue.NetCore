@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName></SccProjectName>
+    <SccProvider></SccProvider>
+    <SccAuxPath></SccAuxPath>
+    <SccLocalPath></SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DomainModels\CJoin\**" />
+    <Compile Remove="DomainModels\Comment\**" />
+    <Compile Remove="DomainModels\Message\**" />
+    <Compile Remove="DomainModels\My\**" />
+    <Compile Remove="DomainModels\Other\**" />
+    <Compile Remove="DomainModels\Price\**" />
+    <Compile Remove="DomainModels\Technical\**" />
+    <Compile Remove="MappingConfiguration\Core\**" />
+    <Compile Remove="MappingConfiguration\Feedback\**" />
+    <Compile Remove="MappingConfiguration\Message\**" />
+    <Compile Remove="MappingConfiguration\My\**" />
+    <Compile Remove="MappingConfiguration\Technical\**" />
+    <EmbeddedResource Remove="DomainModels\CJoin\**" />
+    <EmbeddedResource Remove="DomainModels\Comment\**" />
+    <EmbeddedResource Remove="DomainModels\Message\**" />
+    <EmbeddedResource Remove="DomainModels\My\**" />
+    <EmbeddedResource Remove="DomainModels\Other\**" />
+    <EmbeddedResource Remove="DomainModels\Price\**" />
+    <EmbeddedResource Remove="DomainModels\Technical\**" />
+    <EmbeddedResource Remove="MappingConfiguration\Core\**" />
+    <EmbeddedResource Remove="MappingConfiguration\Feedback\**" />
+    <EmbeddedResource Remove="MappingConfiguration\Message\**" />
+    <EmbeddedResource Remove="MappingConfiguration\My\**" />
+    <EmbeddedResource Remove="MappingConfiguration\Technical\**" />
+    <None Remove="DomainModels\CJoin\**" />
+    <None Remove="DomainModels\Comment\**" />
+    <None Remove="DomainModels\Message\**" />
+    <None Remove="DomainModels\My\**" />
+    <None Remove="DomainModels\Other\**" />
+    <None Remove="DomainModels\Price\**" />
+    <None Remove="DomainModels\Technical\**" />
+    <None Remove="MappingConfiguration\Core\**" />
+    <None Remove="MappingConfiguration\Feedback\**" />
+    <None Remove="MappingConfiguration\Message\**" />
+    <None Remove="MappingConfiguration\My\**" />
+    <None Remove="MappingConfiguration\Technical\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DomainModels\ApiEntity\OutPut\" />
+    <Folder Include="System\" />
+  </ItemGroup>
+
+</Project>

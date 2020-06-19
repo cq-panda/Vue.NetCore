@@ -23,3 +23,8 @@
 /Vol.Vue/dist
 /Vue.Net/VOL.WebApi/wwwroot/Upload/
 /Vue.Net/VOL.Web
+/开发版dev/Vue.NetCore/Vol.Vue/node_modules
+/开发版dev/Vue.NetCore/Vue.Net/VOL.System/bin
+/开发版dev/Vue.NetCore/Vue.Net/VOL.WebApi/bin
+/开发版dev/Vue.NetCore/Vue.Net/VOL.Entity/bin
+/开发版dev/Vue.NetCore/Vue.Net/VOL.Builder/bin

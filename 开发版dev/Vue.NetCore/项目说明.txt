@@ -1,0 +1,12 @@
+Vol.Vue：为前端项目
+Vol.Net：为后台项目(VOL.Web现在已不可用，后面会重新开发，目前使用的VOL.WebApi作为后端接口)
+
+DB提供了mysql与sqlserver数据库脚本，脚本里包括表结构与Insert数据
+执行脚本时，先提前创建一个数据库，数据库名：netcoredev
+
+如果使用的是sqlserver2012以下的版本AutofacContainerModuleExtension.cs类中:
+ optionsBuilder.UseSqlServer(connectionString);
+替换为
+ optionsBuilder.UseSqlServer(connectionString,sqlOption=>sqlOption.UseRowNumberForPaging());
+
+

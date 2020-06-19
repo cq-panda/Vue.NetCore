@@ -1,0 +1,7 @@
+1、mysql日志批量写入失败提示:The used command is not allowed with this MySQL version
+     解决办法：在数据库中执行:set global local_infile = 'ON';
+
+
+2、日志批量写入数据时出错:To use MySq1Bu1kLoader. Loca1=true, set AllowLoadLocalInfile =true in the connection string.
+      解决办法：在后台项目appsettings.json中找到mysql数据库链接配置中添加：AllowLoadLocalInfile =true
+

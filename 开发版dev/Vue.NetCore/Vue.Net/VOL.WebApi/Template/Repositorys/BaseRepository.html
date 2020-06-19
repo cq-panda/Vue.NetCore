@@ -1,0 +1,24 @@
+﻿/*
+ *代码由框架生成,任何更改都可能导致被代码生成器覆盖
+ *Repository提供数据库操作，如果要增加数据库操作请在当前目录下Partial文件夹{TableName}Repository编写代码
+ */
+using {Namespace}.IRepositories;
+using {StartName}.Core.BaseProvider;
+using {StartName}.Core.EFDbContext;
+using {StartName}.Core.Extensions.AutofacManager;
+using {StartName}.Entity.DomainModels;
+
+namespace {Namespace}.Repositories
+{
+    public partial class {TableName}Repository : RepositoryBase<{TableName}> , I{TableName}Repository
+    {
+    public {TableName}Repository(VOLContext dbContext)
+    : base(dbContext)
+    {
+
+    }
+    public static I{TableName}Repository Instance
+    {
+      get {  return AutofacContainerModule.GetService<I{TableName}Repository>(); } }
+    }
+}
