@@ -68,12 +68,9 @@
               </div>
             </div>
             <div style="loging-btn">
-              <Button size="large" type="info" @click="login" long>登陆</Button>
-            </div>
-            <div style="loging-btn">
               <Button size="large" :loading="loading" type="info" @click="login" long>
                 <span v-if="!loading">登陆</span>
-                <span v-else>正在登陆'...</span>
+                <span v-else>正在登陆...</span>
               </Button>
             </div>
             <div class="action">
