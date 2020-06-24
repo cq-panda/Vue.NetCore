@@ -68,7 +68,7 @@
                     <Option
                       v-for="(kv,kvIndex) in getData(item)"
                       :key="kvIndex"
-                      :value="kv.key||''"
+                      :value="kv.key"
                     >{{kv.value}}</Option>
                   </Select>
                   <Select
@@ -84,7 +84,7 @@
                     <Option
                       v-for="(kv,kvIndex) in item.data"
                       :key="kvIndex"
-                      :value="kv.key||''"
+                      :value="kv.key"
                     >{{kv.value}}</Option>
                   </Select>
                 </template>
@@ -806,7 +806,7 @@ export default {
           trigger: "change",
           type: this.types[item.columnType],
           validator: (rule, value, callback) => {
-            if (value == undefined || value == "") {
+            if (value == undefined || value === "") {
               return callback(new Error(rule.message));
             }
             return callback();
