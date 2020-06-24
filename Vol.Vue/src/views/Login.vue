@@ -70,7 +70,12 @@
             <div style="loging-btn">
               <Button size="large" type="info" @click="login" long>登陆</Button>
             </div>
-
+            <div style="loging-btn">
+              <Button size="large" :loading="loading" type="info" @click="login" long>
+                <span v-if="!loading">登陆</span>
+                <span v-else>正在登陆'...</span>
+              </Button>
+            </div>
             <div class="action">
               <a @click="()=>{}">注册</a>
               <a @click="()=>{}">忘记密码</a>
@@ -94,6 +99,7 @@
 export default {
   data() {
     return {
+      loading: false,
       codeImgSrc: "",
       userInfo: {
         userName: "",
@@ -138,11 +144,12 @@ export default {
         this.userInfo.verificationCode.trim() == ""
       )
         return this.$Message.error("请输入验证码");
-
+      this.loading = true;
       this.http
         .post("/api/user/login", this.userInfo, "正在登陆....")
         .then(result => {
           if (!result.status) {
+            this.loading = false;
             this.getVierificationCode();
             return this.$Message.error(result.message);
           }
