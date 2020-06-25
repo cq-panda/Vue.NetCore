@@ -151,19 +151,16 @@ namespace VOL.Core.BaseProvider
                 x.DisplayType = x.DisplayType.GetDBCondition();
                 if (string.IsNullOrEmpty(x.Value))
                 {
-                    //  searchParametersList.Remove(x);
                     continue;
                 }
-
                 PropertyInfo property = TProperties.Where(c => c.Name.ToUpper() == x.Name.ToUpper()).FirstOrDefault();
+                //2020.06.25增加字段null处理
+                if (property == null) continue;
                 // property
                 //移除查询的值与数据库类型不匹配的数据
-                // x.Value = string.Join(",", dbType.ValidationVal(x.Value.Split(',')).Where(q => q != ""));
                 object[] values = property.ValidationValueForDbType(x.Value.Split(',')).Where(q => q.Item1).Select(s => s.Item3).ToArray();
-                // if (string.IsNullOrEmpty(x.Value))
                 if (values == null || values.Length == 0)
                 {
-                    //   searchParametersList.Remove(x);
                     continue;
                 }
                 if (x.DisplayType == HtmlElementType.Contains)
@@ -173,7 +170,6 @@ namespace VOL.Core.BaseProvider
                               ? queryable.Where(x.Name.CreateExpression<T>(values, expressionType))
                               : queryable.Where(x.Name.CreateExpression<T>(x.Value, expressionType));
             }
-            //   options.Wheres = searchParametersList.GetEntitySql();
             options.TableName = base.TableName ?? typeof(T).Name;
             return options;
         }
@@ -327,7 +323,7 @@ namespace VOL.Core.BaseProvider
             if (!Directory.Exists(dicPath)) Directory.CreateDirectory(dicPath);
             string fileName = tableName + DateTime.Now.ToString("yyyyMMddHHssmm") + ".xlsx";
             //DownLoadTemplateColumns 2020.05.07增加扩展指定导出模板的列
-            EPPlusHelper.ExportTemplate<T>(DownLoadTemplateColumns,GetIgnoreTemplate(), dicPath, fileName);
+            EPPlusHelper.ExportTemplate<T>(DownLoadTemplateColumns, GetIgnoreTemplate(), dicPath, fileName);
             return Response.OK(null, dicPath + fileName);
         }
 
