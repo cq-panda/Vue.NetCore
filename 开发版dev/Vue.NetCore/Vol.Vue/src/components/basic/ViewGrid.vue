@@ -398,6 +398,8 @@ var vueParam = {
     }
   },
   activated() {
+    //2020.06.25增加activated方法
+    this.onActivated && this.onActivated();
     if (!this._inited) {
       this._inited = true;
       return;
@@ -405,10 +407,6 @@ var vueParam = {
     if (this.activatedLoad) {
       this.refresh();
     }
-    // console.log("activated");
-    // //  this.$options.components.modelHeader.template =
-    // //   '<Alert type="success">88767</Alert>';
-    //合并扩展组件、弹出框新建编辑页面自定义扩展组件或组件路径
     this.mergeComponents();
   },
   mounted() {
