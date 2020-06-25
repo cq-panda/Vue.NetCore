@@ -76,6 +76,9 @@ let serviceFilter = {
     },
     reloadDicSource() { //重新加载字典绑定的数据源
         this.initDicKeys();
+    },
+    exportBefore(param) { //2020.06.25增加导出前处理
+       return true;
     }
 
 }

@@ -686,7 +686,12 @@ let methods = {
     //导出
     let url = this.getUrl(this.const.EXPORT);
     let query = this.getSearchParameters();
-    let param = { order: this.pagination.order, wheres: query.wheres };
+    let param = { order: this.pagination.order, wheres: query.wheres || [] };
+    //2020.06.25增加导出前处理
+    if (!this.exportBefore(param)) {
+      return;
+    }
+
     if (param.wheres && typeof param.wheres == "object") {
       param.wheres = JSON.stringify(param.wheres);
     }
@@ -878,8 +883,8 @@ let methods = {
         } else {
           //2020.06.06，如果是selectList数据源使用的自定义sql并且key是数字，强制转换成字符串
           if (x.e_type == "selectList" && d.data.length > 0 && typeof d.data[0].key == "number") {
-            d.data.forEach(c=>{
-              c.key=c.key+"";
+            d.data.forEach(c => {
+              c.key = c.key + "";
             })
           }
           x.data.push(...d.data);

@@ -547,7 +547,17 @@ let param = {
                 },
                 onActivated() { <span style="color: #008000;">//重新加载字典绑定的数据源(如果需要每次点击页面时刷新字典数据源，直接将整个方法添加到js的methods中即可使用)</span>
                 &nbsp;&nbsp;&nbsp; <span style="color: #0000ff;">this</span>.initDicKeys();
-                }
+                },
+               exportBefore(param) {
+                  &nbsp; //添加自定义导出查询条件
+                  &nbsp; // let wheres = [{
+                  &nbsp; //&nbsp; &nbsp;'name': '字段名',
+                  &nbsp; //&nbsp; &nbsp;'value': '查询的值',
+                  &nbsp; //&nbsp; &nbsp;'displayType': 'like'//设置为模糊查询
+                  &nbsp; // }]
+                  &nbsp; // param.wheres.push(...wheres);
+                  &nbsp; return true;//返回false会中断执行
+                 }<span style="display:none;"></span>
 
             }
         };
