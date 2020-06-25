@@ -134,6 +134,7 @@ DISTINCT
         CASE
                  WHEN data_type IN( 'BIT', 'BOOL','bit', 'bool') THEN
                 'bool'
+                 WHEN data_type in('smallint','SMALLINT') THEN 'short'
 				WHEN data_type in('tinyint', 'TINYINT') THEN 'sbyte'
                 WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN
                 'int'
@@ -963,6 +964,7 @@ DISTINCT
                         CASE
                           WHEN data_type IN( 'BIT', 'BOOL', 'bit', 'bool') THEN
                 'bool'
+		             WHEN data_type in('smallint','SMALLINT') THEN 'short'
 								WHEN data_type in('tinyint','TINYINT') THEN 'sbyte'
                         WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN
                     'int'
