@@ -12,7 +12,7 @@
     </div>
     <div class="vol-container">
       <div class="vol-header">
-        <span class="header-text">支持前端、后台业务代码扩展的快速开发框架</span>
+        <span class="header-text">支持业务代码扩展的快速开发框架</span>
         <div class="header-info">
           <div class="h-link">
             <ul>
@@ -112,6 +112,7 @@ export default {
       date: "",
       theme: "blue",
       links: [
+        { text: "大屏数据", path: "/bigdata", id: -3 },
         { text: "框架文档", path: "/document", id: -2 },
         { text: "GitHub", path: "#", id: -3 },
         { text: "个人中心", path: "/UserInfo", id: -1 },

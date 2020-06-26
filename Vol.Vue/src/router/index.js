@@ -22,6 +22,11 @@ const router = new Router({
     ...h5,
     ...documents,
     {
+      path: '/bigdata',
+      name: 'bigdata',
+      component: () => import('@/views/charts/bigdata.vue')
+    },
+    {
       path: '*',
       component: () => import('@/views/redirect/404.vue')
     },
@@ -75,7 +80,6 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
-  store.getters.getUserInfo()
   if (to.matched.length == 0) return next({ path: '/404' });
   //2020.06.03增加路由切换时加载提示
   store.dispatch("onLoading", true);
