@@ -337,6 +337,7 @@ body {
 
 .vol-aside .vol-menu >>> .ivu-menu {
   text-align: left;
+  position: unset;
   width: 100% !important;
 }
 .vol-container {

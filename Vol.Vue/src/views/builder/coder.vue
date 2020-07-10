@@ -11,9 +11,7 @@
       <Button slot="footer" type="info" @click="add">确 认</Button>
     </vol-box>
     <div class="builder-left">
-      <div class="module-name">
-        <i class="ivu-icon ivu-icon-ios-chatbubbles"></i>配置菜单列表
-      </div>
+      <div class="module-name">代码生成配置</div>
       <!-- <Alert class="module-name">
         <i class="ivu-icon ivu-icon-ios-chatbubbles"></i>配置菜单列表
       </Alert>-->
@@ -562,12 +560,12 @@ export default {
   padding: 0px 15px;
 }
 .module-name {
-  border: 1px solid #7d7c7c;
-  color: white;
-  font-size: 16px;
-  line-height: 41px;
-  padding-left: 24px;
-  background: #7b7b7b;
+  color: #2d8cf0;
+  font-size: 13px;
+  line-height: 39px;
+  padding-left: 15px;
+  border: 1px solid #abdcff;
+  background-color: #f0faff;
 }
 .module-name >>> .ivu-alert-icon {
   top: 12px;

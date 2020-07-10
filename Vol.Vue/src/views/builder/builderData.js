@@ -1,6 +1,7 @@
 let columnType = [{ "key": 1, "value": "img" },
-{ "key": 2, "value": "excel" },
-{ "key": 3, "value": "file" }]
+    { "key": 2, "value": "excel" },
+    { "key": 3, "value": "file" }
+]
 
 let dataType = [
     { "key": "text", "value": "text" },
@@ -18,7 +19,8 @@ let dataType = [
     { "key": "phone", "value": "phone" },
     { "key": "img", "value": "img" },
     { "key": "excel", "value": "excel" },
-    { "key": "file", "value": "file" }];
+    { "key": "file", "value": "file" }
+];
 
 let searchDataType = [
     { "key": "text", "value": "text" },
@@ -33,31 +35,54 @@ let searchDataType = [
     { "key": "mail", "value": "mail" },
     { "key": "number", "value": "number" },
     { "key": "decimal", "value": "decimal" },
-    { "key": "phone", "value": "phone" }];
+    { "key": "phone", "value": "phone" }
+];
 let data = {
     form: {
         fields: {
-            table_Id: '', parentId: 0, namespace: '',
-            columnCNName: '', tableName: '', tableTrueName: '',
-            folderName: '', detailCnName: '', detailName: '',
-            expressField: '', sortName: '', richtitle: '',
-            uploadField: '', uploadMaxCount: '', enable: 0, vuePath: '',
+            table_Id: '',
+            parentId: 0,
+            namespace: '',
+            columnCNName: '',
+            tableName: '',
+            tableTrueName: '',
+            folderName: '',
+            detailCnName: '',
+            detailName: '',
+            expressField: '',
+            sortName: '',
+            richtitle: '',
+            uploadField: '',
+            uploadMaxCount: '',
+            enable: 0,
+            vuePath: '',
             userPermissionDesc: '开启后当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作'
         },
-        addOptions: [[{ "title": "父级ID", min: 0, "field": "parentId", "required": true, type: 'number' }],
-        [{
-            "title": "项目命名空间", "field": "namespace", "placeholder": "项目命令空间(类库名)", "type": "select", "required": true, data: []
-        }],
-        [{ "title": "表中文名", "field": "columnCNName", "required": true }],
-        [{ "title": "实际表名", "field": "tableName", "required": true }],
-        [{ "title": "项目文件夹", placeholder: "生成文件所在类库中的文件夹名(文件夹可以不存在)", "field": "folderName", "required": true }]]
-        ,
+        addOptions: [
+            [{ "title": "父级ID", min: 0, "field": "parentId", "required": true, type: 'number' }],
+            [{
+                "title": "项目命名空间",
+                "field": "namespace",
+                "placeholder": "项目命令空间(类库名)",
+                "type": "select",
+                "required": true,
+                data: []
+            }],
+            [{ "title": "表中文名", "field": "columnCNName", "required": true }],
+            [{ "title": "实际表名", "field": "tableName", "required": true }],
+            [{ "title": "项目文件夹", placeholder: "生成文件所在类库中的文件夹名(文件夹可以不存在)", "field": "folderName", "required": true }]
+        ],
         options: [
             [
                 { "title": "ID", "field": "table_Id", "dataSource": [], readonly: true, disabled: true, columnType: 'int' },
                 { "title": "父级ID", "field": "parentId", min: 0, "required": true, type: 'number' },
                 {
-                    "title": "项目命名空间", "placeholder": "项目命令空间(类库名)", "field": "namespace", "type": "select", "required": true, data: []
+                    "title": "项目类库",
+                    "placeholder": "代码生成存放的位置",
+                    "field": "namespace",
+                    "type": "select",
+                    "required": true,
+                    data: []
                 }
             ],
             [
@@ -91,7 +116,8 @@ let data = {
             //     { "title": "Vue视图绝对路径", "field": "vuePath", "displayType": "title", colSize: 12, placeholder: 'Vue项目所在绝对路径,到views文件夹,如：E:/app/src/views' },
             // ]
         ]
-    }, columns: [
+    },
+    columns: [
         { field: 'columnId', title: 'ColumnId', width: 120, align: 'left', edit: { type: "text" }, hidden: true },
         { field: 'table_Id', title: 'Table_Id', width: 120, align: 'left', editor: 'text', hidden: true },
         { field: 'columnCnName', title: '列显示名称', fixed: true, width: 120, align: 'left', edit: { type: "text" } },

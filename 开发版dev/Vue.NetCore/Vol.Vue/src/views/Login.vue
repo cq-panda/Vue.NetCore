@@ -176,7 +176,7 @@ export default {
 .content {
   display: flex;
   z-index: 99;
-  position: absolute;
+  position: relative;
   width: 1000px;
   left: 0;
   right: 0;
