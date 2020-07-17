@@ -109,7 +109,7 @@
                       :format="item.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
                       :placeholder="item.placeholder||item.title"
                       :value="formFileds[item.field]"
-                      @on-change="(time)=>{formFileds[item.field]=time; return time}"
+                      @on-change="(time)=>{formFileds[item.field]=time; validateField(item); return time}"
                     ></DatePicker>
                   </FormItem>
                 </Col>
@@ -518,20 +518,34 @@ export default {
       //  this.remoteCall = true;
     },
     validate(callback) {
-      //表单验证回调方法callback
-      let result = false;
-      this.$refs["formValidate"].validate(valid => {
-        if (!valid) {
-          this.$Message.error("数据验证未通过!");
-          result = false;
-        } else {
-          result = true;
-        }
-        if (result && typeof callback == "function") {
-          callback(valid);
-        }
+      //2020.07.17开启表单强制同步验证
+      let result = true;
+      let fields = this.$refs.formValidate.fields;
+      fields.forEach(field => {
+        field.validate("", error => {
+          if (error) {
+            result = false;
+          }
+        });
       });
+      if (!result) {
+        this.$Message.error("数据验证未通过!");
+      } else if (typeof callback == "function") {
+        callback(result);
+      }
       return result;
+      // this.$refs["formValidate"].validate(valid => {
+      //   if (!valid) {
+      //     this.$Message.error("数据验证未通过!");
+      //     result = false;
+      //   } else {
+      //     result = true;
+      //   }
+      //   if (result && typeof callback == "function") {
+      //     callback(valid);
+      //   }
+      // });
+      // return result;
     },
     getReuired(rule, item) {},
     initUpload(item, init) {
@@ -769,7 +783,6 @@ export default {
           type: "string"
         };
       }
-      //日期验证还有点问题
       if (item.type == "date" || item.type == "datetime") {
         return {
           // required: true, type:  this.types[item.columnType], message:"请选择" + item.title, trigger: 'change'
@@ -833,6 +846,17 @@ export default {
       return arr;
       console.log(arr);
       return arr || [];
+    },
+    validateField(item, callback) {
+      //2020.07.17增加对日期onchange时校验
+      let fields = this.$refs.formValidate.fields;
+      fields.forEach(field => {
+        if (field.prop == item.field) {
+          field.validate("", error => {
+            console.log(error);
+          });
+        }
+      });
     }
   }
 };
