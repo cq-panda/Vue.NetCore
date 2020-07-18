@@ -21,8 +21,9 @@ namespace VOL.Core.CacheManager
         /// </summary>
         /// <param name="key"></param>
         /// <param name="val"></param>
-        void ListLeftPush(string key, string val);
+        void LPush(string key, string val);
 
+        void RPush(string key, string val);
         /// <summary>
         /// List出队 lpop
         /// </summary>
@@ -53,9 +54,9 @@ namespace VOL.Core.CacheManager
         /// <param name="expiresIn">缓存时长</param>
         /// <param name="isSliding">是否滑动过期（如果在过期时间内有操作，则以当前时间点延长过期时间） //new TimeSpan(0, 60, 0);</param>
         /// <returns></returns>
-        bool AddObject(string key, object value, TimeSpan? expiresIn=null, bool isSliding = false);
+        bool AddObject(string key, object value, int expireSeconds = -1, bool isSliding = false);
 
-        bool Add(string key, string value, TimeSpan? expiresIn=null, bool isSliding = false);
+        bool Add(string key, string value, int expireSeconds = -1, bool isSliding = false);
 
         /// <summary>
         /// 删除缓存
@@ -90,47 +91,5 @@ namespace VOL.Core.CacheManager
         /// <param name="key">缓存Key</param>
         /// <returns></returns>
         string Get(string key);
-
-
-        /// <summary>
-        /// 获取缓存集合
-        /// </summary>
-        /// <param name="keys">缓存Key集合</param>
-        /// <returns></returns>
-        IDictionary<string, object> GetAll(IEnumerable<string> keys);
-
-
-        /// <summary>
-        /// 修改缓存
-        /// </summary>
-        /// <param name="key">缓存Key</param>
-        /// <param name="value">新的缓存Value</param>
-        /// <returns></returns>
-        bool Replace(string key, object value);
-
-
-        /// <summary>
-        /// 修改缓存
-        /// </summary>
-        /// <param name="key">缓存Key</param>
-        /// <param name="value">新的缓存Value</param>
-        /// <param name="expiresSliding">滑动过期时长（如果在过期时间内有操作，则以当前时间点延长过期时间）</param>
-        /// <param name="expiressAbsoulte">绝对过期时长</param>
-        /// <returns></returns>
-        bool Replace(string key, object value, TimeSpan expiresSliding, TimeSpan expiressAbsoulte);
-
-
-
-        /// <summary>
-        /// 修改缓存
-        /// </summary>
-        /// <param name="key">缓存Key</param>
-        /// <param name="value">新的缓存Value</param>
-        /// <param name="expiresIn">缓存时长</param>
-        /// <param name="isSliding">是否滑动过期（如果在过期时间内有操作，则以当前时间点延长过期时间）</param>
-        /// <returns></returns>
-        bool Replace(string key, object value, TimeSpan expiresIn, bool isSliding = false);
-
-
     }
 }
