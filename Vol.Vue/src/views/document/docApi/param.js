@@ -52,7 +52,7 @@ let param = {
         { name: "maxRows", desc: "textarea标签最大高度", type: "number", default: "10" },
         { name: "}]]", desc: "表单字段formRules的参数配置说明", type: "", default: "" },
         { name: "表单重置", desc: "表单重置使用：this.$refs.你的ref名字.reset()", type: "", default: "" },
-        { name: "表单验证", desc: "表单验证使用：this.$refs.你的ref名字.validate()，返回值bool", type: "", default: "" },
+        { name: "表单验证", desc: "表单验证使用：this.$refs.myform.validate(()=>{}),只有验证通过才会执行回调", type: "", default: "" },
         { name: "数据槽slot", desc: "可以在表单的第一行第前使用<div name='header'></div>或最后一行<div name='footer'></div>", type: "", default: "" }],
         methods: []
     }, header: {
