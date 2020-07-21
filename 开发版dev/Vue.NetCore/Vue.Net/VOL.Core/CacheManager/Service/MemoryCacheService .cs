@@ -48,13 +48,15 @@ namespace VOL.Core.CacheManager
             return Exists(key);
         }
 
-        public bool AddObject(string key, object value, TimeSpan? expiresIn = null, bool isSliding = false)
+        public bool AddObject(string key, object value, int expireSeconds = -1, bool isSliding = false)
         {
-            if (expiresIn != null)
+            if (expireSeconds != -1)
             {
-                _cache.Set(key, value,
-             new MemoryCacheEntryOptions()
-             .SetSlidingExpiration((TimeSpan)expiresIn));
+                _cache.Set(key,
+                    value,
+                    new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(new TimeSpan(0, 0, expireSeconds))
+                    );
             }
             else
             {
@@ -63,13 +65,15 @@ namespace VOL.Core.CacheManager
 
             return true;
         }
-        public bool Add(string key, string value, TimeSpan? expiresIn = null, bool isSliding = false)
+        public bool Add(string key, string value, int expireSeconds = -1, bool isSliding = false)
         {
-            return AddObject(key, value, expiresIn, isSliding);
+            return AddObject(key, value, expireSeconds, isSliding);
         }
-        public void ListLeftPush(string key, string val)
+        public void LPush(string key, string val)
         {
-
+        }
+        public void RPush(string key, string val)
+        {
         }
         public T ListDequeue<T>(string key) where T : class
         {
@@ -92,14 +96,6 @@ namespace VOL.Core.CacheManager
         /// <returns></returns>
         public bool Add(string key, object value, TimeSpan expiresSliding, TimeSpan expiressAbsoulte)
         {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
             _cache.Set(key, value,
                     new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(expiresSliding)
@@ -118,14 +114,6 @@ namespace VOL.Core.CacheManager
         /// <returns></returns>
         public bool Add(string key, object value, TimeSpan expiresIn, bool isSliding = false)
         {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
             if (isSliding)
                 _cache.Set(key, value,
                     new MemoryCacheEntryOptions()
@@ -189,95 +177,6 @@ namespace VOL.Core.CacheManager
             return _cache.Get(key) as T;
         }
 
-
-
-        /// <summary>
-        /// 获取缓存集合
-        /// </summary>
-        /// <param name="keys">缓存Key集合</param>
-        /// <returns></returns>
-        public IDictionary<string, object> GetAll(IEnumerable<string> keys)
-        {
-            if (keys == null)
-            {
-                throw new ArgumentNullException(nameof(keys));
-            }
-
-            var dict = new Dictionary<string, object>();
-
-            keys.ToList().ForEach(item => dict.Add(item, _cache.Get(item)));
-
-            return dict;
-        }
-
-        /// <summary>
-        /// 修改缓存
-        /// </summary>
-        /// <param name="key">缓存Key</param>
-        /// <param name="value">新的缓存Value</param>
-        /// <returns></returns>
-        public bool Replace(string key, object value)
-        {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-            if (Exists(key))
-                if (!Remove(key)) return false;
-
-            return Add(key, value);
-
-        }
-        /// <summary>
-        /// 修改缓存
-        /// </summary>
-        /// <param name="key">缓存Key</param>
-        /// <param name="value">新的缓存Value</param>
-        /// <param name="expiresSliding">滑动过期时长（如果在过期时间内有操作，则以当前时间点延长过期时间）</param>
-        /// <param name="expiressAbsoulte">绝对过期时长</param>
-        /// <returns></returns>
-        public bool Replace(string key, object value, TimeSpan expiresSliding, TimeSpan expiressAbsoulte)
-        {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-            if (Exists(key))
-                if (!Remove(key)) return false;
-
-            return Add(key, value, expiresSliding, expiressAbsoulte);
-        }
-        /// <summary>
-        /// 修改缓存
-        /// </summary>
-        /// <param name="key">缓存Key</param>
-        /// <param name="value">新的缓存Value</param>
-        /// <param name="expiresIn">缓存时长</param>
-        /// <param name="isSliding">是否滑动过期（如果在过期时间内有操作，则以当前时间点延长过期时间）</param>
-        /// <returns></returns>
-        public bool Replace(string key, object value, TimeSpan expiresIn, bool isSliding = false)
-        {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-            if (Exists(key))
-                if (!Remove(key)) return false;
-
-            return Add(key, value, expiresIn, isSliding);
-        }
         public void Dispose()
         {
             if (_cache != null)

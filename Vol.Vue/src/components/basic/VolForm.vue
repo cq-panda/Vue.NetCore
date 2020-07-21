@@ -518,34 +518,17 @@ export default {
       //  this.remoteCall = true;
     },
     validate(callback) {
-      //2020.07.17开启表单强制同步验证
       let result = true;
-      let fields = this.$refs.formValidate.fields;
-      fields.forEach(field => {
-        field.validate("", error => {
-          if (error) {
+      this.$refs["formValidate"]
+        .validate(valid => {
+          if (!valid) {
+            this.$Message.error("数据验证未通过!");
             result = false;
+          } else if (typeof callback == "function") {
+            callback(valid);
           }
-        });
-      });
-      if (!result) {
-        this.$Message.error("数据验证未通过!");
-      } else if (typeof callback == "function") {
-        callback(result);
-      }
+        })
       return result;
-      // this.$refs["formValidate"].validate(valid => {
-      //   if (!valid) {
-      //     this.$Message.error("数据验证未通过!");
-      //     result = false;
-      //   } else {
-      //     result = true;
-      //   }
-      //   if (result && typeof callback == "function") {
-      //     callback(valid);
-      //   }
-      // });
-      // return result;
     },
     getReuired(rule, item) {},
     initUpload(item, init) {
