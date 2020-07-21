@@ -20,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using VOL.AppManager.IRepositories;
 
 namespace VOL.AppManager.Services
 {
@@ -170,7 +171,6 @@ namespace VOL.AppManager.Services
             //取出校验完成后的从表1.2的数据
             TableExtra tableExtra = _webResponse.Data as TableExtra;
 
-
             //保存到数据库前
             UpdateOnExecuting = (App_ReportPrice price, object obj, object obj2, List<object> list) =>
            {
@@ -181,6 +181,36 @@ namespace VOL.AppManager.Services
             UpdateOnExecuted = (App_ReportPrice price, object obj, object obj2, List<object> list) =>
             {
                 //在此操作tableExtra从表信息
+                List<App_News> newsList = tableExtra.Table1List.Select(s => new App_News
+                {
+                    Id = s.Id ?? 0,
+                    Title = s.Title,
+                    ImageUrl = s.ImageUrl
+                }).ToList();
+
+                //id=0的默认为新增的数据
+                List<App_News> addList = newsList.Where(x => x.Id == 0).ToList();
+                //设置默认创建人信息
+                addList.ForEach(x => { x.SetCreateDefaultVal(); });
+
+                //获取所有编辑行
+                List<int> editIds = newsList.Where(x => x.Id > 0).Select(s => s.Id).ToList();
+                addList.ForEach(x => { x.SetModifyDefaultVal(); });
+                //从数据库查询编辑的行是否存在，如果数据库不存在，执行修改操作会异常
+                List<int> existsIds = App_NewsRepository.Instance.FindAsIQueryable(x => editIds.Contains(x.Id)).Select(s => s.Id).ToList();
+
+                //获取实际可以修改的数据
+                List<App_News> updateList = newsList.Where(x => existsIds.Contains(x.Id)).ToList();
+
+                //设置默认修改人信息
+                updateList.ForEach(x => { x.SetModifyDefaultVal(); });
+                //新增
+                repository.AddRange(addList);
+                //修改(第二个参数指定要修改的字段,第三个参数执行保存)
+                repository.UpdateRange(updateList, x => new { x.Title, x.ImageUrl, x.Modifier, x.ModifyDate, x.ModifyID });
+                //其他从表按上面同样的操作即可
+                //最终保存
+                //repository.SaveChanges();
                 return WebResponseContent.Instance.OK();
             };
             return base.Update(saveModel);
