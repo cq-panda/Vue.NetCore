@@ -7,26 +7,27 @@
     border-radius: 5px;
     margin-bottom: 20px;"
     >
-      <a
-        target="_blank"
-        style="border-bottom: 1px solid;margin: 0 10px"
-        href="http://donate.volcore.xyz"
-      >项目赞助</a>
+   
       <a
         target="_blank"
         style="border-bottom: 1px solid;margin: 0 10px"
         href="https://github.com/cq-panda/Vue.NetCore"
       >GitHub</a>
+           <a
+        target="_blank"
+        style="border-bottom: 1px solid;margin: 0 10px"
+        href="https://gitee.com/x_discoverer/Vue.NetCore"
+      >Gitee</a>
+                <a
+        target="_blank"
+        style="border-bottom: 1px solid;margin: 0 10px"
+        href="https://github.com/cq-panda/Quartz.NetUI"
+      >Quartz.Net</a>
       <a
         target="_blank"
         style="border-bottom: 1px solid;margin: 0 10px"
         href="http://132.232.2.109"
       >演示环境</a>
-      <a
-        target="_blank"
-        style="border-bottom: 1px solid;margin: 0 10px"
-        href="http://132.232.2.109/app/guide"
-      >H5开发</a>
       <a
         target="_blank"
         style="border-bottom: 1px solid;margin: 0 10px"
@@ -39,12 +40,21 @@
       >组件Api</a>
       <a
         target="_blank"
-        style="margin: 0 10px"
+        style="border-bottom: 1px solid;margin: 0 10px"
         @click="()=>{ this.$router.push({ path: '/document/issue' });}"
       >常见问题</a>
-      <a style="border-bottom: 1px solid;margin: 0 10px">QQ群:45221949</a>
-    </div>
 
+    </div>
+   <a
+        target="_blank"
+        style="    border-bottom: 1px solid;
+    margin: 0px 26px;
+    font-size: 26px;"
+        href="http://donate.volcore.xyz"
+      >项目赞助</a>
+            <a         style="    border-bottom: 1px solid;
+    margin: 0px 26px;
+    font-size: 26px;">QQ群:45221949</a>
     <h2
       style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;color:#EBEBEB;font-family:&quot;background:#00BCD4;font-size:20px;line-height:37px;white-space:normal;margin:18px 0px !important;"
     >
@@ -131,6 +141,36 @@
           <span style="font-size:16px;">输入http://localhost:8080访问（本地超级管理员帐号：admin 密码:123456）</span>
         </span>
       </li>
+        <li
+        style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;"
+      >
+        <span style="line-height:3;font-size:14px;color:red;">
+          <span style="font-size:16px;">项目启动报错1、.netcore.xxx表不存在(手动将数据库表改成大写开头,与代码的Model大小写一致即可)</span>
+        </span>
+      </li>
+         <li
+        style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;"
+      >
+        <span style="line-height:3;font-size:14px;color:red;">
+          <span style="font-size:16px;">项目启动报错2、点击登陆提示网络出错(如果是mysql数据库，请确认appsettings.json配置中DBType是否改为了MySql)</span>
+        </span>
+      </li>
+           <li
+        style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;"
+      >
+        <span style="line-height:3;font-size:14px;color:red;">
+          <span style="font-size:16px;">项目启动报错3、后台控制台提示不支持allowPublicKeyRetrieval(见上面appsettings.json配置中DBType是否改为了MySql，数据库字符串配置去掉此属性)</span>
+        </span>
+      </li>
+       <li
+        style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;"
+      >
+        <span style="line-height:3;font-size:14px;color:red;">
+          <span style="font-size:16px;"> EntityFramework Core3.1不再支持 Sqlserver2008，请使用2008以上的数据库或使用mysql</span>
+        </span>
+      </li>
+     
+
     </ul>
     <br />
 

@@ -447,7 +447,7 @@ export default {
     margin-right: 5px;
   }
   .coder-group {
-    background: #e0fffb;
+    // background: #e0fffb;
     border-radius: 5px;
     width: 100%;
     display: inline-block;
