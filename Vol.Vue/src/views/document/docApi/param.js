@@ -45,7 +45,7 @@ let param = {
                 type: "function",
                 default: ""
             },
-            { name: "onChange", desc: `type=select生效
+            { name: "onChange", desc: `仅对select、date、datetime、checkbox生效（2020.07.24）
         <p>
 	onChange: (value, option) =&gt; {
 </p>
@@ -125,14 +125,15 @@ let param = {
             {
                 name: "onChange",
                 desc: `<div class="cnblogs_Highlighter">
-        <div>select、switch组件选择事件(只对编辑生效)</div>
+        <div>select、switch、date、datetime组件选择事件(只对编辑生效)</div>
+        <div>为date、datetime时onChange(date,option)只有这两个参数，2020.07.24</div>
         <div>onChange:(column,row,tableData,value)=&gt;{</div>
         <pre class="brush:javascript;gutter:true;"><em id="__mceDel">             this.$Message.error(row["test2"]);
                     },
         </em></pre>
         </div>
         <p>　　</p>`,
-                type: "json",
+                type: "function",
                 default: ""
             },
             { name: "extra", desc: "额外标签(只对编辑生效)", type: "json", default: "" },

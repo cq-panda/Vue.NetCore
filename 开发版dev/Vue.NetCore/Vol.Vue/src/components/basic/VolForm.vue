@@ -840,6 +840,8 @@ export default {
           });
         }
       });
+       //2020.07.24增加日期onChange事件
+      item.onChange&&item.onChange(this.formFileds[item.field])
     }
   }
 };
