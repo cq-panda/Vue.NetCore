@@ -50,9 +50,10 @@
           :animated="false"
           class="header-navigation"
         >
+          <!-- 2020.07.31增加手动打开tabs -->
           <TabPane
-            :class="{active:item.id==selectId}"
-            :name="item.id+''"
+            :class="{active:navIndex==selectId}"
+            :name="item.navIndex"
             :closable="navIndex!=0"
             v-for="(item,navIndex) in navigation"
             :key="navIndex"
@@ -101,7 +102,7 @@ export default {
         { name: "red", color: "rgb(237, 64, 20)" },
         { name: "orange", color: "rgb(255, 153, 0)" },
         { name: "white", color: "#fff" },
-        { name: "green", color: "rgb(25, 190, 107)" }
+        { name: "green", color: "rgb(25, 190, 107)" },
       ], //2020.04.02增加换皮肤功能
       errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       userName: "--",
@@ -116,14 +117,14 @@ export default {
         { text: "框架文档", path: "/document", id: -2 },
         { text: "GitHub", path: "#", id: -3 },
         { text: "个人中心", path: "/UserInfo", id: -1 },
-        { text: "安全退出", path: "/login", id: -4 }
+        { text: "安全退出", path: "/login", id: -4 },
       ],
-      menuOptions: []
+      menuOptions: [],
     };
   },
   components: {
     VolMenu,
-    loading
+    loading,
   },
   created() {
     let theme = localStorage.getItem("vol_theme");
@@ -134,16 +135,19 @@ export default {
     let userInfo = this.$store.getters.getUserInfo();
     this.userName = userInfo.userName;
     this.userImg = this.base.getImgSrc(userInfo.img, this.http.ipAddress);
+    /* 2020.07.31增加手动打开tabs*/
+    /***注意同时更新main.js中Vue.prototype.$tabs = {};***/
+    Object.assign(this.$tabs, { open: this.open, close: this.close });
     $vueIndex = this;
     this.showTime();
-    setInterval(function() {
+    setInterval(function () {
       $vueIndex.showTime();
     }, 1000);
     this.http.ajax({
       url: "api/menu/getTreeMenu",
       json: true,
-      success: function(data) {
-        data.forEach(d => {
+      success: function (data) {
+        data.forEach((d) => {
           if (!d.icon) d.icon = "ios-aperture";
           d.path = (d.url || "").replace("/Manager", "");
           d.to = (d.url || "").replace("/Manager", "");
@@ -152,26 +156,29 @@ export default {
         $vueIndex.menuOptions = data;
       },
       type: "get",
-      async: false
+      async: false,
     });
-
+    /* 2020.07.31增加手动打开tabs*/
     //当前刷新是不是首页
     if (this.$route.path != this.navigation[0].path) {
-      let linkNow = this.links.find(x => {
+      //查找系统菜单
+      let item = this.menuOptions.find((x) => {
         return x.path == this.$route.path;
       });
-      if (linkNow) {
-        this.selectId = linkNow.id;
-        return;
-      }
-      let item = this.menuOptions.find(x => {
+      if (item) return this.onSelect(item.id);
+      //查找顶部快捷连接
+      item = this.links.find((x) => {
         return x.path == this.$route.path;
       });
-      if (item == undefined) {
-        return (this.selectId = 0);
+      //查找最后一次跳转的页面
+      if (!item) {
+        item = this.getItem();
       }
-      this.onSelect(item.id);
+      if (item) {
+        return this.open(item, false);
+      }
     }
+    this.selectId = 0;
   },
   methods: {
     changeThen(name) {
@@ -182,77 +189,102 @@ export default {
       localStorage.setItem("vol_theme", name);
     },
     to(item) {
+      /* 2020.07.31增加手动打开tabs*/
       if (item.path == "#") {
         window.open("https://github.com/cq-panda/Vue.NetCore");
         return;
       }
-
-      var hasId = this.navigation.find(function(x) {
-        return x.id == item.id;
-      });
-      if (hasId && hasId.id == this.selectId) return;
-
-      if (item.path == "/login") {
-        this.$store.commit("clearUserInfo", "");
-      } else {
-        this.selectId = item.id;
-        if (!hasId) {
-          this.navigation.push({
-            id: item.id,
-            name: item.text,
-            path: item.path
-          });
+      //2020.07.31
+      if (typeof item == "string") {
+        if (item == "/login") {
+          this.$store.commit("clearUserInfo", "");
         }
+        this.$router.push({ path: item });
+        return;
       }
-      this.$router.push({
-        path: item.path
-      });
+      if (item.path == "#") return;
+      this.open(item);
     },
-    selectNav(id) {
-      this.selectId = id + "";
+    open(item, useRoute) {
+      /* 2020.07.31增加手动打开tabs*/
+      let _index = this.navigation.findIndex((x) => {
+        return x.path == item.path;
+      });
+      if (_index == -1) {
+        this.navigation.push({
+          name: item.name || item.text || "无标题",
+          path: item.path,
+        });
+        //新打开的tab移至最后一个选项
+        this.selectId = this.navigation.length - 1;
+        //return;
+      } else {
+        this.selectId = _index;
+      }
+      if (useRoute === undefined) {
+        //非标准菜单，记录最后一次跳转的页面，用于刷新
+        this.setItem(item);
+        this.$router.push(item);
+      }
+    },
+    setItem(item) {
+      /* 2020.07.31增加手动打开tabs*/
+      localStorage.setItem(
+        window.location.origin + "_tabs",
+        JSON.stringify(item)
+      );
+    },
+    getItem() {
+      /* 2020.07.31增加手动打开tabs*/
+      let nav = localStorage.getItem(window.location.origin + "_tabs");
+      return nav ? JSON.parse(nav) : null;
+    },
+    close(path) {
+      /* 2020.07.31增加手动打开tabs*/
+      let index = this.navigation.findIndex((x) => {
+        return x.path == path;
+      });
+      if (index == -1) {
+        return this.$Message.error("未找到菜单");
+      }
+      this.removeNav(index);
+    },
+    selectNav(index) {
+      /* 2020.07.31增加手动打开tabs*/
+      this.selectId = index;
       this.$router.push({
-        path: this.getNavigation(id).path
+        path: this.navigation[index].path,
       });
     },
     removeNav(_index) {
       //2020.06.02修复关闭tabs时，可能关闭两个tabs的问题
+      /* 2020.07.31增加手动打开tabs*/
       return new Promise(() => {
-        var navItem = this.navigation[_index - 1];
-        this.selectId = navItem.id + "";
+        //关闭的当前项,跳转到前一个页面
+        if (this.selectId == _index) {
+          this.setItem(this.navigation[_index - 1]);
+          this.$router.push({
+            path: this.navigation[_index - 1].path,
+          });
+          this.navigation.splice(_index, 1);
+          this.selectId = this.selectId - 1;
+          return;
+        }
+        if (_index < this.selectId) {
+          this.selectId = this.selectId - 1;
+        }
         this.navigation.splice(_index, 1);
-        this.$router.push({
-          path: navItem.path
-        });
-      });
-    },
-    getNavigation(id) {
-      return this.navigation.find(function(x) {
-        return x.id == id;
       });
     },
     getSelectMenuName(id) {
-      return this.menuOptions.find(function(x) {
+      return this.menuOptions.find(function (x) {
         return x.id == id;
       });
     },
     onSelect(treeId) {
-      if (treeId == this.selectId) return;
-      var hasId = this.navigation.find(function(x) {
-        return x.id == treeId;
-      });
-      if (hasId && hasId.id == this.selectId) return;
-      console.log(treeId);
+      /* 2020.07.31增加手动打开tabs*/
       var item = $vueIndex.getSelectMenuName(treeId);
-
-      console.log(item);
-      if (!hasId) {
-        $vueIndex.navigation.push({
-          id: treeId,
-          name: item.name,
-          path: item.path
-        });
-      }
-      $vueIndex.selectId = treeId + "";
+      this.open(item, false);
     },
     showTime() {
       var week = new Array(
@@ -292,8 +324,8 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
-    }
-  }
+    },
+  },
 };
 </script>
 

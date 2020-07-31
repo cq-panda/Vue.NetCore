@@ -19,6 +19,15 @@
 
     <div class="com">
       <div>
+        <h3>手动打开tabs,详细使用见：框架文档->前端开发->手动打开tabs</h3>
+        <Button
+          type="info"
+          ghost
+          @click="()=>{this.$tabs.open({text:'个人中心',path:'/userinfo',query:{x:2221}})}"
+        >打开个人中心</Button>
+        <Button type="error" ghost @click="()=>{this.$tabs.close('/userinfo')}">关闭个人中心</Button>
+      </div>
+      <div>
         <h3>弹出框/post/get请求(http请求代码位置:api->http.js)</h3>
         <Button type="info" ghost @click="viewModel=true">弹出框组件</Button>
         <Button type="error" ghost @click="httpTest1">post/get请求不带提示</Button>
@@ -39,7 +48,7 @@
       </vol-box>
       <div class="icon-item">
         <div class="on-icon">
-         <label class="ivu-form-item-label" style="width: 100px;">图标：</label>
+          <label class="ivu-form-item-label" style="width: 100px;">图标：</label>
           <span style="position: relative;">
             <i
               v-if="icon!=''"
@@ -116,7 +125,7 @@ export default {
       //不带提示
       let url = "/api/test2019/GetMsg",
         param = {};
-      this.http.post(url, param).then(result => {
+      this.http.post(url, param).then((result) => {
         this.$message.error(result);
       });
     },
@@ -124,7 +133,7 @@ export default {
       //带默认提示
       let url = "/api/test2019/delay",
         param = {};
-      this.http.post(url, param, true).then(result => {
+      this.http.post(url, param, true).then((result) => {
         this.$message.error(result);
       });
     },
@@ -135,12 +144,13 @@ export default {
       let url = "/api/test2019/delay",
         param = {},
         loadText = "这里参数可以自定文字";
-      this.http.post(url, param, loadText).then(result => {
+      this.http.post(url, param, loadText).then((result) => {
         this.$message.error(result);
       });
-    }
+    },
   },
-  created() {},
+  created() {
+  },
   data() {
     return {
       userText: "",
@@ -151,7 +161,7 @@ export default {
       template: {
         //下载模板的路径及模板的文件名，如果url为空，则不会显示下载模板
         url: "/api/App_TransactionAvgPrice/DownLoadTemplate",
-        fileName: "测试模板下载"
+        fileName: "测试模板下载",
       },
       comSrc1: "",
       comSrc:
@@ -228,10 +238,10 @@ export default {
         { id: 13, parentId: 1, name: "菜单设置", orderNo: 0 },
         { id: 45, parentId: 0, name: "其他不用节点", orderNo: 0 },
         { id: 75, parentId: 74, name: "前后台主从扩展用例", orderNo: null },
-        { id: 73, parentId: 72, name: "移动H5开发打包介绍", orderNo: null }
-      ]
+        { id: 73, parentId: 72, name: "移动H5开发打包介绍", orderNo: null },
+      ],
     };
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

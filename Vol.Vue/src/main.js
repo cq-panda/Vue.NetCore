@@ -18,37 +18,38 @@ import base from './utilities/common'
 Vue.use(iView)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-/* eslint-disable no-new */
-// NProgress.configure({
-//   easing: 'ease',  // 动画方式    
-//   speed: 500,  // 递增进度条的速度    
-//   showSpinner: false, // 是否显示加载ico    
-//   trickleSpeed: 200, // 自动递增间隔    
-//   minimum: 0.3 // 初始化时的最小百分比
-// })
+    /* eslint-disable no-new */
+    // NProgress.configure({
+    //   easing: 'ease',  // 动画方式    
+    //   speed: 500,  // 递增进度条的速度    
+    //   showSpinner: false, // 是否显示加载ico    
+    //   trickleSpeed: 200, // 自动递增间隔    
+    //   minimum: 0.3 // 初始化时的最小百分比
+    // })
 
 
 var vue = new Vue({
-  el: '#app',
-  store,
-  router,
-  components: { App },
-  template: '<App/>'
-})
-// Vue.use(permission);
+        el: '#app',
+        store,
+        router,
+        components: { App },
+        template: '<App/>'
+    })
+    // Vue.use(permission);
 Vue.prototype.http = http;
 Vue.prototype.http.init(vue);
 Vue.prototype.permission = permission;
 Vue.prototype.permission.init(vue);
 Vue.prototype.base = base;
-
+/* 2020.07.31增加手动打开tabs*/
+Vue.prototype.$tabs = {};
 router.beforeEach((to, from, next) => {
-  vue.$Loading.start({ color: 'white', height: 2 });
-  // NProgress.start();
-  next();
+    vue.$Loading.start({ color: 'white', height: 2 });
+    // NProgress.start();
+    next();
 })
 
 router.afterEach(() => {
-  vue.$Loading.finish();
-  // NProgress.done()
+    vue.$Loading.finish();
+    // NProgress.done()
 })

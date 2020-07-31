@@ -6,6 +6,7 @@
           <li class="n-item" v-for="(item,index) in items" :key="index">
             <a
               :class="{active:active==index}"
+              :style="item.style"
               @click="scrollIntoView(index)"
             >{{index==0?'添加动态按钮':item.title}}</a>
           </li>
@@ -70,7 +71,7 @@ export default {
       }
       window.scrollTo(0, top);
       this.active = index;
-    }
+    },
   },
   data() {
     return {
@@ -79,10 +80,10 @@ export default {
         {
           title: "完整前端功能扩展",
           content: [
-            `其他功能扩展，如：查询前后，保存前后等，参照sellOrder.js或viewGrid组件api`
+            `其他功能扩展，如：查询前后，保存前后等，参照sellOrder.js或viewGrid组件api`,
           ],
           tips: ` 前端功能扩展覆盖了常用操作，可通过扩展实现任意功能`,
-          img: ""
+          img: "",
         },
         {
           title: "查询界面动态添加按钮",
@@ -121,10 +122,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` this.buttons来源：ViewGrid.vue组件data->buttons属性`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/01.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/01.png",
         },
         {
           title: "弹出框界面动态按钮",
@@ -187,10 +188,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: `可根据this.currentAction判断当前是新建还是编辑来动态设置弹出框按钮`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/19.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/19.png",
         },
         {
           title: "设置按钮显示个数",
@@ -214,10 +215,10 @@ export default {
 	</div>
 	<div>
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` this.maxBtnLength来源：ViewGrid.vue组件data->maxBtnLength属性`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/02.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/02.png",
         },
         {
           title: "点击按钮弹出框",
@@ -226,20 +227,73 @@ export default {
               <p>实现思路：</p>
              <p>&nbsp; &nbsp; &nbsp; 1、定义一个弹出框的vue页面,此页面可以写任意代码</p>
              <p>&nbsp; &nbsp; &nbsp; 2、gridHeader引入此vue页面</p>
-             <p>&nbsp; &nbsp; &nbsp; 3、点击按钮触发 this.$refs.gridHeader.model</p> `
+             <p>&nbsp; &nbsp; &nbsp; 3、点击按钮触发 this.$refs.gridHeader.model</p> `,
           ],
           tips: ` SellOrder.js点击自定的义按钮后，再弹弹出自定义的这个vue页面`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/06.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/06.png",
+        },
+        {
+          title: "手动打开/关闭tabs",
+          content: [
+			`<div style='color:red;'>2020.08.01(需要更新文件：index.vue 、main.js标注了更新位置)</div>
+			<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*打开tabs实际也是执行的路由跳转，需要打开的tabs必须是一个路由页面*/<span style="display:none;"></span></span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//手动打开tabs,</span> 
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*</span> 
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;text打开的tab显示的名称</span> 
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;path路由path</span> 
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;query跳转的参数，可选，如果需要建议使用query</span> 
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span> 
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$tabs</span>.<span style="color:#dcdcaa;">open</span>({
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">text:</span>&nbsp;<span style="color:#ce9178;">"个人中心"</span>,
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">path:</span>&nbsp;<span style="color:#ce9178;">"/userinfo"</span>,
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">query:</span>&nbsp;{},
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;});
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//手动关闭tabs,参数为路由path</span> 
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$tabs</span>.<span style="color:#dcdcaa;">close</span>(<span style="color:#ce9178;">"/userinfo"</span>);
+	</div>
+</div>`,
+          ],
+          tips: `还没想好`,
+          img: "",
         },
         {
           title: "页面显示扩展",
           content: [
             `<p>如果页面需要更多信息,可实现自下定义扩展</p>
              <p>可以对查询页面，弹出框进行扩展显示更多信息</p>
-             <p>参照App_Appointment.js实现(SellOrder.js实现更全面)</p></p> `
+             <p>参照App_Appointment.js实现(SellOrder.js实现更全面)</p></p> `,
           ],
           tips: ` App_Appointment.js中将自己写的vue页面引用到gridHeader/gridBody/gridFooter属性上即可实现功能`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/07.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/07.png",
         },
         {
           title: "手动设置排序列",
@@ -269,10 +323,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，sort参数配置见VolTable组件文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/03.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/03.png",
         },
         {
           title: "触发table表switch",
@@ -335,10 +389,10 @@ export default {
 	</div>
 	<div>
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/04.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/04.png",
         },
         {
           title: "编辑查询界面table",
@@ -435,10 +489,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/13.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/13.png",
         },
         {
           title: "render渲染table对象",
@@ -633,10 +687,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` render操作table组件，可以在单元格中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/16.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/16.png",
         },
 
         {
@@ -778,10 +832,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/17.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/17.png",
         },
         {
           title: "render渲染form对象2",
@@ -952,10 +1006,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/18.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/18.png",
         },
         {
           title: "格式化table的数据",
@@ -1009,10 +1063,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，formatter 方法参数配置见VolTable组件文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/08.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/08.png",
         },
         {
           title: "动态添加一列按钮",
@@ -1093,10 +1147,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/05.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/05.png",
         },
         {
           title: "动态隐藏table列",
@@ -1132,9 +1186,9 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
-          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`
+          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`,
         },
         {
           title: "显示表格统计信息",
@@ -1213,10 +1267,10 @@ export default {
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };<br />
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return base.GetPageData(options);<br />
 &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-<br />`
+<br />`,
           ],
           tips: `在前端表的扩展js中,onInit与onInited初始化要统计的字段，后台在xxxService.cs中重写查询方法，并实现要统计的字段即可完成表格统计，无需其他操作`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/09.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/09.png",
         },
         {
           title: "级联操作(1)",
@@ -1339,10 +1393,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: `级联操作基于Iview组件cascader(数据源的格式见iview原生组件demo配置),数据量少的情况下建议直接把数据源加载出来绑定，数据量过多时使用懒加载`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/14.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/14.png",
         },
         {
           title: "级联操作(2)",
@@ -1477,10 +1531,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
-</div>`
+</div>`,
           ],
           tips: `从后台加载数据后，不用自己设置children，直接用this.base.convertTree()转换`,
-          img: ""
+          img: "",
         },
         {
           title: "级联(后台加载数据源)",
@@ -1582,10 +1636,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
-</div>`
+</div>`,
           ],
           tips: `级联操作基于Iview组件cascader(数据源的格式见iview原生组件demo配置),数据量少的情况下建议直接把数据源加载出来绑定，数据量过多时使用懒加载`,
-          img: ""
+          img: "",
         },
         {
           title: "级联赖(动态)加载",
@@ -1855,10 +1909,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: `级联操作基于Iview组件cascader(数据源的格式见iview原生组件demo配置),数据量少的情况下建议直接把数据源加载出来绑定，数据量过多时使用懒加载`,
-          img: ""
+          img: "",
         },
         {
           title: "select手动触发级联",
@@ -1969,10 +2023,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: `select选择后给字段设置值或数据源，实现手动级联操作`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/15.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/15.png",
         },
         {
           title: "数组对象转换为tree",
@@ -2106,10 +2160,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;}]</span>
 	</div>
-</div>`
+</div>`,
           ],
           tips: `使用this.base.convertTree转换成tree结构，避免重复写递归生成tree的代码`,
-          img: ""
+          img: "",
         },
         {
           title: "http请求",
@@ -2139,10 +2193,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.http.get同上</span>
 	</div>
-</div>`
+</div>`,
           ],
           tips: `无`,
-          img: ""
+          img: "",
         },
         {
           title: "编辑多图/文件上传",
@@ -2262,10 +2316,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` 代码生成默认使用的是单图上传，多图上传更多属性配置参照volupload组件`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/11.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/11.png",
         },
         {
           title: "编辑表单添加额外属性",
@@ -2334,36 +2388,36 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` 可给编辑表单添加描述或触发事件，更多属性配置参照volform组件api`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/12.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/12.png",
         },
         {
           title: "主从表一对一",
           content: [
             `<p>主从表一对一全部由代码生成器生成，无需写任何代码</p>
             <p>参照代码生成器文档</p>
-            <p>菜单：主从表一对一</p>`
+            <p>菜单：主从表一对一</p>`,
           ],
           tips: ` 菜单：主从表一对一或系统->下拉框绑定设置,都是由代码生成器生成`,
-          img: ""
+          img: "",
         },
         {
           title: "主从表一对多",
           content: [
-            `一对多从表,不限制从表类型与从表数理，但需要自己写从表的扩展,参照菜单：自定义扩展一对多`
+            `一对多从表,不限制从表类型与从表数理，但需要自己写从表的扩展,参照菜单：自定义扩展一对多`,
           ],
           tips: ` 一对多从表自定义实现，需要对照volgrid,volform,voltable组件api找需要的属性与方法`,
-          img: ""
+          img: "",
         },
         {
           title: "从表上传图片",
           content: [
-            `点击从表列即可完成对从表图片或文件上传，参照菜单:【一对一与一对多】->【从表图片上传】`
+            `点击从表列即可完成对从表图片或文件上传，参照菜单:【一对一与一对多】->【从表图片上传】`,
           ],
           tips: ` 从表图片上传，是对代码生成进行的扩展实现.按此方法可自行实现任意功能`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png"
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png",
         },
         {
           title: "子父组件传值(vuex)",
@@ -2406,10 +2460,10 @@ export default {
 	<div>
 		}
 	</div>
-</div>`
+</div>`,
           ],
           tips: `子父组件通过this.$store.getters.data().xxx缓存或读取数据(注意xxx作为key的唯一性)`,
-          img: ""
+          img: "",
         },
         {
           title: "自动绑定表单/表数据源",
@@ -2418,10 +2472,10 @@ export default {
             <p>只需要提前配置好数据源，其他全部由框架完成</p>
             <p>数据源需要提前在菜单：系统->下拉框绑定设置中配置</p>
             <p>在代码生成器中选择数据(字典编号)与编辑(查询)类型</p>
-            <p>文档组件api中：viewgrid组件api、voltable组件api、voltable组件api都提供了demo</p>`
+            <p>文档组件api中：viewgrid组件api、voltable组件api、voltable组件api都提供了demo</p>`,
           ],
           tips: `字典绑定数据还支持远程模糊查询与自动模糊查询,提前在菜单[下拉框绑定设置]配置好，不需要写任何代码`,
-          img: ""
+          img: "",
         },
         {
           title: "select远程搜索",
@@ -2484,20 +2538,20 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` select远程搜索适用于数据源比较大的情况，开启远程搜索实时从后台返回数据绑定到select组件中`,
-          img: ""
+          img: "",
         },
         {
           title: "编写中--待完",
           content: [`编写中`],
           tips: ` 编写中`,
-          img: ""
-        }
-      ]
+          img: "",
+        },
+      ],
     };
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -2573,9 +2627,7 @@ h2 {
     margin-right: 15px;
     border-right: 1px solid #dbddde;
     flex: 1;
-    // desc > div{
-
-    // }
+    line-height: 2.5;
   }
   .img {
     cursor: pointer;
