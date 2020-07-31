@@ -26,11 +26,14 @@ namespace VOL.Core.Filters
         public ActionPermissionAttribute(ActionRolePermission actionRolePermission, bool isApi = false)
         : base(typeof(ActionPermissionFilter))
         {
-            Array array = Enum.GetValues(actionRolePermission.GetType());
+            Array array = Enum.GetValues(typeof(ActionRolePermission));
             List<int> roles = new List<int>();
             foreach (ActionRolePermission item in array)
             {
-                roles.Add((int)item);
+                if (actionRolePermission.HasFlag(item))
+                {
+                    roles.Add((int)item);
+                }
             }
             Arguments = new object[] { new ActionPermissionRequirement() { RoleIds = roles.ToArray(), IsApi = isApi } };
         }
