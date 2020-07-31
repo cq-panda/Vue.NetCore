@@ -1,9 +1,8 @@
-
-
 let extension = {
-    components: {//动态扩充组件或组件路径
+    components: { //动态扩充组件或组件路径
         //表单header、content、footer对应位置扩充的组件
-        gridHeader: () => import("./Sys_User/Sys_UserGridHeader.vue"),
+        gridHeader: () =>
+            import ("./Sys_User/Sys_UserGridHeader.vue"),
         gridBody: '',
         gridFooter: '',
         //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
@@ -12,14 +11,59 @@ let extension = {
         modelFooter: ''
     },
     text: "只能看到当前角色下的所有帐号",
-    buttons: [],//扩展的按钮
-    methods: {//事件扩展
+    buttons: [], //扩展的按钮
+    methods: { //事件扩展
         onInit() {
             this.boxOptions.height = 530;
+            this.columns.push({
+                title: '操作',
+                fixed: 'right',
+                width: 140,
+                render: (h, { row, column, index }) => {
+                    return h(
+                        "div", { style: {} }, [
+                            h(
+                                "a", {
+                                    props: {},
+                                    style: {},
+                                    on: {
+                                        click: (e) => {
+                                            e.stopPropagation()
+                                            this.$refs.gridHeader.open(row);
+                                        }
+                                    }
+                                },
+                                "修改密码"
+                            ),
+                            h(
+                                "Dropdown", {
+                                    props: {},
+                                    style: {
+                                        "margin-left": "10px"
+                                    },
+                                    on: {
+                                        'on-click': (name) => {
+                                            if (name == 'add') {
+                                                this.add();
+                                            } else if (name == 'update') {
+                                                this.linkData(row);
+                                            } else {
+                                                this.$Message.info(name);
+                                            }
+                                        }
+                                    }
+                                }, [h('a', {}, ['更多', h('Icon', { props: { type: 'ios-arrow-down' } })]),
+                                    h('DropdownMenu', { slot: "list" }, [h('DropdownItem', { props: { name: 'update' } }, '编辑'),
+                                        h('DropdownItem', { props: { name: 'add' } }, '新建'),
+                                    ])
+                                ]
+                            )
+                        ])
+                }
+            })
         },
-        onInited() {
-        },
-        addAfter(result) {//用户新建后，显示随机生成的密码
+        onInited() {},
+        addAfter(result) { //用户新建后，显示随机生成的密码
             if (!result.status) {
                 return true;
             }
@@ -33,11 +77,11 @@ let extension = {
             let isEDIT = this.currentAction == this.const.EDIT;
             this.editFormOptions.forEach(item => {
                 item.forEach(x => {
-                    if (x.field == "UserName") {
-                        this.$set(x, "disabled", isEDIT)
-                    }
-                })
-                //不是新建，性别默认值设置为男
+                        if (x.field == "UserName") {
+                            this.$set(x, "disabled", isEDIT)
+                        }
+                    })
+                    //不是新建，性别默认值设置为男
                 if (!isEDIT) {
                     this.editFormFileds.Gender = "0";
                 }

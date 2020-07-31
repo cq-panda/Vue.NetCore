@@ -150,15 +150,13 @@ namespace VOL.System.Services
                 string _newPwd = newPwd.EncryptDES(AppSetting.Secret.User);
                 if (userCurrentPwd == _newPwd) return webResponse.Error("新密码不能与旧密码相同");
 
-                await Task.Run(() =>
+
+                repository.Update(new Sys_User
                 {
-                    base.repository.Update(new Sys_User
-                    {
-                        User_Id = userId,
-                        UserPwd = _newPwd,
-                        LastModifyPwdDate = DateTime.Now
-                    }, x => new { x.UserPwd, x.LastModifyPwdDate }, true);
-                });
+                    User_Id = userId,
+                    UserPwd = _newPwd,
+                    LastModifyPwdDate = DateTime.Now
+                }, x => new { x.UserPwd, x.LastModifyPwdDate }, true);
 
                 webResponse.OK("密码修改成功");
             }
@@ -349,13 +347,13 @@ namespace VOL.System.Services
             base.UpdateOnExecute = (SaveModel saveInfo) =>
             {
                 int roleId = saveModel.MainData["Role_Id"].GetInt();
-                string roleName =  GetChildrenName(roleId);
+                string roleName = GetChildrenName(roleId);
                 saveInfo.MainData.TryAdd("RoleName", roleName);
                 if (UserContext.IsRoleIdSuperAdmin(userInfo.Role_Id))
                 {
                     if (userInfo.Role_Id == roleId)
                     {
-                        saveInfo.MainData["RoleName"]=userInfo.RoleName;
+                        saveInfo.MainData["RoleName"] = userInfo.RoleName;
                     }
                     return responseContent.OK();
                 }

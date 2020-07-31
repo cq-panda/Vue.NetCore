@@ -150,15 +150,15 @@ namespace VOL.System.Services
                 string _newPwd = newPwd.EncryptDES(AppSetting.Secret.User);
                 if (userCurrentPwd == _newPwd) return webResponse.Error("新密码不能与旧密码相同");
 
-                await Task.Run(() =>
-                {
-                    base.repository.Update(new Sys_User
-                    {
-                        User_Id = userId,
-                        UserPwd = _newPwd,
-                        LastModifyPwdDate = DateTime.Now
-                    }, x => new { x.UserPwd, x.LastModifyPwdDate }, true);
-                });
+              
+                
+				base.repository.Update(new Sys_User
+				{
+					User_Id = userId,
+					UserPwd = _newPwd,
+					LastModifyPwdDate = DateTime.Now
+				}, x => new { x.UserPwd, x.LastModifyPwdDate }, true);
+              
 
                 webResponse.OK("密码修改成功");
             }
