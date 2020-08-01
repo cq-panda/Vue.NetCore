@@ -346,7 +346,7 @@ namespace VOL.Core.Dapper
                  : $"'{string.Join("','", keys)}'";
 
             string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
-            return (int)ExecuteScalar(sql, null);
+            return (int)ExcuteNonQuery(sql, null);
         }
         /// <summary>
         /// 使用key批量删除
