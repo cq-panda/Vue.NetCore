@@ -12,6 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MappingConfiguration\Core\**" />
+    <EmbeddedResource Remove="MappingConfiguration\Core\**" />
+    <None Remove="MappingConfiguration\Core\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
@@ -23,20 +29,9 @@
   <ItemGroup>
     <Folder Include="DomainModels\ApiEntity\OutPut\" />
     <Folder Include="DomainModels\Appointment\" />
-    <Folder Include="DomainModels\CJoin\" />
-    <Folder Include="DomainModels\Comment\" />
-    <Folder Include="DomainModels\Message\" />
-    <Folder Include="DomainModels\My\" />
     <Folder Include="DomainModels\News\" />
-    <Folder Include="DomainModels\Other\" />
-    <Folder Include="DomainModels\Price\" />
-    <Folder Include="DomainModels\Technical\" />
     <Folder Include="MappingConfiguration\Appointment\" />
-    <Folder Include="MappingConfiguration\Core\" />
-    <Folder Include="MappingConfiguration\Feedback\" />
-    <Folder Include="MappingConfiguration\Message\" />
-    <Folder Include="MappingConfiguration\My\" />
-    <Folder Include="MappingConfiguration\Technical\" />
+    <Folder Include="System\" />
   </ItemGroup>
 
 </Project>

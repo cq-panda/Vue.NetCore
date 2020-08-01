@@ -13,7 +13,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Entity(TableCnName = "启用图片支持",ApiInput = typeof(ApiApp_ExpertInput))]
+    [Entity(TableCnName = "启用图片支持")]
     public class App_Expert:BaseEntity
     {
         /// <summary>

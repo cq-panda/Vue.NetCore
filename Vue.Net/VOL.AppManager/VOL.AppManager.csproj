@@ -32,14 +32,8 @@
 
   <ItemGroup>
     <Folder Include="IRepositories\News\" />
-    <Folder Include="IServices\Meeting\Partial\" />
     <Folder Include="IServices\News\" />
-    <Folder Include="Services\Comment\Partial\" />
-    <Folder Include="Services\My\Partial\" />
     <Folder Include="Services\News\Partial\" />
-    <Folder Include="Services\Price\Partial\" />
-    <Folder Include="Services\Record\Partial\" />
-    <Folder Include="Services\Technical\Partial\" />
   </ItemGroup>
 
 </Project>

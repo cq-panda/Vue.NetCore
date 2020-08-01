@@ -19,5 +19,9 @@
     <ProjectReference Include="..\VOL.System\VOL.System.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Download\" />
+  </ItemGroup>
+
 
 </Project>
