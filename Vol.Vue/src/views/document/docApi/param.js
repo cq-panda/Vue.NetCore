@@ -492,6 +492,13 @@ let param = {
                 delAfter(result) {</span><span style="color: #008000;">//</span><span style="color: #008000;">查询界面的表删除后</span>
                     <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
                 },
+                addRow(){
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //<span style="color: #008000;">明细表添加行，在此处可以设置添加的默认值</span>
+&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; let obj = { };
+&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; //<span style="color: #008000;">给明细表添加行时，设置默认值。--onInited方法中对this.detailOptions.columns进行formatter也可以实现)</span>
+&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; //<span style="color: #008000;">obj.xx=123</span>;
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; this.$refs.detail.addRow(obj);
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  },
                 delDetailRow(rows) { </span><span style="color: #008000;">//</span><span style="color: #008000;">弹出框删除明细表的行数据(只是对table操作，并没有操作后台)</span>
         <span style="color: #000000;">            console.log(rows)
                     </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
