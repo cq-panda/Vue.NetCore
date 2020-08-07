@@ -30,7 +30,7 @@
           <Divider>
             <span icon="ivu-icon ivu-icon-md-podium">{{divider}}</span>
           </Divider>
-          <Alert style="box-shadow: rgb(214, 214, 214) 0px 4px 21px;" show-icon>
+          <Alert style="box-shadow: rgb(214, 214, 214) 0px 4px 21px;  line-height: 1.8;" show-icon>
             <p>1、 如果是用代码生器生成的Vue页面,菜单配置的Url则为Vue项目中src->router->viewGrid.js对应表名的path路径</p>
             <p>2、 如果只是建一级菜单或空菜单url不用填写,【视图/表名】填写.或者/</p>
           </Alert>
@@ -76,6 +76,7 @@
                 <Button type="success" icon="md-add" @click="add">新建</Button>
                 <Button type="warning" icon="md-add-circle" @click="addChild">添加子级</Button>
                 <Button type="error" icon="ios-barcode-outline" @click="addBrother">添加同级</Button>
+                <Button type="info" icon="ios-remove" @click="delMenu">删除菜单</Button>
               </div>
             </div>
           </vol-form>
@@ -94,12 +95,12 @@ export default {
     VolForm: VolForm,
     VolBox: VolBox,
     Icons: Icons,
-    VolMenu: () => import("@/../src/components/basic/VolMenu")
+    VolMenu: () => import("@/../src/components/basic/VolMenu"),
   },
   methods: {
     otherAction() {
       this.$refs.actionForm.validate(() => {
-        let exist = this.action.some(x => {
+        let exist = this.action.some((x) => {
           return (
             x.text == this.actionFields.name ||
             x.value == this.actionFields.value
@@ -111,7 +112,7 @@ export default {
         this.actionModel = false;
         this.action.push({
           text: this.actionFields.name,
-          value: this.actionFields.value
+          value: this.actionFields.value,
         });
       });
     },
@@ -123,7 +124,7 @@ export default {
       }
       // this.indeterminate = false;
       if (this.checkAll) {
-        this.actions = this.action.map(x => {
+        this.actions = this.action.map((x) => {
           return x.value;
         });
       } else {
@@ -147,7 +148,9 @@ export default {
         Object.assign({ enable: 1 }, obj || { parentId: 0 })
       );
       this.icon = "";
-      this.actions = [];
+      // this.actions = [];
+      //2020.08.07新建菜单时，默认选中查询按钮权限
+      this.actions = ["Search"];
     },
     addChild() {
       if (!this.isSelect()) return;
@@ -157,11 +160,39 @@ export default {
       if (!this.isSelect()) return;
       this.add({ parentId: this.fields.parentId });
     },
+    delMenu() {
+      //2020.08.07增加菜单删除功能
+      if (this.fields.menu_Id == 0) {
+        return this.$Message.error("请选择菜单");
+      }
+      let tigger = false,
+        msg = "确认要删除【" + this.fields.menuName + "】菜单吗？";
+      this.$Modal.confirm({
+        title: "删除警告!",
+        content:
+          '<p style="color: red;font-weight: bold;letter-spacing: 3px;">' +
+          msg +
+          "</p>",
+        onOk: () => {
+          if (tigger) return;
+          tigger = true;
+          let menuId = this.fields.menu_Id;
+          this.http
+            .post("/api/menu/delMenu?menuId=" + menuId, {}, "正在删除数据....")
+            .then((x) => {
+              if (!x.status) return this.$Message.error(x.message);
+              this.$refs.form.reset();
+              this.$Message.info(x.message);
+              this.initTree();
+            });
+        },
+      });
+    },
     save() {
       this.$refs.form.validate(() => {
         this.fields.auth = "";
         if (this.actions) {
-          this.fields.auth = this.action.filter(x => {
+          this.fields.auth = this.action.filter((x) => {
             return this.actions.indexOf(x.value) != -1;
           });
         }
@@ -175,7 +206,7 @@ export default {
           this.fields.auth = "";
         }
         this.fields.icon = this.icon;
-        this.http.post("/api/menu/save", this.fields, true).then(x => {
+        this.http.post("/api/menu/save", this.fields, true).then((x) => {
           if (!x.status) {
             this.$Message.error(x.message);
             return;
@@ -183,7 +214,7 @@ export default {
 
           this.$Message.info(x.message);
           if (this.fields.menu_Id) {
-            this.tree.forEach(t => {
+            this.tree.forEach((t) => {
               if (t.id == this.fields.menu_Id) {
                 t.name = this.fields.menuName;
                 t.orderNo = this.fields.orderNo;
@@ -198,7 +229,7 @@ export default {
             id: x.data.menu_Id,
             name: this.fields.menuName,
             orderNo: this.fields.orderNo,
-            parentId: this.fields.parentId
+            parentId: this.fields.parentId,
           });
         });
       });
@@ -228,12 +259,12 @@ export default {
     getTreeItem(node) {
       this.http
         .post("/api/menu/getTreeItem?menuId=" + node, {}, true)
-        .then(x => {
+        .then((x) => {
           try {
             if (x.auth) {
               x.auth = JSON.parse(x.auth);
               this.action.splice(8, this.action.length);
-              this.actions = x.auth.map(element => {
+              this.actions = x.auth.map((element) => {
                 if (this.actionValues.indexOf(element.value) == -1) {
                   this.action.push(element);
                 }
@@ -254,15 +285,20 @@ export default {
           }
           this.$refs.form.reset(x);
         });
-    }
+    },
+    initTree() {
+      //2020.08.07修改菜单初始化
+      this.http.post("/api/menu/getMenu", {}, true).then((x) => {
+        this.tree = x;
+      });
+    },
   },
   created() {
-    this.actionValues = this.action.map(x => {
+    this.actionValues = this.action.map((x) => {
       return x.value;
     });
-    this.http.post("/api/menu/getMenu", {}, true).then(x => {
-      this.tree = x;
-    });
+    //2020.08.07修改菜单初始化
+    this.initTree();
   },
   data() {
     return {
@@ -279,7 +315,7 @@ export default {
         { text: "导入", value: "Import" },
         { text: "导出", value: "Export" },
         { text: "上传", value: "Upload" },
-        { text: "审核", value: "Audit" }
+        { text: "审核", value: "Audit" },
       ],
       actionValues: [],
       actions: [],
@@ -293,23 +329,23 @@ export default {
             readonly: true,
             type: "number",
             min: 0,
-            disabled: true
+            disabled: true,
           },
           {
             title: "父级ID",
             required: true,
             type: "number",
             min: 0,
-            field: "parentId"
+            field: "parentId",
             // min: 0, max: 50
-          }
+          },
         ],
         [
           {
             title: "菜单名称",
             field: "menuName",
             displayType: "text",
-            required: true
+            required: true,
           },
           {
             title: "视图/表名",
@@ -317,23 +353,23 @@ export default {
             dataType: "string",
             displayType: "text",
             placeholder: "与代码生成器使用的名称相同",
-            required: true
-          }
+            required: true,
+          },
         ],
         [
           {
             title: "Url",
             field: "url",
             dataType: "string",
-            displayType: "text"
+            displayType: "text",
           },
           {
             title: "排序号",
             field: "orderNo",
             type: "number",
             min: 0,
-            required: true
-          }
+            required: true,
+          },
         ],
         [
           {
@@ -344,16 +380,16 @@ export default {
             type: "switch",
             data: [
               { key: "1", value: "是" },
-              { key: "是", value: "否" }
-            ]
+              { key: "是", value: "否" },
+            ],
           },
           {
             title: "创建时间",
             field: "createDate",
             dataType: "datetime",
             displayType: "label",
-            disabled: true
-          }
+            disabled: true,
+          },
           // {
           //   title: "修改时间",
           //   field: "modifyDate",
@@ -361,7 +397,7 @@ export default {
           //   displayType: "label",
           //   disabled: true
           // }
-        ]
+        ],
         // ,
         // [
         //   {
@@ -392,11 +428,11 @@ export default {
         enable: 1,
         createDate: "",
         creator: "",
-        modifyDate: ""
+        modifyDate: "",
       },
       actionFields: {
         name: "",
-        value: ""
+        value: "",
       },
       actionOptions: [
         [
@@ -405,8 +441,8 @@ export default {
             field: "name",
             displayType: "text",
             placeholder: "权限名称,如：新增",
-            required: true
-          }
+            required: true,
+          },
         ],
         [
           {
@@ -415,12 +451,12 @@ export default {
             dataType: "string",
             displayType: "text",
             placeholder: "权限值,如：Add",
-            required: true
-          }
-        ]
-      ]
+            required: true,
+          },
+        ],
+      ],
     };
-  }
+  },
 };
 </script>
 
