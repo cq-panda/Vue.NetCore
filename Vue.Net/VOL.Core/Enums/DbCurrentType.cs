@@ -4,10 +4,10 @@ using System.Text;
 
 namespace VOL.Core.Enums
 {
-  public enum DbCurrentType
+    public enum DbCurrentType
     {
-         MySql=1,
-         SqlServer=2,
-         PgSql=3
+        MySql = 1,
+        MsSql = 2,//2020.08.08修改sqlserver拼写
+        PgSql = 3
     }
 }

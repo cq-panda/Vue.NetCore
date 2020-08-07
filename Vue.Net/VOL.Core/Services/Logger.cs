@@ -177,6 +177,10 @@ namespace VOL.Core.Services
         {
             Sys_Log log = loggerQueueData.Dequeue();
             DataRow row = queueTable.NewRow();
+            if (log.BeginDate==null)
+            {
+                log.BeginDate = DateTime.Now;
+            }
             //  row["Id"] = log.Id;
             row["LogType"] = log.LogType;
             row["RequestParameter"] = log.RequestParameter;

@@ -77,7 +77,7 @@ namespace VOL.System.Services
             }
             //  2020.05.01增加根据用户信息加载字典数据源sql
             string sql = Dictionaries.Where(x => x.DicNo == dicNo).FirstOrDefault()?.DbSql;
-            sql = DictionaryHandler.GetCustomDBSql(dicNo,sql);
+            sql = DictionaryHandler.GetCustomDBSql(dicNo, sql);
             if (string.IsNullOrEmpty(sql))
             {
                 return null;
@@ -116,6 +116,11 @@ namespace VOL.System.Services
         /// <returns></returns>
         public object GetTableDictionary(Dictionary<string, object[]> keyData)
         {
+            // 2020.08.06增加pgsql获取数据源
+            if (DBType.Name == DbCurrentType.PgSql.ToString())
+            {
+                return GetPgSqlTableDictionary(keyData);
+            }
             var dicInfo = Dictionaries.Where(x => keyData.ContainsKey(x.DicNo) && !string.IsNullOrEmpty(x.DbSql))
                 .Select(x => new { x.DicNo, x.DbSql })
                 .ToList();
@@ -127,14 +132,39 @@ namespace VOL.System.Services
                 {
                     //  2020.05.01增加根据用户信息加载字典数据源sql
                     string sql = DictionaryHandler.GetCustomDBSql(x.DicNo, x.DbSql);
-                     sql = $"SELECT * FROM ({sql}) AS t WHERE " +
-                    $"{keySql}" +
-                    $" in @data";
+                    sql = $"SELECT * FROM ({sql}) AS t WHERE " +
+                   $"{keySql}" +
+                   $" in @data";
                     list.Add(new { key = x.DicNo, data = repository.DapperContext.QueryList<object>(sql, new { data }) });
                 }
             });
             return list;
         }
+
+        /// <summary>
+        ///  2020.08.06增加pgsql获取数据源
+        /// </summary>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
+        public object GetPgSqlTableDictionary(Dictionary<string, object[]> keyData)
+        {
+            var dicInfo = Dictionaries.Where(x => keyData.ContainsKey(x.DicNo) && !string.IsNullOrEmpty(x.DbSql))
+                .Select(x => new { x.DicNo, x.DbSql })
+                .ToList();
+            List<object> list = new List<object>();
+
+            dicInfo.ForEach(x =>
+            {
+                if (keyData.TryGetValue(x.DicNo, out object[] data))
+                {
+                    string sql = DictionaryHandler.GetCustomDBSql(x.DicNo, x.DbSql);
+                    sql = $"SELECT * FROM ({sql}) AS t WHERE t.key=any(@data)";
+                    list.Add(new { key = x.DicNo, data = repository.DapperContext.QueryList<object>(sql, new { data = data.Select(s => s.ToString()).ToList() }) });
+                }
+            });
+            return list;
+        }
+
 
         public override PageGridData<Sys_Dictionary> GetPageData(PageDataOptions pageData)
         {

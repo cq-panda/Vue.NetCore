@@ -184,33 +184,41 @@ DISTINCT
         }
         /// <summary>
         /// 获取PgSQl表结构信息
+        /// 2020.08.07完善PGSQL
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
         /// </summary>
         /// <returns></returns>
         private string GetPgSqlModelInfo()
         {
-            throw new Exception("开发中");
-            //            return $@"
-            //	SELECT DISTINCT
-            //    a.attnum as num,
-            //    a.attname as name,
-            //    format_type(a.atttypid, a.atttypmod) as typ,
-            //    a.attnotnull as notnull, 
-            //    com.description as comment,
-            //    coalesce(i.indisprimary,false) as primary_key,
-            //    def.adsrc as default
-            //FROM pg_attribute a 
-            //JOIN pg_class pgc ON pgc.oid = a.attrelid
-            //LEFT JOIN pg_index i ON 
-            //    (pgc.oid = i.indrelid AND i.indkey[0] = a.attnum)
-            //LEFT JOIN pg_description com on 
-            //    (pgc.oid = com.objoid AND a.attnum = com.objsubid)
-            //LEFT JOIN pg_attrdef def ON 
-            //    (a.attrelid = def.adrelid AND a.attnum = def.adnum)
-            //WHERE a.attnum > 0 AND pgc.oid = a.attrelid
-            //AND pg_table_is_visible(pgc.oid)
-            //AND NOT a.attisdropped
-            //AND pgc.relname = @tableName  -- Your table name here
-            //ORDER BY a.attnum;";
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append("			SELECT ");
+            stringBuilder.Append("				col.COLUMN_NAME AS \"ColumnName\", ");
+            stringBuilder.Append("			CASE ");
+            stringBuilder.Append("					WHEN col.udt_name = 'uuid' THEN ");
+            stringBuilder.Append("					'guid'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'int2') THEN ");
+            stringBuilder.Append("					'short'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'int4' ) THEN ");
+            stringBuilder.Append("					'int'  ");
+            stringBuilder.Append("					WHEN col.udt_name = 'int8' THEN ");
+            stringBuilder.Append("					'long'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'char', 'varchar', 'text', 'xml', 'bytea' ) THEN ");
+            stringBuilder.Append("					'string'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'bool' ) THEN ");
+            stringBuilder.Append("					'bool'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'date' ) THEN ");
+            stringBuilder.Append("					'DateTime'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'decimal', 'money','numeric' ) THEN ");
+            stringBuilder.Append("					'decimal'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'float4', 'float8' ) THEN ");
+            stringBuilder.Append("					'float' ELSE'string '  ");
+            stringBuilder.Append("				END  as ColumnType ");
+            stringBuilder.Append("from 	information_schema.COLUMNS col  ");
+            stringBuilder.Append("WHERE	\"lower\" ( TABLE_NAME ) = \"lower\" (@tableName )  ");
+            return stringBuilder.ToString();
         }
 
         private WebResponseContent ExistsTable(string tableName, string tableTrueName)
@@ -342,6 +350,29 @@ DISTINCT
         }
 
         /// <summary>
+        /// 2020.08.07完善PGSQL
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        private string GetCurrentSql(string tableName)
+        {
+            string sql;
+            if (DBType.Name.ToLower() == DbCurrentType.MySql.ToString().ToLower())
+            {
+                sql = GetMySqlStructure(tableName);
+            }
+            else if (DBType.Name.ToLower() == DbCurrentType.PgSql.ToString().ToLower())
+            {
+                sql = GetPgSqlStructure(tableName);
+            }
+            else
+            {
+                sql = GetSqlServerStructure(tableName);
+            }
+            return sql;
+        }
+
+        /// <summary>
         /// 将表结构重新同步到代码生成配置
         /// </summary>
         /// <param name="tableName"></param>
@@ -360,19 +391,8 @@ DISTINCT
                 tableName = tableInfo.TableTrueName;
             }
 
-            string sql;
-            if (DBType.Name.ToLower() == DbCurrentType.MySql.ToString().ToLower())
-            {
-                sql = GetMySqlStructure(tableName);
-            }
-            else if (DBType.Name.ToLower() == DbCurrentType.PgSql.ToString().ToLower())
-            {
-                throw new Exception("开发中");
-            }
-            else
-            {
-                sql = GetSqlServerStructure(tableName);
-            }
+            string sql = GetCurrentSql(tableName);
+
             //获取表结构
             List<Sys_TableColumn> columns = repository.DapperContext
                   .QueryList<Sys_TableColumn>(sql, new { tableName });
@@ -1100,6 +1120,130 @@ DISTINCT
         }
 
         /// <summary>
+        /// 2020.08.07完善PGSQL
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        private string GetPgSqlStructure(string tableName)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("SELECT ");
+            stringBuilder.Append("	MM.\"TableName\", ");
+            stringBuilder.Append("	MM.\"ColumnName\", ");
+            stringBuilder.Append(" 	MM.\"ColumnCNName\", ");
+            stringBuilder.Append("	MM.\"ColumnType\", ");
+            stringBuilder.Append("	MM.\"Maxlength\", ");
+            stringBuilder.Append("	MM.\"IsKey\", ");
+            stringBuilder.Append("	MM.\"IsDisplay\", ");
+            stringBuilder.Append("	MM.\"IsColumnData\", ");
+            stringBuilder.Append("CASE ");
+            stringBuilder.Append("		 ");
+            stringBuilder.Append("		WHEN MM.\"ColumnType\" = 'DateTime' THEN ");
+            stringBuilder.Append("		150  ");
+            stringBuilder.Append("		WHEN MM.\"ColumnType\" = 'int' THEN ");
+            stringBuilder.Append("		80  ");
+            stringBuilder.Append("		WHEN MM.\"Maxlength\" < 110  ");
+            stringBuilder.Append("		AND MM.\"Maxlength\" > 60 THEN ");
+            stringBuilder.Append("			120  ");
+            stringBuilder.Append("			WHEN MM.\"Maxlength\" < 200  ");
+            stringBuilder.Append("			AND MM.\"Maxlength\" >= 110 THEN ");
+            stringBuilder.Append("				180  ");
+            stringBuilder.Append("				WHEN MM.\"Maxlength\" > 200 THEN ");
+            stringBuilder.Append("				220 ELSE 90  ");
+            stringBuilder.Append("			END AS \"ColumnWidth\", ");
+            stringBuilder.Append("			MM.\"OrderNo\", ");
+            stringBuilder.Append("		 case WHEN MM.\"IsKey\"=1 or \"lower\"(MM.\"IsNull\")='no' then 0 else 1 end as 	\"IsNull\" , ");
+            stringBuilder.Append("			MM.\"IsReadDataset\", ");
+            stringBuilder.Append("			MM.\"EditColNo\"  ");
+            stringBuilder.Append("		FROM ");
+            stringBuilder.Append("			( ");
+            stringBuilder.Append("			SELECT ");
+            stringBuilder.Append("				col.TABLE_NAME AS \"TableName\", ");
+            stringBuilder.Append("				col.COLUMN_NAME AS \"ColumnName\", ");
+            stringBuilder.Append("				attr.description AS \"ColumnCNName\", ");
+            stringBuilder.Append("			CASE ");
+            stringBuilder.Append("					 ");
+            stringBuilder.Append("					WHEN col.udt_name = 'uuid' THEN ");
+            stringBuilder.Append("					'guid'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'int2') THEN ");
+            stringBuilder.Append("					'short'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'int4' ) THEN ");
+            stringBuilder.Append("					'int'  ");
+            stringBuilder.Append("					WHEN col.udt_name = 'int8' THEN ");
+            stringBuilder.Append("					'long'  ");
+            stringBuilder.Append("					WHEN col.udt_name = 'BIGINT' THEN ");
+            stringBuilder.Append("					'long'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'char', 'varchar', 'text', 'xml', 'bytea' ) THEN ");
+            stringBuilder.Append("					'string'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'bool' ) THEN ");
+            stringBuilder.Append("					'bool'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'date' ) THEN ");
+            stringBuilder.Append("					'DateTime'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'decimal', 'money','numeric' ) THEN ");
+            stringBuilder.Append("					'decimal'  ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'float4', 'float8' ) THEN ");
+            stringBuilder.Append("					'float' ELSE'string '  ");
+            stringBuilder.Append("				END \"ColumnType\", ");
+            stringBuilder.Append("CASE ");
+            stringBuilder.Append("	 ");
+            stringBuilder.Append("	WHEN col.udt_name = 'varchar' THEN ");
+            stringBuilder.Append("	col.character_maximum_length  ");
+            stringBuilder.Append("	WHEN col.udt_name IN ( 'int2', 'int4', 'int8', 'float4', 'float8' ) THEN ");
+            stringBuilder.Append("	col.numeric_precision ELSE 1024  ");
+            stringBuilder.Append("	END \"Maxlength\", ");
+            stringBuilder.Append("CASE ");
+            stringBuilder.Append("	 ");
+            stringBuilder.Append("	WHEN keyTable.IsKey = 1 THEN ");
+            stringBuilder.Append("	1 ELSE 0  ");
+            stringBuilder.Append("	END \"IsKey\", ");
+            stringBuilder.Append("CASE ");
+            stringBuilder.Append("	 ");
+            stringBuilder.Append("	WHEN keyTable.IsKey = 1 THEN ");
+            stringBuilder.Append("	0 ELSE 1  ");
+            stringBuilder.Append("	END \"IsDisplay\", ");
+            stringBuilder.Append("	1 AS \"IsColumnData\", ");
+            stringBuilder.Append("	0 AS \"OrderNo\", ");
+            stringBuilder.Append("	col.is_nullable AS \"IsNull\", ");
+            stringBuilder.Append("CASE ");
+            stringBuilder.Append("		 ");
+            stringBuilder.Append("		WHEN keyTable.IsKey = 1 THEN ");
+            stringBuilder.Append("		1 ELSE 0  ");
+            stringBuilder.Append("	END \"IsReadDataset\", ");
+            stringBuilder.Append("CASE ");
+            stringBuilder.Append("	 ");
+            stringBuilder.Append("	WHEN keyTable.IsKey IS NULL  ");
+            stringBuilder.Append("	AND col.is_nullable = 'NO' THEN ");
+            stringBuilder.Append("	0 ELSE NULL  ");
+            stringBuilder.Append("	END AS \"EditColNo\"  ");
+            stringBuilder.Append("FROM ");
+            stringBuilder.Append("	information_schema.COLUMNS col  ");
+            stringBuilder.Append("  LEFT JOIN ( ");
+            stringBuilder.Append("	SELECT col_description(a.attrelid,a.attnum) as description,a.attname as name ");
+            stringBuilder.Append("FROM pg_class as c,pg_attribute as a  ");
+            stringBuilder.Append("where \"lower\"(c.relname) = \"lower\"(@tableName) and a.attrelid = c.oid and a.attnum>0 ");
+            stringBuilder.Append("	) as attr on attr.name=col.COLUMN_NAME ");
+            stringBuilder.Append("	LEFT JOIN ( ");
+            stringBuilder.Append("	SELECT ");
+            stringBuilder.Append("		pg_attribute.attname AS colname, ");
+            stringBuilder.Append("		1 AS IsKey  ");
+            stringBuilder.Append("	FROM ");
+            stringBuilder.Append("		pg_constraint ");
+            stringBuilder.Append("		INNER JOIN pg_class ON pg_constraint.conrelid = pg_class.oid ");
+            stringBuilder.Append("		INNER JOIN pg_attribute ON pg_attribute.attrelid = pg_class.oid  ");
+            stringBuilder.Append("		AND pg_attribute.attnum = pg_constraint.conkey [1]  ");
+            stringBuilder.Append("	WHERE ");
+            stringBuilder.Append("		\"lower\" ( pg_class.relname ) = \"lower\" ( @tableName )  ");
+            stringBuilder.Append("		AND pg_constraint.contype = 'p'  ");
+            stringBuilder.Append("	) keyTable ON col.COLUMN_NAME = keyTable.colname  ");
+            stringBuilder.Append("WHERE ");
+            stringBuilder.Append("	\"lower\" ( TABLE_NAME ) = \"lower\" ( @tableName )  ");
+            stringBuilder.Append("ORDER BY ");
+            stringBuilder.Append("	ordinal_position  ");
+            stringBuilder.Append("	) MM; ");
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
         /// 设置界面table td单元格的宽度
         /// </summary>
         /// <param name="columns"></param>
@@ -1170,9 +1314,7 @@ DISTINCT
                 Enable = 1
             };
             List<Sys_TableColumn> columns = repository.DapperContext
-                .QueryList<Sys_TableColumn>(
-                isMySql ? GetMySqlStructure(tableName) : GetSqlServerStructure(tableName),
-                new { tableName });
+                .QueryList<Sys_TableColumn>(GetCurrentSql(tableName), new { tableName });
 
             int orderNo = (columns.Count + 10) * 50;
             for (int i = 0; i < columns.Count; i++)
@@ -1556,6 +1698,8 @@ DISTINCT
             entityAttribute.Add("TableCnName = \"" + tableInfo.ColumnCNName + "\"");
             if (!string.IsNullOrEmpty(tableInfo.TableTrueName))
             {
+                //如果使用的是pgsql数据库，并且数据库表都是小写，请将下面的.ToLower()这段开启.2020.08.07
+                //entityAttribute.Add("TableName = \"" + tableInfo.TableTrueName.ToLower() + "\"");
                 entityAttribute.Add("TableName = \"" + tableInfo.TableTrueName + "\"");
             }
             if (!string.IsNullOrEmpty(tableInfo.DetailName) && createType == 1)

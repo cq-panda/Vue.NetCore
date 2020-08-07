@@ -1,6 +1,7 @@
 ﻿
 using Dapper;
 using MySql.Data.MySqlClient;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -32,7 +33,7 @@ namespace VOL.Core.Dapper
                 return _connection;
             }
         }
-     
+
 
         public SqlDapper()
         {
@@ -255,7 +256,7 @@ namespace VOL.Core.Dapper
             else if (DBType.Name == DbCurrentType.PgSql.ToString())
             {
                 //todo pgsql批量写入 待检查是否正确
-                sql = $"insert into {entityType.GetEntityTableName()}({"\""+string.Join("\",\"", columns)+"\""})" +
+                sql = $"insert into {entityType.GetEntityTableName()}({"\"" + string.Join("\",\"", columns) + "\""})" +
                     $"values(@{string.Join(",@", columns)});";
             }
             else
@@ -336,7 +337,7 @@ namespace VOL.Core.Dapper
 
             IEnumerable<(bool, string, object)> validation = keyProperty.ValidationValueForDbType(keys);
             if (validation.Any(x => !x.Item1))
-            {
+            {  
                 throw new Exception($"主键类型【{validation.Where(x => !x.Item1).Select(s => s.Item3).FirstOrDefault()}】不正确");
             }
             string tKey = entityType.GetKeyProperty().Name;
@@ -344,9 +345,18 @@ namespace VOL.Core.Dapper
             string joinKeys = (fieldType == FieldType.Int || fieldType == FieldType.BigInt)
                  ? string.Join(",", keys)
                  : $"'{string.Join("','", keys)}'";
+            string sql;
+            // 2020.08.06增加pgsql删除功能
+            if (DBType.Name == DbCurrentType.PgSql.ToString())
+            {
+                sql = $"DELETE FROM \"public\".\"{entityType.GetEntityTableName()}\" where \"{tKey}\" in ({joinKeys});";
+            }
+            else
+            {
+                sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
+            }
 
-            string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
-            return (int)ExcuteNonQuery(sql, null);
+            return ExcuteNonQuery(sql, null);
         }
         /// <summary>
         /// 使用key批量删除
@@ -401,8 +411,9 @@ namespace VOL.Core.Dapper
                 return MySqlBulkInsert(table, tableName, fileName, tmpPath);
             else if (Connection.GetType().Name == "NpgsqlConnection")
             {
-                //todo pgsql待实现
-                throw new Exception("Pgsql的批量插入没实现,可以先把日志start注释跑起来，\\Vue.Net\\VOL.Core\\Services\\Logger.cs");
+                // 2020.08.07增加PGSQL批量写入
+                PGSqlBulkInsert(table, tableName);
+                return 0;
             }
             return MSSqlBulkInsert(table, tableName, sqlBulkCopyOptions ?? SqlBulkCopyOptions.KeepIdentity);
         }
@@ -494,7 +505,36 @@ namespace VOL.Core.Dapper
 
             return sb.ToString();
         }
-
+        /// <summary>
+        /// 2020.08.07增加PGSQL批量写入
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="tableName"></param>
+        private void PGSqlBulkInsert(DataTable table, string tableName)
+        {
+            List<string> columns = new List<string>();
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                columns.Add("\"" + table.Columns[i].ColumnName + "\"");
+            }
+            string copySql = $"copy \"public\".\"{tableName}\"({string.Join(',', columns)}) FROM STDIN (FORMAT BINARY)";
+            using (var conn = new Npgsql.NpgsqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (var writer = conn.BeginBinaryImport(copySql))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        writer.StartRow();
+                        for (int i = 0; i < table.Columns.Count; i++)
+                        {
+                            writer.Write(row[i]);
+                        }
+                    }
+                    writer.Complete();
+                }
+            }
+        }
 
     }
 }

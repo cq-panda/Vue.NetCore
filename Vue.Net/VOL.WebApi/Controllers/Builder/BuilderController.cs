@@ -36,43 +36,43 @@ namespace VOL.WebApi.Controllers.Builder
         [Route("CreatePage")]
         [ApiActionPermission(ActionRolePermission.SuperAdmin)]
         [HttpPost]
-        public async Task<ActionResult> CreatePage([FromBody]Sys_TableInfo sysTableInfo)
+        public ActionResult CreatePage([FromBody] Sys_TableInfo sysTableInfo)
         {
-            return Content(await Task.Run(() => Service.CreatePage(sysTableInfo)));
+            return Content(Service.CreatePage(sysTableInfo));
         }
         [Route("CreateVuePage")]
         [ApiActionPermission(ActionRolePermission.SuperAdmin)]
         [HttpPost]
-        public async Task<ActionResult> CreateVuePage([FromBody]Sys_TableInfo sysTableInfo, string vuePath)
+        public ActionResult CreateVuePage([FromBody] Sys_TableInfo sysTableInfo, string vuePath)
         {
-            return Content(await Task.Run(() => Service.CreateVuePage(sysTableInfo, vuePath)));
+            return Content(Service.CreateVuePage(sysTableInfo, vuePath));
         }
         [Route("CreateModel")]
         [ApiActionPermission(ActionRolePermission.SuperAdmin)]
         [HttpPost]
-        public async Task<ActionResult> CreateEntityModel([FromBody] Sys_TableInfo tableInfo)
+        public ActionResult CreateEntityModel([FromBody] Sys_TableInfo tableInfo)
         {
-            return Content(await Task.Run(() => Service.CreateEntityModel(tableInfo)));
+            return Content(Service.CreateEntityModel(tableInfo));
         }
         [Route("Save")]
         [ApiActionPermission(ActionRolePermission.SuperAdmin)]
         [HttpPost]
-        public async Task<ActionResult> SaveEidt([FromBody] Sys_TableInfo tableInfo)
+        public ActionResult SaveEidt([FromBody] Sys_TableInfo tableInfo)
         {
-            return Json(await Task.Run(() => Service.SaveEidt(tableInfo)));
+            return Json(Service.SaveEidt(tableInfo));
         }
         [Route("CreateServices")]
         [ApiActionPermission(ActionRolePermission.SuperAdmin)]
         [HttpPost]
-        public async Task<ActionResult> CreateServices(string tableName, string nameSpace, string foldername, bool? partial, bool? api)
+        public ActionResult CreateServices(string tableName, string nameSpace, string foldername, bool? partial, bool? api)
         {
-            return Content(await Task.Run(() => Service.CreateServices(tableName, nameSpace, foldername, false, true)));
+            return Content(Service.CreateServices(tableName, nameSpace, foldername, false, true));
         }
         [Route("LoadTableInfo")]
         [HttpPost]
-        public async Task<ActionResult> LoadTable(int parentId, string tableName, string columnCNName, string nameSpace, string foldername, int table_Id, bool isTreeLoad)
+        public ActionResult LoadTable(int parentId, string tableName, string columnCNName, string nameSpace, string foldername, int table_Id, bool isTreeLoad)
         {
-            return Json(await Task.Run(() => Service.LoadTable(parentId, tableName, columnCNName, nameSpace, foldername, table_Id, isTreeLoad)));
+            return Json(Service.LoadTable(parentId, tableName, columnCNName, nameSpace, foldername, table_Id, isTreeLoad));
 
         }
         [Route("delTree")]

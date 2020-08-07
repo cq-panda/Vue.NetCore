@@ -955,12 +955,28 @@ namespace VOL.Core.BaseProvider
                  ? string.Join(",", keys)
                  : $"'{string.Join("','", keys)}'";
             string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
+            // 2020.08.06增加pgsql删除功能
+            if (DBType.Name == DbCurrentType.PgSql.ToString())
+            {
+                sql = $"DELETE FROM \"public\".\"{entityType.GetEntityTableName() }\" where \"{tKey}\" in ({joinKeys});";
+            }
             if (delList)
             {
                 Type detailType = entityType.GetCustomAttribute<EntityAttribute>()?.DetailTable?[0];
                 if (detailType != null)
-                    sql = sql + $"DELETE FROM {detailType.GetEntityTableName()} where {tKey} in ({joinKeys});";
+                {
+                    if (DBType.Name == DbCurrentType.PgSql.ToString())
+                    {
+                        sql += $"DELETE FROM \"public\".\"{detailType.GetEntityTableName()}\" where \"{tKey}\" in ({joinKeys});";
+                    }
+                    else
+                    {
+                        sql += $"DELETE FROM {detailType.GetEntityTableName()} where {tKey} in ({joinKeys});";
+                    }
+                }
+
             }
+
             //repository.DapperContext.ExcuteNonQuery(sql, CommandType.Text, null, true);
 
             //可能在删除后还要做一些其它数据库新增或删除操作，这样就可能需要与删除保持在同一个事务中处理
