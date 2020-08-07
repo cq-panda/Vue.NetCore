@@ -12,7 +12,7 @@
  Target Server Version : 100013
  File Encoding         : 65001
 
- Date: 05/08/2020 09:54:35
+ Date: 07/08/2020 20:09:37
 */
 
 
@@ -428,7 +428,7 @@ CREATE TABLE "public"."App_News" (
 -- ----------------------------
 -- Records of App_News
 -- ----------------------------
-INSERT INTO "public"."App_News" VALUES (1, '2', '2', '2', '2020-06-14 19:59:26', 2, '2', 2, '2', 1, NULL, NULL, NULL, 1, 1, 2, '2020-06-14 19:59:34', '2', 2);
+INSERT INTO "public"."App_News" VALUES (1, '2', '2', '2', '2020-06-14 19:59:26', 2, '2', 2, '2', 1, NULL, NULL, NULL, 1, 1, 2, '2020-06-14 19:59:34', 'tt1234', 2);
 
 -- ----------------------------
 -- Table structure for App_Reportprice
@@ -491,6 +491,7 @@ CREATE TABLE "public"."App_Transaction" (
 INSERT INTO "public"."App_Transaction" VALUES (4, '1', '2019-09-18 18:10:01', 1, '超级管理员', '寒江孤影，江湖故人....', NULL, '超级管理员', '2020-04-24 13:39:41', 1, '寒江孤影', '13419098211', 25, 0);
 INSERT INTO "public"."App_Transaction" VALUES (5, '1', '2019-09-18 18:10:01', 1, '超级管理员', '闻着臭，吃着更臭。。。。。', NULL, '超级管理员', '2020-04-24 13:38:37', 1, '不爱`吃臭`豆腐', '13419098211', 25, 1);
 INSERT INTO "public"."App_Transaction" VALUES (6, '3', '2019-09-18 18:22:25', 1, '超级管理员', '浪子回头...。。。', NULL, '超级管理员', '2020-04-24 13:37:24', 1, '同是天涯流落人', '13419444421', 199, 1);
+INSERT INTO "public"."App_Transaction" VALUES (27, '1', '2020-08-06 19:09:57.956672', 1, 'admin', '127', NULL, NULL, NULL, NULL, '18', '117', 17, 1);
 
 -- ----------------------------
 -- Table structure for App_TransactionAvgPrice
@@ -505,7 +506,7 @@ CREATE TABLE "public"."App_TransactionAvgPrice" (
   "CreateID" int4,
   "Creator" varchar(30) COLLATE "pg_catalog"."default",
   "Date" date NOT NULL,
-  "Enable" int2,
+  "Enable" int4,
   "IsTop" int4 NOT NULL,
   "Modifier" varchar(30) COLLATE "pg_catalog"."default",
   "ModifyDate" timestamp(6),
@@ -517,19 +518,16 @@ CREATE TABLE "public"."App_TransactionAvgPrice" (
 -- ----------------------------
 -- Records of App_TransactionAvgPrice
 -- ----------------------------
-INSERT INTO "public"."App_TransactionAvgPrice" VALUES (2, '12-16月龄', 22.00, '天津市', '2019-05-06 14:06:15', 1, '超级管理员', '2019-05-30', 0, 1, '超级管理员', '2019-08-01 13:06:16', 1, '鲁西黄牛');
-INSERT INTO "public"."App_TransactionAvgPrice" VALUES (3, '16月龄以上', 18.00, '石家庄市', '2019-05-06 14:06:35', 1, '超级管理员', '2019-05-08', 0, 1, '超级管理员', '2019-08-01 15:20:42', 1, '秦川牛');
-INSERT INTO "public"."App_TransactionAvgPrice" VALUES (6, '7-12月龄', 19.00, '北京市', '2019-05-08 15:42:30', 1, '超级管理员', '2019-05-07', 0, 1, '超级管理员', '2019-07-15 15:24:45', 1, '神户肉牛');
-INSERT INTO "public"."App_TransactionAvgPrice" VALUES (7, '2-6月龄', 22.00, '北京市', '2019-07-12 10:39:44', 1, '超级管理员', '2019-07-16', 0, 1, '超级管理员', '2019-07-31 13:45:41', 1, '南阳牛');
-INSERT INTO "public"."App_TransactionAvgPrice" VALUES (8, '12-16月龄', 23.43, '上海市', '2019-07-12 14:32:29', 1, '超级管理员', '2019-07-10', 0, 2, '超级管理员', '2020-03-03 12:35:43', 1, '神户肉牛');
-INSERT INTO "public"."App_TransactionAvgPrice" VALUES (10, '12-16月龄', 22.00, '唐山市', '2019-07-12 18:01:27', 1, '超级管理员', '2019-07-07', NULL, 2, '超级管理员', '2020-04-24 13:48:27', 1, '利木赞牛');
+INSERT INTO "public"."App_TransactionAvgPrice" VALUES (13, '7-12月龄', 222.00, '北京市', '2020-08-06 18:45:09', 1, 'admin', '2020-08-12', NULL, 1, '', NULL, NULL, '6,5,4');
+INSERT INTO "public"."App_TransactionAvgPrice" VALUES (16, '16月龄以上', 33.00, '北京市', '2020-08-06 18:56:46', 1, 'admin', '2020-08-14', NULL, 1, '', NULL, NULL, '8');
+INSERT INTO "public"."App_TransactionAvgPrice" VALUES (15, '7-12月龄', 22.00, '北京市', '2020-08-06 18:56:09', 1, 'admin', '2020-08-17', NULL, 0, 'admin', '2020-08-06 18:56:54', 1, '2');
 
 -- ----------------------------
 -- Table structure for SellOrder
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."SellOrder";
 CREATE TABLE "public"."SellOrder" (
-  "Order_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL DEFAULT nextval('sellorder_id_seq'::regclass),
+  "Order_Id" uuid NOT NULL,
   "OrderType" int4 NOT NULL,
   "TranNo" varchar(100) COLLATE "pg_catalog"."default" NOT NULL,
   "SellNo" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
@@ -551,14 +549,15 @@ CREATE TABLE "public"."SellOrder" (
 -- ----------------------------
 -- Records of SellOrder
 -- ----------------------------
+INSERT INTO "public"."SellOrder" VALUES ('2779bbb4-6010-4bb9-a884-d30851429d80', 3, '2324', '222', 22, NULL, 0, NULL, NULL, NULL, 1, 'admin', '2020-08-06 19:33:40.123416', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for SellOrderList
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."SellOrderList";
 CREATE TABLE "public"."SellOrderList" (
-  "OrderList_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL DEFAULT nextval('sellorderlist_id_seq'::regclass),
-  "Order_Id" varchar(36) COLLATE "pg_catalog"."default" NOT NULL,
+  "OrderList_Id" uuid NOT NULL,
+  "Order_Id" uuid NOT NULL,
   "ProductName" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
   "MO" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "Qty" int4 NOT NULL,
@@ -576,6 +575,7 @@ CREATE TABLE "public"."SellOrderList" (
 -- ----------------------------
 -- Records of SellOrderList
 -- ----------------------------
+INSERT INTO "public"."SellOrderList" VALUES ('5ce623dd-5e60-40ad-ad38-c47e600fd6c5', '2779bbb4-6010-4bb9-a884-d30851429d80', '食品', '2', 33, 11.00, '23', 1, 'admin', '2020-08-06 19:33:40.179994', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_City
@@ -725,22 +725,7 @@ INSERT INTO "public"."Sys_Dictionary" VALUES (62, '{
 }', NULL, 1, '超级管理员', NULL, NULL, '推荐价格', 'top', 1, '超级管理员', NULL, 1, NULL, 1, 'dddd');
 INSERT INTO "public"."Sys_Dictionary" VALUES (64, NULL, NULL, 1, '超级管理员', NULL, NULL, '订单类型', 'ordertype', 1, '超级管理员', NULL, 1, NULL, 0, 'xxxxx');
 INSERT INTO "public"."Sys_Dictionary" VALUES (66, NULL, NULL, 3362, 'zs', NULL, NULL, 'table中的角色列表', 't_roles', 1, NULL, NULL, NULL, NULL, 0, NULL);
-INSERT INTO "public"."Sys_Dictionary" VALUES (65, NULL, NULL, 1, '超级管理员', NULL, NULL, '商品名称', 'p', 1, 'admin', '2020-06-14 20:55:07.253138', 1, 2, 0, '测试');
 INSERT INTO "public"."Sys_Dictionary" VALUES (1, NULL, '2020-06-14 20:58:26.970561', 1, 'admin', NULL, NULL, 'test0615', 'test0615', 0, NULL, NULL, NULL, NULL, 0, '11');
-INSERT INTO "public"."Sys_Dictionary" VALUES (32, '{valueField: ''Role_Id'',
- textField: ''RoleName'', 
- containField: ''Role_Id'',''RoleName'',
- handler: null }
-', NULL, NULL, '测试超级管理员', NULL, 'SELECT "Role_Id" as key,"RoleName" as value from Sys_Role', '角色列表', 'roles', 1, 'admin', '2020-06-14 21:10:10.292789', 1, 123, 0, 'sql语句需要key,value列，界面才能绑定数据源');
-INSERT INTO "public"."Sys_Dictionary" VALUES (38, '{
- valueField: ''City'',
- textField: ''City'',
-  containField:null 
-}', NULL, NULL, '测试超级管理员', NULL, '
-SELECT  CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName" end  as  key,CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName" end  as value  FROM Sys_City AS a 
-INNER JOIN Sys_Province AS b 
-ON a."ProvinceCode"=b."ProvinceCode"
-WHERE a."CityName"<> ''县''', '城市', 'city', 1, 'admin', '2020-06-14 21:13:04.515754', 1, NULL, 0, NULL);
 INSERT INTO "public"."Sys_Dictionary" VALUES (46, '{
  valueField: ''ProvinceName'',
  textField: ''ProvinceName'',
@@ -750,6 +735,21 @@ SELECT  CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName"
 INNER JOIN Sys_Province AS b 
 ON a."ProvinceCode"=b."ProvinceCode"
 WHERE a."CityName"<> ''县''', '省列表', 'pro', 1, 'admin', '2020-06-14 21:13:12.159191', 1, NULL, 0, 'sql语句需要key,value列，界面才能绑定数据源');
+INSERT INTO "public"."Sys_Dictionary" VALUES (38, '{
+ valueField: ''City'',
+ textField: ''City'',
+  containField:null 
+}', NULL, NULL, '测试超级管理员', NULL, '
+SELECT  CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName" end  as  key,CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName" end  as value  FROM "public"."Sys_City" AS a 
+INNER JOIN "public"."Sys_Province" AS b 
+ON a."ProvinceCode"=b."ProvinceCode"
+WHERE a."CityName"<> ''县''', '城市', 'city', 1, 'admin', '2020-08-06 17:53:59.104961', 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (32, '{valueField: ''Role_Id'',
+ textField: ''RoleName'', 
+ containField: ''Role_Id'',''RoleName'',
+ handler: null }
+', NULL, NULL, '测试超级管理员', NULL, 'SELECT "Role_Id" as key,"RoleName" as value from "public"."Sys_Role"', '角色列表', 'roles', 1, 'admin', '2020-08-06 18:37:19.548483', 1, 123, 0, 'sql语句需要key,value列，界面才能绑定数据源');
+INSERT INTO "public"."Sys_Dictionary" VALUES (65, NULL, NULL, 1, '超级管理员', NULL, NULL, '商品名称', 'pn', 1, 'admin', '2020-08-06 19:12:10.22013', 1, 2, 0, '测试');
 
 -- ----------------------------
 -- Table structure for Sys_DictionaryList
@@ -852,12 +852,12 @@ INSERT INTO "public"."Sys_DictionaryList" VALUES (149, NULL, 1, '超级管理员
 INSERT INTO "public"."Sys_DictionaryList" VALUES (150, NULL, 1, '超级管理员', '退货', '2', 64, 0, '超级管理员', NULL, 1, NULL, 'fs');
 INSERT INTO "public"."Sys_DictionaryList" VALUES (151, NULL, 1, '超级管理员', '返单', '3', 64, 1, '超级管理员', NULL, 1, NULL, 'xx');
 INSERT INTO "public"."Sys_DictionaryList" VALUES (422, NULL, 1, '超级管理员', 'xx11', '2', 3, 0, NULL, NULL, NULL, 2, NULL);
-INSERT INTO "public"."Sys_DictionaryList" VALUES (152, NULL, 1, '超级管理员', '家居', '家居', 65, 1, 'admin', '2020-06-14 20:55:07.260139', 1, NULL, NULL);
-INSERT INTO "public"."Sys_DictionaryList" VALUES (153, NULL, 1, '超级管理员', '男装', '男装', 65, 1, 'admin', '2020-06-14 20:55:07.260139', 1, 4, NULL);
-INSERT INTO "public"."Sys_DictionaryList" VALUES (154, NULL, 1, '超级管理员', '女装', '女装', 65, NULL, 'admin', '2020-06-14 20:55:07.259139', 1, 6, NULL);
-INSERT INTO "public"."Sys_DictionaryList" VALUES (155, NULL, 1, '超级管理员', '食品', '食品', 65, NULL, 'admin', '2020-06-14 20:55:07.257138', 1, NULL, NULL);
 INSERT INTO "public"."Sys_DictionaryList" VALUES (500, '2020-06-14 20:58:28.303638', 1, 'admin', 'tt', '1', 1, 0, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO "public"."Sys_DictionaryList" VALUES (501, '2020-06-14 20:58:28.35064', 1, 'admin', 't', '2', 1, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (152, NULL, 1, '超级管理员', '家居', '家居', 65, 1, 'admin', '2020-08-06 19:12:10.271845', 1, NULL, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (153, NULL, 1, '超级管理员', '男装', '男装', 65, 1, 'admin', '2020-08-06 19:12:10.271774', 1, 4, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (154, NULL, 1, '超级管理员', '女装', '女装', 65, NULL, 'admin', '2020-08-06 19:12:10.271589', 1, 6, NULL);
+INSERT INTO "public"."Sys_DictionaryList" VALUES (155, NULL, 1, '超级管理员', '食品', '食品', 65, NULL, 'admin', '2020-08-06 19:12:10.251886', 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_Log
@@ -886,16 +886,48 @@ CREATE TABLE "public"."Sys_Log" (
 -- ----------------------------
 -- Records of Sys_Log
 -- ----------------------------
-INSERT INTO "public"."Sys_Log" VALUES (1, '2020-06-14 20:08:21.224643', NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."Sys_Log" VALUES (2, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."Sys_Log" VALUES (3, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."Sys_Log" VALUES (4, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."Sys_Log" VALUES (5, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '4', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."Sys_Log" VALUES (6, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."Sys_Log" VALUES (7, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."Sys_Log" VALUES (8, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '7', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."Sys_Log" VALUES (9, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "public"."Sys_Log" VALUES (10, '2020-06-14 20:08:21.225643', NULL, NULL, NULL, NULL, NULL, '9', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."Sys_Log" VALUES (31, '2020-08-07 19:40:07.532154', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 160, '2020-08-07 19:40:07.69194', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/getPageData', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (32, '2020-08-07 19:40:07.597547', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 141, '2020-08-07 19:40:07.738682', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/getPageData', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (33, '2020-08-07 19:40:07.955882', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 172, '2020-08-07 19:40:08.128259', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/getPageData', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (34, '2020-08-07 19:40:14.293606', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 284, '2020-08-07 19:40:14.577677', NULL, 'Del', '[27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,10,9,8,7,6,5,4,3,2,1]', 'Ok', 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/del', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (35, '2020-08-07 19:40:14.293606', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 285, '2020-08-07 19:40:14.57828', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/del', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (36, '2020-08-07 19:40:14.606022', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 194, '2020-08-07 19:40:14.800023', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/getPageData', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (37, '2020-08-07 19:47:15.898516', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 3618, '2020-08-07 19:47:19.516318', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/getPageData', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (38, '2020-08-07 19:47:18.476497', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 1040, '2020-08-07 19:47:19.516311', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/getPageData', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (39, '2020-08-07 19:47:16.491604', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 3025, '2020-08-07 19:47:19.516336', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/getPageData', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (40, '2020-08-07 19:47:16.80781', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 2709, '2020-08-07 19:47:19.516324', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/getPageData', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (41, '2020-08-07 19:47:15.414562', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 4102, '2020-08-07 19:47:19.516334', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/getPageData', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (42, '2020-08-07 19:47:17.404502', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 2112, '2020-08-07 19:47:19.516299', NULL, 'System', NULL, NULL, 1, '127.0.0.1:9991', 3, 'http://127.0.0.1:9991/api/Sys_Log/getPageData', '127.0.0.1', 'admin', 1);
+INSERT INTO "public"."Sys_Log" VALUES (43, '2020-08-07 19:49:03.898232', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 425, '2020-08-07 19:49:04.323566', NULL, 'Exception', '主键类型【System.Int32[]】不正确   at VOL.Core.Dapper.SqlDapper.DelWithKey[T](Boolean beginTransaction, Object[] keys) in G:\jxx\Vue.NetCore\Vue.Net\VOL.Core\Dapper\SqlDapper.cs:line 343
+   at VOL.Core.Dapper.SqlDapper.DelWithKey[T](Object[] keys) in G:\jxx\Vue.NetCore\Vue.Net\VOL.Core\Dapper\SqlDapper.cs:line 369
+   at VOL.AppManager.Controllers.test2019Controller.Test() in G:\jxx\Vue.NetCore\Vue.Net\VOL.WebApi\Controllers\AppManager\Partial\test2019Controller.cs:line 37
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at VOL.Core.Middleware.HttpRequestMiddleware.<>c__DisplayClass1_0.<<get_Context>b__1>d.MoveNext() in G:\jxx\Vue.NetCore\Vue.Net\VOL.Core\Middleware\HttpRequestMiddleware.cs:line 39
+--- End of stack trace from previous location where exception was thrown ---
+   at VOL.Core.Middleware.ExceptionHandlerMiddleWare.Invoke(HttpContext context) in G:\jxx\Vue.NetCore\Vue.Net\VOL.Core\Middleware\ExceptionHandlerMiddleWare.cs:line 28', NULL, 0, '0.0.0.1:9991', 2, 'http://localhost:9991/api/test2019/test', '::1', NULL, 0);
+INSERT INTO "public"."Sys_Log" VALUES (44, '2020-08-07 19:51:45.032689', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 1256, '2020-08-07 19:51:46.288598', NULL, 'System', NULL, NULL, 0, '0.0.0.1:9991', 3, 'http://localhost:9991/api/test2019/test', '::1', NULL, 0);
+INSERT INTO "public"."Sys_Log" VALUES (45, '2020-08-07 19:51:46.47603', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36', 22, '2020-08-07 19:51:46.498475', NULL, 'System', NULL, NULL, 0, '0.0.0.1:9991', 3, 'http://localhost:9991/favicon.ico', '::1', NULL, 0);
 
 -- ----------------------------
 -- Table structure for Sys_Menu
@@ -1066,6 +1098,9 @@ CREATE TABLE "public"."Sys_Role" (
   "RoleName" varchar(50) COLLATE "pg_catalog"."default"
 )
 ;
+COMMENT ON COLUMN "public"."Sys_Role"."Role_Id" IS 'id';
+COMMENT ON COLUMN "public"."Sys_Role"."CreateDate" IS '日期';
+COMMENT ON COLUMN "public"."Sys_Role"."Creator" IS '创建人';
 
 -- ----------------------------
 -- Records of Sys_Role
@@ -1440,6 +1475,73 @@ INSERT INTO "public"."Sys_TableColumn" VALUES (750, NULL, NULL, NULL, NULL, NULL
 INSERT INTO "public"."Sys_TableColumn" VALUES (751, NULL, NULL, NULL, NULL, '姓名', 'Name', 'string', 100, NULL, '2019-09-18 15:46:43', 1, '超级管理员', NULL, NULL, 1, NULL, NULL, 1, 1, NULL, 0, 0, 1, 50, '超级管理员', '2020-04-24 13:47:36', 1, 3500, NULL, NULL, 1, NULL, NULL, 'App_Appointment', 80);
 INSERT INTO "public"."Sys_TableColumn" VALUES (752, NULL, NULL, NULL, NULL, '电话', 'PhoneNo', 'string', 130, NULL, '2019-09-18 15:46:43', 1, '超级管理员', NULL, NULL, 2, NULL, NULL, 1, 1, NULL, 0, 0, 1, 15, '超级管理员', '2020-04-24 13:47:36', 1, 3470, NULL, NULL, 1, NULL, NULL, 'App_Appointment', 80);
 INSERT INTO "public"."Sys_TableColumn" VALUES (763, NULL, NULL, NULL, NULL, NULL, 'Certificate', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 2500, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'App_Expert', 20);
+INSERT INTO "public"."Sys_TableColumn" VALUES (826, NULL, NULL, NULL, NULL, NULL, 'Remark', 'string', 220, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1000, 'admin', '2020-08-07 19:39:32.144945', 1, 850, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (817, NULL, NULL, NULL, NULL, '测试key', 'Order_Id', 'guid', 220, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 1, 0, 1, 1024, 'admin', '2020-08-07 19:39:32.143741', 1, 1300, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (818, NULL, NULL, NULL, NULL, '测试1', 'OrderType', 'long', 90, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 64, 'admin', '2020-08-07 19:39:32.144178', 1, 1250, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (819, NULL, NULL, NULL, NULL, '测试2', 'TranNo', 'string', 120, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 100, 'admin', '2020-08-07 19:39:32.144434', 1, 1200, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (820, NULL, NULL, NULL, NULL, NULL, 'SellNo', 'string', 220, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 255, 'admin', '2020-08-07 19:39:32.144618', 1, 1150, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (821, NULL, NULL, NULL, NULL, NULL, 'Qty', 'int', 90, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 32, 'admin', '2020-08-07 19:39:32.144781', 1, 1100, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (827, NULL, NULL, NULL, NULL, NULL, 'CreateID', 'int', 80, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 19:39:32.145139', 1, 800, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (828, NULL, NULL, NULL, NULL, NULL, 'Creator', 'string', 130, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 255, 'admin', '2020-08-07 19:39:32.145311', 1, 750, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (829, NULL, NULL, NULL, NULL, NULL, 'CreateDate', 'string ', 220, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 19:39:32.145479', 1, 700, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (830, NULL, NULL, NULL, NULL, NULL, 'ModifyID', 'int', 80, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 19:39:32.14565', 1, 650, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (831, NULL, NULL, NULL, NULL, NULL, 'Modifier', 'string', 130, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 255, 'admin', '2020-08-07 19:39:32.145983', 1, 600, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (832, NULL, NULL, NULL, NULL, NULL, 'ModifyDate', 'string ', 220, NULL, '2020-08-07 17:21:30', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 19:39:32.146177', 1, 550, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (873, NULL, NULL, NULL, NULL, NULL, 'AuditStatus', 'int', 80, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 32, 'admin', '2020-08-07 19:39:32.146559', 1, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (874, NULL, NULL, NULL, NULL, NULL, 'AuditId', 'int', 80, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 19:39:32.146736', 1, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (875, NULL, NULL, NULL, NULL, NULL, 'Auditor', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 100, 'admin', '2020-08-07 19:39:32.147283', 1, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (894, NULL, NULL, NULL, NULL, NULL, 'ViewCount', 'int', 90, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 17:40:05.800926', 1, 550, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (876, NULL, NULL, NULL, NULL, NULL, 'Id', 'int', 90, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 1, 0, 1, 32, 'admin', '2020-08-07 17:40:05.791716', 1, 1450, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (877, NULL, NULL, NULL, NULL, NULL, 'ReleaseDate', 'string ', 220, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 17:40:05.800404', 1, 650, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (878, NULL, NULL, NULL, NULL, NULL, 'OrderNo', 'int', 90, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 17:40:05.800154', 1, 700, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (879, NULL, NULL, NULL, NULL, NULL, 'NewsType', 'int', 90, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 32, 'admin', '2020-08-07 17:40:05.799878', 1, 750, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (880, NULL, NULL, NULL, NULL, NULL, 'ModifyID', 'int', 80, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 17:40:05.799591', 1, 800, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (881, NULL, NULL, NULL, NULL, NULL, 'ModifyDate', 'string ', 220, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 17:40:05.799293', 1, 850, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (882, NULL, NULL, NULL, NULL, NULL, 'Modifier', 'string', 130, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, 'admin', '2020-08-07 17:40:05.798971', 1, 900, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (883, NULL, NULL, NULL, NULL, NULL, 'ImageUrl', 'string', 220, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 500, 'admin', '2020-08-07 17:40:05.798616', 1, 950, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (884, NULL, NULL, NULL, NULL, NULL, 'Title', 'string', 90, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 50, 'admin', '2020-08-07 17:40:05.800672', 1, 600, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (885, NULL, NULL, NULL, NULL, NULL, 'Enable', 'int', 90, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 16, 'admin', '2020-08-07 17:40:05.798257', 1, 1000, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (886, NULL, NULL, NULL, NULL, NULL, 'DailyRecommend', 'int', 90, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 16, 'admin', '2020-08-07 17:40:05.797067', 1, 1100, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (887, NULL, NULL, NULL, NULL, NULL, 'Creator', 'string', 130, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, 'admin', '2020-08-07 17:40:05.796564', 1, 1150, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (888, NULL, NULL, NULL, NULL, NULL, 'CreateID', 'int', 80, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 17:40:05.79598', 1, 1200, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (889, NULL, NULL, NULL, NULL, NULL, 'CreateDate', 'string ', 220, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 17:40:05.795425', 1, 1250, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (890, NULL, NULL, NULL, NULL, NULL, 'Content', 'string', 220, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 17:40:05.794806', 1, 1300, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (891, NULL, NULL, NULL, NULL, NULL, 'BigImageUrls', 'string', 220, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 500, 'admin', '2020-08-07 17:40:05.794169', 1, 1350, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (892, NULL, NULL, NULL, NULL, NULL, 'Author', 'string', 90, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 50, 'admin', '2020-08-07 17:40:05.793411', 1, 1400, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (893, NULL, NULL, NULL, NULL, NULL, 'DetailUrl', 'string', 180, NULL, '2020-08-07 17:40:03', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 200, 'admin', '2020-08-07 17:40:05.797815', 1, 1050, NULL, NULL, NULL, NULL, NULL, 'App_News_copy1', 105);
+INSERT INTO "public"."Sys_TableColumn" VALUES (895, NULL, NULL, NULL, NULL, NULL, 'Id', 'int', 90, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 1, 0, 1, 32, 'admin', '2020-08-07 17:41:35.023525', 1, 1450, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (896, NULL, NULL, NULL, NULL, NULL, 'ReleaseDate', 'string ', 220, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 17:41:35.024409', 1, 650, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (897, NULL, NULL, NULL, NULL, NULL, 'OrderNo', 'int', 90, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 17:41:35.024367', 1, 700, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (898, NULL, NULL, NULL, NULL, NULL, 'NewsType', 'int', 90, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 32, 'admin', '2020-08-07 17:41:35.024325', 1, 750, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (899, NULL, NULL, NULL, NULL, NULL, 'ModifyID', 'int', 80, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 17:41:35.02428', 1, 800, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (900, NULL, NULL, NULL, NULL, NULL, 'ModifyDate', 'string ', 220, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 17:41:35.024238', 1, 850, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (901, NULL, NULL, NULL, NULL, NULL, 'Modifier', 'string', 130, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, 'admin', '2020-08-07 17:41:35.024195', 1, 900, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (902, NULL, NULL, NULL, NULL, NULL, 'ImageUrl', 'string', 220, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 500, 'admin', '2020-08-07 17:41:35.024152', 1, 950, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (903, NULL, NULL, NULL, NULL, NULL, 'Title', 'string', 90, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 50, 'admin', '2020-08-07 17:41:35.024452', 1, 600, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (906, NULL, NULL, NULL, NULL, NULL, 'Creator', 'string', 130, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, 'admin', '2020-08-07 17:41:35.02395', 1, 1150, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (904, NULL, NULL, NULL, NULL, NULL, 'Enable', 'short', 90, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 16, 'admin', '2020-08-07 17:41:35.024109', 1, 1000, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (905, NULL, NULL, NULL, NULL, NULL, 'DailyRecommend', 'short', 90, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 16, 'admin', '2020-08-07 17:41:35.024004', 1, 1100, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (872, NULL, NULL, NULL, NULL, NULL, 'AuditDate', 'string ', 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 19:39:32.146342', 1, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrder_copy1', 103);
+INSERT INTO "public"."Sys_TableColumn" VALUES (907, NULL, NULL, NULL, NULL, NULL, 'CreateID', 'int', 80, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 17:41:35.023895', 1, 1200, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (908, NULL, NULL, NULL, NULL, NULL, 'CreateDate', 'string ', 220, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 17:41:35.023851', 1, 1250, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (909, NULL, NULL, NULL, NULL, NULL, 'Content', 'string', 220, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, 'admin', '2020-08-07 17:41:35.0238', 1, 1300, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (910, NULL, NULL, NULL, NULL, NULL, 'BigImageUrls', 'string', 220, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 500, 'admin', '2020-08-07 17:41:35.023745', 1, 1350, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (911, NULL, NULL, NULL, NULL, NULL, 'Author', 'string', 90, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 50, 'admin', '2020-08-07 17:41:35.023681', 1, 1400, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (912, NULL, NULL, NULL, NULL, NULL, 'DetailUrl', 'string', 180, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 200, 'admin', '2020-08-07 17:41:35.024063', 1, 1050, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (913, NULL, NULL, NULL, NULL, NULL, 'ViewCount', 'int', 90, NULL, '2020-08-07 17:41:33', 1, 'admin', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, 'admin', '2020-08-07 17:41:35.024495', 1, 550, NULL, NULL, NULL, NULL, NULL, 'App_news_copy1_copy1', 106);
+INSERT INTO "public"."Sys_TableColumn" VALUES (914, NULL, NULL, NULL, NULL, NULL, 'OrderList_Id', 'guid', 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 1, 0, 1, 1024, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (915, NULL, NULL, NULL, NULL, NULL, 'Order_Id', 'guid', 220, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 1024, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (916, NULL, NULL, NULL, NULL, NULL, 'ProductName', 'string', 90, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 200, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (917, NULL, NULL, NULL, NULL, NULL, 'MO', 'string', 220, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 255, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (918, NULL, NULL, NULL, NULL, NULL, 'Qty', 'int', 80, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 32, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (919, NULL, NULL, NULL, NULL, NULL, 'Weight', 'decimal', 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (920, NULL, NULL, NULL, NULL, NULL, 'Remark', 'string', 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1000, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (921, NULL, NULL, NULL, NULL, NULL, 'CreateID', 'int', 80, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (922, NULL, NULL, NULL, NULL, NULL, 'Creator', 'string', 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 255, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (923, NULL, NULL, NULL, NULL, NULL, 'CreateDate', 'string ', 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (924, NULL, NULL, NULL, NULL, NULL, 'ModifyID', 'int', 80, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 32, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (925, NULL, NULL, NULL, NULL, NULL, 'Modifier', 'string', 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 255, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
+INSERT INTO "public"."Sys_TableColumn" VALUES (926, NULL, NULL, NULL, NULL, NULL, 'ModifyDate', 'string ', 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 1024, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'SellOrderList_copy1', 104);
 
 -- ----------------------------
 -- Table structure for Sys_TableInfo
@@ -1491,6 +1593,11 @@ INSERT INTO "public"."Sys_TableInfo" VALUES (77, '销售订单', '销售订单',
 INSERT INTO "public"."Sys_TableInfo" VALUES (78, '订单明细', '订单明细', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'Order', 'VOL.Order', NULL, 76, NULL, 'CreateDate', 'SellOrderList', NULL, NULL, NULL);
 INSERT INTO "public"."Sys_TableInfo" VALUES (79, 'Table 单表数据', 'Table+单表数据', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'Order', 'VOL.Order', NULL, 0, NULL, NULL, 'Table+单表数据', NULL, NULL, NULL);
 INSERT INTO "public"."Sys_TableInfo" VALUES (80, '基础表单查询', '基础表单+编辑只读', NULL, NULL, NULL, NULL, NULL, 1, 'Name', 'Appointment', 'VOL.Order', NULL, 79, NULL, 'CreateDate', 'App_Appointment', 'App_Appointment', NULL, NULL);
+INSERT INTO "public"."Sys_TableInfo" VALUES (101, 'PGSQL测试', 'PGSQL测试', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'PGSQL测试', 'VOL.AppManager', NULL, 0, NULL, NULL, 'PGSQL测试', NULL, NULL, NULL);
+INSERT INTO "public"."Sys_TableInfo" VALUES (105, 'App_News_copy1', 'App_News_copy1', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'Order', 'VOL.AppManager', NULL, 101, NULL, NULL, 'App_News_copy1', 'App_News_copy1', NULL, NULL);
+INSERT INTO "public"."Sys_TableInfo" VALUES (106, 'app_news_copy1_copy1', 'app_news_copy1_copy1', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'Order', 'VOL.AppManager', NULL, 101, NULL, NULL, 'App_news_copy1_copy1', 'App_news_copy1_copy1', NULL, NULL);
+INSERT INTO "public"."Sys_TableInfo" VALUES (104, 'SellOrderList_copy1', 'SellOrderList_copy1', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'Order', 'VOL.AppManager', NULL, 101, NULL, 'CreateDate', 'SellOrderList_copy1', 'SellOrderList_copy1', NULL, NULL);
+INSERT INTO "public"."Sys_TableInfo" VALUES (103, 'SellOrder_copy1', 'SellOrder_copy1', NULL, NULL, 'SellOrderList_copy1', 'SellOrderList_copy1', NULL, 1, NULL, 'Order', 'VOL.AppManager', NULL, 101, NULL, 'CreateDate', 'SellOrder_copy1', 'SellOrder_copy1', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_User
@@ -1535,7 +1642,7 @@ CREATE TABLE "public"."Sys_User" (
 -- ----------------------------
 -- Records of Sys_User
 -- ----------------------------
-INSERT INTO "public"."Sys_User" VALUES (1, NULL, NULL, NULL, 1, NULL, '2020-06-14 20:14:58', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '超级管理员', '12345678', NULL, NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', 'admin', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTU5MjE0MTc3NyIsIm5iZiI6IjE1OTIxNDE3NzciLCJleHAiOiIxNTkyMTQ4OTc3IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.4WWROov_2hT0W1i2e6LSqRGRUaehR5DRqgbACPsnB1g');
+INSERT INTO "public"."Sys_User" VALUES (1, NULL, NULL, NULL, 1, NULL, '2020-06-14 20:14:58', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'http://132.232.2.109:9991/Upload/Tables/Sys_User/202006191408112343/1111s.jpg', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '超级管理员', '12345678', NULL, NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', 'admin', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTU5Njc5Nzc1OCIsIm5iZiI6IjE1OTY3OTc3NTgiLCJleHAiOiIxNTk2ODA0OTU4IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.NMHykN6HMwOQbOfD0qFNiM2b_CXtW7BYl6x6jIJX7LQ');
 
 -- ----------------------------
 -- Table structure for news_article
@@ -1560,144 +1667,166 @@ CREATE TABLE "public"."news_article" (
 -- ----------------------------
 
 -- ----------------------------
--- Alter sequences owned by
+-- View structure for testview
 -- ----------------------------
-SELECT setval('"public"."app_expert_id_seq1"', 101, false);
+DROP VIEW IF EXISTS "public"."testview";
+CREATE VIEW "public"."testview" AS  SELECT "Sys_Log"."Id",
+    "Sys_Log"."BeginDate",
+    "Sys_Log"."BrowserType",
+    "Sys_Log"."ElapsedTime",
+    "Sys_Log"."EndDate",
+    "Sys_Log"."ExceptionInfo",
+    "Sys_Log"."LogType",
+    "Sys_Log"."RequestParameter",
+    "Sys_Log"."ResponseParameter",
+    "Sys_Log"."Role_Id",
+    "Sys_Log"."ServiceIP",
+    "Sys_Log"."Success",
+    "Sys_Log"."Url",
+    "Sys_Log"."UserIP",
+    "Sys_Log"."UserName",
+    "Sys_Log"."User_Id"
+   FROM "Sys_Log";
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."app_news111seq_id_seq"', 12, true);
+SELECT setval('"public"."app_expert_id_seq1"', 102, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."app_news_id_seq"', 2, true);
+SELECT setval('"public"."app_news111seq_id_seq"', 13, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."app_reportprice_id1_seq"', 101, false);
+SELECT setval('"public"."app_news_id_seq"', 3, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."app_reportprice_id2_seq"', 101, false);
+SELECT setval('"public"."app_reportprice_id1_seq"', 102, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."app_reportprice_id_seq"', 8, true);
+SELECT setval('"public"."app_reportprice_id2_seq"', 102, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."app_transaction_id_seq"', 2, false);
+SELECT setval('"public"."app_reportprice_id_seq"', 9, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."app_transactionavgprice_id_seq"', 2, false);
+SELECT setval('"public"."app_transaction_id_seq"', 28, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."appnews_id_seq"', 6, true);
+SELECT setval('"public"."app_transactionavgprice_id_seq"', 17, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."apptest_id_seq"', 5, true);
+SELECT setval('"public"."appnews_id_seq"', 7, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."city_id_seq"', 2, false);
+SELECT setval('"public"."apptest_id_seq"', 6, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."dic_id_seq"', 2, true);
+SELECT setval('"public"."city_id_seq"', 3, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sellorder_id_seq"', 2, false);
+SELECT setval('"public"."dic_id_seq"', 3, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sellorderlist_id1_seq"', 2, false);
+SELECT setval('"public"."sellorder_id_seq"', 3, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sellorderlist_id_seq"', 2, false);
+SELECT setval('"public"."sellorderlist_id1_seq"', 3, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_dictionary_id_seq1"', 101, false);
+SELECT setval('"public"."sellorderlist_id_seq"', 3, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_dictionarylist_id_seq"', 502, true);
+SELECT setval('"public"."sys_dictionary_id_seq1"', 102, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_log_id_seq"', 11, true);
+SELECT setval('"public"."sys_dictionarylist_id_seq"', 503, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_menu_id_seq"', 101, false);
+SELECT setval('"public"."sys_log_id_seq"', 46, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_province1_id_seq"', 501, false);
+SELECT setval('"public"."sys_menu_id_seq"', 102, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_province_id_seq"', 101, false);
+SELECT setval('"public"."sys_province1_id_seq"', 502, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_role_id_seq"', 102, true);
+SELECT setval('"public"."sys_province_id_seq"', 102, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_role_id_seq1"', 2, false);
+SELECT setval('"public"."sys_role_id_seq"', 103, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_roleauth_id_seq"', 101, false);
+SELECT setval('"public"."sys_role_id_seq1"', 3, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_roleauthdata_id_seq"', 101, false);
+SELECT setval('"public"."sys_roleauth_id_seq"', 102, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_tablecolumn_id_seq"', 801, false);
+SELECT setval('"public"."sys_roleauthdata_id_seq"', 102, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_tableinfo_id_seq"', 101, false);
+SELECT setval('"public"."sys_tablecolumn_id_seq"', 927, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."sys_user_id_seq"', 4, true);
+SELECT setval('"public"."sys_tableinfo_id_seq"', 107, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+SELECT setval('"public"."sys_user_id_seq"', 5, true);
 
 -- ----------------------------
 -- Primary Key structure for table App_Expert
@@ -1727,7 +1856,7 @@ ALTER TABLE "public"."App_TransactionAvgPrice" ADD CONSTRAINT "app_transactionav
 -- ----------------------------
 -- Primary Key structure for table SellOrder
 -- ----------------------------
-ALTER TABLE "public"."SellOrder" ADD CONSTRAINT "sellorder_pkey" PRIMARY KEY ("Order_Id");
+ALTER TABLE "public"."SellOrder" ADD CONSTRAINT "SellOrder_pkey" PRIMARY KEY ("Order_Id");
 
 -- ----------------------------
 -- Primary Key structure for table SellOrderList
