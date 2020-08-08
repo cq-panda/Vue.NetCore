@@ -195,9 +195,12 @@ export default {
         return;
       }
       //2020.07.31
-      if (typeof item == "string") {
-        if (item == "/login") {
+      //2020.08.08修复退出登陆切换帐号后权限缓存没刷新的问题
+      if (typeof item == "string" || item.path == "/login") {
+        if (item == "/login" || item.path == "/login") {
           this.$store.commit("clearUserInfo", "");
+          window.location.href = "/";
+          return;
         }
         this.$router.push({ path: item });
         return;
@@ -308,7 +311,7 @@ export default {
         "." +
         (month < 10 ? "0" + month : month) +
         "." +
-        day +
+        (day < 10 ? "0" + day : day) + //202.08.08修复日期天数小于10时添加0
         "" +
         " " +
         hour +
