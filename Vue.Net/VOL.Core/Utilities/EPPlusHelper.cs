@@ -39,7 +39,9 @@ namespace VOL.Core.Utilities
                 if (package.Workbook.Worksheets.Count == 0 ||
                     package.Workbook.Worksheets.FirstOrDefault().Dimension.End.Row <= 1)
                     return responseContent.Error("未导入数据");
-                List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).GetEntityTableName(), false, false);
+                //2020.08.11修复获取表结构信息时，表为别名时查不到数据的问题
+                //typeof(T).GetEntityTableName()
+                List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).Name, false, false);
                 //设置忽略的列
                 if (exportColumns != null)
                 {
