@@ -209,7 +209,7 @@ DISTINCT
             stringBuilder.Append("					'string'  ");
             stringBuilder.Append("					WHEN col.udt_name IN ( 'bool' ) THEN ");
             stringBuilder.Append("					'bool'  ");
-            stringBuilder.Append("					WHEN col.udt_name IN ( 'date' ) THEN ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'date','timestamp' ) THEN ");
             stringBuilder.Append("					'DateTime'  ");
             stringBuilder.Append("					WHEN col.udt_name IN ( 'decimal', 'money','numeric' ) THEN ");
             stringBuilder.Append("					'decimal'  ");
@@ -1177,7 +1177,7 @@ DISTINCT
             stringBuilder.Append("					'string'  ");
             stringBuilder.Append("					WHEN col.udt_name IN ( 'bool' ) THEN ");
             stringBuilder.Append("					'bool'  ");
-            stringBuilder.Append("					WHEN col.udt_name IN ( 'date' ) THEN ");
+            stringBuilder.Append("					WHEN col.udt_name IN ( 'date','timestamp' ) THEN ");
             stringBuilder.Append("					'DateTime'  ");
             stringBuilder.Append("					WHEN col.udt_name IN ( 'decimal', 'money','numeric' ) THEN ");
             stringBuilder.Append("					'decimal'  ");
