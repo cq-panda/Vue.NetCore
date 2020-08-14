@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using VOL.Core.CacheManager;
 using VOL.Core.Configuration;
 using VOL.Core.Const;
@@ -74,7 +76,94 @@ namespace VOL.Core.BaseProvider
 
         }
 
-        private const string _desc = "desc";
+        /// <summary>
+        ///  2020.08.15添加自定义原生查询sql或多租户(查询、导出)
+        /// </summary>
+        /// <returns></returns>
+        private IQueryable<T> GetSearchQueryable()
+        {
+            //UserContext.Current.IsSuperAdmin超级管理员不限制数据
+
+            //没有自定sql与多租户执行默认查询
+            if ((QuerySql == null && !IsMultiTenancy) || UserContext.Current.IsSuperAdmin)
+            {
+                return repository.DbContext.Set<T>();
+            }
+            //自定sql,没有使用多租户，直接执行自定义sql
+            if ((QuerySql != null && !IsMultiTenancy) || UserContext.Current.IsSuperAdmin)
+            {
+                return repository.DbContext.Set<T>().FromSqlRaw(QuerySql);
+            }
+            string multiTenancyString;
+
+            //多租户
+            if (QuerySql != null && IsMultiTenancy)
+            {
+                //自定sql+多租户
+                multiTenancyString = $"select * from ({QuerySql}) as mt ";
+            }
+            else
+            {
+                //如果是pgsql数据库，请修改select * from 为pgsql的语法
+                multiTenancyString = $"select * from {typeof(T).GetEntityTableName()}  ";
+            }
+
+            //多租户请继续完善下面sql,
+            //例如sql只显示自己创建的数据:
+            //multiTenancyString = multiTenancyString + " where createid=" + UserContext.Current.UserId;
+
+            return repository.DbContext.Set<T>().FromSqlRaw(multiTenancyString);
+        }
+
+        /// <summary>
+        ///  2020.08.15添加获取多租户数据过滤sql（删除、编辑）
+        /// </summary>
+        /// <returns></returns>
+        private string GetMultiTenancySql(string ids, string tableKey)
+        {
+            string sql = $"select count(*) FROM {typeof(T).GetEntityTableName() } where {tableKey} in ({ids}) ";
+            if (DBType.Name == DbCurrentType.PgSql.ToString())
+            {
+                sql = $"select count(*) FROM \"public\".\"{typeof(T).GetEntityTableName()}\" where \"{tableKey}\" in ({ids}) ";
+            }
+            return sql;
+        }
+
+        /// <summary>
+        ///  2020.08.15添加多租户数据过滤（编辑）
+        /// </summary>
+        private void CheckUpdateMultiTenancy(string ids, string tableKey)
+        {
+            string sql = GetMultiTenancySql(ids, tableKey);
+
+            //请接着过滤条件
+            //例如sql，只能(编辑)自己创建的数据:判断数据是不是当前用户创建的
+            //sql = $" {sql} and createid!={UserContext.Current.UserId}";
+            object obj = repository.DapperContext.ExecuteScalar(sql, null);
+            if (obj==null|| obj.GetInt() > 0)
+            {
+                Response.Error("不能编辑此数据");
+            }
+        }
+
+
+        /// <summary>
+        ///  2020.08.15添加多租户数据过滤（删除）
+        /// </summary>
+        private void CheckDelMultiTenancy(string ids, string tableKey)
+        {
+            string sql = GetMultiTenancySql(ids, tableKey);
+
+            //请接着过滤条件
+            //例如sql，只能(删除)自己创建的数据:找出不是自己创建的数据
+            //sql = $" {sql} and createid!={UserContext.Current.UserId}";
+            object obj = repository.DapperContext.ExecuteScalar(sql, null);
+            if (obj == null || obj.GetInt() > 0)
+            {
+                Response.Error("不能删除此数据");
+            }
+        }
+
         private const string _asc = "asc";
         /// <summary>
         /// 生成排序字段
@@ -122,6 +211,7 @@ namespace VOL.Core.BaseProvider
                 } };
         }
 
+
         /// <summary>
         /// 验证排序与查询字段合法性
         /// </summary>
@@ -143,7 +233,10 @@ namespace VOL.Core.BaseProvider
             }
             QueryRelativeList?.Invoke(searchParametersList);
             //  Connection
-            queryable = repository.DbContext.Set<T>();
+            // queryable = repository.DbContext.Set<T>();
+            //2020.08.15添加自定义原生查询sql或多租户
+            queryable = GetSearchQueryable();
+
             //判断列的数据类型数字，日期的需要判断值的格式是否正确
             for (int i = 0; i < searchParametersList.Count; i++)
             {
@@ -838,6 +931,17 @@ namespace VOL.Core.BaseProvider
 
             if (saveModel.MainData.Count <= 1) return Response.Error("系统没有配置好编辑的数据，请检查model!");
 
+            // 2020.08.15添加多租户数据过滤（编辑）
+            if (IsMultiTenancy && !UserContext.Current.IsSuperAdmin)
+            {
+                CheckUpdateMultiTenancy(mainKeyProperty.PropertyType == typeof(Guid) ? "'" + mainKeyVal.ToString() + "'" : mainKeyVal.ToString(), mainKeyProperty.Name);
+                if (!Response.Status)
+                {
+                    return Response;
+                }
+            }
+
+
             Expression<Func<T, bool>> expression = mainKeyProperty.Name.CreateExpression<T>(mainKeyVal.ToString(), LinqExpressionType.Equal);
             if (!repository.Exists(expression)) return Response.Error("保存的数据不存在!");
             //没有明细的直接保存主表数据
@@ -954,6 +1058,17 @@ namespace VOL.Core.BaseProvider
             string joinKeys = (fieldType == FieldType.Int || fieldType == FieldType.BigInt)
                  ? string.Join(",", keys)
                  : $"'{string.Join("','", keys)}'";
+
+            // 2020.08.15添加判断多租户数据（删除）
+            if (IsMultiTenancy && !UserContext.Current.IsSuperAdmin)
+            {
+                CheckDelMultiTenancy(joinKeys, tKey);
+                if (!Response.Status)
+                {
+                    return Response;
+                }
+            }
+
             string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
             // 2020.08.06增加pgsql删除功能
             if (DBType.Name == DbCurrentType.PgSql.ToString())

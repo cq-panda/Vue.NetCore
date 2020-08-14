@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using VOL.Core.BaseProvider;
 using VOL.Core.Enums;
 using VOL.Core.ManageUser;
 using VOL.Core.UserManager;
@@ -74,9 +75,31 @@ namespace VOL.Order.Services
 
         //其中有一部分真实扩展代码实现:Partial->Sys_UserService.cs  , Partial->Sys_RoleService ,Partial->Sys_DictionaryService
 
+        protected override void Init(IRepository<SellOrder> repository)
+        {
+            //2020.08.15
+            //开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效
+            //如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置 IsMultiTenancy = true;
+            IsMultiTenancy = true;
+        }
 
+
+        //查询
         public override PageGridData<SellOrder> GetPageData(PageDataOptions options)
         {
+            //2020.08.15
+            //设置原生查询的sql语句，这里必须返回select * 表所有字段
+            //（先内部过滤数据,内部调用EF方法FromSqlRaw,自己写的sql注意sql注入的问题），不会影响界面上提交的查询
+            /*  
+             *  string date = DateTime.Now.AddYears(-10).ToString("yyyy-MM-dd");
+                QuerySql = $@"select * from SellOrder  
+                                       where createdate>'{date}'
+                                           and  Order_Id in (select Order_Id from SellOrderList)
+                                           and CreateID={UserContext.Current.UserId}";
+            */
+
+            //2020.08.15
+            //此处与上面QuerySql只需要实现其中一个就可以了
             //查询前可以自已设定查询表达式的条件
             QueryRelativeExpression = (IQueryable<SellOrder> queryable) =>
             {
@@ -204,6 +227,17 @@ namespace VOL.Order.Services
                   {
                       return new WebResponseContent().Error("不能更新此[" + order.TranNo + "]单号");
                   }
+                  //给Remark在后台设置值: 
+                  /*
+                     给Remark设置值需要注意，
+                     1、代码生成页面必须给此字段设置了编辑行，否则这里设置了值也会被过滤
+                     2、如果不想在编辑页面上显示，给此字段的编辑行设置为0，现生成下model即可
+                     3、编辑行为0时，又需要在后台设置值的，请在设置值前添加到字典里面,如： saveModel.MainData.TryAdd("Remark","")
+                   */
+                  //如果Remark字段编辑行设置的是0，请先给字典设置一个默认空值saveModel.MainData.TryAdd("Remark","")
+                  //给model设置值
+                  // order.Remark = "test";
+
                   //新增的明细
                   List<SellOrderList> add = addList as List<SellOrderList>;
                   //修改的明细

@@ -8,8 +8,14 @@ using VOL.Entity.DomainModels;
 
 namespace VOL.Core.Filters
 {
-    public abstract class ServiceFunFilter<T> where T : class
+    public  abstract class ServiceFunFilter<T> where T : class
     {
+
+        /// <summary>
+        /// 2020.08.15是否开启多租户功能
+        /// 使用方法见文档或SellOrderService.cs
+        /// </summary>
+        protected bool IsMultiTenancy { get; set; }
 
         /// <summary>
         /// 查询界面table 统计、求和、平均值等
@@ -48,6 +54,14 @@ namespace VOL.Core.Filters
         /// </summary>
         protected int LimitUpFileSizee { get; set; } = 3;
 
+
+        /// <summary>
+        /// 2020.08.15添加自定义原生查询sql,这个对于不想写表达式关联或者复杂查询非常有用
+        /// 例：QuerySql=$"select * from tb1 as a where  a.name='xxxx' x.id in (select b.id from tb2 b)";
+        ///  select * 这里可以自定义，但select 必须返回表所有的列，不能少
+        /// </summary>
+        protected string QuerySql = null;
+
         /// <summary>
         /// 查询前,对现在有的查询字符串条件增加或删除
         /// </summary>
@@ -55,6 +69,7 @@ namespace VOL.Core.Filters
 
         //查询前,在现有的查询条件上通过表达式修改查询条件
         protected Func<IQueryable<T>, IQueryable<T>> QueryRelativeExpression { get; set; }
+
 
         /// <summary>
         /// 指定查询的列，格式:Expression<Func<T, object>> exp = x => new { x.字段1, x.字段2 }(暂时未启用)
