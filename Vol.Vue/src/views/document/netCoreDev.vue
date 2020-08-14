@@ -10,6 +10,12 @@
       </el-scrollbar>
     </div>
     <div class="doc-right">
+      <div class="doc-nav">
+        <a @click="()=>{this.b_moel=true;}">多租户</a>
+        <a @click="()=>{this.$Message.info('开发中')}">分库多数据库</a>
+        <a @click="()=>{this.$Message.error('暂不开放')}">国际化</a>
+        <a @click="scrollIntoView('extend')">后台基础代码扩展实现</a>
+      </div>
       <div class="title">
         <h2>后台开发</h2>
       </div>
@@ -27,10 +33,12 @@
       <Alert type="success" show-icon>
         提示
         <template slot="desc">
-          <p>每个表由代码生成器生后的文件名都包括表名,直接在vs中搜索表名就可以看到所有生成相关表的文件</p>
-          <p>所有自定义接口与业务实现都统一在Partial文件夹下实现</p>
-          <p>表xxRepository.Instance用于调用仓储方法，如SellOrderRepository.Instance</p>
-          <p>表xxService.Instance用于调用或编写业务，如SellOrderService.Instance，建议接口注入IxxService</p>
+          <div style="line-height: 2;">
+            <p>每个表由代码生成器生后的文件名都包括表名,直接在vs中搜索表名就可以看到所有生成相关表的文件</p>
+            <p>所有自定义接口与业务实现都统一在Partial文件夹下实现</p>
+            <p>表xxRepository.Instance用于调用仓储方法，如SellOrderRepository.Instance</p>
+            <p>表xxService.Instance用于调用或编写业务，如SellOrderService.Instance，建议接口注入IxxService</p>
+          </div>
         </template>
       </Alert>
 
@@ -48,31 +56,81 @@
         </div>
       </div>
     </div>
+
+    <Drawer :width="700" class="q-drawer" title="多租户" :closable="false" v-model="b_moel">
+      <Alert type="success" show-icon>
+        关于多租户（2020.08.15）
+        <template slot="desc">
+          <p style="    color: red;
+    font-size: 16px;">多租户2020.08.15更新，只需要更新后台文件：ServiceBase.cs、ServiceFunFilter.cs</p>
+          
+        </template>
+      </Alert>
+      <el-collapse v-model="activeName" accordion>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//以SellOrderService为例，在类中重写Init方法，设置IsMultiTenancy=true开启多租户功能</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">protected</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#569cd6;">void</span>&nbsp;<span style="color:#dcdcaa;">Init</span>(<span style="color:#9cdcfe;">IRepository</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">repository</span>)
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.08.15</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置&nbsp;IsMultiTenancy&nbsp;=&nbsp;true;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">IsMultiTenancy</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>
+<div style="padding: 10px 0;
+    font-size: 22px;
+    color: red;">多租户不能直接使用，请在ServiceBase.cs中统一修改CheckUpdateMultiTenancy、CheckDelMultiTenancy、GetSearchQueryable方法，具体修改请看方法的描述</div>
+		</el-collapse>
+    </Drawer>
   </div>
 </template>
 <script>
 export default {
   methods: {
     scrollIntoView(index) {
+      if (typeof index == "string") {
+        index = this.items.findIndex((x) => {
+          return (x.name == index);
+        });
+      }
+
       let top = document.getElementById("i-" + index).offsetTop - 100;
       if (index == 0) {
         top = 0;
       }
       window.scrollTo(0, top);
       this.active = index;
-    }
+    },
   },
   data() {
     return {
+      activeName: "",
+      b_moel: false,
       active: 0,
       items: [
         {
           title: "调试",
           content: [
-            `运行dev_run.bat，调试->附加到进程->进程里选择vol.webapi.exe`
+            `运行dev_run.bat，调试->附加到进程->进程里选择vol.webapi.exe`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "访问数据库",
@@ -82,26 +140,32 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">1</span>、<span style="color:#9cdcfe;">repository</span>.
 	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">2</span>、<span style="color:#9cdcfe;">repository</span>.<span style="color:#9cdcfe;">FindAsIQueryable</span>
+		<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">2</span>、<span style="color:#9cdcfe;">repository.DapperContext.xx</span>.
+	</div>
+			<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">3</span>、<span style="color:#9cdcfe;">repository.DbContext.xx</span>.
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">3</span>、<span style="color:#9cdcfe;">repository</span>.<span style="color:#9cdcfe;">DbContext</span>.<span style="color:#dcdcaa;">Set</span>&lt;<span style="color:#4ec9b0;">Sys_User</span>&gt;().<span style="color:#dcdcaa;">Find</span>()
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">4</span>、<span style="color:#9cdcfe;">repository</span>.<span style="color:#9cdcfe;">FindAsIQueryable</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">5</span>、<span style="color:#9cdcfe;">repository</span>.<span style="color:#9cdcfe;">DbContext</span>.<span style="color:#dcdcaa;">Set</span>&lt;<span style="color:#4ec9b0;">Sys_User</span>&gt;().<span style="color:#dcdcaa;">Find</span>()
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//repository.仅限在表xxx.Service.cs中使用</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">5</span>、<span style="color:#9cdcfe;">SellOrderRepository</span>.<span style="color:#9cdcfe;">Instance</span>.<span style="color:#dcdcaa;">Find</span>()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">6</span>、<span style="color:#9cdcfe;">SellOrderRepository</span>.<span style="color:#9cdcfe;">Instance</span>.<span style="color:#dcdcaa;">Find</span>()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">6</span>、<span style="color:#9cdcfe;">SellOrderListRepository</span>.<span style="color:#9cdcfe;">Instance</span>.<span style="color:#dcdcaa;">Find</span>()
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">7</span>、<span style="color:#9cdcfe;">SellOrderListRepository</span>.<span style="color:#9cdcfe;">Instance</span>.<span style="color:#dcdcaa;">Find</span>()
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">7</span>、<span style="color:#9cdcfe;">DBServerProvider</span>.<span style="color:#9cdcfe;">SqlDapper</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">8</span>、<span style="color:#9cdcfe;">DBServerProvider</span>.<span style="color:#9cdcfe;">SqlDapper</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">8</span>、<span style="color:#9cdcfe;">DBServerProvider</span>.<span style="color:#9cdcfe;">DbContext</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">9</span>、<span style="color:#9cdcfe;">DBServerProvider</span>.<span style="color:#9cdcfe;">DbContext</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//以上方式都能访问数据库</span>
@@ -110,25 +174,25 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;
 	</div>
 <br />
-</div>`
+</div>`,
           ],
-          tips: ` repository.DapperContext或DBServerProvider.SqlDapper可直接使用dapper，内部已封装好常用功能`
+          tips: ` repository.DapperContext或DBServerProvider.SqlDapper可直接使用dapper，内部已封装好常用功能`,
         },
         {
           title: "获取表依赖注入service实例",
           content: [
-            `表名xxxService.Instance；如:Sys_UserService.Instance(仅限在同一个类库中使用)`
+            `表名xxxService.Instance；如:Sys_UserService.Instance(仅限在同一个类库中使用)`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "获取表依赖注入Repository实例",
           content: [
-            `表名xxxRepository.Instance；如:Sys_UserRepository.Instance(仅限在同一个类库中使用)`
+            `表名xxxRepository.Instance；如:Sys_UserRepository.Instance(仅限在同一个类库中使用)`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "使用EF事务",
@@ -167,9 +231,9 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
 <br />
-</div>`
+</div>`,
           ],
-          tips: ` 在表的业务类,xxxService.cs中文件直接可调用EF事务,或使用SellOrderRepository.Instance.DbContextBeginTransaction(()=> { })`
+          tips: ` 在表的业务类,xxxService.cs中文件直接可调用EF事务,或使用SellOrderRepository.Instance.DbContextBeginTransaction(()=> { })`,
         },
         {
           title: "使用Dapper事务",
@@ -226,9 +290,9 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
 	</div>
 </div>
-<br />`
+<br />`,
           ],
-          tips: ""
+          tips: "",
         },
         {
           title: "Memory/Redis对象",
@@ -246,22 +310,16 @@ export default {
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;例：SellOrderService.Instance.CacheContext</span>
 		</div>
 		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;AutofacContainerModule.GetService&lt;ICacheService&gt;()</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;VOL.Core.Utilities.HttpContext.Current.RequestServices</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;VOL.Core.Utilities.HttpContext.Current.RequestServices.GetService(typeof(ICacheService))</span>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp; Core.Utilities.HttpContext.Current.GetService&lt;ICacheService&gt;();</span>
 		</div>
 		<div>
 			<br />
 		</div>
 	</div>
-</div>`
+</div>`,
           ],
           tips: `还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "读写分离与分库",
@@ -270,10 +328,10 @@ export default {
           <p style="line-height: 34px;">1、将所有数据库连接配置缓存到DBServerProvider.ConnectionPool中</p>
           <p style="line-height: 34px;">2、根据登陆用户操作所属数据库：EF修改DBServerProvider.GetDbContextConnection()，如果是读写分离，可以考虑增加ToList扩展方法</p>
           <p style="line-height: 34px;">3、使用Dapper读写分离或分库:DBServerProvider.GetSqlDapper('数据库连接key),key为ConnectionPool中的key'</p>
-          <p style="line-height: 34px;">4、全自动操作读写分离或分库，可以考虑在model上使用Attribute(需要改代码生成器，将model对应数据库生成上去),使用EF或Dapper时，从model上获取Attribute里的数据库配置信息</p>`
+          <p style="line-height: 34px;">4、全自动操作读写分离或分库，可以考虑在model上使用Attribute(需要改代码生成器，将model对应数据库生成上去),使用EF或Dapper时，从model上获取Attribute里的数据库配置信息</p>`,
           ],
           tips: `还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "实体校验",
@@ -293,19 +351,19 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果是list调用&nbsp;ValidationEntityList方法</span>
 	</div>
 <br />
-</div>`
+</div>`,
           ],
           tips: ` 必须指定要校验的字段`,
-          img: ""
+          img: "",
         },
         {
           title: "获取当前用户信息",
           content: [
             `
-            UserContext.Current.xxx`
+            UserContext.Current.xxx`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "获取当前用户权限",
@@ -314,10 +372,10 @@ export default {
              <p>UserContext.Current.GetPermissions("菜单上配置的表名")</p>
              <p>UserContext.Current.GetPermissions(x => x.TableName.ToLower()=="xxx")</p>
              <p>获取更多用户信息：UserContext.Current.xxx</p>
-             `
+             `,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "接口(控制器方法)添加权限过滤",
@@ -348,97 +406,147 @@ export default {
 	<div>
 		<span style="color:#9cdcfe;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
 	</div>
-</div>`
+</div>`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "手动获取HttpContext参数",
           content: [
             `<p>VOL.Core.Utilities.HttpContext.Current.Request<T>("参数名")</p>
-             <p>VOL.Core.Utilities.HttpContext.Current.RequestString("参数名")</p>`
+             <p>VOL.Core.Utilities.HttpContext.Current.RequestString("参数名")</p>`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "手动获取依赖注入的对象",
           content: [
-            `<p>VOL.Core.Utilities.HttpContext.Current.GetService<T>("如：IxxService")</p>`
+            `<p>VOL.Core.Utilities.HttpContext.Current.GetService<T>("如：IxxService")</p>`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
+		},
+		  {
+          title: "编写原生查询sql",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//某些情况代码生成的页面，需要关联更多的条件，又不想写linq,请参照编写sql（2020.08.15需要更新）</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在表的service类中实现querysql，如SellOrderService类，编辑自定义sql</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">PageGridData</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">PageDataOptions</span>&nbsp;<span style="color:#9cdcfe;">options</span>)
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.08.15</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置原生查询的sql语句，这里必须返回select&nbsp;*&nbsp;表所有字段</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//（先内部过滤数据,内部调用EF方法FromSqlRaw,自己写的sql注意sql注入的问题），不会影响界面上提交的查询</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">string</span>&nbsp;<span style="color:#9cdcfe;">date</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">DateTime</span>.<span style="color:#9cdcfe;">Now</span>.<span style="color:#dcdcaa;">AddYears</span>(-<span style="color:#b5cea8;">10</span>).<span style="color:#dcdcaa;">ToString</span>(<span style="color:#ce9178;">"yyyy-MM-dd"</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">QuerySql</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">$</span>@<span style="color:#ce9178;">"select&nbsp;*&nbsp;from&nbsp;SellOrder&nbsp;</span><span style="color:#f44747;">&nbsp;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">where</span>&nbsp;<span style="color:#9cdcfe;">createdate</span>&gt;<span style="color:#ce9178;">'{date}'</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">and</span>&nbsp;&nbsp;<span style="color:#9cdcfe;">Order_Id</span>&nbsp;<span style="color:#569cd6;">in</span>&nbsp;(<span style="color:#9cdcfe;">select</span>&nbsp;<span style="color:#9cdcfe;">Order_Id</span>&nbsp;<span style="color:#9cdcfe;">from</span>&nbsp;<span style="color:#9cdcfe;">SellOrderList</span>)
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">and</span>&nbsp;<span style="color:#9cdcfe;">CreateID</span>={UserContext.Current.<span style="color:#9cdcfe;">UserId</span>}<span style="color:#ce9178;">"</span><span style="color:#f44747;">;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">options</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`,
+          ],
+          tips: ` 还没想好`,
+          img: "",
         },
         {
           title: "接口不验证是否登陆",
           content: [
             `
-            在控制器的方法上加属性[AllowAnonymous]`
+            在控制器的方法上加属性[AllowAnonymous]`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "接口token永不过期",
           content: [
             `
-            在控制器的方法上加属性[FixedToken]`
+            在控制器的方法上加属性[FixedToken]`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "写入日志",
           content: [
             `
-             VOL.Core.Services.Logger.Info()/Error()`
+             VOL.Core.Services.Logger.Info()/Error()`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "获取字典数据源",
           content: [
             ` <p> DictionaryManager.Dictionaries</p>
-            <p> DictionaryManager.GetDictionary("字典编号")</p>`
+            <p> DictionaryManager.GetDictionary("字典编号")</p>`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "SqlBulkInsert批量插入",
           content: [
             ` <p> DBServerProvider.SqlDapper.BulkInsert()</p>
-              <p>sqlserver与mysql都可以使用</p>`
+              <p>sqlserver与mysql都可以使用</p>`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "其他常用工具",
           content: [
-            `<p>扩展方法：Vol.Core->Extensions</p><p>工具类：Vol.Core->Utilities </p>`
+            `<p>扩展方法：Vol.Core->Extensions</p><p>工具类：Vol.Core->Utilities </p>`,
           ],
           tips: ` 还没想好`,
-          img: ""
+          img: "",
         },
         {
           title: "接口参数验证",
           content: [`参照菜单[可复用后台校验]`],
           tips: ` 可复用后台校验，一次性配置好参数，不再需要在方法中写if else判断参数合法性`,
-          img: ""
+          img: "",
         },
 
         {
           title: "后台基础代码扩展实现",
+          name: "extend",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<br />
 	<div>
-		&nbsp; &nbsp; <span style="color:#6a9955;">//后台代码扩展实现，如果代码生成的增加改查，满足不了业务，请根据需要实现以下代码</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//下面代码以SellOrderService为例</span>
+		&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处是SellOrderService为例，如果框架生成的默认功能满足不了需求，请查看下面代码根据需要实现对应功能</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">partial</span>&nbsp;<span style="color:#569cd6;">class</span>&nbsp;<span style="color:#4ec9b0;">SellOrderService</span>
@@ -447,23 +555,71 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">public</span>&nbsp;<span style="color:#9cdcfe;">string</span>&nbsp;<span style="color:#dcdcaa;">GetServiceDate</span>()
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">protected</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#569cd6;">void</span>&nbsp;<span style="color:#dcdcaa;">Init</span>(<span style="color:#9cdcfe;">IRepository</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">repository</span>)
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">DateTime</span>.<span style="color:#9cdcfe;">Now</span>.<span style="color:#dcdcaa;">ToString</span>(<span style="color:#ce9178;">"yyyy-MM-dd&nbsp;HH:mm:sss"</span>);
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.08.15</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置&nbsp;IsMultiTenancy&nbsp;=&nbsp;true;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">IsMultiTenancy</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-<br />
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#dcdcaa;">PageGridData</span>&lt;<span style="color:#4ec9b0;">SellOrder</span>&gt;&nbsp;<span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">PageDataOptions</span>&nbsp;<span style="color:#9cdcfe;">options</span>)
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">PageGridData</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">PageDataOptions</span>&nbsp;<span style="color:#9cdcfe;">options</span>)
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.08.15</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置原生查询的sql语句，这里必须返回select&nbsp;*&nbsp;表所有字段</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//（先内部过滤数据,内部调用EF方法FromSqlRaw,自己写的sql注意sql注入的问题），不会影响界面上提交的查询</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*&nbsp;&nbsp;</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;string&nbsp;date&nbsp;=&nbsp;DateTime.Now.AddYears(-10).ToString("yyyy-MM-dd");</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QuerySql&nbsp;=&nbsp;$@"select&nbsp;*&nbsp;from&nbsp;SellOrder&nbsp;&nbsp;</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;createdate&gt;'{date}'</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;Order_Id&nbsp;in&nbsp;(select&nbsp;Order_Id&nbsp;from&nbsp;SellOrderList)</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;CreateID={UserContext.Current.UserId}";</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.08.15</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处与上面QuerySql只需要实现其中一个就可以了</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询前可以自已设定查询表达式的条件</span>
@@ -827,6 +983,37 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
 	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给Remark在后台设置值:&nbsp;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;给Remark设置值需要注意，</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、代码生成页面必须给此字段设置了编辑行，否则这里设置了值也会被过滤</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、如果不想在编辑页面上显示，给此字段的编辑行设置为0，现生成下model即可</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、编辑行为0时，又需要在后台设置值的，请在设置值前添加到字典里面,如：&nbsp;saveModel.MainData.TryAdd("Remark","")</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果Remark字段编辑行设置的是0，请先给字典设置一个默认空值saveModel.MainData.TryAdd("Remark","")</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给model设置值</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;order.Remark&nbsp;=&nbsp;"test";</span>
+	</div>
+<br />
+	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//新增的明细</span>
 	</div>
 	<div>
@@ -1036,7 +1223,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//指定导出的字段(2020.05.07)</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">ExportColumns</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span>&nbsp;};
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">ExportColumns</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;{&nbsp;<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">SellNo</span>,&nbsp;<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">TranNo</span>,&nbsp;<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">CreateDate</span>&nbsp;};
 	</div>
 <br />
 	<div>
@@ -1087,7 +1274,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//指定导出模板的字段,如果不设置DownLoadTemplateColumns，默认导出查所有页面上能看到的列(2020.05.07)</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">DownLoadTemplateColumns</span>&nbsp;=&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>,<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">Remark</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span>&nbsp;};
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">DownLoadTemplateColumns</span>&nbsp;=&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;{&nbsp;<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">SellNo</span>,&nbsp;<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">TranNo</span>,<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">Remark</span>,&nbsp;<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">CreateDate</span>&nbsp;};
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">DownLoadTemplate</span>();
@@ -1127,7 +1314,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果不设置导入的字段DownLoadTemplateColumns,默认显示所有界面上所有可以看到的字段</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">DownLoadTemplateColumns</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">Remark</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span>&nbsp;};
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">DownLoadTemplateColumns</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;{&nbsp;<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">SellNo</span>,&nbsp;<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">TranNo</span>,&nbsp;<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">Remark</span>,&nbsp;<span style="color:#4ec9b0;">x</span>.<span style="color:#9cdcfe;">CreateDate</span>&nbsp;};
 	</div>
 <br />
 	<div>
@@ -1169,35 +1356,34 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>
-<span style="display:none;"></span><br />`
+</div>`,
           ],
-          tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`
+          tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`,
         },
         {
           title: "绑定数据源及自定义sql数据源",
           content: [
             `<p>前端数据源绑定在菜单：系统->下拉框绑定设置中配置</p>
-          <p>同时可以配置成自定义成sql语句,参照现有的配置</p>`
+          <p>同时可以配置成自定义成sql语句,参照现有的配置</p>`,
           ],
           tips: `前端数据源绑定及导出，都在菜单:下拉框绑定设置中配置好，代码生成器中选择数据源后，其他都全部由框架自动完成`,
-          img: ""
+          img: "",
         },
         {
           title: "根据用户绑定数据源",
           content: [
-            `根据用户信息动态绑定前端数据源:实现后台：在DictionaryHandler.GetCustomDBSql方法中添加`
+            `根据用户信息动态绑定前端数据源:实现后台：在DictionaryHandler.GetCustomDBSql方法中添加`,
           ],
           tips: `某些情况可能用户只需要看到自己权限内的数据，可按此方法实现`,
-          img: ""
+          img: "",
         },
         {
           title: "视图操作",
           content: [
-            `如果查询过于复杂或不想多表关联，请创建视图，再将视图生成代码`
+            `如果查询过于复杂或不想多表关联，请创建视图，再将视图生成代码`,
           ],
           tips: `使用视图某些情况能减下操作的复杂性`,
-          img: ""
+          img: "",
         },
         {
           title: "视图新增/删除/修改",
@@ -1263,14 +1449,14 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`
+</div>`,
           ],
           tips: `使用视图某些情况能减下操作的复杂性`,
-          img: ""
-        }
-      ]
+          img: "",
+        },
+      ],
     };
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -1383,5 +1569,17 @@ h2 {
 }
 .active {
   color: #409eff !important;
+}
+.doc-nav {
+  margin: 15px;
+  text-align: center;
+  padding: 10px;
+  a {
+    font-size: 20px;
+    margin: 0 20px;
+    line-height: 30px;
+    padding: 4px 0;
+    border-bottom: 1px solid;
+  }
 }
 </style>
