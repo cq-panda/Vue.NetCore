@@ -8,7 +8,7 @@
               :class="{active:active==index}"
               :style="item.style"
               @click="scrollIntoView(index)"
-            >{{index==0?'添加动态按钮':item.title}}</a>
+            >{{index+1}}. {{index==0?'添加动态按钮':item.title}}</a>
           </li>
         </ul>
       </el-scrollbar>
@@ -52,7 +52,7 @@
               <p v-for="(line,key) in item.content" :key="key" class="desc" v-html="line"></p>
             </div>
             <div class="img" :class="{'full-code':!item.img}">
-              <img :src="item.img" @click="()=>{base.previewImg(item.img)}" />
+              <img :src="item.img" @click="()=>{base.previewImg((item.img||'').replace('?imageMogr2/thumbnail/!50p',''))}" />
             </div>
           </div>
           <Alert type="success" show-icon>{{item.tips}}</Alert>
@@ -125,7 +125,7 @@ export default {
 </div>`,
           ],
           tips: ` this.buttons来源：ViewGrid.vue组件data->buttons属性`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/01.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/01.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "弹出框界面动态按钮",
@@ -191,7 +191,7 @@ export default {
 </div>`,
           ],
           tips: `可根据this.currentAction判断当前是新建还是编辑来动态设置弹出框按钮`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/19.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/19.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "设置按钮显示个数",
@@ -218,7 +218,7 @@ export default {
 </div>`,
           ],
           tips: ` this.maxBtnLength来源：ViewGrid.vue组件data->maxBtnLength属性`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/02.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/02.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "点击按钮弹出框",
@@ -230,12 +230,12 @@ export default {
              <p>&nbsp; &nbsp; &nbsp; 3、点击按钮触发 this.$refs.gridHeader.model</p> `,
           ],
           tips: ` SellOrder.js点击自定的义按钮后，再弹弹出自定义的这个vue页面`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/06.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/06.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "手动打开/关闭tabs",
           content: [
-			`<div style='color:red;'>2020.08.01(需要更新文件：index.vue 、main.js标注了更新位置)</div>
+            `<div style='color:red;'>2020.08.01(需要更新文件：index.vue 、main.js标注了更新位置)</div>
 			<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*打开tabs实际也是执行的路由跳转，需要打开的tabs必须是一个路由页面*/<span style="display:none;"></span></span>
@@ -293,7 +293,7 @@ export default {
              <p>参照App_Appointment.js实现(SellOrder.js实现更全面)</p></p> `,
           ],
           tips: ` App_Appointment.js中将自己写的vue页面引用到gridHeader/gridBody/gridFooter属性上即可实现功能`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/07.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/07.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "手动设置排序列",
@@ -326,7 +326,7 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，sort参数配置见VolTable组件文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/03.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/03.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "触发table表switch",
@@ -392,7 +392,7 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/04.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/04.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑查询界面table",
@@ -492,7 +492,7 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/13.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/13.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "render渲染table对象",
@@ -690,7 +690,7 @@ export default {
 </div>`,
           ],
           tips: ` render操作table组件，可以在单元格中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/16.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/16.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -835,7 +835,7 @@ export default {
 </div>`,
           ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/17.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/17.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "render渲染form对象2",
@@ -1009,7 +1009,7 @@ export default {
 </div>`,
           ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/18.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/18.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "格式化table的数据",
@@ -1066,7 +1066,7 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，formatter 方法参数配置见VolTable组件文档`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/08.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/08.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "动态添加一列按钮",
@@ -1150,7 +1150,7 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/05.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/05.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "动态隐藏table列",
@@ -1270,8 +1270,127 @@ export default {
 <br />`,
           ],
           tips: `在前端表的扩展js中,onInit与onInited初始化要统计的字段，后台在xxxService.cs中重写查询方法，并实现要统计的字段即可完成表格统计，无需其他操作`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/09.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/09.png?imageMogr2/thumbnail/!50p",
         },
+        {
+          title: "编辑表单实时计算",
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;<span style="color:#6a9955;">//步骤1   2020.08.16</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//将计算字段设置为只读（必须）,代码生成器页面不要勾选只读</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Creator'</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">readonly</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//步骤2</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置只读计算，Creator必须是只读的，见onInit上面设置</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#dcdcaa;">Creator</span>&nbsp;=&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置计算，例如</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.editFormFileds.x1&nbsp;*&nbsp;this.editFormFileds.x2</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">AvgPrice</span>&nbsp;||&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;*&nbsp;<span style="color:#b5cea8;">2</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`],
+          tips: `如果是单独引用的volfrom组件，同样适用上面的方法`,
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20.png?imageMogr2/thumbnail/!50p",
+		},
+		{
+          title: "从表table编辑实时计算",
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;<span style="color:#6a9955;">//2020.08.16</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInited</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//onInited方法设置从表编辑时实时计算值</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Qty'</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//强烈建议此处将eidt设置为null不开启编辑</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">edit</span>&nbsp;=&nbsp;<span style="color:#569cd6;">null</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">formatter</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//可以设置计算规则&nbsp;，如：</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//return&nbsp;row.x1&nbsp;*&nbsp;&nbsp;row.x2</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#4fc1ff;">MO</span>&nbsp;*&nbsp;<span style="color:#b5cea8;">2</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`],
+          tips: `如果是单独引用的voltable组件，同样适用上面的方法`,
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/21.png?imageMogr2/thumbnail/!50p",
+		},
         {
           title: "级联操作(1)",
           content: [
@@ -1396,7 +1515,7 @@ export default {
 </div>`,
           ],
           tips: `级联操作基于Iview组件cascader(数据源的格式见iview原生组件demo配置),数据量少的情况下建议直接把数据源加载出来绑定，数据量过多时使用懒加载`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/14.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/14.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "级联操作(2)",
@@ -2026,7 +2145,7 @@ export default {
 </div>`,
           ],
           tips: `select选择后给字段设置值或数据源，实现手动级联操作`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/15.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/15.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "数组对象转换为tree",
@@ -2319,7 +2438,7 @@ export default {
 </div>`,
           ],
           tips: ` 代码生成默认使用的是单图上传，多图上传更多属性配置参照volupload组件`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/11.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/11.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑表单添加额外属性",
@@ -2391,7 +2510,7 @@ export default {
 </div>`,
           ],
           tips: ` 可给编辑表单添加描述或触发事件，更多属性配置参照volform组件api`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/12.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/12.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "主从表一对一",
@@ -2417,7 +2536,7 @@ export default {
             `点击从表列即可完成对从表图片或文件上传，参照菜单:【一对一与一对多】->【从表图片上传】`,
           ],
           tips: ` 从表图片上传，是对代码生成进行的扩展实现.按此方法可自行实现任意功能`,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "子父组件传值(vuex)",
@@ -2561,12 +2680,12 @@ export default {
     margin-right: 30px;
     color: #d2d2d2;
     position: fixed;
-    width: 190px;
+    width: 200px;
     padding: 0 10px;
     bottom: 20px;
     top: 81px;
     li {
-      padding: 5px 10px;
+      padding: 10px 5px;
       font-size: 14px;
       a {
         color: #828282;
