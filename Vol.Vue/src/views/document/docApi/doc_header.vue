@@ -5,7 +5,7 @@
     </div>
     <pre class="bg-ms">
         <code>
-        import Icons from "@/components/basic/VolHeader.vue";
+        import VolHeader from "@/components/basic/VolHeader.vue";
         </code>
     </pre>
     <VolHeader style="margin: 30px 0;" :icon="icon" :text="text">

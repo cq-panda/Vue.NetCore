@@ -82,7 +82,7 @@
       <li>
         <span
           style="line-height:3;font-size:16px;"
-        >后台：VS2019、.NetCore3.1 、EFCore3.1、JWT、Dapper、Autofac、SqlServer/MySql、Redis(可选)</span>
+        >后台：VS2019、.NetCore3.1 、EFCore3.1、JWT、Dapper、Autofac、SqlServer/MySql/PGSql、Redis(可选)</span>
       </li>
       <li>
         <span
@@ -686,6 +686,22 @@
           >
             <span style="color:#666666;font-size:14px;white-space:normal;">√</span>
             <br />
+          </td>
+        </tr>
+            <tr>
+          <td
+            style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:7px;color:rgba(111, 93, 93, 0.87);font-size:13px;border-collapse:collapse;min-width:60px;border:1px solid #D4D1D1;"
+          >
+            <span style="color:#666666;font-size:14px;">多租户</span>
+          </td>
+          <td
+            style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:7px;color:rgba(111, 93, 93, 0.87);font-size:13px;border-collapse:collapse;min-width:60px;border:1px solid #D4D1D1;"
+          ></td>
+          <td
+            style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:7px;color:rgba(111, 93, 93, 0.87);font-size:13px;border-collapse:collapse;min-width:60px;border:1px solid #D4D1D1;"
+          >
+            <span style="color:#666666;font-size:14px;">√</span>
+            <span style="display:none;"></span>
           </td>
         </tr>
         <tr>

@@ -5,7 +5,7 @@
     </div>
     <pre class="bg-ms">
         <code>
-        import Icons from "@/components/basic/VolBox.vue";
+        import VolBox from "@/components/basic/VolBox.vue";
         </code>
     </pre>
     <Button type="info" @click="model=!model">弹出框</Button>

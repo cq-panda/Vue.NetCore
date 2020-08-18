@@ -39,7 +39,7 @@
         <h4 style="color:red;">下面都是对表App_Expert.js进行的扩展操作,将下面代码复制到App_Expert.js文件methods下即可直接运行</h4>
         <h4
           style="color:red;font-size: 20px; padding: 20px 0"
-        >没有特别标明的，都是实现的App_Expert.js扩展,也适用其它所有代码生成的页面(菜单:Table+单表数据->审核、启用图片支持)</h4>
+        >没有特别标明的，都是实现的App_Expert.js扩展,也适用其它所有代码生成的页面</h4>
         <h3>所有图片点击即可查看大图</h3>
       </div>
       <div :id="'i-'+index" class="doc-wrapper" v-for="(item,index) in items" :key="index">
@@ -1010,6 +1010,207 @@ export default {
           ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/18.png?imageMogr2/thumbnail/!50p",
+        },
+        {
+          title: "render渲染form对象3",
+          content: [
+			  `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		<span style="color:#569cd6;">
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+		    <div>
+				<span style="color:white;">//如果嫌render双向绑定麻烦或内容太多，建议使用这种自定义组件模板的方式</span>
+			</div>
+			<div>
+				<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">$com</span>;
+			</div>
+			<div>
+				<span style="color:#6a9955;">//声明一个组件，用于render渲染到表单中</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">//这里为了方便写文档，直接在js中声明的组件，</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">//实际可以创建一个vue文件，然后在import进来，onInit中指向这个组件</span>
+			</div>
+			<div>
+				<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">MyComponent</span>&nbsp;=&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">data</span>()&nbsp;{&nbsp;<span style="color:#c586c0;">return</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">time</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">""</span>&nbsp;}&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">created</span>()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">$com</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span>&nbsp;{},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//创建自定义组件模板</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">template</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'&nbsp;&lt;div&nbsp;style="display:&nbsp;flex;margin-bottom:&nbsp;17px;"&gt;</span><span style="color:#d7ba7d;">\</span>
+			</div>
+			<div>
+				<span style="color:#ce9178;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&nbsp;style="text-align:&nbsp;right;width:&nbsp;100px;padding:&nbsp;7px&nbsp;12px&nbsp;10px&nbsp;0;color:red;"&gt;</span><span style="color:#d7ba7d;">\</span>
+			</div>
+			<div>
+				<span style="color:#ce9178;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;选择时间：</span><span style="color:#d7ba7d;">\</span>
+			</div>
+			<div>
+				<span style="color:#ce9178;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/label&gt;</span><span style="color:#d7ba7d;">\</span>
+			</div>
+			<div>
+				<span style="color:#ce9178;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TimePicker&nbsp;style="flex:1"&nbsp;type="time"&nbsp;:value="time"&nbsp;placeholder="Select&nbsp;time"&gt;</span><span style="color:#d7ba7d;">\</span>
+			</div>
+			<div>
+				<span style="color:#ce9178;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TimePicker&gt;</span><span style="color:#d7ba7d;">\</span>
+			</div>
+			<div>
+				<span style="color:#ce9178;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;style="line-height:&nbsp;33px;padding-left:&nbsp;15px;color:red;"&gt;</span><span style="color:#d7ba7d;">\</span>
+			</div>
+			<div>
+				<span style="color:#ce9178;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这里是render直接使用的html代码渲染的</span><span style="color:#d7ba7d;">\</span>
+			</div>
+			<div>
+				<span style="color:#ce9178;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</span><span style="color:#d7ba7d;">\</span>
+			</div>
+			<div>
+				<span style="color:#ce9178;">&nbsp;&nbsp;&nbsp;&lt;/div&gt;'</span>
+			</div>
+			<div>
+				};
+			</div>
+			<div>
+				<span style="color:#6a9955;">//声明vue对象</span>
+			</div>
+			<div>
+				<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">$this</span>;
+			</div>
+			<div>
+				<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">extension</span>&nbsp;=&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">components</span><span style="color:#9cdcfe;">:</span>&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridHeader</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridBody</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridFooter</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelHeader</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelBody</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelFooter</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;},&nbsp;<span style="color:#6a9955;">//动态扩充组件或组件路径</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">buttons</span><span style="color:#9cdcfe;">:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">box</span><span style="color:#9cdcfe;">:</span>&nbsp;[]&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span>&nbsp;{&nbsp;<span style="color:#6a9955;">//事件扩展</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//必须</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">$this</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//动态挂载自己加的MyComponent组件</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$options</span>.<span style="color:#9cdcfe;">components</span>[<span style="color:#ce9178;">'my-Component'</span>]&nbsp;=&nbsp;<span style="color:#9cdcfe;">MyComponent</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在表单配置的第二行后，将MyComponent组件添加到表单中</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#b5cea8;">2</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;[{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">colSize</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">12</span>,&nbsp;<span style="color:#6a9955;">//设置为当前组件100%宽度</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">render</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>(<span style="color:#9cdcfe;">createElement</span>,&nbsp;<span style="color:#9cdcfe;">ctx</span>)&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//挂载组件</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#dcdcaa;">createElement</span>(<span style="color:#9cdcfe;">$this</span>.<span style="color:#9cdcfe;">$options</span>.<span style="color:#9cdcfe;">components</span>[<span style="color:#ce9178;">'my-Component'</span>])
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}])
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//打开弹出框后给组件设置不同的值</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//新建</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Add"</span>)&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">$com</span>.<span style="color:#9cdcfe;">time</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"09:41:00"</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span style="color:#c586c0;">else</span>&nbsp;{&nbsp;<span style="color:#6a9955;">//编辑</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">$com</span>.<span style="color:#9cdcfe;">time</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"23:22:00"</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				};
+			</div>
+			<div>
+				<span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;<span style="color:#9cdcfe;">extension</span>;
+			</div>
+		</div>
+</span>
+	</div>
+	<div>
+		<span style="color:#c586c0;"></span><span style="color:#c586c0;"></span><span style="color:#9cdcfe;"></span>
+	</div>
+</div>`
+          ],
+          tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/22.png?imageMogr2/thumbnail/!50p"
         },
         {
           title: "格式化table的数据",

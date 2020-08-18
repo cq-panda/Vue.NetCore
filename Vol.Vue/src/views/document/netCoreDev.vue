@@ -4,7 +4,7 @@
       <el-scrollbar style="height:100%;">
         <ul>
           <li class="n-item" v-for="(item,index) in items" :key="index">
-            <a :class="{active:active==index}" @click="scrollIntoView(index)">{{item.title}}</a>
+            <a :class="{active:active==index}" @click="scrollIntoView(index)">{{index+1}}. {{item.title}}</a>
           </li>
         </ul>
       </el-scrollbar>
@@ -169,6 +169,9 @@ export default {
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//以上方式都能访问数据库</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;font-size:20px;">//框架使用EF时，默认开启了NoTracking，如果要更新操作调用repository.Update</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;
@@ -378,7 +381,7 @@ export default {
           img: "",
         },
         {
-          title: "接口(控制器方法)添加权限过滤",
+          title: "接口(控制器)添加权限过滤",
           content: [
             `
             <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
@@ -1361,7 +1364,7 @@ export default {
           tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`,
         },
         {
-          title: "绑定数据源及自定义sql数据源",
+          title: "绑定数据源及自定义sql源",
           content: [
             `<p>前端数据源绑定在菜单：系统->下拉框绑定设置中配置</p>
           <p>同时可以配置成自定义成sql语句,参照现有的配置</p>`,
@@ -1393,10 +1396,10 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//视图不能直接新增/删除/修改操作</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//以视图为例：VAppOrderWxPaid</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//以视图为例：VSellOrderService</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">partial</span>&nbsp;<span style="color:#569cd6;">class</span>&nbsp;<span style="color:#4ec9b0;">VAppOrderWxPaidService</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">partial</span>&nbsp;<span style="color:#569cd6;">class</span>&nbsp;<span style="color:#4ec9b0;">VSellOrderService</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;{
@@ -1423,19 +1426,19 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//VAppOrderWxPaid为视图</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//VSellOrder为视图</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//直接操作原表App_OrderWxPaid的编辑功能</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//直接操作原表SellOrder的编辑功能</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//saveModel为视图编辑字段信息，如果当前视图提交的saveModel字段与原表App_OrderWxPaid不一致，</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//saveModel为视图编辑字段信息，如果当前视图提交的saveModel字段与原表SellOrder不一致，</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//可以直接修改视图提交saveModel里面的字段信息</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">App_OrderWxPaidService</span>.<span style="color:#9cdcfe;">Instance</span>.<span style="color:#dcdcaa;">Update</span>(<span style="color:#9cdcfe;">saveModel</span>);
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">SellOrderService</span>.<span style="color:#9cdcfe;">Instance</span>.<span style="color:#dcdcaa;">Update</span>(<span style="color:#9cdcfe;">saveModel</span>);
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;return&nbsp;base.Update(saveModel);</span>
@@ -1471,7 +1474,7 @@ export default {
     bottom: 20px;
     top: 81px;
     li {
-      padding: 5px 10px;
+      padding: 10px 10px;
       font-size: 14px;
       a {
         color: #828282;

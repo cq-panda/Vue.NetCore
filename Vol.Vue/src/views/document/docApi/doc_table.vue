@@ -5,7 +5,7 @@
     </div>
     <pre class="bg-ms">
         <code>
-        import Icons from "@/components/basic/VolTable.vue";
+        import VolTable from "@/components/basic/VolTable.vue";
         </code>
     </pre>
     <vol-box

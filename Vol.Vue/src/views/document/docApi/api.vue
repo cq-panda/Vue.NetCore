@@ -64,7 +64,7 @@ export default {
         },
         {
           com_name: "viewGrid",
-          title: "代码生成后页面viewGrid"
+          title: "代码生成页面ViewGrid"
         },
         {
           com_name: "volupload",
@@ -103,7 +103,7 @@ export default {
     width: 180px;
     position: fixed;
     .n-item {
-      text-align: right;
+      text-align: left;
       padding-right: 15px;
       list-style: none;
       a {
