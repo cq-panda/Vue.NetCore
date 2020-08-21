@@ -4,7 +4,10 @@
       <el-scrollbar style="height:100%;">
         <ul>
           <li class="n-item" v-for="(item,index) in items" :key="index">
-            <a :class="{active:active==index}" @click="scrollIntoView(index)">{{index+1}}. {{item.title}}</a>
+            <a
+              :class="{active:active==index}"
+              @click="scrollIntoView(index)"
+            >{{index+1}}. {{item.title}}</a>
           </li>
         </ul>
       </el-scrollbar>
@@ -12,7 +15,7 @@
     <div class="doc-right">
       <div class="doc-nav">
         <a @click="()=>{this.b_moel=true;}">多租户</a>
-        <a @click="()=>{this.$Message.info('开发中')}">分库多数据库</a>
+        <a @click="opendb()">分库/多数据库</a>
         <a @click="()=>{this.$Message.error('暂不开放')}">国际化</a>
         <a @click="scrollIntoView('extend')">后台基础代码扩展实现</a>
       </div>
@@ -61,52 +64,73 @@
       <Alert type="success" show-icon>
         关于多租户（2020.08.15）
         <template slot="desc">
-          <p style="    color: red;
-    font-size: 16px;">多租户2020.08.15更新，只需要更新后台文件：ServiceBase.cs、ServiceFunFilter.cs</p>
-          
+          <p
+            style="    color: red;
+    font-size: 16px;"
+          >多租户2020.08.15更新，只需要更新后台文件：ServiceBase.cs、ServiceFunFilter.cs</p>
         </template>
       </Alert>
       <el-collapse v-model="activeName" accordion>
-	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//以SellOrderService为例，在类中重写Init方法，设置IsMultiTenancy=true开启多租户功能</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">protected</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#569cd6;">void</span>&nbsp;<span style="color:#dcdcaa;">Init</span>(<span style="color:#9cdcfe;">IRepository</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">repository</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.08.15</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置&nbsp;IsMultiTenancy&nbsp;=&nbsp;true;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">IsMultiTenancy</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-</div>
-<div style="padding: 10px 0;
+        <div
+          style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;"
+        >
+          <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span
+              style="color:#6a9955;"
+            >//以SellOrderService为例，在类中重写Init方法，设置IsMultiTenancy=true开启多租户功能</span>
+          </div>
+          <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:#9cdcfe;">protected</span>&nbsp;
+            <span style="color:#9cdcfe;">override</span>&nbsp;
+            <span style="color:#569cd6;">void</span>&nbsp;
+            <span style="color:#dcdcaa;">Init</span>(
+            <span style="color:#9cdcfe;">IRepository</span>&lt;
+            <span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;
+            <span style="color:#9cdcfe;">repository</span>)
+          </div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</div>
+          <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:#6a9955;">//2020.08.15</span>
+          </div>
+          <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:#6a9955;">//开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效</span>
+          </div>
+          <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span
+              style="color:#6a9955;"
+            >//如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置&nbsp;IsMultiTenancy&nbsp;=&nbsp;true;</span>
+          </div>
+          <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:#9cdcfe;">IsMultiTenancy</span>&nbsp;=&nbsp;
+            <span style="color:#569cd6;">true</span>;
+          </div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+        </div>
+        <div
+          style="padding: 10px 0;
     font-size: 22px;
-    color: red;">多租户不能直接使用，请在ServiceBase.cs中统一修改CheckUpdateMultiTenancy、CheckDelMultiTenancy、GetSearchQueryable方法，具体修改请看方法的描述</div>
-		</el-collapse>
+    color: red;"
+        >多租户不能直接使用，请在ServiceBase.cs中统一修改CheckUpdateMultiTenancy、CheckDelMultiTenancy、GetSearchQueryable方法，具体修改请看方法的描述</div>
+      </el-collapse>
     </Drawer>
   </div>
 </template>
 <script>
 export default {
   methods: {
+    opendb() {
+      window.open("http://api.volcore.xyz/doc/index.html");
+    },
     scrollIntoView(index) {
       if (typeof index == "string") {
         index = this.items.findIndex((x) => {
-          return (x.name == index);
+          return x.name == index;
         });
       }
 
@@ -430,8 +454,8 @@ export default {
           ],
           tips: ` 还没想好`,
           img: "",
-		},
-		  {
+        },
+        {
           title: "编写原生查询sql",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
