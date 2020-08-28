@@ -68,9 +68,16 @@ let extension = {
                 return true;
             }
             //显示新建用户的密码
-            this.$refs.gridHeader.open(result.message);
+            //2020.08.28优化新建成后提示方式
+            this.$confirm(result.message, '新建用户成功', {
+                confirmButtonText: '确定',
+                type: 'success',
+                center: true
+            }).then(() => {})
+
             this.boxModel = false;
-            return true;
+            this.refresh();
+            return false;
         },
         modelOpenAfter() {
             //点击弹出框后，如果是编辑状态，禁止编辑用户名，如果新建状态，将用户名字段设置为可编辑
