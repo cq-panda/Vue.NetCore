@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="right">
-      <vol-form ref="form" :width="500" :formRules="editFormOptions" :formFileds="editFormFileds">
+      <vol-form ref="form" :load-key="true" :width="500" :formRules="editFormOptions" :formFileds="editFormFileds">
         <div slot="header">
           <Divider>
             <span class="ivu-icon ios-alert-outline">个人信息</span>
@@ -77,7 +77,7 @@
       title="修改密码"
     >
       <div style="padding:10px;20px;">
-        <VolForm ref="pwd" :formRules="modifyOptions.data" :formFileds="modifyOptions.fileds"></VolForm>
+        <VolForm ref="pwd"  :formRules="modifyOptions.data" :formFileds="modifyOptions.fileds"></VolForm>
         <Button type="info" size="large" icon="md-checkmark-circle" long @click="savePwd">保存</Button>
       </div>
       <div slot="footer">
@@ -91,7 +91,7 @@ import VolForm from "@/components/basic/VolForm.vue";
 export default {
   components: {
     VolForm: VolForm,
-    VolBox: () => import("@/components/basic/VolBox.vue")
+    VolBox: () => import("@/components/basic/VolBox.vue"),
   },
   methods: {
     modifyImg() {
@@ -119,7 +119,7 @@ export default {
         this.modifyOptions.fileds.oldPwd +
         "&newPwd=" +
         this.modifyOptions.fileds.newPwd;
-      this.http.post(url, {}, true).then(x => {
+      this.http.post(url, {}, true).then((x) => {
         if (!x.status) {
           return this.$message.error(x.message);
         }
@@ -130,10 +130,10 @@ export default {
     },
     modifyInfo() {
       this.$message.info("修改个人信息");
-    }
+    },
   },
   created() {
-    this.http.post("/api/user/getCurrentUserInfo", {}, true).then(x => {
+    this.http.post("/api/user/getCurrentUserInfo", {}, true).then((x) => {
       if (!x.status) {
         return this.$message(x.message);
       }
@@ -163,26 +163,26 @@ export default {
               columnType: "string",
               required: true,
               title: "旧密码",
-              field: "oldPwd"
-            }
+              field: "oldPwd",
+            },
           ],
           [
             {
               type: "password",
               required: true,
               title: "新密码",
-              field: "newPwd"
-            }
+              field: "newPwd",
+            },
           ],
           [
             {
               type: "password",
               required: true,
               title: "确认密码",
-              field: "newPwd1"
-            }
-          ]
-        ]
+              field: "newPwd1",
+            },
+          ],
+        ],
       },
       binging: [{}],
       userInfo: {
@@ -190,7 +190,7 @@ export default {
         createDate: "--",
         userName: "--",
         email: "",
-        phoneNo: ""
+        phoneNo: "",
       },
       editFormFileds: {
         roleName: "",
@@ -198,7 +198,7 @@ export default {
         userTrueName: "",
         address: "",
         gender: "",
-        remark: ""
+        remark: "",
       },
       editFormOptions: [
         [
@@ -206,8 +206,8 @@ export default {
             columnType: "string",
             title: "用户名",
             field: "userName",
-            disabled: true
-          }
+            disabled: true,
+          },
         ],
         [
           {
@@ -215,8 +215,8 @@ export default {
             title: "角色",
             field: "roleName",
             disabled: true,
-            type: "text"
-          }
+            type: "text",
+          },
         ],
         [
           {
@@ -224,28 +224,24 @@ export default {
             title: "真实姓名",
             field: "userTrueName",
             required: true,
-            type: "text"
-          }
+            type: "text",
+          },
         ],
         [
           {
             columnType: "string",
             title: "地址",
             field: "address",
-            type: "text"
-          }
+            type: "text",
+          },
         ],
         [
           {
-            columnType: "bool",
             dataKey: "gender",
             title: "性别",
             field: "gender",
-            data: {
-              dicNo: "gender",
-              data: [{ key: "1", value: "男" }, { key: "0", value: "女" }]
-            },
-            type: "drop"
+            data: [],
+            type: "select",
           }
         ],
         [
@@ -254,12 +250,12 @@ export default {
             title: "备注",
             field: "remark",
             colSize: 12,
-            type: "textarea"
-          }
-        ]
-      ]
+            type: "textarea",
+          },
+        ],
+      ],
     };
-  }
+  },
 };
 </script>
 <style scoped>
