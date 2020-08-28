@@ -163,7 +163,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="paginations.page"
-        :page-sizes="[30, 60, 100,300,500]"
+        :page-sizes="paginations.sizes"
         :page-size="paginations.size"
         layout="total, sizes, prev, pager, next, jumper"
         :total="paginations.total"
@@ -326,7 +326,9 @@ export default {
         order: "desc",
         Foots: "",
         total: 0,
-        size: 0,
+        //2020.08.29增加自定义分页条大小
+        sizes: [30, 60, 100, 120],
+        size: 30, //默认分页大小
         Wheres: [],
         page: 1,
         rows: 30,
@@ -391,6 +393,11 @@ export default {
     }
 
     this.paginations.sort = this.pagination.sortName;
+    //2020.08.29增加自定义分页条大小
+    Object.assign(this.paginations, this.pagination);
+    if (this.pagination.size) {
+      this.paginations.rows = this.pagination.size;
+    }
     this.enableEdit = this.columns.some((x) => {
       return x.hasOwnProperty("edit");
     });
@@ -451,7 +458,7 @@ export default {
       }
       if (!this.paginationHide) {
         this.paginations.page = 1;
-        this.paginations.rows = 30;
+        // this.paginations.rows = 30;
         if (this.paginations.wheres && this.paginations.wheres.length > 0) {
           this.paginations.wheres.splice(0);
         }
@@ -868,7 +875,7 @@ export default {
     },
     resetPage() {
       //重置查询分页
-      this.paginations.rows = 30;
+     // this.paginations.rows = 30;
       this.paginations.page = 1;
     },
     selectionChange(selection) {
