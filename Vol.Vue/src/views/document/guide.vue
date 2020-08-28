@@ -148,25 +148,32 @@
           <span style="font-size:16px;">输入http://localhost:8080访问（本地超级管理员帐号：admin 密码:123456）</span>
         </span>
       </li>
+          <li
+        style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;"
+      >
+        <span style="line-height:3;font-size:14px;color:red;">
+          <span style="font-size:16px;">登陆页面一直登陆中不跳转1、数据库连接没配置好,在appsettings.json中重新配置，或者可以调试查看具体错误，后台调试方法见文档：【后台开发】->【调试】</span>
+        </span>
+      </li>
         <li
         style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;"
       >
         <span style="line-height:3;font-size:14px;color:red;">
-          <span style="font-size:16px;">项目启动报错1、.netcore.xxx表不存在(手动将数据库表改成大写开头,与代码的Model大小写一致即可)</span>
+          <span style="font-size:16px;">项目启动报错2、.netcore.xxx表不存在(手动将数据库表改成大写开头,与代码的Model大小写一致即可)</span>
         </span>
       </li>
          <li
         style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;"
       >
         <span style="line-height:3;font-size:14px;color:red;">
-          <span style="font-size:16px;">项目启动报错2、点击登陆提示网络出错(如果是mysql数据库，请确认appsettings.json配置中DBType是否改为了MySql)</span>
+          <span style="font-size:16px;">项目启动报错3、点击登陆提示网络出错(如果是mysql数据库，请确认appsettings.json配置中DBType是否改为了MySql)</span>
         </span>
       </li>
            <li
         style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;"
       >
         <span style="line-height:3;font-size:14px;color:red;">
-          <span style="font-size:16px;">项目启动报错3、后台控制台提示不支持allowPublicKeyRetrieval(见上面appsettings.json配置中DBType是否改为了MySql，数据库字符串配置去掉此属性)</span>
+          <span style="font-size:16px;">项目启动报错4、后台控制台提示不支持allowPublicKeyRetrieval(见上面appsettings.json配置中DBType是否改为了MySql，数据库字符串配置去掉此属性)</span>
         </span>
       </li>
        <li
@@ -192,6 +199,11 @@
 
     <p></p>
     <ul style="padding-left: 24px;">
+         <li>
+        <span style="font-size:16px;line-height:3;">
+          <span style="display:none;"></span>前端需要了解模块化开发、vue基础语法：router、component及子父组件传参、slot、ref、props
+        </span>
+      </li>
       <li>
         <span style="font-size:16px;line-height:3;">
           <span style="display:none;"></span>文档【代码生成】:先用代码生成器生成完整代码

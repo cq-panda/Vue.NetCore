@@ -349,18 +349,6 @@ export default {
           img: "",
         },
         {
-          title: "读写分离与分库",
-          content: [
-            `<p style="line-height: 34px;">读写分离与分库，不同的业务实现细节区别很大，可以根据自己实际情况修改框架</p>
-          <p style="line-height: 34px;">1、将所有数据库连接配置缓存到DBServerProvider.ConnectionPool中</p>
-          <p style="line-height: 34px;">2、根据登陆用户操作所属数据库：EF修改DBServerProvider.GetDbContextConnection()，如果是读写分离，可以考虑增加ToList扩展方法</p>
-          <p style="line-height: 34px;">3、使用Dapper读写分离或分库:DBServerProvider.GetSqlDapper('数据库连接key),key为ConnectionPool中的key'</p>
-          <p style="line-height: 34px;">4、全自动操作读写分离或分库，可以考虑在model上使用Attribute(需要改代码生成器，将model对应数据库生成上去),使用EF或Dapper时，从model上获取Attribute里的数据库配置信息</p>`,
-          ],
-          tips: `还没想好`,
-          img: "",
-        },
-        {
           title: "实体校验",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">

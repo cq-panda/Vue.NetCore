@@ -176,7 +176,7 @@ export default {
   position: relative;
 
   height: 100%;
-  max-width: 1250px;
+  max-width: 1350px;
   left: 0;
   right: 0;
   margin: 0 auto;
