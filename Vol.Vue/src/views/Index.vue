@@ -314,13 +314,13 @@ export default {
         (day < 10 ? "0" + day : day) + //202.08.08修复日期天数小于10时添加0
         "" +
         " " +
-        hour +
+        (hour < 10 ? "0" + hour : hour) +
         ":" +
-        minutes +
+        (minutes < 10 ? "0" + minutes : minutes) +
         ":" +
         (second < 10 ? "0" + second : second) +
-        " " +
-        (week[date.getDay() - 1] || "");
+        " " + //2020.08.30修复首页日期星期天不显示的问题
+        (week[date.getDay() - 1] || week[6]);
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
