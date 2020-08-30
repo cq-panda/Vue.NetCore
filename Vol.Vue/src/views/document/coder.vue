@@ -2,7 +2,7 @@
   <div class="coder-container">
     <div class="left">
       <ul v-for="(item,index) in nav" :key="index">
-        <li @click="to(index)" :class="{actived:activedIndex==index,step:index>2&&index<9}">{{item}}</li>
+        <li @click="to(index)" :class="{actived:activedIndex==index,step:index>3&&index<10}">{{item}}</li>
       </ul>
     </div>
     <div class="right">
@@ -409,12 +409,13 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+
 .coder-container {
   display: flex;
   .left {
     position: fixed;
     width: 170px;
-    border-right: 1px solid #969696;
+    border-right: 1px solid #ececec;
     margin-right: 20px;
     li {
       cursor: pointer;
@@ -449,7 +450,7 @@ export default {
   .coder-group {
     // background: #e0fffb;
     border-radius: 5px;
-    width: 100%;
+    width: 900px;
     display: inline-block;
     padding: 15px 25px;
     box-shadow: 2px 0px 16px #e6e6e6;
@@ -479,8 +480,9 @@ export default {
 }
 
 .step {
-  padding-left: 20px !important;
-  color: black;
+    // padding-left: 20px !important;
+    color: #797878;
+    font-size: 12px !important;
 }
 //   .step:first {
 //     margin-top: 15px;

@@ -442,6 +442,15 @@ export default {
           ],
           tips: ` 还没想好`,
           img: "",
+		},
+		      {
+          title: "自定义字典sql数据源",
+          content: [
+			`<p>1、在菜单：【系统】->【下拉框绑定设置】中设置sql语句，再刷新页面，代码生成器中选配置的字典编号，生成vue页面</p>
+			<p>2、如果需要根据信息加载不同的数据源，先操作步骤1,后台文件：DictionaryHandler.GetCustomDBSql方法编写实际sql</p>`,
+          ],
+          tips: ` 还没想好`,
+          img: "",
         },
         {
           title: "编写原生查询sql",
