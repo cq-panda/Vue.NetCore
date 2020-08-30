@@ -90,7 +90,7 @@ export default {
           this.loadingStatus = false;
           this.file = null;
           this.$emit('importExcelAfter',x);
-          this.$message.error(x.message);
+          this.$Message[x.status?'success':'error'](x.message);
           //刷新表格数据
         },
         error => {
