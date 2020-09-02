@@ -383,7 +383,10 @@ export default {
               //转换数据源的类型与列的类型一致(2020.04.04)
               if (c.valueTyoe == "int" || c.valueTyoe == "sbyte") {
                 x.data.forEach((d) => {
-                  d.key = ~~d.key;
+                  //2020.09.01增加对数字类型的二次判断
+                  if (!isNaN(d.key)) {
+                    d.key = ~~d.key;
+                  }
                 });
               }
               if (c.key == x.dicNo) c.data.push(...x.data);
@@ -875,7 +878,7 @@ export default {
     },
     resetPage() {
       //重置查询分页
-     // this.paginations.rows = 30;
+      // this.paginations.rows = 30;
       this.paginations.page = 1;
     },
     selectionChange(selection) {
