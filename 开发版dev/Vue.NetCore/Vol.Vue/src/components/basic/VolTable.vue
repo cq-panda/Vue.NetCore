@@ -973,8 +973,9 @@ export default {
       return valArr.join(",");
     },
     onChange(scope, val, event, column) {
+      //2020.09.03修复onChange不触发的问题
       let row = scope.row;
-      if (row.onChange && !row.onChange(row, val, event)) {
+      if (column.onChange && !column.onChange(row, val, event)) {
         return;
       }
       //输入框求和实时计算
