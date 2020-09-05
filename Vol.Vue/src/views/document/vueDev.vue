@@ -319,208 +319,6 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/07.png?imageMogr2/thumbnail/!50p",
         },
         {
-          title: "手动设置排序列",
-          content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">row</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置sort=true进行排序</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"AuditStatus"</span>)&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">sort</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-</div>`,
-          ],
-          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，sort参数配置见VolTable组件文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/03.png?imageMogr2/thumbnail/!50p",
-        },
-        {
-          title: "触发table表switch",
-          content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-	<div>
-		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">row</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Enable"</span>)&nbsp;{
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//强制设置为编辑列，类型为switch</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">edit</span>&nbsp;=&nbsp;{&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"switch"</span>,&nbsp;<span style="color:#9cdcfe;">keep</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">true</span>&nbsp;};
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//手动绑定数据源</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果设置key的字典编号，data设置空数组会自动绑定数据源</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">bind</span>&nbsp;=&nbsp;{&nbsp;<span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"enable"</span>,&nbsp;<span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span>&nbsp;[{&nbsp;<span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'禁用'</span>&nbsp;},&nbsp;{&nbsp;<span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'启用'</span>&nbsp;}]&nbsp;};
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//绑定switch切换事件</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">$this</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>;
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#dcdcaa;">onChange</span>&nbsp;=&nbsp;<span style="color:#569cd6;">function</span>&nbsp;(<span style="color:#9cdcfe;">options</span>,&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">_columns</span>,&nbsp;<span style="color:#9cdcfe;">status</span>)&nbsp;{
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在此处可以将数据提到后台处理</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">$this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#9cdcfe;">status</span>&nbsp;?&nbsp;<span style="color:#ce9178;">"true"</span>&nbsp;:&nbsp;<span style="color:#ce9178;">"false"</span>);
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;}
-			</div>
-		</div>
-	</div>
-	<div>
-	</div>
-</div>`,
-          ],
-          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/04.png?imageMogr2/thumbnail/!50p",
-        },
-        {
-          title: "编辑查询界面table",
-          content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-	<div>
-		&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在指定的个人简介Resume列后面手动增加一列</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">_index</span>&nbsp;=&nbsp;-<span style="color:#b5cea8;">1</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">for</span>&nbsp;(<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">index</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">0</span>;&nbsp;<span style="color:#9cdcfe;">index</span>&nbsp;&lt;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#9cdcfe;">length</span>;&nbsp;<span style="color:#9cdcfe;">index</span>++)&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">const</span>&nbsp;<span style="color:#9cdcfe;">row</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>[<span style="color:#9cdcfe;">index</span>];
-	</div>
-<br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Resume"</span>)&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//强制设置为编辑列，类型为text</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">edit</span>&nbsp;=&nbsp;{&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"text"</span>,&nbsp;<span style="color:#9cdcfe;">keep</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">true</span>&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取个人简介列的位置</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">_index</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">index</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//参数配置见文档VolTable组件中columns的属性</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">options</span>&nbsp;=&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'oper'</span>,&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'操作'</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'text'</span>,&nbsp;<span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">100</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//返回一个标签</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">formatter</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#ce9178;">'&lt;a&gt;保存&lt;/a&gt;'</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//触发事件,可以在此事件再打开一个弹出框等操作</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">click</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#ce9178;">"保存的数据:"</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">Resume</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//刷新表</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">refresh</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在获取个人简介列的位置列后添加一行操作列</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#9cdcfe;">_index</span>&nbsp;+&nbsp;<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#9cdcfe;">options</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-</div>`,
-          ],
-          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/13.png?imageMogr2/thumbnail/!50p",
-        },
-        {
           title: "render渲染table对象",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
@@ -1243,7 +1041,7 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/22.png?imageMogr2/thumbnail/!50p",
         },
         {
-          title: "格式化table的数据",
+          title: "table格式化数据",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
 	<div>
@@ -1301,7 +1099,7 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/08.png?imageMogr2/thumbnail/!50p",
         },
         {
-          title: "动态添加一列按钮",
+          title: "table动态添加一列按钮",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
 	<div>
@@ -1384,25 +1182,102 @@ export default {
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/05.png?imageMogr2/thumbnail/!50p",
-        },
+		},
+		 {
+          title: "table设置/移除列颜色",
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;if&nbsp;(x.field&nbsp;==&nbsp;"Variety")&nbsp;{</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置table有数据源的列为正常显示(不显示背景颜色)</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;x.normal&nbsp;=&nbsp;true;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;}</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"City"</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置table有数据源的列为正常显示(并设置自定义文字颜色)</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">normal</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//根据不同的值，定义不同的样式(如：文字颜色)</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">getStyle</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">City</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"北京市"</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">color</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"red"</span>,&nbsp;<span style="color:#9cdcfe;">cursor</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"pointer"</span>&nbsp;};
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">color</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"blue"</span>,&nbsp;<span style="color:#9cdcfe;">cursor</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"pointer"</span>&nbsp;};
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//绑定点击事件</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">click</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">City</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>` ],
+          tips: `还没想好`,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/37.png?imageMogr2/thumbnail/!50p",
+		},
         {
-          title: "动态隐藏table列",
+          title: "table手动设置排序列",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
 	<div>
-		&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">column</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">row</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//隐藏日期列</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置sort=true进行排序</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'CreateDate'</span>)&nbsp;{
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"AuditStatus"</span>)&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">hidden</span>=<span style="color:#569cd6;">true</span>;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">sort</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -1411,20 +1286,185 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果有明细表，需要隐藏列，操作方法同上</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`,
+          ],
+          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，sort参数配置见VolTable组件文档`,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/03.png?imageMogr2/thumbnail/!50p",
+        },
+        {
+          title: "table触发switch",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
+	<div>
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">row</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Enable"</span>)&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//强制设置为编辑列，类型为switch</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">edit</span>&nbsp;=&nbsp;{&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"switch"</span>,&nbsp;<span style="color:#9cdcfe;">keep</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">true</span>&nbsp;};
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//手动绑定数据源</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果设置key的字典编号，data设置空数组会自动绑定数据源</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">bind</span>&nbsp;=&nbsp;{&nbsp;<span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"enable"</span>,&nbsp;<span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span>&nbsp;[{&nbsp;<span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'禁用'</span>&nbsp;},&nbsp;{&nbsp;<span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'启用'</span>&nbsp;}]&nbsp;};
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//绑定switch切换事件</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">$this</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#dcdcaa;">onChange</span>&nbsp;=&nbsp;<span style="color:#569cd6;">function</span>&nbsp;(<span style="color:#9cdcfe;">options</span>,&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">_columns</span>,&nbsp;<span style="color:#9cdcfe;">status</span>)&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在此处可以将数据提到后台处理</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">$this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#9cdcfe;">status</span>&nbsp;?&nbsp;<span style="color:#ce9178;">"true"</span>&nbsp;:&nbsp;<span style="color:#ce9178;">"false"</span>);
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+		</div>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.detailOptions.columns.forEach()</span>
+	</div>
+</div>`,
+          ],
+          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/04.png?imageMogr2/thumbnail/!50p",
+        },
+        {
+          title: "table查询界面编辑",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
+	<div>
+		&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在指定的个人简介Resume列后面手动增加一列</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">_index</span>&nbsp;=&nbsp;-<span style="color:#b5cea8;">1</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">for</span>&nbsp;(<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">index</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">0</span>;&nbsp;<span style="color:#9cdcfe;">index</span>&nbsp;&lt;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#9cdcfe;">length</span>;&nbsp;<span style="color:#9cdcfe;">index</span>++)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">const</span>&nbsp;<span style="color:#9cdcfe;">row</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>[<span style="color:#9cdcfe;">index</span>];
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Resume"</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//强制设置为编辑列，类型为text</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">edit</span>&nbsp;=&nbsp;{&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"text"</span>,&nbsp;<span style="color:#9cdcfe;">keep</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">true</span>&nbsp;};
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取个人简介列的位置</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">_index</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">index</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//参数配置见文档VolTable组件中columns的属性</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">options</span>&nbsp;=&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'oper'</span>,&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'操作'</span>,
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'text'</span>,&nbsp;<span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">100</span>,
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//返回一个标签</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">formatter</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#ce9178;">'&lt;a&gt;保存&lt;/a&gt;'</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//触发事件,可以在此事件再打开一个弹出框等操作</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">click</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#ce9178;">"保存的数据:"</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">Resume</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//刷新表</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">refresh</span>();
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在获取个人简介列的位置列后添加一行操作列</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#9cdcfe;">_index</span>&nbsp;+&nbsp;<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#9cdcfe;">options</span>)
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
 </div>`,
           ],
-          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`,
+          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/13.png?imageMogr2/thumbnail/!50p",
         },
+		
         {
-          title: "显示表格统计信息",
+          title: "table显示合计",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
 	<div>
@@ -1505,6 +1545,170 @@ export default {
           tips: `在前端表的扩展js中,onInit与onInited初始化要统计的字段，后台在xxxService.cs中重写查询方法，并实现要统计的字段即可完成表格统计，无需其他操作`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/09.png?imageMogr2/thumbnail/!50p",
+        },
+        {
+          title: "table动态隐藏列",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">column</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//隐藏日期列</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'CreateDate'</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">hidden</span>=<span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果有明细表，需要隐藏列，操作方法同上</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.detailOptions.columns.forEach()</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`,
+          ],
+          tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`,
+		},
+		   {
+          title: "table设置分页条大小",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置分页条大小</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.<span style="color:#9cdcfe;">sizes</span>&nbsp;=&nbsp;[<span style="color:#b5cea8;">20</span>,&nbsp;<span style="color:#b5cea8;">30</span>,&nbsp;<span style="color:#b5cea8;">40</span>,&nbsp;<span style="color:#b5cea8;">60</span>,<span style="color:#b5cea8;">90</span>]
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置默认分页数</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.<span style="color:#9cdcfe;">size</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">20</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`,
+          ],
+          tips: ``,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/28.png?imageMogr2/thumbnail/!100p",
+		},
+		{
+          title: "table获取所有行数据",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color:#6a9955;">//获取查询界面的所有行数据</span> 
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">rowData</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取明细表所有行数据</span> 
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>;
+	</div>
+</div>`,
+          ],
+          tips: ``,
+          img: "",
+        },
+        {
+          title: "table获取选中的行",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color:#6a9955;">//获取查询界面的所有选中的行数据</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">getSelected</span>();
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取明细表所有选中的行数据</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#dcdcaa;">getSelected</span>();
+	</div>
+</div>`,
+          ],
+          tips: ``,
+          img: "",
+		},
+		
+        {
+          title: "table从表编辑实时计算",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
+	<div>
+		&nbsp;<span style="color:#6a9955;">//2020.08.16</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInited</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//onInited方法设置从表编辑时实时计算值</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Qty'</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//强烈建议此处将eidt设置为null不开启编辑</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">edit</span>&nbsp;=&nbsp;<span style="color:#569cd6;">null</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">formatter</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//可以设置计算规则&nbsp;，如：</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//return&nbsp;row.x1&nbsp;*&nbsp;&nbsp;row.x2</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#4fc1ff;">MO</span>&nbsp;*&nbsp;<span style="color:#b5cea8;">2</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`,
+          ],
+          tips: `如果是单独引用的voltable组件，同样适用上面的方法`,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/21.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑表单实时计算",
@@ -2262,444 +2466,471 @@ export default {
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
 	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-		<br />
-		<div>
-			<span style="color:#6a9955;">//js代码&nbsp;Sys_Dictionary.js文件</span>
-		</div>
-		<div>
-			<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">extension</span>&nbsp;=&nbsp;{
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">components</span><span style="color:#9cdcfe;">:</span>&nbsp;{&nbsp;<span style="color:#6a9955;">//动态扩充组件或组件路径</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridHeader</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridBody</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridFooter</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelHeader</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelBody</span><span style="color:#9cdcfe;">:</span>&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">import</span>&nbsp;(<span style="color:#ce9178;">"./Sys_Dictionary/Sys_DictionaryBody.vue"</span>),
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelFooter</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;},
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">buttons</span><span style="color:#9cdcfe;">:</span>&nbsp;[],&nbsp;<span style="color:#6a9955;">//扩展的按钮</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span>&nbsp;{&nbsp;<span style="color:#6a9955;">//事件扩展</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'ParentId'</span>)&nbsp;{&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">min</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">0</span>;&nbsp;}&nbsp;})
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInited</span>()&nbsp;{
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">columnIndex</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">findIndex</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Enable'</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在指定的Enable列后面手动增加一列</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#9cdcfe;">columnIndex</span>&nbsp;+&nbsp;<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;{
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'oper'</span>,
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'操作'</span>,
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'text'</span>,
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">100</span>,
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//返回一个标签</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">formatter</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#ce9178;">'&lt;a&gt;选择数据&lt;/a&gt;'</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//触发事件,可以在此事件再打开一个弹出框等操作</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">click</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">modelBody</span>.<span style="color:#dcdcaa;">open</span>(<span style="color:#9cdcfe;">row</span>);
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;}
-		</div>
-		<div>
-			};
-		</div>
-		<div>
-			<span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;<span style="color:#9cdcfe;">extension</span>;
-		</div>
-	</div>
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+			<br />
+			<div>
+				//js代码&nbsp;Sys_Dictionary.js文件
+			</div>
+			<div>
+				let&nbsp;extension&nbsp;=&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;components:&nbsp;{&nbsp;//动态扩充组件或组件路径
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gridHeader:&nbsp;'',
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gridBody:&nbsp;'',
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gridFooter:&nbsp;'',
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modelHeader:&nbsp;'',
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modelBody:&nbsp;()&nbsp;=&gt;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;("./Sys_Dictionary/Sys_DictionaryBody.vue"),
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modelFooter:&nbsp;''
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;buttons:&nbsp;[],&nbsp;//扩展的按钮
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;methods:&nbsp;{&nbsp;//事件扩展
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onInit()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.editFormOptions.forEach(x&nbsp;=&gt;&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x.forEach(item&nbsp;=&gt;&nbsp;{&nbsp;if&nbsp;(item.field&nbsp;==&nbsp;'ParentId')&nbsp;{&nbsp;item.min&nbsp;=&nbsp;0;&nbsp;}&nbsp;})
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onInited()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;columnIndex&nbsp;=&nbsp;this.detailOptions.columns.findIndex(x&nbsp;=&gt;&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;x.field&nbsp;==&nbsp;'Enable'
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//在指定的Enable列后面手动增加一列
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.detailOptions.columns.splice(columnIndex&nbsp;+&nbsp;1,&nbsp;0,&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field:&nbsp;'oper',
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title:&nbsp;'操作',
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;'text',
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width:&nbsp;100,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//返回一个标签
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatter:&nbsp;(row)&nbsp;=&gt;&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;'&lt;a&gt;选择数据&lt;/a&gt;'
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//触发事件,可以在此事件再打开一个弹出框等操作
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;click:&nbsp;(row,&nbsp;column,&nbsp;event)&nbsp;=&gt;&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.$refs.modelBody.open(row);
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				};
+			</div>
+			<div>
+				export&nbsp;default&nbsp;extension;
+			</div>
 <br />
-</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-	<br />
 <br />
-	<div>
-		//&nbsp;弹出框组件代码Sys_DictionaryBody.vue
-	</div>
-	<div>
-		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">VolBox</span>&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>"&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"选择数据"</span>&nbsp;:<span style="color:#9cdcfe;">height</span>="<span style="color:#b5cea8;">500</span>"&nbsp;:<span style="color:#9cdcfe;">width</span>="<span style="color:#b5cea8;">900</span>"&nbsp;:<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">15</span>"<span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"padding-bottom:&nbsp;10px;"</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">span</span>&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"margin-right:20px;"</span><span style="color:#808080;">&gt;</span>请选择数据<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">span</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">Input</span>&nbsp;<span style="color:#9cdcfe;">placeholder</span>=<span style="color:#ce9178;">"数据源Value"</span>&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"width:300px;"</span>&nbsp;<span style="color:#9cdcfe;">v-model</span>="<span style="color:#9cdcfe;">text</span>"&nbsp;/<span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;<span style="color:#9cdcfe;">icon</span>=<span style="color:#ce9178;">"ios-search"</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#dcdcaa;">search</span>()"<span style="color:#808080;">&gt;</span>搜索<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">Button</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;vol-table配置的这些属性见VolTable组件api文件&nbsp;--&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-table</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">ref</span>=<span style="color:#ce9178;">"mytable"</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">loadKey</span>="<span style="color:#569cd6;">true</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">columns</span>="<span style="color:#9cdcfe;">columns</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">pagination</span>="<span style="color:#9cdcfe;">pagination</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">pagination-hide</span>="<span style="color:#569cd6;">false</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">max-height</span>="<span style="color:#b5cea8;">380</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">url</span>="<span style="color:#9cdcfe;">url</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">index</span>="<span style="color:#569cd6;">true</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">single</span>="<span style="color:#569cd6;">true</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">defaultLoadPage</span>="<span style="color:#569cd6;">false</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">loadBefore</span>="<span style="color:#9cdcfe;">loadTableBefore</span>"
-	</div>
-	
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">vol-table</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">slot</span>=<span style="color:#ce9178;">"footer"</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;<span style="color:#9cdcfe;">icon</span>=<span style="color:#ce9178;">"ios-add"</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#dcdcaa;">addRow</span>()"<span style="color:#808080;">&gt;</span>添加选择的数据<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">Button</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"success"</span>&nbsp;<span style="color:#9cdcfe;">icon</span>=<span style="color:#ce9178;">"ios-remove"</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">model</span>=<span style="color:#569cd6;">false</span>"<span style="color:#808080;">&gt;</span>关闭<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">Button</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">VolBox</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		<span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;<span style="color:#9cdcfe;">components:</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">VolBox</span><span style="color:#9cdcfe;">:</span>&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">import</span>(<span style="color:#ce9178;">"@/components/basic/VolBox.vue"</span>),
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">VolTable</span><span style="color:#9cdcfe;">:</span>&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">import</span>(<span style="color:#ce9178;">"@/components/basic/VolTable.vue"</span>),
-	</div>
-	<div>
-		&nbsp;&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;<span style="color:#dcdcaa;">data</span>()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">model:</span>&nbsp;<span style="color:#569cd6;">false</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">text:</span>&nbsp;<span style="color:#ce9178;">""</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">url:</span>&nbsp;<span style="color:#ce9178;">"api/Sys_Dictionary/getSelectorDemo"</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">columns:</span>&nbsp;[
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"dicList_ID"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"DicList_ID"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">90</span>,&nbsp;<span style="color:#9cdcfe;">hidden:</span>&nbsp;<span style="color:#569cd6;">true</span>&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"dic_ID"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"数据源ID"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">90</span>,&nbsp;<span style="color:#9cdcfe;">readonly:</span>&nbsp;<span style="color:#569cd6;">true</span>&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"dicValue"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"数据源Value"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">120</span>&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"dicName"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"数据源Text"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">140</span>&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"orderNo"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"排序号"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">90</span>&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"remark"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"备注"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">90</span>&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"enable"</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"是否可用"</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">bind:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">key:</span>&nbsp;<span style="color:#ce9178;">"enable"</span>,&nbsp;<span style="color:#9cdcfe;">data:</span>&nbsp;[]&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">110</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">pagination:</span>&nbsp;{},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row:</span>&nbsp;{},&nbsp;<span style="color:#6a9955;">//明细表选择的行</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;<span style="color:#9cdcfe;">methods:</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">open</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">row</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">row</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">model</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//打开弹出框时，加载table数据</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">mytable</span>.<span style="color:#dcdcaa;">load</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">search</span>()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">mytable</span>.<span style="color:#dcdcaa;">load</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">addRow</span>()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">rows</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">mytable</span>.<span style="color:#dcdcaa;">getSelected</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(!<span style="color:#9cdcfe;">rows</span>&nbsp;||&nbsp;<span style="color:#9cdcfe;">rows</span>.<span style="color:#9cdcfe;">length</span>&nbsp;==&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"请选择行数据"</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//替换明细表的数据(注意大小写问题，代码生成的明细表都是大写开头的，自己添加的table是小写开头的)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">DicValue</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">rows</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">dicValue</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">DicName</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">rows</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">dicName</span>;
-	</div>
+			<div>
+				//&nbsp;弹出框组件代码Sys_DictionaryBody.vue
+			</div>
+			<div>
+				<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">VolBox</span>&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>"&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"选择数据"</span>&nbsp;:<span style="color:#9cdcfe;">height</span>="<span style="color:#b5cea8;">500</span>"&nbsp;:<span style="color:#9cdcfe;">width</span>="<span style="color:#b5cea8;">900</span>"&nbsp;:<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">15</span>"<span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"padding-bottom:&nbsp;10px;"</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">span</span>&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"margin-right:20px;"</span><span style="color:#808080;">&gt;</span>请选择数据<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">span</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Input</span>&nbsp;<span style="color:#9cdcfe;">placeholder</span>=<span style="color:#ce9178;">"数据源Value"</span>&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"width:300px;"</span>&nbsp;<span style="color:#9cdcfe;">v-model</span>="<span style="color:#9cdcfe;">text</span>"&nbsp;/<span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;<span style="color:#9cdcfe;">icon</span>=<span style="color:#ce9178;">"ios-search"</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#dcdcaa;">search</span>()"<span style="color:#808080;">&gt;</span>搜索<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;vol-table配置的这些属性见VolTable组件api文件&nbsp;--&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-table</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">ref</span>=<span style="color:#ce9178;">"mytable"</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">loadKey</span>="<span style="color:#569cd6;">true</span>"
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">columns</span>="<span style="color:#9cdcfe;">columns</span>"
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">pagination</span>="<span style="color:#9cdcfe;">pagination</span>"
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">pagination-hide</span>="<span style="color:#569cd6;">false</span>"
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">max-height</span>="<span style="color:#b5cea8;">380</span>"
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">url</span>="<span style="color:#9cdcfe;">url</span>"
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">index</span>="<span style="color:#569cd6;">true</span>"
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">single</span>="<span style="color:#569cd6;">true</span>"
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">defaultLoadPage</span>="<span style="color:#569cd6;">false</span>"
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">loadBefore</span>="<span style="color:#9cdcfe;">loadTableBefore</span>"
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">vol-table</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">slot</span>=<span style="color:#ce9178;">"footer"</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;<span style="color:#9cdcfe;">icon</span>=<span style="color:#ce9178;">"ios-add"</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#dcdcaa;">addRow</span>()"<span style="color:#808080;">&gt;</span>添加选择的数据<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"success"</span>&nbsp;<span style="color:#9cdcfe;">icon</span>=<span style="color:#ce9178;">"ios-remove"</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">model</span>=<span style="color:#569cd6;">false</span>"<span style="color:#808080;">&gt;</span>关闭<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">VolBox</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				<span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;<span style="color:#9cdcfe;">components:</span>&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">VolBox</span><span style="color:#9cdcfe;">:</span>&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">import</span>(<span style="color:#ce9178;">"@/components/basic/VolBox.vue"</span>),
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">VolTable</span><span style="color:#9cdcfe;">:</span>&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">import</span>(<span style="color:#ce9178;">"@/components/basic/VolTable.vue"</span>),
+			</div>
+			<div>
+				&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;<span style="color:#dcdcaa;">data</span>()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">model:</span>&nbsp;<span style="color:#569cd6;">false</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">text:</span>&nbsp;<span style="color:#ce9178;">""</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">url:</span>&nbsp;<span style="color:#ce9178;">"api/Sys_Dictionary/getSelectorDemo"</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">columns:</span>&nbsp;[
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"dicList_ID"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"DicList_ID"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">90</span>,&nbsp;<span style="color:#9cdcfe;">hidden:</span>&nbsp;<span style="color:#569cd6;">true</span>&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"dic_ID"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"数据源ID"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">90</span>,&nbsp;<span style="color:#9cdcfe;">readonly:</span>&nbsp;<span style="color:#569cd6;">true</span>&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"dicValue"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"数据源Value"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">120</span>&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"dicName"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"数据源Text"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">140</span>&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"orderNo"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"排序号"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">90</span>&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"remark"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"备注"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">90</span>&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"enable"</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"是否可用"</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">bind:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">key:</span>&nbsp;<span style="color:#ce9178;">"enable"</span>,&nbsp;<span style="color:#9cdcfe;">data:</span>&nbsp;[]&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">110</span>,
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">pagination:</span>&nbsp;{},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row:</span>&nbsp;{},&nbsp;<span style="color:#6a9955;">//明细表选择的行</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;};
+			</div>
+			<div>
+				&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;<span style="color:#9cdcfe;">methods:</span>&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">open</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">row</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">row</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">model</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//打开弹出框时，加载table数据</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">mytable</span>.<span style="color:#dcdcaa;">load</span>();
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">search</span>()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">mytable</span>.<span style="color:#dcdcaa;">load</span>();
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">addRow</span>()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">rows</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">mytable</span>.<span style="color:#dcdcaa;">getSelected</span>();
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(!<span style="color:#9cdcfe;">rows</span>&nbsp;||&nbsp;<span style="color:#9cdcfe;">rows</span>.<span style="color:#9cdcfe;">length</span>&nbsp;==&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"请选择行数据"</span>);
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//替换明细表的数据(注意大小写问题，代码生成的明细表都是大写开头的，自己添加的table是小写开头的)</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">DicValue</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">rows</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">dicValue</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">DicName</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">rows</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">dicName</span>;
+			</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取父组件viewgrid明细表的所有行数据，并且替换数据</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$emit</span>(<span style="color:#ce9178;">"parentCall"</span>,&nbsp;(<span style="color:#9cdcfe;">$vue</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//重新生成明细表的行数据</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">_rows</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">$vue</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#b5cea8;">0</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//刷新明细表行数据</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">$vue</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>.<span style="color:#dcdcaa;">push</span>(...<span style="color:#9cdcfe;">_rows</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//关闭当前窗口</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">model</span>&nbsp;=&nbsp;<span style="color:#569cd6;">false</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">loadTableBefore</span>(<span style="color:#9cdcfe;">params</span>)&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询前，设置查询条件</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">text</span>)&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">params</span>.<span style="color:#9cdcfe;">wheres</span>&nbsp;=&nbsp;[{&nbsp;<span style="color:#9cdcfe;">name:</span>&nbsp;<span style="color:#ce9178;">"DicValue"</span>,&nbsp;<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">text</span>&nbsp;}];
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;},
-	</div>
-	<div>
-		};
-	</div>
-	<div>
-		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
-	</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*如果在2020.09.06后更新过voltable组件，下面this.$emit("parentCall",&nbsp;($vue)=&gt;{})这段代码就不用了*/</span>
+			</div>
 <br />
-
-<br/><br/><br/>
-<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-	&nbsp; &nbsp; &nbsp;&nbsp;<span style="display:none;"></span>//Sys_DictionaryController中添加代码，返回table数据<br />
-&nbsp; &nbsp; &nbsp; &nbsp; [HttpPost, Route("getSelectorDemo")]<br />
-&nbsp; &nbsp; &nbsp; &nbsp; public IActionResult GetSelectorDemo([FromBody] PageDataOptions options)<br />
-&nbsp; &nbsp; &nbsp; &nbsp; {<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //如果是自己写的代码，返回结果必须是<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //var data = new<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //{<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //&nbsp; &nbsp; rows = new List&lt;Sys_DictionaryList&gt;(), //返回的数据列表<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //&nbsp; &nbsp; total = 1000&nbsp; //查询到的总行数<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //};<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; PageGridData&lt;Sys_DictionaryList&gt; gridData= Sys_DictionaryListService.Instance.GetPageData(options);<br />
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return Json(gridData);<br />
-&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-	<div>
-		<br />
-	</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取父组件viewgrid明细表的所有行数据，并且替换数据</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$emit</span>(<span style="color:#ce9178;">"parentCall"</span>,&nbsp;(<span style="color:#9cdcfe;">$vue</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//重新生成明细表的行数据</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">_rows</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">$vue</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#b5cea8;">0</span>);
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//刷新明细表行数据</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">$vue</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>.<span style="color:#dcdcaa;">push</span>(...<span style="color:#9cdcfe;">_rows</span>);
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//关闭当前窗口</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">model</span>&nbsp;=&nbsp;<span style="color:#569cd6;">false</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;},
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">loadTableBefore</span>(<span style="color:#9cdcfe;">params</span>)&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询前，设置查询条件</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">text</span>)&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">params</span>.<span style="color:#9cdcfe;">wheres</span>&nbsp;=&nbsp;[{&nbsp;<span style="color:#9cdcfe;">name:</span>&nbsp;<span style="color:#ce9178;">"DicValue"</span>,&nbsp;<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">text</span>&nbsp;}];
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;},
+			</div>
+			<div>
+				};
+			</div>
 <br />
-</div>
+			<div>
+				<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+			</div>
+<br />
+			<div>
+				//Sys_DictionaryController中添加代码，返回table数据
+			</div>
+			<div>
+				&nbsp;&nbsp;[HttpPost,&nbsp;Route("getSelectorDemo")]
+			</div>
+			<div>
+				&nbsp;&nbsp;public&nbsp;IActionResult&nbsp;GetSelectorDemo([FromBody]&nbsp;PageDataOptions&nbsp;options)
+			</div>
+			<div>
+				&nbsp;&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//如果是自己写的代码，返回结果必须是
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//var&nbsp;data&nbsp;=&nbsp;new
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;&nbsp;&nbsp;&nbsp;rows&nbsp;=&nbsp;new&nbsp;List&lt;Sys_DictionaryList&gt;(),&nbsp;//返回的数据列表
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;&nbsp;&nbsp;&nbsp;total&nbsp;=&nbsp;1000&nbsp;&nbsp;//查询到的总行数
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//};
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageGridData&lt;Sys_DictionaryList&gt;&nbsp;gridData=&nbsp;Sys_DictionaryListService.Instance.GetPageData(options);
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;Json(gridData);
+			</div>
+			<div>
+				&nbsp;&nbsp;}
+			</div>
+<br />
+<br />
+<br />
+<br />
+		</div>
+<br />
+	</div>
 </div> `,
           ],
           tips: ` 点击自定的义按钮后，再弹弹出自定义的这个vue页面`,
@@ -2833,61 +3064,6 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/11.png?imageMogr2/thumbnail/!50p",
         },
 
-        {
-          title: "从表table编辑实时计算",
-          content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-	<div>
-		&nbsp;<span style="color:#6a9955;">//2020.08.16</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInited</span>()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//onInited方法设置从表编辑时实时计算值</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Qty'</span>)&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//强烈建议此处将eidt设置为null不开启编辑</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">edit</span>&nbsp;=&nbsp;<span style="color:#569cd6;">null</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">formatter</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//可以设置计算规则&nbsp;，如：</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//return&nbsp;row.x1&nbsp;*&nbsp;&nbsp;row.x2</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#4fc1ff;">MO</span>&nbsp;*&nbsp;<span style="color:#b5cea8;">2</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-</div>`,
-          ],
-          tips: `如果是单独引用的voltable组件，同样适用上面的方法`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/21.png?imageMogr2/thumbnail/!50p",
-        },
         {
           title: "编辑框级联操作(1)",
           content: [
@@ -3995,76 +4171,8 @@ export default {
           tips: `字典绑定数据还支持远程模糊查询与自动模糊查询,提前在菜单[下拉框绑定设置]配置好，不需要写任何代码`,
           img: "",
         },
-        {
-          title: "设置table分页条大小",
-          content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置分页条大小</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.<span style="color:#9cdcfe;">sizes</span>&nbsp;=&nbsp;[<span style="color:#b5cea8;">20</span>,&nbsp;<span style="color:#b5cea8;">30</span>,&nbsp;<span style="color:#b5cea8;">40</span>,&nbsp;<span style="color:#b5cea8;">60</span>,<span style="color:#b5cea8;">90</span>]
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置默认分页数</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.<span style="color:#9cdcfe;">size</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">20</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-</div>`,
-          ],
-          tips: ``,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/28.png?imageMogr2/thumbnail/!100p",
-        },
-        {
-          title: "获取table所有行数据",
-          content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color:#6a9955;">//获取查询界面的所有行数据</span> 
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">rowData</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取明细表所有行数据</span> 
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>;
-	</div>
-</div>`,
-          ],
-          tips: ``,
-          img: "",
-        },
-        {
-          title: "获取table选中的行",
-          content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color:#6a9955;">//获取查询界面的所有选中的行数据</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">getSelected</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取明细表所有选中的行数据</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#dcdcaa;">getSelected</span>();
-	</div>
-</div>`,
-          ],
-          tips: ``,
-          img: "",
-        },
+     
+        
         {
           title: "select远程搜索",
           content: [
