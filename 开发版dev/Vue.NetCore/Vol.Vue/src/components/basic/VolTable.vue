@@ -138,6 +138,12 @@
                 @click="formatterClick(scope.row,column)"
                 v-html="column.formatter(scope.row,column)"
               ></div>
+               <!--2020.09.06增加table有数据源的列，可以移除或自定义显示背景颜色及点击事件-->
+              <div
+                v-else-if="(column.bind&&column.normal)"
+                @click="formatterClick(scope.row,column)"
+                :style="column.getStyle&&column.getStyle(scope.row,column)"
+              >{{formatter(scope.row,column,true)}}</div>
               <div
                 v-else-if="column.click"
                 @click="formatterClick(scope.row,column)"
@@ -297,21 +303,16 @@ export default {
       total: 0,
       formatConfig: {},
       defaultColor: "default",
+      //2020.09.06调整table列数据源的背景颜色
       colors: [
-        "success",
-        "primary",
-        "error",
-        "warning",
-        "magenta",
-        "red",
-        "volcano",
-        "orange",
-        "gold",
-        "green",
         "cyan",
+        "red",
         "blue",
+        "green",
+        "magenta",
         "geekblue",
-        "#FFA2D3",
+        "gold",
+        "orange",
         "default",
       ],
       rule: {
@@ -719,9 +720,12 @@ export default {
         row = {};
       }
       this.columns.forEach((x) => {
-        if (x.edit && x.edit.type == "switch") {
-          if (!row.hasOwnProperty(x.field)) {
+        if (!row.hasOwnProperty(x.field)) {
+          if (x.edit && x.edit.type == "switch") {
             row[x.field] = x.type == "bool" ? false : 0;
+          } else if (!row.hidden) {
+            //2020.09.06添加行时，设置默认字段
+            row[x.field] = undefined;
           }
         }
       });
