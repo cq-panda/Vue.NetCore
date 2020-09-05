@@ -42,9 +42,9 @@
             class="readonly-input"
           >{{getText(formFileds,item)}}</label>
           <div v-else :class="{'form-item-extra':item.extra}">
-            <div>
+       
               <!--下拉框绑定时如果key为数字，请将key+''转换为字符串-->
-              <div
+              <template
                 v-if="item.type=='select'||item.type=='selectList'||item.type=='drop'||item.type=='dropList'"
               >
                 <!--select绑定默认值时，如果设置了默认值，数据源也有数据，但没绑定上，问题在于key与默认值类型不一致，如:默认值是字符串，数据源的key是数字，类型不至会导致绑定失败-->
@@ -88,7 +88,7 @@
                     >{{kv.value}}</Option>
                   </Select>
                 </template>
-              </div>
+              </template>
               <i-switch
                 v-else-if="item.type=='switch'"
                 :true-value="typeof formFileds[item.field]=='boolean' ? true:1"
@@ -154,17 +154,17 @@
                 :render-format="item.formatter"
                 v-model="formFileds[item.field]"
               ></Cascader>
-
+              <!--2020.09.05增加textarea标签的最小高度item.minRows属性 -->
               <Input
                 v-else-if="item.type=='textarea'"
                 v-model="formFileds[item.field]"
                 type="textarea"
                 @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
                 clearable
-                :autosize="{minRows:2,maxRows:item.maxRows||10}"
+                :autosize="{minRows:item.minRows||2,maxRows:item.maxRows||10}"
                 :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
                 :ref="item.field"
-              ></Input>
+              />
               <Input
                 clearable
                 v-else-if="item.type=='password'"
@@ -174,7 +174,7 @@
                 @on-keypress="($event)=>{item.onKeyPress&&item.onKeyPress($event)}"
                 :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
                 :ref="item.field"
-              ></Input>
+              />
               <Input
                 clearable
                 v-else
@@ -182,9 +182,8 @@
                 v-model="formFileds[item.field]"
                 :placeholder="item.placeholder?item.placeholder:( '请输入'+item.title)"
                 :ref="item.field"
-              ></Input>
-            </div>
-
+              />
+         
             <div class="form-extra" v-if="item.extra">
               <a
                 :style="item.extra.style"
@@ -207,34 +206,34 @@ import FormExpand from "./VolForm/VolFormRender";
 export default {
   components: {
     FormExpand,
-    VolUpload: () => import("@/components/basic/VolUpload.vue")
+    VolUpload: () => import("@/components/basic/VolUpload.vue"),
   },
   props: {
     loadKey: {
       //是否加载formRules字段配置的数据源
       type: Boolean,
-      default: false
+      default: false,
     },
     width: {
       //表单宽度
       type: Number,
-      default: 0
+      default: 0,
     },
     labelWidth: {
       //表单左边label文字标签的宽度
       type: Number,
-      default: 100
+      default: 100,
     },
     formRules: {
       //表单配置规则，如字段类型，是否必填
       type: Array,
-      default: []
+      default: [],
     },
     formFileds: {
       //表单字段
       type: Object,
-      default: {}
-    }
+      default: {},
+    },
   },
   watch: {},
   created() {
@@ -252,11 +251,11 @@ export default {
           "datetime",
           "drop",
           "radio",
-          "cascader"
+          "cascader",
         ], //2020.05.31增加级联类型
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
-        number: /(^[\-0-9][0-9]*([0-9]+)?)$/
+        number: /(^[\-0-9][0-9]*([0-9]+)?)$/,
       },
       inputTypeArr: ["text", "string", "mail", "textarea", "password"],
       types: {
@@ -267,10 +266,10 @@ export default {
         bool: "boolean",
         date: "datetime",
         date: "date",
-        mail: "email"
+        mail: "email",
       },
       span: 0,
-      ruleValidate: {}
+      ruleValidate: {},
     };
   },
   methods: {
@@ -310,7 +309,7 @@ export default {
 
       let fileInfo = formFileds[item.field];
       if (fileInfo instanceof Array) {
-        fileInfo.forEach(x => {
+        fileInfo.forEach((x) => {
           if (x.hasOwnProperty("path")) {
             if (x.path && !this.base.isUrl(x.path)) {
               //这里修改后死循环?
@@ -339,7 +338,7 @@ export default {
           let splitFile = file.split("/");
           formFileds[item.field].push({
             name: splitFile.length > 0 ? splitFile[splitFile.length - 1] : file,
-            path: file //this.base.isUrl(file) ? file : this.http.ipAddress + file,
+            path: file, //this.base.isUrl(file) ? file : this.http.ipAddress + file,
           });
         }
       }
@@ -349,7 +348,7 @@ export default {
         file.path,
         file.name,
         {
-          Authorization: this.$store.getters.getToken()
+          Authorization: this.$store.getters.getToken(),
         },
         this.http.ipAddress
       );
@@ -395,7 +394,7 @@ export default {
       // } else {
       //   data = item.data;
       // }
-      data.forEach(x => {
+      data.forEach((x) => {
         if (x.key == text) {
           text = x.value;
         }
@@ -430,8 +429,8 @@ export default {
       let keys = [],
         binds = [];
       //初始化字典数据源
-      this.formRules.forEach(item => {
-        item.forEach(x => {
+      this.formRules.forEach((item) => {
+        item.forEach((x) => {
           if (x.dataKey && (!x.data || x.data.length == 0) && !x.remote) {
             // if (!x.data)
             x.data = [];
@@ -445,9 +444,11 @@ export default {
 
       if (keys.length == 0) return;
 
-      this.http.post("/api/Sys_Dictionary/GetVueDictionary", keys).then(dic => {
-        this.bindOptions(dic, binds);
-      });
+      this.http
+        .post("/api/Sys_Dictionary/GetVueDictionary", keys)
+        .then((dic) => {
+          this.bindOptions(dic, binds);
+        });
     },
     //远程搜索(打开弹出框时应该禁止搜索)
     remoteSearch(item, formFileds, val) {
@@ -463,15 +464,15 @@ export default {
         : item.url;
       this.http
         .post(url + "?dicNo=" + item.dataKey + "&value=" + val)
-        .then(dicData => {
+        .then((dicData) => {
           this.$set(item, "loading", false);
           item.data = dicData;
           this.formRules[item.point.x].splice(item.point.y, 1, item);
         });
     },
     bindOptions(dic, binds) {
-      dic.forEach(d => {
-        binds.forEach(x => {
+      dic.forEach((d) => {
+        binds.forEach((x) => {
           if (x.key != d.dicNo) return true;
           //如果有数据的则不查询
           if (x.data.length > 0) return true;
@@ -481,7 +482,7 @@ export default {
             for (let index = 0; index < source.length; index++) {
               newSource[index] = {
                 key: source["key"] + "",
-                value: source["value"]
+                value: source["value"],
               };
             }
             x.data.push(...newSource);
@@ -519,15 +520,14 @@ export default {
     },
     validate(callback) {
       let result = true;
-      this.$refs["formValidate"]
-        .validate(valid => {
-          if (!valid) {
-            this.$Message.error("数据验证未通过!");
-            result = false;
-          } else if (typeof callback == "function") {
-            callback(valid);
-          }
-        })
+      this.$refs["formValidate"].validate((valid) => {
+        if (!valid) {
+          this.$Message.error("数据验证未通过!");
+          result = false;
+        } else if (typeof callback == "function") {
+          callback(valid);
+        }
+      });
       return result;
     },
     getReuired(rule, item) {},
@@ -560,7 +560,7 @@ export default {
           };
         }
         if (!item.onChange) {
-          item.onChange = files => {
+          item.onChange = (files) => {
             return true;
           };
         }
@@ -571,7 +571,7 @@ export default {
         }
         if (!item.uploadBefore) {
           //  console.log("111");
-          item.uploadBefore = files => {
+          item.uploadBefore = (files) => {
             return true;
           };
         }
@@ -616,7 +616,8 @@ export default {
             return callback();
           },
           required: item.required,
-          trigger: this.rule.change.indexOf(item.type) != -1 ? "change" : "blur"
+          trigger:
+            this.rule.change.indexOf(item.type) != -1 ? "change" : "blur",
         };
       }
 
@@ -682,7 +683,7 @@ export default {
               return callback(new Error(rule.message));
             }
             return callback();
-          }
+          },
         };
       }
 
@@ -691,7 +692,7 @@ export default {
         return {
           validator: this.validatorPhone,
           required: item.required,
-          trigger: "blur"
+          trigger: "blur",
         };
       }
 
@@ -699,13 +700,13 @@ export default {
         return {
           validator: this.validatorPwd,
           required: item.required,
-          trigger: "blur"
+          trigger: "blur",
         };
       }
 
       if (!item.required && item.type != "mail") {
         return {
-          required: false
+          required: false,
         };
       }
 
@@ -727,7 +728,7 @@ export default {
           required: true,
           message: message,
           trigger: "blur",
-          type: type
+          type: type,
         };
         if (item.type == "mail") {
           _rule.required = item.required;
@@ -736,8 +737,8 @@ export default {
             {
               type: type,
               message: message,
-              trigger: "blur"
-            }
+              trigger: "blur",
+            },
           ];
         }
         if (item.min) {
@@ -751,8 +752,8 @@ export default {
               max: item.max,
               required: true,
               message: item.title + "最多" + item.max + "个字符!",
-              trigger: "blur"
-            }
+              trigger: "blur",
+            },
           ];
         }
         return _rule;
@@ -763,7 +764,7 @@ export default {
           required: item.required,
           message: "请选择" + item.title,
           trigger: "change",
-          type: "string"
+          type: "string",
         };
       }
       if (item.type == "date" || item.type == "datetime") {
@@ -782,7 +783,7 @@ export default {
             console.log(val);
             // if (message) return callback(new Error(message + ""));
             return callback();
-          }
+          },
         };
       }
 
@@ -806,7 +807,7 @@ export default {
               return callback(new Error(rule.message));
             }
             return callback();
-          }
+          },
         };
 
         //    validator: this.validatorPhone,
@@ -817,12 +818,12 @@ export default {
             message: "最多只能选择" + item.max + "项" + item.title,
             max: item.max,
             type: "array",
-            trigger: "change"
-          }
+            trigger: "change",
+          },
         ];
       }
       return {
-        required: false
+        required: false,
       };
     },
     getCheckBoxModel(arr) {
@@ -833,17 +834,17 @@ export default {
     validateField(item, callback) {
       //2020.07.17增加对日期onchange时校验
       let fields = this.$refs.formValidate.fields;
-      fields.forEach(field => {
+      fields.forEach((field) => {
         if (field.prop == item.field) {
-          field.validate("", error => {
+          field.validate("", (error) => {
             console.log(error);
           });
         }
       });
-       //2020.07.24增加日期onChange事件
-      item.onChange&&item.onChange(this.formFileds[item.field])
-    }
-  }
+      //2020.07.24增加日期onChange事件
+      item.onChange && item.onChange(this.formFileds[item.field]);
+    },
+  },
 };
 </script>
 <style>
