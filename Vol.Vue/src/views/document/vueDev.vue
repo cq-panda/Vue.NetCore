@@ -147,6 +147,53 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/01.png?imageMogr2/thumbnail/!50p",
         },
         {
+          title: "查询界面--第二种布局",
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<span style="display:none;"></span><span style="font-size:12px;color:#99BB00;">&nbsp; &nbsp;//调用</span><span style="color:#DCDCAA;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:normal;background-color:#1E1E1E;"><span style="font-size:12px;color:#99BB00;">setFiexdSearchForm方法后，即可开启第二种查询布局</span><span style="display:none;"></span></span><br />
+	<div>
+		<span style="font-size:14px;color:#009900;"><span style="font-size:12px;color:#99BB00;">&nbsp; &nbsp;/*注意：必须是2020.09.11后</span><span style="font-size:12px;color:#99BB00;">更新代码的才会生效；如果之前已经生成过vue页面，需要</span></span><span style="font-size:12px;color:#99BB00;">重新生成页面才会生效</span><span style="font-size:12px;color:#99BB00;">*/</span><span style="display:none;"></span> 
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//开启固定显示查询功能，true=页面加载时查询表单也显示出来，false=点击查询时才会显示表单</span> 
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">setFiexdSearchForm</span>(<span style="color:#569cd6;">true</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`],
+          tips: `还没想好`,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/35.png?imageMogr2/thumbnail/!50p",
+		},
+		   {
+          title: "查询界面--默认查询值",
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//代码生成器中可以设置字段的查询类型为like进行模糊查询</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//d页面初始化时，设置默认的查值</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFileds</span>.<span style="color:#9cdcfe;">Name</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"林"</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`],
+          tips: ` 还没想好`,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/36.png?imageMogr2/thumbnail/!50p",
+		},
+        {
           title: "弹出框界面动态按钮",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
@@ -1182,10 +1229,11 @@ export default {
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/05.png?imageMogr2/thumbnail/!50p",
-		},
-		 {
+        },
+        {
           title: "table设置/移除列颜色",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
@@ -1255,11 +1303,12 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>` ],
+</div>`,
+          ],
           tips: `还没想好`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/37.png?imageMogr2/thumbnail/!50p",
-		},
+        },
         {
           title: "table手动设置排序列",
           content: [
@@ -1462,7 +1511,7 @@ export default {
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/13.png?imageMogr2/thumbnail/!50p",
         },
-		
+
         {
           title: "table显示合计",
           content: [
@@ -1583,8 +1632,8 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`,
-		},
-		   {
+        },
+        {
           title: "table设置分页条大小",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
@@ -1611,8 +1660,8 @@ export default {
           tips: ``,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/28.png?imageMogr2/thumbnail/!100p",
-		},
-		{
+        },
+        {
           title: "table获取所有行数据",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
@@ -1653,8 +1702,8 @@ export default {
           ],
           tips: ``,
           img: "",
-		},
-		
+        },
+
         {
           title: "table从表编辑实时计算",
           content: [
@@ -2934,10 +2983,11 @@ export default {
 </div> `,
           ],
           tips: ` 点击自定的义按钮后，再弹弹出自定义的这个vue页面`,
-          img:
-			["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/32.png?imageMogr2/thumbnail/!50p",
-			"https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/33.png?imageMogr2/thumbnail/!50p",
-			"https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/34.png?imageMogr2/thumbnail/!50p",],
+          img: [
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/32.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/33.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/34.png?imageMogr2/thumbnail/!50p",
+          ],
         },
         {
           title: "编辑多图/文件上传",
@@ -3896,7 +3946,9 @@ export default {
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*通过http重新绑定数据源,必须执行此操作，否则视图不会更新*/</span>
+
 	</div>
+	<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*如果是2020.09.11之后获取的代码，则不用此操作*/</span></div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>[<span style="color:#9cdcfe;">select2</span>.<span style="color:#9cdcfe;">field</span>]&nbsp;=&nbsp;<span style="color:#9cdcfe;">source</span>.<span style="color:#9cdcfe;">length</span>&nbsp;&gt;&nbsp;<span style="color:#b5cea8;">0</span>&nbsp;?&nbsp;<span style="color:#9cdcfe;">source</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">key</span>&nbsp;:&nbsp;<span style="color:#ce9178;">""</span>;
 	</div>
@@ -3914,8 +3966,8 @@ export default {
           tips: `select选择后给字段设置值或数据源，实现手动级联操作`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/15.png?imageMogr2/thumbnail/!50p",
-		},
-		        {
+        },
+        {
           title: "编辑框从表上传图片",
           content: [
             `点击从表列即可完成对从表图片或文件上传，参照菜单:【一对一与一对多】->【从表图片上传】`,
@@ -4171,8 +4223,7 @@ export default {
           tips: `字典绑定数据还支持远程模糊查询与自动模糊查询,提前在菜单[下拉框绑定设置]配置好，不需要写任何代码`,
           img: "",
         },
-     
-        
+
         {
           title: "select远程搜索",
           content: [

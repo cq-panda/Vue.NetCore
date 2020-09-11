@@ -116,10 +116,11 @@ export default {
           title: "姓名",
           type: "string",
           width: 100,
-          sortable: true
+          sortable: true,
+          edit:{type:"text"}
         },
-        { field: "Describe", title: "描述", type: "string", width: 180 },
-        { field: "PhoneNo", title: "电话", type: "string", width: 130 },
+        { field: "Describe", title: "描述", type: "string", width: 180, edit:{type:"text"} },
+        { field: "PhoneNo", title: "电话", type: "string", width: 130 , edit:{type:"text"}},
         {
           field: "CreateID",
           title: "CreateID",

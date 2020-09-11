@@ -2,36 +2,13 @@
   <div class="app-guide">
     <Divider>
       <icon type="md-phone-portrait" />
-      <span>移动H5开发及打包</span>
+      <span>移动H5开发待更新</span>
     </Divider>
   <br>  <br> 
     <div class="guide">
       <div>
         <h3>安卓扫描下载</h3>
         <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5/QRCode.png" />
-      </div>
-      <div class="desc">
-        <Timeline>
-          <TimelineItem>
-            <p class="time"></p>
-            <p class="time content">当前项目可直接进行纯页面H5开发移动App应用。如果对原生硬件接口要求不高,可使用HBuilder打包成Apk。
-              使用HBuilder打包时,在HBuilder中使用Iframe标签指向当前H5的Url即可。
-            </p>
-          </TimelineItem>
-          <TimelineItem>
-            <p class="time content">H5前端开发可使用移动组件vant、Vux、Muse-UI。</p>
-          </TimelineItem>
-          <TimelineItem>
-            <p class="time content">本地H5开发时建议使用谷歌浏览器切换至手机模式,在当前项目Views->H5文件夹开发。</p>
-          </TimelineItem>
-          <TimelineItem>
-            <p class="time content">手机浏览器输入http://132.232.2.109/app/或http://localhost:8080/app/home/查看。</p>
-            <p class="content content">PC使用谷歌浏览器按F12进入开发者模式,选择左边设备工具,切换至手机模式。</p>
-          </TimelineItem>
-          <TimelineItem>
-            <p class="time content">安卓直接扫描下左边二维码下载Apk安装</p>
-          </TimelineItem>
-        </Timeline>
       </div>
     </div>
       <br>

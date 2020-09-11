@@ -13,9 +13,7 @@ let extension = {
   buttons: [],//扩展的按钮
   methods: {//事件扩展
     onInit() {//手动设置弹出框的高度与宽度
-      this.maxBtnLength = 6;
-      this.boxOptions.height = 380;
-      this.boxOptions.width = 600;
+       this.searchFormFileds.Name="林";
     }
   }
 };

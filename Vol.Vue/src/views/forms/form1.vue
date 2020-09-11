@@ -62,7 +62,7 @@ export default {
         Variety: "",
         AgeRange: "",
         DateRange: [],
-        City: "",
+        City: [],
         AvgPrice: null,
         Date: ""
       },
@@ -123,8 +123,17 @@ export default {
             required: true,
             field: "City",
             colSize: 12,
-            data: [],
-            type: "select"
+            data:  [
+              {
+                value: "北京",
+                label: "北京",
+                children: [
+                  { value: "天坛", label: "天坛" },
+                  { value: "王府井", label: "王府井" }
+                ]
+              }
+            ],
+            type: "cascader"
           }
         ],
         [
