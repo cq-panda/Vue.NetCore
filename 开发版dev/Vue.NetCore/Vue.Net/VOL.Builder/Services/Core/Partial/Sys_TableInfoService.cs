@@ -589,6 +589,8 @@ DISTINCT
                         if (!string.IsNullOrEmpty(s.dataSource) && s.dataSource != "''")
                         {
                             keyValues.Add("dataKey", s.dataSource);
+                            //2020.09.11增加vue页面数据源配置默认空数据源
+                            keyValues.Add("data", new string[] { });
                         }
                         keyValues.Add("title", s.text);
                         if (s.require)
@@ -670,7 +672,7 @@ DISTINCT
             var formFileds = sysColumnList.Where(c => c.EditRowNo != null && c.EditRowNo > 0)
                 .OrderBy(o => o.EditRowNo)
                 .ThenByDescending(t => t.OrderNo)
-                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.SearchType == "checkbox" ? new string[0] : "" as object))
+                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.EditType == "checkbox"||x.EditType == "selectList" ? new string[0] : "" as object))
                 .ToList().ToDictionary(x => x.Key, x => x.Value).Serialize();
 
             List<List<PanelHtml>> panelHtml = new List<List<PanelHtml>>();
@@ -686,7 +688,7 @@ DISTINCT
 
             var searchFormFileds = sysColumnList
                 .Where(c => c.SearchRowNo != null && c.SearchRowNo > 0)
-                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.SearchType == "checkbox" ? new string[0] : "" as object))
+                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.SearchType == "checkbox" || x.SearchType == "selectList" ? new string[0] : "" as object))
                 .ToList().ToDictionary(x => x.Key, x => x.Value).Serialize();
 
             pageContent = pageContent.Replace("#searchFormFileds", searchFormFileds)

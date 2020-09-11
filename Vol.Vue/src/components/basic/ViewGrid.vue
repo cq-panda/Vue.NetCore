@@ -31,69 +31,21 @@
     <gridHeader ref="gridHeader" @parentCall="parentCall"></gridHeader>
     <!--主界面查询与table表单布局-->
     <div class="view-container">
-      <div class="view-header">
-        <div class="desc-text">
-          <Icon type="md-apps" />
-          <span>{{table.cnName}}</span>
-        </div>
-        <div class="notice">
-          <!-- <Tooltip content="6666666666666666" placement="bottom">
-            <a>Bottom Center</a>
-          </Tooltip>-->
-          <a class="text" :title="extend.text">{{extend.text}}</a>
-        </div>
-        <!--快速查询字段-->
-        <div class="search-line">
-          <QuickSearch
-            v-if="singleSearch"
-            :singleSearch="singleSearch"
-            :searchFormFileds="searchFormFileds"
-            :tiggerPress="quickSearchKeyPress"
-          ></QuickSearch>
-        </div>
-        <!--操作按钮组-->
-        <div class="btn-group">
-          <Button
-            v-for="(btn,bIndex) in splitButtons"
-            :key="bIndex"
-            :type="btn.type"
-            :class="btn.class"
-            @click="onClick(btn.onClick)"
-          >
-            <Icon :type="btn.icon" />
-            {{btn.name}}
-          </Button>
-          <Dropdown trigger="click" @on-click="changeDropdown" v-if="buttons.length> maxBtnLength">
-            <Button type="info" ghost>
-              更多
-              <Icon type="ios-arrow-down"></Icon>
-            </Button>
-            <DropdownMenu slot="list">
-              <DropdownItem
-                :name="item.name"
-                v-for="(item,dIndex) in buttons.slice(maxBtnLength,buttons.length)"
-                :key="dIndex"
-              >
-                <Icon :type="item.icon"></Icon>
-                {{item.name}}
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </div>
-
-        <!--查询条件-->
-        <div class="search-box" v-show="searchBoxShow">
+      <!-- 2020.09.11增加固定查询表单 -->
+      <!--查询条件-->
+      <div class="grid-search">
+        <div :class="[fiexdSearchForm?'fiexd-search-box':'search-box']" v-show="searchBoxShow">
           <vol-form
             ref="searchForm"
             :label-width="labelWidth"
             :formRules="searchFormOptions"
             :formFileds="searchFormFileds"
           >
-            <div class="form-closex" slot="footer">
+            <div v-if="!fiexdSearchForm" class="form-closex" slot="footer">
               <Button size="small" type="info" ghost @click="search">
                 <Icon type="md-search" />查询
               </Button>
-              <!-- <Icon type="md-close-circle" color="color" size="20" /> -->
+
               <Button size="small" type="success" ghost @click="resetSearch">
                 <Icon type="md-refresh" />重置
               </Button>
@@ -102,6 +54,60 @@
               </Button>
             </div>
           </vol-form>
+        </div>
+        <div class="view-header">
+          <div class="desc-text">
+            <Icon type="md-apps" />
+            <span>{{table.cnName}}</span>
+          </div>
+          <div class="notice">
+            <!-- <Tooltip content="6666666666666666" placement="bottom">
+            <a>Bottom Center</a>
+            </Tooltip>-->
+            <a class="text" :title="extend.text">{{extend.text}}</a>
+          </div>
+          <!--快速查询字段-->
+          <div class="search-line">
+            <QuickSearch
+              v-if="singleSearch"
+              :singleSearch="singleSearch"
+              :searchFormFileds="searchFormFileds"
+              :tiggerPress="quickSearchKeyPress"
+            ></QuickSearch>
+          </div>
+          <!--操作按钮组-->
+          <div class="btn-group">
+            <Button
+              v-for="(btn,bIndex) in splitButtons"
+              :key="bIndex"
+              :type="btn.type"
+              :class="btn.class"
+              @click="onClick(btn.onClick)"
+            >
+              <Icon :type="btn.icon" />
+              {{btn.name}}
+            </Button>
+            <Dropdown
+              trigger="click"
+              @on-click="changeDropdown"
+              v-if="buttons.length> maxBtnLength"
+            >
+              <Button type="info" ghost>
+                更多
+                <Icon type="ios-arrow-down"></Icon>
+              </Button>
+              <DropdownMenu slot="list">
+                <DropdownItem
+                  :name="item.name"
+                  v-for="(item,dIndex) in buttons.slice(maxBtnLength,buttons.length)"
+                  :key="dIndex"
+                >
+                  <Icon :type="item.icon"></Icon>
+                  {{item.name}}
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
         </div>
         <vol-box
           v-if="boxInit"
@@ -236,7 +242,7 @@ const _const = {
   DOWNLOAD: "DownLoadFile", //导出文件
   DOWNLOADTEMPLATE: "DownLoadTemplate", //下载导入模板
   IMPORT: "Import", //导入(导入表的Excel功能)
-  UPLOAD: "Upload" //上传文件
+  UPLOAD: "Upload", //上传文件
 };
 const comName = [
   "gridHeader",
@@ -244,7 +250,7 @@ const comName = [
   "gridFooter",
   "modelHeader",
   "modelBody",
-  "modelFooter"
+  "modelFooter",
 ];
 import Empty from "@/components/basic/Empty.vue";
 var $viewGridVue, $this;
@@ -266,7 +272,7 @@ let _components = {
   //   }, 1000);
   // },
   modelBody: Empty,
-  modelFooter: Empty
+  modelFooter: Empty,
 };
 import VolTable from "@/components/basic/VolTable.vue";
 var vueParam = {
@@ -278,11 +284,12 @@ var vueParam = {
     VolBox: () => import("@/components/basic/VolBox.vue"),
     QuickSearch: () => import("@/components/basic/QuickSearch.vue"),
     Audit: () => import("@/components/basic/Audit.vue"),
-    UploadExcel: () => import("@/components/basic/UploadExcel.vue")
+    UploadExcel: () => import("@/components/basic/UploadExcel.vue"),
   },
   props: {},
   data() {
     return {
+      fiexdSearchForm: false, //2020.09.011是否固定查询表单，true查询表单将固定显示在表单的最上面
       _inited: false,
       single: false, //表是否单选
       const: _const, //增删改查导入导出等对应的action
@@ -345,7 +352,7 @@ var vueParam = {
         //结束编辑后
         endEditAfter: (row, column, index) => {
           return true;
-        }
+        },
       },
       auditParam: {
         //审核对象
@@ -356,8 +363,8 @@ var vueParam = {
         //审核选项(可自行再添加)
         data: [
           { text: "通过", status: 1 },
-          { text: "拒绝", status: 2 }
-        ]
+          { text: "拒绝", status: 2 },
+        ],
       },
       upload: {
         //导入上传excel对象
@@ -366,9 +373,9 @@ var vueParam = {
         template: {
           //下载模板对象
           url: "", //下载模板路径
-          fileName: "" //模板下载的中文名
+          fileName: "", //模板下载的中文名
         },
-        init: false //是否有导入权限，有才渲染导入组件
+        init: false, //是否有导入权限，有才渲染导入组件
       },
       height: 0, //表高度
       tableHeight: 0, //查询页面table的高度
@@ -379,8 +386,8 @@ var vueParam = {
         labelWidth: 100,
         height: 0,
         width: 0,
-        summary: false //弹出框明细table是否显示合计
-      } //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
+        summary: false, //弹出框明细table是否显示合计
+      }, //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
     };
   },
   methods: {
@@ -395,7 +402,7 @@ var vueParam = {
           }
         }
       }
-    }
+    },
   },
   activated() {
     //2020.06.25增加activated方法
@@ -411,9 +418,9 @@ var vueParam = {
   },
   mounted() {
     this.mounted();
+    // this.$refs.searchForm.forEach()
   },
-  beforeCreate() {},
-  created: function() {
+  created: function () {
     //在其他方法中如果拿不到this，请使用$viewGridVue或$this
     $viewGridVue = this;
     $this = this;
@@ -437,8 +444,8 @@ var vueParam = {
     this.onInited(); //初始化后，如果需要做其他处理在扩展方法中覆盖此方法
     this.splitButtons = this.getButtons();
   },
-  beforeUpdate: function() {},
-  updated: function() {}
+  beforeUpdate: function () {},
+  updated: function () {},
 };
 
 import props from "./ViewGridConfig/props.js";
@@ -477,5 +484,28 @@ import "@/assets/css/ViewGrid.less";
 }
 .view-model-content {
   background: #eee;
+}
+</style>
+<style lang="less">
+.grid-search {
+  position: relative;
+  .fiexd-search-box {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 28px;
+    padding-bottom: 0px;
+    padding-top: 5px;
+  }
+  .search-box {
+    background: #fefefe;
+    margin-top: 45px;
+    border: 1px solid #ececec;
+    position: absolute;
+    z-index: 999;
+    left: 0;
+    right: 0;
+    padding: 25px 40px;
+    padding-bottom: 0;
+    box-shadow: 0 7px 18px -12px #bdc0bb;
+  }
 }
 </style>

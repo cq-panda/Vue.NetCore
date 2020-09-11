@@ -1,36 +1,39 @@
-
-import detailMethods from './detailMethods.js'
+import detailMethods from "./detailMethods.js";
 //业务处理方法,全部可以由开发覆盖
-import serviceFilter from './serviceFilter.js'
+import serviceFilter from "./serviceFilter.js";
 let methods = {
   //当添加扩展组件gridHeader/gridBody/gridFooter及明细modelHeader/modelBody/modelFooter时，
   //如果要获取父级Vue对象,请使用此方法进行回调
   parentCall(fun) {
-    if (typeof fun != 'function') {
-      return console.log('扩展组件需要传入一个回调方法才能获取父级Vue对象')
+    if (typeof fun != "function") {
+      return console.log("扩展组件需要传入一个回调方法才能获取父级Vue对象");
     }
     fun(this);
   },
   getCurrentAction() {
     if (this.currentReadonly) {
-      return '';
+      return "";
     }
     return "--" + (this.currentAction == this.const.ADD ? "新增" : "编辑");
   },
-  quickSearchKeyPress($event) { //查询字段为input时，按回车查询
+  quickSearchKeyPress($event) {
+    //查询字段为input时，按回车查询
     if ($event.keyCode == 13) {
       if (this.searchFormFileds[this.singleSearch.field] != "") {
         this.search();
       }
     }
   },
-  getButtons() {//生成ViewGrid界面的操作按钮及更多选项
-    let searchIndex = this.buttons.findIndex(x => { return x.value == 'Search'; });
+  getButtons() {
+    //生成ViewGrid界面的操作按钮及更多选项
+    let searchIndex = this.buttons.findIndex(x => {
+      return x.value == "Search";
+    });
     //添加高级查询
     if (searchIndex != -1) {
       this.buttons.splice(searchIndex + 1, 0, {
-        icon: 'ios-arrow-down',
-        class: 'r-dropdown',
+        icon: "ios-arrow-down",
+        class: "r-dropdown",
         name: "",
         type: this.buttons[searchIndex].type,
         onClick: () => {
@@ -38,19 +41,22 @@ let methods = {
         }
       });
     }
-    this.maxBtnLength += (searchIndex == -1 ? 0 : 1);
+    this.maxBtnLength += searchIndex == -1 ? 0 : 1;
     if (this.buttons.length <= this.maxBtnLength) return this.buttons;
     let btns = this.buttons.slice(0, this.maxBtnLength);
     btns[this.maxBtnLength - 1].last = true;
     return btns;
   },
-  extendBtn(btns, source) {//btns权限按钮，source为扩展按钮
-    if (!btns || !(source && source instanceof Array)) { return; }
+  extendBtn(btns, source) {
+    //btns权限按钮，source为扩展按钮
+    if (!btns || !(source && source instanceof Array)) {
+      return;
+    }
     //source通过在表的扩展js文件中buttons对应按钮的属性index决定按钮所放位置
-    source.forEach((x) => {
+    source.forEach(x => {
       //通过按钮的Index属性，放到指定的位置
       btns.splice(x.index == undefined ? btns.length : x.index, 0, x);
-    })
+    });
     // if (this.extend.buttons.view) {
     //     this.extend.buttons.view.forEach((x) => {
     //         //通过按钮的Index属性，放到指定的位置
@@ -58,10 +64,15 @@ let methods = {
     //     })
     // }
   },
-  initBoxButtons() { //初始化ViewGird与弹出框/明细表按钮
+  initBoxButtons() {
+    //初始化ViewGird与弹出框/明细表按钮
     let path = this.$route.path;
     //通过菜单获取用户所对应菜单需要显示的按钮
-    let permissionButtons = this.permission.getButtons(path, null, this.extend.tableAction);
+    let permissionButtons = this.permission.getButtons(
+      path,
+      null,
+      this.extend.tableAction
+    );
     if (permissionButtons) {
       //2020.03.31添加深拷贝按钮组
       permissionButtons.forEach(p => {
@@ -70,7 +81,7 @@ let methods = {
           _obj[key] = p[key];
         }
         this.buttons.push(_obj);
-      })
+      });
       // this.buttons.push(...permissionButtons);
     }
     if (!this.extend) {
@@ -88,12 +99,19 @@ let methods = {
     let boxButtons = [];
 
     let saveBtn = this.buttons.some(x => {
-      if (x.value && (x.value.toLowerCase() == this.const.ADD.toLowerCase() || x.value.toLowerCase() == this.const.EDIT.toLowerCase())) return true;
+      if (
+        x.value &&
+        (x.value.toLowerCase() == this.const.ADD.toLowerCase() ||
+          x.value.toLowerCase() == this.const.EDIT.toLowerCase())
+      )
+        return true;
     });
     this.currentReadonly = !saveBtn;
     //从表表格操作按钮
     let detailGridButtons = {
-      name: "刷新", icon: "md-refresh", onClick() {
+      name: "刷新",
+      icon: "md-refresh",
+      onClick() {
         //如果明细表当前的状态为新建时，禁止刷新
         if (this.currentAction == this.const.ADD) {
           return;
@@ -111,7 +129,8 @@ let methods = {
       //定义下载模板的文件名
       this.upload.template.fileName = this.table.cnName;
       //定义下载模板的Url路径
-      this.upload.template.url = this.http.ipAddress + this.getUrl(this.const.DOWNLOADTEMPLATE, true);
+      this.upload.template.url =
+        this.http.ipAddress + this.getUrl(this.const.DOWNLOADTEMPLATE, true);
     }
 
     // disabled
@@ -121,21 +140,21 @@ let methods = {
       this.editFormOptions.forEach(row => {
         row.forEach(x => {
           x.disabled = true;
-        })
-      })
+        });
+      });
       //没有新增编辑权限的，弹出框都设置为只读
       this.detail.columns.forEach(row => {
-        if (row.hasOwnProperty('edit')) {
-          row['edit'] = false;
+        if (row.hasOwnProperty("edit")) {
+          row["edit"] = false;
         }
-      })
+      });
       //弹出框扩展按钮
-      this.extendBtn(boxButtons, this.extend.buttons.box)
+      this.extendBtn(boxButtons, this.extend.buttons.box);
       //弹出弹框按钮(2020.04.21),没有编辑或新建权限时，也可以通过buttons属性添加自定义弹出框按钮
       this.boxButtons.push(...boxButtons);
       this.detailOptions.buttons.push(detailGridButtons);
       //弹出框扩展明细表按钮
-      this.extendBtn(this.detailOptions.buttons, this.extend.buttons.detail)
+      this.extendBtn(this.detailOptions.buttons, this.extend.buttons.detail);
 
       return boxButtons;
     }
@@ -156,29 +175,30 @@ let methods = {
           icon: "md-refresh",
           type: "success",
           onClick() {
-
             this.resetEdit();
           }
         }
       ]
     );
     //从表表格操作按钮
-    this.detailOptions.buttons.push(...[
-      {
-        name: "添加行",
-        icon: "md-add",
-        onClick() {
-          this.addRow();
+    this.detailOptions.buttons.push(
+      ...[
+        {
+          name: "添加行",
+          icon: "md-add",
+          onClick() {
+            this.addRow();
+          }
+        },
+        {
+          name: "删除行",
+          icon: "md-close",
+          onClick() {
+            this.delRow();
+          }
         }
-      },
-      {
-        name: "删除行",
-        icon: "md-close",
-        onClick() {
-          this.delRow();
-        }
-      }
-    ]);
+      ]
+    );
 
     //弹出框扩展按钮
     this.extendBtn(boxButtons, this.extend.buttons.box);
@@ -189,7 +209,6 @@ let methods = {
 
     //弹出弹框按钮
     this.boxButtons.push(...boxButtons);
-
   },
   onClick(click) {
     click.apply(this);
@@ -203,22 +222,30 @@ let methods = {
     }
   },
   emptyValue(value) {
-    return (value === null || value === undefined || value === "");
+    return value === null || value === undefined || value === "";
   },
-  getSearchParameters() {//获取查询参数
-    this.searchBoxShow = false;
+  getSearchParameters() {
+    //获取查询参数
+    // 2020.09.11增加固定查询表单,如果设置固定了查询表单，点击查询时，不再关闭
+    if (!this.fiexdSearchForm) {
+      this.searchBoxShow = false;
+    }
+
     let query = { wheres: [] };
     for (const key in this.searchFormFileds) {
       let value = this.searchFormFileds[key];
       if (this.emptyValue(value)) continue;
-      if (typeof value == 'number') {
-        value = value + '';
+      if (typeof value == "number") {
+        value = value + "";
       }
       let displayType = this.getSearchItem(key);
-      if (typeof value == "string" || ["date", "datetime"].indexOf(displayType) == -1) {
+      if (
+        typeof value == "string" ||
+        ["date", "datetime"].indexOf(displayType) == -1
+      ) {
         query.wheres.push({
           name: key,
-          value: typeof value == "string" || !value ? value : value.join(','),
+          value: typeof value == "string" || !value ? value : value.join(","),
           displayType: displayType
         });
         continue;
@@ -238,12 +265,14 @@ let methods = {
     }
     return query;
   },
-  search() {//查询
+  search() {
+    //查询
     // let query = this.getSearchParameters();
     // this.$refs.table.load(query, true);
     this.$refs.table.load(null, true);
   },
-  loadTableBefore(param, callBack) {//查询前设置查询条件及分页信息
+  loadTableBefore(param, callBack) {
+    //查询前设置查询条件及分页信息
     let query = this.getSearchParameters();
     if (query) {
       param = Object.assign(param, query);
@@ -251,11 +280,13 @@ let methods = {
     let status = this.searchBefore(param);
     callBack(status);
   },
-  loadTableAfter(data, callBack) {//查询后
+  loadTableAfter(data, callBack) {
+    //查询后
     let status = this.searchAfter(data);
     callBack(status);
   },
-  loadDetailTableBefore(param, callBack) {//明细查询前
+  loadDetailTableBefore(param, callBack) {
+    //明细查询前
     //新建时禁止加载明细
     if (this.currentAction == this.const.ADD) {
       callBack(false);
@@ -264,11 +295,13 @@ let methods = {
     let status = this.searchDetailBefore(param);
     callBack(status);
   },
-  loadDetailTableAfter(data, callBack) {//明细查询后
+  loadDetailTableAfter(data, callBack) {
+    //明细查询后
     let status = this.searchDetailAfter(data);
     callBack(status);
   },
-  getSearchItem(field) {//获取查询的参数
+  getSearchItem(field) {
+    //获取查询的参数
     let data;
     for (let index = 0; index < this.searchFormOptions.length; index++) {
       if (data) return data.type;
@@ -279,13 +312,15 @@ let methods = {
     }
     return data.type;
   },
-  resetSearch() {//重置查询对象
+  resetSearch() {
+    //重置查询对象
     this.resetSearchForm();
   },
-  resetEdit() { //重置编辑的数据
+  resetEdit() {
+    //重置编辑的数据
     let isEdit = this.currentAction != this.const.ADD;
     //重置之前
-    if (!this[isEdit ? 'resetUpdateFormBefore' : 'resetAddFormBefore']()) {
+    if (!this[isEdit ? "resetUpdateFormBefore" : "resetAddFormBefore"]()) {
       return;
     }
     let objKey = {};
@@ -296,7 +331,7 @@ let methods = {
     this.resetEditForm(objKey);
     //重置之后
 
-    if (!this[isEdit ? 'resetUpdateFormAfter' : 'resetAddFormAfter']()) {
+    if (!this[isEdit ? "resetUpdateFormAfter" : "resetAddFormAfter"]()) {
       return;
     }
   },
@@ -313,17 +348,16 @@ let methods = {
   },
   getKeyValueType(formData, isEditForm) {
     try {
-      let keyLeft = (isEditForm ? 'e' : 's') + '_b_'
+      let keyLeft = (isEditForm ? "e" : "s") + "_b_";
       formData.forEach(item => {
         item.forEach(x => {
           if (this.keyValueType.hasOwnProperty(keyLeft + x.field)) {
             return true;
           }
           let data;
-          if (x.type == 'switch') {
+          if (x.type == "switch") {
             this.keyValueType[x.field] = 1;
-          }
-          else if (x.bind && x.bind.data) {
+          } else if (x.bind && x.bind.data) {
             data = x.bind.data;
           } else if (x.data) {
             if (x.data instanceof Array) {
@@ -332,14 +366,18 @@ let methods = {
               data = x.data.data;
             }
           }
-          if (data && data.length > 0 && !this.keyValueType.hasOwnProperty(x.field)) {
+          if (
+            data &&
+            data.length > 0 &&
+            !this.keyValueType.hasOwnProperty(x.field)
+          ) {
             this.keyValueType[x.field] = data[0].key;
             this.keyValueType[keyLeft + x.field] = x.type;
           }
-        })
-      })
+        });
+      });
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
   },
   resetForm(formName, sourceObj) {
@@ -352,10 +390,10 @@ let methods = {
     let form, keyLeft;
     if (formName == "searchForm") {
       form = this.searchFormFileds;
-      keyLeft = 's' + '_b_';
+      keyLeft = "s" + "_b_";
     } else {
       form = this.editFormFileds;
-      keyLeft = 'e' + '_b_';
+      keyLeft = "e" + "_b_";
     }
     //获取数据源的data类型，否则如果数据源data的key是数字，重置的值是字符串就无法绑定值
     if (!this.keyValueType._dinit) {
@@ -368,21 +406,30 @@ let methods = {
         let newVal = sourceObj[key];
         let kv_type = this.keyValueType[keyLeft + key];
 
-        if (kv_type == 'selectList'
-          || kv_type == 'checkbox'
-          || kv_type == "cascader") { // 2020.05.31增加iview组件Cascader
-          if (newVal != "" && newVal != undefined && typeof newVal == 'string') {
-            newVal = newVal.split(',');
-          } else if (kv_type == 'checkbox') {
+        if (
+          kv_type == "selectList" ||
+          kv_type == "checkbox" ||
+          kv_type == "cascader"
+        ) {
+          // 2020.05.31增加iview组件Cascader
+          if (
+            newVal != "" &&
+            newVal != undefined &&
+            typeof newVal == "string"
+          ) {
+            newVal = newVal.split(",");
+          } else if (kv_type == "checkbox") {
             newVal = [];
           }
-        } else if (this.keyValueType.hasOwnProperty(key)
-          && typeof (this.keyValueType[key]) == 'number'
-          && newVal * 1 == newVal) {
+        } else if (
+          this.keyValueType.hasOwnProperty(key) &&
+          typeof this.keyValueType[key] == "number" &&
+          newVal * 1 == newVal
+        ) {
           newVal = newVal * 1;
         } else {
           if (newVal == null || newVal == undefined) {
-            newVal = '';
+            newVal = "";
           } else {
             newVal += "";
           }
@@ -396,7 +443,8 @@ let methods = {
   onBtnClick(param) {
     this[param.method](param.data);
   },
-  refresh() {//刷新
+  refresh() {
+    //刷新
     this.search();
     // this.$refs.table.load();
   },
@@ -413,20 +461,22 @@ let methods = {
       if (result) {
         this.saveExecute();
       }
-    })
+    });
   },
   saveExecute() {
     let editFormFileds = {};
     //上传文件以逗号隔开
     for (const key in this.editFormFileds) {
-      if (this.uploadfiled &&
-        this.uploadfiled.length > 0
-        && this.uploadfiled.indexOf(key) != -1
-        && this.editFormFileds[key] instanceof Array) {
+      if (
+        this.uploadfiled &&
+        this.uploadfiled.length > 0 &&
+        this.uploadfiled.indexOf(key) != -1 &&
+        this.editFormFileds[key] instanceof Array
+      ) {
         let allPath = this.editFormFileds[key].map(x => {
           return x.path;
-        })
-        editFormFileds[key] = allPath.join(',');
+        });
+        editFormFileds[key] = allPath.join(",");
       } else {
         editFormFileds[key] = this.editFormFileds[key];
       }
@@ -438,7 +488,7 @@ let methods = {
     //将数组转换成string
     for (const key in editFormFileds) {
       if (editFormFileds[key] instanceof Array) {
-        editFormFileds[key] = editFormFileds[key].join(',');
+        editFormFileds[key] = editFormFileds[key].join(",");
       }
     }
 
@@ -495,7 +545,7 @@ let methods = {
       if (this.hasDetail) {
         this.detailOptions.delKeys = [];
         if (resultRow.list) {
-          this.$refs.detail.rowData.push(...resultRow.list)
+          this.$refs.detail.rowData.push(...resultRow.list);
         }
       }
       this.refresh();
@@ -535,7 +585,8 @@ let methods = {
       } //, onCancel: () => {}
     });
   },
-  initBox() { //初始化新建、编辑的弹出框
+  initBox() {
+    //初始化新建、编辑的弹出框
     this.modelOpenBefore(this.currentRow);
     if (!this.boxInit) {
       this.boxInit = true;
@@ -552,10 +603,10 @@ let methods = {
           if (x.field == column.field) {
             x.data.data = Object.assign([], x.data, column.bind.data);
           }
-        })
+        });
       });
     });
-    this.editFormFileds
+    this.editFormFileds;
     //重置编辑表单数据
     this.editFormFileds[this.table.key] = row[this.table.key];
 
@@ -563,7 +614,8 @@ let methods = {
     this.currentAction = this.const.EDIT;
     this.boxModel = true;
   },
-  linkData(row, column) {   //点击table单元格快捷链接显示编辑数据
+  linkData(row, column) {
+    //点击table单元格快捷链接显示编辑数据
     this.currentAction = this.const.EDIT;
     this.currentRow = row;
     this.initBox();
@@ -574,7 +626,8 @@ let methods = {
     //点击编辑按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
     this.modelOpenProcess(row);
   },
-  add() {//新建
+  add() {
+    //新建
     this.currentAction = this.const.ADD;
     this.currentRow = {};
     this.initBox();
@@ -587,11 +640,11 @@ let methods = {
     //如果有switch标签，默认都设置为是
     this.editFormOptions.forEach(x => {
       x.forEach(item => {
-        if (item.type == 'switch') {
+        if (item.type == "switch") {
           obj[item.field] = 1;
         }
-      })
-    })
+      });
+    });
     this.resetEditForm(obj);
     //  this.resetEditForm();
     this.boxModel = true;
@@ -599,7 +652,8 @@ let methods = {
     this.modelOpenProcess();
     // this.modelOpenAfter();
   },
-  edit() {//编辑
+  edit() {
+    //编辑
     let rows = this.$refs.table.getSelected();
     if (rows.length == 0) {
       return this.$error("请选择要编辑的行!");
@@ -621,27 +675,32 @@ let methods = {
   },
   getRemoteFormDefaultKeyValue() {
     //设置表单远程数据源的默认key.value
-    if (this.currentAction != this.const.EDIT || this.remoteKeys.length == 0) return;
+    if (this.currentAction != this.const.EDIT || this.remoteKeys.length == 0)
+      return;
     this.editFormOptions.forEach((x, xIndex) => {
       x.forEach((item, yIndex) => {
         if (item.remote) {
-          let column = this.columns.find(x => { return x.bind && x.bind.key == item.dataKey });
+          let column = this.columns.find(x => {
+            return x.bind && x.bind.key == item.dataKey;
+          });
           if (!column) return;
           let key = this.currentRow[item.field];
-          let obj = column.bind.data.find(x => { return x.key == key });
+          let obj = column.bind.data.find(x => {
+            return x.key == key;
+          });
           // obj ? obj.value : key如果没有查到数据源，直接使用原数据
           item.data = [{ key: key, value: obj ? obj.value : key }];
           this.editFormOptions[xIndex].splice(yIndex, 1, item);
           // this.$set(item, 'data', [{ key: key + '', value: obj.value }])
           //  item.data = [{ key: key + '', value: obj.value }];
         }
-      })
-    })
+      });
+    });
   },
   modelOpenProcess(row) {
     this.$nextTick(() => {
       this.modelOpenAfter(row);
-    })
+    });
     return;
     // if (!this.$refs.form) {
     //     let timeOut = setTimeout(x => {
@@ -651,10 +710,12 @@ let methods = {
     // }
     // this.modelOpenAfter(row);
   },
-  import() { //导入(上传excel),弹出导入组件UploadExcel.vue
+  import() {
+    //导入(上传excel),弹出导入组件UploadExcel.vue
     this.upload.excel = true;
   },
-  download(url, fileName) { //下载导出的文件
+  download(url, fileName) {
+    //下载导出的文件
     let xmlResquest = new XMLHttpRequest();
     xmlResquest.open("GET", url, true);
     xmlResquest.setRequestHeader("Content-type", "application/json");
@@ -664,11 +725,10 @@ let methods = {
     );
     let elink = this.$refs.export;
     xmlResquest.responseType = "blob";
-    xmlResquest.onload = function (oEvent) {
-
+    xmlResquest.onload = function(oEvent) {
       if (xmlResquest.status != 200) {
-        this.$error('下载文件出错了..');
-        return
+        this.$error("下载文件出错了..");
+        return;
       }
       let content = xmlResquest.response;
       //  let elink = this.$refs.export;//document.createElement("a");
@@ -682,7 +742,8 @@ let methods = {
     };
     xmlResquest.send();
   },
-  export() {//导出
+  export() {
+    //导出
     //导出
     let url = this.getUrl(this.const.EXPORT);
     let query = this.getSearchParameters();
@@ -704,21 +765,24 @@ let methods = {
       path = path[0] == "/" ? path.substring(1) : path;
       this.download(
         $http.ipAddress + path + "?path=" + result.data,
-        this.table.cnName + ".xlsx"// filePath
+        this.table.cnName + ".xlsx" // filePath
       );
       ///  window.open($http.ipAddress + path + "?fileName=" + filePath, "_self");
     });
   },
-  getSelectRows() {//获取选中的行
+  getSelectRows() {
+    //获取选中的行
     return this.$refs.table.getSelected();
   },
-  getDetailSelectRows() {//或获取明细选中的行
+  getDetailSelectRows() {
+    //或获取明细选中的行
     if (!this.$refs.detail) {
       return [];
     }
     return this.$refs.detail.getSelected();
   },
-  audit() {//审核弹出框
+  audit() {
+    //审核弹出框
     let rows = this.$refs.table.getSelected();
     if (rows.length == 0) return this.$error("请选择要审核的行!");
     let checkStatus = rows.every(x => {
@@ -728,10 +792,10 @@ let methods = {
     this.auditParam.rows = rows.length;
     this.auditParam.model = true;
   },
-  saveAudit() {//保存审核
+  saveAudit() {
+    //保存审核
     let rows = this.$refs.table.getSelected();
-    if (this.auditParam.status == -1)
-      return this.$error("请选择审核结果!");
+    if (this.auditParam.status == -1) return this.$error("请选择审核结果!");
 
     if (rows.length != this.auditParam.rows)
       return this.$error("所选数据已发生变化,请重新选择审数据!");
@@ -755,13 +819,14 @@ let methods = {
       if (!x.status) return this.$error(x.message);
       this.auditParam.rows = 0;
       this.auditParam.status = -1;
-      this.auditParam.reason = '';
+      this.auditParam.reason = "";
       this.auditParam.model = false;
       this.$success(x.message);
       this.refresh();
     });
   },
-  openViewColumns() {//查看表结构
+  openViewColumns() {
+    //查看表结构
     if (this.viewColumns == 0) {
       this.viewColumns.push(
         ...[
@@ -787,25 +852,32 @@ let methods = {
     }
     this.viewModel = true;
   },
-  viewModelCancel() {//查看表结构
+  viewModelCancel() {
+    //查看表结构
     this.viewModel = false;
   },
-  initFormOptions(formOptions, keys, formFileds, isEdit) {//初始化查询、编辑对象的下拉框数据源、图片上传链接地址
+  initFormOptions(formOptions, keys, formFileds, isEdit) {
+    //初始化查询、编辑对象的下拉框数据源、图片上传链接地址
     //let defaultOption = { key: "", value: "请选择" };
     //有上传的字段
     //2020.05.03新增
     //编辑数据源的类型
     formOptions.forEach(item => {
       item.forEach(d => {
-        if (d.type == 'img' || d.type == 'excel' || d.type == 'file' || d.columnType == 'img') {
-          d.url = this.http.ipAddress + 'api' + this.table.url + "Upload";
+        if (
+          d.type == "img" ||
+          d.type == "excel" ||
+          d.type == "file" ||
+          d.columnType == "img"
+        ) {
+          d.url = this.http.ipAddress + "api" + this.table.url + "Upload";
           this.uploadfiled.push(d.field);
         }
         if (!d.dataKey) return true;
         //开启远程搜索
         if (d.remote) {
           this.remoteKeys.push(d.dataKey);
-          d.data = [] //{ dicNo: d.dataKey, data: [] };
+          d.data = []; //{ dicNo: d.dataKey, data: [] };
           return true;
         }
         //2020.05.03增加编辑表单对checkbox的支持
@@ -820,15 +892,18 @@ let methods = {
           //this.dicKeys.push({ dicNo: d.dataKey, data: [], type: d.type });
           let _dic = { dicNo: d.dataKey, data: [] };
           if (isEdit) {
-            _dic['e_type'] = d.type;
+            _dic["e_type"] = d.type;
           }
           this.dicKeys.push(_dic);
         }
 
         //2020.01.30移除内部表单formOptions数据源配置格式data.data，所有参数改为与组件api格式相同
-        Object.assign(d, this.dicKeys.filter(f => {
-          return f.dicNo == d.dataKey;
-        })[0])
+        Object.assign(
+          d,
+          this.dicKeys.filter(f => {
+            return f.dicNo == d.dataKey;
+          })[0]
+        );
       });
     });
   },
@@ -836,7 +911,8 @@ let methods = {
   initColumns(scoure, dicKeys, keys) {
     if (!scoure || !(scoure instanceof Array)) return;
     scoure.forEach(item => {
-      if (!item.bind || (item.bind.data && item.bind.data.length > 0)) return true;
+      if (!item.bind || (item.bind.data && item.bind.data.length > 0))
+        return true;
       let key = item.bind.key || item.bind.dicNo;
       if (this.remoteKeys.indexOf(key) != -1) {
         item.bind.remote = true;
@@ -855,10 +931,11 @@ let methods = {
       }
       item.bind = dic[0];
       //2020.05.03优化table数据源checkbox与select类型从编辑列中选取
-      item.bind.type = item.bind.e_type || 'string';
+      item.bind.type = item.bind.e_type || "string";
     });
   },
-  bindOptions(dic) { //绑定下拉框的数据源
+  bindOptions(dic) {
+    //绑定下拉框的数据源
     //绑定后台的字典数据
     dic.forEach(d => {
       this.dicKeys.forEach(x => {
@@ -874,39 +951,52 @@ let methods = {
           for (let index = 0; index < source.length; index++) {
             newSource[index] = {
               //默认从字典数据读出来的key都是string类型,但如果数据从sql中查询的可能为非string,否是async-validator需要重置设置格式
-              key: source['key'] + '',//source[index][x.config.valueField] + "",
-              value: source['value']//source[index][x.config.textField]
+              key: source["key"] + "", //source[index][x.config.valueField] + "",
+              value: source["value"] //source[index][x.config.textField]
             };
           }
 
           x.data.push(...newSource);
         } else {
           //2020.06.06，如果是selectList数据源使用的自定义sql并且key是数字，强制转换成字符串
-          if (x.e_type == "selectList" && d.data.length > 0 && typeof d.data[0].key == "number") {
+          if (
+            x.e_type == "selectList" &&
+            d.data.length > 0 &&
+            typeof d.data[0].key == "number"
+          ) {
             d.data.forEach(c => {
               c.key = c.key + "";
-            })
+            });
           }
           x.data.push(...d.data);
         }
-        if (this.singleSearch
-          && this.singleSearch.dataKey
-          && this.singleSearch.dataKey == x.dicNo) {
+        if (
+          this.singleSearch &&
+          this.singleSearch.dataKey &&
+          this.singleSearch.dataKey == x.dicNo
+        ) {
           this.singleSearch.data.splice(0, 1, ...x.data);
         }
       });
     });
   },
-  getUrl(action, ingorPrefix) {//是否忽略前缀/  获取操作的url
+  getUrl(action, ingorPrefix) {
+    //是否忽略前缀/  获取操作的url
     return (!ingorPrefix ? "/" : "") + "api" + this.table.url + action;
   },
-  initDicKeys() { //初始化字典数据
+  initDicKeys() {
+    //初始化字典数据
     let keys = [];
     this.dicKeys.splice(0);
     //初始化编辑数据源,默认为一个空数组，如果要求必填设置type=number/decimal的最小值
     this.initFormOptions(this.editFormOptions, keys, this.editFormFileds, true);
     //初始化查询数据源,默认为一个空数组
-    this.initFormOptions(this.searchFormOptions, keys, this.searchFormFileds, false);
+    this.initFormOptions(
+      this.searchFormOptions,
+      keys,
+      this.searchFormFileds,
+      false
+    );
     //查询日期设置为可选开始与结果日期
     this.searchFormOptions.forEach(item => {
       item.forEach(x => {
@@ -916,7 +1006,7 @@ let methods = {
     //初始化datatable表数据源,默认为一个空数组,dicKeys为界面所有的数据字典编号
     this.initColumns(this.columns, this.dicKeys, keys);
     if (this.detailOptions && this.detailOptions.columns) {
-      this.initColumns(this.detailOptions.columns, this.dicKeys, keys)
+      this.initColumns(this.detailOptions.columns, this.dicKeys, keys);
     }
     //初始化快速查询字段,默认使用代码生成器配置的第一个查询字段
     if (this.searchFormOptions.length > 0) {
@@ -936,13 +1026,14 @@ let methods = {
       $internalVue.bindOptions(dic);
     });
   },
-  setFiexdColumn(columns, containerWidth) { //计算整个table的宽度，根据宽度决定是否启用第一行显示的列为固定列
+  setFiexdColumn(columns, containerWidth) {
+    //计算整个table的宽度，根据宽度决定是否启用第一行显示的列为固定列
     let columnsWidth = 0;
     columns.forEach(x => {
       if (!x.hidden && x.width) {
         columnsWidth += x.width;
       }
-    })
+    });
     //启用第一列为固定列
     if (columnsWidth > containerWidth) {
       let firstColumn = columns.find(x => !x.hidden);
@@ -951,7 +1042,8 @@ let methods = {
       }
     }
   },
-  initBoxHeightWidth() { //初始化弹出框的高度与宽度
+  initBoxHeightWidth() {
+    //初始化弹出框的高度与宽度
     let clientHeight = document.documentElement.clientHeight;
     //弹出框高度至少250px
     clientHeight = clientHeight < 250 ? 250 : clientHeight;
@@ -960,13 +1052,13 @@ let methods = {
     if (this.boxOptions.height) {
       //如果高度与宽度超过了获取到的可见高宽度，则设为默认的90%高宽
       if (this.boxOptions.height > clientHeight * 0.8) {
-        this.boxOptions.height = clientHeight * 0.8
+        this.boxOptions.height = clientHeight * 0.8;
       }
     }
     if (this.boxOptions.width) {
       //如果高度与宽度超过了获取到的可见高宽度，则设为默认的90%高宽
       if (this.boxOptions.width > clientWidth * 0.8) {
-        this.boxOptions.width = clientWidth * 0.8
+        this.boxOptions.width = clientWidth * 0.8;
       }
     }
     //计算整个table的宽度，根据宽度决定是否启用第一行显示的列为固定列
@@ -984,7 +1076,8 @@ let methods = {
       if (!this.detailOptions.height) {
         this.detailOptions.height =
           clientHeight - this.editFormOptions.length * 57 - 205;
-        this.detailOptions.height = this.detailOptions.height < 240 ? 240 : this.detailOptions.height;
+        this.detailOptions.height =
+          this.detailOptions.height < 240 ? 240 : this.detailOptions.height;
       }
 
       this.detailOptions.columns = this.detail.columns;
@@ -999,7 +1092,8 @@ let methods = {
       this.editFormOptions.forEach(x => {
         if (x.length > maxColumns) maxColumns = x.length;
       });
-      let maxHeightRate = 0.7, maxWidthRate = 0.5;
+      let maxHeightRate = 0.7,
+        maxWidthRate = 0.5;
       maxWidthRate = maxColumns / 10 + 0.3;
       maxHeightRate = (this.editFormOptions.length || 1) * 0.1 + 0.03;
       maxHeightRate = maxHeightRate > 0.9 ? 0.9 : maxHeightRate;
@@ -1018,8 +1112,8 @@ let methods = {
   rowOnChange(row) {
     this.rowChange(row);
   },
-  rowChange(row) {//选中行事件
-
+  rowChange(row) {
+    //选中行事件
   },
   $error(message) {
     this.$Message.error({
@@ -1032,6 +1126,19 @@ let methods = {
       content: message,
       duration: 3
     });
+  },
+  setFiexdSearchForm(visiable) { //2020.09.011增加固定查询表单功能,visiable=true默认将查询表单展开
+    this.fiexdSearchForm = true;
+    let refreshBtn = this.buttons.find(x => x.name == "刷 新");
+    if (visiable) {
+      this.searchBoxShow=true;
+    }
+    if (refreshBtn) {
+      refreshBtn.name = "重 置";
+      refreshBtn.onClick = function() {
+        this.resetSearch();
+      };
+    }
   }
 };
 //合并扩展方法
