@@ -8,9 +8,11 @@
     <div>
         <view-grid :columns="columns"
                    :detail="detail"
-                   :editFormFileds="editFormFileds"
+                   :editFormFields="editFormFields"
+                   :editFormFileds="editFormFields"
                    :editFormOptions="editFormOptions"
-                   :searchFormFileds="searchFormFileds"
+                   :searchFormFields="searchFormFields"
+                   :searchFormFileds="searchFormFields"
                    :searchFormOptions="searchFormOptions"
                    :table="table"
                    :extend="extend">
@@ -36,9 +38,9 @@
                     sortName: "#SortName"
                 },
                 extend: extend,
-                editFormFileds: #editFormFileds,
+                editFormFields: #editFormFileds,
                 editFormOptions: #editFormOptions,
-                searchFormFileds: #searchFormFileds,
+                searchFormFields: #searchFormFileds,
                 searchFormOptions: #searchFormOptions,
                 columns: [#columns],
                 detail: {

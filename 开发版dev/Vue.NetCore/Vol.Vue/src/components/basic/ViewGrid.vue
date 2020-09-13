@@ -35,11 +35,12 @@
       <!--查询条件-->
       <div class="grid-search">
         <div :class="[fiexdSearchForm?'fiexd-search-box':'search-box']" v-show="searchBoxShow">
+          <!-- 2020.09.13增加formFileds拼写错误兼容处理 -->
           <vol-form
             ref="searchForm"
             :label-width="labelWidth"
             :formRules="searchFormOptions"
-            :formFileds="searchFormFileds"
+            :formFields="_searchFormFields"
           >
             <div v-if="!fiexdSearchForm" class="form-closex" slot="footer">
               <Button size="small" type="info" ghost @click="search">
@@ -71,7 +72,7 @@
             <QuickSearch
               v-if="singleSearch"
               :singleSearch="singleSearch"
-              :searchFormFileds="searchFormFileds"
+              :searchFormFields="_searchFormFields"
               :tiggerPress="quickSearchKeyPress"
             ></QuickSearch>
           </div>
@@ -131,7 +132,7 @@
                 ref="form"
                 :label-width="boxOptions.labelWidth"
                 :formRules="editFormOptions"
-                :formFileds="editFormFileds"
+                :formFields="_editFormFields"
               ></vol-form>
             </div>
             <!--明细body自定义组件-->
@@ -289,6 +290,8 @@ var vueParam = {
   props: {},
   data() {
     return {
+      _searchFormFields: {}, //2020.09.13增加formFileds拼写错误兼容处理
+      _editFormFields: {}, //2020.09.13增加formFileds拼写错误兼容处理
       fiexdSearchForm: false, //2020.09.011是否固定查询表单，true查询表单将固定显示在表单的最上面
       _inited: false,
       single: false, //表是否单选
@@ -421,6 +424,14 @@ var vueParam = {
     // this.$refs.searchForm.forEach()
   },
   created: function () {
+    //2020.09.13增加formFileds拼写错误兼容处理
+    this._searchFormFields = Object.keys(this.searchFormFields).length
+      ? this.searchFormFields
+      : this.searchFormFileds;
+    //2020.09.13增加formFileds拼写错误兼容处理
+    this._editFormFields = Object.keys(this.editFormFields).length
+      ? this.editFormFields
+      : this.editFormFileds;
     //在其他方法中如果拿不到this，请使用$viewGridVue或$this
     $viewGridVue = this;
     $this = this;

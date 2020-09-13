@@ -4,7 +4,7 @@
       clearable
       v-if="singleSearch.type=='drop'||singleSearch.type=='dropList'||
               singleSearch.type=='select'||singleSearch.type=='selectList'"
-      v-model="searchFormFileds[singleSearch.field]"
+      v-model="searchFormFields[singleSearch.field]"
       :placeholder="'请选择'+singleSearch.title"
     >
       <Option
@@ -20,13 +20,13 @@
       :type="singleSearch.type+'range'"
       :format="singleSearch.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
       :placeholder="singleSearch.title"
-      v-model="searchFormFileds[singleSearch.field]"
+      v-model="searchFormFields[singleSearch.field]"
     ></DatePicker>
 
     <Input
       clearable
       v-else
-      v-model="searchFormFileds[singleSearch.field]"
+      v-model="searchFormFields[singleSearch.field]"
       :placeholder="singleSearch.title"
       @on-keypress="tiggerPress"
     />
@@ -37,16 +37,18 @@ export default {
   props: {
     singleSearch: {
       type: Object,
-      default: {}
+      default: {},
     },
-    searchFormFileds: {
+    searchFormFields: {
       type: Object,
-      default: {}
+      default: () => {
+        return {};
+      },
     },
     tiggerPress: {
       type: Function,
-      default: () => {}
-    }
-  }
+      default: () => {},
+    },
+  },
 };
 </script>

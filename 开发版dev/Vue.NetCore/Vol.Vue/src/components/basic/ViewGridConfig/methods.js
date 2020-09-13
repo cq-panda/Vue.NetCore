@@ -19,7 +19,7 @@ let methods = {
   quickSearchKeyPress($event) {
     //查询字段为input时，按回车查询
     if ($event.keyCode == 13) {
-      if (this.searchFormFileds[this.singleSearch.field] != "") {
+      if (this._searchFormFields[this.singleSearch.field] != "") {
         this.search();
       }
     }
@@ -232,8 +232,8 @@ let methods = {
     }
 
     let query = { wheres: [] };
-    for (const key in this.searchFormFileds) {
-      let value = this.searchFormFileds[key];
+    for (const key in this._searchFormFields) {
+      let value = this._searchFormFields[key];
       if (this.emptyValue(value)) continue;
       if (typeof value == "number") {
         value = value + "";
@@ -326,7 +326,7 @@ let methods = {
     let objKey = {};
     //编辑状态下,不需要重置主键,创建时间创建人
     if (isEdit) {
-      objKey[this.table.key] = this.editFormFileds[this.table.key];
+      objKey[this.table.key] = this._editFormFields[this.table.key];
     }
     this.resetEditForm(objKey);
     //重置之后
@@ -389,10 +389,10 @@ let methods = {
     if (!sourceObj) return;
     let form, keyLeft;
     if (formName == "searchForm") {
-      form = this.searchFormFileds;
+      form = this._searchFormFields;
       keyLeft = "s" + "_b_";
     } else {
-      form = this.editFormFileds;
+      form = this._editFormFields;
       keyLeft = "e" + "_b_";
     }
     //获取数据源的data类型，否则如果数据源data的key是数字，重置的值是字符串就无法绑定值
@@ -464,36 +464,36 @@ let methods = {
     });
   },
   saveExecute() {
-    let editFormFileds = {};
+    let _editFormFields = {};
     //上传文件以逗号隔开
-    for (const key in this.editFormFileds) {
+    for (const key in this._editFormFields) {
       if (
         this.uploadfiled &&
         this.uploadfiled.length > 0 &&
         this.uploadfiled.indexOf(key) != -1 &&
-        this.editFormFileds[key] instanceof Array
+        this._editFormFields[key] instanceof Array
       ) {
-        let allPath = this.editFormFileds[key].map(x => {
+        let allPath = this._editFormFields[key].map(x => {
           return x.path;
         });
-        editFormFileds[key] = allPath.join(",");
+        _editFormFields[key] = allPath.join(",");
       } else {
-        editFormFileds[key] = this.editFormFileds[key];
+        _editFormFields[key] = this._editFormFields[key];
       }
     }
 
     // else {
-    //     editFormFileds = this.editFormFileds;
+    //     _editFormFields = this._editFormFields;
     // }
     //将数组转换成string
-    for (const key in editFormFileds) {
-      if (editFormFileds[key] instanceof Array) {
-        editFormFileds[key] = editFormFileds[key].join(",");
+    for (const key in _editFormFields) {
+      if (_editFormFields[key] instanceof Array) {
+        _editFormFields[key] = _editFormFields[key].join(",");
       }
     }
 
     let formData = {
-      mainData: editFormFileds,
+      mainData: _editFormFields,
       detailData: null,
       delKeys: null
     };
@@ -536,7 +536,7 @@ let methods = {
 
       if (this.currentAction == this.const.ADD) {
         //  this.currentRow=x.data;
-        this.editFormFileds[this.table.key] = "";
+        this._editFormFields[this.table.key] = "";
         this.currentAction = this.const.EDIT;
         this.currentRow = resultRow.data;
       }
@@ -606,9 +606,9 @@ let methods = {
         });
       });
     });
-    this.editFormFileds;
+    this._editFormFields;
     //重置编辑表单数据
-    this.editFormFileds[this.table.key] = row[this.table.key];
+    this._editFormFields[this.table.key] = row[this.table.key];
 
     this.resetEditForm(row);
     this.currentAction = this.const.EDIT;
@@ -989,12 +989,12 @@ let methods = {
     let keys = [];
     this.dicKeys.splice(0);
     //初始化编辑数据源,默认为一个空数组，如果要求必填设置type=number/decimal的最小值
-    this.initFormOptions(this.editFormOptions, keys, this.editFormFileds, true);
+    this.initFormOptions(this.editFormOptions, keys, this._editFormFields, true);
     //初始化查询数据源,默认为一个空数组
     this.initFormOptions(
       this.searchFormOptions,
       keys,
-      this.searchFormFileds,
+      this._searchFormFields,
       false
     );
     //查询日期设置为可选开始与结果日期
