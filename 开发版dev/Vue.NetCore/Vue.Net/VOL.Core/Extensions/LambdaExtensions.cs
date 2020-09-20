@@ -294,6 +294,11 @@ namespace VOL.Core.Extensions
         /// <returns></returns>
         public static Dictionary<string, QueryOrderBy> GetExpressionToDic<T>(this Expression<Func<T, Dictionary<object, QueryOrderBy>>> expression)
         {
+            //2020.09.14增加排序字段null值判断
+            if (expression == null)
+            {
+                return new Dictionary<string, QueryOrderBy>();
+            }
             return expression.GetExpressionToPair().Reverse().ToList().ToDictionary(x => x.Key, x => x.Value);
         }
         /// <summary>
