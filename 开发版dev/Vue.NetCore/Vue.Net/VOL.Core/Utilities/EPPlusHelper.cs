@@ -39,7 +39,7 @@ namespace VOL.Core.Utilities
                 if (package.Workbook.Worksheets.Count == 0 ||
                     package.Workbook.Worksheets.FirstOrDefault().Dimension.End.Row <= 1)
                     return responseContent.Error("未导入数据");
-                 //2020.08.11修复获取表结构信息时，表为别名时查不到数据的问题
+                //2020.08.11修复获取表结构信息时，表为别名时查不到数据的问题
                 //typeof(T).GetEntityTableName()
                 List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).Name, false, false);
                 //设置忽略的列
@@ -101,7 +101,8 @@ namespace VOL.Core.Utilities
                         }
 
                         //验证字典数据
-                        if (!string.IsNullOrEmpty(options.DropNo))
+                        //2020.09.20增加判断数据源是否有值
+                        if (!string.IsNullOrEmpty(options.DropNo) && !string.IsNullOrEmpty(value))
                         {
                             string key = options.KeyValues.Where(x => x.Value == value)
                                   .Select(s => s.Key)
