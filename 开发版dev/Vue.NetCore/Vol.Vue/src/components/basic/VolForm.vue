@@ -143,9 +143,11 @@
               :down-load="item.downLoad?true:false"
             ></vol-upload>
             <!-- 2020.05.31增加iview组件Cascader -->
+            <!--2020.09.19增加级联 @on-change="item.onChange"事件 -->
             <Cascader
               v-else-if="item.type=='cascader'"
               :load-data="item.loadData"
+              @on-change="item.onChange"
               :data="item.data"
               filterable
               :render-format="item.formatter"
