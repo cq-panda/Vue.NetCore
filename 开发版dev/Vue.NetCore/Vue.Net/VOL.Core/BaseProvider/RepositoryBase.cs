@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -575,39 +576,7 @@ namespace VOL.Core.BaseProvider
         {
             return EFContext.SaveChangesAsync();
         }
-        /// <summary>
-        /// new SqlParameter("@tableName",TableName)
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="sql"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        /// <summary>
-        /// new SqlParameter("@tableName",TableName)
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="sql"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public virtual List<TEntity> RunProc(string sql, params SqlParameter[] parameters)
-        {
-            foreach (var item in parameters)
-            {
-                if ((item as DbParameter).Value == null)
-                {
-                    (item as DbParameter).Value = DBNull.Value;
-                }
-            }
-            if (parameters != null && parameters.Count() > 0)
-            {
-                sql = sql + " " + string.Join(",",
-                  parameters.
-                  Select(x => ((DbParameter)x).ParameterName + (((DbParameter)x).Direction.ToString() == "Output" ? " Output" : "")));
-            }
-            return null;
-            //    return DBSet.FromSql($"{sql}", parameters).ToList();
-        }
-
+      
         public virtual int ExecuteSqlCommand(string sql, params SqlParameter[] sqlParameters)
         {
             return DbContext.Database.ExecuteSqlRaw(sql, sqlParameters);
@@ -615,8 +584,21 @@ namespace VOL.Core.BaseProvider
 
         public virtual List<TEntity> FromSql(string sql, params SqlParameter[] sqlParameters)
         {
-            return null;
-            // return DBSet.FromSql(sql, sqlParameters).ToList();
+            return DBSet.FromSqlRaw(sql, sqlParameters).ToList();
+        }
+
+        /// <summary>
+        /// 执行sql
+        /// 使用方式 FormattableString sql=$"select * from xx where name ={xx} and pwd={xx1} "，
+        /// FromSqlInterpolated内部处理sql注入的问题，直接在{xx}写对应的值即可
+        /// 注意：sql必须 select * 返回所有TEntity字段，
+        /// </summary>
+        /// <param name="formattableString"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> FromSqlInterpolated([NotNull] FormattableString sql)
+        {
+           //DBSet.FromSqlInterpolated(sql).Select(x => new { x,xxx}).ToList();
+            return DBSet.FromSqlInterpolated(sql);
         }
 
     }

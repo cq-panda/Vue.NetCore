@@ -256,15 +256,21 @@ namespace VOL.Core.BaseProvider
 
         Task<int> SaveChangesAsync();
 
-        //执行存储过程
-        List<TEntity> RunProc(string sql, params SqlParameter[] pamrs);
+
 
         int ExecuteSqlCommand(string sql, params SqlParameter[] sqlParameters);
 
         List<TEntity> FromSql(string sql, params SqlParameter[] sqlParameters);
 
+        /// <summary>
+        /// 执行sql
+        /// 使用方式 FormattableString sql=$"select * from xx where name ={xx} and pwd={xx1} "，
+        /// FromSqlInterpolated内部处理sql注入的问题，直接在{xx}写对应的值即可
+        /// 注意：sql必须 select * 返回所有TEntity字段，
+        /// </summary>
+        /// <param name="formattableString"></param>
+        /// <returns></returns>
+        IQueryable<TEntity> FromSqlInterpolated([System.Diagnostics.CodeAnalysis.NotNull] FormattableString sql);
       
-
-
     }
 }
