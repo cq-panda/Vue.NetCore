@@ -713,6 +713,7 @@ let methods = {
   import() {
     //导入(上传excel),弹出导入组件UploadExcel.vue
     this.upload.excel = true;
+    this.$refs.upload_excel&& this.$refs.upload_excel.reset();
   },
   download(url, fileName) {
     //下载导出的文件

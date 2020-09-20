@@ -24,7 +24,12 @@
       :width="600"
       :title="table.cnName+'--导入'"
     >
-      <UploadExcel @importExcelAfter="importAfter" :url="upload.url" :template="upload.template"></UploadExcel>
+      <UploadExcel
+        ref="upload_excel"
+        @importExcelAfter="importAfter"
+        :url="upload.url"
+        :template="upload.template"
+      ></UploadExcel>
     </vol-box>
 
     <!--头部自定义组件-->
