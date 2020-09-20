@@ -168,7 +168,7 @@ namespace VOL.Core.Dapper
 
         private T Execute<T>(Func<IDbConnection, IDbTransaction, T> func, bool beginTransaction = false, bool disposeConn = true)
         {
-            if (beginTransaction)
+            if (beginTransaction && !_transaction)
             {
                 Connection.Open();
                 dbTransaction = Connection.BeginTransaction();
@@ -207,19 +207,19 @@ namespace VOL.Core.Dapper
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
-        /// <param name="updateFileds">指定插入的字段</param>
+        /// <param name="addFileds">指定插入的字段</param>
         /// <param name="beginTransaction">是否开启事务</param>
         /// <returns></returns>
-        public int Add<T>(T entity, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false)
+        public int Add<T>(T entity, Expression<Func<T, object>> addFileds = null, bool beginTransaction = false)
         {
-            return AddRange<T>(new T[] { entity });
+            return AddRange<T>(new T[] { entity }, addFileds, beginTransaction);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entities"></param>
-        /// <param name="updateFileds">指定插入的字段</param>
+        /// <param name="addFileds">指定插入的字段</param>
         /// <param name="beginTransaction">是否开启事务</param>
         /// <returns></returns>
         public int AddRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> addFileds = null, bool beginTransaction = true)
@@ -269,7 +269,7 @@ namespace VOL.Core.Dapper
             return Execute<int>((conn, dbTransaction) =>
             {
                 //todo pgsql待实现
-                return conn.Execute(sql, (DBType.Name == DbCurrentType.MySql.ToString() || DBType.Name == DbCurrentType.PgSql.ToString()) ? entities.ToList() : null);
+                return conn.Execute(sql, (DBType.Name == DbCurrentType.MySql.ToString() || DBType.Name == DbCurrentType.PgSql.ToString()) ? entities.ToList() : null,dbTransaction);
             }, beginTransaction);
         }
 
@@ -337,7 +337,7 @@ namespace VOL.Core.Dapper
 
             IEnumerable<(bool, string, object)> validation = keyProperty.ValidationValueForDbType(keys);
             if (validation.Any(x => !x.Item1))
-            {  
+            {
                 throw new Exception($"主键类型【{validation.Where(x => !x.Item1).Select(s => s.Item3).FirstOrDefault()}】不正确");
             }
             string tKey = entityType.GetKeyProperty().Name;
