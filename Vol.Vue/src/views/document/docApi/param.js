@@ -8,6 +8,7 @@ let param = {
             { name: "width", desc: "表单宽度", type: "number", default: "100%" },
             { name: "labelWidth", desc: "左边标签宽度", type: "number", default: "100" },
             { name: "formFileds", desc: "表单字段key/value，如:{name:'admin',age:''}", type: "json", default: "" },
+            { name: "formFields", desc: "<span style='color:red;'>表单字段同上（此属性用于兼容上面字段拼写错误的问题，2020.09.13更新后才能使用）</span>", type: "json", default: "" },
             { name: "disabled", desc: "是否只读", type: "bool", default: "false" },
             { name: "placeholder", desc: "标签提示文字", type: "string", default: "" },
             { name: "colSize", desc: "每行列的宽度，可选值:12,8,6,如果是12标签会占100%宽度", type: "number", default: "" },
@@ -224,8 +225,10 @@ let param = {
         attr: [{ name: "columns", desc: "查询页面table表的配置,如果满足不了业务,可参照VolTable参数动态扩展", type: "array", default: "[]" },
             { name: "detail", desc: "从表配置：{columns:[],sortName:''},columns从表table列配置,sortName从表排序字段", type: "json", default: "{}" },
             { name: "editFormFileds", desc: "编辑字段，可参照VolForm配置", type: "json", default: "{}" },
+            { name: "editFormFields", desc: "<span style='color:red;'>编辑字段同上（此属性用于兼容上面字段拼写错误的问题，2020.09.13更新后才能使用）</span>", type: "json", default: "" },
             { name: "editFormOptions", desc: "编辑配置,，可参照VolForm配置", type: "array", default: "[]" },
             { name: "searchFormFileds", desc: "查询字段，同上", type: "json", default: "{}" },
+            { name: "searchFormFields", desc: "<span style='color:red;'>查询字段同上（此属性用于兼容上面字段拼写错误的问题，2020.09.13更新后才能使用）</span>", type: "json", default: "" },
             { name: "searchFormOptions", desc: "查询配置，同上", type: "array", default: "[]" },
             {
                 name: "table",
@@ -1015,7 +1018,7 @@ let param = {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果某些字段不需要重置，则可以重新赋值</span>
                 </div>
                 <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">Remark</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'新建重置默认值66666'</span>;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Remark</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'新建重置默认值66666'</span>;
                 </div>
                 <div>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给明细表添加默认一行</span>
@@ -1033,10 +1036,10 @@ let param = {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">resetUpdateFormBefore</span>()&nbsp;{&nbsp;<span style="color:#6a9955;">//重置编辑表单前的内容</span>
                 </div>
                 <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.editFormFileds当前值</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.editFormFields当前值</span>
                 </div>
                 <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>)
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>)
                 </div>
                 <div>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//当前明细表的行</span>
@@ -1057,7 +1060,7 @@ let param = {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果某些字段不需要重置，则可以重新赋值</span>
                 </div>
                 <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">Remark</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'编辑重置默认值66666'</span>;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Remark</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'编辑重置默认值66666'</span>;
                 </div>
                 <div>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给明细表添加默认一行</span>

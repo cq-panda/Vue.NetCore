@@ -15,7 +15,7 @@
       ref="myform"
       :label-width="150"
       :loadKey="true"
-      :formFileds="formFileds1"
+      :formFields="formFields1"
       :formRules="formRules1"
     ></VolForm>
     <div>
@@ -39,7 +39,7 @@ export default {
   },
   data() {
     return {
-      formFileds1: {
+      formFields1: {
         Variety: 1,
         AgeRange: "",
         DateRange: [],
@@ -98,7 +98,7 @@ export default {
             type: "phone",
             onKeyPress: $event => {
               if ($event.keyCode == 13) {
-                this.$Message.error(this.formFileds1.AgeRange + "");
+                this.$Message.error(this.formFields1.AgeRange + "");
               }
             }
           },

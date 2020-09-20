@@ -10,8 +10,19 @@
     <div class="list">
       <Alert type="success" show-icon>
         关于组件
-        <span slot="desc">所有组件都是基于iviewui组件、table表使用element-ui进行的二次封装，目前使用只需要配置好JSON格式即可使用..</span>
+        <span slot="desc" >所有组件都是基于iviewui组件、table表使用element-ui进行的二次封装，目前使用只需要配置好JSON格式即可使用..</span>
       </Alert>
+      <Alert type="info" show-icon>
+           <span style="color: red;">   [FormFields]拼写错误兼容更新提示2020.09.13</span>
+        <div slot="desc" style="line-height: 2;font-size: 15px;margin-top: 20px;">
+          <p>如果是2020.09.13之后下载的项目或者2020.09.13后有更新过代码并且重新生成过vue页面,请忽略此提示</p>
+          <p
+          >由于框架FormFileds字段拼写错误，文档中editFormFileds已变修正editFormFields，searchFormFileds已变修正为searchFormFields</p>
+          <p >更新文件：<a  href="https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2" target="_blank">https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2</a></p>
+          <p style="color: red;">如果没有更新过项目,使用文档中searchFormFields、editFormFields对象时，修改拼写为searchFormFileds、editFormFileds，或者更新代码后再重新生成vue页面</p>
+        </div>
+      </Alert>
+
       <component v-bind:is="currentComponent"></component>
     </div>
   </div>
@@ -30,46 +41,47 @@ export default {
     voltable: () => import("./doc_table"),
     viewGrid: () => import("./doc_viewGridApi"),
     volupload: () => import("./doc_volupload"),
-    other: () => import("./doc_other")
+    other: () => import("./doc_other"),
   }, //
   methods: {
     toggleCom(index) {
       this.currentComponent = this.data[index].com_name;
       this.active = index;
-    }
+    },
   },
+  created() {},
   data() {
     return {
       active: 0,
       data: [
         {
           com_name: "Icons",
-          title: "图标组件"
+          title: "图标组件",
         },
         {
           com_name: "box",
-          title: "弹出框组件"
+          title: "弹出框组件",
         },
         {
           com_name: "DocForm",
-          title: "VolForm表单组件"
+          title: "VolForm表单组件",
         }, //
         {
           com_name: "VolHeader",
-          title: "VolHeader"
+          title: "VolHeader",
         },
         {
           com_name: "voltable",
-          title: "VolTable组件"
+          title: "VolTable组件",
         },
         {
           com_name: "viewGrid",
-          title: "代码生成页面ViewGrid"
+          title: "代码生成页面ViewGrid",
         },
         {
           com_name: "volupload",
-          title: "volupload上传组件"
-        }
+          title: "volupload上传组件",
+        },
         // {
         //   com_name: "volmenu",
         //   title: "菜单组件"
@@ -87,9 +99,9 @@ export default {
         //   title: "其它组件"
         // }
       ],
-      currentComponent: "Icons"
+      currentComponent: "Icons",
     };
-  }
+  },
 };
 </script>
 <style>

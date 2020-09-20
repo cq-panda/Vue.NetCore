@@ -14,6 +14,16 @@
       </el-scrollbar>
     </div>
     <div class="doc-right">
+      <Alert type="info" show-icon>
+       <span style="color: red;">   [FormFields]拼写错误兼容更新提示2020.09.13</span>
+        <div slot="desc" style="line-height: 2;font-size: 15px;margin-top: 20px;">
+          <p>如果是2020.09.13之后下载的项目或者2020.09.13后有更新过代码并且重新生成过vue页面,请忽略此提示</p>
+          <p
+          >由于框架FormFileds字段拼写错误，文档中editFormFileds已变修正editFormFields，searchFormFileds已变修正为searchFormFields</p>
+          <p >更新文件：<a  href="https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2" target="_blank">https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2</a></p>
+          <p style="color: red;">如果没有更新过项目,使用文档中searchFormFields、editFormFields对象时，修改拼写为searchFormFileds、editFormFileds，或者更新代码后再重新生成vue页面</p>
+        </div>
+      </Alert>
       <div class="title">
         <h2>前端开发</h2>
       </div>
@@ -148,7 +158,8 @@ export default {
         },
         {
           title: "查询界面--第二种布局",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<span style="display:none;"></span><span style="font-size:12px;color:#99BB00;">&nbsp; &nbsp;//调用</span><span style="color:#DCDCAA;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:normal;background-color:#1E1E1E;"><span style="font-size:12px;color:#99BB00;">setFiexdSearchForm方法后，即可开启第二种查询布局</span><span style="display:none;"></span></span><br />
 	<div>
 		<span style="font-size:14px;color:#009900;"><span style="font-size:12px;color:#99BB00;">&nbsp; &nbsp;/*注意：必须是2020.09.11后</span><span style="font-size:12px;color:#99BB00;">更新代码的才会生效；如果之前已经生成过vue页面，需要</span></span><span style="font-size:12px;color:#99BB00;">重新生成页面才会生效</span><span style="font-size:12px;color:#99BB00;">*/</span><span style="display:none;"></span> 
@@ -165,14 +176,16 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`,
+          ],
           tips: `还没想好`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/35.png?imageMogr2/thumbnail/!50p",
-		},
-		   {
+        },
+        {
           title: "查询界面--默认查询值",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
@@ -183,16 +196,17 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//d页面初始化时，设置默认的查值</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFileds</span>.<span style="color:#9cdcfe;">Name</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"林"</span>;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFields</span>.<span style="color:#9cdcfe;">Name</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"林"</span>;
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`,
+          ],
           tips: ` 还没想好`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/36.png?imageMogr2/thumbnail/!50p",
-		},
+        },
         {
           title: "弹出框界面动态按钮",
           content: [
@@ -666,7 +680,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'Notification&nbsp;title'</span>,
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>))
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>))
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
@@ -793,7 +807,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">click</span><span style="color:#9cdcfe;">:</span>&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">$this</span>.<span style="color:#9cdcfe;">editFormFileds</span>));
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">$this</span>.<span style="color:#9cdcfe;">editFormFields</span>));
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -1806,16 +1820,16 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置只读计算，Creator必须是只读的，见onInit上面设置</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#dcdcaa;">Creator</span>&nbsp;=&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#dcdcaa;">Creator</span>&nbsp;=&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置计算，例如</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.editFormFileds.x1&nbsp;*&nbsp;this.editFormFileds.x2</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.editFormFields.x1&nbsp;*&nbsp;this.editFormFields.x2</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">AvgPrice</span>&nbsp;||&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;*&nbsp;<span style="color:#b5cea8;">2</span>;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">AvgPrice</span>&nbsp;||&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;*&nbsp;<span style="color:#b5cea8;">2</span>;
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -1878,7 +1892,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(!<span style="color:#9cdcfe;">isEDIT</span>)&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">Gender</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"0"</span>;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Gender</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"0"</span>;
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -2337,7 +2351,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4ec9b0;">Object</span>.<span style="color:#dcdcaa;">assign</span>(<span style="color:#9cdcfe;">$vue</span>.<span style="color:#9cdcfe;">editFormFileds</span>,&nbsp;<span style="color:#9cdcfe;">_row</span>);
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4ec9b0;">Object</span>.<span style="color:#dcdcaa;">assign</span>(<span style="color:#9cdcfe;">$vue</span>.<span style="color:#9cdcfe;">editFormFields</span>,&nbsp;<span style="color:#9cdcfe;">_row</span>);
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
@@ -3143,7 +3157,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在数据库中保存后的多个值实际是以逗号的字符串</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">ExpertName</span>&nbsp;=&nbsp;[];&nbsp;<span style="color:#6a9955;">//["北京","天坛"]</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">ExpertName</span>&nbsp;=&nbsp;[];&nbsp;<span style="color:#6a9955;">//["北京","天坛"]</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置数据源(必须)</span>
@@ -3258,7 +3272,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//区别在于children配置直接用convertTree转换</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">ExpertName</span>&nbsp;=&nbsp;[];
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">ExpertName</span>&nbsp;=&nbsp;[];
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置数据源(必须)</span>
@@ -3393,7 +3407,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在数据库中保存后的多个值实际是以逗号的字符串</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">ExpertName</span>&nbsp;=&nbsp;[];&nbsp;<span style="color:#6a9955;">//["北京","天坛"]</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">ExpertName</span>&nbsp;=&nbsp;[];&nbsp;<span style="color:#6a9955;">//["北京","天坛"]</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置数据源(必须)</span>
@@ -3504,7 +3518,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">ExpertName</span>&nbsp;=&nbsp;[];&nbsp;<span style="color:#6a9955;">//["北京","天坛"]</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">ExpertName</span>&nbsp;=&nbsp;[];&nbsp;<span style="color:#6a9955;">//["北京","天坛"]</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置数据源(必须)</span>
@@ -3638,7 +3652,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">ExpertName</span>&nbsp;=&nbsp;[];&nbsp;<span style="color:#6a9955;">//["北京","天坛"]</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">ExpertName</span>&nbsp;=&nbsp;[];&nbsp;<span style="color:#6a9955;">//["北京","天坛"]</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置数据源(必须)</span>
@@ -3823,7 +3837,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">priceOption</span>,&nbsp;<span style="color:#ce9178;">"disabled"</span>,&nbsp;<span style="color:#569cd6;">true</span>);
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">Date</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'2020-08-26'</span>;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Date</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'2020-08-26'</span>;
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span style="color:#c586c0;">else</span>&nbsp;{
@@ -3832,7 +3846,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">priceOption</span>,&nbsp;<span style="color:#ce9178;">"disabled"</span>,&nbsp;<span style="color:#569cd6;">false</span>);
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>.<span style="color:#9cdcfe;">Date</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'2030-12-11'</span>;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Date</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'2030-12-11'</span>;
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -3950,7 +3964,7 @@ export default {
 	</div>
 	<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*如果是2020.09.11之后获取的代码，则不用此操作*/</span></div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFileds</span>[<span style="color:#9cdcfe;">select2</span>.<span style="color:#9cdcfe;">field</span>]&nbsp;=&nbsp;<span style="color:#9cdcfe;">source</span>.<span style="color:#9cdcfe;">length</span>&nbsp;&gt;&nbsp;<span style="color:#b5cea8;">0</span>&nbsp;?&nbsp;<span style="color:#9cdcfe;">source</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">key</span>&nbsp;:&nbsp;<span style="color:#ce9178;">""</span>;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>[<span style="color:#9cdcfe;">select2</span>.<span style="color:#9cdcfe;">field</span>]&nbsp;=&nbsp;<span style="color:#9cdcfe;">source</span>.<span style="color:#9cdcfe;">length</span>&nbsp;&gt;&nbsp;<span style="color:#b5cea8;">0</span>&nbsp;?&nbsp;<span style="color:#9cdcfe;">source</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">key</span>&nbsp;:&nbsp;<span style="color:#ce9178;">""</span>;
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;})</span>

@@ -44,9 +44,6 @@ let extension = {
       })
     },
     modelOpenAfter(row) {
-      if (this.$refs.modelBody) {
-        return console.log('forminited');
-      }
       console.log('form_undefined');
     }
   }
