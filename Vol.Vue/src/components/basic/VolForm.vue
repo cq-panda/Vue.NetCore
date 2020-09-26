@@ -147,7 +147,7 @@
             <Cascader
               v-else-if="item.type=='cascader'"
               :load-data="item.loadData"
-              @on-change="item.onChange"
+              @on-change="(value, selectedData)=>{item.onChange&&item.onChange(value, selectedData)}"
               :data="item.data"
               filterable
               :render-format="item.formatter"
@@ -472,17 +472,19 @@ export default {
           (val == item.data[0].key || val == item.data[0].value))
       )
         return;
-      //弹出框或初始化表单时给data设置数组默认值
-      let url = item.remote
-        ? "/api/Sys_Dictionary/GetSearchDictionary"
-        : item.url;
-      this.http
-        .post(url + "?dicNo=" + item.dataKey + "&value=" + val)
-        .then((dicData) => {
-          this.$set(item, "loading", false);
-          item.data = dicData;
-          this.formRules[item.point.x].splice(item.point.y, 1, item);
-        });
+      //弹出框或初始化表单时给data设置数组默认值2
+      //2020.09.26修复远程搜索自定义url不起作用的问题
+      let  url ;
+      if (typeof item.url == "function") {
+        url = item.url(val, item.dataKey, item);
+      } else {
+        url = (item.url || "/api/Sys_Dictionary/GetSearchDictionary") + "?dicNo=" +item.dataKey + "&value=" +  val;
+      }
+      this.http.post(url).then((dicData) => {
+        this.$set(item, "loading", false);
+        item.data = dicData;
+        this.formRules[item.point.x].splice(item.point.y, 1, item);
+      });
     },
     bindOptions(dic, binds) {
       dic.forEach((d) => {
