@@ -599,7 +599,8 @@ export default {
           typeof option.edit.max == "number" &&
           val > option.edit.max
         ) {
-          this.$Message.error(option.title + "不能大于" + option.edit.min);
+          //2020.09.26修复表格验证最大值取值错误的问题
+          this.$Message.error(option.title + "不能大于" + option.edit.max);
           return false;
         }
         return true;
