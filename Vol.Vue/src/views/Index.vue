@@ -1,12 +1,16 @@
 <template>
-  <div id="vol-container" :class="['vol-theme-'+theme]">
+  <div id="vol-container" :class="['vol-theme-' + theme]">
     <div class="vol-aside">
       <div class="header">
         <img v-bind:src="log" />
       </div>
       <div class="vol-menu">
-        <el-scrollbar style="height:100%;">
-          <VolMenu :theme="menu_theme" :onSelect="onSelect" :options="menuOptions"></VolMenu>
+        <el-scrollbar style="height: 100%">
+          <VolMenu
+            :theme="menu_theme"
+            :onSelect="onSelect"
+            :options="menuOptions"
+          ></VolMenu>
         </el-scrollbar>
       </div>
     </div>
@@ -17,11 +21,13 @@
           <div class="h-link">
             <ul>
               <li
-                v-for="(item,index) in links"
+                v-for="(item, index) in links"
                 :key="index"
-                v-bind:class="{actived:selectId==item.id}"
+                v-bind:class="{ actived: selectId == item.id }"
               >
-                <a href="javascript:void(0)" @click="to(item)">{{item.text}}</a>
+                <a href="javascript:void(0)" @click="to(item)">{{
+                  item.text
+                }}</a>
               </li>
             </ul>
           </div>
@@ -29,13 +35,21 @@
             <img class="user-header" :src="userImg" :onerror="errorImg" />
           </div>
           <div class="user">
-            <span>{{userName}}</span>
+            <span>{{ userName }}</span>
             <br />
-            <span>{{date}}</span>
+            <span>{{ date }}</span>
             <!-- <span>星期五</span> -->
           </div>
           <div class="settings">
-            <Icon :size="20" type="md-settings" @click="()=>{theme_moel=true;}" />
+            <Icon
+              :size="20"
+              type="md-settings"
+              @click="
+                () => {
+                  theme_moel = true;
+                }
+              "
+            />
             <!-- <Icon type="md-paw" /> -->
           </div>
         </div>
@@ -52,36 +66,44 @@
         >
           <!-- 2020.07.31增加手动打开tabs -->
           <TabPane
-            :class="{active:navIndex==selectId}"
+            :class="{ active: navIndex == selectId }"
             :name="item.navIndex"
-            :closable="navIndex!=0"
-            v-for="(item,navIndex) in navigation"
+            :closable="navIndex != 0"
+            v-for="(item, navIndex) in navigation"
             :key="navIndex"
             :label="item.name"
           ></TabPane>
         </Tabs>
       </div>
       <div class="vol-main" id="vol-main">
-        <el-scrollbar style="height:100%;">
+        <el-scrollbar style="height: 100%">
           <!-- 2020.06.03增加路由切换时加载提示 -->
           <loading v-show="$store.getters.isLoading()"></loading>
-          <!-- <transition name="fade" mode="in-out">  -->
-          <!-- <transition enter-active-class="animated fadeInLeftBig"> -->
+               <!-- 2020.10.09增加路由keepAlive属性设置不缓存组件(默认缓存组件) -->
           <keep-alive>
-            <router-view></router-view>
+            <router-view
+              v-if="!$route.meta||($route.meta && !$route.meta.hasOwnProperty('keepAlive'))"
+            ></router-view>
           </keep-alive>
-          <!-- </transition> -->
+          <router-view
+            v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"
+          ></router-view>
         </el-scrollbar>
       </div>
     </div>
     <!-- 2020.04.02增加换皮肤功能 -->
-    <Drawer class="theme-selector" title="选择皮肤颜色" :closable="false" v-model="theme_moel">
+    <Drawer
+      class="theme-selector"
+      title="选择皮肤颜色"
+      :closable="false"
+      v-model="theme_moel"
+    >
       <div
         @click="changeThen(item.name)"
         class="item"
-        v-for="(item,index) in theme_color"
+        v-for="(item, index) in theme_color"
         :key="index"
-        :style="{background:item.color}"
+        :style="{ background: item.color }"
       ></div>
     </Drawer>
   </div>
