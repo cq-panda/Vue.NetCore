@@ -1,4 +1,4 @@
-let param = {
+const param = {
     icons: {
         attr: [],
         methods: [{ name: "on-select", desc: "选中图标事件", param: "图标样式名" }]
@@ -89,6 +89,7 @@ let param = {
     voltable: {
         attr: [{ name: "loadKey", desc: "是否自动绑定数据源key/value,如果=true会自动把带bind属性data长度为0的列绑定上数据源", type: "bool", default: "false" },
             { name: "height", desc: "table高度", type: "number", default: "" },
+            { name: "clickEdit", desc: "单击编辑与单击结束编辑(2020.10.11)", type: "bool", default: "false" },
             { name: "max-height", desc: "table最大高度,如果设置了max-height属性，height属性将不会生效", type: "number", default: "" },
             { name: "single", desc: "是否只能单选", type: "number", default: "false" },
             { name: "ck", desc: "是否显示checkbox", type: "bool", default: "true" },
