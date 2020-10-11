@@ -96,6 +96,7 @@
                   :color="false"
                   :index="true"
                   :allowEmpty="true"
+                  :clickEdit="true"
                 ></vol-table>
               </div>
             </div>
