@@ -12,7 +12,12 @@
         "
         @selection-change="selectionChange"
         @row-click="rowClick"
-        @cell-mouse-leave="rowEndEdit"
+        @header-click="headerClick"
+        @cell-mouse-leave="
+          (row, column, cell) => {
+            !this.clickEdit && this.rowEndEdit(row, column, cell);
+          }
+        "
         ref="table"
         class="v-table"
         @sort-change="sortChange"
@@ -453,8 +458,10 @@ export default {
     this.summaryData.push("合计");
     this.columns.forEach((x, _index) => {
       if (!x.hidden) {
-        this.summaryIndex[x.field] = _index;
+        //this.summaryIndex[x.field] = _index;
+        //2020.10.11修复求和列错位的问题
         this.summaryData.push("");
+        this.summaryIndex[x.field] = this.summaryData.length;
       }
       //求和
       if (x.summary && !this.summary) {
@@ -516,9 +523,39 @@ export default {
     this.defaultLoadPage && this.load();
   },
   methods: {
-    rowClick(row, column) {
+    headerClick(column, event) {
+      if (this.clickEdit && this.edit.rowIndex != -1) {
+        if (
+          this.rowEndEdit(
+            this.url
+              ? this.rowData[this.edit.rowIndex]
+              : this.tableData[this.edit.rowIndex],
+            column
+          )
+        ) {
+          this.edit.rowIndex = -1;
+        }
+      }
+      // this.edit.rowIndex = -1;
+    },
+    rowClick(row, column, event) {
       if (!this.doubleEdit) {
         return;
+      }
+      //点击其他行时，如果点击的行与正在编辑的行相同，保持编辑状态
+      if (this.clickEdit && this.edit.rowIndex != -1) {
+        if (row.elementIdex == this.edit.rowIndex) {
+          //点击的单元格如果不可以编辑，直接结束编辑
+          if (!this.columns.some((x) => x.field == event.property && x.edit)) {
+            if (this.rowEndEdit(row, event)) {
+              this.edit.rowIndex = -1;
+            }
+          }
+          return;
+        }
+        if (this.rowEndEdit(row, event)) {
+          this.edit.rowIndex = -1;
+        }
       }
       this.rowBeginEdit(row, column);
     },
@@ -732,20 +769,20 @@ export default {
       return true;
     },
     rowEndEdit(row, column, event) {
-      if (this.clickEdit) {
-        return;
+      if (this.clickEdit && event) {
+        return true;
       }
       if (!this.enableEdit) {
         if (!this.errorFiled) {
           this.edit.rowIndex = -1;
         }
-        return;
+        return true;
       }
       if (!this.doubleEdit && event) {
-        return;
+        return true;
       }
       //结束编辑前
-      if (!this.endEditBefore(row, column, this.edit.rowIndex)) return;
+      if (!this.endEditBefore(row, column, this.edit.rowIndex)) return false;
 
       if (
         this.edit.rowIndex != -1 &&
@@ -758,7 +795,7 @@ export default {
           return x.field == column.property;
         });
         if (!option || !option.edit) {
-          return;
+          return true;
         }
         if (
           option.edit.type == "datetime" ||
@@ -766,7 +803,7 @@ export default {
           option.edit.type == "select"
         ) {
           if (this.edit.rowIndex == row.elementIdex) {
-            return;
+            return true;
           }
         }
         if (!this.validateColum(option, data)) {
@@ -777,11 +814,12 @@ export default {
         }
       }
       if (this.errorFiled) {
-        return;
+        return false;
       }
-      if (!this.endEditAfter(row, column, this.edit.rowIndex)) return;
+      if (!this.endEditAfter(row, column, this.edit.rowIndex)) return false;
       //  this.errorFiled = "";
       this.edit.rowIndex = -1;
+      return true;
       //this.edit.columnIndex=-1;
     },
     delRow() {

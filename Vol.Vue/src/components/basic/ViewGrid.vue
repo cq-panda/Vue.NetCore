@@ -183,6 +183,7 @@
                 :endEditBefore="detailOptions.endEditBefore"
                 :endEditAfter="detailOptions.endEditAfter"
                 :summary="detailOptions.summary"
+                :click-edit="detailOptions.clickEdit"
               ></vol-table>
             </div>
             <!--明细footer自定义组件-->
@@ -348,6 +349,7 @@ var vueParam = {
         pagination: { total: 0, size: 100, sortName: "" }, //从表分页配置数据
         height: 0, //默认从表高度
         doubleEdit: true, //使用双击编辑
+        clickEdit:false,//是否开启点击单元格编辑，点击其他行时结束编辑
         currentReadonly: false, //当前用户没有编辑或新建权限时，表单只读(可用于判断用户是否有编辑或新建权限)
         //开启编辑时
         beginEdit: (row, column, index) => {
