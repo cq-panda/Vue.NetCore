@@ -315,6 +315,8 @@ let methods = {
   resetSearch() {
     //重置查询对象
     this.resetSearchForm();
+    //2020.10.17增加重置后方法
+    this.resetSearchFormAfter&&this.resetSearchFormAfter();
   },
   resetEdit() {
     //重置编辑的数据
