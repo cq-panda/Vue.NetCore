@@ -2,7 +2,12 @@
   <div class="upload-container">
     <a :href="template.url" ref="template"></a>
     <div class="button-group">
-      <Upload ref="uploadFile" :max-size="maxSize" :before-upload="beforeUpload" :action="url">
+      <Upload
+        ref="uploadFile"
+        :max-size="maxSize"
+        :before-upload="beforeUpload"
+        :action="url"
+      >
         <Button icon="ios-cloud-upload-outline">选择文件</Button>
       </Upload>
       <Button
@@ -11,8 +16,15 @@
         icon="md-arrow-round-down"
         @click="dowloadTemplate"
         :loading="loadingStatus"
-      >下载模板</Button>
-      <Button type="error" icon="md-arrow-round-up" @click="upload" :loading="loadingStatus">上传文件</Button>
+        >下载模板</Button
+      >
+      <Button
+        type="error"
+        icon="md-arrow-round-up"
+        @click="upload"
+        :loading="loadingStatus"
+        >上传文件</Button
+      >
     </div>
     <div class="alert">
       <Alert show-icon>只能上传excel文件,文件大小不超过5M</Alert>
@@ -21,8 +33,8 @@
     <div v-if="file">
       <h3>文件列表</h3>
       <div class="file-info">
-        <span>文件名：{{file.name}}</span>
-        <span>大小{{(file.size / 1024).toFixed(2)}}KB</span>
+        <span>文件名：{{ file.name }}</span>
+        <span>大小{{ (file.size / 1024).toFixed(2) }}KB</span>
       </div>
     </div>
     <div v-show="message" class="v-r-message">
@@ -50,6 +62,12 @@ export default {
           url: "", //模板下载路径，如果没有模板路径，则不显示下载模板功能
           fileName: "未定义文件名", //下载模板的文件名
         };
+      },
+    },
+    importExcelBefore: {
+      type: Function,
+      default: (file) => {
+        return true;
       },
     },
   },
@@ -85,33 +103,28 @@ export default {
       return false;
     },
     upload() {
-      if (!this.url) {
+      let _url = this.url;
+      if (!_url) {
         return this.$Message.error("没有配置好Url");
       }
+
       if (!this.file) {
         return this.$Message.error("请选择文件");
       }
-      var forms = new FormData();
-      forms.append("fileInput", this.file);
+      var formData = new FormData();
+      formData.append("fileInput", this.file);
+      if (!this.importExcelBefore(formData)) {
+        return;
+      }
       this.loadingStatus = true;
-      this.http.post(this.url, forms).then(
+      this.http.post(_url, formData).then(
         (x) => {
           // this.$refs.uploadFile.clearFiles();
           this.loadingStatus = false;
           this.file = null;
           this.$emit("importExcelAfter", x);
           this.message = x.message;
-          2;
           this.resultClass = x.status ? "v-r-success" : "v-r-error";
-          // if (!x.status) {
-          //   this.$Message.error({
-          //     content: x.message,
-          //     duration: 20,
-          //   });
-          //   return;
-          // }
-          // this.$Message["success"](x.message);
-          //刷新表格数据
         },
         (error) => {
           this.loadingStatus = false;
