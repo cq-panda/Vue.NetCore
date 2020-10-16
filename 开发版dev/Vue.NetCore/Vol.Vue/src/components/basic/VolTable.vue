@@ -546,14 +546,15 @@ export default {
       if (this.clickEdit && this.edit.rowIndex != -1) {
         if (row.elementIdex == this.edit.rowIndex) {
           //点击的单元格如果不可以编辑，直接结束编辑
-          if (!this.columns.some((x) => x.field == event.property && x.edit)) {
+          //2020.10.12修复结束编辑时，element table高版本属性获取不到的问题
+          if (!this.columns.some((x) => x.field == (event.property||column.property) && x.edit)) {
             if (this.rowEndEdit(row, event)) {
               this.edit.rowIndex = -1;
             }
           }
           return;
         }
-        if (this.rowEndEdit(row, event)) {
+        if (this.rowEndEdit(row,event.propert? event:column)) {
           this.edit.rowIndex = -1;
         }
       }
