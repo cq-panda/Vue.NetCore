@@ -140,14 +140,20 @@
                       >{{ kv.value }}</Option
                     >
                   </Select>
+                  <!-- 2020.10.18增加iview input组件on-keypress事件 -->
                   <Input
                     v-else
                     clearable
+                    :ref="column.field+scope.$index"
                     @on-change="
                       (event) => {
                         onChange(scope, scope.row[column.field], event, column);
                       }
                     "
+                    @on-keypress="
+                      ($event) => {
+                        column.onKeyPress && column.onKeyPress($event,scope,column);
+                      }"
                     v-model="scope.row[column.field]"
                     :placeholder="'请输入' + column.title"
                   ></Input>
