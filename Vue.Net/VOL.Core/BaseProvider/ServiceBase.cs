@@ -84,16 +84,18 @@ namespace VOL.Core.BaseProvider
         {
             //UserContext.Current.IsSuperAdmin超级管理员不限制数据
 
+            //自定sql,没有使用多租户，直接执行自定义sql
+            if ((QuerySql != null && !IsMultiTenancy))
+            {
+                return repository.DbContext.Set<T>().FromSqlRaw(QuerySql);
+            }
+
             //没有自定sql与多租户执行默认查询
             if ((QuerySql == null && !IsMultiTenancy) || UserContext.Current.IsSuperAdmin)
             {
                 return repository.DbContext.Set<T>();
             }
-            //自定sql,没有使用多租户，直接执行自定义sql
-            if ((QuerySql != null && !IsMultiTenancy) || UserContext.Current.IsSuperAdmin)
-            {
-                return repository.DbContext.Set<T>().FromSqlRaw(QuerySql);
-            }
+         
             string multiTenancyString;
 
             //多租户
