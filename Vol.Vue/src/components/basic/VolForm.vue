@@ -217,6 +217,7 @@
             ></vol-upload>
             <!-- 2020.05.31增加iview组件Cascader -->
             <!--2020.09.19增加级联 @on-change="item.onChange"事件 -->
+                  <!--2020.10.23增加级联 change-on-select属性 -->
             <Cascader
               v-else-if="item.type == 'cascader'"
               :load-data="item.loadData"
@@ -225,6 +226,7 @@
                   item.onChange && item.onChange(value, selectedData);
                 }
               "
+              :change-on-select="!!item.changeOnSelect"
               :data="item.data"
               filterable
               :render-format="item.formatter"
