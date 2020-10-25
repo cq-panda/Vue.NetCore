@@ -179,7 +179,10 @@ export default {
       this.detailModel = true;
     },
     addClick () {//点击新建
-      this.$refs.detailForm.reset();
+      if (this.$refs.detailForm) {
+        this.$refs.detailForm.reset();
+      }
+
       this.detailModel = true;
       this.currentAction = "add";
     },
