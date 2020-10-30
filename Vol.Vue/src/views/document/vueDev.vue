@@ -3,24 +3,26 @@
     <div class="doc-left">
       <el-scrollbar style="height:100%;">
         <ul>
-          <li class="n-item" v-for="(item,index) in items" :key="index">
-            <a
-              :class="{active:active==index}"
-              :style="item.style"
-              @click="scrollIntoView(index)"
-            >{{index+1}}. {{index==0?'添加动态按钮':item.title}}</a>
+          <li class="n-item"
+              v-for="(item,index) in items"
+              :key="index">
+            <a :class="{active:active==index}"
+               :style="item.style"
+               @click="scrollIntoView(index)">{{index+1}}. {{index==0?'添加动态按钮':item.title}}</a>
           </li>
         </ul>
       </el-scrollbar>
     </div>
     <div class="doc-right">
-      <Alert type="info" show-icon>
-       <span style="color: red;">   [FormFields]拼写错误兼容更新提示2020.09.13</span>
-        <div slot="desc" style="line-height: 2;font-size: 15px;margin-top: 20px;">
+      <Alert type="info"
+             show-icon>
+        <span style="color: red;"> [FormFields]拼写错误兼容更新提示2020.09.13</span>
+        <div slot="desc"
+             style="line-height: 2;font-size: 15px;margin-top: 20px;">
           <p>如果是2020.09.13之后下载的项目或者2020.09.13后有更新过代码并且重新生成过vue页面,请忽略此提示</p>
-          <p
-          >由于框架FormFileds字段拼写错误，文档中editFormFileds已变修正editFormFields，searchFormFileds已变修正为searchFormFields</p>
-          <p >更新文件：<a  href="https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2" target="_blank">https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2</a></p>
+          <p>由于框架FormFileds字段拼写错误，文档中editFormFileds已变修正editFormFields，searchFormFileds已变修正为searchFormFields</p>
+          <p>更新文件：<a href="https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2"
+               target="_blank">https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2</a></p>
           <p style="color: red;">如果没有更新过项目,使用文档中searchFormFields、editFormFields对象时，修改拼写为searchFormFileds、editFormFileds，或者更新代码后再重新生成vue页面</p>
         </div>
       </Alert>
@@ -32,13 +34,12 @@
           <p class="desc">此处是代码生成器生成的页面进行扩展，全部实现的是viewGrid组件扩展,参照viewGrid的api介绍</p>
         </div>
         <div>
-          <p
-            class="desc"
-            style="font-size: 20px;"
-          >更多具体扩展代码实现参照：extension->order->SellOrder.js或viewgird组件demo</p>
+          <p class="desc"
+             style="font-size: 20px;">更多具体扩展代码实现参照：extension->order->SellOrder.js或viewgird组件demo</p>
         </div>
       </div>
-      <Alert type="success" show-icon>
+      <Alert type="success"
+             show-icon>
         提示
         <template slot="desc">
           <p>每个表生成的vue页面，都会有一个与表名相同扩展的.js文件，如表名：SellOrder,扩展文件SellOrder.js</p>
@@ -47,43 +48,40 @@
       </Alert>
       <div style=" color: #4c403b;padding: 10px 0;">
         <h4 style="color:red;">下面都是对表App_Expert.js进行的扩展操作,将下面代码复制到App_Expert.js文件methods下即可直接运行</h4>
-        <h4
-          style="color:red;font-size: 20px; padding: 20px 0"
-        >没有特别标明的，都是实现的App_Expert.js扩展,也适用其它所有代码生成的页面</h4>
+        <h4 style="color:red;font-size: 20px; padding: 20px 0">没有特别标明的，都是实现的App_Expert.js扩展,也适用其它所有代码生成的页面</h4>
         <h3>所有图片点击即可查看大图</h3>
       </div>
-      <div :id="'i-'+index" class="doc-wrapper" v-for="(item,index) in items" :key="index">
+      <div :id="'i-'+index"
+           class="doc-wrapper"
+           v-for="(item,index) in items"
+           :key="index">
         <div class="title">
           <h2>{{item.title}}</h2>
         </div>
         <div style=" box-shadow: 0 8px 12px #ebedf0;">
           <div class="d-content">
             <div class="code">
-              <p
-                v-for="(line,key) in item.content"
-                :key="key"
-                style="line-height: 1.7;"
-                class="desc"
-                v-html="line"
-              ></p>
+              <p v-for="(line,key) in item.content"
+                 :key="key"
+                 style="line-height: 1.7;"
+                 class="desc"
+                 v-html="line"></p>
             </div>
-            <div class="img" :class="{'full-code':!item.img}">
+            <div class="img"
+                 :class="{'full-code':!item.img}">
               <template v-if="(item.img instanceof Array)">
-                <img
-                  v-for="(img,i) in item.img"
-                  :key="i"
-                  :src="img"
-                  @click="()=>{base.previewImg((img||'').replace('?imageMogr2/thumbnail/!50p',''))}"
-                />
+                <img v-for="(img,i) in item.img"
+                     :key="i"
+                     :src="img"
+                     @click="()=>{base.previewImg((img||'').replace('?imageMogr2/thumbnail/!50p',''))}" />
               </template>
-              <img
-                v-else
-                :src="item.img"
-                @click="()=>{base.previewImg((item.img||'').replace('?imageMogr2/thumbnail/!50p',''))}"
-              />
+              <img v-else
+                   :src="item.img"
+                   @click="()=>{base.previewImg((item.img||'').replace('?imageMogr2/thumbnail/!50p',''))}" />
             </div>
           </div>
-          <Alert type="success" show-icon>{{item.tips}}</Alert>
+          <Alert type="success"
+                 show-icon>{{item.tips}}</Alert>
         </div>
       </div>
     </div>
@@ -92,7 +90,7 @@
 <script>
 export default {
   methods: {
-    scrollIntoView(index) {
+    scrollIntoView (index) {
       let top = document.getElementById("i-" + index).offsetTop - 100;
       if (index == 0) {
         top = 0;
@@ -101,7 +99,7 @@ export default {
       this.active = index;
     },
   },
-  data() {
+  data () {
     return {
       active: 0,
       items: [
@@ -206,8 +204,8 @@ export default {
           tips: ` 还没想好`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/36.png?imageMogr2/thumbnail/!50p",
-		},
-		
+        },
+
         {
           title: "查询界面--区间查询",
           content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
@@ -2035,6 +2033,163 @@ export default {
           tips: `如果是单独引用的voltable组件，同样适用上面的方法`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/21.png?imageMogr2/thumbnail/!50p",
+        },
+
+
+        {
+          title: "table动态隐藏/显示列",
+          content: [`<div style="color:red;font-size:18px;">需要更新前端Basic下的组件2020.10.30</div>
+          <div style="color:red;font-size:18px;">1、后台代码</div>
+          <p><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#dcdcaa;">PageGridData</span>&lt;<span style="color:#4ec9b0;">App_Transaction</span>&gt;&nbsp;<span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">PageDataOptions</span>&nbsp;<span style="color:#9cdcfe;">options</span>)
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">////方式1.直接从框架的查询里返回的数据，过滤字段返回</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//PageGridData&lt;App_Transaction&gt;&nbsp;gridData&nbsp;=&nbsp;base.GetPageData(options);</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//gridData.extra&nbsp;=&nbsp;gridData.rows.Select(s&nbsp;=&gt;&nbsp;new&nbsp;{&nbsp;s.Id,s.CreateDate&nbsp;}).ToList();</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//gridData.rows&nbsp;=&nbsp;new&nbsp;List&lt;App_Transaction&gt;();</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//return&nbsp;gridData;</span>
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//方式2、自己写实现，例如：从自定义sql或者存储过程中返回数据</span>
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//分页大小&nbsp;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">int</span>&nbsp;<span style="color:#9cdcfe;">page</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">options</span>.<span style="color:#9cdcfe;">Page</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取查询条件</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SearchParameters</span>&gt;&nbsp;<span style="color:#9cdcfe;">searchParametersList</span>&nbsp;=&nbsp;<span style="color:#569cd6;">new</span>&nbsp;<span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SearchParameters</span>&gt;();
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(!<span style="color:#9cdcfe;">string</span>.<span style="color:#dcdcaa;">IsNullOrEmpty</span>(<span style="color:#9cdcfe;">options</span>.<span style="color:#9cdcfe;">Wheres</span>))
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">try</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">searchParametersList</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">options</span>.<span style="color:#9cdcfe;">Wheres</span>.<span style="color:#dcdcaa;">DeserializeObject</span>&lt;<span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SearchParameters</span>&gt;&gt;();
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">catch</span>&nbsp;{&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">PageGridData</span>&lt;<span style="color:#9cdcfe;">App_Transaction</span>&gt;&nbsp;<span style="color:#9cdcfe;">gridData</span>&nbsp;=&nbsp;<span style="color:#569cd6;">new</span>&nbsp;<span style="color:#4ec9b0;">PageGridData</span>&lt;<span style="color:#4ec9b0;">App_Transaction</span>&gt;();
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//返回table数据</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">list</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">repository</span>.<span style="color:#9cdcfe;">DapperContext</span>.<span style="color:#dcdcaa;">QueryList</span>&lt;<span style="color:#4ec9b0;">object</span>&gt;(<span style="color:#ce9178;">"select&nbsp;*&nbsp;from&nbsp;App_Transaction"</span>,&nbsp;<span style="color:#569cd6;">null</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridData</span>.<span style="color:#9cdcfe;">extra</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">list</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//返回查询到的总行数</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridData</span>.<span style="color:#9cdcfe;">total</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">repository</span>.<span style="color:#9cdcfe;">DapperContext</span>.<span style="color:#dcdcaa;">ExecuteScalar</span>(<span style="color:#ce9178;">"select&nbsp;count(1)&nbsp;from&nbsp;App_Transaction"</span>,&nbsp;<span style="color:#569cd6;">null</span>).<span style="color:#dcdcaa;">GetInt</span>();
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridData</span>.<span style="color:#9cdcfe;">rows</span>&nbsp;=&nbsp;<span style="color:#569cd6;">new</span>&nbsp;<span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">App_Transaction</span>&gt;();
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">gridData</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div></p>
+        <div style="color:red;font-size:18px;">2、前端代码(在表名xxx.js中methods里)</div>
+        <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">searchAfter</span>&nbsp;(<span style="color:#9cdcfe;">rows</span>,&nbsp;<span style="color:#9cdcfe;">result</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//查询ViewGird表数据后param查询参数,result回返查询的结果</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//将后台动态返回的列添加到table行数据中</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">rows</span>.<span style="color:#dcdcaa;">push</span>(...<span style="color:#9cdcfe;">result</span>.<span style="color:#9cdcfe;">extra</span>)
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//方式1：&nbsp;设置列动态显示与隐藏</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.columns.forEach(x&nbsp;=&gt;&nbsp;{</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;if&nbsp;(x.field&nbsp;==&nbsp;"PhoneNo")&nbsp;{</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x.hidden&nbsp;=&nbsp;true;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x.hidden&nbsp;=&nbsp;false;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;}</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;})</span>
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//方式2：或者动态添加一些列</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.columns.push(&nbsp;{field:"字段",title:'标题'})</span>
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//方式3：再或者用splice添加或删除一些列</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.columns.splice(1,&nbsp;0,&nbsp;{&nbsp;field:&nbsp;"字段",&nbsp;title:&nbsp;'标题'&nbsp;})</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;},
+	</div>
+</div>`],
+          tips: ``,
+          img: "",
         },
         {
           title: "编辑表单实时计算",
@@ -3874,8 +4029,8 @@ export default {
           tips: ` 从表图片上传，是对代码生成进行的扩展实现.按此方法可自行实现任意功能`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png?imageMogr2/thumbnail/!50p",
-		},
-		    {
+        },
+        {
           title: "编辑框从表第二种编辑",
           content: [
             `<div style="color:red;font-size:20px;">默认为单击行开启编辑，鼠标离开结束编辑,现支持点击表头或其他行结束编辑</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
@@ -4627,12 +4782,12 @@ export default {
           ],
           tips: ` select远程搜索适用于数据源比较大的情况，开启远程搜索实时从后台返回数据绑定到select组件中`,
           img: "",
-		},
-		 {
+        },
+        {
           title: "excel导入增加参数",
-		  content: [`<div style="color:red;">excel导入时添加其他参数到后台需要2020.10.16更新前端basic组件</div>`,
-		  `<div style="color:red;">此处以App_Transaction.js为例</div>`,
-		  `<div  style="font-size:20px;    background: #171717;
+          content: [`<div style="color:red;">excel导入时添加其他参数到后台需要2020.10.16更新前端basic组件</div>`,
+            `<div style="color:red;">此处以App_Transaction.js为例</div>`,
+            `<div  style="font-size:20px;    background: #171717;
     color: white;">//App_Transaction.js文件</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">extension</span>&nbsp;=&nbsp;{
@@ -4901,8 +5056,8 @@ export default {
 <br />
 </div>`],
           tips: ` excel导入时添加其他参数到后台需要2020.10.16更新前端basic组件`,
-         img:
-            ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/39.png?imageMogr2/thumbnail/!50p","https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/40.png?imageMogr2/thumbnail/!50p"]
+          img:
+            ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/39.png?imageMogr2/thumbnail/!50p", "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/40.png?imageMogr2/thumbnail/!50p"]
         },
         {
           title: "编写中--待完",
