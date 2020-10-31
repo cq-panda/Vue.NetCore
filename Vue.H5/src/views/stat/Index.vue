@@ -15,25 +15,56 @@
                      v-model="searchModel"
                      title="条件筛选">
       <div class="search-container content">
-        <search-form :url="url.search"
-                     :options="searchForm.options"
-                     :fields="searchForm.fields"
-                     :search-click="searchClick"
-                     title="查询"></search-form>
+        <vol-form :options="searchForm.options"
+                  :fields="searchForm.fields"
+                  ref="searchForm"
+                  title="查询">
+          <div class="btns">
+            <van-button type="primary"
+                        block
+                        @click="()=>{this.$refs.searchForm.reset()}">
+              <van-icon name="replay" />重置
+            </van-button>
+            <van-button type="info"
+                        block
+                        class="search-btn"
+                        @click="searchClick">
+              <van-icon name="search" />查 询
+            </van-button>
+          </div>
+
+        </vol-form>
       </div>
     </van-actionsheet>
 
     <!--详情、编辑表单-->
     <van-actionsheet :round="false"
                      v-model="detailModel"
-                     :title="currentAction=='add'?'新建':'详情'">
+                     :title="currentAction=='add'?'新建':'编辑'">
       <div class="search-container content">
-        <detail-form :url="url.detailUpdate"
-                     ref="detailForm"
-                     :options="detailForm.options"
-                     :fields="detailForm.fields"
-                     :submit-click="submitClick"
-                     title="详情"></detail-form>
+        <vol-form ref="detailForm"
+                  :options="detailForm.options"
+                  :fields="detailForm.fields">
+          <div class="btns">
+            <van-button type="danger"
+                        v-show="showDelBtn"
+                        @click="del"
+                        block>
+              <van-icon name="delete" />删除
+            </van-button>
+            <van-button type="primary"
+                        block
+                        @click="reset">
+              <van-icon name="replay" />重置
+            </van-button>
+            <van-button type="info"
+                        @click="submitClick"
+                        block>
+              <van-icon name="certificate" />提交
+            </van-button>
+            <slot name="btn-footer"></slot>
+          </div>
+        </vol-form>
       </div>
     </van-actionsheet>
     <van-icon name="add"
@@ -52,22 +83,23 @@ export default {
     "vol-header": VolHeader,
     "vol-table": VolTable,
     "van-actionsheet": ActionSheet,
-    "search-form": () => import("@/components/SearchForm"),
-    "detail-form": () => import("@/components/DetailForm"),
+    "vol-form": () => import("@/components/VolForm"),
     "van-icon": Icon
   },
   data () {
     return {
-      currentAction: "",//当前状态
+      currentAction: "",//当前状态add/update
       searchModel: false,//查询表单
       detailModel: false,//编辑表单
+      showDelBtn: false,//是否显示删除按钮(新建时不显示 )
       /*现在的操作的是后台的框架默认的增删改查，暂时可以不用修改后台代码完成curd操作*/
       /*如果需要其他页面的h5操作，直接将当前整个页面复制出来，只需要挨着改里面的参数*/
       url: {
         table: "/api/Sys_Log/getPageData", //table加载的url
         search: "/api/Sys_Log/getPageData",//搜索加载url，与上面一样
-        detailUpdate: "/api/Sys_Log/update",//详情提交的地址
-        detailAdd: "/api/Sys_Log/add" //详情提交的地址
+        update: "/api/Sys_Log/update",//详情提交的地址
+        add: "/api/Sys_Log/add", //详情提交的地址
+        del: "/api/Sys_Log/del"
       },
       //table表配置
       columns: [{ field: 'Id', title: 'Id', type: 'int', hidden: true },
@@ -77,7 +109,7 @@ export default {
         }
       },
       { field: 'UserName', title: '用户名称', type: 'string' },
-      { field: 'LogType', title: '日志类型', type: 'string', bind: { key: 'log', data: [] }, },
+      { field: 'LogType', title: '日志类型', type: 'string', bind: { key: 'enable', data: [] }, },
       //kye绑定数据源的key
       { field: 'Success', title: '响应状态', bind: { key: 'restatus', data: [] } },
       { field: 'ElapsedTime', title: '时长' }],
@@ -107,7 +139,7 @@ export default {
             field: "Success",
             type: "select",
             name: "响应状态",
-            key: "restatus",
+            key: "log",
             data: []
           }
         ]],
@@ -134,7 +166,7 @@ export default {
             field: "Success",
             type: "select",
             name: "响应状态",
-            key: "restatus",
+            key: "log",
             data: []
           },
           {
@@ -164,10 +196,11 @@ export default {
       this.$refs.table.reload();
     },
     queryParams () { //生成查询参数
-      return [{ name: "UserName", value: this.searchForm.fields.UserName, displayType: "like" },
-      { name: "Success", value: this.searchForm.fields.Success },
-      { name: "BeginDate", value: this.searchForm.fields.BeginDate1, displayType: "thanorequal" },
-      { name: "BeginDate", value: this.searchForm.fields.BeginDate2, displayType: "lessorequal" }
+      return [
+        { name: "UserName", value: this.searchForm.fields.UserName, displayType: "like" },
+        { name: "Success", value: this.searchForm.fields.Success },
+        { name: "BeginDate", value: this.searchForm.fields.BeginDate1, displayType: "thanorequal" },
+        { name: "BeginDate", value: this.searchForm.fields.BeginDate2, displayType: "lessorequal" }
       ]
     },
     rowClick (row) { //点击表行数据查看详情或编辑 
@@ -177,23 +210,45 @@ export default {
       Object.assign(this.detailForm.fields, row);
       this.currentAction = "update";
       this.detailModel = true;
+      this.showDelBtn = true;//显示删除按钮
+    },
+    reset () { //重置
+      //如果是编辑，不重置主键字段
+      var key = '';
+      if (this.currentAction == 'update') {
+        key = this.detailForm.fields.Id;
+      }
+      this.$refs.detailForm.reset();
+      if (key) {
+        this.detailFormz.fields.Id = key;
+      }
     },
     addClick () {//点击新建
       if (this.$refs.detailForm) {
         this.$refs.detailForm.reset();
       }
-
       this.detailModel = true;
+      this.showDelBtn = false;//隐藏删除按钮
       this.currentAction = "add";
     },
     submitClick () {//编辑或新建时提交数据
-      this.http.post(this.url.detailUpdate, { maindata: this.detailForm.fields }, true).then(x => {
-        this.$toast(x.message)
-        if (x.status) {
-          x.detailModel = false
-          this.$refs.table.reload();
-        }
+      if (!this.$refs.detailForm.validator()) return;
+
+      this.http.post(this.url[this.currentAction], { maindata: this.detailForm.fields }, true).then(x => {
+        this.reloadTable(x);
       })
+    },
+    del () {//删除
+      this.http.post(this.url.del, [this.detailForm.fields.Id], true).then(x => {
+        this.reloadTable(x);
+      })
+    },
+    reloadTable (result) { //新建、编辑、删除请求后刷新页面数据
+      this.$toast(result.message)
+      if (result.status) {
+        this.detailModel = false
+        this.$refs.table.reload();
+      }
     }
   },
   created () {
@@ -201,6 +256,26 @@ export default {
   }
 };
 </script>
+<style lang="less" scoped>
+.btns {
+  display: flex;
+  button {
+    flex: 1;
+  }
+  i {
+    position: relative;
+    top: 2.5px;
+    margin-right: 5px;
+  }
+}
+.search-btn {
+  font-size: 16px;
+  width: 94%;
+  border-radius: 7px;
+  margin: 0 3%;
+  margin-top: 20px;
+}
+</style>
 <style lang="less" scoped>
 .vol-tabbar {
   position: absolute;

@@ -128,6 +128,9 @@ export default {
         .post("/api/Sys_Dictionary/GetVueDictionary", keys)
         .then((dic) => {
           dic.forEach((x) => {
+            x.data.forEach(x => {
+              x.key = x.key + "";
+            })
             this.keySource[x.dicNo].push(...x.data)
           });
         });

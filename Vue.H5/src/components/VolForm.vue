@@ -54,7 +54,7 @@
         <van-field label-class="form-label"
                    :label-width="120"
                    :value="test"
-                   input-align="right" />
+                   :input-align="align" />
       </div>
       <van-cell-group class="ds-from-group"
                       v-for="(list,index) in options"
@@ -69,7 +69,7 @@
                        name="calendar"
                        :label-width="120"
                        :value="fields[item.field]"
-                       input-align="right"
+                       :input-align="align"
                        :label="item.name"
                        :placeholder="'请选择'+item.name"
                        @click="openDate(item)" />
@@ -83,7 +83,7 @@
             <van-field v-else-if="item.type=='select'||item.type=='bool'"
                        :key="item.field"
                        readonly
-                       input-align="right"
+                       :input-align="align"
                        :required="item.required"
                        :label-width="120"
                        :value="formatterSelect(item,fields[item.field])"
@@ -101,25 +101,14 @@
                      @click="base.previewImg(fields[item.field])" />
               </template>
             </van-field>
-            <!-- <van-field
-              v-model="fields[item.field]"
-              rows="2"
-              label-class="form-label"
-              autosize
-              :label="item.name"
-              v-else-if="item.type=='textarea'"
-              type="textarea"
-              maxlength="50"
-              :placeholder="item.readonly?'':'请输入'+item.name"
-              show-word-limit
-            />-->
+
             <van-field label-class="form-label"
                        :label-width="120"
                        :value="item.formatter(fields[item.field])"
                        :key="item.field"
                        v-else-if="item.formatter"
                        :label="item.name"
-                       input-align="right"
+                       :input-align="align"
                        :readonly="!!item.readonly"
                        :required="item.required"
                        :placeholder="item.readonly?'':'请输入'+item.name" />
@@ -130,7 +119,7 @@
                        :key="item.field"
                        v-else
                        :label="item.name"
-                       input-align="right"
+                       :input-align="align"
                        :readonly="!!item.readonly"
                        :required="item.required"
                        :placeholder="item.readonly?'':'请输入'+item.name" />
@@ -138,18 +127,10 @@
         </template>
       </van-cell-group>
       <slot></slot>
-      <div class="btns"
-           v-if="!onlyForm">
-        <van-button type="info"
-                    @click="submit()"
-                    block>提交</van-button>
-        <van-button type="danger"
-                    v-if="showReset"
-                    @click="reset()"
-                    block>重置</van-button>
+      <div class="btns">
         <slot name="btn-footer"></slot>
       </div>
-      <span style="display:none;">{{s_model}}</span>
+      <!-- <span style="display:none;">{{s_model}}</span> -->
     </div>
   </div>
 </template>
@@ -171,32 +152,14 @@ import {
 } from "vant";
 export default {
   props: {
-    showReset: {
-      type: Boolean,
-      default: true,
+    align: {//文字显示位置left /right
+      type: String,
+      default: "left",
     },
     smallLine: {
       //smallLine
       type: Boolean,
       default: false,
-    },
-    submitBefore: {
-      type: Function,
-      default () {
-        return true;
-      },
-    },
-    submitAfter: {
-      type: Function,
-      default () {
-        return true;
-      },
-    },
-    resetAfter: {
-      type: Function,
-      default () {
-        return true;
-      },
     },
     onlyForm: {
       type: Boolean,
@@ -222,7 +185,6 @@ export default {
         return [];
       },
     },
-    url: "", //保存的url地址
   },
   components: {
     // "ds-header": header,
@@ -288,7 +250,7 @@ export default {
       if (this.fields[action.field] !== "") {
         //添加当前选中的提示
         action.data.forEach((x) => {
-          x.color = this.fields[action.field] == x.value ? "red" : "";
+          x.color = this.fields[action.field] == x.key ? "red" : "";
         });
       }
     },
@@ -296,7 +258,7 @@ export default {
       this.s_model = Math.random();
       //下拉框选择
       this.currentSelector = false;
-      this.fields[this.currentOptions.field] = action.id === undefined ? action.name : action.id;
+      this.fields[this.currentOptions.field] = action.key === undefined ? action.name : action.key;
       //select级联操作
       if (this.currentOptions.cascade) {
         return this.getCascade(action);
@@ -357,9 +319,9 @@ export default {
         return value;
       }
       let kv = item.data.find((x) => {
-        return x.id == value;
+        return x.key == value;
       });
-      return !kv && kv != "0" ? value : kv.text;
+      return !kv && kv != "0" ? value : kv.name;
     },
     validator () {
       //保存数据
@@ -379,47 +341,13 @@ export default {
       }
       return true;
     },
-    submit () {
-      if (!this.validator()) return;
-
-      if (!this.url) return this.$toast("没有配置url");
-      if (!this.submitBefore(this.fields)) {
-        return;
-      }
-      this.http.post(this.url, this.fields, true).then((x) => {
-        this.$toast(x.message);
-        if (x.status) {
-          this.submitAfter(this.fields);
-          this.reset();
-        }
-      });
-    },
-    reset () {
-      for (const key in this.fields) {
-        if (this.fields[key] instanceof Array) {
-          this.fields[key].splice(0);
-        } else {
-          if (1 == 2 && this.dateFields.indexOf(key) != -1) {
-            this.$set(
-              this.fields,
-              key,
-              moment(new Date()).format("YYYY-MM-DD")
-            );
-          } else {
-            this.$set(this.fields, key, "");
-          }
-        }
-        // this.fields[key] = "";
-      }
-      this.test = Math.random();
-      this.resetAfter();
-    },
     bindSource () {
 
       this.http.post("/api/Sys_Dictionary/GetVueDictionary", this.dicKeys, true).then((result) => {
         result.forEach((item) => {
           item.data.forEach((d) => {
             d.name = d.value;
+            d.key = d.key + "";
           });
           this.dicInfo[item.dicNo].splice(0);
           this.dicInfo[item.dicNo].push(...item.data);
@@ -437,6 +365,15 @@ export default {
           this.dicInfo[element.key].splice(0);
           this.dicInfo[element.key].push(...item);
         });
+      }
+    },
+    reset () {
+      for (const key in this.fields) {
+        if (this.fields[key] instanceof Array) {
+          this.fields[key].splice(0);
+        } else {
+          this.fields[key] = '';
+        }
       }
     },
   },
