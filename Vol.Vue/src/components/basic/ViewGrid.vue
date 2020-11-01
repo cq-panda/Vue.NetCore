@@ -86,9 +86,6 @@
             <span>{{table.cnName}}</span>
           </div>
           <div class="notice">
-            <!-- <Tooltip content="6666666666666666" placement="bottom">
-            <a>Bottom Center</a>
-            </Tooltip>-->
             <a class="text"
                :title="extend.text">{{extend.text}}</a>
           </div>
@@ -195,7 +192,9 @@
                          :endEditBefore="detailOptions.endEditBefore"
                          :endEditAfter="detailOptions.endEditAfter"
                          :summary="detailOptions.summary"
-                         :click-edit="detailOptions.clickEdit"></vol-table>
+                         :click-edit="detailOptions.clickEdit"
+                         :column-index="detailOptions.columnIndex"
+                         :ck="detailOptions.ck"></vol-table>
             </div>
             <!--明细footer自定义组件-->
             <modelFooter ref="modelFooter"
@@ -239,7 +238,9 @@
                    :pagination-hide="false"
                    :url="url"
                    :defaultLoadPage="load"
-                   :summary="summary"></vol-table>
+                   :summary="summary"
+                   :column-index="columnIndex"
+                   :ck="ck"></vol-table>
       </div>
     </div>
 
@@ -344,6 +345,8 @@ var vueParam = {
       //需要从远程绑定数据源的字典编号,如果字典数据源的查询结果较多，请在onInit中将字典编号添加进来
       //只对自定sql有效
       remoteKeys: [],
+      columnIndex: false,//2020.11.01是否显示行号
+      ck: true,//2020.11.01是否显示checkbox
       // detailUrl: "",
       detailOptions: {
         //弹出框从表(明细)对象
@@ -375,6 +378,8 @@ var vueParam = {
         endEditAfter: (row, column, index) => {
           return true;
         },
+        columnIndex: false,//2020.11.01明细是否显示行号
+        ck: true,//2020.11.01明细是否显示checkbox
       },
       auditParam: {
         //审核对象

@@ -29,11 +29,14 @@
                 border
                 :row-class-name="initIndex"
                 style="width: 100%">
+        <el-table-column v-if="columnIndex"
+                         type="index"
+                         width="55"></el-table-column>
         <el-table-column v-if="ck"
                          type="selection"
                          width="55"></el-table-column>
         <!-- 2020.10.10移除table第一行强制排序 -->
-        <el-table-column v-for="(column, cindex) in filterColumns()"
+        <el-table-column v-for="(column, cindex) in filterColumns"
                          :key="cindex"
                          :prop="column.field"
                          :label="column.title"
@@ -350,6 +353,11 @@ export default {
       type: Boolean,
       default: true,
     },
+    columnIndex: {
+      //是否显示行号(2020..11.1)
+      type: Boolean,
+      default: true,
+    }
   },
   data () {
     return {
@@ -414,17 +422,18 @@ export default {
     let keys = [];
     let columnBind = [];
     this.summaryData.push("合计");
+    if (this.columnIndex) {
+      this.summaryData.push(" ");
+    }
     this.columns.forEach((x, _index) => {
       if (!x.hidden) {
         //this.summaryIndex[x.field] = _index;
         //2020.10.11修复求和列错位的问题
         this.summaryData.push("");
-        this.summaryIndex[x.field] = this.summaryData.length;
+        this.summaryIndex[x.field] = this.summaryData.length - 1;
       }
       //求和
       if (x.summary && !this.summary) {
-        //强制开启选择框
-        this.ck = true;
         this.summary = true;
       }
       if (x.bind && x.bind.key && (!x.bind.data || x.bind.data.length == 0)) {
@@ -479,6 +488,13 @@ export default {
     $vue = this;
     // this.$emit
     this.defaultLoadPage && this.load();
+  },
+  computed: {
+    filterColumns () {
+      return this.columns.filter((x) => {
+        return !x.hidden;
+      });
+    },
   },
   methods: {
     headerClick (column, event) {
@@ -945,10 +961,15 @@ export default {
     getSummaries (data) {
       if (!this.summary || !data.summary) return;
       this.summaryData.splice(0);
+      //开启了行号的，+1
+      if (this.columnIndex) {
+        this.summaryData.push("");
+      }
       //如果有checkbox，应该算作是第一行
       if (this.ck) {
-        this.summaryData.push(0);
+        this.summaryData.push("");
       }
+
       this.columns.forEach((col) => {
         if (!col.hidden) {
           if (data.summary.hasOwnProperty(col.field)) {
@@ -963,11 +984,6 @@ export default {
       }
     },
     getInputChangeSummaries () { },
-    filterColumns () {
-      return this.columns.filter((x) => {
-        return !x.hidden;
-      });
-    },
     handleSizeChange (val) {
       this.paginations.rows = val;
       this.load();
@@ -1098,7 +1114,7 @@ export default {
           sum += x[column.field] * 1;
         }
       });
-      this.$set(this.summaryData, this.summaryIndex[column.field] - 1, sum);
+      this.$set(this.summaryData, this.summaryIndex[column.field], sum);
     },
   },
 };
