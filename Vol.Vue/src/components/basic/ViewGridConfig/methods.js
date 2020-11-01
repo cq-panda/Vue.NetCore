@@ -235,10 +235,16 @@ let methods = {
     for (const key in this._searchFormFields) {
       let value = this._searchFormFields[key];
       if (this.emptyValue(value)) continue;
+
       if (typeof value == "number") {
         value = value + "";
       }
       let displayType = this.getSearchItem(key);
+      //联级只保留选中节点的最后一个值
+      if (displayType == "cascader") {
+        //查询下面所有的子节点，如：选中的是父节点，应该查询下面所有的节点数据--待完
+        value = value.length ? (value[value.length - 1] + "") : "";
+      }
       if (
         typeof value == "string" ||
         ["date", "datetime"].indexOf(displayType) == -1
@@ -384,6 +390,7 @@ let methods = {
     }
   },
   resetForm (formName, sourceObj) {
+    //   return;
     //重置表单数据
     if (this.$refs[formName]) {
       this.$refs[formName].reset();
@@ -404,6 +411,7 @@ let methods = {
       this.getKeyValueType(this.searchFormOptions, false);
       this.keyValueType._dinit = true;
     }
+    var _cascaderParentTree;
     for (const key in form) {
       if (sourceObj.hasOwnProperty(key)) {
         let newVal = sourceObj[key];
@@ -415,7 +423,26 @@ let methods = {
           kv_type == "cascader"
         ) {
           // 2020.05.31增加iview组件Cascader
-          if (
+          // 2020.11.01增加iview组件Cascader表单重置时查询所有的父节点
+          if (kv_type == "cascader") {
+            var treeDic = this.dicKeys.find(dic => {
+              return dic.fileds && dic.fileds.indexOf(key) != -1;
+            })
+            if (treeDic && treeDic.orginData && treeDic.orginData.length) {
+              if (typeof treeDic.orginData[0].id == 'number') {
+                newVal = ~~newVal;
+              } else {
+                newVal = newVal + '';
+              }
+              _cascaderParentTree = this.base.getTreeAllParent(newVal, treeDic.orginData);
+              if (_cascaderParentTree) {
+                newVal = _cascaderParentTree.map(x => { return x.id })
+              }
+            } else {
+              newVal = [newVal];
+            }
+          }
+          else if (
             newVal != "" &&
             newVal != undefined &&
             typeof newVal == "string"
@@ -437,7 +464,21 @@ let methods = {
             newVal += "";
           }
         }
-        form[key] = newVal;
+        if (newVal instanceof Array) {
+          form[key].splice(0)
+          //  this.$set(form, key, newVal);
+          form[key].push(...newVal);
+          this.$nextTick(() => {
+            //封装后iview原生监听不到model变化，后面再调试看看2020.11.01
+            _cascaderParentTree = _cascaderParentTree || [];
+            _cascaderParentTree.forEach(c => {
+              c.label = c.value;
+            })
+            this.$refs.form.$refs[key][0].selected = _cascaderParentTree;
+          });
+        } else {
+          form[key] = newVal;
+        }
       } else {
         form[key] = form[key] instanceof Array ? [] : "";
       }
@@ -484,14 +525,18 @@ let methods = {
         _editFormFields[key] = this._editFormFields[key];
       }
     }
-
-    // else {
-    //     _editFormFields = this._editFormFields;
-    // }
     //将数组转换成string
+    //2020.11.01增加级联处理
     for (const key in _editFormFields) {
       if (_editFormFields[key] instanceof Array) {
-        _editFormFields[key] = _editFormFields[key].join(",");
+
+        var iscascader = this.dicKeys.some(x => { return x.type == "cascader" && x.fileds && x.fileds.indexOf(key) != -1 });
+        if (iscascader && _editFormFields[key].length) {
+          _editFormFields[key] = _editFormFields[key][_editFormFields[key].length - 1];
+        } else {
+          _editFormFields[key] = _editFormFields[key].join(",");
+        }
+
       }
     }
 
@@ -894,11 +939,30 @@ let methods = {
           keys.push(d.dataKey);
           //2020.05.03修复查询表单与编辑表单type类型变成强一致性的问题
           //this.dicKeys.push({ dicNo: d.dataKey, data: [], type: d.type });
-          let _dic = { dicNo: d.dataKey, data: [] };
+          //  2020.11.01增加iview组件Cascader数据源存储
+          let _dic = { dicNo: d.dataKey, data: [], fileds: [d.field], orginData: [] };
+          if (d.type == "cascader") {
+            _dic.type = "cascader";
+          }
           if (isEdit) {
-            _dic["e_type"] = d.type;
+            _dic['e_type'] = d.type;
           }
           this.dicKeys.push(_dic);
+        } else if (d.type == "cascader") {
+          //强制开启联级可以选择某个节点
+          if (!d.hasOwnProperty("changeOnSelect")) {
+            d.changeOnSelect = true;
+            // d.formatter = label => {
+            //   return label.join(' / ')
+            // };
+          }
+
+          this.dicKeys.forEach(x => {
+            if (x.dicNo == d.dataKey) {
+              x.type = "cascader";
+              x.fileds.push(d.field);
+            }
+          })
         }
 
         //2020.01.30移除内部表单formOptions数据源配置格式data.data，所有参数改为与组件api格式相同
@@ -929,11 +993,16 @@ let methods = {
         return x.dicNo == key;
       });
       if (!dic || dic.length == 0) {
-        dicKeys.push({ dicNo: key, config: "", data: [] });
+        dicKeys.push({ dicNo: key, data: [] });
         dic = [dicKeys[dicKeys.length - 1]];
         keys.push(key);
       }
-      item.bind = dic[0];
+      //2020.11.01增加级联处理
+      if (dic[0].type == "cascader") {
+        item.bind = { data: dic[0].orginData, tyep: "select" }
+      } else {
+        item.bind = dic[0];
+      }
       //2020.05.03优化table数据源checkbox与select类型从编辑列中选取
       item.bind.type = item.bind.e_type || "string";
     });
@@ -944,12 +1013,16 @@ let methods = {
     dic.forEach(d => {
       this.dicKeys.forEach(x => {
         if (x.dicNo != d.dicNo) return true;
-        // try {
-        //     x.config = eval("(" + d.config + ")");
-        // } catch (error) {
-        //     x.config = { valueField: '', textField: '' }
-        // }
-        if (d.data.length > 0 && !d.data[0].hasOwnProperty("key")) {
+        //2020.10.26增加级联数据源绑定处理
+        if (x.type == "cascader") {
+          // x.data=d.data;
+          //生成tree结构
+          x.data.push(... this.base.convertTree(JSON.parse(JSON.stringify(d.data)), (node, data, isRoot) => {
+            node.label = node.value;
+            node.value = node.key;
+          }));
+          x.orginData.push(...d.data);
+        } else if (d.data.length > 0 && !d.data[0].hasOwnProperty("key")) {
           let source = d.data,
             newSource = new Array(source.length);
           for (let index = 0; index < source.length; index++) {

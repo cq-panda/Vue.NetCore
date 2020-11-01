@@ -672,7 +672,7 @@ DISTINCT
             var formFileds = sysColumnList.Where(c => c.EditRowNo != null && c.EditRowNo > 0)
                 .OrderBy(o => o.EditRowNo)
                 .ThenByDescending(t => t.OrderNo)
-                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.EditType == "checkbox"||x.EditType == "selectList" ? new string[0] : "" as object))
+                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.EditType == "checkbox" || x.EditType == "selectList" || x.EditType == "cascader" ? new string[0] : "" as object))
                 .ToList().ToDictionary(x => x.Key, x => x.Value).Serialize();
 
             List<List<PanelHtml>> panelHtml = new List<List<PanelHtml>>();
@@ -688,7 +688,7 @@ DISTINCT
 
             var searchFormFileds = sysColumnList
                 .Where(c => c.SearchRowNo != null && c.SearchRowNo > 0)
-                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.SearchType == "checkbox" || x.SearchType == "selectList" ? new string[0] : "" as object))
+                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.SearchType == "checkbox" || x.SearchType == "selectList" || x.EditType == "cascader" ? new string[0] : "" as object))
                 .ToList().ToDictionary(x => x.Key, x => x.Value).Serialize();
 
             pageContent = pageContent.Replace("#searchFormFileds", searchFormFileds)

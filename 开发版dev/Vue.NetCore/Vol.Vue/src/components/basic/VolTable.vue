@@ -31,9 +31,11 @@
                 style="width: 100%">
         <el-table-column v-if="columnIndex"
                          type="index"
+                         :fixed="true"
                          width="55"></el-table-column>
         <el-table-column v-if="ck"
                          type="selection"
+                         :fixed="true"
                          width="55"></el-table-column>
         <!-- 2020.10.10移除table第一行强制排序 -->
         <el-table-column v-for="(column, cindex) in filterColumns"

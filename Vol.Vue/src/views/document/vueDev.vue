@@ -4887,7 +4887,102 @@ export default {
           ],
           tips: `级联操作基于Iview组件cascader(数据源的格式见iview原生组件demo配置),数据量少的情况下建议直接把数据源加载出来绑定，数据量过多时使用懒加载`,
           img: "",
+        }, {
+          title: "级联终极版(代码生成)",
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<p>
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+			<br />
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;代码生成级联操作,除了自定sql数据源，其他全部用框架完成2020.11.01：</span>
+			</div>
+<br />
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;1、配置下拉框数据源(必须是自定义sql),格式SELECT&nbsp;Role_Id&nbsp;AS&nbsp;id,parentId,Role_Id&nbsp;AS&nbsp;[key],RoleName&nbsp;AS&nbsp;value&nbsp;FROM&nbsp;dbo.Sys_Role</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*注意上面的sql字段id,parentId,key,value是必须的&nbsp;*/</span>&nbsp;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2、代码生成器页面查询与编辑类型选择【级联】,数据源选刚刚定义的sql</span>
+			</div>
+<br />
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*必须更新代码才能使用:前端basic文件夹、builder->builderData.js、utilities->common.js，后台Sys_TableInfoService.cs*/</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*如果没有修改过框架源码，直接覆盖文件*/</span>
+			</div>
+<br />
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//这些配置不是必须的</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'ParentId'</span>)&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">title</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"上级角色"</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置任意节点都能选中(默认只能选中最后一个节点)</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//item.changeOnSelect&nbsp;=&nbsp;true;</span>
+			</div>
+<br />
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//格式化数据显示(只显示当前选中的最后一个节点)，默认会显示所有节点的数据</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;item.formatter&nbsp;=&nbsp;nodeArr&nbsp;=&gt;&nbsp;{</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;if&nbsp;(!nodeArr.length)&nbsp;{</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;"";</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;}</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;return&nbsp;nodeArr[nodeArr.length&nbsp;-&nbsp;1];</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;};</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;},
+			</div>
+		</div>
+	</p>
+</div>
+<span style="display:none;"></span>`],
+          tips: ``,
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/44.png?imageMogr2/thumbnail/!50p",
         },
+
         {
           title: "http请求",
           content: [
