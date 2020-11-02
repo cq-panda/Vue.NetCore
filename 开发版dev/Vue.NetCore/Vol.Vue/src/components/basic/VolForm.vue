@@ -2,7 +2,8 @@
   <Form ref="formValidate"
         :style="{ width: width > 0 ? width + 'px' : '100%' }"
         :model="_formFields"
-        :label-width="labelWidth">
+        :label-width="labelWidth"
+        @submit.native.prevent>
     <!-- :rules="ruleValidate" -->
     <slot name="header"></slot>
     <Row class="line-row"

@@ -468,14 +468,16 @@ let methods = {
           form[key].splice(0)
           //  this.$set(form, key, newVal);
           form[key].push(...newVal);
-          this.$nextTick(() => {
-            //封装后iview原生监听不到model变化，后面再调试看看2020.11.01
-            _cascaderParentTree = _cascaderParentTree || [];
-            _cascaderParentTree.forEach(c => {
-              c.label = c.value;
-            })
-            this.$refs.form.$refs[key][0].selected = _cascaderParentTree;
-          });
+          if (kv_type == "cascader") {
+            this.$nextTick(() => {
+              //封装后iview原生监听不到model变化，后面再调试看看2020.11.01
+              _cascaderParentTree = _cascaderParentTree || [];
+              _cascaderParentTree.forEach(c => {
+                c.label = c.value;
+              })
+              this.$refs.form.$refs[key][0].selected = _cascaderParentTree;
+            });
+          }
         } else {
           form[key] = newVal;
         }
