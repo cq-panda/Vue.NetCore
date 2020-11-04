@@ -67,6 +67,19 @@
           "lib/netstandard1.3/Castle.Core.dll": {}
         }
       },
+      "CSRedisCore/3.6.5": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
+          "System.ValueTuple": "4.5.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/CSRedisCore.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/CSRedisCore.dll": {}
+        }
+      },
       "Dapper/1.50.5": {
         "type": "package",
         "dependencies": {
@@ -981,7 +994,7 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
-      "Newtonsoft.Json/12.0.2": {
+      "Newtonsoft.Json/12.0.3": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
@@ -2901,6 +2914,15 @@
           "ref/netstandard1.2/System.Threading.Timer.dll": {}
         }
       },
+      "System.ValueTuple/4.5.0": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
+        }
+      },
       "System.Xml.ReaderWriter/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -3086,6 +3108,7 @@
           "AutoMapper": "6.2.2",
           "Autofac": "4.9.4",
           "Autofac.Extensions.DependencyInjection": "5.0.1",
+          "CSRedisCore": "3.6.5",
           "Dapper": "1.50.5",
           "EFCore.BulkExtensions": "2.2.2",
           "EPPlus.Core": "1.5.4",
@@ -3231,6 +3254,23 @@
         "lib/netstandard1.3/Castle.Core.dll",
         "lib/netstandard1.3/Castle.Core.xml",
         "readme.txt"
+      ]
+    },
+    "CSRedisCore/3.6.5": {
+      "sha512": "leAH+nG/WalDKiQFy1aCbUzNimvguRUvOnC8TwwcgoxeAonF7oWv0ilUpJ1ntqtRmLZhRWSO+we8yf0xm4Q/7A==",
+      "type": "package",
+      "path": "csrediscore/3.6.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "csrediscore.3.6.5.nupkg.sha512",
+        "csrediscore.nuspec",
+        "lib/net40/CSRedisCore.dll",
+        "lib/net40/CSRedisCore.xml",
+        "lib/net45/CSRedisCore.dll",
+        "lib/net45/CSRedisCore.xml",
+        "lib/netstandard2.0/CSRedisCore.dll",
+        "lib/netstandard2.0/CSRedisCore.xml"
       ]
     },
     "Dapper/1.50.5": {
@@ -4411,10 +4451,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "Newtonsoft.Json/12.0.2": {
-      "sha512": "rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
       "type": "package",
-      "path": "newtonsoft.json/12.0.2",
+      "path": "newtonsoft.json/12.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4437,8 +4477,9 @@
         "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "newtonsoft.json.12.0.2.nupkg.sha512",
-        "newtonsoft.json.nuspec"
+        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
       ]
     },
     "Newtonsoft.Json.Bson/1.0.2": {
@@ -9256,6 +9297,50 @@
         "system.threading.timer.nuspec"
       ]
     },
+    "System.ValueTuple/4.5.0": {
+      "sha512": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ==",
+      "type": "package",
+      "path": "system.valuetuple/4.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net461/System.ValueTuple.dll",
+        "lib/net461/System.ValueTuple.xml",
+        "lib/net47/System.ValueTuple.dll",
+        "lib/net47/System.ValueTuple.xml",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.0/System.ValueTuple.dll",
+        "lib/netstandard1.0/System.ValueTuple.xml",
+        "lib/netstandard2.0/_._",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.xml",
+        "lib/uap10.0.16299/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net461/System.ValueTuple.dll",
+        "ref/net47/System.ValueTuple.dll",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard2.0/_._",
+        "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "ref/uap10.0.16299/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.valuetuple.4.5.0.nupkg.sha512",
+        "system.valuetuple.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Xml.ReaderWriter/4.3.0": {
       "sha512": "GrprA+Z0RUXaR4N7/eW71j1rgMnEnEVlgii49GZyAjTH7uliMnrOU3HNFBr6fEDBCJCIdlVNq9hHbaDR621XBA==",
       "type": "package",
@@ -9626,23 +9711,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\苏宣宁\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.WebApi\\VOL.WebApi.csproj",
+      "projectUniqueName": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.WebApi\\VOL.WebApi.csproj",
       "projectName": "VOL.WebApi",
-      "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.WebApi\\VOL.WebApi.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.WebApi\\obj\\",
+      "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.WebApi\\VOL.WebApi.csproj",
+      "packagesPath": "C:\\Users\\苏宣宁\\.nuget\\packages\\",
+      "outputPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.WebApi\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\苏宣宁\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9655,17 +9736,17 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj": {
-              "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj"
+            "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj": {
+              "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj"
             },
-            "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj": {
-              "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj"
+            "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj": {
+              "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj"
             },
-            "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
-              "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj"
+            "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
+              "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj"
             },
-            "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.System\\VOL.System.csproj": {
-              "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.System\\VOL.System.csproj"
+            "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.System\\VOL.System.csproj": {
+              "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.System\\VOL.System.csproj"
             }
           }
         }
@@ -9710,7 +9791,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

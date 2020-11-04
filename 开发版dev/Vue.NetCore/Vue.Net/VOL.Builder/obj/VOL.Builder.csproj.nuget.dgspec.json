@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj": {}
+    "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj": {}
   },
   "projects": {
-    "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj": {
+    "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj",
+        "projectUniqueName": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj",
         "projectName": "VOL.Builder",
-        "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\obj\\",
+        "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\VOL.Builder.csproj",
+        "packagesPath": "C:\\Users\\苏宣宁\\.nuget\\packages\\",
+        "outputPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Builder\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\苏宣宁\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -30,11 +27,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj": {
-                "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj"
+              "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj": {
+                "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj"
               },
-              "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
-                "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj"
+              "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj"
               }
             }
           }
@@ -87,24 +84,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj": {
+    "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj",
+        "projectUniqueName": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj",
         "projectName": "VOL.Core",
-        "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\obj\\",
+        "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj",
+        "packagesPath": "C:\\Users\\苏宣宁\\.nuget\\packages\\",
+        "outputPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\苏宣宁\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -117,8 +111,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
-                "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj"
+              "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj"
               }
             }
           }
@@ -143,6 +137,10 @@
             "Autofac.Extensions.DependencyInjection": {
               "target": "Package",
               "version": "[5.0.1, )"
+            },
+            "CSRedisCore": {
+              "target": "Package",
+              "version": "[3.6.5, )"
             },
             "Dapper": {
               "target": "Package",
@@ -223,24 +221,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
+    "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj",
+        "projectUniqueName": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj",
         "projectName": "VOL.Entity",
-        "projectPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "E:\\GitHub2019\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\obj\\",
+        "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj",
+        "packagesPath": "C:\\Users\\苏宣宁\\.nuget\\packages\\",
+        "outputPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\苏宣宁\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -299,7 +294,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

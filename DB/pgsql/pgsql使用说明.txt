@@ -1,0 +1,4 @@
+1.创建数据表，表名库必须是全小写，
+    如果要使用大写表名，请修改:Sys_TableInfoService.cs
+       tableTrueName = tableTrueName.ToLower();  改为 tableTrueName = tableTrueName.ToUpper()
+    手动将VOL.Entity->DomainModels下所有实现的table属性改为大写

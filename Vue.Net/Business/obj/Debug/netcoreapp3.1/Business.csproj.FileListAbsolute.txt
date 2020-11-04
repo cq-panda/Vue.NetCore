@@ -1,0 +1,14 @@
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\obj\Debug\netcoreapp3.1\Business.AssemblyInfoInputs.cache
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\obj\Debug\netcoreapp3.1\Business.AssemblyInfo.cs
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\obj\Debug\netcoreapp3.1\Business.csproj.CoreCompileInputs.cache
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\bin\Debug\netcoreapp3.1\Business.deps.json
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\bin\Debug\netcoreapp3.1\Business.dll
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\bin\Debug\netcoreapp3.1\Business.pdb
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\bin\Debug\netcoreapp3.1\VOL.Core.dll
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\bin\Debug\netcoreapp3.1\VOL.Entity.dll
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\bin\Debug\netcoreapp3.1\VOL.Core.pdb
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\bin\Debug\netcoreapp3.1\VOL.Entity.pdb
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\obj\Debug\netcoreapp3.1\Business.csprojAssemblyReference.cache
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\obj\Debug\netcoreapp3.1\Business.csproj.CopyComplete
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\obj\Debug\netcoreapp3.1\Business.dll
+F:\WorkSpace\WisdomGrass-Roots\Vue.Net\Business\obj\Debug\netcoreapp3.1\Business.pdb
