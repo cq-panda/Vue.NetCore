@@ -2,11 +2,15 @@
   <div class="home-contianer">
     <el-scrollbar style="height:100%;">
       <div style>
-        <div data-v-542f4644 class="ivu-row">
-          <div v-for="item in topColor" :key="item.name" class="ivu-col ivu-col-span-6">
+        <div data-v-542f4644
+             class="ivu-row">
+          <div v-for="item in topColor"
+               :key="item.name"
+               class="ivu-col ivu-col-span-6">
             <div class="item-name">
               {{item.name}}
-              <Tooltip class="icon" placement="left-start">
+              <Tooltip class="icon"
+                       placement="left-start">
                 <Icon type="ios-information-circle-outline" />
                 <div slot="content">
                   <p>{{item.name}}</p>
@@ -17,18 +21,40 @@
             <div class="rate">
               <span>
                 <span>环比{{item.down}}%</span>
-                <Icon class="down" type="md-arrow-dropdown" />
+                <Icon class="down"
+                      type="md-arrow-dropdown" />
               </span>
               <span>
                 <span>同比{{item.up}}%</span>
-                <Icon class="up" type="md-arrow-dropup" />
+                <Icon class="up"
+                      type="md-arrow-dropup" />
               </span>
             </div>
             <div class="bottom">平均增长趋势{{item.up}}%</div>
           </div>
         </div>
         <div class="charts-line">
-          <div id="charts-line" style="height:350px;"></div>
+          <div id="charts-line"
+               class="left"
+               style="height:350px;"></div>
+          <div class="right">
+            <div class="title">活跃用户榜</div>
+            <div class="user-item">
+              <div v-for="(item,index) in cell"
+                   :key="index"
+                   class="cell">
+                <div class="primary">
+                  <span :class="{top3:index<3,badge:index>=3}"
+                        class="badge-count">{{index+1}}</span>
+                  <Avatar :src="item.img" />
+                  <span class="name">{{item.name}}</span>
+
+                </div>
+
+                <div>{{item.number}}</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div style="background:#fff; margin: 0 13px;">
           <div class="h5-desc">
@@ -47,25 +73,6 @@
             </div>
           </div>
         </div>
-        <div class="charts">
-          <div id="charts" style="height:360px;padding-bottom:0;" class="left"></div>
-          <div class="right">
-            <div class="title">活跃用户榜</div>
-
-            <div class="user-item">
-              <div v-for="(item,index) in cell" :key="index" class="cell">
-                <div class="primary">
-                  <span :class="{top3:index<3,badge:index>=3}" class="badge-count">{{index+1}}</span>
-                  <Avatar :src="item.img" />
-                  <span class="name">{{item.name}}</span>
-                  <span class="desc">{{item.desc}}</span>
-                </div>
-
-                <div>{{item.number}}</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </el-scrollbar>
   </div>
@@ -78,7 +85,7 @@ var echarts = require("echarts");
 
 export default {
   components: { Community: Community, Cow: Cow, Question: Question },
-  data() {
+  data () {
     return {
       n: 90,
       cell: [
@@ -163,138 +170,122 @@ export default {
       value1: "1"
     };
   },
-  mounted() {
-    var myChart = echarts.init(document.getElementById("charts"));
-    // 绘制图表
-    myChart.setOption({
-      color: ["#3398DB"],
+  mounted () {
+    var $charts_line = echarts.init(document.getElementById("charts-line"));
+    $charts_line.setOption({
       title: {
-        left: "center",
-        text: "QQ交流群：还没想好..."
+        text: '销售订单'
       },
-      tooltip: {},
-      xAxis: {
-        data: ["商品", "数据", "订单", "消息", "标签", "异常", "审批", "取消"]
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          label: {
+            backgroundColor: '#6a7985'
+          }
+        }
       },
-      yAxis: {},
+
+      color: ['#ffab6f', '#09b916', '#83cddc'], //图例颜色
+      legend: {
+        icon: "roundRect",
+        data: ['销售订单', '退货订单', '折扣订单']
+      },
+      toolbox: {
+        feature: {
+
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: [
+        {
+          type: 'category',
+          boundaryGap: false,
+          data: ['2020.06.15', '2020.06.16', '2020.06.17',
+            '2020.06.18', '2020.06.19', '2020.06.20', '2020.06.21']
+        }
+      ],
+      yAxis: [
+        {
+          type: "value",
+          splitLine: {
+            lineStyle: {
+              color: "#eee"
+            }
+          }
+        }
+      ],
       series: [
         {
-          name: "数量",
-          type: "bar",
-          data: [5, 20, 36, 10, 10, 20, 15, 22]
+          name: '销售订单',
+          type: 'line',
+          smooth: true,
+          lineStyle: {
+            color: "#45d4ba",
+            width: 1
+          }, //线条的样式
+          areaStyle: {
+            color: new
+              echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                offset: 0,
+                color: '#83cddc'
+              }, {
+                offset: 1,
+                color: '#bfdffbb5'
+              }])
+          },
+          data: [5, 22, 150, 54, 1, 230, 1]
+        },
+        {
+          name: '退货订单',
+          type: 'line',
+
+          smooth: true,
+          lineStyle: {
+            color: "#04a710",
+            width: 1
+          }, //
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+              offset: 0,
+              color: '#0cbf22'
+            }, {
+              offset: 1,
+              color: '#b8f7d1b5'
+            }])
+          },
+          data: [10, 150, 1, 250,
+            20, 100, 10]
+        },
+        {
+          name: '折扣订单',
+          type: 'line',
+
+          lineStyle: {
+            color:
+              "#0864c3",
+            width: 1
+          }, //线条的样式
+          smooth: true,
+          areaStyle: {
+            color: new
+              echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                offset: 0,
+                color: '#29d7ff'
+              }, {
+                offset: 1,
+                color: '#34ccef85'
+              }])
+          },
+          data: [100, 2, 290, 1, 200, 30, 101]
         }
       ]
     });
-    var $charts_line = echarts.init(document.getElementById("charts-line"));
-    $charts_line.setOption({
-    title: {
-      text: '日销售订单统计'
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-        label: {
-          backgroundColor: '#6a7985'
-        }
-      }
-    },
-
-    color: ['#ffab6f', '#09b916', '#83cddc'], //图例颜色
-    legend: {
-      icon: "roundRect",
-       data:['销售订单', '退货订单', '折扣订单']
-    },
-    toolbox: {
-      feature: {
-
-      }
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'category',
-        boundaryGap: false,
-        data: ['2020.06.15', '2020.06.16', '2020.06.17',
-        '2020.06.18', '2020.06.19', '2020.06.20', '2020.06.21','2020.06.22']
-      }
-    ],
-    yAxis: [
-      {
-        type: 'value'
-      }
-    ],
-    series: [
-       {
-         name: '销售订单',
-         type: 'line',
-         smooth: true,
-         lineStyle: {
-           color: "#45d4ba",
-           width: 1
-         }, //线条的样式
-         areaStyle: {
-           color: new
-             echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-               offset: 0,
-               color: '#83cddc'
-             }, {
-               offset: 1,
-               color: '#bfdffbb5'
-             }])
-         },
-         data: [5, 22, 150, 54, 1, 230, 4,1]
-       },
-       {
-         name: '退货订单',
-         type: 'line',
-
-         smooth: true,
-         lineStyle: {
-           color: "#04a710",
-           width: 1
-         }, //
-         areaStyle: {
-           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-             offset: 0,
-             color: '#0cbf22'
-           }, {
-             offset: 1,
-             color: '#b8f7d1b5'
-           }])
-         },
-         data: [10, 150, 1, 250,
-           20, 100, 10,150]
-       },
-       {
-         name: '折扣订单',
-         type: 'line',
-
-         lineStyle: {
-           color:
-             "#0864c3",
-           width: 1
-         }, //线条的样式
-         smooth: true,
-         areaStyle: {
-           color: new
-             echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-               offset: 0,
-               color: '#29d7ff'
-             }, {
-               offset: 1,
-               color: '#34ccef85'
-             }])
-         },
-         data: [100, 2, 260, 1, 200, 30, 101,40]
-       }
-    ]
-});
   }
 };
 </script>
@@ -396,33 +387,21 @@ export default {
   padding-top: 10px;
 }
 </style>
-<style lang="less">
+<style lang="less" scope>
 .charts-line {
   margin: 0px 13px 13px 13px;
-  background: white;
-  padding-top: 10px;
-}
-.charts {
-  margin: 25px 13px;
-  display: inline-block;
-  width: 100%;
-  // padding: 0px 24px;
+  display: flex;
   .left {
-    padding: 25px;
+    flex: 1;
     background: white;
-    height: 360px;
-    width: 49%;
-    float: left;
-    margin-right: 1%;
-    background: white;
+    padding: 10px;
   }
   .right {
-    padding: 25px 45px;
+    padding: 10px 15px;
     background: white;
-    height: 360px;
-    width: 49%;
-    float: left;
-    margin-left: 1%;
+    height: 350px;
+    width: 400px;
+    margin-left: 16px;
     .badge-count {
       padding: 3px 7px;
       position: relative;
@@ -442,7 +421,7 @@ export default {
     .cell {
       position: relative;
       display: flex;
-      padding: 10px 0;
+      padding: 12px 0;
       border-bottom: 1px dotted #eee;
     }
     .primary {
