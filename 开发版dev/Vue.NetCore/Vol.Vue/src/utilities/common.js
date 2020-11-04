@@ -1,20 +1,20 @@
 let base = {
-  isPhone(val) {
+  isPhone (val) {
     return /^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(val)
   },
-  isDecimal(val) {
+  isDecimal (val) {
     return /(^[\-0-9][0-9]*(.[0-9]+)?)$/.test(val);
   },
-  isNumber(val) {
+  isNumber (val) {
     return /(^[\-0-9][0-9]*([0-9]+)?)$/.test(val);
   },
-  isMail(val) {
+  isMail (val) {
     return /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(val);
   },
-  isUrl(url) {
+  isUrl (url) {
     return this.checkUrl(url);
   },
-  checkUrl(url) {
+  checkUrl (url) {
     //url= 协议://(ftp的登录信息)[IP|域名](:端口号)(/或?请求参数)
     var strRegex =
       "^((https|http|ftp)://)?" + //(https或http或ftp):// 可有可无
@@ -35,13 +35,13 @@ let base = {
     }
     return false;
   },
-  matchUrlIp(url, ip) { //url使用是否使用的当前ip
+  matchUrlIp (url, ip) { //url使用是否使用的当前ip
     if (!url || !ip) {
       return false;
     }
     return url.indexOf(ip.replace('https://', '').replace('http://', '')) >= 0
   },
-  getImgSrc(src, httpUrl) {
+  getImgSrc (src, httpUrl) {
     if (this.isUrl(src)) {
       return src;
     }
@@ -50,7 +50,7 @@ let base = {
     }
     return src;
   },
-  previewImg(src, httpUrl) { //图片预览，目前只支持单图片预览
+  previewImg (src, httpUrl) { //图片预览，目前只支持单图片预览
     if (src && !this.isUrl(src) && httpUrl) {
       if (src.substr(0, 1) == "/" && httpUrl.substr(httpUrl.length - 1, 1) == "/") {
         src = src.substr(1)
@@ -99,7 +99,7 @@ let base = {
   },
   //下载文件 $element 标签, url完整url, fileName 文件名, header 以key/value传值
   //backGroundUrl 后台url，如果后台url直接从后台下载，其他全部通过点击a标签下载
-  dowloadFile(url, fileName, header, backGroundUrl) {
+  dowloadFile (url, fileName, header, backGroundUrl) {
     if (!url) {
       alert('此文件没有url不能下载')
       return;
@@ -162,7 +162,7 @@ let base = {
     };
     xmlResquest.send();
   },
-  downloadImg(data) {
+  downloadImg (data) {
     if (!data.url || !data.callback || typeof data.callback != 'function') {
       return;
     }
@@ -205,7 +205,7 @@ let base = {
   //1、id与parentId这两个字段必须有
   //2、树形tree需要注意Id与parentId循环依赖的问题
   //3、callback每次生成一新的节点的时回调的方法
-  convertTree(data, callback) {
+  convertTree (data, callback) {
     var root_data = [];
     data.forEach(x => {
       if (!x.hidden && (x.id === x.parentId || !data.some(s => { return x.parentId == s.id }))) {
@@ -217,19 +217,43 @@ let base = {
       }
     });
     return root_data;
+  },
+  getTreeAllParent (id, data) {  //获取某个节点的所有父节点信息2020.11.01
+
+    var nodes = [];
+    if (!(data instanceof Array)) {
+      return nodes;
+    }
+
+    var _child = data.find(x => { return x.id === id });
+    if (!_child) {
+      return [];
+    }
+    nodes.push(_child);
+    var _parentIds = [_child.parentId];
+    for (let index = 0; index < _parentIds.length; index++) {
+      var _node = data.find(x => { return x.id === _parentIds[index] && x.id !== x.parentId });
+      if (!_node) {
+
+        return nodes;
+      }
+      _parentIds.push(_node.parentId)
+      nodes.unshift(_node)
+    }
+    return nodes;
   }
 
 }
 export default base;
 
 //2020.06.01增加通用方法，将普通对象转换为tree结构
-function getTree(id, node, data, callback) {
+function getTree (id, node, data, callback) {
   data.forEach(x => {
     if (!x.hidden && x.parentId == id) {
       if (!node.children) node.children = [];
       callback && callback(x, node, false);
       node.children.push(x);
-      getTree(x.id, x, data,callback);
+      getTree(x.id, x, data, callback);
     }
   });
 }

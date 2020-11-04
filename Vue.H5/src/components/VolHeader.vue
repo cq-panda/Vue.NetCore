@@ -1,17 +1,21 @@
 <template>
-  <van-nav-bar
-    class="v-nav-bar"
-    v-if="back"
-    :title="title"
-    left-arrow
-    @click-left="_back"
-    @click-right="onClickRight"
-    :right-text="rightText"
-  />
-  <van-nav-bar v-else :title="title" />
+  <van-nav-bar class="v-nav-bar"
+               v-if="back"
+               :title="title"
+               left-arrow
+               @click-left="_back"
+               @click-right="onClickRight"
+               :right-text="rightText">
+    <template #right>
+      <van-icon name="search"
+                size="16" />
+    </template>
+  </van-nav-bar>
+  <van-nav-bar v-else
+               :title="title" />
 </template>
 <script>
-import { NavBar } from "vant";
+import { NavBar, Icon } from "vant";
 export default {
   props: {
     back: {
@@ -32,21 +36,22 @@ export default {
     }
   },
   components: {
-    "van-nav-bar": NavBar
+    "van-nav-bar": NavBar,
+    "van-icon": Icon
   },
-  data() {
+  data () {
     return {
       a: 1
     };
   },
   methods: {
-    _back() {
+    _back () {
       if (this.backPath) {
         return this.$router.push({ path: this.backPath });
       }
       this.$router.go(this.backPath || -1);
     },
-    onClickRight() {
+    onClickRight () {
       this.rightClick();
     }
   }
