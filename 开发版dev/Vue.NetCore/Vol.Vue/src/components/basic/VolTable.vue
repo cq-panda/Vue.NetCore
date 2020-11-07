@@ -173,7 +173,7 @@
             <!--没有编辑功能的直接渲染标签-->
             <div v-else>
               <a href="javascript:void(0)"
-                 @click="link(scope.row, column)"
+                 @click="link(scope.row, column,$event)"
                  v-if="column.link"
                  v-text="scope.row[column.field]"></a>
               <img v-else-if="column.type == 'img'"
@@ -359,7 +359,7 @@ export default {
       //是否显示行号(2020..11.1)
       type: Boolean,
       default: true,
-    }
+    },
   },
   data () {
     return {
@@ -515,6 +515,8 @@ export default {
       // this.edit.rowIndex = -1;
     },
     rowClick (row, column, event) {
+      // 点击行事件(2020.11.07)
+      this.$emit("rowClick", { row, column, event })
       if (!this.doubleEdit) {
         return;
       }
@@ -857,7 +859,8 @@ export default {
       this.base.previewImg(url, this.http.ipAddress);
       // window.open(row[column.field]);
     },
-    link (row, column) {
+    link (row, column, $e) {
+      $e.stopPropagation();
       this.$props.linkView(row, column);
     },
     getSelected () {

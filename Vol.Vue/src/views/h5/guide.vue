@@ -4,18 +4,31 @@
       <icon type="md-phone-portrait" />
       <span>移动H5开发待更新</span>
     </Divider>
-  <br>  <br> 
-    <div class="guide">
+    <br> <br>
+    <div class="guide"
+         style="    padding: 0 17%;">
       <div>
         <h3>安卓扫描下载</h3>
-        <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5/QRCode.png" />
+        <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/qrapk.png" />
+      </div>
+      <div style="margin-left: 30px;">
+        <h3>手机浏览器访问</h3>
+        <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/qrcode.png" />
       </div>
     </div>
-      <br>
+    <br>
     <Divider>
       <icon type="md-phone-portrait" />
       <span>移动打包APK后截图H5-UI</span>
     </Divider>
+    <div class="img-item">
+      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h01.png" />
+      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h02.png" />
+    </div>
+    <div class="img-item">
+      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h03.png" />
+      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h04.png" />
+    </div>
     <div class="img-item">
       <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/screen/s01.jpg" />
       <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/screen/s02.jpg" />
@@ -67,8 +80,8 @@ export default {};
     .desc {
       flex: 1;
       margin-left: 56px;
-      .content{
-          letter-spacing: 1.8px;
+      .content {
+        letter-spacing: 1.8px;
       }
     }
   }

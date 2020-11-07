@@ -2434,6 +2434,46 @@ export default {
           img: "",
         },
         {
+          title: "table点击行选中当前行",
+          content: [`
+         <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+ <div style="color:red;font-size:18px">需要更新Basic文件夹下的组件2020.11.07</div>	<div>
+		&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//事件扩展</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;},
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowClick</span>&nbsp;({&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>&nbsp;})&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面table点击行选中当前行</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">toggleRowSelection</span>(<span style="color:#9cdcfe;">row</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;},
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">detailRowClick</span>&nbsp;({&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>&nbsp;})&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//编辑弹出框从表table点击行选中当前行，没有从表的不用管</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">toggleRowSelection</span>(<span style="color:#9cdcfe;">row</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>
+<br />`],
+          tips: ` --`,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/48.png?45geMogr2/thumbnail/!50p",
+        },
+        {
           title: "table显示序号checkbox",
           content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
@@ -4372,7 +4412,114 @@ export default {
           tips: ` 默认为单击行开启编辑，鼠标离开结束编辑,现支持点击表头或其他行结束编辑`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/38.png?imageMogr2/thumbnail/!50p",
+        }, {
+          title: "编辑表单数字最大/小值,字符串长度限制",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//事件扩展</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置最大值与最小值</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*如果当前类型是字符串类型，min/max则为字符串的长度*/</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"AvgPrice"</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">min</span>&nbsp;=&nbsp;-<span style="color:#b5cea8;">999</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">max</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">100</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`,
+          ],
+          tips: ` --`,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/46.png?45geMogr2/thumbnail/!50p",
         },
+
+        {
+          title: "编辑表单自定义验证",
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//事件扩展</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//自定义验证,适用所有类型的字段,同应适用查询表单searchFormOptions</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"AvgPrice"</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#dcdcaa;">validator</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">rule</span>,&nbsp;<span style="color:#9cdcfe;">val</span>,&nbsp;<span style="color:#9cdcfe;">callback</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">val</span>&nbsp;!=&nbsp;<span style="color:#ce9178;">'369'</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#ce9178;">'必须输入【369】'</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#ce9178;">""</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>` ],
+          tips: ` `,
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/47.png?45geMogr2/thumbnail/!50p"
+
+        },
+
+
         {
           title: "数组对象转换为tree",
           content: [

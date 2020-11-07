@@ -827,16 +827,17 @@ namespace VOL.Core.Extensions
             }
             else if (dbType == SqlDbTypeName.Float || dbType == SqlDbTypeName.Decimal || dbType == SqlDbTypeName.Double)
             {
-                string formatString = string.Empty;
-                if (propertyInfo != null)
-                    formatString = propertyInfo.GetTypeCustomValue<DisplayFormatAttribute>(x => x.DataFormatString);
+                //string formatString = string.Empty;
+                //if (propertyInfo != null)
+                //    formatString = propertyInfo.GetTypeCustomValue<DisplayFormatAttribute>(x => x.DataFormatString);
                 //if (string.IsNullOrEmpty(formatString))
                 //    throw new Exception("请对字段" + propertyInfo?.Name + "添加DisplayFormat属性标识");
 
-                if (!val.IsNumber(formatString))
+                if (!val.IsNumber(null))
                 {
-                    string[] arr = (formatString ?? "10,0").Split(',');
-                    reslutMsg = $"整数{arr[0]}最多位,小数最多{arr[1]}位";
+                    // string[] arr = (formatString ?? "10,0").Split(',');
+                    // reslutMsg = $"整数{arr[0]}最多位,小数最多{arr[1]}位";
+                    reslutMsg = "不是有效数字";
                 }
             }
             else if (dbType == SqlDbTypeName.UniqueIdentifier)
