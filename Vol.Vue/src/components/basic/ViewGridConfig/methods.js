@@ -1192,7 +1192,13 @@ let methods = {
     this.rowChange(row);
   },
   rowChange (row) {
-    //选中行事件
+    //选中行checkbox行事件
+  },
+  rowOnClick ({ row, column, event }) {
+    this.rowClick({ row, column, event });
+  },
+  rowClick ({ row, column, event }) {
+    // 点击行事件(2020.11.07)
   },
   $error (message) {
     this.$Message.error({
