@@ -139,7 +139,7 @@ export default {
             field: "Success",
             type: "select",
             name: "响应状态",
-            key: "log",
+            key: "restatus",
             data: []
           }
         ]],
@@ -164,14 +164,19 @@ export default {
         [
           {
             field: "Success",
-            type: "select",
+            //type: "selectList",//设置为多选,如果是多选将fields对应的值设置为数组，见下面fields说明
+            type: "select",//
             name: "响应状态",
-            key: "log",
-            data: []
+            key: "restatus",
+            data: [],
+            onChange: this.onChange
           },
           {
             field: "ExceptionInfo",
-            name: "异常信息"
+            name: "异常信息",
+            type: "select",
+            data: [],
+            key: "",
           },
           {
             field: "RequestParameter",
@@ -183,11 +188,33 @@ export default {
             readonly: true //设置字段只读
           }
         ]],
-        fields: { UserName: "", BeginDate: "", Success: "", ExceptionInfo: "", RequestParameter: "", UserIP: "" }
+        fields: {
+          UserName: "",
+          BeginDate: "",
+          // Success: [],//如果是多选，必须给一个默认空数组
+          Success: "",
+          ExceptionInfo: "",
+          RequestParameter: "",
+          UserIP: ""
+        }
       },
     };
   },
   methods: {
+    onChange (val) { //级联操作
+      //点击响应状态联动操作给【异常信息】字段绑定数据源
+      //清空【异常信息】数据源
+      this.detailForm.options[1][1].data.splice(0);
+      //方式1、从后台动态查询数据返回(返回的数据源里面必须包括key,name字段)
+      // this.http.post("x", {}, true).then((result) => {
+      //   this.detailForm.options[1][1].data=result.data;
+      // });
+      //方式2、手动给【异常信息】字段绑定数据源
+      this.detailForm.options[1][1].data.push(...[
+        { key: "1", name: "test1" },
+        { key: "2", name: "test2" }]
+      )
+    },
     showSearch () { //点击右上解搜索
       this.searchModel = true;
     },
@@ -207,6 +234,7 @@ export default {
       //从后台查询表的明细,这里不再写了
       // this.http.post("获取表明细的url",{},true).then(x=>{
       // });
+
       Object.assign(this.detailForm.fields, row);
       this.currentAction = "update";
       this.detailModel = true;
@@ -233,8 +261,13 @@ export default {
     },
     submitClick () {//编辑或新建时提交数据
       if (!this.$refs.detailForm.validator()) return;
-
-      this.http.post(this.url[this.currentAction], { maindata: this.detailForm.fields }, true).then(x => {
+      //如果字段是selectList类型提交的时候手动将值转换成字符串
+      var _fields = {};
+      for (const key in this.detailForm.fields) {
+        var _val = this.detailForm.fields[key];
+        _fields[key] = _val instanceof Array ? _val.join(',') : _val;
+      }
+      this.http.post(this.url[this.currentAction], { maindata: _fields }, true).then(x => {
         this.reloadTable(x);
       })
     },

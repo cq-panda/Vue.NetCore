@@ -14,16 +14,6 @@
                            :max-date="maxDate" />
     </van-popup>
 
-    <!-- <ds-header v-if="header" :title="title"></ds-header> -->
-
-    <!-- <van-actionsheet
-      :round="false"
-      v-model="currentSelector"
-      :actions="currentOptions.data||[]"
-      @select="actionSelect"
-      :title="'请选择'+currentOptions.name"
-    />-->
-
     <van-actionsheet :round="false"
                      v-model="currentSelector"
                      :title="'请选择'+currentOptions.name">
@@ -31,21 +21,34 @@
            :style="{height:getHeight()}"
            style="    text-align: center;">
 
-        <van-field v-model="searchVal"
-                   @clear="clearText"
-                   @input="inputText"
-                   placeholder="搜索"
-                   class="vol-search"
-                   :clearable="true" />
+        <div class="vol-search">
+          <van-field v-model="searchVal"
+                     @clear="clearText"
+                     @input="inputText"
+                     placeholder="搜索"
+                     :clearable="true" />
+          <van-button round
+                      v-show="currentOptions.type=='selectList'"
+                      size="small"
+                      type="info"
+                      @click.stop="actionSelect({},-1,true)">确 认</van-button>
+
+        </div>
 
         <div class="item-list">
-          <div :style="{color:item.color}"
+          <div style="    position: relative;"
+               :style="{color:item.color}"
                :class="[index==0?'action-top-item':'']"
                v-for="(item,index) in currentOptions.data||[]"
                :key="index"
                @click="actionSelect(item,index)"
-               v-show="!item.hidden">{{ item.name }}</div>
+               v-show="!item.hidden">{{ item.name }}
+            <van-icon style="position: absolute;right: 1.5rem;    margin-top: 4px;"
+                      v-if="item.color"
+                      name="success" />
+          </div>
         </div>
+
       </div>
     </van-actionsheet>
 
@@ -54,7 +57,8 @@
         <van-field label-class="form-label"
                    :label-width="120"
                    :value="test"
-                   :input-align="align" />
+                   :input-align="align">
+        </van-field>
       </div>
       <van-cell-group class="ds-from-group"
                       v-for="(list,index) in options"
@@ -80,7 +84,7 @@
               <van-icon name="pause" />
               {{item.name}}
             </h3>
-            <van-field v-else-if="item.type=='select'||item.type=='bool'"
+            <van-field v-else-if="item.type=='select'||item.type=='selectList'||item.type=='bool'"
                        :key="item.field"
                        readonly
                        :input-align="align"
@@ -91,7 +95,6 @@
                        :placeholder="'请选择'+item.name"
                        @click="onSelect(item)"
                        right-icon="arrow" />
-
             <van-field class="van-img-field"
                        :key="item.field"
                        v-else-if="item.type=='img'"
@@ -149,6 +152,9 @@ import {
   Image,
   install,
   Search,
+  RadioGroup,
+  Radio,
+  Button
 } from "vant";
 export default {
   props: {
@@ -197,6 +203,9 @@ export default {
     "van-icon": Icon,
     "van-image": Image,
     "van-search": Search,
+    "van-radio-group": RadioGroup,
+    "van-radio": Radio,
+    "van-button": Button
   },
   methods: {
     clearText () {
@@ -248,24 +257,54 @@ export default {
       }
       this.currentOptions = action;
       if (this.fields[action.field] !== "") {
+        var _isArray = this.fields[action.field] instanceof Array;
         //添加当前选中的提示
         action.data.forEach((x) => {
-          x.color = this.fields[action.field] == x.key ? "red" : "";
+          if (_isArray) {
+            x.color = this.fields[action.field].indexOf(x.key) != -1 ? "red" : "";
+          } else {
+            x.color = this.fields[action.field] == x.key ? "red" : "";
+          }
+
         });
       }
     },
-    actionSelect (action, index) {
-      this.s_model = Math.random();
+    actionSelect (action, index, isBtnClick) {
+      if (isBtnClick) {
+        this.currentSelector = false;
+        return;
+      }
+      var _selectVal = action.key === undefined ? action.name : action.key;
+      //多选如果不是点击的按钮，直接返回
+      if (this.currentOptions.type == "selectList") {
+
+        var _fieldVal = this.fields[this.currentOptions.field];
+        if (!(_fieldVal instanceof Array)) {
+          this.fields[this.currentOptions.field] = [_fieldVal];
+          _fieldVal = this.fields[this.currentOptions.field]
+        }
+        var _index = _fieldVal.indexOf(_selectVal);
+        if (_index == -1) {
+          action.color = "red";
+          _fieldVal.push(_selectVal)
+        } else {
+          action.color = "";
+          _fieldVal.splice(_index, 1);
+        }
+
+        return;
+      }
+
       //下拉框选择
       this.currentSelector = false;
-      this.fields[this.currentOptions.field] = action.key === undefined ? action.name : action.key;
+      this.fields[this.currentOptions.field] = _selectVal;
       //select级联操作
       if (this.currentOptions.cascade) {
         return this.getCascade(action);
       }
       //自定义处理选择事件
       this.currentOptions.onChange &&
-        this.currentOptions.onChange(action, this.dicInfo);
+        this.currentOptions.onChange(this.fields[this.currentOptions.field], action, this.dicInfo);
     },
     setCascade (list) {
       this.options.forEach((x) => {
@@ -318,10 +357,30 @@ export default {
       if (!item.data || item.data.lenght == 0) {
         return value;
       }
+      if (item.type == "selectList") {
+        return this.formatterSelectList(item, value)
+      }
+      return this.getItemName(item, value);
+    },
+    getItemName (item, key) {
       let kv = item.data.find((x) => {
-        return x.key == value;
+        return x.key == key;
       });
-      return !kv && kv != "0" ? value : kv.name;
+      return !kv && kv != "0" ? key : kv.name;
+    },
+    formatterSelectList (item, value) {
+      if (!value) {
+        return value;
+      }
+      if (!(value instanceof Array)) {
+        value = (value + "").split(',');
+      }
+      if (!value.length) {
+        return "";
+      }
+      return value.map(x => {
+        return this.getItemName(item, x);
+      }).join(',');
     },
     validator () {
       //保存数据
@@ -342,7 +401,6 @@ export default {
       return true;
     },
     bindSource () {
-
       this.http.post("/api/Sys_Dictionary/GetVueDictionary", this.dicKeys, true).then((result) => {
         result.forEach((item) => {
           item.data.forEach((d) => {
@@ -379,6 +437,7 @@ export default {
   },
   data () {
     return {
+      radio: [],
       searchVal: "",
       s_model: "",
       test: "",
@@ -398,13 +457,13 @@ export default {
   created () {
     this.options.forEach((x) => {
       x.forEach((item) => {
-        if (item.type == "select") {
+        if (item.type == "select" || item.type == "selectList") {
           if (!item.key) {
             item.key = item.field + "_obs";
           }
-          if (this.dicKeys.indexOf(item.key) == -1) {
+          if (this.dicKeys.indexOf(item.key) == -1 && item.key !== "") {
             this.dicKeys.push(item.key);
-            this.dicInfo[item.key] = [];
+            this.dicInfo[item.key] = item.data;
           }
           if (!item.data || item.data.lenght == 0)
             item.data = this.dicInfo[item.key];
@@ -498,10 +557,26 @@ export default {
   position: fixed;
   margin-top: -3px;
   border-top: 1px solid #eee;
-  border-bottom: 0;
-
+  border-bottom: 1px solid #eee;
+  z-index: 9;
+  display: flex;
+  > div:first-child {
+    flex: 1;
+  }
+  button {
+    top: 10px;
+    right: 1rem;
+    margin-left: 15px;
+  }
+  width: 100%;
+  .van-field {
+    border: none;
+  }
   input {
     text-align: center;
+  }
+  .van-cell:after {
+    border: 0 !important;
   }
 }
 // .action-top-item {
@@ -510,7 +585,7 @@ export default {
 </style>
 <style  scoped>
 .ds-form-container:not(.small-line) >>> .van-field {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   padding-top: 13px;
 }
 .van-img-field img {
