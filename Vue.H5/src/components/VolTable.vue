@@ -106,7 +106,7 @@ export default {
         var _array = (val + "").split(",");
         for (let index = 0; index < _array.length; index++) {
           if (!this.isEmpty(_array[index])) {
-            _values.push(_array[index])
+            _values.push(this.getDicValue(_array[index], column))
           }
         }
         return _values.join(',')

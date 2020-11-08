@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
 const routerPush = Router.prototype.push
-Router.prototype.push = function push(location) {
+Router.prototype.push = function push (location) {
   return routerPush.call(this, location).catch(error => { console.log(error) })
 }
 Vue.use(Router)
@@ -29,6 +29,14 @@ const router = new Router({
           path: '/menu',
           name: 'menu',
           component: () => import('@/views/menu/menu.vue'),
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
+          path: '/community',
+          name: 'community',
+          component: () => import('@/views/Community/community.vue'),
           meta: {
             keepAlive: true
           }

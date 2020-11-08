@@ -261,9 +261,9 @@ export default {
       //添加当前选中的提示
       action.data.forEach((x) => {
         if (_isArray) {
-          x.color = this.fields[action.field].indexOf(x.key) != -1 ? "red" : "";
+          x.color = this.fields[action.field].indexOf(x.key + "") != -1 ? "red" : "";
         } else {
-          x.color = this.fields[action.field] == x.key ? "red" : "";
+          x.color = this.fields[action.field] == (x.key + "") ? "red" : "";
         }
 
       });
