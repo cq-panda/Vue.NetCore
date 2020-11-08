@@ -111,7 +111,7 @@ export default {
       { field: 'UserName', title: '用户名称', type: 'string' },
       { field: 'LogType', title: '日志类型', type: 'string', bind: { key: 'enable', data: [] }, },
       //kye绑定数据源的key
-      { field: 'Success', title: '响应状态', bind: { key: 'restatus', data: [] } },
+      { field: 'Success', title: '响应状态', bind: { key: 'restatus', data: [], type: "selectList" } },
       { field: 'ElapsedTime', title: '时长' }],
       //查询表单配置
       searchForm: {

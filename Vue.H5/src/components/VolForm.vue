@@ -385,16 +385,16 @@ export default {
       if (!value.length) {
         return "";
       }
-      // var _text = this.getItemName(item, value[0]);
-      // for (let index = 1; index < value.length; index++) {
-      //   if (value[index] || value[index] == '0') {
-      //     _text = _text + "," + this.getItemName(item, value[index]);
-      //   }
-      // }
-      // return _text;
-      return value.map(x => {
-        return this.getItemName(item, x);
-      }).join(',');
+      var _text = []; //this.getItemName(item, value[0]);
+      for (let index = 0; index < value.length; index++) {
+        if (value[index] || value[index] == '0') {
+          _text.push(this.getItemName(item, value[index]));
+        }
+      }
+      return _text.join(',');
+      // return value.map(x => {
+      //   return this.getItemName(item, x);
+      // }).join(',');
     },
     validator () {
       //保存数据

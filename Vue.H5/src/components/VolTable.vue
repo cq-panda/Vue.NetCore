@@ -76,6 +76,7 @@ export default {
       bodyHeigth: 0,
       fields: [],
       keySource: {},
+
       list: []
     }
   },
@@ -93,10 +94,30 @@ export default {
         return 'width:' + column.width + 'px'
       }
       return 'flex: 1'
+    },
+    isEmpty (val) {
+
+      return val === "" || val === null || val === undefined
+
     }, converDicValue (val, column) {
+      if (this.isEmpty(val)) return "";
+      if (column.bind.type == "selectList") {
+        var _values = [];
+        var _array = (val + "").split(",");
+        for (let index = 0; index < _array.length; index++) {
+          if (!this.isEmpty(_array[index])) {
+            _values.push(_array[index])
+          }
+        }
+        return _values.join(',')
+      }
+      return this.getDicValue(val, column);
+    },
+    getDicValue (val, column) {
       var kv = column.bind.data.find(x => { return x.key === val + "" });
       return kv ? kv.value : val;
-    }, getUrl () {
+    },
+    getUrl () {
       var params = {};
       params.wheres = this.queryParams();
       return { url: this.url, params: { wheres: JSON.stringify(params.wheres) } }
