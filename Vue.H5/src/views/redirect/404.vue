@@ -5,7 +5,17 @@
       <h3 class="font-bold">您访问的页面未找到！</h3>
       <slot></slot>
       <div class="back">
-        <van-button type="primary" @click="backHome" size="small">返回首页</van-button>
+        <van-button type="primary"
+                    @click="backHome"
+                    plain
+                    hairline
+                    size="small">返回首页</van-button>
+        <van-button type="info"
+                    @click="back"
+                    plain
+                    hairline
+                    style="margin-left:15px;"
+                    size="small">返 回</van-button>
       </div>
     </div>
   </div>
@@ -27,10 +37,13 @@ export default {
     }
   },
   methods: {
-    backHome: function() {
+    backHome () {
       this.$router.push({
         path: "/"
       });
+    },
+    back () {
+      this.$router.go(-1);
     }
   }
 };

@@ -1,5 +1,6 @@
 <template>
   <van-nav-bar class="v-nav-bar"
+               style="border-bottom: 1px solid #f1f1f1;"
                v-if="back"
                :title="title"
                left-arrow
@@ -11,7 +12,8 @@
                 size="16" />
     </template>
   </van-nav-bar>
-  <van-nav-bar v-else
+  <van-nav-bar style="border-bottom: 1px solid #f1f1f1;"
+               v-else
                :title="title" />
 </template>
 <script>
