@@ -164,8 +164,8 @@ export default {
         [
           {
             field: "Success",
-            //type: "selectList",//设置为多选,如果是多选将fields对应的值设置为数组，见下面fields说明
-            type: "select",//
+            type: "selectList",//设置为多选,如果是多选将fields对应的值设置为数组，见下面fields说明
+            //   type: "select",//
             name: "响应状态",
             key: "restatus",
             data: [],
@@ -191,8 +191,8 @@ export default {
         fields: {
           UserName: "",
           BeginDate: "",
-          // Success: [],//如果是多选，必须给一个默认空数组
-          Success: "",
+          Success: [],//如果是多选，必须给一个默认空数组
+          //  Success: "",
           ExceptionInfo: "",
           RequestParameter: "",
           UserIP: ""

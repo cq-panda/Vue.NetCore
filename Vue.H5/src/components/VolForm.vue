@@ -256,25 +256,25 @@ export default {
         action.data.push(...this.dicInfo[action.key]);
       }
       this.currentOptions = action;
-      if (this.fields[action.field] !== "") {
-        var _isArray = this.fields[action.field] instanceof Array;
-        //添加当前选中的提示
-        action.data.forEach((x) => {
-          if (_isArray) {
-            x.color = this.fields[action.field].indexOf(x.key) != -1 ? "red" : "";
-          } else {
-            x.color = this.fields[action.field] == x.key ? "red" : "";
-          }
+      // if (this.fields[action.field] !== "") {
+      var _isArray = this.fields[action.field] instanceof Array;
+      //添加当前选中的提示
+      action.data.forEach((x) => {
+        if (_isArray) {
+          x.color = this.fields[action.field].indexOf(x.key) != -1 ? "red" : "";
+        } else {
+          x.color = this.fields[action.field] == x.key ? "red" : "";
+        }
 
-        });
-      }
+      });
+      // }
     },
     actionSelect (action, index, isBtnClick) {
       if (isBtnClick) {
         this.currentSelector = false;
         return;
       }
-      var _selectVal = action.key === undefined ? action.name : action.key;
+      var _selectVal = (action.key === undefined ? action.name : action.key) + "";
       //多选如果不是点击的按钮，直接返回
       if (this.currentOptions.type == "selectList") {
 
@@ -283,7 +283,14 @@ export default {
           this.fields[this.currentOptions.field] = [_fieldVal];
           _fieldVal = this.fields[this.currentOptions.field]
         }
-        var _index = _fieldVal.indexOf(_selectVal);
+        // var _index = _fieldVal.indexOf(_selectVal);
+        var _index = -1;
+        for (let index = 0; index < _fieldVal.length; index++) {
+          const _arr_val = _fieldVal[index];
+          if (_arr_val + "" === _selectVal) {
+            _index = index;
+          }
+        }
         if (_index == -1) {
           action.color = "red";
           _fieldVal.push(_selectVal)
@@ -364,7 +371,7 @@ export default {
     },
     getItemName (item, key) {
       let kv = item.data.find((x) => {
-        return x.key == key;
+        return x.key + "" == key;
       });
       return !kv && kv != "0" ? key : kv.name;
     },
@@ -378,6 +385,13 @@ export default {
       if (!value.length) {
         return "";
       }
+      // var _text = this.getItemName(item, value[0]);
+      // for (let index = 1; index < value.length; index++) {
+      //   if (value[index] || value[index] == '0') {
+      //     _text = _text + "," + this.getItemName(item, value[index]);
+      //   }
+      // }
+      // return _text;
       return value.map(x => {
         return this.getItemName(item, x);
       }).join(',');
