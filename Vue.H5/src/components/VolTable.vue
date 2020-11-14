@@ -1,6 +1,7 @@
 <template>
 
-  <div class="vol-table">
+  <div class="vol-table"
+       :class="[cellOverflowHidden?'vol-cell-overflow-hidden':'']">
     <div class="col-header">
       <div class="col-cell"
            :style="getStyle(column)"
@@ -45,6 +46,10 @@ export default {
     PullRefreshList
   },
   props: {
+    cellOverflowHidden: {//单元格超出是否隐藏
+      type: Boolean,
+      defalut: false
+    },
     height: {
       type: Number,
       default: 0
@@ -114,7 +119,7 @@ export default {
       return this.getDicValue(val, column);
     },
     getDicValue (val, column) {
-      var kv = column.bind.data.find(x => { return x.key === val + "" });
+      var kv = column.bind.data.find(x => { return x.key + "" === val + "" });
       return kv ? kv.value : val;
     },
     getUrl () {
@@ -186,5 +191,10 @@ export default {
     font-size: 13px;
     background: white;
   }
+}
+.vol-cell-overflow-hidden .col-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

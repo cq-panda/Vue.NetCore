@@ -1,13 +1,15 @@
 <template >
   <div style="height:100%;">
-    <vol-header title="table表数据(CURD)"
+    <vol-header title="自动绑定下拉框(多选)"
                 :right-click="showSearch"></vol-header>
 
     <!-- table内容 -->
+    <!-- cell-overflow-hidden=true单元格超出部分隐藏 -->
     <vol-table ref="table"
                :url="url.table"
                :queryParams="queryParams"
                :row-click="rowClick"
+               :cell-overflow-hidden="true"
                :columns="columns"></vol-table>
 
     <!--搜索表单-->
@@ -95,126 +97,59 @@ export default {
       /*现在的操作的是后台的框架默认的增删改查，暂时可以不用修改后台代码完成curd操作*/
       /*如果需要其他页面的h5操作，直接将当前整个页面复制出来，只需要挨着改里面的参数*/
       url: {
-        table: "/api/Sys_Log/getPageData", //table加载的url
-        search: "/api/Sys_Log/getPageData",//搜索加载url，与上面一样
-        update: "/api/Sys_Log/update",//详情提交的地址
-        add: "/api/Sys_Log/add", //详情提交的地址
-        del: "/api/Sys_Log/del"
+        table: "/api/app_transactionAvgPrice/getPageData", //table加载的url
+        search: "/api/app_transactionAvgPrice/getPageData",//搜索加载url，与上面一样
+        update: "/api/app_transactionAvgPrice/update",//详情提交的地址
+        add: "/api/app_transactionAvgPrice/add", //详情提交的地址
+        del: "/api/app_transactionAvgPrice/del"
       },
       //table表配置
-      columns: [{ field: 'Id', title: 'Id', type: 'int', hidden: true },
-      {
-        field: 'BeginDate', width: 100, title: '开始时间', formatter: (val, row, column) => {
-          return (val || '').substring(0, 10)
-        }
-      },
-      { field: 'UserName', title: '用户名称' },
-      { field: 'LogType', title: '日志类型', bind: { key: 'enable', data: [] }, },
-      //kye绑定数据源的key
-      { field: 'Success', title: '响应状态', bind: { key: 'restatus', data: [], type: "selectList" } },
-      { field: 'ElapsedTime', title: '时长' }],
+      columns: [
+        { field: 'Id', title: '主键ID', hidden: true },
+        { field: 'AgeRange', title: '年龄', bind: { key: 'age', type: "select", data: [] } },
+        { field: 'Variety', title: '种类', type: 'string', bind: { key: 'pz', type: "selectList", data: [] } },
+        { field: 'City', title: '城市', type: 'string', bind: { key: 'city', data: [] } },
+        {
+          field: 'AvgPrice', title: '价格', formatter: (val, row, column) => {
+            if (val > 0) {
+              return '<a style="color:#ff0707;">' + val + '<i style="position: relative;top: -2px;margin-left: 5px;">↑</i></a>'
+            }
+            return '<a style="color:#02bf09;">' + val + '<i style="position: relative;top: -2px;margin-left: 5px;">↓</a>'
+          }
+        },
+        {
+          field: 'Date', title: '日期', formatter: (val, row, column) => {
+            return (val || '').substring(0, 10)
+          }
+        }],
       //查询表单配置
       searchForm: {
         options: [[
-          {
-            field: "UserName",
-            name: "用户名称",
-            type: "text"
-          },
-          {
-            field: "BeginDate1",
-            type: "date",
-            name: "开始时间(启)",
-            // required: true
-          }, {
-            field: "BeginDate2",
-            type: "date",
-            name: "开始时间(止)",
-            //required: true
-          }
-
-        ],
-        [
-          {
-            field: "Success",
-            type: "select",
-            name: "响应状态",
-            key: "restatus",
-            data: []
-          }
+          { field: 'AgeRange', type: "select", name: '年龄', key: 'age', data: [] },
+          { field: 'Variety', type: "select", name: '种类', key: 'pz', data: [] },
+          { field: 'City', type: "select", name: '城市', key: 'city', data: [] }],
+        [{ field: "Date1", type: "date", name: "开始时间(启)", },
+        { field: "Date2", type: "date", name: "开始时间(止)" }
         ]],
-        fields: { UserName: "", BeginDate1: "", BeginDate2: "", Success: "" }
+        fields: { AgeRange: "", Variety: "", City: "", Date1: "", Date1: "" }
       },
       //编辑、新建、详情表单配置
       detailForm: {
         options: [[
-          {
-            field: "UserName",
-            name: "用户名称",
-            type: "text",
-            required: true
-          },
-          {
-            field: "BeginDate",
-            type: "date",
-            name: "开始时间",
-            required: true
-          }
+          { field: 'AgeRange', type: "select", name: '年龄', key: 'age', data: [], required: true },
+          { field: 'Variety', type: "selectList", name: '种类', key: 'pz', data: [], required: true },
+          { field: 'City', type: "select", name: '城市', key: 'city', data: [], required: true },
+          { field: 'AvgPrice', type: "digit", name: '价格', required: true },
         ],
-        [
-          {
-            field: "Success",
-            type: "selectList",//设置为多选,如果是多选将fields对应的值设置为数组，见下面fields说明
-            //   type: "select",//
-            name: "响应状态",
-            key: "restatus",
-            data: [],
-            onChange: this.onChange
-          },
-          {
-            field: "ExceptionInfo",
-            name: "异常信息",
-            type: "select",
-            data: [],
-            key: "",
-          },
-          {
-            field: "RequestParameter",
-            name: "请求参数"
-          },
-          {
-            field: "UserIP",
-            name: "用户Ip",
-            readonly: true //设置字段只读
-          }
+        [{ field: 'IsTop', type: "bool", name: '推荐数据', data: [], required: true },
+        { field: 'Enable', type: "switch", name: '是否可用', required: true }],
+        [{ field: "Date", type: "date", name: "开始时间", required: true }
         ]],
-        fields: {
-          UserName: "",
-          BeginDate: "",
-          Success: [],//如果是多选，必须给一个默认空数组
-          //  Success: "",
-          ExceptionInfo: "",
-          RequestParameter: "",
-          UserIP: ""
-        }
+        fields: { AgeRange: "", Variety: "", City: "", AvgPrice: "", Enable: "", IsTop: "", Date: "" }
       },
     };
   },
   methods: {
-    onChange (val) { //级联操作
-      //点击响应状态联动操作给【异常信息】字段绑定数据源
-      //清空【异常信息】数据源
-      this.detailForm.options[1][1].data.splice(0);
-      //方式1、从后台动态查询数据返回(返回的数据源里面必须包括key,name字段)
-      // this.http.post("x", {}, true).then((result) => {
-      //   this.detailForm.options[1][1].data=result.data;
-      // });
-      //方式2、手动给【异常信息】字段绑定数据源
-      this.detailForm.options[1][1].data.push(...[
-        { key: "1", name: "test1" },
-        { key: "2", name: "test2" }]
-      )
-    },
     showSearch () { //点击右上解搜索
       this.searchModel = true;
     },
@@ -224,10 +159,11 @@ export default {
     },
     queryParams () { //生成查询参数
       return [
-        { name: "UserName", value: this.searchForm.fields.UserName, displayType: "like" },
-        { name: "Success", value: this.searchForm.fields.Success },
-        { name: "BeginDate", value: this.searchForm.fields.BeginDate1, displayType: "thanorequal" },
-        { name: "BeginDate", value: this.searchForm.fields.BeginDate2, displayType: "lessorequal" }
+        { name: "AgeRange", value: this.searchForm.fields.AgeRange },
+        { name: "Variety", value: this.searchForm.fields.Variety },
+        { name: "City", value: this.searchForm.fields.City },
+        { name: "Date", value: this.searchForm.fields.Date1, displayType: "thanorequal" },
+        { name: "Date", value: this.searchForm.fields.Date2, displayType: "lessorequal" }
       ]
     },
     rowClick (row) { //点击表行数据查看详情或编辑 

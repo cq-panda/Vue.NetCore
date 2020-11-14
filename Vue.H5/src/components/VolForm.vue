@@ -19,7 +19,7 @@
                      :title="'请选择'+currentOptions.name">
       <div class="selector-container content"
            :style="{height:getHeight()}"
-           style="    text-align: center;">
+           style="text-align: center;">
 
         <div class="vol-search">
           <van-field v-model="searchVal"
@@ -84,6 +84,20 @@
               <van-icon name="pause" />
               {{item.name}}
             </h3>
+            <van-cell v-else-if="item.type=='switch'"
+                      center
+                      :title="item.name">
+              <template #right-icon>
+                <van-switch :value="fields[item.field]+''==='1'"
+                            active-color="#1989fa"
+                            inactive-color="rgb(181 181 181)"
+                            @input="(checked)=>{onInput(checked,item)}"
+                            size="24" />
+              </template>
+            </van-cell>
+            <!-- <van-switch 
+                        :value="formatterSwitch(item,fields[item.field])" /> -->
+
             <van-field v-else-if="item.type=='select'||item.type=='selectList'||item.type=='bool'"
                        :key="item.field"
                        readonly
@@ -112,6 +126,7 @@
                        v-else-if="item.formatter"
                        :label="item.name"
                        :input-align="align"
+                       :type="item.type"
                        :readonly="!!item.readonly"
                        :required="item.required"
                        :placeholder="item.readonly?'':'请输入'+item.name" />
@@ -120,6 +135,7 @@
                        v-model="fields[item.field]"
                        :formatter="item.formatter"
                        :key="item.field"
+                       :type="item.type"
                        v-else
                        :label="item.name"
                        :input-align="align"
@@ -154,7 +170,9 @@ import {
   Search,
   RadioGroup,
   Radio,
-  Button
+  Button,
+  Switch,
+  Cell
 } from "vant";
 export default {
   props: {
@@ -205,7 +223,9 @@ export default {
     "van-search": Search,
     "van-radio-group": RadioGroup,
     "van-radio": Radio,
-    "van-button": Button
+    "van-button": Button,
+    "van-switch": Switch,
+    "van-cell": Cell
   },
   methods: {
     clearText () {
@@ -246,6 +266,8 @@ export default {
       //选择日期
       this.fields[this.currentDateField] = moment(date).format("YYYY-MM-DD");
       this.showCalendar = false;
+    }, isEmpty (val) {
+      return val === "" || val === undefined || val === null;
     },
     onSelect (action, index) {
       this.searchVal = "";
@@ -258,14 +280,20 @@ export default {
       this.currentOptions = action;
       // if (this.fields[action.field] !== "") {
       var _isArray = this.fields[action.field] instanceof Array;
+      var _arr = [];
+      if (action.type == "selectList" && !_isArray) {
+        _arr = this.fields[action.field].split(',');
+      } else {
+        _arr = this.fields[action.field];
+      }
       //添加当前选中的提示
       action.data.forEach((x) => {
-        if (_isArray) {
-          x.color = this.fields[action.field].indexOf(x.key + "") != -1 ? "red" : "";
-        } else {
-          x.color = this.fields[action.field] == (x.key + "") ? "red" : "";
+        if (this.isEmpty(this.fields[action.field])) {
+          x.color = "";
         }
-
+        else {
+          x.color = _arr.indexOf(x.key + "") != -1 ? "red" : "";
+        }
       });
       // }
     },
@@ -280,7 +308,7 @@ export default {
 
         var _fieldVal = this.fields[this.currentOptions.field];
         if (!(_fieldVal instanceof Array)) {
-          this.fields[this.currentOptions.field] = [_fieldVal];
+          this.fields[this.currentOptions.field] = [..._fieldVal.split(',')];
           _fieldVal = this.fields[this.currentOptions.field]
         }
         // var _index = _fieldVal.indexOf(_selectVal);
@@ -360,7 +388,16 @@ export default {
         });
       });
     },
+    onInput (checked, item) {
+      this.fields[item.field] = checked ? "1" : "0"
+    },
+    formatterSwitch (item, value) {
+      return true//
+    },
     formatterSelect (item, value) {
+      if (item.type == "bool") {
+        return value === "1" || value === 1 ? '是' : "否";
+      }
       if (!item.data || item.data.lenght == 0) {
         return value;
       }
@@ -401,9 +438,14 @@ export default {
       for (let index = 0; index < this.options.length; index++) {
         for (let i = 0; i < this.options[index].length; i++) {
           const element = this.options[index][i];
-          if (element.required) {
+          if (this.boolKeyFields.indexOf(element.field) != -1) {
+            if (this.fields[element.field] + "" !== "1") {
+              this.fields[element.field] = "0"
+            }
+          }
+          else if (element.required) {
             let value = this.fields[element.field];
-            if (value === "" || value === null || value == undefined) {
+            if ((value instanceof Array && value.length == 0) || this.isEmpty(value)) {
               let message =
                 data_type.indexOf(element.type) == -1 ? "输入" : "选择";
               this.$toast("请" + message + element.name);
@@ -444,7 +486,7 @@ export default {
         if (this.fields[key] instanceof Array) {
           this.fields[key].splice(0);
         } else {
-          this.fields[key] = '';
+          this.fields[key] = this.boolKeyFields.indexOf(key) == -1 ? '' : "0";
         }
       }
     },
@@ -466,11 +508,15 @@ export default {
       dicKeys: [], //所有字典项编号,
       dicUrlKeys: [], //所有自定义url的编号
       dateFields: [],
+      boolKeyFields: [],
     };
   },
   created () {
     this.options.forEach((x) => {
       x.forEach((item) => {
+        if (item.type == "bool" || item.type == "switch") {
+          this.boolKeyFields.push(item.field)
+        }
         if (item.type == "select" || item.type == "selectList") {
           if (!item.key) {
             item.key = item.field + "_obs";
@@ -498,8 +544,8 @@ export default {
           item.data = [];
           this.dicKeys.push(item.key);
           this.dicInfo[item.key] = [
-            { id: "1", name: "是", text: "是" },
-            { id: "0", name: "否", text: "否" },
+            { id: 1, name: "是", key: 1 },
+            { id: 0, name: "否", key: 0 },
           ];
         }
       });

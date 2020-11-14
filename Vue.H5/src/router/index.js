@@ -73,6 +73,21 @@ const router = new Router({
       component: () => import('@/views/stat/index.vue'),
       meta: {
       }
+    },
+    {
+      path: '/app_appointment',
+      name: 'app_appointment',
+      component: () => import('@/views/page/app_appointment.vue'),
+      meta: {
+      }
+    }
+    ,
+    {
+      path: '/app_transactionAvgPrice',
+      name: 'app_transactionAvgPrice',
+      component: () => import('@/views/page/app_transactionAvgPrice.vue'),
+      meta: {
+      }
     }
   ]
 })
