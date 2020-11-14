@@ -212,7 +212,7 @@ function toLogin () {
 //当前token快要过期时，用现有的token换成一个新的token
 function getNewToken (callBack) {
   ajax({
-    url: "/app/User/replaceToken",
+    url: "/api/User/replaceToken",
     param: {},
     json: true,
     success: function (x) {
@@ -295,6 +295,6 @@ ajax.post = function (url, param, success, errror) {
   ajax({ url: url, param: param, success: success, error: errror, type: 'post' })
 }
 ajax.get = function (url, param, success, errror) {
-  ajax({ url: url, param: param, success: success, error: errror, type: 'post' })
+  ajax({ url: url, param: param, success: success, error: errror, type: 'get' })
 }
 export default { post, get, ajax, init, ipAddress }
