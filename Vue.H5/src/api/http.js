@@ -115,10 +115,10 @@ function post (url, params, showLoading) {
         }
         resolve(response.data);
       }, err => {
-        if (err.status == 401) {
-          $httpVue.$toast("没有权限操作");
-        }
-        if (err.status == 403) {
+        // if (err.status == 401) {
+        //   $httpVue.$toast("没有权限操作");
+        // }
+        if (err.status == 403 || err.status == 401) {
           return toLogin();
         }
         if (err.status == 404) {
@@ -143,10 +143,11 @@ function get (url, param, showLoading) {
 
         resolve(response.data)
       }, err => {
-        if (err.status == 401) {
-          $httpVue.$toast("没有权限操作");
-        }
-        if (err.status == 403) {
+        // if (err.status == 401) {
+        //  // $httpVue.$toast("没有权限操作");
+
+        // }
+        if (err.status == 403 || err.status == 401) {
           return toLogin();
         }
         if (err.status == 404) {

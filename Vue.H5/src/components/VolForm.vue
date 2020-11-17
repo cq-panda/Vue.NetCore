@@ -1,9 +1,9 @@
 <template>
-  <div class="ds-form-container"
+  <div class="vol-form-container"
        :class="{'small-line':smallLine,scroll:header}">
     <!-- <van-calendar v-model="showCalendar" @confirm="selectDate" /> -->
     <van-popup v-model="showCalendar"
-               position="bottom"
+               position="right"
                :style="{ height: '40%' }">
       <van-datetime-picker v-model="currentDate"
                            type="date"
@@ -14,7 +14,8 @@
                            :max-date="maxDate" />
     </van-popup>
 
-    <van-actionsheet :round="false"
+    <van-actionsheet class="form-actionsheet"
+                     :round="false"
                      v-model="currentSelector"
                      :title="'请选择'+currentOptions.name">
       <div class="selector-container content"
@@ -282,7 +283,7 @@ export default {
       var _isArray = this.fields[action.field] instanceof Array;
       var _arr = [];
       if (action.type == "selectList" && !_isArray) {
-        _arr = this.fields[action.field].split(',');
+        _arr = (this.fields[action.field] || '').split(',');
       } else {
         _arr = this.fields[action.field];
       }
@@ -308,7 +309,7 @@ export default {
 
         var _fieldVal = this.fields[this.currentOptions.field];
         if (!(_fieldVal instanceof Array)) {
-          this.fields[this.currentOptions.field] = [..._fieldVal.split(',')];
+          this.fields[this.currentOptions.field] = [...(_fieldVal || '').split(',')];
           _fieldVal = this.fields[this.currentOptions.field]
         }
         // var _index = _fieldVal.indexOf(_selectVal);
@@ -561,7 +562,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.ds-form-container {
+.vol-form-container {
   background: #f7f7f7;
   .ds-from-group {
     margin-bottom: 15px;
@@ -596,8 +597,8 @@ export default {
   }
 }
 .scroll .ds-from-content {
-  height: calc(100vh - 50px);
-  overflow-y: scroll;
+  //  height: calc(100vh - 50px);
+  // overflow-y: scroll;
 }
 .selector-container {
   overflow: scroll;
@@ -644,7 +645,7 @@ export default {
 // }
 </style>
 <style  scoped>
-.ds-form-container:not(.small-line) >>> .van-field {
+.vol-form-container:not(.small-line) >>> .van-field {
   /* margin-bottom: 10px; */
   padding-top: 13px;
 }
@@ -662,5 +663,12 @@ export default {
 }
 .vol-search >>> input {
   text-align: center;
+}
+.vol-form-container >>> .van-overlay {
+  z-index: 99998 !important;
+  top: -15% !important;
+}
+.vol-form-container >>> .van-popup {
+  z-index: 99999 !important;
 }
 </style>
