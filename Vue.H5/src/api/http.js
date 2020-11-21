@@ -119,7 +119,8 @@ function post (url, params, showLoading) {
         //   $httpVue.$toast("没有权限操作");
         // }
         if (err.status == 403 || err.status == 401) {
-          return toLogin();
+          // return toLogin();
+          return redirect(err);
         }
         if (err.status == 404) {
           $httpVue.$toast("未找到请求地址,404!");
@@ -148,7 +149,7 @@ function get (url, param, showLoading) {
 
         // }
         if (err.status == 403 || err.status == 401) {
-          return toLogin();
+          return redirect(err);
         }
         if (err.status == 404) {
           $httpVue.$toast("未找到请求地址,404!");
@@ -199,7 +200,7 @@ function redirect (responseText, message) {
       || (responseData.data && responseData.data.code == 401)) {
       toLogin();
     } else {
-      //  $httpVue.$message.error(message);
+      $httpVue.$toast(message || (responseData.data.message));
     }
   } catch (error) {
     console.log(error);
@@ -258,10 +259,7 @@ function ajax (param) {
       redirect(xhr.responseText);
       return;
     }
-    if (xhr.status == 403) {
 
-      return toLogin();
-    }
     if (xhr.readyState == 4 && xhr.status == 200) {
       httpParam.success(httpParam.json ? JSON.parse(xhr.responseText) : xhr.responseText);
       return;
