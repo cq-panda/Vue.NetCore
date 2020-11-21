@@ -1,16 +1,15 @@
 <template>
-  <div id="vol-container" :class="['vol-theme-' + theme]">
+  <div id="vol-container"
+       :class="['vol-theme-' + theme]">
     <div class="vol-aside">
       <div class="header">
-        <img v-bind:src="log" />
+        <img v-bind:src="logo" />
       </div>
       <div class="vol-menu">
         <el-scrollbar style="height: 100%">
-          <VolMenu
-            :theme="menu_theme"
-            :onSelect="onSelect"
-            :options="menuOptions"
-          ></VolMenu>
+          <VolMenu :theme="menu_theme"
+                   :onSelect="onSelect"
+                   :options="menuOptions"></VolMenu>
         </el-scrollbar>
       </div>
     </div>
@@ -20,19 +19,20 @@
         <div class="header-info">
           <div class="h-link">
             <ul>
-              <li
-                v-for="(item, index) in links"
-                :key="index"
-                v-bind:class="{ actived: selectId == item.id }"
-              >
-                <a href="javascript:void(0)" @click="to(item)">{{
+              <li v-for="(item, index) in links"
+                  :key="index"
+                  v-bind:class="{ actived: selectId == item.id }">
+                <a href="javascript:void(0)"
+                   @click="to(item)">{{
                   item.text
                 }}</a>
               </li>
             </ul>
           </div>
           <div>
-            <img class="user-header" :src="userImg" :onerror="errorImg" />
+            <img class="user-header"
+                 :src="userImg"
+                 :onerror="errorImg" />
           </div>
           <div class="user">
             <span>{{ userName }}</span>
@@ -41,80 +41,67 @@
             <!-- <span>星期五</span> -->
           </div>
           <div class="settings">
-            <Icon
-              :size="20"
-              type="md-settings"
-              @click="
+            <Icon :size="20"
+                  type="md-settings"
+                  @click="
                 () => {
                   theme_moel = true;
                 }
-              "
-            />
+              " />
             <!-- <Icon type="md-paw" /> -->
           </div>
         </div>
       </div>
       <div class="vol-path">
         <!-- 2020.05.31增加顶部导tabs超出后滚动 -->
-        <Tabs
-          @on-click="selectNav"
-          :before-remove="removeNav"
-          v-model="selectId"
-          type="card"
-          :animated="false"
-          class="header-navigation"
-        >
+        <Tabs @on-click="selectNav"
+              :before-remove="removeNav"
+              v-model="selectId"
+              type="card"
+              :animated="false"
+              class="header-navigation">
           <!-- 2020.07.31增加手动打开tabs -->
-          <TabPane
-            :class="{ active: navIndex == selectId }"
-            :name="item.navIndex"
-            :closable="navIndex != 0"
-            v-for="(item, navIndex) in navigation"
-            :key="navIndex"
-            :label="item.name"
-          ></TabPane>
+          <TabPane :class="{ active: navIndex == selectId }"
+                   :name="item.navIndex"
+                   :closable="navIndex != 0"
+                   v-for="(item, navIndex) in navigation"
+                   :key="navIndex"
+                   :label="item.name"></TabPane>
         </Tabs>
       </div>
-      <div class="vol-main" id="vol-main">
+      <div class="vol-main"
+           id="vol-main">
         <el-scrollbar style="height: 100%">
           <!-- 2020.06.03增加路由切换时加载提示 -->
           <loading v-show="$store.getters.isLoading()"></loading>
-               <!-- 2020.10.09增加路由keepAlive属性设置不缓存组件(默认缓存组件) -->
+          <!-- 2020.10.09增加路由keepAlive属性设置不缓存组件(默认缓存组件) -->
           <keep-alive>
-            <router-view
-              v-if="!$route.meta||($route.meta && !$route.meta.hasOwnProperty('keepAlive'))"
-            ></router-view>
+            <router-view v-if="!$route.meta||($route.meta && !$route.meta.hasOwnProperty('keepAlive'))"></router-view>
           </keep-alive>
-          <router-view
-            v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"
-          ></router-view>
+          <router-view v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"></router-view>
         </el-scrollbar>
       </div>
     </div>
     <!-- 2020.04.02增加换皮肤功能 -->
-    <Drawer
-      class="theme-selector"
-      title="选择皮肤颜色"
-      :closable="false"
-      v-model="theme_moel"
-    >
-      <div
-        @click="changeThen(item.name)"
-        class="item"
-        v-for="(item, index) in theme_color"
-        :key="index"
-        :style="{ background: item.color }"
-      ></div>
+    <Drawer class="theme-selector"
+            title="选择皮肤颜色"
+            :closable="false"
+            v-model="theme_moel">
+      <div @click="changeThen(item.name)"
+           class="item"
+           v-for="(item, index) in theme_color"
+           :key="index"
+           :style="{ background: item.color }"></div>
     </Drawer>
   </div>
 </template>
 <script>
 import loading from "@/components/basic/RouterLoading";
 import VolMenu from "@/components/basic/VolMenu.vue";
-let imgUrl = require("@/assets/imgs/log.png");
+let imgUrl = require("@/assets/imgs/logo.png");
 var $vueIndex;
 export default {
-  data() {
+  data () {
     return {
       menu_theme: "light",
       theme_moel: false,
@@ -131,7 +118,7 @@ export default {
       userImg: "",
       selectId: 0,
       navigation: [{ name: "首页", id: 0, path: "/home" }],
-      log: imgUrl,
+      logo: imgUrl,
       date: "",
       theme: "blue",
       links: [
@@ -148,7 +135,7 @@ export default {
     VolMenu,
     loading,
   },
-  created() {
+  created () {
     let theme = localStorage.getItem("vol_theme");
     if (theme) {
       this.theme = theme;
@@ -203,14 +190,14 @@ export default {
     this.selectId = 0;
   },
   methods: {
-    changeThen(name) {
+    changeThen (name) {
       if (this.theme != name) {
         this.theme = name;
       }
       this.menu_theme = this.theme == "white" ? "dark" : "light";
       localStorage.setItem("vol_theme", name);
     },
-    to(item) {
+    to (item) {
       /* 2020.07.31增加手动打开tabs*/
       if (item.path == "#") {
         window.open("https://github.com/cq-panda/Vue.NetCore");
@@ -230,7 +217,7 @@ export default {
       if (item.path == "#") return;
       this.open(item);
     },
-    open(item, useRoute) {
+    open (item, useRoute) {
       /* 2020.07.31增加手动打开tabs*/
       let _index = this.navigation.findIndex((x) => {
         return x.path == item.path;
@@ -252,19 +239,19 @@ export default {
         this.$router.push(item);
       }
     },
-    setItem(item) {
+    setItem (item) {
       /* 2020.07.31增加手动打开tabs*/
       localStorage.setItem(
         window.location.origin + "_tabs",
         JSON.stringify(item)
       );
     },
-    getItem() {
+    getItem () {
       /* 2020.07.31增加手动打开tabs*/
       let nav = localStorage.getItem(window.location.origin + "_tabs");
       return nav ? JSON.parse(nav) : null;
     },
-    close(path) {
+    close (path) {
       /* 2020.07.31增加手动打开tabs*/
       let index = this.navigation.findIndex((x) => {
         return x.path == path;
@@ -274,14 +261,14 @@ export default {
       }
       this.removeNav(index);
     },
-    selectNav(index) {
+    selectNav (index) {
       /* 2020.07.31增加手动打开tabs*/
       this.selectId = index;
       this.$router.push({
         path: this.navigation[index].path,
       });
     },
-    removeNav(_index) {
+    removeNav (_index) {
       //2020.06.02修复关闭tabs时，可能关闭两个tabs的问题
       /* 2020.07.31增加手动打开tabs*/
       return new Promise(() => {
@@ -301,17 +288,17 @@ export default {
         this.navigation.splice(_index, 1);
       });
     },
-    getSelectMenuName(id) {
+    getSelectMenuName (id) {
       return this.menuOptions.find(function (x) {
         return x.id == id;
       });
     },
-    onSelect(treeId) {
+    onSelect (treeId) {
       /* 2020.07.31增加手动打开tabs*/
       var item = $vueIndex.getSelectMenuName(treeId);
       this.open(item, false);
     },
-    showTime() {
+    showTime () {
       var week = new Array(
         "星期一",
         "星期二",
@@ -344,10 +331,10 @@ export default {
         " " + //2020.08.30修复首页日期星期天不显示的问题
         (week[date.getDay() - 1] || week[6]);
     },
-    handleOpen(key, keyPath) {
+    handleOpen (key, keyPath) {
       console.log(key, keyPath);
     },
-    handleClose(key, keyPath) {
+    handleClose (key, keyPath) {
       console.log(key, keyPath);
     },
   },
@@ -802,19 +789,19 @@ img:not([src]) {
 <style lang="less" scoped>
 //白色
 .vol-theme-white {
-  .vol-aside .vol-menu {
-    background: #0159fb;
-  }
-  // .header-text {
-  //   color: #dcdfe6;
-  // }
-  // .vol-header,
-  // .header {
-  //   background-color: rgb(45, 140, 240);
+  // .vol-aside .vol-menu {
+  //   // background: #0159fb;
   // }
 
+  .header {
+    background-color: #434956;
+  }
+
   .h-link a:hover {
-    color: #dfdfdf;
+    color: #505252;
+  }
+  .h-link a {
+    color: #211f1f;
   }
   // .h-link .actived {
   //   border-bottom: 2px solid white;
@@ -845,7 +832,7 @@ img:not([src]) {
   }
   .header-navigation li.active,
   .header-navigation li:hover {
-    background: #1a89ff;
+    // background: #1a89ff;
     color: white;
   }
   // .vol-header .header-text {
@@ -855,10 +842,10 @@ img:not([src]) {
 </style>
 <style  scoped>
 .vol-theme-white .vol-aside >>> .ivu-menu-submenu-title {
-  background: #0159fb !important;
+  /* background: #0159fb !important; */
 }
 .vol-theme-white .vol-aside >>> .ivu-menu-opened {
-  background: #006cdf !important;
+  /* background: #006cdf !important; */
   color: white;
 }
 .vol-aside .vol-menu {
