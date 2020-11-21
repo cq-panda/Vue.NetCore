@@ -22,6 +22,10 @@
       <span>移动打包APK后截图H5-UI</span>
     </Divider>
     <div class="img-item">
+      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h521.png" />
+      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h520.png" />
+    </div>
+    <div class="img-item">
       <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h01.png" />
       <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h02.png" />
     </div>

@@ -19,7 +19,8 @@ const param = {
     { name: "render", desc: "<span style='color:red;'>支持vue原生render处理,[前端开发->render渲染form对象1/2]为配置示例，render完整用法见vue官方文档(2020.06.20)</span>", type: "function", default: "" },
     { name: "title", desc: "标签名称", type: "string", default: "" },
     //
-    { name: "readonly/readonly", desc: "是否只读", type: "bool", default: "false" },
+    { name: "disabled/readonly", desc: "是否只读", type: "bool", default: "false" },
+    { name: "hidden", desc: "<span style='color:red;'>字段(标签)是否显示2020.11.21</span>", type: "bool", default: "" },
     { name: "required", desc: "是否必填", type: "bool", default: "false" },
     { name: "field", desc: "字段，与表单字段必须相同", type: "string", default: "" },
     { name: "filter", desc: "启用搜索,只对select/selectList生效,默认下拉框数据源超出10个开启搜索", type: "bool", default: "false" },
