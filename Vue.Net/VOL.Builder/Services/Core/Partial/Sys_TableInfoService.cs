@@ -1352,6 +1352,7 @@ DISTINCT
                 .FindAsIQueryable(x => x.Table_Id == tableId)
                 .Include(c => c.TableColumns)
                 .FirstOrDefault();
+            if (tableInfo == null) return new WebResponseContent().Error("未查询到表信息");
             if (tableInfo.TableColumns != null)
             {
                 tableInfo.TableColumns = tableInfo.TableColumns.OrderByDescending(x => x.OrderNo).ToList();
