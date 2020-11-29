@@ -205,17 +205,26 @@ let base = {
   //1、id与parentId这两个字段必须有
   //2、树形tree需要注意Id与parentId循环依赖的问题
   //3、callback每次生成一新的节点的时回调的方法
+
   convertTree (data, callback) {
+    var treeIds = [];
     var root_data = [];
     data.forEach(x => {
-      if (!x.hidden && (x.id === x.parentId || !data.some(s => { return x.parentId == s.id }))) {
-        x.children = [];
+      x.children = [];
+      if (!x.hidden && x.id !== undefined && x.id !== x.parentId && !data.some(s => {
+        return x.parentId == s.id
+      })) {
         x.isRoot = true;
-        callback && callback(x, data, true);
+        callback && callback(x, data, true, treeIds);
         root_data.push(x);
-        getTree(x.id, x, data, callback);
+        getTree(x.id, x, data, callback, treeIds);
       }
     });
+    var exceptionNodes = data.filter(f => {
+      return treeIds.indexOf(f.id) == -1 && !f.hidden;
+    })
+
+    root_data.push(...exceptionNodes);
     return root_data;
   },
   getTreeAllParent (id, data) {  //获取某个节点的所有父节点信息2020.11.01
@@ -247,14 +256,18 @@ let base = {
 export default base;
 
 //2020.06.01增加通用方法，将普通对象转换为tree结构
-function getTree (id, node, data, callback) {
+function getTree (id, node, data, callback, treeIds) {
+  if (!treeIds) {
+    return;
+  }
   data.forEach(x => {
+
+    treeIds.push(id);
     if (!x.hidden && x.parentId == id) {
       if (!node.children) node.children = [];
       callback && callback(x, node, false);
       node.children.push(x);
-      getTree(x.id, x, data, callback);
+      getTree(x.id, x, data, callback, treeIds);
     }
   });
 }
-
