@@ -538,6 +538,52 @@ export default {
             ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112102.png?imageMogr2/thumbnail/!50p",
               "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112103.png?imageMogr2/thumbnail/!50p"],
         },
+
+        {
+          title: "查询界面-隐藏查询按钮",
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//事件扩展</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//隐藏查询界面按钮</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">buttons</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">name</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"刷&nbsp;新"</span>&nbsp;||&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">name</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"新&nbsp;建"</span>)&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">x</span>,&nbsp;<span style="color:#ce9178;">"hidden"</span>,&nbsp;<span style="color:#569cd6;">true</span>);
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置页面上显示的按钮个数(不是必须的)</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">maxBtnLength</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">6</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.boxButtons弹出框的按钮,this.detailOptions.buttons弹出框明细表操作按钮，同样适用上面上方法</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>` ],
+          tips: ` 还没想好`,
+          img:
+            ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112901.png?imageMogr2/thumbnail/!50p",
+              "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112902.png?imageMogr2/thumbnail/!50p"],
+        },
         {
           title: "弹出框界面动态按钮",
           content: [
@@ -2656,7 +2702,7 @@ export default {
 
         {
           title: "编辑表单动态显示隐藏",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [`<div style='color:red'>2020-11-21后更新的才可以使用</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;<span style="color:#dcdcaa;">getFormOption</span>&nbsp;(<span style="color:#9cdcfe;">field</span>)&nbsp;{
 	</div>
