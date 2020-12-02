@@ -210,7 +210,9 @@ let base = {
     var treeIds = [];
     var root_data = [];
     data.forEach(x => {
-      x.children = [];
+      if (!x.children) {
+        x.children = [];
+      }
       if (!x.hidden && x.id !== undefined && x.id !== x.parentId && !data.some(s => {
         return x.parentId == s.id
       })) {
@@ -257,12 +259,10 @@ export default base;
 
 //2020.06.01增加通用方法，将普通对象转换为tree结构
 function getTree (id, node, data, callback, treeIds) {
-  if (!treeIds) {
-    return;
+  if (treeIds.indexOf(id) == -1) {
+    treeIds.push(id);
   }
   data.forEach(x => {
-
-    treeIds.push(id);
     if (!x.hidden && x.parentId == id) {
       if (!node.children) node.children = [];
       callback && callback(x, node, false);
