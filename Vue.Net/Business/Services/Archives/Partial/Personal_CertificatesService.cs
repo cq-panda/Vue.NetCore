@@ -91,8 +91,8 @@ namespace Business.Services
                 }
                 Credential cred = new Credential
                 {
-                    SecretId = SystemSettingContext.Setting.TencentCloud_SecretId,
-                    SecretKey = SystemSettingContext.Setting.TencentCloud_SecretKey
+                    SecretId = "",
+                    SecretKey = ""
                 };
 
                 ClientProfile clientProfile = new ClientProfile();

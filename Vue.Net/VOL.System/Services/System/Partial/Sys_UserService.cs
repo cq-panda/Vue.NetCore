@@ -30,18 +30,7 @@ namespace VOL.System.Services
             IMemoryCache memoryCache = HttpContext.Current.GetService<IMemoryCache>();
       
             string cacheCode = (memoryCache.Get(loginInfo.UUID) ?? "").ToString();
-            if (SystemSettingContext.Setting.Login_EnableVerificaCode == 1)
-            {
-                if (string.IsNullOrEmpty(cacheCode))
-                {
-                    return responseContent.Error("验证码已失效");
-                }
-                if (cacheCode.ToLower() != loginInfo.VerificationCode.ToLower())
-                {
-                    memoryCache.Remove(loginInfo.UUID);
-                    return responseContent.Error("验证码不正确");
-                }
-            }
+          
             try
             {
                 Sys_User user = await repository.FindAsIQueryable(x => x.UserName == loginInfo.UserName)
