@@ -2,19 +2,23 @@
   <div class="layout-container">
     <a :href="exportHref"
        ref="export"></a>
+    <!--开启懒加载2020.12.06 -->
     <vol-box :model.sync="viewModel"
              :height="450"
              :width="width"
+             :lazy="true"
              :title="table.cnName+'数据结构'">
       <div slot="content">
         <Table :columns="viewColumns"
                :data="viewData"></Table>
       </div>
     </vol-box>
+    <!--开启懒加载2020.12.06 -->
     <!--审核(异步点击按钮时才加载待完)-->
     <vol-box :model.sync="auditParam.model"
              :height="300"
              :width="550"
+             :lazy="true"
              :title="table.cnName+'--审核'">
       <div slot="content">
         <Audit :auditParam="auditParam"></Audit>
@@ -28,10 +32,12 @@
 
     <!--导入excel功能-->
     <!--2020.10.31添加导入前的方法-->
+    <!--开启懒加载2020.12.06 -->
     <vol-box v-if="upload.url"
              :model.sync="upload.excel"
              :height="285"
              :width="600"
+             :lazy="true"
              :title="table.cnName+'--导入'">
       <UploadExcel ref="upload_excel"
                    @importExcelAfter="importAfter"
