@@ -39,10 +39,16 @@ let serviceFilter = {
   addBefore (formData) { //新建保存前formData为对象，包括明细表
     return true;
   },
+  async addBeforeAsync (formData) { //异步处理,功能同上(2020.12.06)
+    return true;
+  },
   addAfter (result) {//新建保存后result返回的状态及表单对象
     return true;
   },
   updateBefore (formData) { //编辑保存前formData为对象，包括明细表、删除行的Id
+    return true;
+  },
+  async updateBeforeAsync (formData) { //异步处理,功能同上(2020.12.06)
     return true;
   },
   updateAfter (result) {//编辑保存后result返回的状态及表单对象

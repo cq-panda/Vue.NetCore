@@ -509,7 +509,7 @@ let methods = {
       }
     });
   },
-  saveExecute () {
+  async saveExecute () {
     let _editFormFields = {};
     //上传文件以逗号隔开
     for (const key in this._editFormFields) {
@@ -557,9 +557,11 @@ let methods = {
     }
     //保存前拦截
     if (this.currentAction == this.const.ADD) {
-      if (!this.addBefore(formData)) return;
+      //2020.12.06增加新建前异步处理方法
+      if (!this.addBefore(formData) || await !this.addBeforeAsync(formData)) return;
     } else {
-      if (!this.updateBefore(formData)) return;
+      //2020.12.06增加修改前异步处理方法
+      if (!this.updateBefore(formData) || await !this.updateBeforeAsync(formData)) return;
     }
     let url = this.getUrl(this.currentAction);
     this.http.post(url, formData, true).then(x => {
