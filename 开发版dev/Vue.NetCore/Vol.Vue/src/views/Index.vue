@@ -560,11 +560,10 @@ img:not([src]) {
 <style lang="less" scoped>
 //黑色
 .vol-theme-dark {
-  .header-text {
-    color: #dcdfe6;
-  }
-  .vol-header,
   .header {
+    background: #101010;
+  }
+  .vol-header {
     background-color: #272929;
   }
   .h-link a:hover {
@@ -841,15 +840,12 @@ img:not([src]) {
 }
 </style>
 <style  scoped>
-.vol-theme-white .vol-aside >>> .ivu-menu-submenu-title {
-  /* background: #0159fb !important; */
-}
 .vol-theme-white .vol-aside >>> .ivu-menu-opened {
   /* background: #006cdf !important; */
   color: white;
 }
 .vol-aside .vol-menu {
-  background: white;
+  background: #515a6e;
 }
 </style>
 
