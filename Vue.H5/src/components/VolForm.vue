@@ -115,8 +115,10 @@
                        v-else-if="item.type=='img'"
                        :label="item.name">
               <template #input>
-                <img :src="fields[item.field]"
-                     @click="base.previewImg(fields[item.field])" />
+                <vol-van-uploader :file-list="fields[item.field]"
+                                  :multiple="item.multiple"
+                                  :maxCount="item.maxCount"
+                                  :url="item.url"></vol-van-uploader>
               </template>
             </van-field>
 
@@ -212,6 +214,7 @@ export default {
     },
   },
   components: {
+    "vol-van-uploader": () => import("./VolVanUploader"),
     // "ds-header": header,
     "van-field": Field,
     "van-popup": Popup,

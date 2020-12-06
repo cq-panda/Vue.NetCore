@@ -90,6 +90,21 @@ const router = new Router({
       component: () => import('@/views/page/app_transactionAvgPrice.vue'),
       meta: {
       }
+    },
+    {
+      path: '/App_Expert',
+      name: 'App_Expert',
+      component: () => import('@/views/page/App_Expert.vue'),
+      meta: {
+      }
+    }
+    ,
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('@/views/test/Test.vue'),
+      meta: {
+      }
     }
   ]
 })

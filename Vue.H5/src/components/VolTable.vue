@@ -27,7 +27,13 @@
                  :style="getStyle(column)"
                  v-for="(column) in fields"
                  :key="column.field">
-              <div v-if="column.formatter"
+              <div v-if="column.type=='img'">
+                <img class="tb-cell-img"
+                     v-for="(imgItem,imgIndex) in getImgs(row[column.field])"
+                     :src="imgItem"
+                     :key="imgIndex" />
+              </div>
+              <div v-else-if="column.formatter"
                    v-html="column.formatter(row[column.field],row,column)"></div>
               <template v-else-if="column.bind"> {{converDicValue( row[column.field],column)}}</template>
               <template v-else> {{ row[column.field]}}</template>
@@ -81,11 +87,27 @@ export default {
       bodyHeigth: 0,
       fields: [],
       keySource: {},
-
+      imgFields: [],//图片字段
       list: []
     }
   },
   methods: {
+    getCellStyle (column) {
+      if (column.type == "img") {
+        return { "line-height": "40px" }
+      }
+      return "";
+    },
+    getImgs (imgs) {
+      if (!imgs) return [];
+      var _imgs = imgs.split(',');
+      return _imgs.filter(x => { return x }).map(m => {
+        if (m.substr(0, 4) == "http") {
+          return m;
+        }
+        return this.http.ipAddress + m;
+      })
+    },
     reload () {
       this.$refs.PRL.refresh();
     },
@@ -163,6 +185,8 @@ export default {
     }
 
     this.http.post("/api/Sys_Log/getPageData", {}, true).then(x => {
+      //this.$emit("loadTableAfter", x.rows);
+
       this.list = x.rows;
     })
   }
@@ -196,5 +220,12 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.tb-cell-img {
+  margin-right: 0.5rem;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 5px;
+  object-fit: cover;
 }
 </style>
