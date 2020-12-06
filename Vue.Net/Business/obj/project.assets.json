@@ -46,7 +46,7 @@
           "lib/netstandard1.3/AutoMapper.dll": {}
         }
       },
-      "Castle.Core/4.2.1": {
+      "Castle.Core/4.4.0": {
         "type": "package",
         "dependencies": {
           "NETStandard.Library": "1.6.1",
@@ -61,10 +61,10 @@
           "System.Xml.XmlDocument": "4.3.0"
         },
         "compile": {
-          "lib/netstandard1.3/Castle.Core.dll": {}
+          "lib/netstandard1.5/Castle.Core.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/Castle.Core.dll": {}
+          "lib/netstandard1.5/Castle.Core.dll": {}
         }
       },
       "CSRedisCore/3.6.5": {
@@ -522,11 +522,11 @@
           "lib/netstandard2.0/_._": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Proxies/2.1.4": {
+      "Microsoft.EntityFrameworkCore.Proxies/3.1.0": {
         "type": "package",
         "dependencies": {
-          "Castle.Core": "4.2.1",
-          "Microsoft.EntityFrameworkCore": "2.1.4"
+          "Castle.Core": "4.4.0",
+          "Microsoft.EntityFrameworkCore": "3.1.0"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Proxies.dll": {}
@@ -2946,6 +2946,19 @@
           "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
+      "TencentCloudSDK/3.0.171": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "11.0.1",
+          "System.Text.Encodings.Web": "4.4.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/TencentCloud.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/TencentCloud.dll": {}
+        }
+      },
       "ZKWeb.System.Drawing/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -2977,7 +2990,7 @@
           "Microsoft.AspNetCore.Mvc.Formatters.Json": "2.2.0",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "3.1.0",
           "Microsoft.EntityFrameworkCore": "3.1.0",
-          "Microsoft.EntityFrameworkCore.Proxies": "2.1.4",
+          "Microsoft.EntityFrameworkCore.Proxies": "3.1.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "3.1.0",
           "Microsoft.Extensions.Caching.Redis.Core": "1.0.3",
           "Microsoft.Extensions.DependencyModel": "3.1.0",
@@ -3073,17 +3086,17 @@
         "lib/netstandard1.3/AutoMapper.xml"
       ]
     },
-    "Castle.Core/4.2.1": {
-      "sha512": "XSNA0Gc1Zu33L+8+/3Tqt+aFu8QWS8UenVHZ7RenIP5wJfhoLrA4PnNscpxReeo5aBq8PDoGnV8rNaOzIOUo/w==",
+    "Castle.Core/4.4.0": {
+      "sha512": "b5rRL5zeaau1y/5hIbI+6mGw3cwun16YjkHZnV9RRT5UyUIFsgLmNXJ0YnIN9p8Hw7K7AbG1q1UclQVU3DinAQ==",
       "type": "package",
-      "path": "castle.core/4.2.1",
+      "path": "castle.core/4.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "ASL - Apache Software Foundation License.txt",
         "CHANGELOG.md",
         "LICENSE",
-        "castle.core.4.2.1.nupkg.sha512",
+        "castle.core.4.4.0.nupkg.sha512",
         "castle.core.nuspec",
         "lib/net35/Castle.Core.dll",
         "lib/net35/Castle.Core.xml",
@@ -3093,6 +3106,8 @@
         "lib/net45/Castle.Core.xml",
         "lib/netstandard1.3/Castle.Core.dll",
         "lib/netstandard1.3/Castle.Core.xml",
+        "lib/netstandard1.5/Castle.Core.dll",
+        "lib/netstandard1.5/Castle.Core.xml",
         "readme.txt"
       ]
     },
@@ -3634,17 +3649,18 @@
         "packageIcon.png"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Proxies/2.1.4": {
-      "sha512": "eSL+czHdIkfM8uSGMSxX7VxZybAshsQ0YK26276DrrDKjRHRD6jBz3GPqumejUXy9nsKgkHcBTH/94pjO7qVLw==",
+    "Microsoft.EntityFrameworkCore.Proxies/3.1.0": {
+      "sha512": "COaP5hxQTbCJVKE4ssv/ebwjTtk1hVQ5f/QPuFqKLLrOr9Sx+YtSG3TCXkupOmy/1HG0gGHcd/wWC3mZ+henfg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.proxies/2.1.4",
+      "path": "microsoft.entityframeworkcore.proxies/3.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Proxies.dll",
         "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Proxies.xml",
-        "microsoft.entityframeworkcore.proxies.2.1.4.nupkg.sha512",
-        "microsoft.entityframeworkcore.proxies.nuspec"
+        "microsoft.entityframeworkcore.proxies.3.1.0.nupkg.sha512",
+        "microsoft.entityframeworkcore.proxies.nuspec",
+        "packageIcon.png"
       ]
     },
     "Microsoft.EntityFrameworkCore.Relational/3.1.0": {
@@ -9429,6 +9445,19 @@
         "system.xml.xpath.xmldocument.nuspec"
       ]
     },
+    "TencentCloudSDK/3.0.171": {
+      "sha512": "poQeQ3xS20J0+xIVKlzI4V/YOJSF4312tJatHMuBKvaI2DoCA6g1bFc5xkAq9la50zkBYqCrLcbiUamXT7PPag==",
+      "type": "package",
+      "path": "tencentcloudsdk/3.0.171",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/TencentCloud.dll",
+        "lib/netstandard2.0/TencentCloud.dll",
+        "tencentcloudsdk.3.0.171.nupkg.sha512",
+        "tencentcloudsdk.nuspec"
+      ]
+    },
     "ZKWeb.System.Drawing/4.0.1": {
       "sha512": "r8OLPZ2cb9SSwjm8GNkMbqOgo58N8d8RwxJN1yF01atv+MQdNOqa5Xx117tIjWUbB6pBnVe6u+pXkYVORaCeWw==",
       "type": "package",
@@ -9455,6 +9484,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "TencentCloudSDK >= 3.0.171",
       "VOL.Core >= 1.0.0",
       "VOL.Entity >= 1.0.0"
     ]
@@ -9502,6 +9532,12 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "dependencies": {
+          "TencentCloudSDK": {
+            "target": "Package",
+            "version": "[3.0.171, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",

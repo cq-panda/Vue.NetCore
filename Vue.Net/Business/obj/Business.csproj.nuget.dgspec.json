@@ -44,6 +44,12 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "TencentCloudSDK": {
+              "target": "Package",
+              "version": "[3.0.171, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -146,7 +152,7 @@
             },
             "Microsoft.EntityFrameworkCore.Proxies": {
               "target": "Package",
-              "version": "[2.1.4, )"
+              "version": "[3.1.0, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",

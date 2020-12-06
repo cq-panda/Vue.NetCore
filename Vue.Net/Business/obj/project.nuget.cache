@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "tf/Gaexj84TQq/nU/KVDKQarawsIHSWxNLuWzZ40CEPAdXhMDwDO9TsjpggHqH8WeCqUT7znF3OSmPs5KPwB0Q==",
+  "dgSpecHash": "MEvujTbUfNfcSI6s70+wU+pwSmN0MBtzkb/7ALbKmmcdPCPaXS2NubhOqQKrehYU2CmciK5nfJhzEng7NiQugg==",
   "success": true,
   "projectFilePath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\苏宣宁\\.nuget\\packages\\autofac\\4.9.4\\autofac.4.9.4.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\autofac.extensions.dependencyinjection\\5.0.1\\autofac.extensions.dependencyinjection.5.0.1.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\automapper\\6.2.2\\automapper.6.2.2.nupkg.sha512",
-    "C:\\Users\\苏宣宁\\.nuget\\packages\\castle.core\\4.2.1\\castle.core.4.2.1.nupkg.sha512",
+    "C:\\Users\\苏宣宁\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\csrediscore\\3.6.5\\csrediscore.3.6.5.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\dapper\\1.50.5\\dapper.1.50.5.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\efcore.bulkextensions\\2.2.2\\efcore.bulkextensions.2.2.2.nupkg.sha512",
@@ -39,7 +39,7 @@
     "C:\\Users\\苏宣宁\\.nuget\\packages\\microsoft.entityframeworkcore\\3.1.0\\microsoft.entityframeworkcore.3.1.0.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\3.1.0\\microsoft.entityframeworkcore.abstractions.3.1.0.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\3.1.0\\microsoft.entityframeworkcore.analyzers.3.1.0.nupkg.sha512",
-    "C:\\Users\\苏宣宁\\.nuget\\packages\\microsoft.entityframeworkcore.proxies\\2.1.4\\microsoft.entityframeworkcore.proxies.2.1.4.nupkg.sha512",
+    "C:\\Users\\苏宣宁\\.nuget\\packages\\microsoft.entityframeworkcore.proxies\\3.1.0\\microsoft.entityframeworkcore.proxies.3.1.0.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\3.1.0\\microsoft.entityframeworkcore.relational.3.1.0.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\3.1.0\\microsoft.entityframeworkcore.sqlserver.3.1.0.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\3.1.0\\microsoft.extensions.caching.abstractions.3.1.0.nupkg.sha512",
@@ -192,6 +192,7 @@
     "C:\\Users\\苏宣宁\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\苏宣宁\\.nuget\\packages\\tencentcloudsdk\\3.0.171\\tencentcloudsdk.3.0.171.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\zkweb.system.drawing\\4.0.1\\zkweb.system.drawing.4.0.1.nupkg.sha512"
   ],
   "logs": []

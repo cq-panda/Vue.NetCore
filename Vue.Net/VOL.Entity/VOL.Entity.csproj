@@ -13,8 +13,11 @@
 
   <ItemGroup>
     <Compile Remove="MappingConfiguration\Core\**" />
+    <Compile Remove="System\**" />
     <EmbeddedResource Remove="MappingConfiguration\Core\**" />
+    <EmbeddedResource Remove="System\**" />
     <None Remove="MappingConfiguration\Core\**" />
+    <None Remove="System\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +34,6 @@
     <Folder Include="DomainModels\Appointment\" />
     <Folder Include="DomainModels\News\" />
     <Folder Include="MappingConfiguration\Appointment\" />
-    <Folder Include="System\" />
   </ItemGroup>
 
 </Project>

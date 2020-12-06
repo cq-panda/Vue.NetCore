@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="TencentCloudSDK" Version="3.0.171" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\VOL.Core\VOL.Core.csproj" />
     <ProjectReference Include="..\VOL.Entity\VOL.Entity.csproj" />
   </ItemGroup>

@@ -551,21 +551,26 @@ export default {
     getFilePath (pathSring) {
       //获取表的图片与文件显示
       if (!pathSring) return "";
-      let filePath = pathSring.replace(/\\/g, "/").split(",");
+      let filePath = pathSring.replace(/\\/g, "/").split("/");
       let fileInfo = [];
-      for (let index = 0; index < filePath.length; index++) {
-        let file = filePath[index];
-        if (file.indexOf(".") != -1) {
-          let splitFile = file.split("/");
-          if (splitFile.length > 0) {
-            fileInfo.push({
-              name: splitFile[splitFile.length - 1],
-              path: this.base.isUrl(file) ? file : this.http.ipAddress + file,
-            });
-          }
-        }
-      }
+      // for (let index = 0; index < filePath.length; index++) {
+      //   let file = filePath[index];
+      //   if (file.indexOf(".") != -1) {
+      //     let splitFile = file.split("/");
+      //     if (splitFile.length > 0) {
+      //       fileInfo.push({
+      //         name: splitFile[splitFile.length - 1],
+      //         path: this.base.isUrl(file) ? file : this.http.ipAddress + file,
+      //       });
+      //     }
+      //   }
+      // }
+       fileInfo.push({
+        name: filePath[filePath.length - 1],
+        path: this.base.isUrl(pathSring) ? file : this.http.ipAddress + pathSring,
+      });
       return fileInfo;
+
     },
     //重置table
     reset () {

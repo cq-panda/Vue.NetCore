@@ -54,6 +54,14 @@ let viewgird = [
         path: '/App_News',
         name: 'App_News',
         component: () => import('@/views/appmanager/App_News.vue')
+    }   ,{
+        path: '/Personal',
+        name: 'Personal',
+        component: () => import('@/views/business/Personal.vue')
+    }   ,{
+        path: '/Personal_Certificates',
+        name: 'Personal_Certificates',
+        component: () => import('@/views/business/Personal_Certificates.vue')
     }    ,{
         path: '/Sys_Configuration',
         name: 'Sys_Configuration',

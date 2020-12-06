@@ -11,13 +11,13 @@
             <span>注册日期：{{userInfo.createDate}}</span>
           </p>
           <p>
-            <Button
+            <!-- <Button
               style="padding: 3px 16px;"
               @click="modifyImg"
               type="info"
               size="small"
               ghost
-            >修改头像</Button>
+            >修改头像</Button> -->
           </p>
         </div>
       </div>
@@ -27,22 +27,22 @@
       <Card class="binding-group" shadow>
         <CellGroup>
           <Cell :title="'手机：'+(userInfo.phoneNo||'未绑定')">
-            <Button
+            <!-- <Button
               type="success"
               size="small"
               @click="modifyPhone"
               icon="md-phone-portrait"
               slot="extra"
-            >修改手机</Button>
+            >修改手机</Button> -->
           </Cell>
           <Cell :title="'邮箱：'+(userInfo.email||'未绑定')">
-            <Button
+            <!-- <Button
               type="info"
               size="small"
               @click="modifyEmail"
               icon="ios-mail-outline"
               slot="extra"
-            >绑定邮箱</Button>
+            >绑定邮箱</Button> -->
           </Cell>
         </CellGroup>
       </Card>
@@ -69,7 +69,7 @@
         </div>
       </vol-form>
     </div>
-    <VolBox
+      <VolBox
       :width="500"
       :height="260"
       :footer="false"
@@ -87,10 +87,12 @@
   </div>
 </template>
 <script>
+import VolUpload from "@/components/basic/VolUpload.vue";
 import VolForm from "@/components/basic/VolForm.vue";
 export default {
   components: {
     VolForm: VolForm,
+    VolUpload:VolUpload,
     VolBox: () => import("@/components/basic/VolBox.vue"),
   },
   methods: {
@@ -129,7 +131,18 @@ export default {
       });
     },
     modifyInfo() {
-      this.$message.info("修改个人信息");
+      var than = this;
+      this.$refs.form.validate(() => {
+        this.http
+          .post("/api/user/modifyUserInfo", this.editFormFileds, true)
+          .then((x) => {
+            if (x.status) {
+               return this.$Message.success(x.message);
+            }else{
+              return this.$Message.error(x.message);
+            }
+          });
+      });
     },
   },
   created() {
