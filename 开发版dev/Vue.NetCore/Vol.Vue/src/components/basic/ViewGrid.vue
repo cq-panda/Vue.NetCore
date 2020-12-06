@@ -97,11 +97,13 @@
                          :tiggerPress="quickSearchKeyPress"></QuickSearch>
           </div>
           <!--操作按钮组-->
+          <!-- 2020.11.29增加查询界面hidden属性 -->
           <div class="btn-group">
             <Button v-for="(btn,bIndex) in splitButtons"
                     :key="bIndex"
                     :type="btn.type"
                     :class="btn.class"
+                    v-show="!btn.hidden"
                     @click="onClick(btn.onClick)">
               <Icon :type="btn.icon" />
               {{btn.name}}

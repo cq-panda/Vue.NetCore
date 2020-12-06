@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj": {}
+    "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj": {}
   },
   "projects": {
-    "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj": {
+    "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj",
+        "projectUniqueName": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj",
         "projectName": "Business",
-        "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj",
+        "projectPath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj",
         "packagesPath": "C:\\Users\\苏宣宁\\.nuget\\packages\\",
-        "outputPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\Business\\obj\\",
+        "outputPath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\Business\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\苏宣宁\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -27,11 +27,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj": {
-                "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj"
+              "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj": {
+                "projectPath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj"
               },
-              "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
-                "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj"
+              "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj"
               }
             }
           }
@@ -66,14 +66,14 @@
         }
       }
     },
-    "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj": {
+    "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj",
+        "projectUniqueName": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj",
         "projectName": "VOL.Core",
-        "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj",
+        "projectPath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Core\\VOL.Core.csproj",
         "packagesPath": "C:\\Users\\苏宣宁\\.nuget\\packages\\",
-        "outputPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Core\\obj\\",
+        "outputPath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\苏宣宁\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -89,8 +89,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
-                "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj"
+              "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj"
               }
             }
           }
@@ -203,14 +203,14 @@
         }
       }
     },
-    "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
+    "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj",
+        "projectUniqueName": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj",
         "projectName": "VOL.Entity",
-        "projectPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj",
+        "projectPath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Entity\\VOL.Entity.csproj",
         "packagesPath": "C:\\Users\\苏宣宁\\.nuget\\packages\\",
-        "outputPath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\VOL.Entity\\obj\\",
+        "outputPath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\VOL.Entity\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\苏宣宁\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
+import doc from './doc'
 const routerPush = Router.prototype.push
 Router.prototype.push = function push (location) {
   return routerPush.call(this, location).catch(error => { console.log(error) })
@@ -67,10 +68,26 @@ const router = new Router({
       meta: {
       }
     },
+    ...doc,
     {
       path: '/stat',
       name: 'stat',
       component: () => import('@/views/stat/index.vue'),
+      meta: {
+      }
+    },
+    {
+      path: '/app_appointment',
+      name: 'app_appointment',
+      component: () => import('@/views/page/app_appointment.vue'),
+      meta: {
+      }
+    }
+    ,
+    {
+      path: '/app_transactionAvgPrice',
+      name: 'app_transactionAvgPrice',
+      component: () => import('@/views/page/app_transactionAvgPrice.vue'),
       meta: {
       }
     }

@@ -54,5 +54,9 @@ let viewgird = [
         path: '/App_News',
         name: 'App_News',
         component: () => import('@/views/appmanager/App_News.vue')
+    }    ,{
+        path: '/Sys_Configuration',
+        name: 'Sys_Configuration',
+        component: () => import('@/views/system/Sys_Configuration.vue')
     }]
 export default viewgird

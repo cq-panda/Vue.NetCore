@@ -753,6 +753,7 @@ export default {
       }
       if (!this.enableEdit) {
         if (!this.errorFiled) {
+          if (this.edit.rowIndex != -1 && !this.endEditAfter(row, column, this.edit.rowIndex)) return false;
           this.edit.rowIndex = -1;
         }
         return true;

@@ -26,6 +26,21 @@
           </div>
         </div>
       </div>
+      <div class="fun">
+        <h4 class="title">H5组件文档</h4>
+        <div class="item-group">
+          <div class="item"
+               @click="to(item)"
+               v-for="(item,index) in doc"
+               :key="index">
+
+            <van-icon :style="{background:item.color}"
+                      :name="item.icon" />
+            <br>
+            <span>{{item.text}}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -44,7 +59,11 @@ export default {
         { text: "表  单", icon: "apps-o", path: "/stat", color: "#ff9c0a" },
         { text: "社  圈", icon: "tv-o", path: "/community", color: "#33a4fd" },
         { text: "我  的", icon: "user-circle-o", path: "/user", color: "#07e610" }
-      ]
+      ],
+      doc: [{ text: "table组件", icon: "comment-o", path: "/doc_table", color: "#ff9c0a" },
+      { text: "表单组件", icon: "comment-o", path: "/doc_form", color: "#33a4fd" },
+      { text: "table组件", icon: "comment-o", path: "/doc_table", color: "#ff9c0a" },
+      { text: "表单组件", icon: "comment-o", path: "/doc_form", color: "#33a4fd" }]
     };
   },
   methods: {

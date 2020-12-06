@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +21,18 @@ namespace VOL.Core.Controllers.Basic
         public ApiBaseController(string projectName, string folder, string tablename, IServiceBase service)
         : base(projectName, folder, tablename, service)
         {
+        }
+        /// <summary>
+        /// 2020.11.21增加json原格式返回数据(默认是驼峰格式)
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="serializerSettings"></param>
+        /// <returns></returns>
+        protected JsonResult JsonNormal(object data, JsonSerializerSettings serializerSettings = null)
+        {
+            serializerSettings = serializerSettings ?? new JsonSerializerSettings();
+            serializerSettings.ContractResolver = null;
+            return Json(data, serializerSettings);
         }
 
         [ApiActionPermission(Enums.ActionPermissionOptions.Search)]
@@ -59,7 +72,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [HttpPost, Route("Upload")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Upload)]
-        public   async Task<IActionResult> Upload(IEnumerable<IFormFile> fileInput)
+        public async Task<IActionResult> Upload(IEnumerable<IFormFile> fileInput)
         {
             return await base.Upload(fileInput.ToList());
         }
@@ -103,7 +116,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Export)]
         [HttpGet, Route("DownLoadFile")]
-        public  IActionResult DownLoadFile()
+        public IActionResult DownLoadFile()
         {
             string path = HttpContext.Request("path");
             return base.DownLoadFile(path);
@@ -127,7 +140,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Audit)]
         [HttpPost, Route("Audit")]
-        public new async Task<ActionResult> Audit([FromBody]object[] id, int? auditStatus, string auditReason)
+        public new async Task<ActionResult> Audit([FromBody] object[] id, int? auditStatus, string auditReason)
         {
             return await base.Audit(id, auditStatus, auditReason);
         }
@@ -138,7 +151,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Add)]
         [HttpPost, Route("Add")]
-        public new async Task<ActionResult> Add([FromBody]SaveModel saveModel)
+        public new async Task<ActionResult> Add([FromBody] SaveModel saveModel)
         {
             WebResponseContent responseContent = await base.Add(saveModel);
             responseContent.Data = responseContent.Data?.Serialize();

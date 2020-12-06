@@ -13,62 +13,82 @@
       <div class="login">
         <div class="login-contianer">
           <div class="login-form">
-            <Menu mode="horizontal" style="margin-bottom: 30px;" active-name="1">
+            <Menu mode="horizontal"
+                  style="margin-bottom: 30px;"
+                  active-name="1">
               <MenuItem name="1">
-                <Icon type="md-contacts" />帐号登陆
+              <Icon type="md-contacts" />帐号登陆
               </MenuItem>
               <MenuItem name="2">
-                <Icon type="ios-mail" />短信登陆
+              <Icon type="ios-mail" />短信登陆
               </MenuItem>
             </Menu>
-            <div class="form-user" @keypress="loginPress">
+            <div class="form-user"
+                 @keypress="loginPress">
               <div class="item">
                 <div class="f-text">
                   <label>
-                    <Icon type="ios-people" :size="20" />用户名：
+                    <Icon type="ios-people"
+                          :size="20" />用户名：
                   </label>
                 </div>
                 <div class="f-input">
-                  <input type="text" v-focus v-model="userInfo.userName" placeholder="输入用户" />
+                  <input type="text"
+                         v-focus
+                         v-model="userInfo.userName"
+                         placeholder="输入用户" />
                 </div>
-                <div class="f-remove" @click="userInfo.userName=''">
+                <div class="f-remove"
+                     @click="userInfo.userName=''">
                   <Icon type="ios-close-circle" />
                 </div>
               </div>
               <div class="item">
                 <div class="f-text">
                   <label>
-                    <Icon type="ios-lock" :size="20" />密&nbsp;&nbsp;&nbsp;码：
+                    <Icon type="ios-lock"
+                          :size="20" />密&nbsp;&nbsp;&nbsp;码：
                   </label>
                 </div>
                 <div class="f-input">
-                  <input type="password" v-focus v-model="userInfo.passWord" placeholder="输入密码" />
+                  <input type="password"
+                         v-focus
+                         v-model="userInfo.passWord"
+                         placeholder="输入密码" />
                 </div>
-                <div v-focus class="f-remove" @click="userInfo.passWord=''">
+                <div v-focus
+                     class="f-remove"
+                     @click="userInfo.passWord=''">
                   <Icon type="ios-close-circle" />
                 </div>
               </div>
               <div class="item">
                 <div class="f-text">
                   <label>
-                    <Icon type="md-images" v-focus :size="20" />验证码：
+                    <Icon type="md-images"
+                          v-focus
+                          :size="20" />验证码：
                   </label>
                 </div>
                 <div class="f-input">
-                  <input
-                    v-focus
-                    type="text"
-                    v-model="userInfo.verificationCode"
-                    placeholder="输入验证码"
-                  />
+                  <input v-focus
+                         type="text"
+                         v-model="userInfo.verificationCode"
+                         placeholder="输入验证码" />
                 </div>
-                <div class="code" @click="()=>{getVierificationCode()}">
-                  <img v-show="codeImgSrc!=''" :src="codeImgSrc" />
+                <div class="code"
+                     @click="()=>{getVierificationCode()}">
+                  <img v-show="codeImgSrc!=''"
+                       :src="codeImgSrc" />
                 </div>
               </div>
             </div>
             <div style="loging-btn">
-              <Button size="large" :loading="loading" type="info" @click="login" long>
+              <Button size="large"
+                      :loading="loading"
+                      type="info"
+                      @click="login"
+                      long>
                 <span v-if="!loading">登陆</span>
                 <span v-else>正在登陆...</span>
               </Button>
@@ -88,13 +108,14 @@
         <Icon type="logo-github" />GitHub
       </a>
       <a>QQ群：45221949</a>
-      <a href="http://www.beian.miit.gov.cn/" target="_blank">京ICP备19056538号-1</a>
+      <a href="http://www.beian.miit.gov.cn/"
+         target="_blank">京ICP备19056538号-1</a>
     </div>
   </div>
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       loading: false,
       codeImgSrc: "",
@@ -107,31 +128,31 @@ export default {
   },
   directives: {
     focus: {
-      inserted: function(el) {
+      inserted: function (el) {
         el.focus();
       }
     }
   },
-  created() {
+  created () {
     this.getVierificationCode();
   },
   methods: {
-    getVierificationCode() {
+    getVierificationCode () {
       this.http.get("/api/User/getVierificationCode").then(x => {
         this.codeImgSrc = "data:image/png;base64," + x.img;
         this.userInfo.UUID = x.uuid;
       });
     },
 
-    toGitHub() {
+    toGitHub () {
       window.open("https://github.com/cq-panda/Vue.NetCore");
     },
-    loginPress(e) {
+    loginPress (e) {
       if (event.keyCode == 13) {
         this.login();
       }
     },
-    login() {
+    login () {
       if (this.userInfo.userName == "" || this.userInfo.userName.trim() == "")
         return this.$Message.error("请输入用户名");
       if (this.userInfo.passWord == "" || this.userInfo.passWord.trim() == "")
@@ -268,15 +289,6 @@ export default {
     .f-input {
       border: 0px;
       flex: 1;
-      input {
-        padding-left: 15px;
-        font-size: 16px;
-        font-weight: 400;
-        color: #807f7f;
-        width: 100%;
-        outline: none;
-        border: none;
-      }
     }
     .code {
       position: relative;
@@ -287,16 +299,6 @@ export default {
       border-radius: 2px;
       height: 35px;
       margin-left: 10px;
-    }
-    input:focus {
-      outline: none;
-      background-color: transparent;
-    }
-    input::selection {
-      background: transparent;
-    }
-    input::-moz-selection {
-      background: transparent;
     }
   }
 }
@@ -360,8 +362,22 @@ input:-webkit-autofill {
     color: #f9ebd0;
   }
 }
-@media screen and (max-device-width: 600px) {
+@media screen and (max-width: 600px) {
   .desc {
+    display: none;
+  }
+  .bg {
+    background-image: none;
+  }
+  .login-form {
+    box-shadow: none !important;
+  }
+  .login-form {
+    width: 100% !important;
+  }
+  .login-footer,
+  .r-bg,
+  .l-bg {
     display: none;
   }
 }
@@ -372,12 +388,24 @@ input:-webkit-autofill {
 }
 </style>
 <style>
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
+input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-  box-shadow: 0 0 0 60px #eee inset;
-  -webkit-text-fill-color: #878787;
+}
+input {
+  background: white;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  color: #323233;
+  line-height: inherit;
+  text-align: left;
+  border: 0;
+  outline: none;
+  font-size: 16px;
+  line-height: 20px;
 }
 </style>
 

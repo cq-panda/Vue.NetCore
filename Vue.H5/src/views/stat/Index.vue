@@ -104,12 +104,12 @@ export default {
       //table表配置
       columns: [{ field: 'Id', title: 'Id', type: 'int', hidden: true },
       {
-        field: 'BeginDate', width: 100, title: '开始时间', type: 'datetime', formatter: (val, row, column) => {
+        field: 'BeginDate', width: 100, title: '开始时间', formatter: (val, row, column) => {
           return (val || '').substring(0, 10)
         }
       },
-      { field: 'UserName', title: '用户名称', type: 'string' },
-      { field: 'LogType', title: '日志类型', type: 'string', bind: { key: 'enable', data: [] }, },
+      { field: 'UserName', title: '用户名称' },
+      { field: 'LogType', title: '日志类型', bind: { key: 'enable', data: [] }, },
       //kye绑定数据源的key
       { field: 'Success', title: '响应状态', bind: { key: 'restatus', data: [], type: "selectList" } },
       { field: 'ElapsedTime', title: '时长' }],
@@ -248,7 +248,7 @@ export default {
       }
       this.$refs.detailForm.reset();
       if (key) {
-        this.detailFormz.fields.Id = key;
+        this.detailForm.fields.Id = key;
       }
     },
     addClick () {//点击新建

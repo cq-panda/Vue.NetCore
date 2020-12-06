@@ -110,6 +110,8 @@ namespace VOL.WebApi
                         .AllowAnyHeader().AllowAnyMethod();
                     });
             });
+            //ÃÌº”≈‰÷√π‹¿Ì
+            services.AddConfig();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllers();
             services.AddSwaggerGen(c =>

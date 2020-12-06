@@ -33,8 +33,8 @@ export default {
       menu: [
         { text: "首  页", icon: "home-o", path: "/index" },
         { text: "菜  单", icon: "coupon-o", path: "/menu" },
-        { text: "社  圈", icon: "tv-o", path: "/community" },
         { text: "表单(CURD)", icon: "apps-o", path: "/stat" },
+        { text: "社  圈", icon: "tv-o", path: "/community" },
         { text: "我  的", icon: "user-circle-o", path: "/user" }
       ]
     };

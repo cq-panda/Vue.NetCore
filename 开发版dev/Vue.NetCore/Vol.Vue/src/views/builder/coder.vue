@@ -4,11 +4,19 @@
     <!-- <vol-box ref="help" title="代码生成手册" :model.sync="helpModel">
       <div><p></p></div>
     </vol-box>-->
-    <vol-box ref="add" :width="550" :height="350" title="新建配置信息" :model.sync="addModel">
+    <vol-box ref="add"
+             :width="550"
+             :height="350"
+             title="新建配置信息"
+             :model.sync="addModel">
       <div class="addModel">
-        <vol-form ref="addForm" :formRules="addOptions" :formFileds="layOutOptins.fileds"></vol-form>
+        <vol-form ref="addForm"
+                  :formRules="addOptions"
+                  :formFileds="layOutOptins.fileds"></vol-form>
       </div>
-      <Button slot="footer" type="info" @click="add">确 认</Button>
+      <Button slot="footer"
+              type="info"
+              @click="add">确 认</Button>
     </vol-box>
     <div class="builder-left">
       <div class="module-name">代码生成配置</div>
@@ -17,7 +25,9 @@
       </Alert>-->
       <div class="builder-tree">
         <el-scrollbar style="height:100%;">
-          <VolMenu :onOpenChange="onOpenChange" :options="tree" :onSelect="onSelect"></VolMenu>
+          <VolMenu :onOpenChange="onOpenChange"
+                   :options="tree"
+                   :onSelect="onSelect"></VolMenu>
         </el-scrollbar>
       </div>
     </div>
@@ -25,9 +35,12 @@
       <div style="height:100%;">
         <el-scrollbar style="height:100%;">
           <div class="coder-container">
-            <div class="coder-item" style="padding-top: 7px;">
-              <VolHeader icon="ios-chatbubbles" text="代码生成器">
-                <div slot="content" style="color: red;">删除左侧配置菜单:删除行->保存->删除菜单</div>
+            <div class="coder-item"
+                 style="padding-top: 7px;">
+              <VolHeader icon="ios-chatbubbles"
+                         text="代码生成器">
+                <div slot="content"
+                     style="color: red;">删除左侧配置菜单:删除行->保存->删除菜单</div>
                 <div class="action">
                   <span @click="save">
                     <i class="ivu-icon ivu-icon-md-checkbox"></i>保存
@@ -65,39 +78,44 @@
                 </div>
               </VolHeader>
               <div class="config">
-                <vol-form
-                  :label-width="130"
-                  ref="form"
-                  :formRules="layOutOptins.options"
-                  :formFileds="layOutOptins.fileds"
-                ></vol-form>
+                <vol-form :label-width="130"
+                          ref="form"
+                          :formRules="layOutOptins.options"
+                          :formFileds="layOutOptins.fileds"></vol-form>
               </div>
             </div>
+            <Alert>
+              <p>1、如果需要修改表结构，请在数据库修改，再点同步表结构->生成vue页面->生成model。 2、修改编辑行后需要点击生成model、生成vue页面</p>
+
+            </Alert>
             <div class="coder-item">
-              <VolHeader icon="md-podium" text="表结构">
-                <div slot="content" style="color:red;">数据库表结构发生变化时请点【同步表结构】</div>
+
+              <VolHeader icon="md-podium"
+                         text="表结构">
+                <div slot="content"
+                     style="color:red;">数据库表结构发生变化时请点【同步表结构】</div>
                 <div class="action">
-                  <span
-                    style="color: rgb(23, 156, 216);"
-                    class="ivu-icon ivu-icon-ios-folder"
-                    @click="help"
-                  >代码生成器参数文档</span>
-                  <span @click="delRow" class="ivu-icon ivu-icon-md-close">删除行数据</span>
-                  <span @click="syncTable" class="ivu-icon ivu-icon-md-sync">同步表结构</span>
+                  <span style="color: rgb(23, 156, 216);"
+                        class="ivu-icon ivu-icon-ios-folder"
+                        @click="help">代码生成器参数文档</span>
+                  <span @click="delRow"
+                        class="ivu-icon ivu-icon-md-close">删除行数据</span>
+                  <span @click="syncTable"
+                        class="ivu-icon ivu-icon-md-sync">同步表结构</span>
                 </div>
               </VolHeader>
-              <div class="grid-container" style="padding-bottom:20px">
-                <vol-table
-                  ref="table"
-                  :paginationHide="true"
-                  :tableData="data"
-                  :height="tableHeight"
-                  :columns="layOutOptins.columns"
-                  :color="false"
-                  :index="true"
-                  :allowEmpty="true"
-                  :clickEdit="true"
-                ></vol-table>
+
+              <div class="grid-container"
+                   style="padding-bottom:20px">
+                <vol-table ref="table"
+                           :paginationHide="true"
+                           :tableData="data"
+                           :height="tableHeight"
+                           :columns="layOutOptins.columns"
+                           :color="false"
+                           :index="true"
+                           :allowEmpty="true"
+                           :clickEdit="true"></vol-table>
               </div>
             </div>
           </div>
@@ -120,7 +138,7 @@ export default {
     VolHeader: VolHeader,
     VolMenu: () => import("@/../src/components/basic/VolMenu")
   },
-  data() {
+  data () {
     return {
       more: {
         addChild: "addChild",
@@ -144,21 +162,21 @@ export default {
     };
   },
   watch: {
-    "layOutOptins.fileds.vuePath"(val) {
+    "layOutOptins.fileds.vuePath" (val) {
       localStorage.setItem("vuePath", val);
     },
     deep: true
     //localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
   },
   methods: {
-    changeMore(funName) {
+    changeMore (funName) {
       this[funName]();
     },
-    help() {
+    help () {
       window.open("/document/coder");
       // this.helpModel = true;
     },
-    addVisible(pid) {
+    addVisible (pid) {
       this.addModel = true;
       this.$refs.form.reset();
       this.data.splice(0);
@@ -166,7 +184,7 @@ export default {
         this.layOutOptins.fileds.parentId = pid;
       }
     },
-    delTree() {
+    delTree () {
       let tableId = this.layOutOptins.fileds.table_Id;
       if (!tableId) return this.$message.error("请选择节点");
       this.$Modal.confirm({
@@ -189,7 +207,7 @@ export default {
         }
       });
     },
-    add() {
+    add () {
       this.$refs.form.validate(() => {
         this.layOutOptins.fileds.tableName =
           this.layOutOptins.fileds.tableName.slice(0, 1).toUpperCase() +
@@ -239,7 +257,7 @@ export default {
           });
       });
     },
-    addChild() {
+    addChild () {
       // this.$message.info("开发中");
       let id = this.layOutOptins.fileds.table_Id;
       if (!id) {
@@ -247,10 +265,10 @@ export default {
       }
       this.addVisible(id);
     },
-    addRow() {
+    addRow () {
       this.data.push({});
     },
-    delRow() {
+    delRow () {
       this.$Modal.confirm({
         title: "删除警告!",
         content:
@@ -261,7 +279,7 @@ export default {
         }
       });
     },
-    validateTableInfo(callback) {
+    validateTableInfo (callback) {
       this.$refs.form.validate(() => {
         if (!this.tableInfo) {
           this.$message.error("请先加载数据");
@@ -297,7 +315,7 @@ export default {
         callback();
       });
     },
-    ceateVuePage() {
+    ceateVuePage () {
       this.validateTableInfo(() => {
         let vuePath = localStorage.getItem("vuePath");
         if (!vuePath) {
@@ -316,7 +334,7 @@ export default {
           });
       });
     },
-    createService() {
+    createService () {
       this.validateTableInfo(() => {
         let queryParam =
           "tableName=" +
@@ -336,7 +354,7 @@ export default {
           });
       });
     },
-    ceateModel() {
+    ceateModel () {
       this.validateTableInfo(() => {
         this.http
           .post("/api/builder/CreateModel", this.tableInfo, true)
@@ -348,13 +366,13 @@ export default {
           });
       });
     },
-    syncTable() {
+    syncTable () {
       if (!this.layOutOptins.fileds.tableName)
         return this.$Message.error("请选模块");
       this.http
         .post(
           "/api/builder/syncTable?tableName=" +
-            this.layOutOptins.fileds.tableName,
+          this.layOutOptins.fileds.tableName,
           {},
           true
         )
@@ -366,10 +384,10 @@ export default {
           this.loadTableInfo(this.layOutOptins.fileds.table_Id);
         });
     },
-    ceateApiController() {},
-    ceateController() {},
-    checkSortName() {},
-    save() {
+    ceateApiController () { },
+    ceateController () { },
+    checkSortName () { },
+    save () {
       // localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
       this.validateTableInfo(() => {
         this.http.post("/api/builder/Save", this.tableInfo, true).then(x => {
@@ -392,14 +410,14 @@ export default {
         });
       });
     },
-    onSelect(node) {
+    onSelect (node) {
       this.loadTableInfo(node);
     },
-    onOpenChange(node) {
+    onOpenChange (node) {
       if (node.length == 0) return;
       this.loadTableInfo(node.length == 1 ? node[0] : node[node.length - 1]);
     },
-    loadTableInfo(id) {
+    loadTableInfo (id) {
       this.http
         .post(
           "/api/builder/LoadTableInfo?table_Id=" + id + "&isTreeLoad=true",
@@ -415,7 +433,7 @@ export default {
           this.data = x.data.tableColumns;
         });
     },
-    getVuePath() {
+    getVuePath () {
       let vuePath = localStorage.getItem("vuePath");
       if (!vuePath || vuePath == "null" || vuePath == "undefined") {
         vuePath = "";
@@ -423,8 +441,8 @@ export default {
       return vuePath;
     }
   },
-  mounted() {},
-  created() {
+  mounted () { },
+  created () {
     let clientHeight = document.documentElement.clientHeight - 170;
     this.tableHeight = clientHeight < 400 ? 400 : clientHeight;
     this.http

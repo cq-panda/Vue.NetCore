@@ -264,7 +264,8 @@ namespace VOL.Core.Dapper
                 //sqlserver通过临时表批量写入
                 sql = $"insert into {entityType.GetEntityTableName()}({string.Join(",", columns)})" +
                  $"select *  from  {EntityToSqlTempName.TempInsert};";
-                sql = entities.GetEntitySql(entityType == typeof(Guid), sql, null, addFileds, null);
+                //2020.11.21修复sqlserver批量写入主键类型判断错误
+                sql = entities.GetEntitySql(key.PropertyType == typeof(Guid), sql, null, addFileds, null);
             }
             return Execute<int>((conn, dbTransaction) =>
             {

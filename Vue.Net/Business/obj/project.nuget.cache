@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JKTRWjQdtBIBrNjapimNUrkymO8PbqLp9RgwyAnhms816WUw0+vblonFbBvLjKeMQ3mkOHHvOo5ZF8sf0d3pGw==",
+  "dgSpecHash": "tf/Gaexj84TQq/nU/KVDKQarawsIHSWxNLuWzZ40CEPAdXhMDwDO9TsjpggHqH8WeCqUT7znF3OSmPs5KPwB0Q==",
   "success": true,
-  "projectFilePath": "F:\\WorkSpace\\Vue.NetCore\\开发版dev\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj",
+  "projectFilePath": "F:\\WorkSpace\\Vue.NetCore\\Vue.Net\\Business\\Business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\苏宣宁\\.nuget\\packages\\autofac\\4.9.4\\autofac.4.9.4.nupkg.sha512",
     "C:\\Users\\苏宣宁\\.nuget\\packages\\autofac.extensions.dependencyinjection\\5.0.1\\autofac.extensions.dependencyinjection.5.0.1.nupkg.sha512",

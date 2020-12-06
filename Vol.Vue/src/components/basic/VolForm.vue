@@ -9,9 +9,11 @@
     <Row class="line-row"
          v-for="(row, findex) in formRules"
          :key="findex">
+      <!-- 2020.11.21增加表单hidden属性 -->
       <Col :span="item.colSize ? item.colSize * 2 : 24 / span"
            v-for="(item, index) in row"
-           :key="index">
+           :key="index"
+           v-show="!item.hidden">
       <!-- 2020.06.18增加render渲染自定义内容 -->
       <form-expand v-if="item.render && typeof item.render == 'function'"
                    :render="item.render"></form-expand>

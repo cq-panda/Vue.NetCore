@@ -115,11 +115,12 @@ function post (url, params, showLoading) {
         }
         resolve(response.data);
       }, err => {
-        if (err.status == 401) {
-          $httpVue.$toast("没有权限操作");
-        }
-        if (err.status == 403) {
-          return toLogin();
+        // if (err.status == 401) {
+        //   $httpVue.$toast("没有权限操作");
+        // }
+        if (err.status == 403 || err.status == 401) {
+          // return toLogin();
+          return redirect(err);
         }
         if (err.status == 404) {
           $httpVue.$toast("未找到请求地址,404!");
@@ -143,11 +144,12 @@ function get (url, param, showLoading) {
 
         resolve(response.data)
       }, err => {
-        if (err.status == 401) {
-          $httpVue.$toast("没有权限操作");
-        }
-        if (err.status == 403) {
-          return toLogin();
+        // if (err.status == 401) {
+        //  // $httpVue.$toast("没有权限操作");
+
+        // }
+        if (err.status == 403 || err.status == 401) {
+          return redirect(err);
         }
         if (err.status == 404) {
           $httpVue.$toast("未找到请求地址,404!");
@@ -198,7 +200,7 @@ function redirect (responseText, message) {
       || (responseData.data && responseData.data.code == 401)) {
       toLogin();
     } else {
-      //  $httpVue.$message.error(message);
+      $httpVue.$toast(message || (responseData.data.message));
     }
   } catch (error) {
     console.log(error);
@@ -212,7 +214,7 @@ function toLogin () {
 //当前token快要过期时，用现有的token换成一个新的token
 function getNewToken (callBack) {
   ajax({
-    url: "/app/User/replaceToken",
+    url: "/api/User/replaceToken",
     param: {},
     json: true,
     success: function (x) {
@@ -257,10 +259,7 @@ function ajax (param) {
       redirect(xhr.responseText);
       return;
     }
-    if (xhr.status == 403) {
 
-      return toLogin();
-    }
     if (xhr.readyState == 4 && xhr.status == 200) {
       httpParam.success(httpParam.json ? JSON.parse(xhr.responseText) : xhr.responseText);
       return;
@@ -295,6 +294,6 @@ ajax.post = function (url, param, success, errror) {
   ajax({ url: url, param: param, success: success, error: errror, type: 'post' })
 }
 ajax.get = function (url, param, success, errror) {
-  ajax({ url: url, param: param, success: success, error: errror, type: 'post' })
+  ajax({ url: url, param: param, success: success, error: errror, type: 'get' })
 }
 export default { post, get, ajax, init, ipAddress }
