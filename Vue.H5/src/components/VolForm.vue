@@ -3,7 +3,7 @@
        :class="{'small-line':smallLine,scroll:header}">
     <!-- <van-calendar v-model="showCalendar" @confirm="selectDate" /> -->
     <van-popup v-model="showCalendar"
-               position="right"
+               position="bottom"
                :style="{ height: '40%' }">
       <van-datetime-picker v-model="currentDate"
                            type="date"
@@ -300,6 +300,9 @@ export default {
     },
     actionSelect (action, index, isBtnClick) {
       if (isBtnClick) {
+        //自定义处理选择事件
+        this.currentOptions.onChange &&
+          this.currentOptions.onChange(this.fields[this.currentOptions.field], action, this.dicInfo);
         this.currentSelector = false;
         return;
       }

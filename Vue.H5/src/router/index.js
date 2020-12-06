@@ -18,6 +18,7 @@ const router = new Router({
         keepAlive: true
       },
       children: [
+        ...doc,
         {
           path: '/index',
           name: 'index',
@@ -68,7 +69,6 @@ const router = new Router({
       meta: {
       }
     },
-    ...doc,
     {
       path: '/stat',
       name: 'stat',
