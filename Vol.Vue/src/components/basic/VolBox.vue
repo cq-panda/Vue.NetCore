@@ -1,38 +1,49 @@
 <template>
   <!-- :draggable="draggable" -->
-  <Modal
-    :mask-closable="false"
-    :closable="false"
-    :mask="mask"
-    title="Title"
-    :width="width+'px'"
-    v-model="model"
-    class-name="vertical-center-modal"
-  >
-    <a class="ivu-modal-close" @click="viewModelCancel">
+  <Modal :mask-closable="false"
+         :closable="false"
+         :mask="mask"
+         title="Title"
+         :width="width+'px'"
+         v-model="model"
+         class-name="vertical-center-modal">
+    <a class="ivu-modal-close"
+       @click="viewModelCancel">
       <i class="ivu-icon ivu-icon-ios-close"></i>
     </a>
-    <p slot="header" class="header">
+    <p slot="header"
+       class="header">
       <Icon :type="icon"></Icon>
       <span>{{title}}</span>
     </p>
-    <div class="view-model-content" :style="{height:height+'px'}">
+    <div class="view-model-content"
+         :style="{height:height+'px'}">
       <el-scrollbar style="height:100%;">
-        <div class="srcoll-content" :style="{padding:padding+'px'}">
+        <!-- 是否开启懒加载2020.12.06 -->
+        <div v-if="inited"
+             class="srcoll-content"
+             :style="{padding:padding+'px'}">
           <slot name="content"></slot>
           <slot></slot>
         </div>
       </el-scrollbar>
     </div>
-    <div slot="footer" class>
+    <div slot="footer"
+         class>
       <slot name="footer"></slot>
-      <Button v-if="footer" type="info" @click="viewModelCancel">关闭</Button>
+      <Button v-if="footer"
+              type="info"
+              @click="viewModelCancel">关闭</Button>
     </div>
   </Modal>
 </template>
 <script>
 export default {
   props: {
+    lazy: { //是否开启懒加载2020.12.06
+      type: Boolean,
+      default: false
+    },
     icon: {
       type: String,
       default: "ios-information-circle-outline"
@@ -70,28 +81,35 @@ export default {
       default: true
     }
   },
-  data: function() {
+  data: function () {
     return {
+      inited: true,
       footer: true,
       vModel: this.model
     };
   },
   watch: {
-    model() {
+    model () {
+      if (this.model && !this.inited) {
+        this.inited = true;
+      }
       this.vModel = this.model;
     }
   },
-  mounted() {
+  mounted () {
     // console.log("cm");
   },
-  created() {
+  created () {
+    if (this.lazy) {
+      this.inited = false;
+    }
     // console.log("c1");
     if (this.$slots.footer) {
       this.footer = false;
     }
   },
   methods: {
-    viewModelCancel() {
+    viewModelCancel () {
       this.vModel = false;
       this.$emit("update:model", false);
     }
