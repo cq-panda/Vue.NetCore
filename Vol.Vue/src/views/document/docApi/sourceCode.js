@@ -33,7 +33,7 @@ var codeString = {
       }
     };
 	// ]]></script>`,
-	header:`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+  header: `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
 	</div>
@@ -127,6 +127,7 @@ var codeString = {
         &lt;Button type="info" @click="model=!model"&gt;弹出框&lt;/Button&gt;
         &lt;<span style="color: #000000;">VolBox
           icon</span>="ios-chatbubbles"<span style="color: #000000;">
+          :lazy</span>="true"<span style="color: #000000;">
           :model.sync</span>="model"<span style="color: #000000;">
           title</span>="弹出框标题"<span style="color: #000000;">
           :height</span>="400"<span style="color: #000000;">
@@ -1148,7 +1149,7 @@ var codeString = {
 	</div>
 <br />
 </div>`,
-editTable1:`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+  editTable1: `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 <div>
 	<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
 </div>
@@ -1552,7 +1553,7 @@ editTable1:`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Conso
 	<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
 </div>
 </div>`,
-  editTableKeep:`&lt;template&gt;<br />
+  editTableKeep: `&lt;template&gt;<br />
   &nbsp; &lt;div&gt;<br />
   &nbsp; &nbsp; &lt;div class="vol-demo keep-edit"&gt;<br />
   &nbsp; &nbsp; &nbsp; &lt;VolHeader icon="md-podium" text="始终开启编辑"&gt;<br />

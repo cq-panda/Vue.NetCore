@@ -80,6 +80,7 @@ const param = {
     attr: [{ name: "title", desc: "弹出框标题", type: "string", default: "基本信息" },
     { name: "icon", desc: "弹出框图标", type: "string", default: "ios-information-circle-outline" },
     { name: "model", desc: "是否显示弹出框", type: "bool", default: "false" },
+    { name: "lazy", desc: "<span style='color:red;'>是否延迟加载(建议开启)2020.12.06</span>", type: "bool", default: "false" },
     { name: "height", desc: "弹出框高度", type: "int", default: "200" },
     { name: "width", desc: "弹出框宽度", type: "int", default: "650" },
     { name: "padding", desc: "弹出框内容padding大小", type: "int", default: "16" },
@@ -395,785 +396,865 @@ const param = {
     {
       name: "扩展js方法使用",
       desc: `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-                <div>
-                    <span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">extension</span>&nbsp;=&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;<span style="color:#9cdcfe;">components</span><span style="color:#9cdcfe;">:</span>&nbsp;{<span style="color:#6a9955;">//动态扩充组件或组件路径</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//表单header、content、footer对应位置扩充的组件</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridHeader</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">""</span>,<span style="color:#6a9955;">//()&nbsp;=&gt;&nbsp;import("./SellOrderComponents/GridHeaderExtend.vue"),//{&nbsp;template:&nbsp;"&lt;div&gt;扩展组xx件&lt;/div&gt;"&nbsp;},</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridBody</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">""</span>,<span style="color:#6a9955;">//()&nbsp;=&gt;&nbsp;import("./SellOrderComponents/GridBodyExtend.vue"),</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">gridFooter</span><span style="color:#9cdcfe;">:</span>&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">import</span>(<span style="color:#ce9178;">"./SellOrderComponents/GridFooterExtend.vue"</span>),
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelHeader</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">""</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelBody</span><span style="color:#9cdcfe;">:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">template</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'xx'</span>&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelFooter</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">""</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;},
-                </div>
-                <div>
-                    <span style="color:#9cdcfe;">tableAction</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">""</span>,<span style="color:#6a9955;">//指定获取表的权限按钮,默认为当前表的权限</span>
-                </div>
-                <div>
-                    <span style="color:#9cdcfe;">text</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"示例覆盖全部可扩展方法,前台扩展文件SellOrder.js，后台Partial-&gt;SellOrdeService.cs"</span>,
-                </div>
-                <div>
-                    <span style="color:#9cdcfe;">buttons</span><span style="color:#9cdcfe;">:</span>&nbsp;{&nbsp;<span style="color:#6a9955;">//扩展按钮</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//注：没有编辑或新建权限的情况下，是不会显示此处添加的扩展按钮，如果仍需要显示此处的按钮，可以把按钮在methods的onInited方法中添加,如：this.boxButtons.push(...)</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">view</span><span style="color:#9cdcfe;">:</span>&nbsp;[<span style="color:#6a9955;">//ViewGrid查询界面按钮</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"点我"</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'md-create'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'Edit'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">class</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'error'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">index</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">1</span>,<span style="color:#6a9955;">//显示的位置</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//扩展按钮执行事件</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this可以获取所有属性，包括this.$refs.gridHeader/gridBody等获取扩展组件对象</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.$message("测试扩展按钮");</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">gridHeader</span>.<span style="color:#9cdcfe;">model</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"调用后台"</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'md-create'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'Edit'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">class</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'error'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">index</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">1</span>,<span style="color:#6a9955;">//显示的位置</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//扩展按钮执行事件</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getServiceDate</span>();
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}],
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">box</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#6a9955;">//新建、编辑弹出框按钮</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#6a9955;">//ViewGrid查询界面按钮</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"点我1"</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'md-create'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'Edit'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">class</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'success'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">index</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">1</span>,<span style="color:#6a9955;">//显示的位置</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>&nbsp;()&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"扩展的明细Box按钮,可设置index值指定显示位置,可使用this.$refs拿到包括自定义扩展的所有组件"</span>);
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}],
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">detail</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#6a9955;">//新建、编辑弹出框明细表table表按钮</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#6a9955;">//ViewGrid查询界面按钮</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"点我2"</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'md-create'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'Edit'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">class</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'success'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">index</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">1</span>,<span style="color:#6a9955;">//显示的位置</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>&nbsp;()&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"扩展的明细table按钮,可设置index值指定显示位置"</span>);
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]
-                </div>
-                <div>
-                    &nbsp;&nbsp;},<span style="color:#6a9955;">//扩展的按钮</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;<span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span>&nbsp;{<span style="color:#6a9955;">//方法扩展</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">getServiceDate</span>()&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#ce9178;">"/api/SellOrder/getServiceDate"</span>,&nbsp;{},&nbsp;<span style="color:#ce9178;">'正在调用后台数据'</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">date</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"从后台获取的服务器时间是："</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">date</span>);
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">mounted</span>()&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.$Notice.success({&nbsp;title:&nbsp;'执行mounted方法'&nbsp;});</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onActivated</span>(){&nbsp;<span style="color:#6a9955;">//对应vue原生&nbsp;activated方法</span>
-                </div>
-            <br />
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//表格设置为单选</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.single=true;</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.detailOptions.single=true;</span>
-                </div>
-            <br />
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置编辑表单数量字段的最小与最大值</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置输入的数量的最小值与最大值(默认是1)</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Qty"</span>)&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">min</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">10</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">max</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">200</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-                </div>
-            <br />
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//动态修改table并给列添加事件</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Qty"</span>)&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">formatter</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#ce9178;">'&lt;a&gt;'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">Qty</span>&nbsp;+&nbsp;<span style="color:#ce9178;">"(弹出框)"</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'&lt;/a&gt;'</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">click</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">gridHeader</span>.<span style="color:#9cdcfe;">model</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-                </div>
-            <br />
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//动态设置弹出框table的高度</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">height</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">110</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//动态设置查询界面table高度</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">tableHeight</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">200</span>;;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'create方法执行时,你可以此处编写业务逻辑'</span>&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInited</span>()&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;this.$Notice.success({&nbsp;title:&nbsp;'create方法执行后',&nbsp;desc:&nbsp;'你可以SellOrder.js中编写业务逻辑,其他方法同样适用'&nbsp;});</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">searchBefore</span>(<span style="color:#9cdcfe;">param</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//查询ViewGird表数据前,param查询参数</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//添加其他查询条件,也可以在后台扩展中写查询条件</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">wheres</span>&nbsp;=&nbsp;[{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'name'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'字段名'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'value'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'查询的值'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">//设置为模糊查询,其他不需要设置</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//也可以提交一些其他参数，后台在GetPageData()方法读取options.value</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">param</span>.<span style="color:#9cdcfe;">value</span>=<span style="color:#ce9178;">"xxx"</span>;
-                </div>
-            <br />
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">param</span>.<span style="color:#9cdcfe;">wheres</span>.<span style="color:#dcdcaa;">push</span>(...<span style="color:#9cdcfe;">wheres</span>);
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//返回false，则不会执行查询</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">searchAfter</span>(<span style="color:#9cdcfe;">result</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//查询ViewGird表数据后param查询参数,result回返查询的结果</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">',查询结果'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'返回的对象：'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">result</span>)&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">searchDetailBefore</span>(<span style="color:#9cdcfe;">param</span>)&nbsp;{<span style="color:#6a9955;">//查询从表表数据前,param查询参数</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;同上searchBefore操作</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">searchDetailAfter</span>(<span style="color:#9cdcfe;">data</span>)&nbsp;{<span style="color:#6a9955;">//查询从表后param查询参数,result回返查询的结果</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">',查询结果'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'返回的对象：'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">data</span>)&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">delBefore</span>(<span style="color:#9cdcfe;">ids</span>,&nbsp;<span style="color:#9cdcfe;">rows</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面的表删除前&nbsp;ids为删除的id数组,rows删除的行</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">auditStatus</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">rows</span>.<span style="color:#dcdcaa;">some</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">AuditStatus</span>&nbsp;&gt;&nbsp;<span style="color:#b5cea8;">0</span>&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">auditStatus</span>)&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'只能删除未审核的数据'</span>)
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">false</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'删除前，选择的Id:'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">ids</span>.<span style="color:#dcdcaa;">join</span>(<span style="color:#ce9178;">','</span>)&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">delAfter</span>(<span style="color:#9cdcfe;">result</span>)&nbsp;{<span style="color:#6a9955;">//查询界面的表删除后</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">addRow</span>(){
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//明细表添加行，在此处可以设置添加的默认值</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">obj</span>&nbsp;=&nbsp;{&nbsp;};
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给明细表添加行时，设置默认值。--onInited方法中对this.detailOptions.columns进行formatter也可以实现)</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//obj.xx=123;</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#dcdcaa;">addRow</span>(<span style="color:#9cdcfe;">obj</span>);
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">delDetailRow</span>(<span style="color:#9cdcfe;">rows</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//弹出框删除明细表的行数据(只是对table操作，并没有操作后台)</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#9cdcfe;">rows</span>)
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">addBefore</span>(<span style="color:#9cdcfe;">formData</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//新建保存前formData为对象，包括明细表</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//formData格式：</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;{</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mainData:&nbsp;{&nbsp;主表字段1:&nbsp;'x1',&nbsp;主表字段2:&nbsp;'x2'&nbsp;},</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detailData:&nbsp;[{&nbsp;明细表字段1:&nbsp;d1&nbsp;}],</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delKeys:&nbsp;null&nbsp;//删除明细表行数据的id</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;}</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果需要同时提交其他数据到后台，请设置formData.extra=xxxx</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//后台在表xxxxService.cs中重写Add方法即可从saveDataModel参数中拿到extra提交的对象</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'新建前：'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'提前的数据：'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">formData</span>)&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">addAfter</span>(<span style="color:#9cdcfe;">result</span>)&nbsp;{<span style="color:#6a9955;">//新建保存后result返回的状态及表单对象</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'新建完成后：'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'返回的数据'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">result</span>)&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">updateBefore</span>(<span style="color:#9cdcfe;">formData</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//编辑保存前formData为对象，包括明细表、删除行的Id</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//formData格式：</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;{</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mainData:&nbsp;{&nbsp;主表字段1:&nbsp;'x1',&nbsp;主表字段2:&nbsp;'x2'&nbsp;},</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detailData:&nbsp;[{&nbsp;明细表字段1:&nbsp;d1&nbsp;}],</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delKeys:&nbsp;null&nbsp;//删除明细表行数据的id</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;}</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果需要同时提交其他数据到后台，请设置formData.extra=xxxx</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//后台在表xxxxService.cs中重写update方法即可从saveDataModel参数中拿到extra提交的对象</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'编辑前：'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'提前的数据：'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">formData</span>)&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取扩展的modelFooter属性text</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">modelFooter</span>.<span style="color:#9cdcfe;">text</span>)
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">updateAfter</span>(<span style="color:#9cdcfe;">result</span>)&nbsp;{<span style="color:#6a9955;">//编辑保存后result返回的状态及表单对象</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'编辑完成后：'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'返回的数据'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">result</span>)&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">auditBefore</span>(<span style="color:#9cdcfe;">ids</span>,&nbsp;<span style="color:#9cdcfe;">rows</span>)&nbsp;{<span style="color:#6a9955;">//审核前</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">rows</span>.<span style="color:#9cdcfe;">length</span>&nbsp;&gt;&nbsp;<span style="color:#b5cea8;">2</span>)&nbsp;{<span style="color:#6a9955;">//每次最多只能审核2条数据</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'最多只能选择两条数据'</span>);
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">false</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">auditAfter</span>(<span style="color:#9cdcfe;">result</span>,&nbsp;<span style="color:#9cdcfe;">rows</span>)&nbsp;{<span style="color:#6a9955;">//&nbsp;审核后</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">result</span>.<span style="color:#9cdcfe;">status</span>)&nbsp;{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">result</span>.<span style="color:#9cdcfe;">message</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"审核成功。。。。。"</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">result</span>.<span style="color:#9cdcfe;">message</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">resetAddFormBefore</span>()&nbsp;{&nbsp;<span style="color:#6a9955;">//重置新建表单前的内容</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">resetAddFormAfter</span>()&nbsp;{&nbsp;<span style="color:#6a9955;">//重置新建表单后的内容</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果某些字段不需要重置，则可以重新赋值</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Remark</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'新建重置默认值66666'</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给明细表添加默认一行</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>.<span style="color:#dcdcaa;">push</span>({&nbsp;<span style="color:#9cdcfe;">Remark</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"新建666666"</span>&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">resetUpdateFormBefore</span>()&nbsp;{&nbsp;<span style="color:#6a9955;">//重置编辑表单前的内容</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.editFormFields当前值</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>)
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//当前明细表的行</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>)
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">resetUpdateFormAfter</span>()&nbsp;{&nbsp;<span style="color:#6a9955;">//重置编辑表单后的内容</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果某些字段不需要重置，则可以重新赋值</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Remark</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'编辑重置默认值66666'</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给明细表添加默认一行</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>.<span style="color:#dcdcaa;">push</span>({&nbsp;<span style="color:#9cdcfe;">Remark</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"编辑666666"</span>&nbsp;});
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">importAfter</span>(<span style="color:#9cdcfe;">data</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//导入excel后刷新table表格数据</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">search</span>();&nbsp;<span style="color:#6a9955;">//刷新table</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenBefore</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据</span>
-                </div>
-            <br />
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{&nbsp;&nbsp;<span style="color:#6a9955;">//点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"此处是打开弹出框后事件,当前操作："</span>&nbsp;+&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span>&nbsp;+&nbsp;<span style="color:#ce9178;">"，你可以在此处编写逻辑，如，从后台获取数据"</span>);
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowChange</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{&nbsp;&nbsp;<span style="color:#6a9955;">//查询界面table点击行事件，只有设置了single=true单选才会生效</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">detailRowChange</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{&nbsp;&nbsp;<span style="color:#6a9955;">//明细表界面table点击行事件，只有设置了single=true单选才会生效</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onActivated</span>()&nbsp;{&nbsp;<span style="color:#6a9955;">//重新加载字典绑定的数据源(如果需要每次点击页面时刷新字典数据源，直接将整个方法添加到js的methods中即可使用)</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">initDicKeys</span>();
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">exportBefore</span>(<span style="color:#9cdcfe;">param</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//添加自定义导出查询条件</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">wheres</span>&nbsp;=&nbsp;[{
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'name'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'字段名'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'value'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'查询的值'</span>,
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">//设置为模糊查询,其他不需要设置</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">param</span>.<span style="color:#9cdcfe;">wheres</span>.<span style="color:#dcdcaa;">push</span>(...<span style="color:#9cdcfe;">wheres</span>);
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;<span style="color:#6a9955;">//返回false会中断执行</span>
-                </div>
-                <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-                </div>
-            <br />
-                <div>
-                    &nbsp;&nbsp;}
-                </div>
-                <div>
-                    };
-                </div>
-                <div>
-                    <span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;<span style="color:#9cdcfe;">extension</span>;
-                </div>
-            </div>`,
+      <div>
+        <span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">extension</span>&nbsp;=&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;<span style="color:#9cdcfe;">components:</span>&nbsp;{<span style="color:#6a9955;">//动态扩充组件或组件路径</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//表单header、content、footer对应位置扩充的组件</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridHeader:</span>&nbsp;<span style="color:#ce9178;">""</span>,<span style="color:#6a9955;">//()&nbsp;=&gt;&nbsp;import("./SellOrderComponents/GridHeaderExtend.vue"),//{&nbsp;template:&nbsp;"&lt;div&gt;扩展组xx件&lt;/div&gt;"&nbsp;},</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">gridBody:</span>&nbsp;<span style="color:#ce9178;">""</span>,<span style="color:#6a9955;">//()&nbsp;=&gt;&nbsp;import("./SellOrderComponents/GridBodyExtend.vue"),</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">gridFooter</span><span style="color:#9cdcfe;">:</span>&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">import</span>(<span style="color:#ce9178;">"./SellOrderComponents/GridFooterExtend.vue"</span>),
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelHeader:</span>&nbsp;<span style="color:#ce9178;">""</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelBody:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">template:</span>&nbsp;<span style="color:#ce9178;">'xx'</span>&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelFooter:</span>&nbsp;<span style="color:#ce9178;">""</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;<span style="color:#9cdcfe;">tableAction:</span>&nbsp;<span style="color:#ce9178;">""</span>,<span style="color:#6a9955;">//指定获取表的权限按钮,默认为当前表的权限</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;<span style="color:#9cdcfe;">text:</span>&nbsp;<span style="color:#ce9178;">"示例覆盖全部可扩展方法,前台扩展文件SellOrder.js，后台Partial-&gt;SellOrdeService.cs"</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;<span style="color:#9cdcfe;">buttons:</span>&nbsp;{&nbsp;<span style="color:#6a9955;">//扩展按钮</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//注：没有编辑或新建权限的情况下，是不会显示此处添加的扩展按钮，如果仍需要显示此处的按钮，可以把按钮在methods的onInited方法中添加,如：this.boxButtons.push(...)</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">view:</span>&nbsp;[<span style="color:#6a9955;">//ViewGrid查询界面按钮</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name:</span>&nbsp;<span style="color:#ce9178;">"点我"</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon:</span>&nbsp;<span style="color:#ce9178;">'md-create'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#ce9178;">'Edit'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">class:</span>&nbsp;<span style="color:#ce9178;">''</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">'error'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">index:</span>&nbsp;<span style="color:#b5cea8;">1</span>,<span style="color:#6a9955;">//显示的位置</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//扩展按钮执行事件</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this可以获取所有属性，包括this.$refs.gridHeader/gridBody等获取扩展组件对象</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.$message("测试扩展按钮");</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">gridHeader</span>.<span style="color:#9cdcfe;">model</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name:</span>&nbsp;<span style="color:#ce9178;">"调用后台"</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon:</span>&nbsp;<span style="color:#ce9178;">'md-create'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#ce9178;">'Edit'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">class:</span>&nbsp;<span style="color:#ce9178;">''</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">'error'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">index:</span>&nbsp;<span style="color:#b5cea8;">1</span>,<span style="color:#6a9955;">//显示的位置</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//扩展按钮执行事件</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getServiceDate</span>();
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}],
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">box:</span>&nbsp;<span style="color:#6a9955;">//新建、编辑弹出框按钮</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#6a9955;">//ViewGrid查询界面按钮</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name:</span>&nbsp;<span style="color:#ce9178;">"点我1"</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon:</span>&nbsp;<span style="color:#ce9178;">'md-create'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#ce9178;">'Edit'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">class:</span>&nbsp;<span style="color:#ce9178;">''</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">'success'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">index:</span>&nbsp;<span style="color:#b5cea8;">1</span>,<span style="color:#6a9955;">//显示的位置</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>&nbsp;()&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"扩展的明细Box按钮,可设置index值指定显示位置,可使用this.$refs拿到包括自定义扩展的所有组件"</span>);
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}],
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">detail:</span>&nbsp;<span style="color:#6a9955;">//新建、编辑弹出框明细表table表按钮</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#6a9955;">//ViewGrid查询界面按钮</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name:</span>&nbsp;<span style="color:#ce9178;">"点我2"</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon:</span>&nbsp;<span style="color:#ce9178;">'md-create'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#ce9178;">'Edit'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">class:</span>&nbsp;<span style="color:#ce9178;">''</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">'success'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">index:</span>&nbsp;<span style="color:#b5cea8;">1</span>,<span style="color:#6a9955;">//显示的位置</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>&nbsp;()&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"扩展的明细table按钮,可设置index值指定显示位置"</span>);
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]
+      </div>
+      <div>
+        &nbsp;&nbsp;},<span style="color:#6a9955;">//扩展的按钮</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;<span style="color:#9cdcfe;">methods:</span>&nbsp;{<span style="color:#6a9955;">//方法扩展</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">getServiceDate</span>&nbsp;()&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#ce9178;">"/api/SellOrder/getServiceDate"</span>,&nbsp;{},&nbsp;<span style="color:#ce9178;">'正在调用后台数据'</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">date</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"从后台获取的服务器时间是："</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">date</span>);
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">mounted</span>&nbsp;()&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.$Notice.success({&nbsp;title:&nbsp;'执行mounted方法'&nbsp;});</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onActivated</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//对应vue原生&nbsp;activated方法</span>
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//表格设置为单选</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.single=true;</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.detailOptions.single=true;</span>
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置编辑表单数量字段的最小与最大值</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置输入的数量的最小值与最大值(默认是1)</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Qty"</span>)&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">min</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">10</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">max</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">200</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//动态修改table并给列添加事件</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Qty"</span>)&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">formatter</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#ce9178;">'&lt;a&gt;'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">Qty</span>&nbsp;+&nbsp;<span style="color:#ce9178;">"(弹出框)"</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'&lt;/a&gt;'</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">click</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">gridHeader</span>.<span style="color:#9cdcfe;">model</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//动态设置弹出框table的高度</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">height</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">110</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//动态设置查询界面table高度</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">tableHeight</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">200</span>;;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'create方法执行时,你可以此处编写业务逻辑'</span>&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInited</span>&nbsp;()&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;this.$Notice.success({&nbsp;title:&nbsp;'create方法执行后',&nbsp;desc:&nbsp;'你可以SellOrder.js中编写业务逻辑,其他方法同样适用'&nbsp;});</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">searchBefore</span>&nbsp;(<span style="color:#9cdcfe;">param</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//查询ViewGird表数据前,param查询参数</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//添加其他查询条件,也可以在后台扩展中写查询条件</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">wheres</span>&nbsp;=&nbsp;[{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'name'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'字段名'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'value'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'查询的值'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">//设置为模糊查询,其他不需要设置</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//也可以提交一些其他参数，后台在GetPageData()方法读取options.value</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">param</span>.<span style="color:#9cdcfe;">value</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"xxx"</span>;
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">param</span>.<span style="color:#9cdcfe;">wheres</span>.<span style="color:#dcdcaa;">push</span>(...<span style="color:#9cdcfe;">wheres</span>);
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//返回false，则不会执行查询</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">searchAfter</span>&nbsp;(<span style="color:#9cdcfe;">result</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//查询ViewGird表数据后param查询参数,result回返查询的结果</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">',查询结果'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'返回的对象：'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">result</span>)&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">searchDetailBefore</span>&nbsp;(<span style="color:#9cdcfe;">param</span>)&nbsp;{<span style="color:#6a9955;">//查询从表表数据前,param查询参数</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;同上searchBefore操作</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">searchDetailAfter</span>&nbsp;(<span style="color:#9cdcfe;">data</span>)&nbsp;{<span style="color:#6a9955;">//查询从表后param查询参数,result回返查询的结果</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">',查询结果'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'返回的对象：'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">data</span>)&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">delBefore</span>&nbsp;(<span style="color:#9cdcfe;">ids</span>,&nbsp;<span style="color:#9cdcfe;">rows</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面的表删除前&nbsp;ids为删除的id数组,rows删除的行</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">auditStatus</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">rows</span>.<span style="color:#dcdcaa;">some</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">AuditStatus</span>&nbsp;&gt;&nbsp;<span style="color:#b5cea8;">0</span>&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">auditStatus</span>)&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'只能删除未审核的数据'</span>)
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">false</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'删除前，选择的Id:'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">ids</span>.<span style="color:#dcdcaa;">join</span>(<span style="color:#ce9178;">','</span>)&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">delAfter</span>&nbsp;(<span style="color:#9cdcfe;">result</span>)&nbsp;{<span style="color:#6a9955;">//查询界面的表删除后</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">addRow</span>&nbsp;()&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//明细表添加行，在此处可以设置添加的默认值</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">obj</span>&nbsp;=&nbsp;{};
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给明细表添加行时，设置默认值。--onInited方法中对this.detailOptions.columns进行formatter也可以实现)</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//obj.xx=123;</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#dcdcaa;">addRow</span>(<span style="color:#9cdcfe;">obj</span>);
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">delDetailRow</span>&nbsp;(<span style="color:#9cdcfe;">rows</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//弹出框删除明细表的行数据(只是对table操作，并没有操作后台)</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#9cdcfe;">rows</span>)
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">addBefore</span>&nbsp;(<span style="color:#9cdcfe;">formData</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//新建保存前formData为对象，包括明细表</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//formData格式：</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;{</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mainData:&nbsp;{&nbsp;主表字段1:&nbsp;'x1',&nbsp;主表字段2:&nbsp;'x2'&nbsp;},</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detailData:&nbsp;[{&nbsp;明细表字段1:&nbsp;d1&nbsp;}],</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delKeys:&nbsp;null&nbsp;//删除明细表行数据的id</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;}</span>
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//formData.mainData.xxx="xxxx";//还可以继续手动添加值</span>
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果需要同时提交其他数据到后台，请设置formData.extra=xxxx</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//后台在表xxxxService.cs中重写Add方法即可从saveDataModel参数中拿到extra提交的对象</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'新建前：'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'提前的数据：'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">formData</span>)&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">async</span>&nbsp;<span style="color:#dcdcaa;">addBeforeAsync</span>&nbsp;(<span style="color:#9cdcfe;">formData</span>)&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.12.06增加新建前异步方法同步处理</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//功能同上，区别在于此处可以做一些异步请求处理,全：</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;var&nbsp;_result&nbsp;=&nbsp;await&nbsp;this.http.post("/api/SellOrder/getPageData",&nbsp;{},&nbsp;true).then(result&nbsp;=&gt;&nbsp;{</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;console.log("1、异步请求前")</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;return&nbsp;result;</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;})</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;console.log("2、异步请求，同步处理结果:"&nbsp;+&nbsp;JSON.stringify(_result))</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">addAfter</span>&nbsp;(<span style="color:#9cdcfe;">result</span>)&nbsp;{<span style="color:#6a9955;">//新建保存后result返回的状态及表单对象</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'新建完成后：'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'返回的数据'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">result</span>)&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">updateBefore</span>&nbsp;(<span style="color:#9cdcfe;">formData</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//编辑保存前formData为对象，包括明细表、删除行的Id</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//formData格式：(自己调试出输看)</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;{</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mainData:&nbsp;{&nbsp;主表字段1:&nbsp;'x1',&nbsp;主表字段2:&nbsp;'x2'&nbsp;},</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detailData:&nbsp;[{&nbsp;明细表字段1:&nbsp;d1&nbsp;}],</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delKeys:&nbsp;null&nbsp;//删除明细表行数据的id</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;}</span>
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//formData.mainData.xxx="xxxx";//还可以继续手动添加值</span>
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果需要同时提交其他数据到后台，请设置formData.extra=xxxx</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//后台在表xxxxService.cs中重写Update方法即可从saveDataModel参数中拿到extra提交的对象</span>
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'编辑前：'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'提前的数据：'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">formData</span>)&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取扩展的modelFooter属性text</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">modelFooter</span>.<span style="color:#9cdcfe;">text</span>)
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">async</span>&nbsp;<span style="color:#dcdcaa;">updateBeforeAsync</span>&nbsp;(<span style="color:#9cdcfe;">formData</span>)&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.12.06增加修改前异步方法同步处理</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//功能同上，区别在于此处可以做一些异步请求处理,全：</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">_result</span>&nbsp;=&nbsp;<span style="color:#c586c0;">await</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#ce9178;">"/api/SellOrder/getPageData"</span>,&nbsp;{},&nbsp;<span style="color:#569cd6;">true</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">result</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"1、异步请求前"</span>)
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">result</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"2、异步请求，同步处理结果:"</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">_result</span>))
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">updateAfter</span>&nbsp;(<span style="color:#9cdcfe;">result</span>)&nbsp;{<span style="color:#6a9955;">//编辑保存后result返回的状态及表单对象</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">cnName</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'编辑完成后：'</span>,&nbsp;<span style="color:#9cdcfe;">desc</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'返回的数据'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">result</span>)&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">auditBefore</span>&nbsp;(<span style="color:#9cdcfe;">ids</span>,&nbsp;<span style="color:#9cdcfe;">rows</span>)&nbsp;{<span style="color:#6a9955;">//审核前</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">rows</span>.<span style="color:#9cdcfe;">length</span>&nbsp;&gt;&nbsp;<span style="color:#b5cea8;">2</span>)&nbsp;{<span style="color:#6a9955;">//每次最多只能审核2条数据</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'最多只能选择两条数据'</span>);
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">false</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">auditAfter</span>&nbsp;(<span style="color:#9cdcfe;">result</span>,&nbsp;<span style="color:#9cdcfe;">rows</span>)&nbsp;{<span style="color:#6a9955;">//&nbsp;审核后</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">result</span>.<span style="color:#9cdcfe;">status</span>)&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">result</span>.<span style="color:#9cdcfe;">message</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"审核成功。。。。。"</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">result</span>.<span style="color:#9cdcfe;">message</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">resetAddFormBefore</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//重置新建表单前的内容</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">resetAddFormAfter</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//重置新建表单后的内容</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果某些字段不需要重置，则可以重新赋值</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Remark</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'新建重置默认值66666'</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给明细表添加默认一行</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>.<span style="color:#dcdcaa;">push</span>({&nbsp;<span style="color:#9cdcfe;">Remark</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"新建666666"</span>&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">resetUpdateFormBefore</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//重置编辑表单前的内容</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.editFormFields当前值</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>)
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//当前明细表的行</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>)
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">resetUpdateFormAfter</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//重置编辑表单后的内容</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果某些字段不需要重置，则可以重新赋值</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Remark</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'编辑重置默认值66666'</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给明细表添加默认一行</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#9cdcfe;">rowData</span>.<span style="color:#dcdcaa;">push</span>({&nbsp;<span style="color:#9cdcfe;">Remark</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"编辑666666"</span>&nbsp;});
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">importAfter</span>&nbsp;(<span style="color:#9cdcfe;">data</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//导入excel后刷新table表格数据</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">search</span>();&nbsp;<span style="color:#6a9955;">//刷新table</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenBefore</span>&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据</span>
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span>&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;{&nbsp;&nbsp;<span style="color:#6a9955;">//点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"此处是打开弹出框后事件,当前操作："</span>&nbsp;+&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span>&nbsp;+&nbsp;<span style="color:#ce9178;">"，你可以在此处编写逻辑，如，从后台获取数据"</span>);
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowChange</span>&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;{&nbsp;&nbsp;<span style="color:#6a9955;">//查询界面table点击行事件，只有设置了single=true单选才会生效</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">detailRowChange</span>&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;{&nbsp;&nbsp;<span style="color:#6a9955;">//明细表界面table点击行事件，只有设置了single=true单选才会生效</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onActivated</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//重新加载字典绑定的数据源(如果需要每次点击页面时刷新字典数据源，直接将整个方法添加到js的methods中即可使用)</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">initDicKeys</span>();
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">exportBefore</span>&nbsp;(<span style="color:#9cdcfe;">param</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//添加自定义导出查询条件</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">wheres</span>&nbsp;=&nbsp;[{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'name'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'字段名'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'value'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'查询的值'</span>,
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">//设置为模糊查询,其他不需要设置</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">param</span>.<span style="color:#9cdcfe;">wheres</span>.<span style="color:#dcdcaa;">push</span>(...<span style="color:#9cdcfe;">wheres</span>);
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;<span style="color:#6a9955;">//返回false会中断执行</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowClick</span>&nbsp;({&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>&nbsp;})&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面table点击行时选中当前行</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">toggleRowSelection</span>(<span style="color:#9cdcfe;">row</span>);
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+      </div>
+    <br />
+      <div>
+        &nbsp;&nbsp;}
+      </div>
+      <div>
+        };
+      </div>
+      <div>
+        <span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;<span style="color:#9cdcfe;">extension</span>;
+      </div>
+    </div>`,
       param: ""
     }
     ]
