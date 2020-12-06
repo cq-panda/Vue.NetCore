@@ -172,6 +172,7 @@ export default {
       if (this.$refs.detailForm) {
         this.$refs.detailForm.reset();
       }
+      this.detailForm.fields.AuditStatue = 0;
       this.detailModel = true;
       this.showDelBtn = false;//隐藏删除按钮
       this.currentAction = "add";
