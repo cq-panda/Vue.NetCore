@@ -113,7 +113,7 @@ export default {
             this.http.post(this.url, forms, true).then(x => {
               console.log(x);
               var _urls = _files.map(item => {
-                return { url: this.http.ipAddress + x.data + "/" + item.name };
+                return { url: this.http.ipAddress + x.data + item.name };
               })
               this.files.push(..._urls);
             })
