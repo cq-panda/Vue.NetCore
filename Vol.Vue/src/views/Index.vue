@@ -844,7 +844,7 @@ img:not([src]) {
   /* background: #006cdf !important; */
   color: white;
 }
-.vol-aside .vol-menu {
+.vol-theme-white .vol-aside .vol-menu {
   background: #515a6e;
 }
 </style>
