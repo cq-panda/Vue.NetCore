@@ -28,16 +28,9 @@ namespace VOL.System.Services
             WebResponseContent responseContent = new WebResponseContent();
             //   2020.06.12增加验证码
             IMemoryCache memoryCache = HttpContext.Current.GetService<IMemoryCache>();
+      
             string cacheCode = (memoryCache.Get(loginInfo.UUID) ?? "").ToString();
-            if (string.IsNullOrEmpty(cacheCode))
-            {
-                return responseContent.Error("验证码已失效");
-            }
-            if (cacheCode.ToLower() != loginInfo.VerificationCode.ToLower())
-            {
-                memoryCache.Remove(loginInfo.UUID);
-                return responseContent.Error("验证码不正确");
-            }
+          
             try
             {
                 Sys_User user = await repository.FindAsIQueryable(x => x.UserName == loginInfo.UserName)
@@ -188,6 +181,7 @@ namespace VOL.System.Services
                 .FindAsIQueryable(x => x.User_Id == UserContext.Current.UserId)
                 .Select(s => new
                 {
+                    s.User_Id,
                     s.UserName,
                     s.UserTrueName,
                     s.Address,
@@ -382,7 +376,6 @@ namespace VOL.System.Services
             };
             return base.Update(saveModel);
         }
-
         /// <summary>
         /// 导出处理
         /// </summary>

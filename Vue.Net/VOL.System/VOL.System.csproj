@@ -25,12 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VOL.Builder\VOL.Builder.csproj" />
     <ProjectReference Include="..\VOL.Core\VOL.Core.csproj" />
     <ProjectReference Include="..\VOL.Entity\VOL.Entity.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IRepositories\System\" />
     <Folder Include="IServices\System\" />
   </ItemGroup>
 

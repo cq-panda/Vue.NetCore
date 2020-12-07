@@ -79,6 +79,46 @@ namespace VOL.System.Controllers
             return Json(webResponse.OK("密码修改成功")); 
         }
 
+        [HttpPost, Route("modifyPhone")]
+        public IActionResult ModifyPhone(string newPhoneNo)
+        {
+            WebResponseContent webResponse = new WebResponseContent();
+            if (string.IsNullOrEmpty(newPhoneNo) || string.IsNullOrEmpty(newPhoneNo))
+            {
+                return Json(webResponse.Error("参数不完整"));
+            }
+            if (newPhoneNo.Length !=11) return Json(webResponse.Error("手机号码错误"));
+
+            ISys_UserRepository repository = Sys_UserRepository.Instance;
+            Sys_User user = repository.FindFirst(x => x.User_Id == UserContext.Current.UserId);
+            if (user == null)
+            {
+                return Json(webResponse.Error("用户不存在"));
+            }
+            user.PhoneNo = newPhoneNo;
+            repository.Update(user, x => new { x.PhoneNo }, true);
+            return Json(webResponse.OK("手机号码修改成功"));
+        }
+
+
+        [HttpPost, Route("modifyUserInfo")]
+        public IActionResult ModifyUserInfo([FromBody] Sys_User userInfo)
+        {
+            WebResponseContent webResponse = new WebResponseContent();
+            ISys_UserRepository repository = Sys_UserRepository.Instance;
+            Sys_User user = repository.FindFirst(x => x.User_Id ==  UserContext.Current.UserId);
+            if (user == null)
+            {
+                return Json(webResponse.Error("用户不存在"));
+            }
+            user.Address = userInfo.Address;
+            user.Gender = userInfo.Gender;
+            user.Remark = userInfo.Remark;
+            user.UserTrueName = user.UserTrueName;
+            repository.Update(user, x => new { x.Address, x.Gender, x.Remark, x.UserTrueName }, true);
+            return Json(webResponse.OK("修改成功", userInfo));
+        }
+
         /// <summary>
         /// 2020.06.15增加登陆验证码
         /// </summary>

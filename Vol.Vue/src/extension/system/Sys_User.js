@@ -18,7 +18,7 @@ let extension = {
             this.columns.push({
                 title: '操作',
                 fixed: 'right',
-                width: 140,
+                width: 80,
                 render: (h, { row, column, index }) => {
                     return h(
                         "div", { style: {} }, [
@@ -35,29 +35,30 @@ let extension = {
                                 },
                                 "修改密码"
                             ),
-                            h(
-                                "Dropdown", {
-                                    props: {},
-                                    style: {
-                                        "margin-left": "10px"
-                                    },
-                                    on: {
-                                        'on-click': (name) => {
-                                            if (name == 'add') {
-                                                this.add();
-                                            } else if (name == 'update') {
-                                                this.linkData(row);
-                                            } else {
-                                                this.$Message.info(name);
-                                            }
-                                        }
-                                    }
-                                }, [h('a', {}, ['更多', h('Icon', { props: { type: 'ios-arrow-down' } })]),
-                                    h('DropdownMenu', { slot: "list" }, [h('DropdownItem', { props: { name: 'update' } }, '编辑'),
-                                        h('DropdownItem', { props: { name: 'add' } }, '新建'),
-                                    ])
-                                ]
-                            )
+                            // h(
+                            //     "Dropdown", {
+                            //         props: {},
+                            //         style: {
+                            //             "margin-left": "10px"
+                            //         },
+                            //         on: {
+                            //             'on-click': (name) => {
+                            //                 if (name == 'add') {
+                            //                     this.add();
+                            //                 } else if (name == 'update') {
+                            //                     this.linkData(row);
+                            //                 } else {
+                            //                     this.$Message.info(name);
+                            //                 }
+                            //             }
+                            //         }
+                            //     }, 
+                            //     [h('a', {}, ['更多', h('Icon', { props: { type: 'ios-arrow-down' } })]),
+                            //         h('DropdownMenu', { slot: "list" }, [h('DropdownItem', { props: { name: 'update' } }, '编辑'),
+                            //             h('DropdownItem', { props: { name: 'add' } }, '新建'),
+                            //         ])
+                            //     ]
+                            // )
                         ])
                 }
             })

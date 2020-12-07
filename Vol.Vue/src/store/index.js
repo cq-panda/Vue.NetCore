@@ -64,15 +64,24 @@ function getUserInfo(state) {
   }
   return state.userInfo;
 }
+function getSystemSetting(state) {
+  if (state.systemSetting) return state.systemSetting;
+  let systemSetting = localStorage.getItem(keys.SYSTEMSETTING);
+  if (systemSetting) {
+    state.systemSetting = JSON.parse(systemSetting);
+  }
+  return state.systemSetting;
+}
 //getter 相当于 state 的计算属性，mutation 是用来修改 state 的
 //使用actions或mutation获取不了state对象
-const keys = { USER: 'user' }
+const keys = { USER: 'user',SYSTEMSETTING:'systemSetting' }
 //因为分了模块所有属性调试方法都需要加上this.$store.system(system为模块名称)
 const system = {
   state: {
     permission: [],
     isLoading: false,//2020.06.03增加路由切换时加载提示
-    userInfo: null
+    userInfo: null,
+    systemSetting:null
   },
   mutations: {
     setPermission(state, data) {  //调用方式 this.$store.commit('setPermission', data)
@@ -85,6 +94,10 @@ const system = {
     }, setUserInfo(state, data) {
       state.userInfo = data;
       localStorage.setItem(keys.USER, JSON.stringify(data));
+    },
+    setSystemSetting(state, data) {
+      state.systemSetting = data;
+      localStorage.setItem(keys.SYSTEMSETTING, JSON.stringify(data));
     },
     clearUserInfo(state) {
       state.permission = [];
@@ -102,6 +115,10 @@ const system = {
       if (!path) return state.permission;
       return state.permission.find(x => x.path == path);
     },
+    getSystemSetting: (state) => () => {
+      getSystemSetting(state);
+      return state.systemSetting;
+    }, 
     getUserInfo: (state) => () => {
       getUserInfo(state);
       return state.userInfo;
