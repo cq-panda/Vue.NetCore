@@ -20,17 +20,24 @@ let extension = {
   buttons: [],//扩展的按钮
   text: "可在代码生成器中设置[是否只读]或如果没有编辑或新建权限，弹出框都是只读的",
   methods: {//事件扩展
-    onInit() {
+    onInit () {
       this.single = true;//设置只能单选
       //设置表的最大高度
       this.tableMaxHeight = 300;
     },
-    rowChange(row) {//选中行事件
-      console.log('选中行：' + JSON.stringify(row));
+    // rowChange(row) {//选中行事件
+    //   console.log('选中行：' + JSON.stringify(row));
+    //   //选中行后，加载扩展组件里tabs的数据
+    //   this.$refs.gridFooter.rowChangeLoadData(row);
+    // },
+    rowClick ({ row, column, event }) {//选中行事件
+      //2020.11.07更新Basic文件夹的文件后才能使用rowClick方法
+      //选中点击的行
+      this.$refs.table.$refs.table.toggleRowSelection(row);
       //选中行后，加载扩展组件里tabs的数据
       this.$refs.gridFooter.rowChangeLoadData(row);
     },
-    searchBefore(param) {
+    searchBefore (param) {
       return true;
     }
   }

@@ -15,9 +15,16 @@ let extension = {
   buttons: [], //扩展的按钮
   methods: {
     //事件扩展
-    onInit() {
-      //开启固定显示查询功能，true=页面加载时查询表单也显示出来，false=点击查询时才会显示表单
-      this.setFiexdSearchForm(true);
+    onInit () {
+      //隐藏查询界面按钮
+      this.buttons.forEach(x => {
+        if (x.name == "刷 新" || x.name == "新 建") {
+          this.$set(x, "hidden", true);
+        }
+      })
+      //设置页面上显示的按钮个数(不是必须的)
+      this.maxBtnLength = 6;
+      //this.boxButtons弹出框的按钮,this.detailOptions.buttons，同样适用上面上方法
     }
   }
 };

@@ -13,6 +13,7 @@ import formsMulti from './formsMulti'
 import charts from './charts'
 import tables from './tables'
 import documents from './documents'
+import workFlow from './workFlow'
 Vue.use(Router)
 
 const router = new Router({
@@ -42,6 +43,7 @@ const router = new Router({
         ...formsMulti,//Demo一对多表单路由
         ...charts,//Demo图表单路由
         ...tables,
+        ...workFlow,
         {
           path: '/home',
           name: 'home',
