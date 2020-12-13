@@ -124,6 +124,7 @@
               </Button>
               <DropdownMenu slot="list">
                 <DropdownItem :name="item.name"
+                              v-show="!item.hidden"
                               v-for="(item,dIndex) in buttons.slice(maxBtnLength,buttons.length)"
                               :key="dIndex">
                   <Icon :type="item.icon"></Icon>
