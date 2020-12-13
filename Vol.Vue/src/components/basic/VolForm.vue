@@ -436,35 +436,35 @@ export default {
       }
       callback();
     },
+    convertArrayValue (data, val) {//2020.12.13增加表单多选只转换字典
+      //编辑多选table显示
+      let valArr = val instanceof Array ? val : val.split(",");
+      for (let index = 0; index < valArr.length; index++) {
+        var _item = data.find(x => {
+          return x.key && x.key != "0" &&
+            x.key + "" == valArr[index] + ""
+        })
+        if (_item) { valArr[index] = _item.value; }
+      }
+      return valArr.join(",");
+    },
     getText (_formFields, item) {
       //2019.10.24修复表单select组件为只读的属性时没有绑定数据源
       let text = _formFields[item.field];
-
-      if (typeof text == "function") {
-        return text(_formFields);
-      }
+      if (typeof text == "function") return text(_formFields);
       if (
         text === "null" ||
         text === "" ||
         text === null ||
         text === undefined
-      ) {
-        return "--";
-      }
+      ) return "--";
 
       if (!item.data) return text;
-      let data = item.data;
-      // if (item.data.data) {
-      //   data = item.data.data;
-      // } else {
-      //   data = item.data;
-      // }
-      data.forEach((x) => {
-        if (x.key == text) {
-          text = x.value;
-        }
-      });
-      return text;
+      if (item.type == "selectList" || item.type == "checkbox") {
+        return this.convertArrayValue(item.data, text);
+      }
+      var _item = item.data.find(x => { return x.key == text });
+      return _item ? _item.value : text
     },
     onClear (item, _formFields) {
       //远程select标签清空选项
