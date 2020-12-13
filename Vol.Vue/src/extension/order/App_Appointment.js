@@ -21,9 +21,24 @@ let extension = {
   text: "可在代码生成器中设置[是否只读]或如果没有编辑或新建权限，弹出框都是只读的",
   methods: {//事件扩展
     onInit () {
-      this.single = true;//设置只能单选
       //设置表的最大高度
       this.tableMaxHeight = 300;
+      this.columns.forEach(x => {
+        if (x.field == "PhoneNo") {
+          x.cellStyle = (row, rowIndex, columnIndex) => {
+            if (row.PhoneNo == "138888887698") {
+              return { background: "#2196F3", color: "#ffff" }
+            }
+          }
+        }
+        if (x.field == "Creator") {
+          x.cellStyle = (row, rowIndex, columnIndex) => {
+            if (row.Creator == "超级管理员") {
+              return { background: "#f3f3f3" }
+            }
+          }
+        }
+      })
     },
     // rowChange(row) {//选中行事件
     //   console.log('选中行：' + JSON.stringify(row));
