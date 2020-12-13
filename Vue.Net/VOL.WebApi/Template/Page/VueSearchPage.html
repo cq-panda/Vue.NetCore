@@ -6,7 +6,9 @@
  -->
 <template>
     <div>
-        <view-grid :columns="columns"
+        <view-grid
+                   ref="grid"
+                   :columns="columns"
                    :detail="detail"
                    :editFormFields="editFormFields"
                    :editFormFileds="editFormFields"
