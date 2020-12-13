@@ -42,12 +42,12 @@
             </div>
           </template>
         </template>
-        <label v-else-if="item.disabled || item.readonly"
-               class="readonly-input">{{ getText(_formFields, item) }}</label>
         <div v-else
              :class="{ 'form-item-extra': item.extra }">
+          <label v-if="item.disabled || item.readonly"
+                 class="readonly-input">{{ getText(_formFields, item) }}</label>
           <!--下拉框绑定时如果key为数字，请将key+''转换为字符串-->
-          <template v-if="
+          <template v-else-if="
                 item.type == 'select' ||
                 item.type == 'selectList' ||
                 item.type == 'drop' ||
