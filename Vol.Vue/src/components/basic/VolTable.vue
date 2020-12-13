@@ -28,6 +28,7 @@
                 :data="url ? rowData : tableData"
                 border
                 :row-class-name="initIndex"
+                :cell-style="getCellStyle"
                 style="width: 100%">
         <el-table-column v-if="columnIndex"
                          type="index"
@@ -414,6 +415,7 @@ export default {
       summaryData: [],
       summaryIndex: {},
       remoteColumns: [], //需要每次刷新或分页后从后台加载字典数据源的列配置
+      cellStyleColumns: {}//有背景颜色的配置
     };
   },
   created () {
@@ -428,6 +430,9 @@ export default {
       this.summaryData.push(" ");
     }
     this.columns.forEach((x, _index) => {
+      if (x.cellStyle) {
+        this.cellStyleColumns[x.field] = x.cellStyle;
+      }
       if (!x.hidden) {
         //this.summaryIndex[x.field] = _index;
         //2020.10.11修复求和列错位的问题
@@ -1122,6 +1127,13 @@ export default {
       });
       this.$set(this.summaryData, this.summaryIndex[column.field], sum);
     },
+    getCellStyle (row) {//2020.12.13增加设置单元格颜色
+      if (row.column.property) {
+        return this.cellStyleColumns[row.column.property]
+          && this.cellStyleColumns[row.column.property](row.row, row.rowIndex, row.columnIndex);
+      }
+
+    }
   },
 };
 </script>
