@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -22,8 +23,7 @@ namespace VOL.Core.Services
     /// </summary>
     public static class Logger
     {
-        public static readonly object _logger = new object();
-        public static Queue<Sys_Log> loggerQueueData = new Queue<Sys_Log>();
+        public static ConcurrentQueue<Sys_Log> loggerQueueData = new ConcurrentQueue<Sys_Log>();
         private static DateTime lastClearFileDT = DateTime.Now.AddDays(-1);
         private static string _loggerPath = AppSetting.DownLoadPath + "Logger\\Queue\\";
         static Logger()
@@ -84,20 +84,12 @@ namespace VOL.Core.Services
                 HttpContext context = Utilities.HttpContext.Current;
                 if (context.Request.Method == "OPTIONS") return;
                 ActionObserver cctionObserver = (context.RequestServices.GetService(typeof(ActionObserver)) as ActionObserver);
-
-                //如果当前请求已经写过日志就不再写日志
-                //if (cctionObserver.IsWrite) return;
-                //cctionObserver.IsWrite = true;
-
-
                 if (context == null)
                 {
                     WriteText($"未获取到httpcontext信息,type:{loggerType.ToString()},reqParam:{requestParameter},respParam:{responseParameter},ex:{ex},success:{status.ToString()}");
                     return;
                 }
-
                 UserInfo userInfo = UserContext.Current.UserInfo;
-
                 log = new Sys_Log()
                 {
                     BeginDate = cctionObserver.RequestDate,
@@ -115,14 +107,18 @@ namespace VOL.Core.Services
             }
             catch (Exception exception)
             {
-                log = log ?? new Sys_Log();
-                log.ExceptionInfo = exception.Message;
+                log = log ?? new Sys_Log()
+                {
+                    BeginDate = DateTime.Now,
+                    EndDate = DateTime.Now,
+                    LogType = loggerType.ToString(),
+                    RequestParameter = requestParameter,
+                    ResponseParameter = responseParameter,
+                    Success = (int)status,
+                    ExceptionInfo = ex + exception.Message
+                };
             }
-            if (log == null) return;
-            lock (_logger)
-            {
-                loggerQueueData.Enqueue(log);
-            }
+            loggerQueueData.Enqueue(log);
         }
 
         private static void Start()
@@ -175,9 +171,9 @@ namespace VOL.Core.Services
 
         private static void DequeueToTable(DataTable queueTable)
         {
-            Sys_Log log = loggerQueueData.Dequeue();
+            loggerQueueData.TryDequeue(out Sys_Log log);
             DataRow row = queueTable.NewRow();
-            if (log.BeginDate==null)
+            if (log.BeginDate == null)
             {
                 log.BeginDate = DateTime.Now;
             }
@@ -226,7 +222,7 @@ namespace VOL.Core.Services
             log.Url = context.Request.Scheme + "://" + context.Request.Host + context.Request.PathBase +
                 context.Request.Path;
 
-            log.UserIP = context.GetUserIp()?.Replace("::ffff:","");
+            log.UserIP = context.GetUserIp()?.Replace("::ffff:", "");
             log.ServiceIP = context.Connection.LocalIpAddress.MapToIPv4().ToString() + ":" + context.Connection.LocalPort;
 
             log.BrowserType = context.Request.Headers["User-Agent"];
