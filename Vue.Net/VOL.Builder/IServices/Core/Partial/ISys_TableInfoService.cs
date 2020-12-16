@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using VOL.Core.Utilities;
 
-namespace DairyStar.Builder.IServices
+namespace VOL.Builder.IServices
 {
     public partial interface ISys_TableInfoService
     {

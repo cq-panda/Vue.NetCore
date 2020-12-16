@@ -2,7 +2,7 @@
 using VOL.Entity.DomainModels;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DairyStar.Framework.Entity.MappingConfiguration
+namespace VOL.Framework.Entity.MappingConfiguration
 {
     public class vSys_DictionaryMapConfig : EntityMappingConfiguration<vSys_Dictionary>
     {

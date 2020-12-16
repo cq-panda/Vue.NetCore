@@ -1,4 +1,4 @@
-﻿using DairyStar.Builder.Utility;
+﻿using VOL.Builder.Utility;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
 using Newtonsoft.Json;
@@ -21,7 +21,7 @@ using VOL.Entity.DomainModels;
 using VOL.Entity.DomainModels.Sys;
 using VOL.Entity.SystemModels;
 
-namespace DairyStar.Builder.Services
+namespace VOL.Builder.Services
 {
     public partial class Sys_TableInfoService
     {
@@ -1686,7 +1686,7 @@ DISTINCT
             }
             //获取的是本地开发代码所在目录，不是布后的目录
             string mapPath = ProjectPath.GetProjectDirectoryInfo()?.FullName; //new DirectoryInfo(("~/").MapPath()).Parent.FullName;
-                                                                              //  string folderPath= string.Format("\\DairyStar.Framework.Core.\\DomainModels\\{0}\\", foldername);
+                                                                              //  string folderPath= string.Format("\\VOL.Framework.Core.\\DomainModels\\{0}\\", foldername);
             if (string.IsNullOrEmpty(mapPath))
             {
                 return "未找到生成的目录!";

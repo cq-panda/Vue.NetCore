@@ -2,7 +2,7 @@
 using System.Linq;
 using VOL.Core.Extensions;
 
-namespace DairyStar.Builder.Utility
+namespace VOL.Builder.Utility
 {
     public class ProjectPath
     {

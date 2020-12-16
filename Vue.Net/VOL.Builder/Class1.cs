@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DairyStar.Builder
+namespace VOL.Builder
 {
     public class Class1
     {
