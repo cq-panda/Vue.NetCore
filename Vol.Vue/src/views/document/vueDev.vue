@@ -99,6 +99,7 @@
 
           </div>
           <Alert type="success"
+                 v-if="item.tips"
                  show-icon>{{item.tips}}</Alert>
         </div>
       </div>
@@ -146,6 +147,22 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20201213btn02.jpg?imageMogr2/thumbnail/!50p",
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20201213btn03.jpg?imageMogr2/thumbnail/!50p",
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20201213btn04.jpg?imageMogr2/thumbnail/!50p",]
+        },
+        {
+          title: "禁用页面缓存keepAlive",
+          content: [`所有页面默认开启了缓存，即所有页面只会执行一次created与onInit<br />
+<br />
+解决方法1：在router文件夹下找到路由配置里加上:&nbsp; (具体见router-&gt;form.js中的/kindEditor配置)<br />
+&nbsp; &nbsp;meta: {<br />
+&nbsp; &nbsp; &nbsp; keepAlive: false<br />
+&nbsp; &nbsp;}&nbsp;<br />
+<br />
+解决方法2：如果需要每次进入页面查询数据，在[表名.js]文件中添加:<br />
+&nbsp; &nbsp;onActivated(){<br />
+&nbsp; &nbsp;}<br />
+&nbsp;<br />`],
+          tips: "",
+          img: ""
         },
         {
           title: "前端断点调试",
@@ -2263,6 +2280,56 @@ export default {
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/42.png?imageMogr2/thumbnail/!50p",
+        },
+        {
+          title: "table自定义显示图片及base64格式",
+          content: [`<div style="color:red;">2020.12.19更新basic组件才能使用</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>(){
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span><span style="color:#569cd6;">=&gt;</span>{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>==<span style="color:#ce9178;">"xxx"</span>){
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//1.通过formatter自定返回图片</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;var&nbsp;_imgs=[];</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;item.formatter=(imgs)=&gt;{</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;//&nbsp;imgs.split(",")</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;_imgs.push({name:"文件名",path:"127.0.0.1/xxxx.jpg"})</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;}</span>
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2.&nbsp;如果图片是base64格式的,请将属性设置为base64=true;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;item.base64=true;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`], tips: ``,
+          img:
+            "",
         },
         {
           title: "table格式化数据",
