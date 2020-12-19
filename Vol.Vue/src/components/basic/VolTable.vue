@@ -178,7 +178,7 @@
                  v-if="column.link"
                  v-text="scope.row[column.field]"></a>
               <img v-else-if="column.type == 'img'"
-                   v-for="(file, vIndex) in getFilePath(scope.row[column.field])"
+                   v-for="(file, vIndex) in getFilePath(scope.row[column.field],column)"
                    :key="vIndex"
                    :onerror="defaultImg"
                    @click="viewImg(scope.row, column, file.path)"
@@ -187,7 +187,7 @@
               <a style="margin-right: 15px"
                  v-else-if="column.type == 'file' || column.type == 'excel'"
                  class="t-file"
-                 v-for="(file, vIndex) in getFilePath(scope.row[column.field])"
+                 v-for="(file, vIndex) in getFilePath(scope.row[column.field],column)"
                  :key="vIndex"
                  @click="dowloadFile(file)">{{ file.name }}</a>
               <Tag v-else-if="column.type == 'date'">{{
@@ -553,14 +553,26 @@ export default {
         this.http.ipAddress
       );
     },
-    getFilePath (pathSring) {
+    getFilePath (pathSring, column) {
       //获取表的图片与文件显示
-      if (!pathSring) return "";
+      if (!pathSring) return [];
+      //增加图片自定义操作
+      //返回格式必须是[{name:"文件名",path:"图片全路径或base64格式"}]
+      if (column.formatter) {
+        return column.formatter(pathSring);
+      }
       let filePath = pathSring.replace(/\\/g, "/").split(",");
       let fileInfo = [];
       for (let index = 0; index < filePath.length; index++) {
         let file = filePath[index];
-        if (file.indexOf(".") != -1) {
+        //2020.12.19增加base64图片显示
+        if (column.base64) {
+          fileInfo.push({
+            name: "",
+            path: (file.indexOf('base64,') == -1 ? 'data:image/png;base64,' : '') + file,
+          });
+        }
+        else if (file.indexOf(".") != -1) {
           let splitFile = file.split("/");
           if (splitFile.length > 0) {
             fileInfo.push({
@@ -862,7 +874,7 @@ export default {
       this.rowData.push(row);
     },
     viewImg (row, column, url) {
-      this.base.previewImg(url, this.http.ipAddress);
+      this.base.previewImg(url);
       // window.open(row[column.field]);
     },
     link (row, column, $e) {
