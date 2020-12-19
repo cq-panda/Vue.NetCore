@@ -26,7 +26,7 @@ let extension = {
           if (item.field == 'ParentId') {
             item.title = "上级角色";
             //设置任意节点都能选中(默认只能选中最后一个节点)
-            //item.changeOnSelect = true;
+            item.changeOnSelect = true;
 
             //格式化数据显示(只显示当前选中的最后一个节点)，默认会显示所有节点的数据
             // item.formatter = nodeArr => {
