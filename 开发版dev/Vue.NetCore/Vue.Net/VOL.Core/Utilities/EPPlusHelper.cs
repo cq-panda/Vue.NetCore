@@ -41,7 +41,7 @@ namespace VOL.Core.Utilities
                     return responseContent.Error("未导入数据");
                 //2020.08.11修复获取表结构信息时，表为别名时查不到数据的问题
                 //typeof(T).GetEntityTableName()
-                List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).Name, false, false);
+                List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).Name, false, false, columns: exportColumns?.GetExpressionToArray());
                 //设置忽略的列
                 if (exportColumns != null)
                 {
@@ -275,7 +275,7 @@ namespace VOL.Core.Utilities
             //获取代码生成器对应的配置信息
             //  List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).GetEntityTableName(), template);
             //2020.06.02修复使用表别名时读取不到配置信息
-            List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).Name, template);
+            List<CellOptions> cellOptions = GetExportColumnInfo(typeof(T).Name, template, columns: exportColumns?.ToArray());
             string fullPath = savePath + fileName;
             //获取所有有值的数据源
             var dicNoKeys = cellOptions
@@ -410,21 +410,30 @@ namespace VOL.Core.Utilities
         /// <param name="temlate">是否为下载模板</param>
         /// filterKeyValue是否过滤Key相同的数据
         /// <returns></returns>
-        private static List<CellOptions> GetExportColumnInfo(string tableName, bool temlate = false, bool filterKeyValue = true)
+        private static List<CellOptions> GetExportColumnInfo(string tableName, bool temlate = false, bool filterKeyValue = true, string[] columns = null)
         {
             //&& x.IsDisplay == 1&&x.IsReadDataset==0只导出代码生器中设置为显示并且不是只读的列，可根据具体业务设置导出列
             // && x.IsReadDataset == 0
             //2020.06.02增加不区分大表名大小写: 原因mysql可能是表名是小写，但生成model的时候强制大写
             //x => x.TableName.ToLower() == tableName.ToLower()
-            List<CellOptions> cellOptions = DBServerProvider.DbContext.Set<Sys_TableColumn>()
-              .Where(x => x.TableName.ToLower() == tableName.ToLower() && x.IsDisplay == 1).Select(c => new CellOptions()
-              {
-                  ColumnName = c.ColumnName,
-                  ColumnCNName = c.ColumnCnName,
-                  DropNo = c.DropNo,
-                  Requierd = c.IsNull > 0 ? false : true,
-                  ColumnWidth = c.ColumnWidth ?? 90
-              }).ToList();
+            var query = DBServerProvider.DbContext.Set<Sys_TableColumn>().Where(x => x.TableName.ToLower() == tableName.ToLower());
+            if (columns != null && columns.Length > 0)
+            {
+                query = query.Where(x => columns.Contains(x.ColumnName));
+            }
+            else
+            {
+                query = query.Where(x => x.IsDisplay == 1);
+            }
+            List<CellOptions> cellOptions = query.Select(c => new CellOptions()
+            {
+                ColumnName = c.ColumnName,
+                ColumnCNName = c.ColumnCnName,
+                DropNo = c.DropNo,
+                Requierd = c.IsNull > 0 ? false : true,
+                ColumnWidth = c.ColumnWidth ?? 90
+            }).ToList();
+
 
             if (temlate) return cellOptions;
 
