@@ -1,20 +1,28 @@
 <template>
   <div id="vol-container"
        :class="['vol-theme-' + theme]">
-    <div class="vol-aside">
-      <div class="header">
-        <img v-bind:src="logo" />
+    <div class="vol-aside"
+         :style="{width:menuWidth+'px'}">
+      <div class="header"
+           :style="{width:menuWidth-1+'px'}">
+        <img v-show="!isCollapse"
+             v-bind:src="logo" />
+        <Icon type="ios-list"
+              @click="toggleLeft"
+              class="collapse-menu" />
       </div>
       <div class="vol-menu">
         <el-scrollbar style="height: 100%">
-          <VolMenu :theme="menu_theme"
-                   :onSelect="onSelect"
-                   :options="menuOptions"></VolMenu>
+          <VolMenu :onSelect="onSelect"
+                   :isCollapse="isCollapse"
+                   :list="menuOptions"></VolMenu>
         </el-scrollbar>
       </div>
     </div>
-    <div class="vol-container">
+    <div class="vol-container"
+         :style="{left:menuWidth-1+'px'}">
       <div class="vol-header">
+
         <span class="header-text">支持业务代码扩展的快速开发框架</span>
         <div class="header-info">
           <div class="h-link">
@@ -97,12 +105,14 @@
 </template>
 <script>
 import loading from "@/components/basic/RouterLoading";
-import VolMenu from "@/components/basic/VolMenu.vue";
+import VolMenu from "@/components/basic/VolElementMenu.vue";
 let imgUrl = require("@/assets/imgs/logo.png");
 var $vueIndex;
 export default {
   data () {
     return {
+      menuWidth: 200,
+      isCollapse: false,
       menu_theme: "light",
       theme_moel: false,
       theme_color: [
@@ -190,6 +200,11 @@ export default {
     this.selectId = 0;
   },
   methods: {
+    toggleLeft () {
+      this.isCollapse = !this.isCollapse;
+      this.menuWidth = this.isCollapse ? 63 : 200
+    }
+    ,
     changeThen (name) {
       if (this.theme != name) {
         this.theme = name;
@@ -350,22 +365,22 @@ body {
 .vol-aside {
   height: 100%;
   position: absolute;
-  width: 200px;
+  /* width: 200px; */
   float: left;
   overflow: hidden;
 }
 .vol-aside .tac {
   text-align: left;
 }
-.vol-aside .el-submenu .el-menu-item {
+/* .vol-aside .el-submenu .el-menu-item {
   max-width: 200px;
   min-width: 190px;
-}
+} */
 .vol-aside .header {
   text-align: center;
   position: absolute;
   height: 60px;
-  width: 199px;
+  /* width: 199px; */
   position: relative;
   line-height: 60px;
   /* background-color: rgb(1, 5, 8); */
@@ -384,13 +399,22 @@ body {
   position: unset;
   width: 100% !important;
 }
+.vol-aside .vol-menu >>> .is-horizontal {
+  display: none !important;
+}
+.vol-aside .vol-menu >>> .is-vertical {
+  width: 2px;
+}
+/* .vol-aside .vol-menu .vol-el-menu {
+  border-right: 1px solid #eee;
+} */
 .vol-container {
   min-width: 800px;
   right: 0;
   display: inline-block;
   position: absolute;
   margin: 0;
-  left: 199px;
+  /* left: 199px; */
   box-sizing: border-box;
   height: 100%;
 }
@@ -417,7 +441,7 @@ body {
   /* background-color: #272929; */
 }
 .vol-main {
-  /* background: #ecebeb; */
+  border-left: 1px solid #eee;
   position: absolute;
   width: 100%;
   /* height: 100%; */
@@ -563,6 +587,9 @@ img:not([src]) {
   .header {
     background: #101010;
   }
+  .header-text {
+    color: white;
+  }
   .vol-header {
     background-color: #272929;
   }
@@ -602,25 +629,38 @@ img:not([src]) {
 </style>
 
 <style  scoped>
-/* 黑色左侧菜单 */
-.vol-theme-dark .vol-aside .vol-menu >>> .ivu-menu {
-  color: hsla(0, 0%, 100%, 0.7);
+.vol-theme-white .vol-aside >>> .vol-el-menu-item {
   background: black;
-}
-.vol-theme-dark
-  .vol-aside
-  .vol-menu
-  >>> .ivu-menu-item-active.ivu-menu-item-selected {
-  color: white !important;
-  background: #0fa0e1 !important;
-}
-.vol-theme-dark .vol-aside .vol-menu >>> .ivu-menu-submenu-title:hover,
-.vol-theme-dark .vol-aside .vol-menu >>> .ivu-menu-item:hover {
   color: white;
 }
+.vol-theme-dark .vol-aside >>> .vol-menu .el-submenu {
+  background: black;
+}
+.vol-theme-dark .vol-aside >>> .vol-menu .el-submenu__title * {
+  color: #d6d6d6;
+}
+.vol-theme-dark .vol-aside >>> .vol-el-menu-item .el-menu-item {
+  color: #eee;
+  background: #1f1f1f;
+}
+.vol-theme-dark .vol-aside >>> .vol-el-menu-item .el-menu-item.is-active,
+.vol-theme-dark .vol-aside >>> .menu-item-lv1 {
+  background: black;
+}
 
-.vol-theme-dark .vol-aside .vol-menu >>> .ivu-menu-opened {
-  width: 99% !important;
+.vol-theme-dark .vol-aside >>> .menu-item-lv1 {
+  background: black;
+  color: #d6d6d6;
+}
+
+.vol-theme-dark .vol-aside >>> .vol-el-menu-item .el-menu-item:hover {
+  background: black;
+}
+.vol-theme-dark .vol-aside >>> .el-submenu__title:hover {
+  background-color: black;
+}
+.vol-theme-dark .vol-aside >>> .el-submenu__title:hover * {
+  color: white;
 }
 </style>
 
@@ -775,13 +815,6 @@ img:not([src]) {
 </style>
 
 <style  scoped>
-/* .vol-theme-blue .vol-aside >>> .ivu-menu-submenu-title {
-  background: #005bb8 !important;
-}
-.vol-theme-blue .vol-aside >>> .ivu-menu-opened {
-  background: #006cdf !important;
-  color: white;
-} */
 </style>
 
 
@@ -795,23 +828,12 @@ img:not([src]) {
   .header {
     background-color: #434956;
   }
-
   .h-link a:hover {
     color: #505252;
   }
   .h-link a {
     color: #211f1f;
   }
-  // .h-link .actived {
-  //   border-bottom: 2px solid white;
-  // }
-
-  // .h-link a,
-  // .h-link .actived a,
-  // .vol-header .settings,
-  // .vol-header .user {
-  //   color: white;
-  // }
 
   .header-navigation {
     box-shadow: -7px 11px 10px -13px #678aa7;
@@ -834,18 +856,37 @@ img:not([src]) {
     // background: #1a89ff;
     color: white;
   }
-  // .vol-header .header-text {
-  //   color: #fbfbfb;
-  // }
 }
 </style>
 <style  scoped>
-.vol-theme-white .vol-aside >>> .ivu-menu-opened {
-  /* background: #006cdf !important; */
+.vol-theme-white .vol-aside >>> .vol-el-menu-item {
+  background: #363e4f;
   color: white;
 }
-.vol-theme-white .vol-aside .vol-menu {
+.vol-theme-white .vol-aside >>> .vol-menu .el-submenu,
+.vol-theme-white .vol-aside >>> .menu-item-lv1 {
   background: #515a6e;
+}
+.vol-theme-white .vol-aside >>> .vol-menu .el-submenu__title *,
+.vol-theme-white .vol-aside >>> .menu-item-lv1 * {
+  color: #d6d6d6;
+}
+.vol-theme-white .vol-aside >>> .vol-el-menu-item .el-menu-item {
+  color: #eee;
+}
+.vol-theme-white .vol-aside >>> .vol-el-menu-item .el-menu-item.is-active,
+.vol-theme-white .vol-aside >>> .menu-item-lv1.is-active {
+  background: #59647b;
+  color: #fff;
+}
+.vol-theme-white .vol-aside >>> .vol-el-menu-item .el-menu-item:hover {
+  background: #6a758c;
+}
+.vol-theme-white .vol-aside >>> .el-submenu__title:hover {
+  background-color: #525865;
+}
+.vol-theme-white .vol-aside >>> .el-submenu__title:hover * {
+  color: white;
 }
 </style>
 
@@ -870,7 +911,7 @@ img:not([src]) {
   background-color: #f0f6ff;
 }
 *::-webkit-scrollbar-thumb {
-  background-color: #73abb1;
+  /* background-color: #73abb1; */
   border-radius: 3px;
 }
 .scrollbarHide::-webkit-scrollbar {
@@ -956,5 +997,18 @@ img:not([src]) {
   width: 30px;
   background: #f8f8f9;
   border-left: 1px solid #d8d7d7;
+}
+</style>
+
+<style lang="less" scoped>
+.collapse-menu {
+  font-size: 22px;
+  color: #fff;
+  font-weight: bold;
+  line-height: 60px;
+  position: absolute;
+  top: 0;
+  right: 5px;
+  cursor: pointer;
 }
 </style>
