@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
 import doc from './doc'
+import { Form } from 'vant'
 const routerPush = Router.prototype.push
 Router.prototype.push = function push (location) {
   return routerPush.call(this, location).catch(error => { console.log(error) })
@@ -100,6 +101,21 @@ const router = new Router({
     }
     ,
     {
+      path: '/sellOrder',
+      name: 'SellOrder',
+      component: () => import('@/views/page/sellOrder/SellOrder.vue'),
+      meta: {
+      }
+    },
+    {
+      path: '/sellOrder/detail',
+      name: 'SellOrder_detail',
+      component: () => import('@/views/page/sellOrder/detail.vue'),
+      meta: {
+      }
+    }
+    ,
+    {
       path: '/test',
       name: 'test',
       component: () => import('@/views/test/Test.vue'),
@@ -113,15 +129,22 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.matched.length == 0) return next({ path: '/404' });
   store.dispatch("onLoading", true);
-
+  if (store.getters.data().lastPage && from.path != "/login" && to.path == "/login") {
+    store.getters.data().lastPage = "";
+    return next({ path: '/' });
+  }
   let navigate = store.getters.data().navigate;
   if (navigate && navigate.path.indexOf(to.path) != -1) {
     navigate.active = navigate.path.indexOf(to.path);
   }
 
+  if (to.path == "/login") {
+    store.getters.data().lastPage = from.path;
+  }
   if ((to.hasOwnProperty('meta') && to.meta.anonymous) || store.getters.isLogin()) {
     return next();
   }
+
   next({ path: '/login', query: { redirect: Math.random() } });
 })
 

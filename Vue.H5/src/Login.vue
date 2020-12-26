@@ -1,43 +1,49 @@
 <template >
   <div class="login-container">
-    <vol-header :back="false" title="vol.vue-h5演示环境"></vol-header>
+    <vol-header :back="false"
+                title="vol.vue-h5演示环境"></vol-header>
     <h2>帐号登陆</h2>
     <div class="login-input">
-      <van-field
-        size="large"
-        v-model="userInfo.userName"
-        placeholder="请输入帐号"
-        type="text"
-        label="帐号"
-      />
-      <van-field
-        size="large"
-        v-model="userInfo.password"
-        placeholder="请输入密码"
-        type="password"
-        label="密码"
-      />
-      <van-field
-        v-model="userInfo.verificationCode"
-        center
-        clearable
-        label="验证码"
-        placeholder="请输入验证码"
-      >
+      <van-field size="large"
+                 v-model="userInfo.userName"
+                 placeholder="请输入帐号"
+                 type="text"
+                 label="帐号" />
+      <van-field size="large"
+                 v-model="userInfo.password"
+                 placeholder="请输入密码"
+                 type="password"
+                 label="密码" />
+      <van-field v-model="userInfo.verificationCode"
+                 center
+                 clearable
+                 label="验证码"
+                 placeholder="请输入验证码">
         <template #button>
-          <img @click="()=>{getVierificationCode()}" v-show="codeImgSrc!=''" :src="codeImgSrc" />
+          <img @click="()=>{getVierificationCode()}"
+               v-show="codeImgSrc!=''"
+               :src="codeImgSrc" />
         </template>
       </van-field>
     </div>
     <div class="login-btn">
-      <van-button @click="login()" v-show="!loading" block type="info">登陆</van-button>
-      <van-button disabled v-show="loading" block loading type="info" loading-text="正在登陆..." />
+      <van-button @click="login()"
+                  v-show="!loading"
+                  block
+                  type="info">登陆</van-button>
+      <van-button disabled
+                  v-show="loading"
+                  block
+                  loading
+                  type="info"
+                  loading-text="正在登陆..." />
     </div>
     <div class="login-account">
       <a>注册</a>
       <a>忘记密码</a>
     </div>
-    <van-divider class="login-line" dashed>其他方式登陆</van-divider>
+    <van-divider class="login-line"
+                 dashed>其他方式登陆</van-divider>
     <div class="login-other">
       <div class="item"></div>
       <div class="item">
@@ -60,12 +66,17 @@
 import { Field, Divider } from "vant";
 import VolHeader from "@/components/VolHeader.vue";
 export default {
+  watch: {
+    '$route' (to, from) {
+      console.log(to, from);
+    }
+  },
   components: {
     "vol-header": VolHeader,
     "van-field": Field,
     "van-divider": Divider
   },
-  data() {
+  data () {
     return {
       codeImgSrc: "",
       loading: false,
@@ -76,17 +87,17 @@ export default {
       }
     };
   },
-  created() {
+  created () {
     this.getVierificationCode();
   },
   methods: {
-    getVierificationCode() {
+    getVierificationCode () {
       this.http.get("/api/User/getVierificationCode").then(x => {
         this.codeImgSrc = "data:image/png;base64," + x.img;
         this.userInfo.UUID = x.uuid;
       });
     },
-    login() {
+    login () {
       if (this.userInfo.userName == "" || this.userInfo.userName.trim() == "")
         return this.$Message.error("请输入用户名");
       if (this.userInfo.password == "" || this.userInfo.password.trim() == "")
@@ -107,10 +118,11 @@ export default {
           return;
         }
         this.$store.commit("setUserInfo", x.data);
-        this.$router.push({ path: "/" });
+        let _lastPage = this.$store.getters.data().lastPage || '/';
+        this.$router.push({ path: _lastPage == '/login' ? '/' : _lastPage });
       });
     }
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

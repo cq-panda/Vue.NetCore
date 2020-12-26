@@ -8,7 +8,8 @@
                @click-right="onClickRight"
                :right-text="rightText">
     <template #right>
-      <van-icon name="search"
+      <van-icon v-show="showIcon"
+                name="search"
                 size="16" />
     </template>
   </van-nav-bar>
@@ -20,6 +21,10 @@
 import { NavBar, Icon } from "vant";
 export default {
   props: {
+    showIcon: {
+      type: Boolean,
+      default: true
+    },
     back: {
       type: Boolean,
       default: true

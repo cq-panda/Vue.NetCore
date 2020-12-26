@@ -102,16 +102,18 @@ export default {
       var forms = new FormData();
       let _count = 0;
       _files.forEach((file) => {
-        this.bf = file.name + "压缩前大小:" + (file.size / 1024)
+       // this.bf = file.name + "压缩前大小:" + (file.size / 1024)
         var result = this.compress(file, (data) => {
           var _file = this.base64ToBlob(data);
           _count++;
-          this.af = file.name + "压缩后大小:" + (_file.size / 1024)
+        //  this.af = file.name + "压缩后大小:" + (_file.size / 1024)
           forms.append("fileInput", _file, file.name);
           if (_count == _files.length) {
             //"api/App_Expert/Upload"
             this.http.post(this.url, forms, true).then(x => {
-              console.log(x);
+               if(!x.status){
+                 return this.$toast(x.message)
+               }
               var _urls = _files.map(item => {
                 return { url: this.http.ipAddress + x.data + item.name };
               })
@@ -120,8 +122,6 @@ export default {
           }
         });
       });
-
-      // console.log(file)
     },
     beforeDelete (file, detail) {
       this.selfChange = true;

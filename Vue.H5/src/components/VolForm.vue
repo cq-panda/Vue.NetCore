@@ -53,7 +53,7 @@
       </div>
     </van-actionsheet>
 
-    <div class="ds-from-content">
+    <div class="vol-from-content">
       <div style="display:none;">
         <van-field label-class="form-label"
                    :label-width="120"
@@ -602,7 +602,7 @@ export default {
     margin-right: -4px;
   }
 }
-.scroll .ds-from-content {
+.scroll .vol-from-content {
   //  height: calc(100vh - 50px);
   // overflow-y: scroll;
 }
