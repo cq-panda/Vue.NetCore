@@ -232,7 +232,10 @@
 
           <div class="form-extra"
                v-if="item.extra">
-            <a :style="item.extra.style"
+            <form-expand v-if="item.extra.render "
+                         :render="item.extra.render"></form-expand>
+            <a v-else
+               :style="item.extra.style"
                @click="
                   () => {
                     item.extra.click &&
