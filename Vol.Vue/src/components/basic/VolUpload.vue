@@ -1,49 +1,58 @@
 <template>
   <div class="upload-container">
     <div>
-      <div class="input-btns" style="margin-bottom: 10px;">
-        <input
-          ref="input"
-          type="file"
-          style="display:none;"
-          @change="handleChange"
-          :multiple="multiple"
-        />
-        <div v-if="img" class="upload-img">
+      <div class="input-btns"
+           style="margin-bottom: 10px;">
+        <input ref="input"
+               type="file"
+               style="display:none;"
+               @change="handleChange"
+               :multiple="multiple" />
+        <div v-if="img"
+             class="upload-img">
           <!-- v-for="(file,index) in fileInfo.length>0?fileInfo: files" -->
-          <div v-for="(file,index) in  files.length>0?files:fileInfo" :key="index" class="img-item">
+          <div v-for="(file,index) in  files.length>0?files:fileInfo"
+               :key="index"
+               class="img-item">
             <div class="operation">
               <div class="action">
-                <Icon type="md-eye" @click="previewImg(index)" class="view"></Icon>
-                <Icon type="md-close" @click="removeFile(index)" class="remove"></Icon>
+                <Icon type="md-eye"
+                      @click="previewImg(index)"
+                      class="view"></Icon>
+                <Icon type="md-close"
+                      @click="removeFile(index)"
+                      class="remove"></Icon>
               </div>
               <div class="mask"></div>
             </div>
-            <img :src="getImgSrc(file)" :onerror="errorImg" />
+            <img :src="getImgSrc(file)"
+                 :onerror="errorImg" />
           </div>
-          <div
-            v-show="!autoUpload||(autoUpload&&files.length<maxFile&&fileInfo.length<maxFile)"
-            class="img-selector"
-            :class="getSelector()"
-          >
-            <div class="selector" @click="handleClick">
+          <div v-show="!autoUpload||(autoUpload&&files.length<maxFile&&fileInfo.length<maxFile)"
+               class="img-selector"
+               :class="getSelector()">
+            <div class="selector"
+                 @click="handleClick">
               <Icon type="ios-camera"></Icon>
             </div>
-            <div v-if="!autoUpload" class="s-btn" :class="{readonly:changed}" @click="upload">
+            <div v-if="!autoUpload"
+                 class="s-btn"
+                 :class="{readonly:changed}"
+                 @click="upload">
               <div>{{loadText}}</div>
             </div>
           </div>
         </div>
-        <Button v-else @click="handleClick" icon="ios-cloud-upload-outline">选择{{img?'图片':'文件'}}</Button>
+        <Button v-else
+                @click="handleClick"
+                icon="ios-cloud-upload-outline">选择{{img?'图片':'文件'}}</Button>
 
-        <Button
-          v-if="!autoUpload&&!img"
-          type="info"
-          :disabled="changed"
-          icon="md-arrow-round-up"
-          @click="upload"
-          :loading="loadingStatus"
-        >上传文件</Button>
+        <Button v-if="!autoUpload&&!img"
+                type="info"
+                :disabled="changed"
+                icon="md-arrow-round-up"
+                @click="upload"
+                :loading="loadingStatus">上传文件</Button>
       </div>
       <slot></slot>
       <div v-if="desc">
@@ -51,8 +60,11 @@
       </div>
       <slot name="content"></slot>
       <div v-if="!img">
-        <ul class="upload-list" v-show="fileList">
-          <li class="list-file" v-for="(file,index) in  files.length>0?files:fileInfo" :key="index">
+        <ul class="upload-list"
+            v-show="fileList">
+          <li class="list-file"
+              v-for="(file,index) in  files.length>0?files:fileInfo"
+              :key="index">
             <a>
               <span @click="fileOnClick(index,file)">
                 <Icon :type="format(file)"></Icon>
@@ -63,7 +75,8 @@
               style="margin-left:15px;"
               >大小{{(file.size / 1024).toFixed(2)}}KB</span>-->
             </a>
-            <span @click="removeFile(index)" class="file-remove">
+            <span @click="removeFile(index)"
+                  class="file-remove">
               <Icon type="md-close"></Icon>
             </span>
           </li>
@@ -191,7 +204,7 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     return {
       errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       changed: false, //手动上传成功后禁止重复上传，必须重新选择
@@ -199,17 +212,17 @@ export default {
       files: [],
       bigImg: "",
       loadingStatus: false,
-      loadText:'上传文件'
+      loadText: '上传文件'
     };
   },
-  created() {
+  created () {
     //默认有图片的禁止上传操作
     if (this.fileInfo) {
       this.changed = true;
     }
   },
   methods: {
-    previewImg(index) {
+    previewImg (index) {
       //查看大图预览模式待完
       this.base.previewImg(
         this.getImgSrc(
@@ -218,16 +231,21 @@ export default {
       );
       //  window.open(this.getImgSrc((this.files.length>0?this.files:this.fileInfo)[index]));
     },
-    getSelector() {
+    getSelector () {
       if (this.autoUpload) {
         return "auto-selector";
       }
       return "submit-selector";
     },
-    getImgSrc(file) {
+    getImgSrc (file) {
       if (file.hasOwnProperty("path")) {
+
         if (this.base.isUrl(file.path)) {
           return file.path;
+        }
+        //2020.12.27增加base64图片操作
+        if (file.path.indexOf("/9j/") != -1) {
+          return "data:image/jpeg;base64," + file.path;
         }
         if (file.path.substr(0, 1) == "/") {
           file.path = file.path.substr(1);
@@ -236,7 +254,7 @@ export default {
       }
       return window.URL.createObjectURL(file);
     },
-    fileOnClick(index, file) {
+    fileOnClick (index, file) {
       if (!this.fileClick(index, file, this.files)) {
         return;
       }
@@ -257,17 +275,17 @@ export default {
         this.http.ipAddress
       );
     },
-    getText() {
+    getText () {
       if (this.img) {
         return "只能上传图片,";
       } else if (this.excel) {
         return "只能上传excel文件,";
       }
     },
-    handleClick() {
+    handleClick () {
       this.$refs.input.click();
     },
-    handleChange(e) {
+    handleChange (e) {
       this.clearFiles();
       var result = this.checkFile(e.target.files);
       if (!result) {
@@ -285,7 +303,7 @@ export default {
         this.upload();
       }
     },
-    removeFile(index) {
+    removeFile (index) {
       //如果传入了FileInfo需要自行处理移除FileInfo
       //t移除文件
       let removeFile =
@@ -299,13 +317,13 @@ export default {
         return;
       }
     },
-    clearFiles() {
+    clearFiles () {
       this.files.splice(0);
     },
-    getFiles() {
+    getFiles () {
       return this.files;
     },
-    upload() {
+    upload () {
       if (!this.checkFile()) return false;
       if (!this.url) {
         return this.$Message.error({ duration: 5, content: "没有配置好Url" });
@@ -317,19 +335,19 @@ export default {
         return;
       }
       var forms = new FormData();
-      this.files.forEach(function(file) {
+      this.files.forEach(function (file) {
         forms.append("fileInput", file, file.name);
       });
       // forms.append("fileInput", this.files);
       this.loadingStatus = true;
-        this.loadText="上传中..";
+      this.loadText = "上传中..";
       this.http
         .post(this.url, forms, this.autoUpload ? "正在上传文件" : "")
         .then(
           x => {
             // this.$refs.uploadFile.clearFiles();
             this.loadingStatus = false;
-            this.loadText="上传文件";
+            this.loadText = "上传文件";
             if (!this.uploadAfter(x, this.files)) {
               this.changed = false;
               return;
@@ -353,12 +371,12 @@ export default {
             // }
           },
           error => {
-            this.loadText="上传文件";
+            this.loadText = "上传文件";
             this.loadingStatus = false;
           }
         );
     },
-    format(file, checkFileType) {
+    format (file, checkFileType) {
       const format =
         file.name
           .split(".")
@@ -431,8 +449,8 @@ export default {
 
       return fileIcon;
     },
-    beforeUpload() {},
-    checkFile(files) {
+    beforeUpload () { },
+    checkFile (files) {
       if (!files) {
         files = this.files;
       }
@@ -631,7 +649,7 @@ export default {
   }
   .submit-selector {
     .s-btn {
-          line-height: 22px;
+      line-height: 22px;
       font-size: 12px;
       top: -7px;
       // padding: 2px;
