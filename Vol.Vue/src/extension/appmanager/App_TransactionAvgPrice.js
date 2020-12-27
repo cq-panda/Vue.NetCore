@@ -16,12 +16,6 @@ let extension = {
   methods: {
     //事件扩展
     onInit () {
-      //隐藏查询界面按钮
-      this.buttons.forEach(x => {
-        if (x.name == "刷 新" || x.name == "新 建") {
-          this.$set(x, "hidden", true);
-        }
-      })
       //设置页面上显示的按钮个数(不是必须的)
       this.maxBtnLength = 6;
       //this.boxButtons弹出框的按钮,this.detailOptions.buttons，同样适用上面上方法

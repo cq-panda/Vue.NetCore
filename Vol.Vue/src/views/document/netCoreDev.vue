@@ -213,6 +213,25 @@ export default {
           tips: ` repository.DapperContext或DBServerProvider.SqlDapper可直接使用dapper，内部已封装好常用功能`,
         },
         {
+          title: "接口禁用驼峰规则",
+          content: [
+            `框架接口数据默认都使用的小驼峰规则，如果需要原样返回数据（2020-11-21更新vol.core->controller下的文件夹才可以使用），请在控制器方法使用 return JsonNormal();`,
+          ],
+          tips: ` 还没想好`,
+          img: "",
+        },
+        {
+          title: "不显示的菜单权限分配",
+          content: [
+            `<div style="line-height: 2;"><p>菜单不显示，但又需要对菜单进行权限分配，请更新下面文件，文件里修改的地方标注了日期2020.12.27（2020.12.27后获取的项目不用更新）</p>
+            <p>2020.12.27更新后才能使用，更新文件VolElementMenu.vue 、 VolElementMenuChild.vue、  Sys_Menu.vue 、  Sys_MenuService.cs 、  UserContext.cs</p>
+            <p style="color:red">如果2020.12.20之后没有更新过项目，请同时更新 
+VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、common.js文件</p></div>`,
+          ],
+          tips: ` 还没想好`,
+          img: "",
+        },
+        {
           title: "获取表依赖注入service实例",
           content: [
             `表名xxxService.Instance；如:Sys_UserService.Instance(仅限在同一个类库中使用)`,

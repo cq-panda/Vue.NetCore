@@ -107,7 +107,20 @@ let extension = {
 
       // this.$Notice.success({ title: '执行mounted方法' });
     },
+    //方式1,通过select选择触发显示与隐藏
     onInit () {
+      //获取订单类型select配置，当前订单类型select改变值时，动态设置Remark,SellNo两个字段是否显示 
+      var orderTypeOption = this.getFormOption("OrderType");
+      orderTypeOption.onChange = (val) => {
+
+        //当订单类型select改变值时，如果选中的是发货(对应字典编号为2)，emark,SellNo隐藏，否则显示出来
+        var remarkOption = this.getFormOption("Remark");
+        this.$set(remarkOption, "hidden", val == "2")
+
+        var sellNoOption = this.getFormOption("SellNo");
+        this.$set(sellNoOption, "hidden", val == "2")
+      }
+
       //点击单元格编辑与结束编辑(默认是点击单元格编辑，鼠标离开结束编辑)
       this.detailOptions.clickEdit = true;
       //设置主表合计
@@ -143,7 +156,7 @@ let extension = {
       //动态设置弹出框table的高度
       this.detailOptions.height = 160;
       //动态设置查询界面table高度
-      this.tableMaxHeight = 220;;
+      this.tableMaxHeight = 300;
       this.$Notice.success({ title: 'create方法执行时,你可以此处编写业务逻辑' });
     },
     onInited () {
@@ -202,9 +215,22 @@ let extension = {
       //     detailData: [{ 明细表字段1: d1 }],
       //     delKeys: null //删除明细表行数据的id
       // }
+
+      //formData.mainData.xxx="xxxx";//还可以继续手动添加值
+
       //如果需要同时提交其他数据到后台，请设置formData.extra=xxxx
       //后台在表xxxxService.cs中重写Add方法即可从saveDataModel参数中拿到extra提交的对象
       this.$Notice.success({ title: this.detailOptions.cnName + '新建前：', desc: '提前的数据：' + JSON.stringify(formData) });
+      return true;
+    },
+    async addBeforeAsync (formData) {
+      //2020.12.06增加新建前异步方法同步处理
+      //功能同上，区别在于此处可以做一些异步请求处理,全：
+      // var _result = await this.http.post("/api/SellOrder/getPageData", {}, true).then(result => {
+      //   console.log("1、异步请求前")
+      //   return result;
+      // })
+      // console.log("2、异步请求，同步处理结果:" + JSON.stringify(_result))
       return true;
     },
     addAfter (result) {//新建保存后result返回的状态及表单对象
@@ -212,18 +238,31 @@ let extension = {
       return true;
     },
     updateBefore (formData) { //编辑保存前formData为对象，包括明细表、删除行的Id
-      //formData格式：
+      //formData格式：(自己调试出输看)
       // {
       //     mainData: { 主表字段1: 'x1', 主表字段2: 'x2' },
       //     detailData: [{ 明细表字段1: d1 }],
       //     delKeys: null //删除明细表行数据的id
       // }
+
+      //formData.mainData.xxx="xxxx";//还可以继续手动添加值
+
       //如果需要同时提交其他数据到后台，请设置formData.extra=xxxx
       //后台在表xxxxService.cs中重写Update方法即可从saveDataModel参数中拿到extra提交的对象
 
       this.$Notice.success({ title: this.detailOptions.cnName + '编辑前：', desc: '提前的数据：' + JSON.stringify(formData) });
       //获取扩展的modelFooter属性text
       console.log(this.$refs.modelFooter.text)
+      return true;
+    },
+    async updateBeforeAsync (formData) {
+      //2020.12.06增加修改前异步方法同步处理
+      //功能同上，区别在于此处可以做一些异步请求处理,全：
+      var _result = await this.http.post("/api/SellOrder/getPageData", {}, true).then(result => {
+        console.log("1、异步请求前")
+        return result;
+      })
+      console.log("2、异步请求，同步处理结果:" + JSON.stringify(_result))
       return true;
     },
     updateAfter (result) {//编辑保存后result返回的状态及表单对象
@@ -273,8 +312,29 @@ let extension = {
     modelOpenBefore (row) { //点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据
 
     },
-    modelOpenAfter (row) {  //点击编辑/新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
-      this.$message.error("此处是打开弹出框后事件,当前操作：" + this.currentAction + "，你可以在此处编写逻辑，如，从后台获取数据");
+    getFormOption (field) {
+      let option;
+      this.editFormOptions.forEach(x => {
+        x.forEach(item => {
+          if (item.field == field) {
+            option = item;
+          }
+        })
+      })
+      return option;
+    },
+
+    //方式2,通过打开弹出框时触发显示与隐藏
+    modelOpenAfter (row) {  //编辑或新建时，根据不同的情况控制字段是否显示 
+      //   this.editFormOptions.forEach(x => {
+      //     x.forEach(item => {
+      //       if (item.field == "Remark" || item.field == "SellNo") {
+      //         //如果不是新建，则隐藏Remark,SellNo两个字段是否显示 
+      //          //也可以根据row当前编辑行的值来处理
+      //         this.$set(item, "hidden", this.currentAction != "Add")
+      //       }
+      //     })
+      //   })
     },
     rowClick ({ row, column, event }) { //查询界面table点击行选中当前行
       this.$refs.table.$refs.table.toggleRowSelection(row);

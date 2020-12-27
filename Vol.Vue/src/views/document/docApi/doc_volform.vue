@@ -11,15 +11,15 @@
     <div class="i-text">
       <h2>表单</h2>
     </div>
-    <VolForm
-      ref="myform"
-      :label-width="150"
-      :loadKey="true"
-      :formFields="formFields1"
-      :formRules="formRules1"
-    ></VolForm>
+    <VolForm ref="myform"
+             :label-width="150"
+             :loadKey="true"
+             :formFields="formFields1"
+             :formRules="formRules1"></VolForm>
     <div>
-      <Button type="info" long @click="reset">重置表单</Button>
+      <Button type="info"
+              long
+              @click="reset">重置表单</Button>
     </div>
     <div>
       <docParamTable name="form"></docParamTable>
@@ -32,12 +32,12 @@ import docParamTable from "./doc_ParamTable.vue";
 export default {
   components: { VolForm, docParamTable },
   methods: {
-    reset() {
+    reset () {
       this.$refs.myform.reset();
       this.$Message.error("表单已重置");
     }
   },
-  data() {
+  data () {
     return {
       formFields1: {
         Variety: 1,
@@ -74,7 +74,30 @@ export default {
             required: true,
             field: "City",
             data: [],
-            type: "select"
+            type: "select",
+            extra: {
+              render: h => {
+                return h(
+                  "div",
+                  {
+                    props: {}, style: { color: "#03A9F4", cursor: "pointer" },
+                    on: { click: () => { this.$Message.info("点击事件") } }
+                  },
+                  [
+                    h(
+                      "Tooltip",
+                      {
+                        props: { content: "这里是提示的内容", placement: "right-start" },
+                        class: "ivu-icon ivu-icon-ios-alert-outline",
+                        style: {}
+                      }, [
+                      h("span", {}, ["提示"])
+                    ]
+                    )
+                  ]
+                );
+              }
+            }
           },
           {
             title: "手动绑定数据源",

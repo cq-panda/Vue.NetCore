@@ -24,6 +24,34 @@ let extension = {
   },
   methods: { //事件扩展
     onInit () {
+      //将编辑表单第一行第一列【名称】字段添加一个额外提示属性
+      //需要2020.12.27更新volform组件后才能使用
+      this.editFormOptions[0][0].extra = {
+        render: h => {
+          return h(
+            "div",
+            {
+              props: {}, style: { color: "#03A9F4", cursor: "pointer" },
+              on: { click: () => { this.$Message.info("点击事件") } }
+            },
+            [
+              h(
+                "Tooltip",
+                {
+                  props: { content: "这里是提示的内容", placement: "right-start" },
+                  class: "ivu-icon ivu-icon-ios-alert-outline",
+                  style: {}
+                }, [
+                h("span", {}, ["提示信息"])
+              ]
+              )
+            ]
+          );
+        }
+      }
+
+
+
       //设置界面上最多可显示的按钮数量 
       this.maxBtnLength = 6;
       // 第2个弹出框操作
