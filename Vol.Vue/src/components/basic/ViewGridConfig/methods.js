@@ -556,7 +556,8 @@ let methods = {
       formData.delKeys = this.detailOptions.delKeys;
     }
     //保存前拦截
-    if (this.currentAction == this.const.ADD) {
+    let _currentIsAdd = this.currentAction == this.const.ADD;
+    if (_currentIsAdd) {
       //2020.12.06增加新建前异步处理方法
       if (!this.addBefore(formData) || await !this.addBeforeAsync(formData)) return;
     } else {
@@ -566,7 +567,7 @@ let methods = {
     let url = this.getUrl(this.currentAction);
     this.http.post(url, formData, true).then(x => {
       //保存后
-      if (this.currentAction == this.const.ADD) {
+      if (_currentIsAdd) {
         if (!this.addAfter(x)) return;
       } else {
         if (!this.updateAfter(x)) return;
@@ -576,7 +577,9 @@ let methods = {
       //如果保存成功后需要关闭编辑框，直接返回不处理后面
       if (this.boxOptions.saveClose) {
         this.boxModel = false;
-        this.refresh();
+        //2020.12.27如果是编辑保存后不重置分页页数，刷新页面时还是显示当前页的数据
+        this.$refs.table.load(null, _currentIsAdd);
+        //this.refresh();
         return;
       }
       let resultRow;
@@ -600,7 +603,8 @@ let methods = {
           this.$refs.detail.rowData.push(...resultRow.list);
         }
       }
-      this.refresh();
+      this.$refs.table.load(null, _currentIsAdd);
+      // this.refresh();
     });
   },
   del () {
