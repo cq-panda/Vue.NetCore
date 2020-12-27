@@ -407,7 +407,7 @@ export default {
             type: "select",
             data: [
               { key: 1, value: "启用" },
-              { key: 2, value: "显示不显示" },
+              { key: 2, value: "启用不显示" },
               { key: 0, value: "禁用" },
             ],
             extra: {
