@@ -202,15 +202,18 @@ namespace VOL.Core.ManageUser
         {
             if (IsRoleIdSuperAdmin(roleId))
             {
-                var permissions = DBServerProvider.DbContext.Set<Sys_Menu>().Where(x => x.Enable == 1).Select(a => new Permissions
-                {
-                    Menu_Id = a.Menu_Id,
-                    ParentId = a.ParentId,
-                    //2020.05.06增加默认将表名转换成小写，权限验证时不再转换
-                    TableName = (a.TableName ?? "").ToLower(),
-                    //MenuAuth = a.Auth,
-                    UserAuth = a.Auth,
-                }).ToList();
+                //2020.12.27增加菜单界面上不显示，但可以分配权限
+                var permissions = DBServerProvider.DbContext.Set<Sys_Menu>()
+                    .Where(x => x.Enable == 1 || x.Enable == 2)
+                    .Select(a => new Permissions
+                    {
+                        Menu_Id = a.Menu_Id,
+                        ParentId = a.ParentId,
+                        //2020.05.06增加默认将表名转换成小写，权限验证时不再转换
+                        TableName = (a.TableName ?? "").ToLower(),
+                        //MenuAuth = a.Auth,
+                        UserAuth = a.Auth,
+                    }).ToList();
                 return MenuActionToArray(permissions);
             }
             ICacheService cacheService = CacheService;
@@ -295,7 +298,7 @@ namespace VOL.Core.ManageUser
         /// <returns></returns>
         public bool ExistsPermissions(string tableName, ActionPermissionOptions actionPermission, int roleId = 0)
         {
-            return ExistsPermissions(tableName, actionPermission.ToString(),roleId);
+            return ExistsPermissions(tableName, actionPermission.ToString(), roleId);
         }
         public int UserId
         {

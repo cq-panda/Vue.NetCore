@@ -59,7 +59,8 @@ namespace VOL.System.Services
             lock (_menuObj)
             {
                 if (_menuVersionn != "" && _menus != null) return _menus;
-                _menus = repository.FindAsIQueryable(x => x.Enable == 1)
+                //2020.12.27增加菜单界面上不显示，但可以分配权限
+                _menus = repository.FindAsIQueryable(x => x.Enable == 1 || x.Enable == 2)
                     .OrderByDescending(a => a.OrderNo)
                     .ThenByDescending(q => q.ParentId).ToList();
 
@@ -127,6 +128,7 @@ namespace VOL.System.Services
         /// <returns></returns>
         public async Task<object> GetMenuActionList(int roleId)
         {
+            //2020.12.27增加菜单界面上不显示，但可以分配权限
             if (UserContext.IsRoleIdSuperAdmin(roleId))
             {
                 return await Task.Run(() => GetAllMenu().Select(x =>
@@ -137,6 +139,7 @@ namespace VOL.System.Services
                     url = x.Url,
                     parentId = x.ParentId,
                     icon = x.Icon,
+                    x.Enable,
                     permission = x.Actions.Select(s => s.Value).ToArray()
                 }).ToList());
             }
@@ -152,6 +155,7 @@ namespace VOL.System.Services
                            url = b.Url,
                            parentId = b.ParentId,
                            icon = b.Icon,
+                           b.Enable,
                            permission = a.UserAuthArr
                        };
             return menu.ToList();

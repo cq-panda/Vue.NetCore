@@ -9,7 +9,7 @@
       <template v-for="(item) in treeList">
         <el-submenu :key="item.id"
                     :index="''+item.id"
-                    v-if="item.children.length">
+                    v-if="item.children.length&&item.enable==1">
           <template slot="title">
             <Icon :type="item.icon||'ios-aperture'" />
             <span slot="title"> {{ item.name }}</span>
@@ -19,6 +19,7 @@
         </el-submenu>
         <template v-else>
           <el-menu-item class="menu-item-lv1"
+                        v-if="item.enable==1"
                         :key="item.id"
                         :index="''+item.id">
             <Icon :type="item.icon||'ios-aperture'" />

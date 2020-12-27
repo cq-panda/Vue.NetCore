@@ -3,13 +3,13 @@
     <template v-for="(item, index) of list">
       <el-menu-item :key="index"
                     :index="''+item.id"
-                    v-if="!item.children.length">
+                    v-if="!item.children.length&&item.enable==1">
         <!-- <Icon :type="item.icon" /> -->
         <span slot="title"> {{ item.name }}</span>
       </el-menu-item>
       <el-submenu :key="index"
                   :index="''+item.id"
-                  v-if="item.children.length">
+                  v-if="item.children.length&&item.enable==1">
         <template slot="title">
           <!-- <Icon :type="item.icon||'ios-aperture'" /> -->
           <span> {{ item.name }}</span>
