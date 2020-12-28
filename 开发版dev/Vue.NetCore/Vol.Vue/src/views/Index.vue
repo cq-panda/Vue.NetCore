@@ -867,6 +867,9 @@ img:not([src]) {
 .vol-theme-white .vol-aside >>> .menu-item-lv1 {
   background: #515a6e;
 }
+.vol-theme-white .vol-aside >>> .vol-menu{
+ background: #515a6e;
+}
 .vol-theme-white .vol-aside >>> .vol-menu .el-submenu__title *,
 .vol-theme-white .vol-aside >>> .menu-item-lv1 * {
   color: #d6d6d6;
@@ -888,6 +891,7 @@ img:not([src]) {
 .vol-theme-white .vol-aside >>> .el-submenu__title:hover * {
   color: white;
 }
+
 </style>
 
 <style>
