@@ -1,34 +1,26 @@
 <template>
   <div class="vol-el-menu">
-    <el-menu
-      close="vol-el-menu--vertical"
-      :unique-opened="true"
-      @select="select"
-      :collapse="isCollapse"
-      @open="handleOpen"
-      @close="handleClose"
-    >
+    <el-menu close="vol-el-menu--vertical"
+             :unique-opened="true"
+             @select="select"
+             :collapse="isCollapse"
+             @open="handleOpen"
+             @close="handleClose">
       <template v-for="item in treeList">
-        <el-submenu
-          :key="item.id"
-          :index="'' + item.id"
-          v-if="item.children.length && item.enable == 1"
-        >
+        <el-submenu :key="item.id"
+                    :index="'' + item.id"
+                    v-if="item.children.length && item.enable == 1">
           <template slot="title">
             <Icon :type="item.icon || 'ios-aperture'" />
             <span slot="title"> {{ item.name }}</span>
           </template>
-          <vol-element-menu-child
-            :list="item.children"
-          ></vol-element-menu-child>
+          <vol-element-menu-child :list="item.children"></vol-element-menu-child>
         </el-submenu>
         <template v-else>
-          <el-menu-item
-            class="menu-item-lv1"
-            v-if="item.enable == 1"
-            :key="item.id"
-            :index="'' + item.id"
-          >
+          <el-menu-item class="menu-item-lv1"
+                        v-if="item.enable == 1"
+                        :key="item.id"
+                        :index="'' + item.id">
             <Icon :type="item.icon || 'ios-aperture'" />
             <span slot="title"> {{ item.name }}</span>
           </el-menu-item>
@@ -60,24 +52,25 @@ export default {
       default: [],
     },
     rootId: {
-      type: Object,
-      default: 0,
+      type: String,
+      default: "0",
     },
   },
-  data() {
+  data () {
     return {
       treeList: [],
     };
   },
-  created() {
+  created () {
     this.treeList = this.convertTree(this.list);
   },
   methods: {
-    convertTree(data) {
+    convertTree (data) {
+      var rootId = !isNaN(this.rootId) ? ~~this.rootId : this.rootId;
       var root_data = [];
       data.forEach((x) => {
         if (!x.children) x.children = [];
-        if (x.parentId === this.rootId) {
+        if (x.parentId === rootId) {
           x.isRoot = true;
           if (!x.hasOwnProperty("enable")) x.enable = 1;
           root_data.push(x);
@@ -86,7 +79,7 @@ export default {
       });
       return root_data;
     },
-    getTree(id, node, data) {
+    getTree (id, node, data) {
       data.forEach((x) => {
         if (!x.hidden && x.parentId == id) {
           if (!node.children) node.children = [];
@@ -95,15 +88,15 @@ export default {
         }
       });
     },
-    select(index, indexPath) {
+    select (index, indexPath) {
       let _item = this.list.find((x) => {
         return x.id == index;
       });
       this.onSelect(index, _item);
       this.$router.push({ path: _item.path });
     },
-    handleOpen() {},
-    handleClose() {},
+    handleOpen () { },
+    handleClose () { },
   },
 };
 </script>
