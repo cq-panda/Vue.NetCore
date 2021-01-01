@@ -15,7 +15,7 @@ export default {
     document.getElementById("loading-container").style.display = "none";
   }
 };
-</script>
+</script>  
 
 <style>
 .el-loading {
