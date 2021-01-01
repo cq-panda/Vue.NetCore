@@ -17,10 +17,12 @@
                   style="margin-bottom: 30px;"
                   active-name="1">
               <MenuItem name="1">
-              <Icon type="md-contacts" />帐号登陆
+              <!-- <Icon type="md-contacts" /> -->
+              帐号登陆
               </MenuItem>
               <MenuItem name="2">
-              <Icon type="ios-mail" />短信登陆
+              <!-- <Icon type="ios-mail" /> -->
+              短信登陆
               </MenuItem>
             </Menu>
             <div class="form-user"
@@ -28,8 +30,9 @@
               <div class="item">
                 <div class="f-text">
                   <label>
-                    <Icon type="ios-people"
-                          :size="20" />用户名：
+                    <!-- <Icon type="ios-people"
+                          :size="20" /> -->
+                    用户名：
                   </label>
                 </div>
                 <div class="f-input">
@@ -40,14 +43,15 @@
                 </div>
                 <div class="f-remove"
                      @click="userInfo.userName=''">
-                  <Icon type="ios-close-circle" />
+                  <!-- <Icon type="ios-close-circle" /> -->
                 </div>
               </div>
               <div class="item">
                 <div class="f-text">
                   <label>
-                    <Icon type="ios-lock"
-                          :size="20" />密&nbsp;&nbsp;&nbsp;码：
+                    <!-- <Icon type="ios-lock"
+                          :size="20" /> -->
+                    密&nbsp;&nbsp;&nbsp;码：
                   </label>
                 </div>
                 <div class="f-input">
@@ -65,9 +69,10 @@
               <div class="item">
                 <div class="f-text">
                   <label>
-                    <Icon type="md-images"
+                    <!-- <Icon type="md-images"
                           v-focus
-                          :size="20" />验证码：
+                          :size="20" /> -->
+                    验证码：
                   </label>
                 </div>
                 <div class="f-input">
@@ -105,7 +110,8 @@
     <div class="r-bg"></div>
     <div class="login-footer">
       <a @click="toGitHub">
-        <Icon type="logo-github" />GitHub
+        <!-- <Icon type="logo-github" /> -->
+        GitHub
       </a>
       <a>QQ群：45221949</a>
       <a href="http://www.beian.miit.gov.cn/"
@@ -276,7 +282,7 @@ export default {
     margin-bottom: 30px;
     display: flex;
     .f-text {
-      color: #868484;
+      color: #484848;
       font-weight: 400;
       width: 110px;
       font-size: 16px;
