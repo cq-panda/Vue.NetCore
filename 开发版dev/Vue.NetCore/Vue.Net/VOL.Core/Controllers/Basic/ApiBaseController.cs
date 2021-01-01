@@ -1,26 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using VOL.Core.Configuration;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
+using VOL.Core.Services;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
 
 namespace VOL.Core.Controllers.Basic
 {
     [JWTAuthorize, ApiController]
-    public class ApiBaseController<IServiceBase> : BaseController<IServiceBase>
+    public class ApiBaseController<IServiceBase> : Controller
     {
-        public ApiBaseController(IServiceBase service)
-       : base(service)
+        protected IServiceBase Service;
+        private WebResponseContent _baseWebResponseContent { get; set; }
+        public ApiBaseController()
         {
         }
-        public ApiBaseController(string projectName, string folder, string tablename, IServiceBase service)
-        : base(projectName, folder, tablename, service)
+        public ApiBaseController(IServiceBase service)
         {
+            Service = service;
+        }
+        public ApiBaseController(string projectName, string folder, string tablename, IServiceBase service)
+        {
+            Service = service;
         }
         /// <summary>
         /// 2020.11.21增加json原格式返回数据(默认是驼峰格式)
@@ -37,9 +46,9 @@ namespace VOL.Core.Controllers.Basic
 
         [ApiActionPermission(Enums.ActionPermissionOptions.Search)]
         [HttpPost, Route("GetPageData")]
-        public new async Task<ActionResult> GetPageData([FromBody] PageDataOptions loadData)
+        public virtual ActionResult GetPageData([FromBody] PageDataOptions loadData)
         {
-            return await base.GetPageData(loadData);
+            return Content(InvokeService("GetPageData", new object[] { loadData }).Serialize());
         }
 
         /// <summary>
@@ -49,22 +58,11 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Search)]
         [HttpPost, Route("GetDetailPage")]
-        public new async Task<ActionResult> GetDetailPage([FromBody] PageDataOptions loadData)
+        public virtual ActionResult GetDetailPage([FromBody] PageDataOptions loadData)
         {
-            return await base.GetDetailPage(loadData);
+            return Content(InvokeService("GetDetailPage", new object[] { loadData }).Serialize());
         }
 
-        ///// <summary>
-        ///// 上传文件
-        ///// </summary>
-        ///// <param name="fileInput"></param>
-        ///// <returns></returns>
-        //[HttpPost, Route("Upload")]
-        //[ApiActionPermission(Enums.ActionPermissionOptions.Upload)]
-        //public new async Task<IActionResult> Upload(List<IFormFile> fileInput)
-        //{
-        //    return await base.Upload(fileInput);
-        //}
         /// <summary>
         /// 上传文件
         /// </summary>
@@ -72,9 +70,9 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [HttpPost, Route("Upload")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Upload)]
-        public async Task<IActionResult> Upload(IEnumerable<IFormFile> fileInput)
+        public virtual IActionResult Upload(IEnumerable<IFormFile> fileInput)
         {
-            return await base.Upload(fileInput.ToList());
+            return Json(InvokeService("Upload", new object[] { fileInput }));
         }
         /// <summary>
         /// 下载导入Excel模板
@@ -82,9 +80,16 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [HttpGet, Route("DownLoadTemplate")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Import)]
-        public new async Task<ActionResult> DownLoadTemplate()
+        public virtual ActionResult DownLoadTemplate()
         {
-            return await base.DownLoadTemplate();
+            _baseWebResponseContent = InvokeService("DownLoadTemplate", new object[] { }) as WebResponseContent;
+            if (!_baseWebResponseContent.Status) return Json(_baseWebResponseContent);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(_baseWebResponseContent.Data.ToString());
+            return File(
+                    fileBytes,
+                    System.Net.Mime.MediaTypeNames.Application.Octet,
+                    Path.GetFileName(_baseWebResponseContent.Data.ToString())
+                );
         }
         /// <summary>
         /// 导入表数据Excel
@@ -93,9 +98,9 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [HttpPost, Route("Import")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Import)]
-        public new async Task<ActionResult> Import(List<IFormFile> fileInput)
+        public  virtual ActionResult Import(List<IFormFile> fileInput)
         {
-            return await base.Import(fileInput);
+            return Json(InvokeService("Import", new object[] { fileInput }));
         }
 
         /// <summary>
@@ -105,9 +110,9 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Export)]
         [HttpPost, Route("Export")]
-        public new async Task<ActionResult> Export([FromBody] PageDataOptions loadData)
+        public virtual ActionResult Export([FromBody] PageDataOptions loadData)
         {
-            return await base.Export(loadData);
+            return Json(InvokeService("Export", new object[] { loadData }));
         }
         /// <summary>
         /// 下载文件
@@ -116,10 +121,26 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Export)]
         [HttpGet, Route("DownLoadFile")]
-        public IActionResult DownLoadFile()
+        public virtual IActionResult DownLoadFile()
         {
             string path = HttpContext.Request("path");
-            return base.DownLoadFile(path);
+            if (string.IsNullOrEmpty(path)) return Content("未找到文件");
+            try
+            {
+                path = path.IndexOf("/") == -1 && path.IndexOf("\\") == -1 
+                    ?path.DecryptDES(AppSetting.Secret.ExportFile)
+                    : path.MapPath();
+                return File(
+                        System.IO.File.ReadAllBytes(path), 
+                        System.Net.Mime.MediaTypeNames.Application.Octet, 
+                        Path.GetFileName(path)
+                    );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"文件下载出错:{path}{ex.Message}");
+            }
+            return Content("");
         }
 
         /// <summary>
@@ -129,9 +150,11 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Delete)]
         [HttpPost, Route("Del")]
-        public new async Task<ActionResult> Del([FromBody] object[] keys)
+        public virtual ActionResult Del([FromBody] object[] keys)
         {
-            return await base.Del(keys);
+            _baseWebResponseContent = InvokeService("Del", new object[] { keys, true }) as WebResponseContent;
+            Logger.Info(Enums.LoggerType.Del, keys.Serialize(), _baseWebResponseContent.Status ? "Ok" : _baseWebResponseContent.Message);
+            return Json(_baseWebResponseContent);
         }
         /// <summary>
         /// 审核
@@ -140,9 +163,11 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Audit)]
         [HttpPost, Route("Audit")]
-        public new async Task<ActionResult> Audit([FromBody] object[] id, int? auditStatus, string auditReason)
+        public virtual ActionResult Audit([FromBody] object[] id, int? auditStatus, string auditReason)
         {
-            return await base.Audit(id, auditStatus, auditReason);
+            _baseWebResponseContent =InvokeService("Audit", new object[] { id, auditStatus, auditReason }) as WebResponseContent;
+            Logger.Info(Enums.LoggerType.Del, id?.Serialize() + "," + (auditStatus ?? -1) + "," + auditReason, _baseWebResponseContent.Status ? "Ok" : _baseWebResponseContent.Message);
+            return Json(_baseWebResponseContent);
         }
         /// <summary>
         /// 新增支持主子表
@@ -151,11 +176,14 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Add)]
         [HttpPost, Route("Add")]
-        public new async Task<ActionResult> Add([FromBody] SaveModel saveModel)
+        public virtual ActionResult Add([FromBody] SaveModel saveModel)
         {
-            WebResponseContent responseContent = await base.Add(saveModel);
-            responseContent.Data = responseContent.Data?.Serialize();
-            return Json(responseContent);
+            _baseWebResponseContent =InvokeService("Add", 
+                new Type[] { typeof(SaveModel) }, 
+                new object[] { saveModel }) as WebResponseContent;
+            Logger.Info(Enums.LoggerType.Add, saveModel.Serialize(), _baseWebResponseContent.Status ? "Ok" : _baseWebResponseContent.Message);
+            _baseWebResponseContent.Data = _baseWebResponseContent.Data?.Serialize();
+            return Json(_baseWebResponseContent);
         }
         /// <summary>
         /// 编辑支持主子表
@@ -165,11 +193,34 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Update)]
         [HttpPost, Route("Update")]
-        public new async Task<ActionResult> Update([FromBody] SaveModel saveModel)
+        public virtual ActionResult Update([FromBody] SaveModel saveModel)
         {
-            WebResponseContent responseContent = await base.Update(saveModel);
-            responseContent.Data = responseContent.Data?.Serialize();
-            return Json(responseContent);
+            _baseWebResponseContent = InvokeService("Update", new object[] { saveModel }) as WebResponseContent;
+            Logger.Info(Enums.LoggerType.Edit, saveModel.Serialize(), _baseWebResponseContent.Status ? "Ok" : _baseWebResponseContent.Message);
+            _baseWebResponseContent.Data = _baseWebResponseContent.Data?.Serialize();
+            return Json(_baseWebResponseContent);
+        }
+
+        /// <summary>
+        /// 调用service方法
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private object InvokeService(string methodName, object[] parameters)
+        {
+            return Service.GetType().GetMethod(methodName).Invoke(Service, parameters);
+        }
+        /// <summary>
+        /// 调用service方法
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <param name="types">为要调用重载的方法参数类型：new Type[] { typeof(SaveDataModel)</param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private object InvokeService(string methodName, Type[] types, object[] parameters)
+        {
+            return Service.GetType().GetMethod(methodName, types).Invoke(Service, parameters);
         }
     }
 }
