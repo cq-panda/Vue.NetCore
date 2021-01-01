@@ -104,6 +104,10 @@ namespace VOL.Core.Utilities
                         //2020.09.20增加判断数据源是否有值
                         if (!string.IsNullOrEmpty(options.DropNo) && !string.IsNullOrEmpty(value))
                         {
+                            if (options.KeyValues==null)
+                            {
+                                return responseContent.Error($"[{options.ColumnCNName}]字段数字典编号[{options.DropNo}]缺失,请检查字典配置");
+                            }
                             string key = options.KeyValues.Where(x => x.Value == value)
                                   .Select(s => s.Key)
                                   .FirstOrDefault();
