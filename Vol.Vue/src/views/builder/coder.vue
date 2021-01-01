@@ -389,6 +389,12 @@ export default {
     checkSortName () { },
     save () {
       // localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
+      if (this.tableInfo
+        && this.tableInfo.tableColumns
+        && this.tableInfo.tableColumns.length
+        && this.tableInfo.tableColumns.filter(x => { return x.isKey == 1 }).length > 1) {
+        return this.$Message.error("表结构只能勾选一个主键字段")
+      }
       this.validateTableInfo(() => {
         this.http.post("/api/builder/Save", this.tableInfo, true).then(x => {
           if (!x.status) {
