@@ -450,6 +450,7 @@ namespace VOL.Core.Dapper
                         FileName = path.ReplacePath(),
                         NumberOfLinesToSkip = 0,
                         TableName = tableName,
+                        CharacterSet = "UTF8"
                     };
                     bulk.Columns.AddRange(table.Columns.Cast<DataColumn>().Select(colum => colum.ColumnName).ToList());
                     insertCount = bulk.Load();
