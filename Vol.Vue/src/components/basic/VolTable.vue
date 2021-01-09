@@ -1200,7 +1200,7 @@ export default {
   border-top: 0px;
 }
 .v-table >>> .el-table__header th {
-  padding: 8px 0 !important;
+  padding: 9px 0 !important;
 
   background-color: #f8f8f9 !important;
   font-size: 13px;
@@ -1213,7 +1213,7 @@ export default {
   white-space: nowrap !important;
 }
 .v-table >>> .el-table__body td {
-  padding: 7px 0 !important;
+  padding: 9px 0 !important;
 }
 
 .v-table >>> .el-table__footer td {
@@ -1244,18 +1244,6 @@ export default {
   border: none !important;
   background: none !important;
 }
-/* .spin-icon-load{
-        animation: ani-demo-spin 1s linear infinite;
-    }
-    @keyframes ani-demo-spin {
-        from { transform: rotate(0deg);}
-        50%  { transform: rotate(180deg);}
-        to   { transform: rotate(360deg);}
-    }
-    .message{
-        height: 50px;
-        position: relative;
-        border: 1px solid #eee;
-    } */
+
 </style>
 
