@@ -1422,6 +1422,11 @@ DISTINCT
                     {
                         sb.Append("link:true,");
                     }
+                    //2021.01.09增加代码生成器设置table排序功能
+                    if (item.Sortable==1)
+                    {
+                        sb.Append("sort:true,");
+                    }
                 }
                 else
                 {

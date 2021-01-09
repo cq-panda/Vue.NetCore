@@ -434,6 +434,13 @@ export default {
           if (!x.data.tableTrueName) {
             x.data.tableTrueName = x.data.tableName;
           }
+          //2021.01.09增加代码生成器设置table排序功能
+          const _fields=["sortable","isNull","isReadDataset","isColumnData","isDisplay"]
+          x.data.tableColumns.forEach(item=>{
+             for (let index = 0; index < _fields.length; index++) {
+                item[_fields[index]]=  item[_fields[index]]||0;
+             }
+          })
           this.tableInfo = x.data;
           this.$refs.form.reset(x.data);
           this.data = x.data.tableColumns;
