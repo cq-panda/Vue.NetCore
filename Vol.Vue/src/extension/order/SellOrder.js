@@ -98,17 +98,17 @@ let extension = {
   },//扩展的按钮
   methods: {
     //扩展方法使用示例,根据需要实行下面的方法
-    getServiceDate () {
+    getServiceDate() {
       this.http.post("/api/SellOrder/getServiceDate", {}, '正在调用后台数据').then(date => {
         this.$message.error("从后台获取的服务器时间是：" + date);
       })
     },
-    mounted () {
+    mounted() {
 
       // this.$Notice.success({ title: '执行mounted方法' });
     },
     //方式1,通过select选择触发显示与隐藏
-    onInit () {
+    onInit() {
       //获取订单类型select配置，当前订单类型select改变值时，动态设置Remark,SellNo两个字段是否显示 
       var orderTypeOption = this.getFormOption("OrderType");
       orderTypeOption.onChange = (val) => {
@@ -159,7 +159,7 @@ let extension = {
       this.tableMaxHeight = 300;
       this.$Notice.success({ title: 'create方法执行时,你可以此处编写业务逻辑' });
     },
-    onInited () {
+    onInited() {
       //设置主表求字段，后台需要实现SummaryExpress方法
       this.columns.forEach(x => {
         if (x.field == 'Qty') {
@@ -174,25 +174,25 @@ let extension = {
       })
       //   this.$Notice.success({ title: 'create方法执行后', desc: '你可以SellOrder.js中编写业务逻辑,其他方法同样适用' });
     },
-    searchBefore (param) { //查询ViewGird表数据前,param查询参数
+    searchBefore(param) { //查询ViewGird表数据前,param查询参数
       //你可以指定param查询的参数，处如果返回false，则不会执行查询
       // this.$Notice.success({ title: this.table.cnName + ',查询前' });
       // console.log("扩展的"this.detailOptions.cnName + '触发loadDetailTableBefore');
       return true;
     },
-    searchAfter (result) { //查询ViewGird表数据后param查询参数,result回返查询的结果
+    searchAfter(result) { //查询ViewGird表数据后param查询参数,result回返查询的结果
       this.$Notice.success({ title: this.table.cnName + ',查询结果', desc: '返回的对象：' + JSON.stringify(result) });
       return true;
     },
-    searchDetailBefore (param) {//查询从表表数据前,param查询参数
+    searchDetailBefore(param) {//查询从表表数据前,param查询参数
       //  this.$Notice.success({ title: this.detailOptions.cnName + '查询前' });
       return true;
     },
-    searchDetailAfter (data) {//查询从表后param查询参数,result回返查询的结果
+    searchDetailAfter(data) {//查询从表后param查询参数,result回返查询的结果
       this.$Notice.success({ title: this.detailOptions.cnName + ',查询结果', desc: '返回的对象：' + JSON.stringify(data) });
       return true;
     },
-    delBefore (ids, rows) { //查询界面的表删除前 ids为删除的id数组,rows删除的行
+    delBefore(ids, rows) { //查询界面的表删除前 ids为删除的id数组,rows删除的行
       let auditStatus = rows.some(x => { return x.AuditStatus > 0 });
       if (auditStatus) {
         this.$message.error('只能删除未审核的数据')
@@ -201,14 +201,14 @@ let extension = {
       this.$Notice.success({ title: '删除前，选择的Id:' + ids.join(',') });
       return true;
     },
-    delAfter (result) {//查询界面的表删除后
+    delAfter(result) {//查询界面的表删除后
       return true;
     },
-    delDetailRow (rows) { //弹出框删除明细表的行数据(只是对table操作，并没有操作后台)
+    delDetailRow(rows) { //弹出框删除明细表的行数据(只是对table操作，并没有操作后台)
       console.log(rows)
       return true;
     },
-    addBefore (formData) { //新建保存前formData为对象，包括明细表
+    addBefore(formData) { //新建保存前formData为对象，包括明细表
       //formData格式：
       // {
       //     mainData: { 主表字段1: 'x1', 主表字段2: 'x2' },
@@ -223,7 +223,7 @@ let extension = {
       this.$Notice.success({ title: this.detailOptions.cnName + '新建前：', desc: '提前的数据：' + JSON.stringify(formData) });
       return true;
     },
-    async addBeforeAsync (formData) {
+    async addBeforeAsync(formData) {
       //2020.12.06增加新建前异步方法同步处理
       //功能同上，区别在于此处可以做一些异步请求处理,全：
       // var _result = await this.http.post("/api/SellOrder/getPageData", {}, true).then(result => {
@@ -233,11 +233,11 @@ let extension = {
       // console.log("2、异步请求，同步处理结果:" + JSON.stringify(_result))
       return true;
     },
-    addAfter (result) {//新建保存后result返回的状态及表单对象
+    addAfter(result) {//新建保存后result返回的状态及表单对象
       this.$Notice.success({ title: this.detailOptions.cnName + '新建完成后：', desc: '返回的数据' + JSON.stringify(result) });
       return true;
     },
-    updateBefore (formData) { //编辑保存前formData为对象，包括明细表、删除行的Id
+    updateBefore(formData) { //编辑保存前formData为对象，包括明细表、删除行的Id
       //formData格式：(自己调试出输看)
       // {
       //     mainData: { 主表字段1: 'x1', 主表字段2: 'x2' },
@@ -255,7 +255,7 @@ let extension = {
       console.log(this.$refs.modelFooter.text)
       return true;
     },
-    async updateBeforeAsync (formData) {
+    async updateBeforeAsync(formData) {
       //2020.12.06增加修改前异步方法同步处理
       //功能同上，区别在于此处可以做一些异步请求处理,全：
       var _result = await this.http.post("/api/SellOrder/getPageData", {}, true).then(result => {
@@ -265,54 +265,71 @@ let extension = {
       console.log("2、异步请求，同步处理结果:" + JSON.stringify(_result))
       return true;
     },
-    updateAfter (result) {//编辑保存后result返回的状态及表单对象
+    updateAfter(result) {//编辑保存后result返回的状态及表单对象
       this.$Notice.success({ title: this.detailOptions.cnName + '编辑完成后：', desc: '返回的数据' + JSON.stringify(result) });
       return true;
     },
-    auditBefore (ids, rows) {//审核前
+    auditBefore(ids, rows) {//审核前
       if (rows.length > 2) {//每次最多只能审核2条数据
         this.$message.error('最多只能选择两条数据');
         return false;
       }
       return true;
     },
-    auditAfter (result, rows) {// 审核后
+    auditAfter(result, rows) {// 审核后
       if (result.status) {
         result.message = "审核成功。。。。。" + result.message;
       }
       return true;
     },
-    resetAddFormBefore () { //重置新建表单前的内容
+    resetAddFormBefore() { //重置新建表单前的内容
       return true;
     },
-    resetAddFormAfter () { //重置新建表单后的内容
+    resetAddFormAfter() { //重置新建表单后的内容
       //如果某些字段不需要重置，则可以重新赋值
       this.editFormFileds.Remark = '新建重置默认值66666';
       //给明细表添加默认一行
       this.$refs.detail.rowData.push({ Remark: "新建666666" });
       return true;
     },
-    resetUpdateFormBefore () { //重置编辑表单前的内容
+    resetUpdateFormBefore() { //重置编辑表单前的内容
       //this.editFormFileds当前值
       console.log(this.editFormFileds)
       //当前明细表的行
       console.log(this.$refs.detail.rowData)
       return true;
     },
-    resetUpdateFormAfter () { //重置编辑表单后的内容
+    resetUpdateFormAfter() { //重置编辑表单后的内容
       //如果某些字段不需要重置，则可以重新赋值
       this.editFormFileds.Remark = '编辑重置默认值66666';
       //给明细表添加默认一行
       this.$refs.detail.rowData.push({ Remark: "编辑666666" });
       return true;
     },
-    importAfter (data) { //导入excel后刷新table表格数据
+    importAfter(data) { //导入excel后刷新table表格数据
       this.search(); //刷新table
     },
-    modelOpenBefore (row) { //点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据
+    modelOpenBefore(row) { //点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据
 
     },
-    getFormOption (field) {
+    async modelOpenBeforeAsync(row) { //点击编辑/新建按钮弹出框前，可以在此处写逻辑，如，从后台获取数据
+     //2021.01.10
+      if(row){
+        console.log("编辑操作")
+      }else{
+        console.log("新建操作")
+      }
+      //打开弹出框前，http请求同步执行
+      // var _result = await this.http.post("url", {}, true).then(result => {
+        
+      //   _result = result;
+      // })
+      // console.log(result);
+      //返回false不会弹出框 
+      //this.$message.error("不能打开弹出框 ");
+      return true;
+    },
+    getFormOption(field) {
       let option;
       this.editFormOptions.forEach(x => {
         x.forEach(item => {
@@ -325,7 +342,7 @@ let extension = {
     },
 
     //方式2,通过打开弹出框时触发显示与隐藏
-    modelOpenAfter (row) {  //编辑或新建时，根据不同的情况控制字段是否显示 
+    modelOpenAfter(row) {  //编辑或新建时，根据不同的情况控制字段是否显示 
       //   this.editFormOptions.forEach(x => {
       //     x.forEach(item => {
       //       if (item.field == "Remark" || item.field == "SellNo") {
@@ -336,7 +353,7 @@ let extension = {
       //     })
       //   })
     },
-    rowClick ({ row, column, event }) { //查询界面table点击行选中当前行
+    rowClick({ row, column, event }) { //查询界面table点击行选中当前行
       this.$refs.table.$refs.table.toggleRowSelection(row);
     },
     // detailRowClick ({ row, column, event }) {
