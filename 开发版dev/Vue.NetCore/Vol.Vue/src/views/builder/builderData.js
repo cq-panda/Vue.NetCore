@@ -15,6 +15,7 @@ let dataType = [
   { "key": "time", "value": "time" },
   { "key": "checkbox", "value": "checkbox" },
   { "key": "cascader", "value": "级联" },//2020.11.01增加级联选择
+  { "key": "editor", "value": "editor" },
   { "key": "mail", "value": "mail" },
   { "key": "number", "value": "number" },
   { "key": "decimal", "value": "decimal" },
