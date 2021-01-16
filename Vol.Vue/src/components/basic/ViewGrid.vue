@@ -426,6 +426,10 @@ var vueParam = {
         width: 0,
         summary: false, //弹出框明细table是否显示合计
       }, //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
+      editor:{
+        uploadImgUrl:"",//上传路径 
+        upload:null//上传方法
+      }
     };
   },
   methods: {

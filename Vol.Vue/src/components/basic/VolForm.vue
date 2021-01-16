@@ -191,6 +191,14 @@
                     :render-format="item.formatter"
                     filterable
                     v-model="_formFields[item.field]"></Cascader>
+              <kind-editor
+              ref="editor"
+              v-else-if="item.type == 'editor'"
+              :UploadImgUrl="editor.uploadImgUrl"
+              :upload="editor.upload"
+              :content.sync="_formFields[item.field]"
+              height="460px"
+            ></kind-editor>
           <!--2020.09.05增加textarea标签的最小高度item.minRows属性 -->
           <Input v-else-if="item.type == 'textarea'"
                  v-model="_formFields[item.field]"
@@ -260,6 +268,7 @@ export default {
   components: {
     FormExpand,
     VolUpload: () => import("@/components/basic/VolUpload.vue"),
+    KindEditor:()=>import("@/components/kindeditor/KindEditor.vue")
   },
   props: {
     loadKey: {
@@ -292,6 +301,12 @@ export default {
     formFields: {
       //2020.09.13增加formFileds拼写错误兼容处理
       //表单字段
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
+    editor: { //2021.01.16编辑器信息 {uploadImgUrl:"",upload:null//上传方法}
       type: Object,
       default: () => {
         return {};

@@ -465,6 +465,9 @@ let methods = {
           }
         }
         if (newVal instanceof Array) {
+          if (form[key]) {
+            form[key] = [];
+          }
           form[key].splice(0)
           //  this.$set(form, key, newVal);
           form[key].push(...newVal);
@@ -646,7 +649,7 @@ let methods = {
   },
   async initBox() {
     //初始化新建、编辑的弹出框
-    if(!await this.modelOpenBeforeAsync(this.currentRow)) return false;
+    if (!await this.modelOpenBeforeAsync(this.currentRow)) return false;
     this.modelOpenBefore(this.currentRow);
     if (!this.boxInit) {
       this.boxInit = true;
@@ -1138,17 +1141,23 @@ let methods = {
     //弹出框高度至少250px
     clientHeight = clientHeight < 250 ? 250 : clientHeight;
     let clientWidth = document.documentElement.clientWidth;
-
-    if (this.boxOptions.height) {
-      //如果高度与宽度超过了获取到的可见高宽度，则设为默认的90%高宽
-      if (this.boxOptions.height > clientHeight * 0.8) {
-        this.boxOptions.height = clientHeight * 0.8;
-      }
+    if (this.editFormOptions.some(x => { return x.some(item => { return item.type == "editor" }) })) {
+      this.editor.uploadImgUrl = this.getUrl("upload");
+      this.boxOptions.height = clientHeight * 0.8;
+      this.boxOptions.width = clientWidth * 0.8;
     }
-    if (this.boxOptions.width) {
-      //如果高度与宽度超过了获取到的可见高宽度，则设为默认的90%高宽
-      if (this.boxOptions.width > clientWidth * 0.8) {
-        this.boxOptions.width = clientWidth * 0.8;
+    else {
+      if (this.boxOptions.height) {
+        //如果高度与宽度超过了获取到的可见高宽度，则设为默认的90%高宽
+        if (this.boxOptions.height > clientHeight * 0.8) {
+          this.boxOptions.height = clientHeight * 0.8;
+        }
+      }
+      if (this.boxOptions.width) {
+        //如果高度与宽度超过了获取到的可见高宽度，则设为默认的90%高宽
+        if (this.boxOptions.width > clientWidth * 0.8) {
+          this.boxOptions.width = clientWidth * 0.8;
+        }
       }
     }
     //计算整个table的宽度，根据宽度决定是否启用第一行显示的列为固定列

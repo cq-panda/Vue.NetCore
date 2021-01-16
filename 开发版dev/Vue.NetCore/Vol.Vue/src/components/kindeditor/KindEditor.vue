@@ -52,6 +52,12 @@ export default {
       type: String,
       default: ""
     },
+    upload:{ //上传方法
+      type:Function,
+      default:(file)=>{
+
+      }
+    },
     uploadCount: {
       //最多可以上传(图片)的数量
       type: Number,
@@ -435,7 +441,7 @@ export default {
       }
       let urls = files.map(x => {
         return (
-          `<img style="width:100%;" src="` +
+          `<img class="editor-img" src="` +
           (this.http.ipAddress + result.data + x.name) +
           `"/>`
         );
