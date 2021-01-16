@@ -251,6 +251,7 @@
                    :defaultLoadPage="load"
                    :summary="summary"
                    :column-index="columnIndex"
+                   :text-inline="textInline"
                    :ck="ck"></vol-table>
       </div>
     </div>
@@ -418,6 +419,7 @@ var vueParam = {
       height: 0, //表高度
       tableHeight: 0, //查询页面table的高度
       tableMaxHeight: 0, //查询页面table的最大高度
+      textInline:true,//table内容超出后是否不换行2020.01.16
       pagination: { total: 0, size: 30, sortName: "" }, //从分页配置数据
       boxOptions: {
         saveClose: true,
