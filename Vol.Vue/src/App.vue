@@ -12,7 +12,7 @@ export default {
 
   },
   mounted () {
-    document.getElementById("loading-container").style.display = "none";
+    document.getElementById("v-loading-container").style.display = "none";
   }
 };
 </script>  
