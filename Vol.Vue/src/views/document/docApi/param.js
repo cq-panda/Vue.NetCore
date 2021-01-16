@@ -259,8 +259,10 @@ const param = {
     { name: "currentRow", desc: "当前编辑的行数据", type: "json", default: "" },
     { name: "labelWidth", desc: "高级查询label标签的宽度", type: "number", default: "100" },
     { name: "maxBtnLength", desc: "查询界面显示的按钮最大数量，超过的在更多中显示", type: "number", default: "3" },
-    { name: "ck", desc: "是否显示checkbox(2020.11.01)", type: "bool", default: "true" },
+    { name: "ck", desc: "<span  style='color:red'>是否显示checkbox(2020.11.01)</span>", type: "bool", default: "true" },
     { name: "columnIndex", desc: "是否显示index序号(2020.11.01)", type: "bool", default: "false" },
+    { name: "textInline", desc: "<span style='color:red'>table内容超出后自动换行(2021.01.16)</span>", type: "bool", default: "true" },
+    
     {
       name: "buttons", desc: `查询界面的所有按钮，[{<br />
           &nbsp; &nbsp; name: "刷 新",//按钮名称<br />
