@@ -154,6 +154,7 @@
                 </span>
               </div>
               <vol-form ref="form"
+                        :editor="editor"
                         :label-width="boxOptions.labelWidth"
                         :formRules="editFormOptions"
                         :formFields="_editFormFields"></vol-form>
