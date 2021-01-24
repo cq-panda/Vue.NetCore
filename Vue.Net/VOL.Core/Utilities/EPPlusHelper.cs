@@ -104,7 +104,7 @@ namespace VOL.Core.Utilities
                         //2020.09.20增加判断数据源是否有值
                         if (!string.IsNullOrEmpty(options.DropNo) && !string.IsNullOrEmpty(value))
                         {
-                            if (options.KeyValues==null)
+                            if (options.KeyValues == null)
                             {
                                 return responseContent.Error($"[{options.ColumnCNName}]字段数字典编号[{options.DropNo}]缺失,请检查字典配置");
                             }
@@ -284,7 +284,10 @@ namespace VOL.Core.Utilities
             //获取所有有值的数据源
             var dicNoKeys = cellOptions
                  .Where(x => !string.IsNullOrEmpty(x.DropNo) && x.KeyValues != null && x.KeyValues.Keys.Count > 0)
-                 .Select(x => new { x.DropNo, x.ColumnName }).Distinct().ToList();
+                 .Select(x => new { x.DropNo, x.ColumnName, x.SearchType, x.EditType }).Distinct().ToList();
+            //2021.01.24修复多选类型，导出excel文件没有转换数据源的问题
+            var selectList = dicNoKeys.Where(x => x.SearchType == "checkbox" || x.SearchType == "selectList" || x.EditType == "checkbox" || x.EditType == "selectList")
+                  .Select(s => s.ColumnName).ToArray();
 
             List<PropertyInfo> propertyInfo = null;
 
@@ -375,6 +378,20 @@ namespace VOL.Core.Utilities
                     package.SaveAs(new FileInfo(fullPath));
                     return fullPath;
                 }
+                //2021.01.24修复多选类型，导出excel文件没有转换数据源的问题
+                IEnumerable<string> GetListValues(string cellValues, string propertyName)
+                {
+                    var values = cellValues.Split(",");
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        cellOptions.Where(x => x.ColumnName == propertyName)
+                      .Select(s => s.KeyValues)
+                      .FirstOrDefault()
+                     .TryGetValue(values[i], out string result);
+                        yield return result ?? values[i];
+                    }
+
+                }
                 for (int i = 0; i < list.Count; i++)
                 {
                     for (int j = 0; j < propertyInfo.Count; j++)
@@ -391,11 +408,20 @@ namespace VOL.Core.Utilities
                         }
                         if (dicNoKeys.Exists(x => x.ColumnName == propertyInfo[j].Name))
                         {
-                            cellOptions.Where(x => x.ColumnName == propertyInfo[j].Name)
-                              .Select(s => s.KeyValues)
-                              .FirstOrDefault()
-                              .TryGetValue(cellValue, out string result);
-                            cellValue = result ?? cellValue;
+                            //2021.01.24修复多选类型，导出excel文件没有转换数据源的问题
+                            if (selectList.Contains(propertyInfo[j].Name))
+                            {
+                                cellValue = string.Join(",", GetListValues(cellValue, propertyInfo[j].Name));
+                            }
+                            else
+                            {
+                                cellOptions.Where(x => x.ColumnName == propertyInfo[j].Name)
+                            .Select(s => s.KeyValues)
+                            .FirstOrDefault()
+                            .TryGetValue(cellValue, out string result);
+                                cellValue = result ?? cellValue;
+                            }
+
                         }
                         worksheet.Cells[i + 2, j + 1].Value = cellValue;
                     }
@@ -435,7 +461,10 @@ namespace VOL.Core.Utilities
                 ColumnCNName = c.ColumnCnName,
                 DropNo = c.DropNo,
                 Requierd = c.IsNull > 0 ? false : true,
-                ColumnWidth = c.ColumnWidth ?? 90
+                ColumnWidth = c.ColumnWidth ?? 90,
+                EditType = c.EditType,
+                SearchType = c.SearchType
+
             }).ToList();
 
 
@@ -479,7 +508,10 @@ namespace VOL.Core.Utilities
         public int ColumnWidth { get; set; }//导出列的宽度,代码生成维护的宽度
         public bool Requierd { get; set; } //是否必填
         public int Index { get; set; }//列所在模板的序号(导入用)
-                                      //对应字典项维护的Key,Value
+        //2021.01.24修复多选类型，导出excel文件没有转换数据源的问题
+        public string EditType { get; set; }
+        public string SearchType { get; set; }
+        //对应字典项维护的Key,Value
         public Dictionary<string, string> KeyValues { get; set; }
         //public string Value { get; set; } //对应字典项维护的Value
         //public string Name { get; set; } //对应字典项显示的名称
