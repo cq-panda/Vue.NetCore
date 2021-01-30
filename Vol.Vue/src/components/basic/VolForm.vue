@@ -117,15 +117,14 @@
           <Row v-else-if="
                 item.type == 'date' ||
                 item.type == 'datetime' ||
-                item.columnType == 'datetime'
+                item.columnType == 'datetime'||
+                item.type == 'month'
               ">
             <Col span="24">
             <FormItem :prop="item.field">
               <DatePicker :transfer="true"
-                          :type="item.range ? item.type + 'range' : item.type"
-                          :format="
-                      item.type == 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss'
-                    "
+                          :type="item.range &&item.type!='month'? item.type + 'range' : item.type"
+                          :format="getDateFormat(item) "
                           :placeholder="item.placeholder || item.title"
                           :value="_formFields[item.field]"
                           @on-change="
@@ -355,7 +354,12 @@ export default {
       ruleValidate: {},
     };
   },
-  methods: {
+  methods: {//2021.01.30增加日期自定义格式
+    getDateFormat(item){
+      if(item.format){ return format;}
+      if(item.type=="month"){return undefined;}
+      return item.type == 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss';
+    },
     previewImg (url) {
       this.base.previewImg(url, this.http.ipAddress);
     },
