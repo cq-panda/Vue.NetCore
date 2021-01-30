@@ -169,7 +169,8 @@ export default {
           content: [`见右边截图`],
           tips: "",
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121302.png?imageMogr2/thumbnail/!50p"
-        },
+		},
+		
         {
           title: "查询界面动态添加按钮",
           content: [
@@ -212,7 +213,29 @@ export default {
           tips: ` this.buttons来源：ViewGrid.vue组件data->buttons属性`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/01.png?imageMogr2/thumbnail/!50p",
-        },
+		},
+		   {
+          title: "查询界面--默认排序",
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.<span style="color:#9cdcfe;">sortName</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"排序字字段"</span>;&nbsp;&nbsp;<span style="color:#6a9955;">//设置排序字段</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.<span style="color:#9cdcfe;">order</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"desc"</span>&nbsp;;&nbsp;<span style="color:#6a9955;">//排序方式desc或者asc</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;},
+	</div>
+</div>
+<p style="margin-top:32px;margin-bottom:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;color:#404040;text-align:center;white-space:normal;background-color:#FFFFFF;padding:0px;">
+	<br />
+</p>`],
+          tips: "",
+          img: ""
+		},
         {
           title: "查询界面--第二种布局",
           content: [
