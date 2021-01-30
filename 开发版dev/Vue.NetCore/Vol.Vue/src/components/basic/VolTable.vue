@@ -1302,6 +1302,10 @@ export default {
 .v-table >>> .el-table__footer td {
   padding: 5px 0 !important;
 }
+/* 2021.01.30修复火狐checkbox错位问题 */
+.vol-table >>> .el-table-column--selection .cell{
+  display: inline;
+}
 .vol-table.text-inline >>> .el-table th > .cell {
   white-space: inherit !important;
 }
