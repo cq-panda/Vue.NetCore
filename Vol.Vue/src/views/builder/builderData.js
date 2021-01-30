@@ -12,6 +12,7 @@ let dataType = [
   { "key": "selectList", "value": "selectList" },
   { "key": "date", "value": "date" },
   { "key": "datetime", "value": "datetime" },
+  { "key": "month", "value": "year_month" },
   { "key": "time", "value": "time" },
   { "key": "checkbox", "value": "checkbox" },
   { "key": "cascader", "value": "级联" },//2020.11.01增加级联选择
@@ -34,6 +35,7 @@ let searchDataType = [
   { "key": "selectList", "value": "selectList" },
   { "key": "date", "value": "date" },
   { "key": "datetime", "value": "datetime" },
+  { "key": "month", "value": "year_month" },
   { "key": "time", "value": "time" },
   { "key": "cascader", "value": "级联" },//2020.11.01增加级联选择
   { "key": "checkbox", "value": "checkbox" },
