@@ -16,7 +16,7 @@ else if (process.env.NODE_ENV == 'debug') {
   axios.defaults.baseURL = 'http://127.0.0.1:8990/';
 }
 else if (process.env.NODE_ENV == 'production') {
-  axios.defaults.baseURL = 'http://132.232.2.109:9991/';
+  axios.defaults.baseURL = 'http://api.volcore.xyz/';
 }
 let ipAddress = axios.defaults.baseURL;
 axios.interceptors.request.use((config) => {
@@ -95,12 +95,13 @@ function getToken() {
 }
 let _showLoading;
 //_showLoading=true异步请求时会显示遮罩层,_showLoading=字符串，异步请求时遮罩层显示当前字符串
-function post(url, params, showLoading) {
+//config其他配置信息，格式：{responseType:"blob",timeout:10000}等
+function post(url, params, showLoading,config) {
   _showLoading = showLoading;
   axios.defaults.headers[_Authorization] = getToken();
   return new Promise((resolve, reject) => {
     //  axios.post(url, qs.stringify(params))   //
-    axios.post(url, params)
+    axios.post(url, params,config)
       .then(response => {
         if (response.status == 202) {
           getNewToken(() => { post(url, params, _showLoading); });
@@ -281,6 +282,6 @@ ajax.post = function (url, param, success, errror) {
   ajax({ url: url, param: param, success: success, error: errror, type: 'post' })
 }
 ajax.get = function (url, param, success, errror) {
-  ajax({ url: url, param: param, success: success, error: errror, type: 'post' })
+  ajax({ url: url, param: param, success: success, error: errror, type: 'get' })
 }
 export default { post, get, ajax, init, ipAddress }
