@@ -11,9 +11,9 @@
     </Select>
 
     <DatePicker clearable
-                :type="singleSearch.dateType"
-                v-else-if="singleSearch.type=='date'||singleSearch.type=='datetime'"
-                :format="singleSearch.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
+                :type="singleSearch.type=='month'?'month':singleSearch.dateType"
+                v-else-if="singleSearch.type=='date'||singleSearch.type=='datetime'||singleSearch.type=='month'"
+                :format="singleSearch.type=='month'?undefined:( singleSearch.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss')"
                 :placeholder="singleSearch.title"
                 @on-change="
                       (time) => {
