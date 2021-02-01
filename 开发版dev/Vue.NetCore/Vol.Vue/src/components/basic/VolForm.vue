@@ -169,11 +169,11 @@
                       :fileTypes="item.fileTypes ? item.fileTypes : []"
                       :upload-before="item.uploadBefore"
                       :upload-after="item.uploadAfter"
-                      :append="item.append ? true : false"
+                      :append="item.multiple"
                       :on-change="item.onChange"
                       :file-click="item.fileClick"
                       :remove-before="item.removeBefore"
-                      :down-load="item.downLoad ? true : false"></vol-upload>
+                      :downLoad="item.downLoad ? true : false"></vol-upload>
           <!-- 2020.05.31增加iview组件Cascader -->
           <!--2020.09.19增加级联 @on-change="item.onChange"事件 -->
           <!--2020.10.23增加级联 change-on-select属性 -->
@@ -190,14 +190,12 @@
                     :render-format="item.formatter"
                     filterable
                     v-model="_formFields[item.field]"></Cascader>
-              <kind-editor
-              ref="editor"
-              v-else-if="item.type == 'editor'"
-              :UploadImgUrl="editor.uploadImgUrl"
-              :upload="editor.upload"
-              :content.sync="_formFields[item.field]"
-              height="460px"
-            ></kind-editor>
+          <kind-editor ref="editor"
+                       v-else-if="item.type == 'editor'"
+                       :UploadImgUrl="editor.uploadImgUrl"
+                       :upload="editor.upload"
+                       :content.sync="_formFields[item.field]"
+                       height="460px"></kind-editor>
           <!--2020.09.05增加textarea标签的最小高度item.minRows属性 -->
           <Input v-else-if="item.type == 'textarea'"
                  v-model="_formFields[item.field]"
@@ -261,172 +259,172 @@
   </Form>
 </template>
 <script>
-import moment from "moment";
-import FormExpand from "./VolForm/VolFormRender";
+import moment from 'moment'
+import FormExpand from './VolForm/VolFormRender'
 export default {
   components: {
     FormExpand,
-    VolUpload: () => import("@/components/basic/VolUpload.vue"),
-    KindEditor:()=>import("@/components/kindeditor/KindEditor.vue")
+    VolUpload: () => import('@/components/basic/VolUpload.vue'),
+    KindEditor: () => import('@/components/kindeditor/KindEditor.vue')
   },
   props: {
     loadKey: {
-      //是否加载formRules字段配置的数据源
+      // 是否加载formRules字段配置的数据源
       type: Boolean,
-      default: false,
+      default: false
     },
     width: {
-      //表单宽度
+      // 表单宽度
       type: Number,
-      default: 0,
+      default: 0
     },
     labelWidth: {
-      //表单左边label文字标签的宽度
+      // 表单左边label文字标签的宽度
       type: Number,
-      default: 100,
+      default: 100
     },
     formRules: {
-      //表单配置规则，如字段类型，是否必填
+      // 表单配置规则，如字段类型，是否必填
       type: Array,
-      default: [],
+      default: []
     },
     formFileds: {
-      //表单字段
+      // 表单字段
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     formFields: {
-      //2020.09.13增加formFileds拼写错误兼容处理
-      //表单字段
+      // 2020.09.13增加formFileds拼写错误兼容处理
+      // 表单字段
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
-    editor: { //2021.01.16编辑器信息 {uploadImgUrl:"",upload:null//上传方法}
+    editor: { // 2021.01.16编辑器信息 {uploadImgUrl:"",upload:null//上传方法}
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   watch: {},
   created () {
-    //2020.09.13增加formFileds拼写错误兼容处理
+    // 2020.09.13增加formFileds拼写错误兼容处理
     this._formFields = Object.keys(this.formFields).length
       ? this.formFields
-      : this.formFileds;
-    this.initFormRules(true);
+      : this.formFileds
+    this.initFormRules(true)
   },
   data () {
     return {
       _formFields: {},
       remoteCall: true,
-      errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
+      errorImg: 'this.src="' + require('@/assets/imgs/error-img.png') + '"',
       rule: {
         change: [
-          "checkbox",
-          "select",
-          "date",
-          "datetime",
-          "drop",
-          "radio",
-          "cascader",
-        ], //2020.05.31增加级联类型
+          'checkbox',
+          'select',
+          'date',
+          'datetime',
+          'drop',
+          'radio',
+          'cascader'
+        ], // 2020.05.31增加级联类型
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
-        number: /(^[\-0-9][0-9]*([0-9]+)?)$/,
+        number: /(^[\-0-9][0-9]*([0-9]+)?)$/
       },
-      inputTypeArr: ["text", "string", "mail", "textarea", "password"],
+      inputTypeArr: ['text', 'string', 'mail', 'textarea', 'password'],
       types: {
-        int: "number",
-        byte: "number",
-        decimal: "number", //"float",
-        string: "string",
-        bool: "boolean",
-        date: "datetime",
-        date: "date",
-        mail: "email",
+        int: 'number',
+        byte: 'number',
+        decimal: 'number', // "float",
+        string: 'string',
+        bool: 'boolean',
+        date: 'datetime',
+        date: 'date',
+        mail: 'email'
       },
       span: 0,
-      ruleValidate: {},
-    };
+      ruleValidate: {}
+    }
   },
-  methods: {//2021.01.30增加日期自定义格式
-    getDateFormat(item){
-      if(item.format){ return format;}
-      if(item.type=="month"){return undefined;}
-      return item.type == 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss';
+  methods: {// 2021.01.30增加日期自定义格式
+    getDateFormat (item) {
+      if (item.format) { return format }
+      if (item.type == 'month') { return undefined }
+      return item.type == 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss'
     },
     previewImg (url) {
-      this.base.previewImg(url, this.http.ipAddress);
+      this.base.previewImg(url, this.http.ipAddress)
     },
     getSrc (path) {
-      if (!path) return;
-      if (!this.base.isUrl(path) && path.indexOf(".") != -1) {
-        return this.http.ipAddress + path;
+      if (!path) return
+      if (!this.base.isUrl(path) && path.indexOf('.') != -1) {
+        return this.http.ipAddress + path
       }
-      return path;
+      return path
     },
-    //是否为图片文件等格式并对字段的转换成数组：[{name:'1.jpg',path:'127.0.0.1/ff/1.jpg'}]
+    // 是否为图片文件等格式并对字段的转换成数组：[{name:'1.jpg',path:'127.0.0.1/ff/1.jpg'}]
     isFile (item, _formFields) {
       if (
-        item.type == "img" ||
-        item.columnType == "img" ||
-        item.type == "excel" ||
-        item.type == "file"
+        item.type == 'img' ||
+        item.columnType == 'img' ||
+        item.type == 'excel' ||
+        item.type == 'file'
       ) {
-        this.convertFileToArray(item, _formFields);
-        return true;
+        this.convertFileToArray(item, _formFields)
+        return true
       }
-      return false;
+      return false
     },
     isReadonlyImgFile (item, _formFields) {
       if ((item.disabled || item.readonly) && this.isFile(item, _formFields)) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     convertFileToArray (item, _formFields) {
       if (!item.maxFile) {
-        item.maxFile = 1; //默认只能上传一个文件，可以在onInit中设置
+        item.maxFile = 1 // 默认只能上传一个文件，可以在onInit中设置
       }
 
-      let fileInfo = _formFields[item.field];
+      let fileInfo = _formFields[item.field]
       if (fileInfo instanceof Array) {
         fileInfo.forEach((x) => {
-          if (x.hasOwnProperty("path")) {
+          if (x.hasOwnProperty('path')) {
             if (x.path && !this.base.isUrl(x.path)) {
-              //这里修改后死循环?
+              // 这里修改后死循环?
               // x.path = this.http.ipAddress + x.path;
             }
           }
-        });
-        return;
+        })
+        return
       }
       if (fileInfo === null || fileInfo === undefined) {
-        _formFields[item.field] = [];
-        return;
+        _formFields[item.field] = []
+        return
       }
-      //将以逗号隔开的文件分割成数组127.0.0.1/aa/1.jpg,将127.0.0.1/aa/2.jpg
-      if (typeof fileInfo == "string") {
-        if (fileInfo.trim() === "") {
-          _formFields[item.field] = [];
-          return;
+      // 将以逗号隔开的文件分割成数组127.0.0.1/aa/1.jpg,将127.0.0.1/aa/2.jpg
+      if (typeof fileInfo === 'string') {
+        if (fileInfo.trim() === '') {
+          _formFields[item.field] = []
+          return
         }
-        //如果文件路径是字符串，则使用，拆分
-        fileInfo = fileInfo.replace(/\\/g, "/");
-        let files = fileInfo.split(",");
-        _formFields[item.field] = [];
+        // 如果文件路径是字符串，则使用，拆分
+        fileInfo = fileInfo.replace(/\\/g, '/')
+        let files = fileInfo.split(',')
+        _formFields[item.field] = []
         for (let index = 0; index < files.length; index++) {
-          let file = files[index];
-          let splitFile = file.split("/");
+          let file = files[index]
+          let splitFile = file.split('/')
           _formFields[item.field].push({
             name: splitFile.length > 0 ? splitFile[splitFile.length - 1] : file,
-            path: file, //this.base.isUrl(file) ? file : this.http.ipAddress + file,
-          });
+            path: file // this.base.isUrl(file) ? file : this.http.ipAddress + file,
+          })
         }
       }
     },
@@ -435,299 +433,298 @@ export default {
         file.path,
         file.name,
         {
-          Authorization: this.$store.getters.getToken(),
+          Authorization: this.$store.getters.getToken()
         },
         this.http.ipAddress
-      );
+      )
     },
     validatorPhone (rule, value, callback) {
-      if (!rule.required && !value && value != "0") {
-        return callback();
+      if (!rule.required && !value && value != '0') {
+        return callback()
       }
-      if (!this.rule.phone.test((value || "").trim())) {
-        return callback(new Error("请输入正确的手机号"));
+      if (!this.rule.phone.test((value || '').trim())) {
+        return callback(new Error('请输入正确的手机号'))
       }
-      callback();
+      callback()
     },
     validatorPwd (rule, value, callback) {
-      if (!rule.required && !value && value != "0") {
-        return callback();
+      if (!rule.required && !value && value != '0') {
+        return callback()
       }
-      if ((value + "").trim().length < 6) {
-        return callback(new Error("密码长度不能小于6位"));
+      if ((value + '').trim().length < 6) {
+        return callback(new Error('密码长度不能小于6位'))
       }
-      callback();
+      callback()
     },
-    convertArrayValue (data, val) {//2020.12.13增加表单多选只转换字典
-      //编辑多选table显示
-      let valArr = val instanceof Array ? val : val.split(",");
+    convertArrayValue (data, val) { // 2020.12.13增加表单多选只转换字典
+      // 编辑多选table显示
+      let valArr = val instanceof Array ? val : val.split(',')
       for (let index = 0; index < valArr.length; index++) {
         var _item = data.find(x => {
-          return x.key && x.key != "0" &&
-            x.key + "" == valArr[index] + ""
+          return x.key && x.key != '0' &&
+            x.key + '' == valArr[index] + ''
         })
-        if (_item) { valArr[index] = _item.value; }
+        if (_item) { valArr[index] = _item.value }
       }
-      return valArr.join(",");
+      return valArr.join(',')
     },
     getText (_formFields, item) {
-      //2019.10.24修复表单select组件为只读的属性时没有绑定数据源
-      let text = _formFields[item.field];
-      if (typeof text == "function") return text(_formFields);
+      // 2019.10.24修复表单select组件为只读的属性时没有绑定数据源
+      let text = _formFields[item.field]
+      if (typeof text === 'function') return text(_formFields)
       if (
-        text === "null" ||
-        text === "" ||
+        text === 'null' ||
+        text === '' ||
         text === null ||
         text === undefined
-      ) return "--";
+      ) return '--'
 
-      if (!item.data) return text;
-      if (item.type == "selectList" || item.type == "checkbox") {
-        return this.convertArrayValue(item.data, text);
+      if (!item.data) return text
+      if (item.type == 'selectList' || item.type == 'checkbox') {
+        return this.convertArrayValue(item.data, text)
       }
-      var _item = item.data.find(x => { return x.key == text });
+      var _item = item.data.find(x => { return x.key == text })
       return _item ? _item.value : text
     },
     onClear (item, _formFields) {
-      //远程select标签清空选项
-      item.data.splice(0);
+      // 远程select标签清空选项
+      item.data.splice(0)
       // console.log(2);
     },
     onChange (item, value) {
-      if (item.onChange && typeof item.onChange == "function") {
-        item.onChange(value, item);
+      if (item.onChange && typeof item.onChange === 'function') {
+        item.onChange(value, item)
       }
     },
     onRemoteChange (item, value) {
-      //第二次打开时，默认值成了undefined，待查viewgrid中重置代码
+      // 第二次打开时，默认值成了undefined，待查viewgrid中重置代码
       if (value == undefined && item.data.length > 0) {
-        this._formFields[item.field] = item.data[0].key;
+        this._formFields[item.field] = item.data[0].key
         //  console.log('undefined');
       }
-      this.remoteCall = false;
-      if (item.onChange && typeof item.onChange == "function") {
-        item.onChange(value, item);
+      this.remoteCall = false
+      if (item.onChange && typeof item.onChange === 'function') {
+        item.onChange(value, item)
       }
     },
     getData (item) {
-      return item.data;
+      return item.data
     },
     initSource () {
       let keys = [],
-        binds = [];
-      //初始化字典数据源
+        binds = []
+      // 初始化字典数据源
       this.formRules.forEach((item) => {
         item.forEach((x) => {
           if (x.dataKey && (!x.data || x.data.length == 0) && !x.remote) {
             // if (!x.data)
-            x.data = [];
-            binds.push({ key: x.dataKey, data: x.data });
+            x.data = []
+            binds.push({ key: x.dataKey, data: x.data })
             if (keys.indexOf(x.dataKey) == -1) {
-              keys.push(x.dataKey);
+              keys.push(x.dataKey)
             }
           }
-        });
-      });
+        })
+      })
 
-      if (keys.length == 0) return;
+      if (keys.length == 0) return
 
       this.http
-        .post("/api/Sys_Dictionary/GetVueDictionary", keys)
+        .post('/api/Sys_Dictionary/GetVueDictionary', keys)
         .then((dic) => {
-          this.bindOptions(dic, binds);
-        });
+          this.bindOptions(dic, binds)
+        })
     },
-    //远程搜索(打开弹出框时应该禁止搜索)
+    // 远程搜索(打开弹出框时应该禁止搜索)
     remoteSearch (item, _formFields, val) {
       if (
-        val == "" ||
+        val == '' ||
         (item.data.length == 1 &&
           (val == item.data[0].key || val == item.data[0].value))
-      )
-        return;
-      //弹出框或初始化表单时给data设置数组默认值2
-      //2020.09.26修复远程搜索自定义url不起作用的问题
-      let url;
-      if (typeof item.url == "function") {
-        url = item.url(val, item.dataKey, item);
+      ) { return }
+      // 弹出框或初始化表单时给data设置数组默认值2
+      // 2020.09.26修复远程搜索自定义url不起作用的问题
+      let url
+      if (typeof item.url === 'function') {
+        url = item.url(val, item.dataKey, item)
       } else {
         url =
-          (item.url || "/api/Sys_Dictionary/GetSearchDictionary") +
-          "?dicNo=" +
+          (item.url || '/api/Sys_Dictionary/GetSearchDictionary') +
+          '?dicNo=' +
           item.dataKey +
-          "&value=" +
-          val;
+          '&value=' +
+          val
       }
       this.http.post(url).then((dicData) => {
-        this.$set(item, "loading", false);
-        item.data = dicData;
-        this.formRules[item.point.x].splice(item.point.y, 1, item);
-      });
+        this.$set(item, 'loading', false)
+        item.data = dicData
+        this.formRules[item.point.x].splice(item.point.y, 1, item)
+      })
     },
     bindOptions (dic, binds) {
       dic.forEach((d) => {
         binds.forEach((x) => {
-          if (x.key != d.dicNo) return true;
-          //如果有数据的则不查询
-          if (x.data.length > 0) return true;
-          if (d.data.length > 0 && !d.data[0].hasOwnProperty("key")) {
+          if (x.key != d.dicNo) return true
+          // 如果有数据的则不查询
+          if (x.data.length > 0) return true
+          if (d.data.length > 0 && !d.data[0].hasOwnProperty('key')) {
             let source = d.data,
-              newSource = new Array(source.length);
+              newSource = new Array(source.length)
             for (let index = 0; index < source.length; index++) {
               newSource[index] = {
-                key: source["key"] + "",
-                value: source["value"],
-              };
+                key: source['key'] + '',
+                value: source['value']
+              }
             }
-            x.data.push(...newSource);
+            x.data.push(...newSource)
           } else {
-            x.data.push(...d.data);
+            x.data.push(...d.data)
           }
-        });
-      });
+        })
+      })
     },
     getObject (date) {
-      if (typeof date == "object") {
-        return date;
+      if (typeof date === 'object') {
+        return date
       }
-      return new Date(date);
+      return new Date(date)
     },
     validateNumber () { },
     formatTime (time) {
-      return moment(time).format("YYYY-MM-DD");
+      return moment(time).format('YYYY-MM-DD')
     },
     changeTime (time) {
-      console.log(time);
-      return time + "";
+      console.log(time)
+      return time + ''
     },
     reset (sourceObj) {
-      //重置表单时，禁用远程查询
+      // 重置表单时，禁用远程查询
       //  this.remoteCall = false;
-      this.$refs["formValidate"].resetFields();
-      if (!sourceObj) return;
+      this.$refs['formValidate'].resetFields()
+      if (!sourceObj) return
       for (const key in this._formFields) {
         if (sourceObj.hasOwnProperty(key)) {
-          this._formFields[key] = sourceObj[key];
+          this._formFields[key] = sourceObj[key]
         }
       }
       //  this.remoteCall = true;
     },
     validate (callback) {
-      let result = true;
-      this.$refs["formValidate"].validate((valid) => {
+      let result = true
+      this.$refs['formValidate'].validate((valid) => {
         if (!valid) {
-          this.$Message.error("数据验证未通过!");
-          result = false;
-        } else if (typeof callback == "function") {
-          callback(valid);
+          this.$Message.error('数据验证未通过!')
+          result = false
+        } else if (typeof callback === 'function') {
+          callback(valid)
         }
-      });
-      return result;
+      })
+      return result
     },
     getReuired (rule, item) { },
     initUpload (item, init) {
-      if (!init) return;
+      if (!init) return
       if (
-        item.type == "img" ||
-        item.columnType == "img" ||
-        item.type == "excel" ||
-        item.type == "file"
+        item.type == 'img' ||
+        item.columnType == 'img' ||
+        item.type == 'excel' ||
+        item.type == 'file'
       ) {
-        //只是没设置是否自动上传的，默认都是选择文件后自动上传
-        if (!item.hasOwnProperty("autoUpload")) {
-          item.autoUpload = true;
+        // 只是没设置是否自动上传的，默认都是选择文件后自动上传
+        if (!item.hasOwnProperty('autoUpload')) {
+          item.autoUpload = true
         }
-        if (!item.hasOwnProperty("fileList")) {
-          item.fileList = true;
+        if (!item.hasOwnProperty('fileList')) {
+          item.fileList = true
         }
-        if (!item.hasOwnProperty("downLoad")) {
-          item.downLoad = true;
+        if (!item.hasOwnProperty('downLoad')) {
+          item.downLoad = true
         }
         if (!item.removeBefore) {
           item.removeBefore = (index, file, files) => {
-            return true;
-          };
+            return true
+          }
         }
         if (!item.fileClick) {
           item.fileClick = (index, file, files) => {
-            return true;
-          };
+            return true
+          }
         }
         if (!item.onChange) {
           item.onChange = (files) => {
-            return true;
-          };
+            return true
+          }
         }
         if (!item.uploadAfter) {
           item.uploadAfter = (result, files) => {
-            return true;
-          };
+            return true
+          }
         }
         if (!item.uploadBefore) {
           //  console.log("111");
           item.uploadBefore = (files) => {
-            return true;
-          };
+            return true
+          }
         }
       }
     },
     initFormRules (init) {
       if (this.loadKey) {
-        this.initSource();
+        this.initSource()
       }
       //  this.ruleValidate={};
       this.formRules.forEach((row, xIndex) => {
-        if (row.length > this.span) this.span = row.length;
+        if (row.length > this.span) this.span = row.length
 
         row.forEach((item, yIndex) => {
-          //目前只支持select单选远程搜索，remote远程从后台字典数据源进行搜索，url从指定的url搜索
+          // 目前只支持select单选远程搜索，remote远程从后台字典数据源进行搜索，url从指定的url搜索
           if (item.remote || item.url) {
             // item.remoteData = [];
-            item.loading = false;
-            item.point = { x: xIndex, y: yIndex };
+            item.loading = false
+            item.point = { x: xIndex, y: yIndex }
           }
-          //初始化上传文件信息
-          this.initUpload(item, init);
-          //初始化数据源空对象
+          // 初始化上传文件信息
+          this.initUpload(item, init)
+          // 初始化数据源空对象
           if (item.dataKey) {
-            //下拉框都强制设置为字符串类型
-            item.columnType = "string";
+            // 下拉框都强制设置为字符串类型
+            item.columnType = 'string'
             if (!item.data) {
-              item.data = [];
+              item.data = []
             }
           }
-        });
-      });
+        })
+      })
     },
     getRule (item, _formFields) {
-      //用户设置的自定义方法
-      if (item.validator && typeof item.validator == "function") {
+      // 用户设置的自定义方法
+      if (item.validator && typeof item.validator === 'function') {
         return {
           validator: (rule, val, callback) => {
-            //用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
-            let message = item.validator(rule, val);
-            if (message) return callback(new Error(message + ""));
-            return callback();
+            // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
+            let message = item.validator(rule, val)
+            if (message) return callback(new Error(message + ''))
+            return callback()
           },
           required: item.required,
           trigger:
-            this.rule.change.indexOf(item.type) != -1 ? "change" : "blur",
-        };
+            this.rule.change.indexOf(item.type) != -1 ? 'change' : 'blur'
+        }
       }
 
-      //设置数字的最大值民最小值
+      // 设置数字的最大值民最小值
       if (
-        item.type == "number" ||
-        item.columnType == "number" ||
-        item.columnType == "int" ||
-        item.type == "decimal"
+        item.type == 'number' ||
+        item.columnType == 'number' ||
+        item.columnType == 'int' ||
+        item.type == 'decimal'
       ) {
-        //如果是必填项的数字，设置一个默认最大与最值小
-        if (item.required && typeof item.min != "number") {
-          if (item.type == "decimal") {
-            item.min = 0.1;
+        // 如果是必填项的数字，设置一个默认最大与最值小
+        if (item.required && typeof item.min !== 'number') {
+          if (item.type == 'decimal') {
+            item.min = 0.1
           } else {
-            item.min = 1;
+            item.min = 1
           }
         }
 
@@ -735,109 +732,109 @@ export default {
           required: item.required,
           message: item.title,
           title: item.title,
-          trigger: "blur",
+          trigger: 'blur',
           min: item.min,
           max: item.max,
           type: item.columnType || item.type,
           validator: (rule, value, callback) => {
             if (!rule.min && !rule.max) {
               if (rule.required) {
-                if (value == "") {
-                  _formFields[rule.field] = 0;
-                  return callback();
+                if (value == '') {
+                  _formFields[rule.field] = 0
+                  return callback()
                 }
               }
-              if (value == "" || value == undefined) return callback();
+              if (value == '' || value == undefined) return callback()
             }
-            if (rule.type == "number") {
+            if (rule.type == 'number') {
               if (!this.rule.number.test(value)) {
-                rule.message = rule.title + "只能是整数";
-                return callback(new Error(rule.message));
+                rule.message = rule.title + '只能是整数'
+                return callback(new Error(rule.message))
               }
             } else {
               if (!this.rule.decimal.test(value)) {
-                rule.message = rule.title + "只能是数字";
-                return callback(new Error(rule.message));
+                rule.message = rule.title + '只能是数字'
+                return callback(new Error(rule.message))
               }
             }
             if (
               rule.min != undefined &&
-              typeof rule.min == "number" &&
+              typeof rule.min === 'number' &&
               value < rule.min
             ) {
-              rule.message = rule.title + "不能小于" + rule.min;
-              return callback(new Error(rule.message));
+              rule.message = rule.title + '不能小于' + rule.min
+              return callback(new Error(rule.message))
             }
             if (
               rule.max != undefined &&
-              typeof rule.max == "number" &&
+              typeof rule.max === 'number' &&
               value > rule.max
             ) {
-              rule.message = rule.title + "不能大于" + rule.max;
-              return callback(new Error(rule.message));
+              rule.message = rule.title + '不能大于' + rule.max
+              return callback(new Error(rule.message))
             }
-            return callback();
-          },
-        };
+            return callback()
+          }
+        }
       }
 
-      //手机验证
-      if (item.type == "phone") {
+      // 手机验证
+      if (item.type == 'phone') {
         return {
           validator: this.validatorPhone,
           required: item.required,
-          trigger: "blur",
-        };
+          trigger: 'blur'
+        }
       }
 
-      if (item.type == "password") {
+      if (item.type == 'password') {
         return {
           validator: this.validatorPwd,
           required: item.required,
-          trigger: "blur",
-        };
+          trigger: 'blur'
+        }
       }
 
-      if (!item.required && item.type != "mail") {
+      if (!item.required && item.type != 'mail') {
         return {
-          required: false,
-        };
+          required: false
+        }
       }
 
-      if (!item.hasOwnProperty("type")) {
-        item.type = "text";
+      if (!item.hasOwnProperty('type')) {
+        item.type = 'text'
       }
 
-      //inputTypeArr:['text','string','mail','textarea'],
+      // inputTypeArr:['text','string','mail','textarea'],
       if (this.inputTypeArr.indexOf(item.type) != -1) {
         let message =
           item.title +
-          (this.types[item.columnType] == "number"
-            ? "请输入一个有效的数字"
-            : item.type == "mail"
-              ? "必须是一个邮箱地址"
-              : "不能为空");
-        let type = item.type == "mail" ? "email" : this.types[item.columnType];
+          (this.types[item.columnType] == 'number'
+            ? '请输入一个有效的数字'
+            : item.type == 'mail'
+              ? '必须是一个邮箱地址'
+              : '不能为空')
+        let type = item.type == 'mail' ? 'email' : this.types[item.columnType]
         let _rule = {
           required: true,
           message: message,
-          trigger: "blur",
-          type: type,
-        };
-        if (item.type == "mail") {
-          _rule.required = item.required;
+          trigger: 'blur',
+          type: type
+        }
+        if (item.type == 'mail') {
+          _rule.required = item.required
           return [
             _rule,
             {
               type: type,
               message: message,
-              trigger: "blur",
-            },
-          ];
+              trigger: 'blur'
+            }
+          ]
         }
         if (item.min) {
-          _rule.min = item.min;
-          _rule.message = item.title + "至少" + item.min + "个字符!";
+          _rule.min = item.min
+          _rule.message = item.title + '至少' + item.min + '个字符!'
         }
         if (item.max) {
           return [
@@ -845,101 +842,101 @@ export default {
             {
               max: item.max,
               required: true,
-              message: item.title + "最多" + item.max + "个字符!",
-              trigger: "blur",
-            },
-          ];
+              message: item.title + '最多' + item.max + '个字符!',
+              trigger: 'blur'
+            }
+          ]
         }
-        return _rule;
+        return _rule
       }
 
-      if (item.type == "radio") {
+      if (item.type == 'radio') {
         return {
           required: item.required,
-          message: "请选择" + item.title,
-          trigger: "change",
-          type: "string",
-        };
+          message: '请选择' + item.title,
+          trigger: 'change',
+          type: 'string'
+        }
       }
-      if (item.type == "date" || item.type == "datetime") {
+      if (item.type == 'date' || item.type == 'datetime') {
         return {
           // required: true, type:  this.types[item.columnType], message:"请选择" + item.title, trigger: 'change'
           required: true,
-          message: "请选择" + item.title,
-          trigger: "change",
-          type: item.range ? "array" : "string",
+          message: '请选择' + item.title,
+          trigger: 'change',
+          type: item.range ? 'array' : 'string',
           //  type: this.types[item.columnType],
           validator: (rule, val, callback) => {
-            //用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
+            // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
             if (!val || (item.range && val.length == 0)) {
-              return callback(new Error("请选择日期"));
+              return callback(new Error('请选择日期'))
             }
-            console.log(val);
+            console.log(val)
             // if (message) return callback(new Error(message + ""));
-            return callback();
-          },
-        };
+            return callback()
+          }
+        }
       }
 
-      //if (item.type == "checkbox" || item.type == "select") {
+      // if (item.type == "checkbox" || item.type == "select") {
       if (
-        item.type == "select" ||
-        item.type == "selectList" ||
-        item.type == "checkbox" ||
-        item.type == "drop" ||
-        item.type == "cascader" //2020.05.31增加级联类型
+        item.type == 'select' ||
+        item.type == 'selectList' ||
+        item.type == 'checkbox' ||
+        item.type == 'drop' ||
+        item.type == 'cascader' // 2020.05.31增加级联类型
       ) {
         let _rule = {
           required: true,
-          message: "请选择" + item.title,
+          message: '请选择' + item.title,
           min: item.min || 1,
-          type: "array",
-          trigger: "change",
+          type: 'array',
+          trigger: 'change',
           type: this.types[item.columnType],
           validator: (rule, value, callback) => {
-            if (value == undefined || value === "") {
-              return callback(new Error(rule.message));
+            if (value == undefined || value === '') {
+              return callback(new Error(rule.message))
             }
-            return callback();
-          },
-        };
+            return callback()
+          }
+        }
 
         //    validator: this.validatorPhone,
-        if (!item.max) return _rule;
+        if (!item.max) return _rule
         return [
           _rule,
           {
-            message: "最多只能选择" + item.max + "项" + item.title,
+            message: '最多只能选择' + item.max + '项' + item.title,
             max: item.max,
-            type: "array",
-            trigger: "change",
-          },
-        ];
+            type: 'array',
+            trigger: 'change'
+          }
+        ]
       }
       return {
-        required: false,
-      };
+        required: false
+      }
     },
     getCheckBoxModel (arr) {
-      return arr;
-      console.log(arr);
-      return arr || [];
+      return arr
+      console.log(arr)
+      return arr || []
     },
     validateField (item, callback) {
-      //2020.07.17增加对日期onchange时校验
-      let fields = this.$refs.formValidate.fields;
+      // 2020.07.17增加对日期onchange时校验
+      let fields = this.$refs.formValidate.fields
       fields.forEach((field) => {
         if (field.prop == item.field) {
-          field.validate("", (error) => {
-            console.log(error);
-          });
+          field.validate('', (error) => {
+            console.log(error)
+          })
         }
-      });
-      //2020.07.24增加日期onChange事件
-      item.onChange && item.onChange(this._formFields[item.field]);
-    },
-  },
-};
+      })
+      // 2020.07.24增加日期onChange事件
+      item.onChange && item.onChange(this._formFields[item.field])
+    }
+  }
+}
 </script>
 <style>
 .ivu-date-picker {
@@ -1003,5 +1000,3 @@ export default {
   }
 }
 </style>
-
-
