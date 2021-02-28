@@ -20,12 +20,14 @@
               placeholder="申请人"
             />
             <DatePicker
+               style="width: 200px; "
               type="datetime"
               placeholder="申请时间"
              v-model="searchFields.CreateDate1"
             ></DatePicker>
             -
             <DatePicker
+                  style="width: 200px; "
               type="datetime"
               placeholder="申请时间"
               v-model="searchFields.CreateDate2"
