@@ -2140,161 +2140,558 @@ var codeString = {
   </span>&lt;/script&gt;</pre>
   </div>
   <p>&nbsp;</p>`,
-  voltable: `<div class="cnblogs_code">
-  <pre>&lt;template&gt;
-    &lt;div&gt;
-      &lt;vol-<span style="color: #000000;">box
-        :model.sync</span>="viewModel"<span style="color: #000000;">
-        title</span>="远程加载table数据"<span style="color: #000000;">
-        icon</span>="md-podium"<span style="color: #000000;">
-        :height</span>="450"<span style="color: #000000;">
-        :width</span>="600"
-      &gt;
-        &lt;<span style="color: #000000;">div
-          style</span>="display: block;word-break: break-all;word-wrap: break-word;"<span style="color: #000000;">
-          slot</span>="content"
-        &gt;{{text}}&lt;/div&gt;
-        &lt;div slot="footer"&gt;
-          &lt;Button type="info" @click="viewModel=false"&gt;确认&lt;/Button&gt;
-        &lt;/div&gt;
-      &lt;/vol-box&gt;
-      &lt;div&gt;
-        &lt;VolHeader icon="md-apps" text="从api加载数据"&gt;
-          &lt;div slot="content"&gt;还没想好..&lt;/div&gt;
-          &lt;slot&gt;
-            &lt;div style="text-align: right;"&gt;
-              &lt;Button type="info" ghost @click="remoteLoad" size="small"&gt;刷新表数据&lt;/Button&gt;
-            &lt;/div&gt;
-          &lt;/slot&gt;
-        &lt;/VolHeader&gt;
-        &lt;vol-<span style="color: #000000;">table
-          ref</span>="table"<span style="color: #000000;">
-          :loadKey</span>="true"<span style="color: #000000;">
-          :linkView</span>="viewRow"<span style="color: #000000;">
-          :columns</span>="table.columns"<span style="color: #000000;">
-          :pagination</span>="table.pagination"<span style="color: #000000;">
-          :pagination</span>-hide="false"<span style="color: #000000;">
-          :max</span>-height="450"<span style="color: #000000;">
-          :url</span>="table.url"<span style="color: #000000;">
-          :index</span>="true"<span style="color: #000000;">
-          @loadBefore</span>="loadTableBefore"<span style="color: #000000;">
-          @loadAfter</span>="loadTableAfter"
-        &gt;&lt;/vol-table&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/template&gt;
-  &lt;script&gt;<span style="color: #000000;">
-  import VolBox from </span>"@/components/basic/VolBox.vue"<span style="color: #000000;">;
-  import VolTable from </span>"@/components/basic/VolTable.vue"<span style="color: #000000;">;
-  import VolHeader from </span>"@/components/basic/VolHeader.vue"<span style="color: #000000;">;
-  let $doc_vue;
-  let doc_options </span>=<span style="color: #000000;"> {
-    data() {
-      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
-        viewModel: </span><span style="color: #0000ff;">false</span><span style="color: #000000;">,
-        text: </span>""<span style="color: #000000;">,
-        table: {
-          url: </span>"api/App_Expert/getPageData"<span style="color: #000000;">,
-          pagination: {
-            total: </span>0, <span style="color: #008000;">//</span><span style="color: #008000;">分页总数量</span>
-            size: 30, <span style="color: #008000;">//</span><span style="color: #008000;">分页大小,30,60,100.</span>
-            sortName: "CreateDate" <span style="color: #008000;">//</span><span style="color: #008000;">从后加载数据分页时的排序字段</span>
-  <span style="color: #000000;">        },
-          columns: [
-            </span><span style="color: #008000;">//</span><span style="color: #008000;">表配置</span>
-  <span style="color: #000000;">          {
-              field: </span>"ExpertId", <span style="color: #008000;">//</span><span style="color: #008000;">数据库表字段,必须和数据库一样，并且大小写一样</span>
-              title: "主键ID", <span style="color: #008000;">//</span><span style="color: #008000;">表头显示的名称</span>
-              isKey: <span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">是否为主键字段</span>
-              hidden: <span style="color: #0000ff;">true</span> <span style="color: #008000;">//</span><span style="color: #008000;">是否显示</span>
-  <span style="color: #000000;">          },
-            {
-              field: </span>"HeadImageUrl"<span style="color: #000000;">,
-              title: </span>"头像"<span style="color: #000000;">,
-              type: </span>"img"<span style="color: #000000;">,
-              width: </span>160<span style="color: #000000;">
-            },
-            {
-              field: </span>"UserName"<span style="color: #000000;">,
-              title: </span>"申请人帐号"<span style="color: #000000;">,
-              link: </span><span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">设置link=true后此单元格可以点击获取当前行的数据进行其他操作</span>
-              width: 120<span style="color: #000000;">
-            },
-            {
-              field: </span>"UserTrueName"<span style="color: #000000;">,
-              title: </span>"申请人"<span style="color: #000000;">,
-              width: </span>120<span style="color: #000000;">
-            },
-            {
-              field: </span>"AuditStatus"<span style="color: #000000;">,
-              title: </span>"审核状态"<span style="color: #000000;">,
-              width: </span>120<span style="color: #000000;">,
-              bind: {
-                </span><span style="color: #008000;">//</span><span style="color: #008000;">如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上</span>
-                key: "audit"<span style="color: #000000;">,
-                data: []
-              }
-            },
-            {
-              field: </span>"ReallyName"<span style="color: #000000;">,
-              title: </span>"真实姓名"<span style="color: #000000;">,
-              width: </span>120<span style="color: #000000;">,
-              click: (row, column) </span>=&gt;<span style="color: #000000;"> {
-                </span><span style="color: #008000;">//</span><span style="color: #008000;">单元格点击事亻</span>
-                let msg =
-                  "此处可以自己自定格式显示内容,此单元格原始值是:【" +<span style="color: #000000;">
-                  row.ReallyName </span>+
-                  "】"<span style="color: #000000;">;
-                </span><span style="color: #0000ff;">this</span><span style="color: #000000;">.$Message.error(msg);
-                </span><span style="color: #008000;">//</span><span style="color: #008000;"> $doc_vue.$Message.error(msg);</span>
-  <span style="color: #000000;">            },
-              formatter: () </span>=&gt;<span style="color: #000000;"> {
-                </span><span style="color: #008000;">//</span><span style="color: #008000;">对单元格的数据格式化处理</span>
-                <span style="color: #0000ff;">return</span> "&lt;a&gt;点我&lt;/a&gt;"<span style="color: #000000;">;
-              }
-            }
-          ]
-        }
-      };
-    },
-    components: { VolTable, VolBox, VolHeader },
-    created() {
-      $doc_vue </span>= <span style="color: #0000ff;">this</span><span style="color: #000000;">;
-    },
-    methods: {
-      viewRow(row, column) {
-        </span><span style="color: #008000;">//</span><span style="color: #008000;">设置linkView属性后，可不用配置click与formatter方法，直接使用linkView处理点击事件</span>
-        <span style="color: #0000ff;">this</span>.text =
-          "点击单元格的弹出框，当前点击的行数据：" +<span style="color: #000000;"> JSON.stringify(row);
-        </span><span style="color: #0000ff;">this</span>.viewModel = <span style="color: #0000ff;">true</span><span style="color: #000000;">;
-        </span><span style="color: #008000;">//</span><span style="color: #008000;">  this.$message.error(JSON.stringify(row));</span>
-  <span style="color: #000000;">    },
-      loadTableBefore(param, callBack) {
-        callBack(true);
-        &nbsp; &nbsp; /*查询前处理(如果需要查询条件，实现组件方法loadBefore方法即可:<br />
-          &nbsp; &nbsp; &nbsp; &nbsp; loadBefore=(param, callBack)=&gt;{<br />
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; param.wheres = [{ name: "PhoneNo", value: "13419098211" }];<br />
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; callBack(true);<br />
-          &nbsp; &nbsp; &nbsp; &nbsp; })<br />
-          &nbsp; &nbsp; &nbsp; */<br />   },
-      loadTableAfter(data, callBack) {
-        </span><span style="color: #008000;">//</span><span style="color: #008000;">此处是从后台加数据后，你可以在渲染表格前，预先处理返回的数据</span>
-        console.log("加载数据后" +<span style="color: #000000;"> data);
-        callBack(</span><span style="color: #0000ff;">true</span>); <span style="color: #008000;">//</span><span style="color: #008000;">同上</span>
-  <span style="color: #000000;">    },
-      remoteLoad() {
-        </span><span style="color: #008000;">//</span><span style="color: #008000;">此处可以自定义查询条件,如果不调用的框架的查询，格式需要自己定义，</span>
-        <span style="color: #008000;">//</span><span style="color: #008000;">如果查询的是框架getPageData方法,需要指定格式,如:</span>
-        <span style="color: #008000;">//</span><span style="color: #008000;"> let where={wheres:[{"name":"UserTrueName","value":"教兽",displayType:"text"}]};</span>
-        let where =<span style="color: #000000;"> {};
-        </span><span style="color: #0000ff;">this</span><span style="color: #000000;">.$refs.table.load(where);
-      }
-    }
-  };
-  export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> doc_options;
-  </span>&lt;/script&gt;</pre>
+  voltable: `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+  <div>
+	  <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
   </div>
-  <p>&nbsp;</p>`,
+  <div>
+	  &nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"container"</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;查询配置&nbsp;--&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"padding:&nbsp;0px&nbsp;20px"</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">VolHeader</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon</span>=<span style="color:#ce9178;">"md-apps"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">text</span>=<span style="color:#ce9178;">"从api加载数据"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"margin-bottom:&nbsp;10px;&nbsp;border:&nbsp;0px;&nbsp;margin-top:&nbsp;15px"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">slot</span>=<span style="color:#ce9178;">"content"</span><span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">slot</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"text-align:&nbsp;right"</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Input</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"width:&nbsp;200px;&nbsp;margin-right:&nbsp;10px"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">v-model</span>.<span style="color:#9cdcfe;">number</span>="<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">UserName</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">placeholder</span>=<span style="color:#ce9178;">"申请人"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/<span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">DatePicker</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"datetime"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">placeholder</span>=<span style="color:#ce9178;">"申请时间"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">v-model</span>="<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">CreateDate1</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;&lt;/</span><span style="color:#4ec9b0;">DatePicker</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">DatePicker</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"datetime"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">placeholder</span>=<span style="color:#ce9178;">"申请时间"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">v-model</span>="<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">CreateDate2</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;&lt;/</span><span style="color:#4ec9b0;">DatePicker</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;<span style="color:#9cdcfe;">ghost</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">load</span>"&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"margin-left:&nbsp;20px"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;</span>查询<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;<span style="color:#9cdcfe;">ghost</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">del</span>"<span style="color:#808080;">&gt;</span>删除行<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;<span style="color:#9cdcfe;">ghost</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">getRows</span>"<span style="color:#808080;">&gt;</span>获取选中的行<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">slot</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">VolHeader</span><span style="color:#808080;">&gt;</span>
+  </div>
+<br />
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;table数据&nbsp;--&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;:max-height="450"&nbsp;--&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-table</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">ref</span>=<span style="color:#ce9178;">"table"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">loadKey</span>="<span style="color:#569cd6;">true</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">columns</span>="<span style="color:#9cdcfe;">columns</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">pagination-hide</span>="<span style="color:#569cd6;">false</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">height</span>="<span style="color:#b5cea8;">200</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">url</span>="<span style="color:#9cdcfe;">url</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">index</span>="<span style="color:#569cd6;">true</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">loadBefore</span>="<span style="color:#9cdcfe;">loadTableBefore</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">loadAfter</span>="<span style="color:#9cdcfe;">loadTableAfter</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">vol-table</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  <span style="color:#c586c0;">import</span>&nbsp;<span style="color:#9cdcfe;">VolTable</span>&nbsp;<span style="color:#c586c0;">from</span>&nbsp;<span style="color:#ce9178;">"@/components/basic/VolTable.vue"</span>;
+  </div>
+  <div>
+	  <span style="color:#c586c0;">import</span>&nbsp;<span style="color:#9cdcfe;">VolHeader</span>&nbsp;<span style="color:#c586c0;">from</span>&nbsp;<span style="color:#ce9178;">"@/components/basic/VolHeader.vue"</span>;
+  </div>
+  <div>
+	  <span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#9cdcfe;">components:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">VolTable</span>,&nbsp;<span style="color:#9cdcfe;">VolHeader</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#dcdcaa;">created</span>()&nbsp;{},
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#dcdcaa;">data</span>()&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询条件字段</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">searchFields:</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">CreateDate1:</span>&nbsp;<span style="color:#ce9178;">""</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">CreateDate2:</span>&nbsp;<span style="color:#ce9178;">""</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">UserName:</span>&nbsp;<span style="color:#ce9178;">""</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">viewModel:</span>&nbsp;<span style="color:#569cd6;">false</span>,&nbsp;<span style="color:#6a9955;">//点击单元格时弹出框</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">url:</span>&nbsp;<span style="color:#ce9178;">"api/App_Expert/getPageData"</span>,&nbsp;<span style="color:#6a9955;">//后从加载数据的url</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">columns:</span>&nbsp;[
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//表配置</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"ExpertId"</span>,&nbsp;<span style="color:#6a9955;">//数据库表字段,必须和数据库一样，并且大小写一样</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"主键ID"</span>,&nbsp;<span style="color:#6a9955;">//表头显示的名称</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"int"</span>,&nbsp;<span style="color:#6a9955;">//数据类型</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">isKey:</span>&nbsp;<span style="color:#569cd6;">true</span>,&nbsp;<span style="color:#6a9955;">//是否为主键字段</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">hidden:</span>&nbsp;<span style="color:#569cd6;">true</span>,&nbsp;<span style="color:#6a9955;">//是否显示</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">align:</span>&nbsp;<span style="color:#ce9178;">"left"</span>,&nbsp;<span style="color:#6a9955;">//文字显示位置</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"HeadImageUrl"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"头像"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"img"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">160</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"UserName"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"申请人帐号"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">120</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">sort:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"UserTrueName"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"申请人"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">sort:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">120</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"Enable"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"是否启用"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">sort:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">bind:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">key:</span>&nbsp;<span style="color:#ce9178;">"enable"</span>,&nbsp;<span style="color:#9cdcfe;">data:</span>&nbsp;[]&nbsp;},&nbsp;<span style="color:#6a9955;">//此处值为data空数据，自行从后台字典数据源加载</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">80</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"ReallyName"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"真实姓名"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">sort:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">120</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">click</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//单元格点击事亻</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">msg</span>&nbsp;=
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">"此处可以自己自定格式显示内容,此单元格原始值是:【"</span>&nbsp;+
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">ReallyName</span>&nbsp;+
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">"】"</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#9cdcfe;">msg</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">formatter</span><span style="color:#9cdcfe;">:</span>&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//对单元格的数据格式化处理</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#ce9178;">"&lt;a&gt;点我&lt;/a&gt;"</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"CreateDate"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"申请时间"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">sort:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">150</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;};
+  </div>
+  <div>
+	  &nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#9cdcfe;">methods:</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//点击查询时生成查询条件</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">loadTableBefore</span>(<span style="color:#9cdcfe;">param</span>,&nbsp;<span style="color:#9cdcfe;">callBack</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处是从后台加数据前的处理，自己在此处自定义查询条件,查询数据格式自己定义或参考代码生成器查询页面请求的数据格式</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"加载数据前"</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">param</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//生成查询条件</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">param</span>.<span style="color:#9cdcfe;">wheres</span>&nbsp;=&nbsp;[
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置为like模糊查询</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span style="color:#9cdcfe;">name:</span><span style="color:#ce9178;">"UserName"</span>,<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">UserName</span>,&nbsp;<span style="color:#9cdcfe;">displayType:</span>&nbsp;<span style="color:#ce9178;">"like"</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置日期查询&gt;=、&lt;=</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name:</span><span style="color:#ce9178;">"CreateDate"</span>,<span style="color:#9cdcfe;">value:</span>&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">CreateDate1</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">displayType:</span>&nbsp;<span style="color:#ce9178;">"thanorequal"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name:</span><span style="color:#ce9178;">"CreateDate"</span>,<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">CreateDate2</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">displayType:</span>&nbsp;<span style="color:#ce9178;">"lessorequal"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">callBack</span>(<span style="color:#569cd6;">true</span>);&nbsp;<span style="color:#6a9955;">//此处必须进行回调，返回处理结果，如果是false，则不会执行后台查询</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">loadTableAfter</span>(<span style="color:#9cdcfe;">data</span>,&nbsp;<span style="color:#9cdcfe;">callBack</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处是从后台加数据后，你可以在渲染表格前，预先处理返回的数据</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"加载数据后"</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">data</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">callBack</span>(<span style="color:#569cd6;">true</span>);&nbsp;<span style="color:#6a9955;">//同上</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">load</span>()&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处可以自定义查询条件,如果不调用的框架的查询，格式需要自己定义，</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果查询的是框架getPageData方法,需要指定格式,如:</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;let&nbsp;where={wheres:[{"name":"UserTrueName","value":"教兽",displayType:"text"}]};</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">where</span>&nbsp;=&nbsp;{};
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">load</span>(<span style="color:#9cdcfe;">where</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">del</span>()&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">rows</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">getSelected</span>();
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">rows</span>.<span style="color:#9cdcfe;">length</span>&nbsp;==&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"请先选中行"</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">delRow</span>();
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处可以接着写删除后台的代码</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">getRows</span>()&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">rows</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">getSelected</span>();
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">rows</span>.<span style="color:#9cdcfe;">length</span>&nbsp;==&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"请先选中行1"</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">text</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"当前选中的行数据："</span>&nbsp;+&nbsp;<span style="color:#4ec9b0;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">rows</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">viewModel</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">rows</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;},
+  </div>
+  <div>
+	  };
+  </div>
+  <div>
+	  <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+  </div>
+</div>`,
   volupload: `<div class="cnblogs_code">
   <pre>&lt;template&gt;
     &lt;div&gt;

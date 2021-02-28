@@ -45,7 +45,7 @@
                                {"dataKey":"enable","data":[],"title":"是否启用","required":true,"field":"Enable","type":"select"}],
                               [{"dataKey":"city","data":[],"title":"地区","field":"City","type":"select"},
                                {"title":"申请时间","field":"CreateDate","disabled":true}],
-                              [{"title":"个人简介","field":"Resume","colSize":12,"type":"editor"}],
+                              [{"title":"个人简介","field":"Resume","colSize":12,"type":"textarea"}],
                               [{"title":"头像","field":"HeadImageUrl","type":"img"}]],
                 searchFormFields: {"ExpertName":"","AuditStatus":[],"ReallyName":"","IDNumber":"","Education":"","Professional":"","Company":"","City":[],"AuditDate":""},
                 searchFormOptions: [[{"title":"名称","field":"ExpertName","type":"like"},{"title":"真实姓名","field":"ReallyName"},{"title":"身份证号","field":"IDNumber"}],[{"title":"学历","field":"Education","type":"text"},{"title":"职业","field":"Professional"},{"title":"所在公司","field":"Company"}],[{"dataKey":"audit","data":[],"title":"审核状态","field":"AuditStatus","type":"selectList"},{"dataKey":"city","data":[],"title":"地区","field":"City","type":"selectList"},{"title":"审核时间","field":"AuditDate","type":"datetime"}]],
