@@ -22,6 +22,7 @@
       :loadDataAfter="loadDataAfter"
       ref="PRL"
       :index="'1'"
+      :lazy-load="lazyLoad"
     >
       <template slot-scope="scope">
         <div class="col-body">
@@ -67,6 +68,10 @@ export default {
     PullRefreshList,
   },
   props: {
+    lazyLoad: {//延迟加载 
+      type: Boolean,
+      default: false,
+    },
     cellOverflowHidden: {
       //单元格超出是否隐藏
       type: Boolean,
@@ -213,10 +218,10 @@ export default {
         });
     }
 
-    this.http.post("/api/Sys_Log/getPageData", {}, true).then((x) => {
-      this.loadDataAfter(x.rows);
-      this.list = x.rows;
-    });
+    // this.http.post("/api/Sys_Log/getPageData", {}, true).then((x) => {
+    //   this.loadDataAfter(x.rows);
+    //   this.list = x.rows;
+    // });
   },
 };
 </script>

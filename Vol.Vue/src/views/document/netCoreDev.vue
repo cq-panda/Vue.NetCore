@@ -14,7 +14,7 @@
     </div>
     <div class="doc-right">
       <div class="doc-nav">
-        <a @click="()=>{this.b_moel=true;}">多租户</a>
+        <a @click="()=>{this.b_moel=true;}">多租户(数据隔离)</a>
         <a @click="openRole()">多角色</a>
         <a @click="opendb()">分库/多数据库</a>
         <a @click="()=>{this.$Message.error('暂不开放')}">国际化</a>
@@ -78,7 +78,7 @@
         关于多租户（2020.08.15）
         <template slot="desc">
           <p style="    color: red;
-    font-size: 16px;">多租户2020.08.15更新，只需要更新后台文件：ServiceBase.cs、ServiceFunFilter.cs</p>
+    font-size: 16px;">多租户2020.08.15更新，只需要更新后台文件：ServiceBase.cs、ServiceFunFilter.cs、Tenancy文件夹(2021.02.28)</p>
         </template>
       </Alert>
       <el-collapse v-model="activeName"
@@ -120,7 +120,7 @@
         </div>
         <div style="padding: 10px 0;
     font-size: 22px;
-    color: red;">多租户不能直接使用，请在ServiceBase.cs中统一修改CheckUpdateMultiTenancy、CheckDelMultiTenancy、GetSearchQueryable方法，具体修改请看方法的描述</div>
+    color: red;">多租户面向数据库数据隔离，开启租户功能后默认只隔离用户自己创建的数据，可以根据需要自行设置数据隔离逻辑（具体见TenancyManager.cs）</div>
       </el-collapse>
     </Drawer>
   </div>

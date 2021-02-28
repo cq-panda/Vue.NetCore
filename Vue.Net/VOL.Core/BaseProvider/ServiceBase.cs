@@ -17,6 +17,7 @@ using VOL.Core.Extensions.AutofacManager;
 using VOL.Core.Filters;
 using VOL.Core.ManageUser;
 using VOL.Core.Services;
+using VOL.Core.Tenancy;
 using VOL.Core.Utilities;
 using VOL.Entity;
 using VOL.Entity.DomainModels;
@@ -82,38 +83,17 @@ namespace VOL.Core.BaseProvider
         /// <returns></returns>
         private IQueryable<T> GetSearchQueryable()
         {
-            //UserContext.Current.IsSuperAdmin超级管理员不限制数据
-
-            //自定sql,没有使用多租户，直接执行自定义sql
-            if ((QuerySql != null && !IsMultiTenancy))
-            {
-                return repository.DbContext.Set<T>().FromSqlRaw(QuerySql);
-            }
-
             //没有自定sql与多租户执行默认查询
             if ((QuerySql == null && !IsMultiTenancy) || UserContext.Current.IsSuperAdmin)
             {
                 return repository.DbContext.Set<T>();
             }
-         
-            string multiTenancyString;
-
-            //多租户
-            if (QuerySql != null && IsMultiTenancy)
+            //自定sql,没有使用多租户，直接执行自定义sql
+            if ((QuerySql != null && !IsMultiTenancy) || UserContext.Current.IsSuperAdmin)
             {
-                //自定sql+多租户
-                multiTenancyString = $"select * from ({QuerySql}) as mt ";
+                return repository.DbContext.Set<T>().FromSqlRaw(QuerySql);
             }
-            else
-            {
-                //如果是pgsql数据库，请修改select * from 为pgsql的语法
-                multiTenancyString = $"select * from {typeof(T).GetEntityTableName()}  ";
-            }
-
-            //多租户请继续完善下面sql,
-            //例如sql只显示自己创建的数据:
-            //multiTenancyString = multiTenancyString + " where createid=" + UserContext.Current.UserId;
-
+            string multiTenancyString = TenancyManager<T>.GetSearchQueryable(typeof(T).GetEntityTableName());
             return repository.DbContext.Set<T>().FromSqlRaw(multiTenancyString);
         }
 
@@ -123,12 +103,7 @@ namespace VOL.Core.BaseProvider
         /// <returns></returns>
         private string GetMultiTenancySql(string ids, string tableKey)
         {
-            string sql = $"select count(*) FROM {typeof(T).GetEntityTableName() } where {tableKey} in ({ids}) ";
-            if (DBType.Name == DbCurrentType.PgSql.ToString())
-            {
-                sql = $"select count(*) FROM \"public\".\"{typeof(T).GetEntityTableName()}\" where \"{tableKey}\" in ({ids}) ";
-            }
-            return sql;
+            return TenancyManager<T>.GetMultiTenancySql(typeof(T).GetEntityTableName(), ids, tableKey);
         }
 
         /// <summary>
@@ -142,7 +117,7 @@ namespace VOL.Core.BaseProvider
             //例如sql，只能(编辑)自己创建的数据:判断数据是不是当前用户创建的
             //sql = $" {sql} and createid!={UserContext.Current.UserId}";
             object obj = repository.DapperContext.ExecuteScalar(sql, null);
-            if (obj==null|| obj.GetInt() > 0)
+            if (obj == null || obj.GetInt() > 0)
             {
                 Response.Error("不能编辑此数据");
             }
@@ -538,16 +513,16 @@ namespace VOL.Core.BaseProvider
                     if (!Response.Status) return Response;
                 }
                 Response = repository.DbContextBeginTransaction(() =>
-                 {
-                     repository.Add(mainEntity, true);
-                     saveDataModel.MainData[keyPro.Name] = keyPro.GetValue(mainEntity);
-                     Response.OK(ResponseType.SaveSuccess);
-                     if (base.AddOnExecuted != null)
-                     {
-                         Response = base.AddOnExecuted(mainEntity, null);
-                     }
-                     return Response;
-                 });
+                {
+                    repository.Add(mainEntity, true);
+                    saveDataModel.MainData[keyPro.Name] = keyPro.GetValue(mainEntity);
+                    Response.OK(ResponseType.SaveSuccess);
+                    if (base.AddOnExecuted != null)
+                    {
+                        Response = base.AddOnExecuted(mainEntity, null);
+                    }
+                    return Response;
+                });
                 if (Response.Status) Response.Data = new { data = saveDataModel.MainData };
                 return Response;
             }
@@ -755,20 +730,20 @@ namespace VOL.Core.BaseProvider
             }
             //明细修改
             editList.ForEach(x =>
-                {
-                    //获取编辑的字段
-                    string[] updateField = saveModel.DetailData
-                        .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
-                        .Equal(detailKeyInfo.GetValue(x)))
-                        .FirstOrDefault()
-                        .Keys.Where(k => k != detailKeyInfo.Name)
-                        .Where(r => !CreateFields.Contains(r))
-                        .ToArray();
-                    //設置默認值
-                    x.SetModifyDefaultVal();
-                    //添加修改字段
-                    repository.Update<DetailT>(x, updateField);
-                });
+            {
+                //获取编辑的字段
+                string[] updateField = saveModel.DetailData
+                    .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
+                    .Equal(detailKeyInfo.GetValue(x)))
+                    .FirstOrDefault()
+                    .Keys.Where(k => k != detailKeyInfo.Name)
+                    .Where(r => !CreateFields.Contains(r))
+                    .ToArray();
+                //設置默認值
+                x.SetModifyDefaultVal();
+                //添加修改字段
+                repository.Update<DetailT>(x, updateField);
+            });
 
             //明细新增
             addList.ForEach(x =>
@@ -1100,14 +1075,14 @@ namespace VOL.Core.BaseProvider
             //采用此方法 repository.DbContextBeginTransaction(()=>{//do delete......and other});
             //做的其他操作，在DelOnExecuted中加入委托实现
             Response = repository.DbContextBeginTransaction(() =>
-             {
-                 repository.ExecuteSqlCommand(sql);
-                 if (DelOnExecuted != null)
-                 {
-                     Response = DelOnExecuted(keys);
-                 }
-                 return Response;
-             });
+            {
+                repository.ExecuteSqlCommand(sql);
+                if (DelOnExecuted != null)
+                {
+                    Response = DelOnExecuted(keys);
+                }
+                return Response;
+            });
             if (Response.Status && string.IsNullOrEmpty(Response.Message)) Response.OK(ResponseType.DelSuccess);
             return Response;
         }
@@ -1274,35 +1249,5 @@ namespace VOL.Core.BaseProvider
         {
             source.MapValueToEntity<TSource, TResult>(result, expression);
         }
-
-
-        ////当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作(待完)
-        //private Expression<Func<T, bool>> GetCurrentUserCondition(Type type)
-        //{
-        //    var userContext = UserContext.Current;
-        //    if (userContext.IsSuperAdmin)
-        //    {
-        //        return null;
-        //    }
-        //    //LimitCurrentUserPermission开启用户权限与代码生成器同时开起了用户权限才会生效
-        //    if (!LimitCurrentUserPermission || !type.GetCustomAttribute<EntityAttribute>().CurrentUserPermission) { return null; }
-
-        //    //表的创建人字段必须与配置文件appsettings.json中的创建人字段相同(大小写也必须相同)
-        //    string createId = AppSetting.CreateMember.UserIdField;
-        //    if (type.GetProperty(createId) == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    Expression<Func<T, bool>> whereExpression = createId.CreateExpression<T>(userContext.UserId, LinqExpressionType.Equal);
-        //    List<int> roles = RoleContext.GetAllChildrenIds(userContext.RoleId);
-        //    //没有下级角色的直看当前用户的数据
-        //    if (roles == null || roles.Count == 0)
-        //    {
-        //        return whereExpression;
-        //    }
-        //    //   type.GetProperty();
-        //    return null;
-        //}
     }
 }
