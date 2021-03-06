@@ -478,7 +478,10 @@ export default {
         text === null ||
         text === undefined
       ) return '--'
-
+      //2021.03.02增加只读时日期处理
+      if(item.type=="date"){
+        return text.replace("T",' ').split(' ')[0]
+      }
       if (!item.data) return text
       if (item.type == 'selectList' || item.type == 'checkbox') {
         return this.convertArrayValue(item.data, text)
