@@ -703,7 +703,6 @@ DISTINCT
             string spaceFolder = (arr.Length > 1 ? arr[arr.Length - 1] : arr[0]).ToLower();
 
             pageContent = pageContent.Replace("#columns", columns).
-                            Replace("#TableName", sysTableInfo.TableName).
                             Replace("#SortName", string.IsNullOrEmpty(sysTableInfo.SortName) ? key : sysTableInfo.SortName).
                             Replace("#key", key).
                             Replace("#Foots", " ").
@@ -747,18 +746,32 @@ DISTINCT
             }
 
 
-
             //生成扩展逻辑页面(只创建一次)
             //获取view的上一级目录
             string srcPath = new DirectoryInfo(vuePath.MapPath()).Parent.FullName;
             string extensionPath = $"{srcPath}\\extension\\{spaceFolder}\\";
             //  sysTableInfo.TableName = sysTableInfo.TableName.ToLower();
             string exFileName = sysTableInfo.TableName + ".js";
+            string tableName = sysTableInfo.TableName;
+
+
+            if (!FileHelper.FileExists(extensionPath + exFileName)
+                || FileHelper.FileExists($"{extensionPath}+\\{ sysTableInfo.FolderName.ToLower()}\\{ exFileName}"))
+            {
+                //2021.03.06增加前端生成文件到指定文件夹(以前生成过的文件不受影响)
+                extensionPath = $"{srcPath}\\extension\\{spaceFolder}\\{ sysTableInfo.FolderName.ToLower()}\\";
+                spaceFolder = spaceFolder + "\\" + sysTableInfo.FolderName.ToLower();
+                tableName = sysTableInfo.FolderName.ToLower() + "/" + tableName;
+            }
+
             if (!FileHelper.FileExists(extensionPath + exFileName))
             {
                 string exContent = FileHelper.ReadFile("Template\\Page\\VueExtension.html");
                 FileHelper.WriteFile(extensionPath, exFileName, exContent);
             }
+
+            pageContent = pageContent.Replace("#TableName", tableName);
+
             //生成vue页面
             FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\", sysTableInfo.TableName + ".vue", pageContent);
 
@@ -769,7 +782,7 @@ DISTINCT
             {
                 string routerTemplate = FileHelper.ReadFile("Template\\Page\\router.html")
                  .Replace("#TableName", sysTableInfo.TableName)
-                 .Replace("#folder", spaceFolder);
+                 .Replace("#folder", spaceFolder.Replace("\\", "/"));
                 routerContent = routerContent.Replace("]", routerTemplate);
                 FileHelper.WriteFile($"{srcPath}\\router\\", "viewGird.js", routerContent);
             }
@@ -1423,7 +1436,7 @@ DISTINCT
                         sb.Append("link:true,");
                     }
                     //2021.01.09增加代码生成器设置table排序功能
-                    if (item.Sortable==1)
+                    if (item.Sortable == 1)
                     {
                         sb.Append("sort:true,");
                     }
