@@ -42,7 +42,11 @@ let viewgird = [
         path: '/App_Expert',
         name: 'App_Expert',
         component: () => import('@/views/appmanager/App_Expert.vue')
-    }    ,{
+    }   ,{
+        path: '/App_Expert2',
+        name: 'App_Expert2',
+        component: () => import('@/views/appmanager/App_Expert2.vue')
+    }     ,{
         path: '/App_Transaction',
         name: 'App_Transaction',
         component: () => import('@/views/appmanager/App_Transaction.vue')
