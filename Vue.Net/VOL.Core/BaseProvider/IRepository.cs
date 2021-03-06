@@ -241,7 +241,7 @@ namespace VOL.Core.BaseProvider
         /// <param name="keys"></param>
         /// <param name="delList">是否将子表的数据也删除</param>
         /// <returns></returns>
-        int Delete(object[] keys, bool delList = false);
+        int DeleteWithKeys(object[] keys, bool delList = false);
 
         void Add(TEntity entities, bool SaveChanges = false);
         void AddRange(IEnumerable<TEntity> entities, bool SaveChanges = false);

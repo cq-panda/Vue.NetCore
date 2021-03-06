@@ -511,7 +511,7 @@ namespace VOL.Core.BaseProvider
         /// <param name="keys">主键key</param>
         /// <param name="delList">是否连明细一起删除</param>
         /// <returns></returns>
-        public virtual int Delete(object[] keys, bool delList = false)
+        public virtual int DeleteWithKeys(object[] keys, bool delList = false)
         {
             Type entityType = typeof(TEntity);
             string tKey = entityType.GetKeyProperty().Name;
