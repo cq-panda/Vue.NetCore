@@ -35,7 +35,13 @@
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/x7tree.png)  
 增加文本编辑器直接发布静态页面功能
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/editor.png)  
-增加真实可用的一对多从表(不限从表数量)扩展
+一对一多从表显示(只需要少量代码就可完成成，其他都由代码生成器生成)
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/m1.png)  
+表合并显示 (只需要几行代码完成代码生成器生成的页面实现扩展)
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/span.png)  
+从图上传图片 (只需要几行代码完成代码生成器生成的页面实现扩展)
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/p1.png)  
+一对多从表(不限从表数量)扩展
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/multi.png)  
 图表
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/charts.png)  
