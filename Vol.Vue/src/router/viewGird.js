@@ -26,7 +26,15 @@ let viewgird = [
         path: '/SellOrder',
         name: 'SellOrder',
         component: () => import('@/views/order/SellOrder.vue')
+    }  ,{
+        path: '/SellOrder2',
+        name: 'SellOrder2',
+        component: () => import('@/views/order/SellOrder2.vue')
     }    ,{
+        path: '/SellOrder3',
+        name: 'SellOrder3',
+        component: () => import('@/views/order/SellOrder3.vue')
+    }     ,{
       path: '/vSellOrderImg',
       name: 'vSellOrderImg',
       component: () => import('@/views/order/vSellOrderImg.vue')
