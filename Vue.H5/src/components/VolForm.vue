@@ -98,18 +98,28 @@
             </van-cell>
             <!-- <van-switch 
                         :value="formatterSwitch(item,fields[item.field])" /> -->
+            <template v-else-if="item.type=='select'||item.type=='selectList'||item.type=='bool'">
+              <van-field v-if="!item.readonly"
+                         :key="item.field"
+                         :input-align="align"
+                         :required="item.required"
+                         :label-width="120"
+                         :value="formatterSelect(item,fields[item.field])"
+                         :label="item.name"
+                         :placeholder="'请选择'+item.name"
+                         @click="onSelect(item)"
+                         right-icon="arrow" />
+              <van-field label-class="form-label"
+                         :label-width="120"
+                         :value="formatterSelect(item,fields[item.field])"
+                         v-else
+                         :label="item.name"
+                         :input-align="align"
+                         :type="item.type"
+                         :readonly="true"
+                         :required="item.required" />
+            </template>
 
-            <van-field v-else-if="item.type=='select'||item.type=='selectList'||item.type=='bool'"
-                       :key="item.field"
-                       readonly
-                       :input-align="align"
-                       :required="item.required"
-                       :label-width="120"
-                       :value="formatterSelect(item,fields[item.field])"
-                       :label="item.name"
-                       :placeholder="'请选择'+item.name"
-                       @click="onSelect(item)"
-                       right-icon="arrow" />
             <van-field class="van-img-field"
                        :key="item.field"
                        v-else-if="item.type=='img'"
