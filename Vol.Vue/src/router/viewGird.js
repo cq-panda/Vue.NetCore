@@ -59,6 +59,10 @@ let viewgird = [
         name: 'App_Transaction',
         component: () => import('@/views/appmanager/App_Transaction.vue')
     }    ,{
+        path: '/App_Transaction2',
+        name: 'App_Transaction2',
+        component: () => import('@/views/appmanager/App_Transaction2.vue')
+    }     ,{
         path: '/App_ReportPrice',
         name: 'App_ReportPrice',
         component: () => import('@/views/appmanager/App_ReportPrice.vue')
