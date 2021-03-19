@@ -251,6 +251,10 @@
                    :url="url"
                    :defaultLoadPage="load"
                    :summary="summary"
+                   :double-edit="doubleEdit"
+                   :index="doubleEdit"
+                   :endEditBefore="endEditBefore"
+                   :click-edit="true"
                    :column-index="columnIndex"
                    :text-inline="textInline"
                    :ck="ck"></vol-table>
@@ -292,18 +296,6 @@ let _components = {
   gridBody: Empty,
   gridFooter: Empty,
   modelHeader: Empty,
-  //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
-  // modelHeader: {
-  //   template: ""//'<Alert type="success">静态页面发布目前主要用于的是移动端</Alert>'
-  // },
-  // gridHeader: function(resolve, reject) {
-  //   setTimeout(function() {
-  //     // 向 `resolve` 回调传递组件定义
-  //     resolve({
-  //       template: ""
-  //     });
-  //   }, 1000);
-  // },
   modelBody: Empty,
   modelFooter: Empty,
 };
@@ -326,6 +318,7 @@ var vueParam = {
       _editFormFields: {}, //2020.09.13增加formFileds拼写错误兼容处理
       fiexdSearchForm: false, //2020.09.011是否固定查询表单，true查询表单将固定显示在表单的最上面
       _inited: false,
+      doubleEdit:false,//2021.03.19是否开启查询界面表格双击编辑
       single: false, //表是否单选
       const: _const, //增删改查导入导出等对应的action
       boxInit: false, //新建或编辑的弹出框初化状态，默认不做初始化，点击新建或编辑才初始化弹出框

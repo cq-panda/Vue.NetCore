@@ -261,29 +261,6 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column
-          v-if="!doubleEdit"
-          :min-width="100"
-          label="操作"
-          fixed="right"
-        >
-          <template slot-scope="scope">
-            <Button
-              type="info"
-              size="small"
-              @click="beginWithButtonEdit(scope)"
-              ghost
-              >编辑</Button
-            >
-            <Button
-              type="info"
-              size="small"
-              @click="endWithButtonEdit(scope)"
-              ghost
-              >完成</Button
-            >
-          </template>
-        </el-table-column>
       </el-table>
     </div>
     <div class="block pagination" v-if="!paginationHide">
