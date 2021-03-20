@@ -4,7 +4,7 @@
     <VolForm
       ref="myform"
       :loadKey="loadKey"
-      :formFileds="formFileds"
+      :formFields="formFields"
       :formRules="formRules"
     ></VolForm>
 
@@ -25,9 +25,9 @@ export default {
   methods: {
     add() {
       //动态添加列
-      this.formFileds = {};
+      this.formFields = {};
       this.index += 1;
-      this.formFileds["test" + this.index] = "";
+      this.formFields["test" + this.index] = "";
       this.required = !this.required;
       this.formRules.splice(0);
       //如果有对列删除，必须重置表单，否则验证提示的标签显示位置会错措
@@ -52,7 +52,7 @@ export default {
       if (!this.$refs.myform.validate()) {
         return;
       }
-      this.$message.error(JSON.stringify(this.formFileds));
+      this.$message.error(JSON.stringify(this.formFields));
     },
     reset() {
       //重置表单，重置时可指定重置的值，如果没有指定重置的值，默认全部清空
@@ -66,7 +66,7 @@ export default {
       loadKey: true,
       index: 1,
       required: false,
-      formFileds: {
+      formFields: {
         Variety: "",
         AgeRange: "",
         DateRange: [],
@@ -98,13 +98,13 @@ export default {
             type: "select",
             onChange(value, param) {
               //设置选择数据时触发的事件
-              $vue.formFileds.AvgPrice =
+              $vue.formFields.AvgPrice =
                 (Math.random(1, 1000) * 100).toFixed(2) * 1;
               $vue.$message(
                 "当前选中的值为[" +
                   value +
                   "],选中后给成交均价赋一个随机值[" +
-                  $vue.formFileds.AvgPrice +
+                  $vue.formFields.AvgPrice +
                   "]"
               );
             },

@@ -174,55 +174,8 @@
     </div>
     <br />
     <br />
-    <div class="vol-demo">
-      <div >
-        <VolHeader
-          icon="md-apps"
-          text="从api加载数据"
-          style="margin-bottom: 10px; border: 0px; margin-top: 15px"
-        >
-          <div slot="content"></div>
-          <slot>
-            <div style="text-align: right">
-              <Input
-                style="width: 200px; margin-right: 10px"
-                v-model.number="searchFields.UserName"
-                placeholder="申请人"
-              />
-              <DatePicker
-                type="datetime"
-                placeholder="申请时间"
-                v-model="searchFields.CreateDate1"
-              ></DatePicker>
-              -
-              <DatePicker
-                type="datetime"
-                placeholder="申请时间"
-                v-model="searchFields.CreateDate2"
-              ></DatePicker>
-              <Button type="info" ghost @click="load2" style="margin-left: 20px"
-                >查询</Button
-              >
-              <Button type="info" ghost @click="del2">删除行</Button>
-              <Button type="info" ghost @click="getRows2">获取选中的行</Button>
-            </div>
-          </slot>
-        </VolHeader>
-
-        <!-- table数据 -->
-        <!-- :max-height="450" -->
-        <vol-table
-          ref="table"
-          :loadKey="true"
-          :columns="columns"
-          :pagination-hide="false"
-          :height="300"
-          :url="url2"
-          :index="true"
-          @loadBefore="loadTableBefore2"
-          @loadAfter="loadTableAfter2"
-        ></vol-table>
-      </div>
+    <div class="vol-demo" style="padding:0;">
+      <table3></table3>
     </div>
     <div>
       <docParamTable name="voltable"></docParamTable>
@@ -272,10 +225,12 @@ import VolTable from "@/components/basic/VolTable.vue";
 import VolUpload from "@/components/basic/VolUpload.vue";
 import VolHeader from "@/components/basic/VolHeader.vue";
 import docParamTable from "./doc_ParamTable.vue";
+import table3 from "../../tables/table3";
 import { editTable, remoteColumns } from "./doc_tableOptions.js";
 import sourceCode from "./sourceCode.js";
 let $doc_vue;
 let doc_options = {
+  components: { VolTable, VolBox, docParamTable, VolHeader, VolUpload, table3 },
   data() {
     return {
       //查询条件字段
@@ -687,7 +642,7 @@ let doc_options = {
       ],
     };
   },
-  components: { VolTable, VolBox, docParamTable, VolHeader, VolUpload },
+
   mounted() {
     this.$refs.editTable1.summaryData[2] = 10;
   },

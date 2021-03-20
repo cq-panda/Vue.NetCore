@@ -9,7 +9,7 @@
     <VolForm
       ref="myform"
       :loadKey="loadKey"
-      :formFileds="formFileds"
+      :formFields="formFields"
       :formRules="formRules"
     ></VolForm>
     <div style="text-align: center">
@@ -27,7 +27,7 @@ export default {
       if (!this.$refs.myform.validate()) {
         return;
       }
-      this.$message.error(JSON.stringify(this.formFileds));
+      this.$message.error(JSON.stringify(this.formFields));
     },
     reset() {
       //重置表单，重置时可指定重置的值，如果没有指定重置的值，默认全部清空
@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       loadKey: true,
-      formFileds: {
+      formFields: {
         Variety: "",
         AgeRange: "",
         DateRange: [],

@@ -6,7 +6,7 @@
         <Button type="text" icon="ios-search" size="small" @click="getForm">获取表单</Button>
       </div>
     </VolHeader>
-    <VolForm ref="myform" :loadKey="loadKey" :formFileds="formFileds" :formRules="formRules"></VolForm>
+    <VolForm ref="myform" :loadKey="loadKey" :formFields="formFields" :formRules="formRules"></VolForm>
   </div>
 </template>
 <script>
@@ -16,7 +16,7 @@ export default {
   components: { VolForm, VolHeader },
   methods: {
     getForm() {
-      this.$message.error(JSON.stringify(this.formFileds));
+      this.$message.error(JSON.stringify(this.formFields));
     },
     reset() {}
   },
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       loadKey: true,
-      formFileds: {
+      formFields: {
         Variety: "日用品",
         DateRange: "2019-09-01",
         City: "北京市",

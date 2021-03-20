@@ -13,8 +13,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Table("App_Transaction")]
-    [Entity(TableCnName = "导入导出")]
+    [Entity(TableCnName = "导入导出",TableName = "App_Transaction")]
     public class App_Transaction:BaseEntity
     {
         /// <summary>
@@ -51,6 +50,7 @@ namespace VOL.Entity.DomainModels
        /// </summary>
        [Display(Name ="数量")]
        [Column(TypeName="int")]
+       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public int Quantity { get; set; }
 
@@ -60,6 +60,7 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="是否买入")]
        [Column(TypeName="int")]
        [Editable(true)]
+       [Required(AllowEmptyStrings=false)]
        public int TransactionType { get; set; }
 
        /// <summary>
