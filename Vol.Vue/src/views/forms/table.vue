@@ -6,7 +6,7 @@
     padding: 10px 20px;">表单数据</h2>
          <VolForm
       ref="myform"
-      :loadKey="loadKey"
+      :loadKey="true"
       :formFields="formFields"
       :formRules="formOptions"
     ></VolForm>
