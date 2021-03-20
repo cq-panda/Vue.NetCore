@@ -241,6 +241,7 @@ export default {
         this.navigation.push({
           name: item.name || item.text || "无标题",
           path: item.path,
+          query:item.query //2021.03.20修复自定义二次打开$tabs时参数丢失的问题
         });
         //新打开的tab移至最后一个选项
         this.selectId = this.navigation.length - 1;
@@ -279,8 +280,10 @@ export default {
     selectNav (index) {
       /* 2020.07.31增加手动打开tabs*/
       this.selectId = index;
+      //2021.03.20修复自定义二次打开$tabs时参数丢失的问题
       this.$router.push({
         path: this.navigation[index].path,
+        query:this.navigation[index].query
       });
     },
     removeNav (_index) {
