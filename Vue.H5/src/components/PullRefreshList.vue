@@ -57,6 +57,10 @@ export default {
       type: Function,
       default: (data, index) => { },
     },
+    lazyLoad:{
+      type:Boolean,
+      default:false
+    },
   },
   data () {
     return {
@@ -68,6 +72,7 @@ export default {
     };
   },
   created () {
+    if(this.lazyLoad) return;
     this.loading = this.immediateCheck;
     this.load(true);
   },

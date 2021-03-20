@@ -3,7 +3,7 @@
     <van-uploader v-model="files"
                   :multiple="multiple"
                   :before-delete="beforeDelete"
-                  :max-count="2"
+                  :max-count="maxCount"
                   :max-size="maxSize*1024*1024"
                   @oversize="onOversize"
                   :before-read="beforeRead">
@@ -34,7 +34,7 @@ export default {
     },
     maxCount: { //文件数量
       type: Number,
-      default: 3
+      default: 1
     },
     maxSize: {//文件大小
       type: Number,

@@ -127,6 +127,7 @@ export default {
           {
             "name": "头像", "field": "HeadImageUrl", "type": "img",
             multiple: true,//开启多图上传
+            maxCount:5,
             url: "/api/app_expert/upload"
           }
         ]],
