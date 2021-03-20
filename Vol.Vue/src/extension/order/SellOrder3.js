@@ -1,5 +1,5 @@
 
-
+import SellOrder3GridFooter from "./SellOrder3/SellOrder3GridFooter.vue"
 let extension = {
   components: {//动态扩充组件或组件路径
     //表单header、content、footer对应位置扩充的组件
@@ -7,9 +7,9 @@ let extension = {
     gridBody: {
       template: `<div>
         <Alert type="success" show-icon> <p style="color:red;">主表与弹出框部份由代码生成器生成，点击主表行显示多个明细表数据，直接扩展gridFooter位置的代码,具体代码见此示例(SellOrder3.js),明细可以进行修改、删除等操作</p></Alert></div>`},
-    gridFooter: () => import("./SellOrder3/SellOrder3GridFooter.vue"),
-    //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
-    modelHeader: "",
+    gridFooter:SellOrder3GridFooter, //() => import("./SellOrder3/SellOrder3GridFooter.vue"),
+      //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
+      modelHeader: "",
     modelBody: '',
     modelFooter: "", //() => import("./SellOrderComponents/ModelFooter.vue"),
   },
@@ -46,6 +46,18 @@ let extension = {
         //load方法可参照voltable组件api文档
         this.$refs.gridFooter.$refs.tableList.load()
       }
+    },
+    searchAfter(rows) {
+      //页面加载或者刷新数据后直接显示第一行的明细
+      if (rows.length) {
+        // this.$nextTick(() => {
+        this.$refs.gridFooter.$refs.tableList.load({ value: rows[0].Order_Id, sort: "CreateDate" })
+        // })
+      } else {
+        //没有数据时，清空明细数据
+        this.$refs.gridFooter.$refs.tableList.rowData.splice(0)
+      }
+      return true;
     }
   }
 };

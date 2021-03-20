@@ -1,13 +1,13 @@
-
-
+import gridFooter from "./SellOrder2/SellOrder2GridFooter.vue"
+// () => import("./SellOrder2/SellOrder2GridFooter.vue")
 let extension = {
   components: {//动态扩充组件或组件路径
     //表单header、content、footer对应位置扩充的组件
-    gridHeader:'',//{ template: "<div>扩展组xx件</div>" },
+    gridHeader: '',//{ template: "<div>扩展组xx件</div>" },
     gridBody: {
       template: `<div>
         <Alert type="success" show-icon> <p style="color:red;">主表与弹出框部份由代码生成器生成，点击主表行显示多个明细表数据，直接扩展gridFooter位置的代码,具体代码见此示例(SellOrder2.js)</p></Alert></div>`},
-    gridFooter: () => import("./SellOrder2/SellOrder2GridFooter.vue"),
+    gridFooter: gridFooter,
     //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
     modelHeader: "",
     modelBody: '',
@@ -45,6 +45,18 @@ let extension = {
         //load方法可参照voltable组件api文档
         this.$refs.gridFooter.$refs.tableList.load({ value: row.Order_Id, sort: "CreateDate" })
       }
+    },
+    searchAfter(rows) {
+      //页面加载或者刷新数据后直接显示第一行的明细
+      if (rows.length) {
+        // this.$nextTick(() => {
+        this.$refs.gridFooter.$refs.tableList.load({ value: rows[0].Order_Id, sort: "CreateDate" })
+        // })
+      }else{
+        //没有数据时，清空明细数据
+        this.$refs.gridFooter.$refs.tableList.rowData.splice(0)
+      }
+      return true;
     }
   }
 };
