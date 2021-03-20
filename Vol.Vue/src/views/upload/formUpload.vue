@@ -1,12 +1,7 @@
 <template>
   <div class="upload-container">
-    <div style="padding: 10px 20px;
-    border: 1px solid #d6d1d1;
-    border-radius: 5px;">
-      <VolHeader style="margin-bottom: 25px;" text="表单与文件上传下载" icon="ios-cloud-download">
-        <div slot="content">可自定义上传、图片预览与点击下载文件</div>
-        <!-- <div>还没想好</div> -->
-      </VolHeader>
+    <div>
+       <Divider>表单与文件上传下载(可自定义上传、图片预览与点击下载文件)</Divider>
       <VolForm
         ref="myform"
         :label-width="180"
@@ -101,14 +96,9 @@ export default {
               "Upload/Tables/App_Appointment/201911241454458938/基础表单+编辑只读 (4).xlsx"
           },
           {
-            name: "(远程第三方服务器文件)测试现有文件可下载1.xlsx",
+            name: "(第三方服务器文件).xlsx",
             path:
               "https://files-1256993465.cos.ap-chengdu.myqcloud.com/测试现有文件可下载1.xlsx"
-          },
-          {
-            name: "(远程第三方服务器文件)测试现有文件可下载2.xlsx",
-            path:
-              "xhttps://files-1256993465.cos.ap-chengdu.myqcloud.com/测试现有文件可下载2.xlsx"
           }
         ],
         file8: ""
@@ -128,17 +118,15 @@ export default {
             required: false,
             field: "ProductName",
             type: "text"
-          }
-        ],
-        [
+          },
           {
             type: "decimal",
             title: "商品价格",
             required: true,
             placeholder: "你可以自己定义placeholder显示的文字",
             field: "Price"
-          },
-          {
+          }],
+          [{
             dataKey: "city",
             title: "收货城市",
             required: true,
@@ -146,8 +134,7 @@ export default {
             data: [],
             type: "select"
           }
-        ],
-        [
+      ,
           {
             title: "发货单号",
             field: "OrderNo",
@@ -161,13 +148,24 @@ export default {
         ],
         [
           {
-            title: "图片只读",
-            field: "file6",
-            readonly: true,
-            type: "img"
+            title: "自动上传",
+            field: "file1",
+            required: true,
+            maxSize: 1, //最大1M文件
+            url: "/api/App_Appointment/Upload",
+            type: "file"
           },
           {
-            title: "文件只读可下载",
+            title: "上传excel",
+            field: "file2",
+            maxSize: 0.5, //最大0.5M文件
+            multiple: true, //启用多文件
+            maxFile: 2, //最多两个文件
+            url: "/api/App_Appointment/Upload",
+            type: "excel"
+          },
+              {
+            title: "文件只读",
             readonly: true,
             field: "file7",
             downLoad: true,
@@ -179,37 +177,7 @@ export default {
         ],
         [
           {
-            title: "自动上传不限制类型",
-            field: "file1",
-            required: true,
-            maxSize: 1, //最大1M文件
-            url: "/api/App_Appointment/Upload",
-            type: "file"
-          },
-          {
-            title: "自动上传最多两个excel文件",
-            field: "file2",
-            maxSize: 0.5, //最大0.5M文件
-            multiple: true, //启用多文件
-            maxFile: 2, //最多两个文件
-            url: "/api/App_Appointment/Upload",
-            type: "excel"
-          }
-        ],
-        [
-          {
-            title: "手动上传图片",
-            autoUpload: false,
-            field: "file3",
-            maxSize: 1, //最大1M文件
-            colSize: 12,
-            url: "/api/App_Appointment/Upload",
-            type: "img"
-          }
-        ],
-        [
-          {
-            title: "显示现有文件并可上传下载",
+            title: "上传下载",
             autoUpload: false,
             field: "file5",
             maxSize: 1, //最大1M文件
@@ -223,13 +191,29 @@ export default {
               return true;
             }
           },
+            {
+            title: "图片只读",
+            field: "file6",
+            readonly: true,
+            type: "img"
+          },
           {
-            title: "手动上传多文件",
-
+            title: "手动上传",
             field: "file4",
             maxSize: 1, //最大1M文件
             multiple: true, //启用多文件
             maxFile: 3, //最多两个文件
+            url: "/api/App_Appointment/Upload",
+            type: "img"
+          }
+        ],
+        [
+          {
+            title: "上传图片",
+            autoUpload: false,
+            field: "file3",
+            maxSize: 1, //最大1M文件
+            colSize: 12,
             url: "/api/App_Appointment/Upload",
             type: "img"
           }
@@ -241,12 +225,11 @@ export default {
 </script>
 <style scoped>
 .upload-container {
-  position: relative;
-  max-width: 1200px;
-  left: 0;
-  right: 0;
-  margin: auto;
-  padding: 30px;
-  max-width: 1100px;
+  padding: 10px 15px;
+}
+.upload-container >>> .img-item,
+.upload-container >>> .img-item img{
+  width: 70px  !important;
+  height: 70px  !important;
 }
 </style>
