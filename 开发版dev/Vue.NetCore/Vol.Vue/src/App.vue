@@ -55,6 +55,10 @@ export default {
 .ivu-form .ivu-form-item-label {
   color: #939394;
 }
+/* 2021.03.20修复明细表格错位 */
+ .grid-detail .el-table__fixed-body-wrapper{
+  top: 41px !important;
+} 
 </style>
 <style>
 html,
