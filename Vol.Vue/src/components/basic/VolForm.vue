@@ -482,6 +482,10 @@ export default {
       if(item.type=="date"){
         return text.replace("T",' ').split(' ')[0]
       }
+      //2021.03.31修复表单switch只读时没有转换值的问题
+      if (item.type=="switch") {
+        return text?'是':'否';
+      }
       if (!item.data) return text
       if (item.type == 'selectList' || item.type == 'checkbox') {
         return this.convertArrayValue(item.data, text)
