@@ -396,7 +396,7 @@ namespace VOL.Core.Utilities
                 {
                     for (int j = 0; j < propertyInfo.Count; j++)
                     {
-                        string cellValue = null;
+                        object cellValue = null;
                         if (dateArr != null && dateArr.Contains(propertyInfo[j].Name))
                         {
                             object value = propertyInfo[j].GetValue(list[i]);
@@ -404,21 +404,21 @@ namespace VOL.Core.Utilities
                         }
                         else
                         {
-                            cellValue = (propertyInfo[j].GetValue(list[i]) ?? "").ToString();
+                            cellValue = propertyInfo[j].GetValue(list[i]);
                         }
-                        if (dicNoKeys.Exists(x => x.ColumnName == propertyInfo[j].Name))
+                        if (cellValue!=null&&dicNoKeys.Exists(x => x.ColumnName == propertyInfo[j].Name))
                         {
                             //2021.01.24修复多选类型，导出excel文件没有转换数据源的问题
                             if (selectList.Contains(propertyInfo[j].Name))
                             {
-                                cellValue = string.Join(",", GetListValues(cellValue, propertyInfo[j].Name));
+                                cellValue = string.Join(",", GetListValues(cellValue.ToString(), propertyInfo[j].Name));
                             }
                             else
                             {
                                 cellOptions.Where(x => x.ColumnName == propertyInfo[j].Name)
                             .Select(s => s.KeyValues)
                             .FirstOrDefault()
-                            .TryGetValue(cellValue, out string result);
+                            .TryGetValue(cellValue.ToString(), out string result);
                                 cellValue = result ?? cellValue;
                             }
 
