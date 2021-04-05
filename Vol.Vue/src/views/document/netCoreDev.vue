@@ -613,28 +613,45 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
           ],
           tips: "",
         },
-        {
-          title: "Memory/Redis对象",
+		  {
+          title: "Dapper访问数据库/存储过程",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-		<br />
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//4、获取Memory/Redis对象</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;base.CacheContext&nbsp;(仅限表xxx.Serivce.cs)</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;例：SellOrderService.Instance.CacheContext</span>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp; Core.Utilities.HttpContext.Current.GetService&lt;ICacheService&gt;();</span>
-		</div>
-		<div>
-			<br />
-		</div>
-	</div>
+	&nbsp; &nbsp; &nbsp; &nbsp; public void Test()<br />
+&nbsp; &nbsp; &nbsp; &nbsp; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; string tranNo = "T20001000100001";<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; int orderType = 1;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; string sql = "select * from SellOrder where TranNo=@tranNo and OrderType=@orderType";<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //与原生dapper使用方式基本一致，更多使用方法参照dapper文档<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DBServerProvider.SqlDapper.QueryList&lt;SellOrder&gt;(sql, new { tranNo, orderType });&nbsp; &nbsp; &nbsp;&nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DBServerProvider.SqlDapper.QueryFirst&lt;dynamic&gt;(sql, new { tranNo, orderType });<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DBServerProvider.SqlDapper.QueryFirst&lt;object&gt;(sql, new { tranNo, orderType });<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DBServerProvider.SqlDapper.ExecuteScalar(sql, new { tranNo, orderType });<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //调用存储过程<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DBServerProvider.SqlDapper.ExecuteScalar("存储过程名", new {参数 },System.Data.CommandType.StoredProcedure);<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+</div>`,
+          ],
+          tips: `还没想好`,
+          img: "",
+        },
+        {
+          title: "使用Memory/Redis缓存",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+<p>//以SellOrderService为例，在构造方法中获取对象</p>
+	<span style="display:none;"></span>&nbsp; &nbsp; &nbsp; &nbsp; [ActivatorUtilitiesConstructor]<br />
+&nbsp; &nbsp; &nbsp; &nbsp; private ICacheService _cacheService;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; public SellOrderService(ICacheService cacheService)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //默认使用的内存缓存，如果需要使用redis将appsetting.json中设置UseRedis:"true"<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; _cacheService = cacheService;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //HttpContext.Current.GetService&lt;ICacheService&gt;()<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //base.CacheContext (仅限表xxx.Serivce.cs)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<span style="display:none;"></span><br />
 </div>`,
           ],
           tips: `还没想好`,
