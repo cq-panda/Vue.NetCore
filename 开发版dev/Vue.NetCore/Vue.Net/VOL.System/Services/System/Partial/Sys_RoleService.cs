@@ -46,7 +46,7 @@ namespace VOL.System.Services
         /// <param name="roleId"></param>
         /// <returns></returns>
         public async Task<WebResponseContent> GetUserTreePermission(int roleId)
-        { 
+        {
             WebResponseContent webResponse = new WebResponseContent();
             if (!UserContext.IsRoleIdSuperAdmin(roleId) && UserContext.Current.RoleId != roleId)
             {
@@ -159,21 +159,38 @@ namespace VOL.System.Services
         private List<RoleNodes> GetAllChildrenNodes(int roleId)
         {
             if (UserContext.IsRoleIdSuperAdmin(roleId)) return roles;
-            rolesChildren = GetChildren(roleId);
+            Dictionary<int, bool> completedRoles = new Dictionary<int, bool>();
+            rolesChildren = GetChildren(roleId, completedRoles);
             return rolesChildren;
         }
         /// <summary>
         /// 递归获取所有子节点权限
         /// </summary>
         /// <param name="roleId"></param>
-        private List<RoleNodes> GetChildren(int roleId)
+        private List<RoleNodes> GetChildren(int roleId, Dictionary<int, bool> completedRoles)
         {
             roles.ForEach(x =>
             {
                 if (x.ParentId == roleId)
                 {
+                    if (completedRoles.TryGetValue(roleId, out bool isWrite))
+                    {
+                        if (!isWrite)
+                        {
+                            completedRoles[roleId] = true;
+                            Logger.Error($"获取子角色异常Sys_RoleService,角色id:{roleId}");
+                        }
+                        return;
+                    }
                     rolesChildren.Add(x);
-                    GetChildren(x.Id);
+
+                    completedRoles[x.Id] = false;
+
+
+                    if (x.Id != x.ParentId)
+                    {
+                        GetChildren(x.Id, completedRoles);
+                    }
                 }
             });
             return rolesChildren;
@@ -322,13 +339,13 @@ namespace VOL.System.Services
                 {
                     return WebResponseContent.Instance.Error($"上级角色不能选择自己");
                 }
-                if (role.Role_Id==UserContext.Current.RoleId)
+                if (role.Role_Id == UserContext.Current.RoleId)
                 {
                     return WebResponseContent.Instance.Error($"不能修改自己的角色");
                 }
 
                 if (GetAllChildren(role.ParentId).Any(x => x.ParentId == role.Role_Id)
-                ||repository.Exists(x=>x.ParentId== role.Role_Id))
+                || repository.Exists(x => x.ParentId == role.Role_Id))
                 {
                     return WebResponseContent.Instance.Error($"不能选择此上级角色，选择的上级角色与当前角色形成依赖关系");
                 }

@@ -5,6 +5,7 @@ using VOL.Core.CacheManager;
 using VOL.Core.DBManager;
 using VOL.Core.Extensions.AutofacManager;
 using VOL.Core.ManageUser;
+using VOL.Core.Services;
 using VOL.Entity.DomainModels;
 
 namespace VOL.Core.UserManager
@@ -63,8 +64,9 @@ namespace VOL.Core.UserManager
             if (roleId <= 0) return null;
             var roles = GetAllRoleId();
             if (UserContext.IsRoleIdSuperAdmin(roleId)) return roles;
+            Dictionary<int, bool> completedRoles = new Dictionary<int, bool>();
             List<RoleNodes> rolesChildren = new List<RoleNodes>();
-            return GetChildren(roles, rolesChildren, roleId);
+            return GetChildren(roles, rolesChildren, roleId, completedRoles);
         }
         public static List<int> GetAllChildrenIds(int roleId)
         {
@@ -74,19 +76,28 @@ namespace VOL.Core.UserManager
         /// 递归获取所有子节点权限
         /// </summary>
         /// <param name="roleId"></param>
-        private static List<RoleNodes> GetChildren(List<RoleNodes> roles, List<RoleNodes> rolesChildren, int roleId)
+        private static List<RoleNodes> GetChildren(List<RoleNodes> roles, List<RoleNodes> rolesChildren, int roleId, Dictionary<int, bool> completedRoles)
         {
             roles.ForEach(x =>
             {
                 if (x.ParentId == roleId)
                 {
+                    if (completedRoles.TryGetValue(roleId, out bool isWrite))
+                    {
+                        if (!isWrite)
+                        {
+                            Logger.Error($"获取子角色异常RoleContext,角色id:{roleId}");
+                            completedRoles[roleId] = true;
+                        }
+                        return;
+                    }
                     rolesChildren.Add(x);
-                    GetChildren(roles, rolesChildren, x.Id);
+                    completedRoles.Add(x.Id, false);
+                    GetChildren(roles, rolesChildren, x.Id, completedRoles);
                 }
             });
             return rolesChildren;
         }
-
         /// <summary>
         /// 获取当前角色下的所有用户
         /// </summary>

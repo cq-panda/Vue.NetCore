@@ -159,21 +159,38 @@ namespace VOL.System.Services
         private List<RoleNodes> GetAllChildrenNodes(int roleId)
         {
             if (UserContext.IsRoleIdSuperAdmin(roleId)) return roles;
-            rolesChildren = GetChildren(roleId);
+            Dictionary<int, bool> completedRoles = new Dictionary<int, bool>();
+            rolesChildren = GetChildren(roleId, completedRoles);
             return rolesChildren;
         }
         /// <summary>
         /// 递归获取所有子节点权限
         /// </summary>
         /// <param name="roleId"></param>
-        private List<RoleNodes> GetChildren(int roleId)
+        private List<RoleNodes> GetChildren(int roleId,Dictionary<int, bool> completedRoles)
         {
             roles.ForEach(x =>
             {
                 if (x.ParentId == roleId)
                 {
+                    if (completedRoles.TryGetValue(roleId, out bool isWrite))
+                    {
+                        if (!isWrite)
+                        {
+                            completedRoles[roleId] = true;
+                            Logger.Error($"获取子角色异常Sys_RoleService,角色id:{roleId}");
+                        }
+                        return;
+                    }
                     rolesChildren.Add(x);
-                    GetChildren(x.Id);
+
+                    completedRoles[x.Id] = false;
+
+
+                    if (x.Id != x.ParentId)
+                    {
+                        GetChildren(x.Id, completedRoles);
+                    }
                 }
             });
             return rolesChildren;

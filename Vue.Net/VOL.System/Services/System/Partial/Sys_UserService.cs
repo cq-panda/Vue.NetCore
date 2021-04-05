@@ -43,7 +43,7 @@ namespace VOL.System.Services
                 Sys_User user = await repository.FindAsIQueryable(x => x.UserName == loginInfo.UserName)
                     .FirstOrDefaultAsync();
 
-                if (user == null || loginInfo.PassWord.Trim() != (user.UserPwd ?? "").DecryptDES(AppSetting.Secret.User))
+                if (user == null || loginInfo.Password.Trim() != (user.UserPwd ?? "").DecryptDES(AppSetting.Secret.User))
                     return responseContent.Error(ResponseType.LoginError);
 
                 string token = JwtHelper.IssueJwt(new UserInfo()
@@ -57,7 +57,7 @@ namespace VOL.System.Services
                 repository.Update(user, x => x.Token, true);
                 UserContext.Current.LogOut(user.User_Id);
 
-                loginInfo.PassWord = string.Empty;
+                loginInfo.Password = string.Empty;
 
                 return responseContent.OK(ResponseType.LoginSuccess);
             }
