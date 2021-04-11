@@ -1253,6 +1253,9 @@ let methods = {
     //:["Search","Add","Delete","Update","Import","Export","Upload","Audit"]
     const _result = (this.$store.state.system.permission || []).find(x => { return x.url == '/' + tableName });
     return _result && _result.permission.some(x => x == permission);
+  },
+  destroyed(){ //2021.04.11增加vue页面销毁方法,路由必须设置keepLive:false，设置方法见：前端开发文档-》[禁用页面缓存keepAlive]
+
   }
 };
 //合并扩展方法

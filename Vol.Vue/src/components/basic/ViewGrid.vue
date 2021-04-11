@@ -458,6 +458,9 @@ var vueParam = {
     this.mounted();
     // this.$refs.searchForm.forEach()
   },
+  destroyed(){
+    this.destroyed();
+  },
   created: function () {
     //2020.09.13增加formFileds拼写错误兼容处理
     this._searchFormFields = Object.keys(this.searchFormFields).length
