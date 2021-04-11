@@ -1,29 +1,45 @@
 <template>
   <div class="doc">
     <div class="doc-left">
-      <el-scrollbar style="height:100%;">
+      <el-scrollbar style="height: 100%">
         <ul>
-          <li class="n-item"
-              v-for="(item,index) in items"
-              :key="index">
-            <a :class="{active:active==index}"
-               :style="item.style"
-               @click="scrollIntoView(index)">{{index+1}}. {{index==0?'添加动态按钮':item.title}}</a>
+          <li class="n-item" v-for="(item, index) in items" :key="index">
+            <a
+              :class="{ active: active == index }"
+              :style="item.style"
+              @click="scrollIntoView(index)"
+              >{{ index + 1 }}.
+              {{ index == 0 ? "添加动态按钮" : item.title }}</a
+            >
           </li>
         </ul>
       </el-scrollbar>
     </div>
     <div class="doc-right">
-      <Alert type="info"
-             show-icon>
-        <span style="color: red;"> [FormFields]拼写错误兼容更新提示2020.09.13</span>
-        <div slot="desc"
-             style="line-height: 2;font-size: 15px;margin-top: 20px;">
-          <p>如果是2020.09.13之后下载的项目或者2020.09.13后有更新过代码并且重新生成过vue页面,请忽略此提示</p>
-          <p>由于框架FormFileds字段拼写错误，文档中editFormFileds已变修正editFormFields，searchFormFileds已变修正为searchFormFields</p>
-          <p>更新文件：<a href="https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2"
-               target="_blank">https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2</a></p>
-          <p style="color: red;">如果没有更新过项目,使用文档中searchFormFields、editFormFields对象时，修改拼写为searchFormFileds、editFormFileds，或者更新代码后再重新生成vue页面</p>
+      <Alert type="info" show-icon>
+        <span style="color: red">
+          [FormFields]拼写错误兼容更新提示2020.09.13</span
+        >
+        <div
+          slot="desc"
+          style="line-height: 2; font-size: 15px; margin-top: 20px"
+        >
+          <p>
+            如果是2020.09.13之后下载的项目或者2020.09.13后有更新过代码并且重新生成过vue页面,请忽略此提示
+          </p>
+          <p>
+            由于框架FormFileds字段拼写错误，文档中editFormFileds已变修正editFormFields，searchFormFileds已变修正为searchFormFields
+          </p>
+          <p>
+            更新文件：<a
+              href="https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2"
+              target="_blank"
+              >https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2</a
+            >
+          </p>
+          <p style="color: red">
+            如果没有更新过项目,使用文档中searchFormFields、editFormFields对象时，修改拼写为searchFormFileds、editFormFileds，或者更新代码后再重新生成vue页面
+          </p>
         </div>
       </Alert>
       <div class="title">
@@ -31,76 +47,111 @@
       </div>
       <div class="top-content">
         <div>
-          <p class="desc">此处是代码生成器生成的页面进行扩展，全部实现的是viewGrid组件扩展,参照viewGrid的api介绍</p>
+          <p class="desc">
+            此处是代码生成器生成的页面进行扩展，全部实现的是viewGrid组件扩展,参照viewGrid的api介绍
+          </p>
         </div>
         <div>
-          <p class="desc"
-             style="font-size: 20px;">更多具体扩展代码实现参照：extension->order->SellOrder.js或viewgird组件demo</p>
+          <p class="desc" style="font-size: 20px">
+            更多具体扩展代码实现参照：extension->order->SellOrder.js或viewgird组件demo
+          </p>
         </div>
       </div>
-      <Alert type="success"
-             show-icon>
+      <Alert type="success" show-icon>
         提示
         <template slot="desc">
-          <p>每个表生成的vue页面，都会有一个与表名相同扩展的.js文件，如表名：SellOrder,扩展文件SellOrder.js</p>
-          <p>所有业务代码在扩展js中编写，二次生成代码时，vue页面会被覆盖，扩展js则不会</p>
+          <p>
+            每个表生成的vue页面，都会有一个与表名相同扩展的.js文件，如表名：SellOrder,扩展文件SellOrder.js
+          </p>
+          <p>
+            所有业务代码在扩展js中编写，二次生成代码时，vue页面会被覆盖，扩展js则不会
+          </p>
         </template>
       </Alert>
-      <div style=" color: #4c403b;padding: 10px 0;">
-        <h4 style="color:red;">下面都是对表App_Expert.js进行的扩展操作,将下面代码复制到App_Expert.js文件methods下即可直接运行</h4>
-        <h4 style="color:red;font-size: 20px; padding: 20px 0">没有特别标明的，都是实现的App_Expert.js扩展,也适用其它所有代码生成的页面</h4>
+      <div style="color: #4c403b; padding: 10px 0">
+        <h4 style="color: red">
+          下面都是对表App_Expert.js进行的扩展操作,将下面代码复制到App_Expert.js文件methods下即可直接运行
+        </h4>
+        <h4 style="color: red; font-size: 20px; padding: 20px 0">
+          没有特别标明的，都是实现的App_Expert.js扩展,也适用其它所有代码生成的页面
+        </h4>
         <h3>所有图片点击即可查看大图</h3>
       </div>
-      <div :id="'i-'+index"
-           class="doc-wrapper"
-           v-for="(item,index) in items"
-           :key="index">
+      <div
+        :id="'i-' + index"
+        class="doc-wrapper"
+        v-for="(item, index) in items"
+        :key="index"
+      >
         <div class="title">
-          <h2>{{item.title}}</h2>
+          <h2>{{ item.title }}</h2>
         </div>
-        <div style=" box-shadow: 0 8px 12px #ebedf0;">
+        <div style="box-shadow: 0 8px 12px #ebedf0">
           <div class="d-content">
             <div class="code">
-              <p v-for="(line,key) in item.content"
-                 :key="key"
-                 style="line-height: 1.7;"
-                 class="desc"
-                 v-html="line"></p>
-              <Button type="info"
-                      v-if="item.buttonClick"
-                      @click="item.buttonClick">查看</Button>
+              <p
+                v-for="(line, key) in item.content"
+                :key="key"
+                style="line-height: 1.7"
+                class="desc"
+                v-html="line"
+              ></p>
+              <Button
+                type="info"
+                v-if="item.buttonClick"
+                @click="item.buttonClick"
+                >查看</Button
+              >
             </div>
             <template v-if="item.drawer">
-              <Drawer v-model="doc_model"
-                      :width="900">
-
-                <img style="width:100%"
-                     v-for="(img,i) in item.img"
-                     :key="i"
-                     :src="img"
-                     @click="()=>{base.previewImg((img||'').replace('?imageMogr2/thumbnail/!50p',''))}" />
-                <br>
+              <Drawer v-model="doc_model" :width="900">
+                <img
+                  style="width: 100%"
+                  v-for="(img, i) in item.img"
+                  :key="i"
+                  :src="img"
+                  @click="
+                    () => {
+                      base.previewImg(
+                        (img || '').replace('?imageMogr2/thumbnail/!50p', '')
+                      );
+                    }
+                  "
+                />
+                <br />
               </Drawer>
             </template>
-            <div class="img"
-                 v-else
-                 :class="{'full-code':!item.img}">
-              <template v-if="(item.img instanceof Array)">
-                <img v-for="(img,i) in item.img"
-                     :key="i"
-                     :src="img"
-                     @click="()=>{base.previewImg((img||'').replace('?imageMogr2/thumbnail/!50p',''))}" />
+            <div class="img" v-else :class="{ 'full-code': !item.img }">
+              <template v-if="item.img instanceof Array">
+                <img
+                  v-for="(img, i) in item.img"
+                  :key="i"
+                  :src="img"
+                  @click="
+                    () => {
+                      base.previewImg(
+                        (img || '').replace('?imageMogr2/thumbnail/!50p', '')
+                      );
+                    }
+                  "
+                />
               </template>
-              <img v-else
-                   :src="item.img"
-                   @click="()=>{base.previewImg((item.img||'').replace('?imageMogr2/thumbnail/!50p',''))}" />
-
+              <img
+                v-else
+                :src="item.img"
+                @click="
+                  () => {
+                    base.previewImg(
+                      (item.img || '').replace('?imageMogr2/thumbnail/!50p', '')
+                    );
+                  }
+                "
+              />
             </div>
-
           </div>
-          <Alert type="success"
-                 v-if="item.tips"
-                 show-icon>{{item.tips}}</Alert>
+          <Alert type="success" v-if="item.tips" show-icon>{{
+            item.tips
+          }}</Alert>
         </div>
       </div>
     </div>
@@ -109,7 +160,7 @@
 <script>
 export default {
   methods: {
-    scrollIntoView (index) {
+    scrollIntoView(index) {
       let top = document.getElementById("i-" + index).offsetTop - 100;
       // if (index == 0) {
       //   top = 0;
@@ -118,7 +169,7 @@ export default {
       this.active = index;
     },
   },
-  data () {
+  data() {
     return {
       doc_model: false,
       active: 0,
@@ -143,14 +194,17 @@ export default {
           },
           tips: ` `,
           drawer: true,
-          img: ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20201213btn01.jpg?imageMogr2/thumbnail/!50p",
+          img: [
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20201213btn01.jpg?imageMogr2/thumbnail/!50p",
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20201213btn02.jpg?imageMogr2/thumbnail/!50p",
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20201213btn03.jpg?imageMogr2/thumbnail/!50p",
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20201213btn04.jpg?imageMogr2/thumbnail/!50p",]
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20201213btn04.jpg?imageMogr2/thumbnail/!50p",
+          ],
         },
         {
           title: "禁用页面缓存keepAlive",
-          content: [`所有页面默认开启了缓存，即所有页面只会执行一次created与onInit<br />
+          content: [
+            `所有页面默认开启了缓存，即所有页面只会执行一次created与onInit<br />
 <br />
 解决方法1：在router文件夹下找到路由配置里加上:&nbsp; (具体见router-&gt;form.js中的/kindEditor配置)<br />
 &nbsp; &nbsp;meta: {<br />
@@ -160,17 +214,19 @@ export default {
 解决方法2：如果需要每次进入页面查询数据，在[表名.js]文件中添加:<br />
 &nbsp; &nbsp;onActivated(){<br />
 &nbsp; &nbsp;}<br />
-&nbsp;<br />`],
+&nbsp;<br />`,
+          ],
           tips: "",
-          img: ""
+          img: "",
         },
         {
           title: "前端断点调试",
           content: [`见右边截图`],
           tips: "",
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121302.png?imageMogr2/thumbnail/!50p"
-		},
-		
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121302.png?imageMogr2/thumbnail/!50p",
+        },
+
         {
           title: "查询界面动态添加按钮",
           content: [
@@ -213,10 +269,11 @@ export default {
           tips: ` this.buttons来源：ViewGrid.vue组件data->buttons属性`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/01.png?imageMogr2/thumbnail/!50p",
-		},
-		   {
+        },
+        {
           title: "查询界面--默认排序",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
@@ -232,10 +289,11 @@ export default {
 </div>
 <p style="margin-top:32px;margin-bottom:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;color:#404040;text-align:center;white-space:normal;background-color:#FFFFFF;padding:0px;">
 	<br />
-</p>`],
+</p>`,
+          ],
           tips: "",
-          img: ""
-		},
+          img: "",
+        },
         {
           title: "查询界面--第二种布局",
           content: [
@@ -290,7 +348,8 @@ export default {
 
         {
           title: "查询界面--区间查询",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		<span style="color:#6a9955;">//声明一个组件</span>
 	</div>
@@ -545,7 +604,8 @@ export default {
 		<span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;<span style="color:#9cdcfe;">extension</span>;
 	</div>
 <br />
-</div>`],
+</div>`,
+          ],
           tips: `还没想好`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/41.png?imageMogr2/thumbnail/!50p",
@@ -553,7 +613,8 @@ export default {
 
         {
           title: "查询界面--单个日期查询",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInited</span>&nbsp;()&nbsp;{
 	</div>
@@ -596,7 +657,8 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`,
+          ],
           tips: ` 还没想好`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112101.png?imageMogr2/thumbnail/!50p",
@@ -604,7 +666,8 @@ export default {
 
         {
           title: "查询界面-移除快捷查询",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInited</span>&nbsp;()&nbsp;{
 	</div>
@@ -614,16 +677,49 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>` ],
+</div>`,
+          ],
           tips: ` 还没想好`,
-          img:
-            ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112102.png?imageMogr2/thumbnail/!50p",
-              "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112103.png?imageMogr2/thumbnail/!50p"],
+          img: [
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112102.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112103.png?imageMogr2/thumbnail/!50p",
+          ],
         },
 
         {
+          title: "查询界面-destroyed页面销毁",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;<span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span>&nbsp;{<span style="color:#6a9955;">//事件扩展</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">destroyed</span>(){&nbsp;
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2021.04.11增加vue页面销毁方法,路由必须设置keepLive:false，设置方法见：前端开发文档-》[禁用页面缓存keepAlive]</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//需要更新methods.js与ViewGird.vue文件&nbsp;2021.04.11</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"destroyed"</span>)
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;},
+	</div>
+	<div>
+		&nbsp;&nbsp;}
+	</div>
+</div>`,
+          ],
+          tips: ` 还没想好`,
+          img: [""],
+        },
+        {
           title: "查询界面-隐藏查询按钮",
-          content: [`<div style="color:red">2020.11.29更新viewgrid.vue组件才能使用</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:red">2020.11.29更新viewgrid.vue组件才能使用</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//事件扩展</span>
 	</div>
@@ -660,11 +756,13 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>` ],
+</div>`,
+          ],
           tips: ` 还没想好`,
-          img:
-            ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112901.png?imageMogr2/thumbnail/!50p",
-              "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112902.png?imageMogr2/thumbnail/!50p"],
+          img: [
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112901.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112902.png?imageMogr2/thumbnail/!50p",
+          ],
         },
         {
           title: "查询界面-自定义弹出框",
@@ -1157,19 +1255,20 @@ export default {
 		<span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;<span style="color:#9cdcfe;">extension</span>;
 	</div>
 </div>
-`
+`,
           ],
           tips: ` 还没想好`,
-          img:
-            ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020120601.png?imageMogr2/thumbnail/!50p",
-              "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020120602.png?imageMogr2/thumbnail/!50p",
-              "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020120603.png?imageMogr2/thumbnail/!50p",
-              "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020120604.png?imageMogr2/thumbnail/!50p"],
+          img: [
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020120601.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020120602.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020120603.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020120604.png?imageMogr2/thumbnail/!50p",
+          ],
         },
         {
           title: "查询界面-多个弹出框",
           content: ["见上面【自定义弹出框】"],
-          tips: ` 见上面【自定义弹出框】`
+          tips: ` 见上面【自定义弹出框】`,
         },
         {
           title: "弹出框界面动态按钮",
@@ -1690,7 +1789,8 @@ export default {
         },
         {
           title: "render渲染form对象1-1",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
 	</div>
@@ -1772,7 +1872,8 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`,
+          ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020122701.png?imageMogr2/thumbnail/!50p",
@@ -2155,10 +2256,10 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/22.png?imageMogr2/thumbnail/!50p",
         },
 
-
         {
           title: "render渲染form对象4",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
 	</div>
@@ -2388,14 +2489,16 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
-</div>`      ],
+</div>`,
+          ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/42.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "table自定义显示图片及base64格式",
-          content: [`<div style="color:red;">2020.12.19更新basic组件才能使用</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:red;">2020.12.19更新basic组件才能使用</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>(){
 	</div>
@@ -2439,9 +2542,10 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`], tips: ``,
-          img:
-            "",
+</div>`,
+          ],
+          tips: ``,
+          img: "",
         },
         {
           title: "table格式化数据",
@@ -2588,7 +2692,8 @@ export default {
         },
         {
           title: "table行点击事件",
-          content: [`<div style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:normal;">
+          content: [
+            `<div style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:normal;">
 	<div style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:normal;">
 		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 			<div>
@@ -2610,13 +2715,15 @@ export default {
 		</div>
 	</div>
 <br />
-</div>`  ],
+</div>`,
+          ],
           tips: "",
-          img: ""
+          img: "",
         },
         {
           title: "table单元格点击事件",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
 	</div>
@@ -2659,13 +2766,15 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`  ],
+</div>`,
+          ],
           tips: "",
-          img: ""
+          img: "",
         },
         {
           title: "table单元格td背景颜色",
-          content: [`<div style="color:red">2020.12.13需要更新前端voltable组件</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:red">2020.12.13需要更新前端voltable组件</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
 	</div>
@@ -2726,9 +2835,11 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`,
+          ],
           tips: "",
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121301.png?imageMogr2/thumbnail/!50p"
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121301.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "table设置/移除列颜色",
@@ -3260,10 +3371,10 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/21.png?imageMogr2/thumbnail/!50p",
         },
 
-
         {
           title: "table动态列",
-          content: [`<div style="color:red;font-size:18px;">需要更新前端Basic下的组件2020.10.30</div>
+          content: [
+            `<div style="color:red;font-size:18px;">需要更新前端Basic下的组件2020.10.30</div>
           <div style="color:red;font-size:18px;">1、后台代码</div>
           <p><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
@@ -3415,13 +3526,15 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
-</div>`],
+</div>`,
+          ],
           tips: ``,
           img: "",
         },
         {
           title: "table点击行选中当前行",
-          content: [`
+          content: [
+            `
          <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
  <div style="color:red;font-size:18px">需要更新Basic文件夹下的组件2020.11.07</div>	<div>
 		&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//事件扩展</span>
@@ -3454,14 +3567,16 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
 </div>
-<br />`],
+<br />`,
+          ],
           tips: ` --`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/48.png?45geMogr2/thumbnail/!50p",
         },
         {
           title: "table显示序号checkbox",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
 	</div>
@@ -3492,13 +3607,44 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`,
+          ],
           tips: `如果是单独引用的voltable组件，同样适用上面的方法`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/43.png?imageMogr2/thumbnail/!50p",
         },
-
-
+        {
+          title: "新建保存后连续添加",
+          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置保存后继续添加&nbsp;，不关闭当前窗口</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2021.04.11需要更新methods.js,ViewGrid.vue</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">continueAdd</span>=<span style="color:#569cd6;">true</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">continueAddName</span>=<span style="color:#ce9178;">"连续添加"</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+		</div>
+	</div>
+	<div>
+	</div>
+</div>`],
+          tips: ``,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/p2021041101.png?imageMogr2/thumbnail/!50p",
+        },
         {
           title: "编辑表单实时计算",
           content: [
@@ -3572,7 +3718,8 @@ export default {
 
         {
           title: "编辑表单动态显示隐藏",
-          content: [`<div style='color:red'>2020-11-21后更新的才可以使用</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style='color:red'>2020-11-21后更新的才可以使用</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;<span style="color:#dcdcaa;">getFormOption</span>&nbsp;(<span style="color:#9cdcfe;">field</span>)&nbsp;{
 	</div>
@@ -3680,12 +3827,14 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
-</div>`  ],
+</div>`,
+          ],
           tips: `如果是单独引用的volfrom组件，同样适用上面的方法`,
-          img:
-            ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112104.png?imageMogr2/thumbnail/!50p",
-              "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112105.png?imageMogr2/thumbnail/!50p",
-              "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112106.png?imageMogr2/thumbnail/!50p"]
+          img: [
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112104.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112105.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112106.png?imageMogr2/thumbnail/!50p",
+          ],
         },
         {
           title: "编辑表单只读/默认值",
@@ -5518,7 +5667,8 @@ export default {
           tips: ` 默认为单击行开启编辑，鼠标离开结束编辑,现支持点击表头或其他行结束编辑`,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/38.png?imageMogr2/thumbnail/!50p",
-        }, {
+        },
+        {
           title: "编辑表单数字最大/小值,字符串长度限制",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
@@ -5570,7 +5720,8 @@ export default {
 
         {
           title: "编辑表单自定义验证",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//事件扩展</span>
 	</div>
@@ -5619,12 +5770,12 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>` ],
+</div>`,
+          ],
           tips: ` `,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/47.png?45geMogr2/thumbnail/!50p"
-
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/47.png?45geMogr2/thumbnail/!50p",
         },
-
 
         {
           title: "数组对象转换为tree",
@@ -6140,9 +6291,11 @@ export default {
           ],
           tips: `级联操作基于Iview组件cascader(数据源的格式见iview原生组件demo配置),数据量少的情况下建议直接把数据源加载出来绑定，数据量过多时使用懒加载`,
           img: "",
-        }, {
+        },
+        {
           title: "级联终极版(代码生成)",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<p>
 		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
       <br />
@@ -6232,9 +6385,11 @@ export default {
 		</div>
 	</p>
 </div>
-<span style="display:none;"></span>`],
+<span style="display:none;"></span>`,
+          ],
           tips: ``,
-          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/44.png?imageMogr2/thumbnail/!50p",
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/44.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -6416,7 +6571,8 @@ export default {
         },
         {
           title: "excel导入增加参数",
-          content: [`<div style="color:red;">excel导入时添加其他参数到后台需要2020.10.16更新前端basic组件</div>`,
+          content: [
+            `<div style="color:red;">excel导入时添加其他参数到后台需要2020.10.16更新前端basic组件</div>`,
             `<div style="color:red;">此处以App_Transaction.js为例</div>`,
             `<div  style="font-size:20px;    background: #171717;
     color: white;">//App_Transaction.js文件</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
@@ -6685,10 +6841,13 @@ export default {
 		</div>
 	</div>
 <br />
-</div>`],
+</div>`,
+          ],
           tips: ` excel导入时添加其他参数到后台需要2020.10.16更新前端basic组件`,
-          img:
-            ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/39.png?imageMogr2/thumbnail/!50p", "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/40.png?imageMogr2/thumbnail/!50p"]
+          img: [
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/39.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/40.png?imageMogr2/thumbnail/!50p",
+          ],
         },
         {
           title: "编写中--待完",

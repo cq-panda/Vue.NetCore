@@ -23,7 +23,12 @@ let extension = {
     }]
   },
   methods: { //事件扩展
-    onInit () {
+    onInit() {
+      //设置保存后继续添加 ，不关闭当前窗口
+      //2021.04.11需要更新methods.js,ViewGrid.vue
+      this.continueAdd = true;
+      this.continueAddName = "连续添加";
+
       //将编辑表单第一行第一列【名称】字段添加一个额外提示属性
       //需要2020.12.27更新volform组件后才能使用
       this.editFormOptions[0][0].extra = {
