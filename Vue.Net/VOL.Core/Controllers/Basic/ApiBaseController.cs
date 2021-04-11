@@ -58,6 +58,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Search)]
         [HttpPost, Route("GetDetailPage")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public virtual ActionResult GetDetailPage([FromBody] PageDataOptions loadData)
         {
             return Content(InvokeService("GetDetailPage", new object[] { loadData }).Serialize());
@@ -70,6 +71,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [HttpPost, Route("Upload")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Upload)]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public virtual IActionResult Upload(IEnumerable<IFormFile> fileInput)
         {
             return Json(InvokeService("Upload", new object[] { fileInput }));
@@ -80,6 +82,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [HttpGet, Route("DownLoadTemplate")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Import)]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public virtual ActionResult DownLoadTemplate()
         {
             _baseWebResponseContent = InvokeService("DownLoadTemplate", new object[] { }) as WebResponseContent;
@@ -98,6 +101,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [HttpPost, Route("Import")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Import)]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public  virtual ActionResult Import(List<IFormFile> fileInput)
         {
             return Json(InvokeService("Import", new object[] { fileInput }));
@@ -109,6 +113,7 @@ namespace VOL.Core.Controllers.Basic
         /// <param name="loadData"></param>
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Export)]
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost, Route("Export")]
         public virtual ActionResult Export([FromBody] PageDataOptions loadData)
         {
@@ -121,6 +126,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Export)]
         [HttpGet, Route("DownLoadFile")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public virtual IActionResult DownLoadFile()
         {
             string path = HttpContext.Request("path");
@@ -150,6 +156,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Delete)]
         [HttpPost, Route("Del")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public virtual ActionResult Del([FromBody] object[] keys)
         {
             _baseWebResponseContent = InvokeService("Del", new object[] { keys, true }) as WebResponseContent;
@@ -163,6 +170,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Audit)]
         [HttpPost, Route("Audit")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public virtual ActionResult Audit([FromBody] object[] id, int? auditStatus, string auditReason)
         {
             _baseWebResponseContent =InvokeService("Audit", new object[] { id, auditStatus, auditReason }) as WebResponseContent;
@@ -176,6 +184,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Add)]
         [HttpPost, Route("Add")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public virtual ActionResult Add([FromBody] SaveModel saveModel)
         {
             _baseWebResponseContent =InvokeService("Add", 
@@ -193,6 +202,7 @@ namespace VOL.Core.Controllers.Basic
         /// <returns></returns>
         [ApiActionPermission(Enums.ActionPermissionOptions.Update)]
         [HttpPost, Route("Update")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public virtual ActionResult Update([FromBody] SaveModel saveModel)
         {
             _baseWebResponseContent = InvokeService("Update", new object[] { saveModel }) as WebResponseContent;
