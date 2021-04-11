@@ -166,6 +166,7 @@ let methods = {
           name: "保 存",
           icon: "md-checkmark",
           type: "error",
+          value: "save",
           onClick() {
             this.save();
           }
@@ -572,6 +573,16 @@ let methods = {
       //保存后
       if (_currentIsAdd) {
         if (!this.addAfter(x)) return;
+        //连续添加 
+        if (this.continueAdd) {
+          this.$success(x.message);
+          //新建
+          this.currentAction = this.const.ADD;
+          this.currentRow = {};
+          this.resetAdd();
+          this.refresh();
+          return;
+        }
       } else {
         if (!this.updateAfter(x)) return;
       }
@@ -685,16 +696,20 @@ let methods = {
     if (!await this.initBox()) return;
     this.resetDetailTable(row);
     this.setEditForm(row);
+    this.setContinueAdd(false);
     //设置远程查询表单的默认key/value
     this.getRemoteFormDefaultKeyValue();
     //点击编辑按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
     this.modelOpenProcess(row);
   },
-  async add() {
-    //新建
-    this.currentAction = this.const.ADD;
-    this.currentRow = {};
-    if (!await this.initBox()) return;
+  setContinueAdd(isAdd) {
+    if (!this.continueAdd) return;
+    var _button = this.boxButtons.find(x => { return x.value == "save" });
+    if (_button) {
+      _button.name = isAdd ? this.continueAddName : '保 存';
+    }
+  },
+  resetAdd() {
     if (this.hasDetail) {
       this.$refs.detail &&
         //  this.$refs.detail.rowData &&
@@ -710,6 +725,15 @@ let methods = {
       });
     });
     this.resetEditForm(obj);
+  },
+  async add() {
+    //新建
+    this.currentAction = this.const.ADD;
+    this.currentRow = {};
+    if (!await this.initBox()) return;
+
+    this.resetAdd();
+    this.setContinueAdd(true);
     //  this.resetEditForm();
     this.boxModel = true;
     //点击新建按钮弹出框后，可以在此处写逻辑，如，从后台获取数据
@@ -727,6 +751,7 @@ let methods = {
     this.currentRow = rows[0];
     //初始化弹出框
     if (!await this.initBox()) return;
+    this.setContinueAdd(false);
     //重置表单
     this.resetDetailTable();
 
@@ -1254,7 +1279,7 @@ let methods = {
     const _result = (this.$store.state.system.permission || []).find(x => { return x.url == '/' + tableName });
     return _result && _result.permission.some(x => x == permission);
   },
-  destroyed(){ //2021.04.11增加vue页面销毁方法,路由必须设置keepLive:false，设置方法见：前端开发文档-》[禁用页面缓存keepAlive]
+  destroyed() { //2021.04.11增加vue页面销毁方法,路由必须设置keepLive:false，设置方法见：前端开发文档-》[禁用页面缓存keepAlive]
 
   }
 };

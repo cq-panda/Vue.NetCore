@@ -353,6 +353,8 @@ var vueParam = {
       remoteKeys: [],
       columnIndex: false,//2020.11.01是否显示行号
       ck: true,//2020.11.01是否显示checkbox
+      continueAdd:false,//2021.04.11新建时是否可以连续新建操作
+      continueAddName:"保存后继续添加",//2021.04.11按钮名称
       // detailUrl: "",
       detailOptions: {
         //弹出框从表(明细)对象
@@ -487,7 +489,6 @@ var vueParam = {
     this.onInit(); //初始化前，如果需要做其他处理在扩展方法中覆盖此方法
     //初始编辑框等数据
     this.initBoxHeightWidth();
-
     this.initDicKeys(); //初始下框数据源
 
     this.onInited(); //初始化后，如果需要做其他处理在扩展方法中覆盖此方法
