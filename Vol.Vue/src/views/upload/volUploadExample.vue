@@ -112,9 +112,10 @@ export default {
     },
     uploadAfter1(result, files) {
       if (!result.status) return true;
-      this.fileInfo.forEach(x => {
-        x.path = result.data;
-      });
+      // this.fileInfo.forEach(x => {
+      //   x.path = result.data;
+      // });
+      return true;
     },
     fileClick(index, file) {
       if (

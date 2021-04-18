@@ -7,9 +7,9 @@ let extension = {
     gridBody: {
       template: `<div>
         <Alert type="success" show-icon> <p style="color:red;">主表与弹出框部份由代码生成器生成，点击主表行显示多个明细表数据，直接扩展gridFooter位置的代码,具体代码见此示例(SellOrder3.js),明细可以进行修改、删除等操作</p></Alert></div>`},
-    gridFooter:SellOrder3GridFooter, //() => import("./SellOrder3/SellOrder3GridFooter.vue"),
-      //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
-      modelHeader: "",
+    gridFooter: SellOrder3GridFooter, //() => import("./SellOrder3/SellOrder3GridFooter.vue"),
+    //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
+    modelHeader: "",
     modelBody: '',
     modelFooter: "", //() => import("./SellOrderComponents/ModelFooter.vue"),
   },
@@ -58,6 +58,24 @@ let extension = {
         this.$refs.gridFooter.$refs.tableList.rowData.splice(0)
       }
       return true;
+    },
+    modelOpenAfter() {
+      //新建弹出框时，设置设置默认订单类型
+      if (this.currentAction == "Add") {
+        this.editFormOptions.forEach(item => {
+          item.forEach(x => {
+            //如果是编辑帐号设置为只读
+            if (x.field == "OrderType") {
+              //新建时默认选择中第一个下拉框的值，如果要选中其他的值，请遍历x.data获取key
+              /*注意:如果下拉框的数据源是自定义sql，并且key是数字，请将（x.data[0].key*1）转换成数字*/
+              this.editFormFields.OrderType = x.data[0].key;
+              //可以指定其他input标签的默认值
+              this.editFormFields.TranNo="8888"
+            }
+          })
+
+        })
+      }
     }
   }
 };

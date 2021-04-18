@@ -8,9 +8,9 @@
     <div>
         <view-grid :columns="columns"
                    :detail="detail"
-                   :editFormFileds="editFormFileds"
+                   :editFormFields="editFormFields"
                    :editFormOptions="editFormOptions"
-                   :searchFormFileds="searchFormFileds"
+                   :searchFormFields="searchFormFields"
                    :searchFormOptions="searchFormOptions"
                    :table="table"
                    :extend="extend">
@@ -36,7 +36,7 @@
                     sortName: "CreateDate"
                 },
                 extend: extend,
-                editFormFileds: {"OrderType":"","TranNo":"","Qty":"","SellNo":"","Remark":"","Creator":"","CreateDate":"","ModifyDate":""},
+                editFormFields: {"OrderType":"","TranNo":"","Qty":"","SellNo":"","Remark":"","Creator":"","CreateDate":"","ModifyDate":""},
                 editFormOptions: [[{"dataKey":"ordertype","title":"订单类型","required":true,"field":"OrderType","type":"select"},
                                {"title":"运单号","required":true,"field":"TranNo"},
                                {"title":"销售数量","required":true,"field":"Qty","type":"number"}],
@@ -45,7 +45,7 @@
                               [{"title":"创建人","field":"Creator","disabled":true},
                                {"title":"创建时间","field":"CreateDate","disabled":true},
                                {"title":"修改时间","field":"ModifyDate","disabled":true}]],
-                searchFormFileds: {"OrderType":"","TranNo":"","SellNo":"","AuditStatus":"","AuditDate":"","Auditor":"","Creator":"","CreateDate":"","ModifyDate":""},
+                searchFormFields: {"OrderType":"","TranNo":"","SellNo":"","AuditStatus":"","AuditDate":"","Auditor":"","Creator":"","CreateDate":"","ModifyDate":""},
                 searchFormOptions: [[{"title":"运单号","field":"TranNo"},{"title":"销售订单号","field":"SellNo"},{"dataKey":"ordertype","title":"订单类型","field":"OrderType","type":"select"}],[{"dataKey":"audit","title":"审核状态","field":"AuditStatus","type":"select"},{"title":"审核时间","field":"AuditDate","type":"datetime"},{"title":"审核人","field":"Auditor"}],[{"title":"创建人","field":"Creator"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"修改时间","field":"ModifyDate","type":"datetime"}]],
                 columns: [{field:'Order_Id',title:'Id',type:'string',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'OrderType',title:'订单类型',type:'int',bind:{ key:'ordertype',data:[]},width:90,require:true,align:'left',sortable:true},

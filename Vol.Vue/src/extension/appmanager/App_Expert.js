@@ -90,6 +90,23 @@ let extension = {
           };
         }
       })
+
+      //启用多图上传,其他上传参数，参照volupload组件api
+      this.editFormOptions.forEach(x => {
+        x.forEach(item => {
+          if (item.field == 'HeadImageUrl') {
+            //item.type = 'file';
+            //设置成100%宽度
+            item.colSize = 12;
+            item.multiple = true;
+            //最多可以上传3张照片
+            item.maxFile = 3;
+            //限制图片大小，默认3M
+            item.maxSize = 3;
+           // item.append = true;
+          }
+        })
+      })
     },
   }
 };
