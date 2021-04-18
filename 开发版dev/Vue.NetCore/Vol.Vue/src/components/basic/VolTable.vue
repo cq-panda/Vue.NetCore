@@ -1263,6 +1263,7 @@ export default {
   padding: 9px 0 !important;
 
   background-color: #f8f8f9 !important;
+  color: #5d5b5b;
   font-size: 13px;
 }
 .v-table >>> .el-table__header th.is-sortable {
