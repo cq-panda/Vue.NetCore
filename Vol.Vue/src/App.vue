@@ -53,7 +53,7 @@ export default {
   /* filter: blur(0.5px) */
 }
 .ivu-form .ivu-form-item-label {
-  color: #939394;
+    color: #2e2e2f;
 }
 /* 2021.03.20修复明细表格错位 */
  .grid-detail .el-table__fixed-body-wrapper{
