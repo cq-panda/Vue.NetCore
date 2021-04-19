@@ -574,7 +574,7 @@ let methods = {
       if (_currentIsAdd) {
         if (!this.addAfter(x)) return;
         //连续添加 
-        if (this.continueAdd) {
+        if (this.continueAdd && x.status) {
           this.$success(x.message);
           //新建
           this.currentAction = this.const.ADD;
