@@ -107,9 +107,21 @@ namespace VOL.Core.Dapper
         }
         public T QueryFirst<T>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false) where T : class
         {
-            List<T> list = QueryList<T>(cmd, param, commandType: commandType ?? CommandType.Text, beginTransaction: beginTransaction).ToList();
-            return list.Count == 0 ? null : list[0];
+            return QueryList<T>(cmd, param, commandType: commandType ?? CommandType.Text, beginTransaction: beginTransaction).FirstOrDefault();
         }
+
+        public List<dynamic> QueryDynamicList(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false) 
+        {
+            return Execute((conn, dbTransaction) =>
+            {
+                return conn.Query<dynamic>(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text).ToList();
+            }, beginTransaction);
+        }
+        public dynamic QueryDynamicFirst(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false) 
+        {
+          return QueryList<dynamic>(cmd, param, commandType: commandType ?? CommandType.Text, beginTransaction: beginTransaction).FirstOrDefault();
+        }
+
         public object ExecuteScalar(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
         {
             return Execute<object>((conn, dbTransaction) =>
