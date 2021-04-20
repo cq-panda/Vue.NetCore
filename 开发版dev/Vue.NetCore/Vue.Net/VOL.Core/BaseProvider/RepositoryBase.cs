@@ -530,6 +530,17 @@ namespace VOL.Core.BaseProvider
             return ExecuteSqlCommand(sql);
         }
 
+
+        public virtual Task AddAsync(TEntity entities)
+        {
+            return DBSet.AddRangeAsync(entities);
+        }
+
+        public virtual Task AddRangeAsync(TEntity entities)
+        {
+            return DBSet.AddRangeAsync(entities);
+        }
+
         public virtual void Add(TEntity entities, bool saveChanges = false)
         {
             AddRange(new List<TEntity>() { entities }, saveChanges);
@@ -576,7 +587,7 @@ namespace VOL.Core.BaseProvider
         {
             return EFContext.SaveChangesAsync();
         }
-      
+
         public virtual int ExecuteSqlCommand(string sql, params SqlParameter[] sqlParameters)
         {
             return DbContext.Database.ExecuteSqlRaw(sql, sqlParameters);
@@ -597,7 +608,7 @@ namespace VOL.Core.BaseProvider
         /// <returns></returns>
         public virtual IQueryable<TEntity> FromSqlInterpolated([NotNull] FormattableString sql)
         {
-           //DBSet.FromSqlInterpolated(sql).Select(x => new { x,xxx}).ToList();
+            //DBSet.FromSqlInterpolated(sql).Select(x => new { x,xxx}).ToList();
             return DBSet.FromSqlInterpolated(sql);
         }
 

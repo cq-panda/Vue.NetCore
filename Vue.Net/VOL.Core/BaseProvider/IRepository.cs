@@ -246,6 +246,9 @@ namespace VOL.Core.BaseProvider
         void Add(TEntity entities, bool SaveChanges = false);
         void AddRange(IEnumerable<TEntity> entities, bool SaveChanges = false);
 
+        Task AddAsync(TEntity entities);
+        Task AddRangeAsync(TEntity entities);
+
         void AddRange<T>(IEnumerable<T> entities, bool saveChanges = false)
            where T : class;
 
