@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -110,16 +111,16 @@ namespace VOL.Core.Dapper
             return QueryList<T>(cmd, param, commandType: commandType ?? CommandType.Text, beginTransaction: beginTransaction).FirstOrDefault();
         }
 
-        public List<dynamic> QueryDynamicList(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false) 
+        public List<dynamic> QueryDynamicList(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
         {
             return Execute((conn, dbTransaction) =>
             {
                 return conn.Query<dynamic>(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text).ToList();
             }, beginTransaction);
         }
-        public dynamic QueryDynamicFirst(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false) 
+        public dynamic QueryDynamicFirst(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
         {
-          return QueryList<dynamic>(cmd, param, commandType: commandType ?? CommandType.Text, beginTransaction: beginTransaction).FirstOrDefault();
+            return QueryList<dynamic>(cmd, param, commandType: commandType ?? CommandType.Text, beginTransaction: beginTransaction).FirstOrDefault();
         }
 
         public object ExecuteScalar(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
@@ -282,7 +283,7 @@ namespace VOL.Core.Dapper
             return Execute<int>((conn, dbTransaction) =>
             {
                 //todo pgsql待实现
-                return conn.Execute(sql, (DBType.Name == DbCurrentType.MySql.ToString() || DBType.Name == DbCurrentType.PgSql.ToString()) ? entities.ToList() : null,dbTransaction);
+                return conn.Execute(sql, (DBType.Name == DbCurrentType.MySql.ToString() || DBType.Name == DbCurrentType.PgSql.ToString()) ? entities.ToList() : null, dbTransaction);
             }, beginTransaction);
         }
 
@@ -433,6 +434,7 @@ namespace VOL.Core.Dapper
 
         /// <summary>
         ///大批量数据插入,返回成功插入行数
+        ////************(网上的示例在linux上运行批量插入就是巨坑,会丢数据,至于为什么,见MySqlBulkLoader源码)***************/
         /// </summary>
         /// <param name="connectionString">数据库连接字符串</param>
         /// <param name="table">数据表</param>
@@ -442,11 +444,13 @@ namespace VOL.Core.Dapper
             if (table.Rows.Count == 0)
                 return 0;
             tmpPath = tmpPath ?? FileHelper.GetCurrentDownLoadPath();
-            fileName = fileName ?? $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.csv";
+            //  fileName = fileName ?? $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.csv";
             int insertCount = 0;
             string csv = DataTableToCsv(table);
-            FileHelper.WriteFile(tmpPath, fileName, csv);
-            string path = tmpPath + fileName;
+            // FileHelper.WriteFile(tmpPath, fileName, csv);
+            // string path = tmpPath + fileName;
+            string text = $"当前行:{table.Rows.Count}";
+            MemoryStream stream = null;
             try
             {
                 if (Connection.State == ConnectionState.Closed)
@@ -455,17 +459,21 @@ namespace VOL.Core.Dapper
                 {
                     MySqlBulkLoader bulk = new MySqlBulkLoader(Connection as MySqlConnection)
                     {
-                        FieldTerminator = ",",
-                        FieldQuotationCharacter = '"',
-                        EscapeCharacter = '"',
-                        LineTerminator = "\r\n",
-                        FileName = path.ReplacePath(),
-                        NumberOfLinesToSkip = 0,
+                        LineTerminator = "\n",
                         TableName = tableName,
                         CharacterSet = "UTF8"
                     };
+                    var array = Encoding.UTF8.GetBytes(csv);
+                     stream = new MemoryStream(array);
+                    // StreamReader reader = new StreamReader(stream);
+                    bulk.SourceStream = stream; //File.OpenRead(fileName);
                     bulk.Columns.AddRange(table.Columns.Cast<DataColumn>().Select(colum => colum.ColumnName).ToList());
                     insertCount = bulk.Load();
+                    //text = text + $",实际写入行:{insertCount}";
+                    //fileName = fileName ?? $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.text";
+                    //FileHelper.WriteFile(tmpPath, fileName, text);
+                    //Console.WriteLine(text);
+                    //Console.WriteLine(insertCount);
                     tran.Commit();
                 }
             }
@@ -477,6 +485,7 @@ namespace VOL.Core.Dapper
             {
                 Connection?.Dispose();
                 Connection?.Close();
+                stream?.Dispose();
             }
             return insertCount;
             //   File.Delete(path);
@@ -501,7 +510,7 @@ namespace VOL.Core.Dapper
                 for (int i = 0; i < table.Columns.Count; i++)
                 {
                     colum = table.Columns[i];
-                    if (i != 0) sb.Append(",");
+                    if (i != 0) sb.Append("\t");
                     if (colum.DataType == typeString && row[colum].ToString().Contains(","))
                     {
                         sb.Append("\"" + row[colum].ToString().Replace("\"", "\"\"") + "\"");
@@ -514,7 +523,7 @@ namespace VOL.Core.Dapper
                     }
                     else sb.Append(row[colum].ToString());
                 }
-                sb.AppendLine();
+                sb.Append("\n");
             }
 
             return sb.ToString();
