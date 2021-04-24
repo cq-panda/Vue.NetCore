@@ -400,7 +400,10 @@ export default {
             // }
             this.fileInfo.push(
               ...this.files.map((file) => {
-                return { name: file.name, path: x.data + file.name };
+                return {
+                  name: file.name,
+                  path: file.path || x.data + file.name,
+                };
               })
             );
             // this.files.forEach((file) => {
