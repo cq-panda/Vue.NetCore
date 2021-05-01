@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="vol-table" :class="[textInline ? 'text-inline':'']">
+    <div class="vol-table" :class="[textInline ? 'text-inline' : '']">
       <div class="mask" v-show="loading"></div>
       <div class="message" v-show="loading">加载中.....</div>
       <el-table
@@ -572,7 +572,9 @@ export default {
           //2020.10.12修复结束编辑时，element table高版本属性获取不到的问题
           if (
             !this.columns.some(
-              (x) => x.field == (event.property || column.property) && x.edit
+              (x) =>
+                x.field == ((event && event.property) || column.property) &&
+                x.edit
             )
           ) {
             if (this.rowEndEdit(row, event)) {
@@ -581,7 +583,7 @@ export default {
           }
           return;
         }
-        if (this.rowEndEdit(row, event.propert ? event : column)) {
+        if (this.rowEndEdit(row, event && event.property ? event : column)) {
           this.edit.rowIndex = -1;
         }
       }
@@ -1281,7 +1283,7 @@ export default {
   padding: 5px 0 !important;
 }
 /* 2021.01.30修复火狐checkbox错位问题 */
-.vol-table >>> .el-table-column--selection .cell{
+.vol-table >>> .el-table-column--selection .cell {
   display: inline;
 }
 .vol-table.text-inline >>> .el-table th > .cell {
