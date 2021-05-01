@@ -332,6 +332,7 @@
   </div>
 </template>
 <script>
+import "./doc.less";
 export default {
   data () {
     return {

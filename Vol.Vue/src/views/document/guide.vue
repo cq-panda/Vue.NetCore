@@ -10,6 +10,7 @@
         </li>
       </ul>
     </div>
+  
     <div class="g-right"
          style="margin-left: 140px;">
       <div style="line-height: 50px;
@@ -37,14 +38,14 @@
            style="border-bottom: 1px solid;margin: 0 10px"
            @click="()=>{ this.$router.push({ path: '/document/issue' });}">常见问题</a>
       </div>
-      <a target="_blank"
+      <div class="g-p">  <a target="_blank"
          style="    border-bottom: 1px solid;
     margin: 0px 26px;
     font-size: 26px;"
          href="http://donate.volcore.xyz">项目赞助</a>
       <a style="    border-bottom: 1px solid;
     margin: 0px 26px;
-    font-size: 26px;">QQ群:45221949</a>
+    font-size: 26px;">QQ群:45221949</a></div>
       <h2 style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;color:#EBEBEB;font-family:&quot;background:#00BCD4;font-size:20px;line-height:37px;white-space:normal;margin:18px 0px !important;">
         <span style="display:none;"></span>
         <span style="color:#666666;">开发及依赖环境</span>
@@ -234,6 +235,8 @@
           <p style="font-size:16px;line-height:3;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1、直接右击发布(发布方法，选文件系统即可)，发布完成后，将upload文件夹复制到发布后的路径</p>
           <p style="font-size:16px;line-height:3;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、配置跨域,发布后的文件夹下，配置appsettings.json属性CorsUrls,将部署好的前端vue站点url添加到CorsUrls中</p>
           <p style="font-size:16px;line-height:3;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、部署后台项目站点</p>
+          <p style="font-size:16px;line-height:3;color:red;">部署IIS上需要安装Runtime(linux上也需要),否则站点打不开<a ref="https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-aspnetcore-3.1.8-windows-hosting-bundle-installer"> 点击下载3.1.8 hosting </a>,下载安装完成后重启IIS，或者使用cmd输入iisreset重启</p>
+        </li>
         </li>
         <li>
           <span style="font-size:16px;line-height:3;color:red;">发布前端</span>
@@ -259,7 +262,7 @@
       <ul style="font-family:微软雅黑;font-size:13px;white-space:normal;box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:5px 30px;">
         <li style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;">
           <span style="line-height:3;font-size:14px;">
-            <span style="font-size:16px;">直接覆盖文件：后台VOL.Core类库、VOL.Builder类库，前端：components->basic、builder文件夹</span>
+            <span style="font-size:16px;">直接覆盖文件：后台VOL.Core类库、VOL.Builder类库，前端：components->basic、builder文件夹，common.js</span>
           </span>
         </li>
         <li style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;">
@@ -378,7 +381,7 @@
               <span style="color:#666666;font-size:14px;">异步队列批量写日志</span>
             </td>
             <td style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:7px;color:rgba(111, 93, 93, 0.87);font-size:13px;border-collapse:collapse;min-width:60px;border:1px solid #D4D1D1;">
-              <span style="color:#666666;font-size:14px;">框架封装了一个异步队列写日志,此前项目每天PV约150W左右，采用异步队列的方式批量写入日志非常顺畅</span>
+              <span style="color:#666666;font-size:14px;">框架封装了一个异步队列批量写入日志</span>
             </td>
             <td style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:7px;color:rgba(111, 93, 93, 0.87);font-size:13px;border-collapse:collapse;min-width:60px;border:1px solid #D4D1D1;">
               <span style="color:#666666;font-size:14px;">√</span>
@@ -566,8 +569,9 @@
   </div>
 </template>
 <script>
+import "./doc.less";
 export default {
-  data () {
+  data() {
     return {
       activedIndex: 0,
       list: [
@@ -603,7 +607,7 @@ export default {
     };
   },
   methods: {
-    to (index) {
+    to(index) {
       this.activedIndex = index;
 
       let top = document.getElementById(this.list[index].id).offsetTop - 100;

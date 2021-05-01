@@ -1,5 +1,5 @@
 <template>
-  <div class="log">
+  <div class="log" style="    padding: 1rem;">
     <!-- <div class="nav">
       <ul>
         <li class="n-item" v-for="(item,index) in log" :key="index">
@@ -44,6 +44,12 @@ export default {
     return {
       active: 0,
       log: [
+        { date: "2021-04-18 20:05:49",desc:"增加新建时设置表单select下拉框默认选中值文档及其他文档"},
+{ date: "2021-04-18 19:32:59",desc:"增加EF多表关联、获取用户所有子角色文档"},
+{ date: "2021-04-18 19:19:35",desc:"加深table表头字段颜色"},
+{ date: "2021-04-18 19:19:05",desc:"加深表单label字体颜色"},
+{ date: "2021-04-18 19:13:29",desc:"调整登陆页面样式"},
+{ date: "2021-04-18 19:11:29",desc:"重写volupload文件上传组件"},
         { date: "2021-04-11 17:41:10",desc:"完善开发文档"},
 { date: "2021-04-11 17:38:43",desc:"增加建新时，连续添加功能"},
 { date: "2021-04-11 16:56:32",desc:"代码生成页面增加destroyed页面销毁方法"},

@@ -14,6 +14,23 @@
           <span @click="change(item,index)" :class="{new:item.new}">{{item.text}}</span>
         </div>
       </div>
+       <div style="display:none" class="doc-menu">
+   <div @click="drawerModel=true">        <Icon type="ios-list" /> Vol.Vue</div>
+            <Drawer  title="文档" placement="left" :closable="false" v-model="drawerModel">
+       <div
+          class="item"
+          style="    padding: 0.5rem;
+            font-size: 1rem;"
+          :color="activedIndex==index?'red':'#2d8cf0'"
+          :class="{actived:index==activedIndex}"
+          v-show="index>0"
+          v-for="(item,index) in timeline"
+          :key="index"
+        >
+          <span @click="()=>{drawerModel=false;change(item,index)}" :class="{new:item.new}">{{item.text}}</span>
+        </div>
+    </Drawer>
+   </div>
       <div>
         <div
           class="content"
@@ -29,6 +46,7 @@
   </div>
 </template>
 <script>
+import "./doc.less";
 export default {
   methods: {
     change(item, index) {
@@ -61,6 +79,7 @@ export default {
   },
   data() {
     return {
+      drawerModel:false,
       text: "",
       activedIndex: 0,
       timeline: [
@@ -196,6 +215,7 @@ export default {
     top: 11px;
     border-radius: 50%;
 }
+
 </style>
 <style scoped>
 .view-model-content >>> .el-scrollbar > .el-scrollbar__wrap {
