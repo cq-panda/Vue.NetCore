@@ -14,7 +14,8 @@ namespace VOL.Core.Middleware
             {
                 return next => async context =>
                 {
-
+                    //动态标识刷新token(2021.05.01)
+                    context.Response.Headers.Add("Access-Control-Expose-Headers", "vol_exp");
                     var stream = context.Request.Body;
                     if (stream == Stream.Null || stream.CanSeek)
                     {
