@@ -4,19 +4,19 @@ let columnType = [{ "key": 1, "value": "img" },
 ]
 
 let dataType = [
-  { "key": "text", "value": "text" },
+  { "key": "text", "value": "input" },
   { "key": "textarea", "value": "textarea" },
   { "key": "switch", "value": "switch" },
   // { "key": "dropList", "value": "dropList" },
   { "key": "select", "value": "select" },
-  { "key": "selectList", "value": "selectList" },
+  { "key": "selectList", "value": "select多选" },
   { "key": "date", "value": "date" },
   { "key": "datetime", "value": "datetime" },
-  { "key": "month", "value": "year_month" },
+  { "key": "month", "value": "年月日期格式" },
   { "key": "time", "value": "time" },
   { "key": "checkbox", "value": "checkbox" },
   { "key": "cascader", "value": "级联" },//2020.11.01增加级联选择
-  { "key": "editor", "value": "editor" },
+  { "key": "editor", "value": "富文本编辑器" },
   { "key": "mail", "value": "mail" },
   { "key": "number", "value": "number" },
   { "key": "decimal", "value": "decimal" },
@@ -27,18 +27,19 @@ let dataType = [
 ];
 
 let searchDataType = [
-  { "key": "text", "value": "text" },
-  { "key": "like", "value": "like" },
+  { "key": "text", "value": "input" },
+  { "key": "like", "value": "模糊查询" },
   { "key": "textarea", "value": "textarea" },
   { "key": "switch", "value": "switch" },
   { "key": "select", "value": "select" },
-  { "key": "selectList", "value": "selectList" },
+  { "key": "selectList", "value": "select多选" },
   { "key": "date", "value": "date" },
   { "key": "datetime", "value": "datetime" },
   { "key": "month", "value": "year_month" },
   { "key": "time", "value": "time" },
   { "key": "cascader", "value": "级联" },//2020.11.01增加级联选择
   { "key": "checkbox", "value": "checkbox" },
+  { "key": "range", "value": "区间查询" },
   { "key": "mail", "value": "mail" },
   { "key": "number", "value": "number" },
   { "key": "decimal", "value": "decimal" },

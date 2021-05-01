@@ -241,14 +241,16 @@ let methods = {
         value = value + "";
       }
       let displayType = this.getSearchItem(key);
+
       //联级只保留选中节点的最后一个值
       if (displayType == "cascader") {
         //查询下面所有的子节点，如：选中的是父节点，应该查询下面所有的节点数据--待完
         value = value.length ? (value[value.length - 1] + "") : "";
       }
+      //2021.05.02增加区间查询
       if (
         typeof value == "string" ||
-        ["date", "datetime"].indexOf(displayType) == -1
+        ["date", "datetime","range"].indexOf(displayType) == -1
       ) {
         query.wheres.push({
           name: key,
@@ -262,7 +264,7 @@ let methods = {
           name: key,
           value: value[index],
           displayType: (() => {
-            if (["date", "datetime"].indexOf(displayType) != -1) {
+            if (["date", "datetime","range"].indexOf(displayType) != -1) {
               return index ? "lessorequal" : "thanorequal";
             }
             return displayType;

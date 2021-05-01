@@ -684,11 +684,11 @@ DISTINCT
             {
                 return "未找到Template模板文件";
             }
-            //  AppSetting.CurrentPath
 
             var searchFormFileds = sysColumnList
                 .Where(c => c.SearchRowNo != null && c.SearchRowNo > 0)
-                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.SearchType == "checkbox" || x.SearchType == "selectList" || x.EditType == "cascader" ? new string[0] : "" as object))
+                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.SearchType == "checkbox"
+                || x.SearchType == "selectList" || x.EditType == "cascader" ? new string[0] : x.SearchType == "range" ? new string[] { null, null } : "" as object))
                 .ToList().ToDictionary(x => x.Key, x => x.Value).Serialize();
 
             pageContent = pageContent.Replace("#searchFormFileds", searchFormFileds)
