@@ -17,7 +17,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "echarts": "^4.2.1",
-    "element-ui": "^2.4.11",
+    "element-ui": "^2.14.1",
     "gemini-scrollbar": "^1.5.3",
     "iview": "^3.2.2",
     "moment": "^2.24.0",
