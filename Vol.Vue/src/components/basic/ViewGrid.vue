@@ -235,8 +235,11 @@
                 @parentCall="parentCall"></gridBody>
       <!--table表格-->
       <div class="grid-container">
+        <!-- 2021.05.02增加树形结构 rowKey -->
         <vol-table ref="table"
                    :single="single"
+                   :rowKey="rowKey"
+                   :loadTreeChildren="loadTreeTableChildren"
                    @loadBefore="loadTableBefore"
                    @loadAfter="loadTableAfter"
                    @rowChange="rowOnChange"
@@ -314,6 +317,8 @@ var vueParam = {
   props: {},
   data () {
     return {
+       //树形结构的主键字段，如果设置值默认会开启树形table；注意rowKey字段的值必须是唯一（2021.05.02）
+      rowKey:undefined,
       _searchFormFields: {}, //2020.09.13增加formFileds拼写错误兼容处理
       _editFormFields: {}, //2020.09.13增加formFileds拼写错误兼容处理
       fiexdSearchForm: false, //2020.09.011是否固定查询表单，true查询表单将固定显示在表单的最上面

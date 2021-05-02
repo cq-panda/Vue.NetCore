@@ -10,6 +10,9 @@
             return this.summaryData;
           }
         "
+        :row-key="rowKey"
+        lazy
+        :load="loadTreeChildren"
         @selection-change="selectionChange"
         @row-click="rowClick"
         @header-click="headerClick"
@@ -199,7 +202,7 @@
               </template>
             </div>
             <!--没有编辑功能的直接渲染标签-->
-            <div v-else>
+            <template v-else>
               <a
                 href="javascript:void(0)"
                 @click="link(scope.row, column, $event)"
@@ -257,8 +260,8 @@
                 :color="getColor(scope.row, column)"
                 >{{ formatter(scope.row, column, true) }}</Tag
               >
-              <div v-else>{{ formatter(scope.row, column, true) }}</div>
-            </div>
+              <template v-else>{{ formatter(scope.row, column, true) }}</template>
+            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -282,6 +285,17 @@ import VolTableRender from "./VolTable/VolTableRender";
 export default {
   components: { "table-render": VolTableRender },
   props: {
+    rowKey: {
+      //树形结构的主键字段，如果设置值默认会开启树形table；注意rowKey字段的值必须是唯一（2021.05.02）
+      typeof: String,
+      default: undefined,
+    },
+    loadTreeChildren: {//树形结构加载子节点
+      type: Function,
+      default: (tree, treeNode, resolve) => {
+        return resolve([]);
+      }
+    },
     textInline: {
       //表格内容超出后是否换行显示（2020.01.16）
       type: Boolean,

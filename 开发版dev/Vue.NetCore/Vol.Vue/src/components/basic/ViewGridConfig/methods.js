@@ -223,6 +223,12 @@ let methods = {
     }
   },
   emptyValue(value) {
+    if (typeof value == 'string' && value.trim() === "") {
+      return true;
+    }
+    if (value instanceof Array && !value.length) {
+      return true;
+    }
     return value === null || value === undefined || value === "";
   },
   getSearchParameters() {
@@ -250,26 +256,29 @@ let methods = {
       //2021.05.02增加区间查询
       if (
         typeof value == "string" ||
-        ["date", "datetime","range"].indexOf(displayType) == -1
+        ["date", "datetime", "range"].indexOf(displayType) == -1
       ) {
+
         query.wheres.push({
           name: key,
-          value: typeof value == "string" || !value ? value : value.join(","),
+          value: typeof value == "string" ? (value + '').trim() : value.join(","),
           displayType: displayType
         });
         continue;
       }
       for (let index = 0; index < value.length; index++) {
-        query.wheres.push({
-          name: key,
-          value: value[index],
-          displayType: (() => {
-            if (["date", "datetime","range"].indexOf(displayType) != -1) {
-              return index ? "lessorequal" : "thanorequal";
-            }
-            return displayType;
-          })()
-        });
+        if (!this.emptyValue(value[index])) {
+          query.wheres.push({
+            name: key,
+            value: (value[index] + '').trim(),
+            displayType: (() => {
+              if (["date", "datetime", "range"].indexOf(displayType) != -1) {
+                return index ? "lessorequal" : "thanorequal";
+              }
+              return displayType;
+            })()
+          });
+        }
       }
     }
     return query;
@@ -1283,6 +1292,12 @@ let methods = {
   },
   destroyed() { //2021.04.11增加vue页面销毁方法,路由必须设置keepLive:false，设置方法见：前端开发文档-》[禁用页面缓存keepAlive]
 
+  },
+  loadTreeTableChildren(tree, treeNode, resolve){
+    this.loadTreeChildren.call(this,tree, treeNode, resolve);
+  },
+  loadTreeChildren(tree, treeNode, resolve) {//树形结构加载子节点(2021.05.02),在onInit中设置了rowKey主键字段后才会生效
+    return resolve([]);
   }
 };
 //合并扩展方法
