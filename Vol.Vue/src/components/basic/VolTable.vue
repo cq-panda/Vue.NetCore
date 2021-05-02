@@ -260,7 +260,9 @@
                 :color="getColor(scope.row, column)"
                 >{{ formatter(scope.row, column, true) }}</Tag
               >
-              <template v-else>{{ formatter(scope.row, column, true) }}</template>
+              <template v-else>{{
+                formatter(scope.row, column, true)
+              }}</template>
             </template>
           </template>
         </el-table-column>
@@ -290,11 +292,12 @@ export default {
       typeof: String,
       default: undefined,
     },
-    loadTreeChildren: {//树形结构加载子节点
+    loadTreeChildren: {
+      //树形结构加载子节点
       type: Function,
       default: (tree, treeNode, resolve) => {
         return resolve([]);
-      }
+      },
     },
     textInline: {
       //表格内容超出后是否换行显示（2020.01.16）
@@ -473,8 +476,15 @@ export default {
     };
   },
   created() {
-    this.realHeight = this.getHeight();
-    this.realMaxHeight = this.getMaxHeight();
+    //升级element 2.15.1版本后，这个高度有问题，如果有统计求和的table，强制使用max-height属性
+    if ( this.columns.some(x=>{return x.summary})) {
+        this.realHeight =null;
+        this.realMaxHeight = this.maxHeight||this.height;
+    }else{
+      this.realHeight = this.getHeight();
+      this.realMaxHeight = this.getMaxHeight();
+    }
+
 
     //从后台加下拉框的[是否启用的]数据源
     let keys = [];
@@ -1294,14 +1304,14 @@ export default {
 }
 
 .v-table >>> .el-table__footer td {
-  padding: 5px 0 !important;
+  padding: 7px 0 !important;
 }
 /* 2021.01.30修复火狐checkbox错位问题 */
 .vol-table >>> .el-table-column--selection .cell {
   display: inline;
 }
 .vol-table.text-inline >>> .el-table th > .cell {
-  white-space: inherit !important;
+  white-space: nowrap !important;
 }
 .vol-table >>> .el-table__body-wrapper::-webkit-scrollbar {
   width: 10px;
@@ -1324,6 +1334,12 @@ export default {
 .v-table >>> .ivu-tag-default {
   border: none !important;
   background: none !important;
+}
+.v-table >>> .el-table__fixed-body-wrapper {
+  top: 41px !important;
+}
+.v-table >>> .el-table__fixed:before {
+  border-color: none !important;
 }
 </style>
 
