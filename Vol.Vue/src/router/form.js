@@ -70,5 +70,10 @@ let form = [
     name: 'treetable2',
     component: () => import('@/views/treetable/treetable2.vue')
   }
+  , {
+    path: '/treetable3',
+    name: 'treetable3',
+    component: () => import('@/views/treetable/treetable3.vue')
+  }
 ]
 export default form

@@ -16,9 +16,9 @@
              :loadKey="true"
              :formFields="formFields1"
              :formRules="formRules1"></VolForm>
-    <div>
+    <div style="text-align: center;">
       <Button type="info"
-              long
+              
               @click="reset">重置表单</Button>
     </div>
     <div>
@@ -159,7 +159,6 @@ export default {
           {
             title: "邮箱",
             field: "mail",
-            range: true, //设置为true可以选择开始与结束日期
             required: false,
             type: "mail"
           }

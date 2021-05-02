@@ -68,7 +68,7 @@ export default {
       required: false,
       formFields: {
         Variety: "",
-        AgeRange: "",
+        AgeRange: [50,100],
         DateRange: [],
         City: [],
         AvgPrice: null,
@@ -77,8 +77,8 @@ export default {
       formRules: [
         [
           {
-            type: "decimal",
-            title: "价格",
+            type: "range",
+            title: "价格区间",
             required: true,
             placeholder: "你可以自己定义placeholder显示的文字", //显示自定义的信息
             field: "AvgPrice",

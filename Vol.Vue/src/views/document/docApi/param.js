@@ -25,7 +25,7 @@ const param = {
     { name: "field", desc: "字段，与表单字段必须相同", type: "string", default: "" },
     { name: "filter", desc: "启用搜索,只对select/selectList生效,默认下拉框数据源超出10个开启搜索", type: "bool", default: "false" },
     { name: "type", desc: "渲染的标签类型,可选值,mail、text、textarea、img、checkbox、number、decimal、date、datetime、phone、switch、select、selectList(多选下拉框)、cascader(Iview级联组件,具体配置见上面[查看代码],2020.05.31)", type: "string", default: "text" },
-    { name: "range", desc: "如果type是日期，需要选开始与结束日期", type: "bool", default: "false" },
+    { name: "range", desc: "如果type是日期，需要选开始与结束日期,(2021.05.02增加区间文本)", type: "bool", default: "false" },
     { name: "min", desc: "1、数字类型标签：最小值,如果是type=number(整数)类型，默认验证最小值是1(decimal最小默认值0.1)，如果在代码生后的页面需要修改默认值，在扩展js的方法onInit中遍历form对象，可参考SellOrder.js中onInit方法。    2、其他标签,如：input/textarea设置min就是指的字符的最大长度", type: "number", default: "" },
     { name: "max", desc: "最大值,操作与min相同", type: "number", default: "" },
     {
@@ -91,7 +91,9 @@ const param = {
     methods: []
   },
   voltable: {
-    attr: [{ name: "loadKey", desc: "是否自动绑定数据源key/value,如果=true会自动把带bind属性data长度为0的列绑定上数据源", type: "bool", default: "false" },
+    attr: [
+      { name: "rowKey", desc: "<span style='color:red;'>treetable的主键字段(需要与下面loadTreeChildren方法配置使用2021.05.02)</span>", type: "string", default: "" },
+      { name: "loadKey", desc: "是否自动绑定数据源key/value,如果=true会自动把带bind属性data长度为0的列绑定上数据源", type: "bool", default: "false" },
     { name: "height", desc: "table高度", type: "number", default: "" },
     { name: "clickEdit", desc: "单击编辑与单击结束编辑(2020.10.11)", type: "bool", default: "false" },
     { name: "max-height", desc: "table最大高度,如果设置了max-height属性，height属性将不会生效", type: "number", default: "" },
@@ -224,7 +226,14 @@ const param = {
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; */</span><br />
             </span><span style="line-height:1.5;font-size:18px;"><span style="display:none;"></span></span><br />` },
     { name: "loadTableAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
-    { name: "rowChange", desc: "行选中事件,只有设置single=true单选才会生效", param: "row,当前选中的行 " }
+    { name: "rowChange", desc: "行选中事件,只有设置single=true单选才会生效", param: "row,当前选中的行 " },
+    { name: "loadTreeChildren", desc: `<span style="color:red;"></span>&nbsp; loadTreeChildren(tree, treeNode, resolve) { //加载子节点<br />
+      &nbsp; &nbsp; &nbsp; let url="api/xxx?roleId="+tree.Role_Id<br />
+      &nbsp; &nbsp; &nbsp; this.http.post(url,{}).then(result=&gt;{<br />
+      &nbsp; &nbsp; &nbsp; &nbsp; resolve(result.rows)<br />
+      &nbsp; &nbsp; &nbsp; })<br />
+      &nbsp; &nbsp; }<br /></span>
+      <div style="color:red;">2021.05.02具体使用见示例说明见:<a href="http://volcore.xyz/treetable3"> 树形菜单与表->treetable页面</a>  <a href="http://volcore.xyz/Sys_Role1"> 用户基础信息->角色管理(tree)页面</a> </div>`, param: "" }
     ]
   },
   edittable: {
@@ -232,7 +241,10 @@ const param = {
     methods: []
   },
   viewGrid: {
-    attr: [{ name: "columns", desc: "查询页面table表的配置,如果满足不了业务,可参照VolTable参数动态扩展", type: "array", default: "[]" },
+    attr: [
+
+      { name: "rowKey", desc: "<span style='color:red;'>树形table的主键字段,字段的值必须是唯一的(2021.05.02)</span>", type: "String", default: "" },
+      { name: "columns", desc: "查询页面table表的配置,如果满足不了业务,可参照VolTable参数动态扩展", type: "array", default: "[]" },
     { name: "detail", desc: "从表配置：{columns:[],sortName:''},columns从表table列配置,sortName从表排序字段", type: "json", default: "{}" },
     { name: "editFormFileds", desc: "编辑字段，可参照VolForm配置", type: "json", default: "{}" },
     { name: "editFormFields", desc: "<span style='color:red;'>编辑字段同上（此属性用于兼容上面字段拼写错误的问题，2020.09.13更新后才能使用）</span>", type: "json", default: "" },
@@ -1317,6 +1329,19 @@ const param = {
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;},
+    <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+	</div>
+	<div>
+		&nbsp;&nbsp;<span style="color:#dcdcaa;">loadTreeChildren</span>(<span style="color:#9cdcfe;">tree</span>,&nbsp;<span style="color:#9cdcfe;">treeNode</span>,&nbsp;<span style="color:#9cdcfe;">resolve</span>){<span style="color:#6a9955;">//树形结构加载子节点(2021.05.02),在onInit中设置了rowKey主键字段后才会生效</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#dcdcaa;">resolve</span>([]);
+	</div>
+	<div>
+		&nbsp;&nbsp;}
+	</div>
+</div>
 	</div>
 	<div>
 		&nbsp;&nbsp;
