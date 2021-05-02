@@ -84,7 +84,7 @@
       </h2>
       <ul style="font-family:微软雅黑;font-size:13px;white-space:normal;box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:5px 30px;">
         <li style="padding-left: 26px;list-style: none;">
-          <span style="color:#E56600;">运行前先看后台appsettings.json配置属性说明</span>
+          <span style="color:#E56600;">运行前先看后台appsettings.json配置属性说明；(注意修改DbType属性，修改为自己使用的数据库,数据库脚本在DB文件夹下)</span>
         </li>
         <li style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0px;padding:0px;">
           <span style="line-height:3;font-size:16px;">1、启动后台项目：后端项目路径&nbsp; ../VOL.WebApi，找到dev_run.bat命令点击启动。后台启动</span>

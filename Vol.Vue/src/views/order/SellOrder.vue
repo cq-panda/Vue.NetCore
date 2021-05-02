@@ -73,7 +73,7 @@
                        {field:'Order_Id',title:'订单Id',type:'string',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'ProductName',title:'商品名称',type:'string',bind:{ key:'pn',data:[]},width:150,edit:{type:'select'},require:true,align:'left',sortable:true},
                        {field:'MO',title:'批次',type:'string',width:100,edit:{type:''},require:true,align:'left'},
-                       {field:'Qty',title:'数量',type:'int',width:90,edit:{type:'select'},require:true,align:'left'},
+                       {field:'Qty',title:'数量',type:'int',width:90,edit:{type:''},require:true,align:'left'},
                        {field:'Weight',title:'重量',type:'decimal',width:90,edit:{type:''},align:'left'},
                        {field:'Remark',title:'备注',type:'string',width:120,edit:{type:''},align:'left'},
                        {field:'CreateID',title:'CreateID',type:'int',width:80,hidden:true,align:'left'},
