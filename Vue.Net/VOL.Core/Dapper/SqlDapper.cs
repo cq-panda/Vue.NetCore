@@ -22,6 +22,7 @@ namespace VOL.Core.Dapper
     public class SqlDapper : ISqlDapper
     {
         private string _connectionString;
+        private int? commandTimeout=null;
         private IDbConnection _connection { get; set; }
         public IDbConnection Connection
         {
@@ -35,6 +36,7 @@ namespace VOL.Core.Dapper
             }
         }
 
+        
 
         public SqlDapper()
         {
@@ -87,6 +89,16 @@ namespace VOL.Core.Dapper
                 _transaction = false;
             }
         }
+        /// <summary>
+        /// 超时时间(秒)
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public ISqlDapper SetTimout(int timeout)
+        {
+            this.commandTimeout = timeout;
+            return this;
+        }
 
         /// <summary>
         /// var p = new object();
@@ -103,7 +115,7 @@ namespace VOL.Core.Dapper
         {
             return Execute((conn, dbTransaction) =>
             {
-                return conn.Query<T>(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text).ToList();
+                return conn.Query<T>(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text,commandTimeout: commandTimeout).ToList();
             }, beginTransaction);
         }
         public T QueryFirst<T>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false) where T : class
@@ -115,7 +127,7 @@ namespace VOL.Core.Dapper
         {
             return Execute((conn, dbTransaction) =>
             {
-                return conn.Query<dynamic>(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text).ToList();
+                return conn.Query<dynamic>(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout).ToList();
             }, beginTransaction);
         }
         public dynamic QueryDynamicFirst(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
@@ -127,7 +139,7 @@ namespace VOL.Core.Dapper
         {
             return Execute<object>((conn, dbTransaction) =>
             {
-                return conn.ExecuteScalar(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text);
+                return conn.ExecuteScalar(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout);
             }, beginTransaction);
         }
 
@@ -135,21 +147,21 @@ namespace VOL.Core.Dapper
         {
             return Execute<int>((conn, dbTransaction) =>
             {
-                return conn.Execute(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text);
+                return conn.Execute(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout);
             }, beginTransaction);
         }
         public IDataReader ExecuteReader(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
         {
             return Execute<IDataReader>((conn, dbTransaction) =>
             {
-                return conn.ExecuteReader(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text);
+                return conn.ExecuteReader(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout);
             }, beginTransaction, false);
         }
         public SqlMapper.GridReader QueryMultiple(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
         {
             return Execute((conn, dbTransaction) =>
             {
-                return conn.QueryMultiple(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text);
+                return conn.QueryMultiple(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout);
             }, beginTransaction, false);
         }
 
