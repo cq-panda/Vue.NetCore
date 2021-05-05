@@ -17,6 +17,7 @@
         <a @click="()=>{this.b_moel=true;}">多租户(数据隔离)</a>
         <a @click="openRole()">多角色</a>
         <a @click="opendb()">分库/多数据库</a>
+		  <a @click="open_oracle()">Oracle版本</a>
         <a @click="()=>{this.$Message.error('暂不开放')}">国际化</a>
         <a @click="scrollIntoView('extend')">后台基础代码扩展实现</a>
 
@@ -134,6 +135,9 @@ export default {
     openRole () {
       window.open("https://gitee.com/x_discoverer/multi-role");
     },
+	open_oracle(){
+		  window.open("https://gitee.com/x_discoverer/oracle");
+	},
     scrollIntoView (index) {
       if (typeof index == "string") {
         index = this.items.findIndex((x) => {
@@ -2006,7 +2010,7 @@ h2 {
   padding: 10px;
   a {
     font-size: 20px;
-    margin: 0 20px;
+    margin: 0 10px;
     line-height: 30px;
     padding: 4px 0;
     border-bottom: 1px solid;
