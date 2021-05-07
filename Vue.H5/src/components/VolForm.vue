@@ -542,7 +542,7 @@ export default {
             this.dicKeys.push(item.key);
             this.dicInfo[item.key] = item.data;
           }
-          if (!item.data || item.data.lenght == 0)
+          if (!item.data || item.data.length == 0)
             item.data = this.dicInfo[item.key];
         }
         if (!this.fields.hasOwnProperty(item.field)) {
