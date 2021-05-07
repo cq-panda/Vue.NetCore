@@ -125,7 +125,6 @@ function get (url, param, loading, config) {
             .then(response => {
                 resolve(response.data)
             }, err => {
-                redirect(response.data);
                 reject(err)
             })
             .catch((error) => {
