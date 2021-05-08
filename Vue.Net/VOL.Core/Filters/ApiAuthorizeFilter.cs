@@ -67,10 +67,11 @@ namespace VOL.Core.Filters
             DateTime expDate = context.HttpContext.User.Claims.Where(x => x.Type == JwtRegisteredClaimNames.Exp)
                 .Select(x => x.Value).FirstOrDefault().GetTimeSpmpToDate();
             //动态标识刷新token(2021.05.01)
-            if ((expDate - DateTime.Now).TotalMinutes < AppSetting.ExpMinutes/3)
+            if ((expDate - DateTime.Now).TotalMinutes < AppSetting.ExpMinutes/ 3 && context.HttpContext.Request.Path != replaceTokenPath)
             {
                 context.HttpContext.Response.Headers.Add("vol_exp", "1");
             }
         }
+        private static readonly string replaceTokenPath = "/api/User/replaceToken";
     }
 }
