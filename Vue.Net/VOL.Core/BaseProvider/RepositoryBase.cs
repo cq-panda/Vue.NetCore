@@ -525,7 +525,7 @@ namespace VOL.Core.BaseProvider
             {
                 Type detailType = entityType.GetCustomAttribute<EntityAttribute>().DetailTable?[0];
                 if (detailType != null)
-                    sql = sql + $"DELETE FROM {detailType.Name} where {tKey} in ({joinKeys});";
+                    sql = sql + $"DELETE FROM {detailType.GetEntityTableName()} where {tKey} in ({joinKeys});";
             }
             return ExecuteSqlCommand(sql);
         }
