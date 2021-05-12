@@ -520,7 +520,7 @@ namespace VOL.Core.BaseProvider
                  ? string.Join(",", keys)
                  : $"'{string.Join("','", keys)}'";
 
-            string sql = $"DELETE FROM {entityType.Name } where {tKey} in ({joinKeys});";
+            string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
             if (delList)
             {
                 Type detailType = entityType.GetCustomAttribute<EntityAttribute>().DetailTable?[0];
