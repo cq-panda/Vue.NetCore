@@ -22,73 +22,22 @@ namespace VOL.Core.Dapper
     public class SqlDapper : ISqlDapper
     {
         private string _connectionString;
-        private int? commandTimeout=null;
-        private IDbConnection _connection { get; set; }
-        public IDbConnection Connection
-        {
-            get
-            {
-                if (_connection == null || _connection.State == ConnectionState.Closed)
-                {
-                    _connection = DBServerProvider.GetDbConnection(_connectionString);
-                }
-                return _connection;
-            }
-        }
-
-        
+        private int? commandTimeout = null;
 
         public SqlDapper()
         {
             _connectionString = DBServerProvider.GetConnectionString();
         }
-        /// <summary>
-        ///      string mySql = "Data Source=132.232.2.109;Database=mysql;User 
-        ///      ID=root;Password=mysql;pooling=true;CharSet=utf8;port=3306;sslmode=none";
-        ///  this.conn = new MySql.Data.MySqlClient.MySqlConnection(mySql);
-        /// </summary>
-        /// <param name="connKeyName"></param>
+
         public SqlDapper(string connKeyName)
         {
             _connectionString = DBServerProvider.GetConnectionString(connKeyName);
         }
 
-
         private bool _transaction { get; set; }
 
-        /// <summary>
-        /// 2020.06.15增加Dapper事务处理
-        /// <param name="action"></param>
-        /// <param name="error"></param>
-        public void BeginTransaction(Func<ISqlDapper, bool> action, Action<Exception> error)
-        {
-            _transaction = true;
-            try
-            {
-                Connection.Open();
-                dbTransaction = Connection.BeginTransaction();
-                bool result = action(this);
-                if (result)
-                {
-                    dbTransaction?.Commit();
-                }
-                else
-                {
-                    dbTransaction?.Rollback();
-                }
-            }
-            catch (Exception ex)
-            {
-                dbTransaction?.Rollback();
-                error(ex);
-            }
-            finally
-            {
-                Connection?.Dispose();
-                dbTransaction?.Dispose();
-                _transaction = false;
-            }
-        }
+        private IDbConnection _transactionConnection;
+
         /// <summary>
         /// 超时时间(秒)
         /// </summary>
@@ -98,6 +47,87 @@ namespace VOL.Core.Dapper
         {
             this.commandTimeout = timeout;
             return this;
+        }
+
+
+        private T Execute<T>(Func<IDbConnection, IDbTransaction, T> func, bool beginTransaction = false)
+        {
+            if (_transaction)
+            {
+                return func(_transactionConnection, dbTransaction);
+            }
+            if (beginTransaction)
+            {
+                return ExecuteTransaction(func);
+            }
+            using (var connection = new SqlConnection(DBServerProvider.GetConnectionString(_connectionString)))
+            {
+                T reslutT = func(connection, dbTransaction);
+                if (!_transaction && dbTransaction != null)
+                {
+                    dbTransaction.Commit();
+                }
+                return reslutT;
+            }
+        }
+
+        private T ExecuteTransaction<T>(Func<IDbConnection, IDbTransaction, T> func)
+        {
+            using (var connection = new SqlConnection(DBServerProvider.GetConnectionString(_connectionString)))
+            {
+                try
+                {
+                    connection.Open();
+                    dbTransaction = connection.BeginTransaction();
+                    T reslutT = func(connection, dbTransaction);
+                    if (!_transaction && dbTransaction != null)
+                    {
+                        dbTransaction.Commit();
+                    }
+                    return reslutT;
+                }
+                catch (Exception ex)
+                {
+                    dbTransaction?.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 2020.06.15增加Dapper事务处理
+        /// <param name="action"></param>
+        /// <param name="error"></param>
+        public void BeginTransaction(Func<ISqlDapper, bool> action, Action<Exception> error)
+        {
+            _transaction = true;
+            using (_transactionConnection = new SqlConnection(DBServerProvider.GetConnectionString(_connectionString)))
+            {
+                try
+                {
+                    _transactionConnection.Open();
+                    dbTransaction = _transactionConnection.BeginTransaction();
+                    bool result = action(this);
+                    if (result)
+                    {
+                        dbTransaction?.Commit();
+                    }
+                    else
+                    {
+                        dbTransaction?.Rollback();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    dbTransaction?.Rollback();
+                    error(ex);
+                }
+                finally
+                {
+                    _transaction = false;
+                    dbTransaction?.Dispose();
+                }
+            }
         }
 
         /// <summary>
@@ -115,7 +145,7 @@ namespace VOL.Core.Dapper
         {
             return Execute((conn, dbTransaction) =>
             {
-                return conn.Query<T>(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text,commandTimeout: commandTimeout).ToList();
+                return conn.Query<T>(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout).ToList();
             }, beginTransaction);
         }
         public T QueryFirst<T>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false) where T : class
@@ -155,14 +185,14 @@ namespace VOL.Core.Dapper
             return Execute<IDataReader>((conn, dbTransaction) =>
             {
                 return conn.ExecuteReader(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout);
-            }, beginTransaction, false);
+            }, beginTransaction);
         }
         public SqlMapper.GridReader QueryMultiple(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
         {
             return Execute((conn, dbTransaction) =>
             {
                 return conn.QueryMultiple(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout);
-            }, beginTransaction, false);
+            }, beginTransaction);
         }
 
         /// <summary>
@@ -191,42 +221,8 @@ namespace VOL.Core.Dapper
         }
         IDbTransaction dbTransaction = null;
 
-        private T Execute<T>(Func<IDbConnection, IDbTransaction, T> func, bool beginTransaction = false, bool disposeConn = true)
-        {
-            if (beginTransaction && !_transaction)
-            {
-                Connection.Open();
-                dbTransaction = Connection.BeginTransaction();
-            }
-            try
-            {
-                T reslutT = func(Connection, dbTransaction);
-                if (!_transaction && dbTransaction != null)
-                {
-                    dbTransaction.Commit();
-                }
-                return reslutT;
-            }
-            catch (Exception ex)
-            {
-                if (!_transaction && dbTransaction != null)
-                {
-                    dbTransaction.Rollback();
-                }
-                throw ex;
-            }
-            finally
-            {
-                if (!_transaction)
-                {
-                    if (disposeConn)
-                    {
-                        Connection.Dispose();
-                    }
-                    dbTransaction?.Dispose();
-                }
-            }
-        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -404,20 +400,23 @@ namespace VOL.Core.Dapper
         /// <returns></returns>
         private int MSSqlBulkInsert(DataTable table, string tableName, SqlBulkCopyOptions sqlBulkCopyOptions = SqlBulkCopyOptions.UseInternalTransaction, string dbKeyName = null)
         {
-            if (!string.IsNullOrEmpty(dbKeyName))
+            using (var Connection = DBServerProvider.GetDbConnection(_connectionString))
             {
-                Connection.ConnectionString = DBServerProvider.GetConnectionString(dbKeyName);
-            }
-            using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(Connection.ConnectionString, sqlBulkCopyOptions))
-            {
-                sqlBulkCopy.DestinationTableName = tableName;
-                sqlBulkCopy.BatchSize = table.Rows.Count;
-                for (int i = 0; i < table.Columns.Count; i++)
+                if (!string.IsNullOrEmpty(dbKeyName))
                 {
-                    sqlBulkCopy.ColumnMappings.Add(table.Columns[i].ColumnName, table.Columns[i].ColumnName);
+                    Connection.ConnectionString = DBServerProvider.GetConnectionString(dbKeyName);
                 }
-                sqlBulkCopy.WriteToServer(table);
-                return table.Rows.Count;
+                using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(Connection.ConnectionString, sqlBulkCopyOptions))
+                {
+                    sqlBulkCopy.DestinationTableName = tableName;
+                    sqlBulkCopy.BatchSize = table.Rows.Count;
+                    for (int i = 0; i < table.Columns.Count; i++)
+                    {
+                        sqlBulkCopy.ColumnMappings.Add(table.Columns[i].ColumnName, table.Columns[i].ColumnName);
+                    }
+                    sqlBulkCopy.WriteToServer(table);
+                    return table.Rows.Count;
+                }
             }
         }
         public int BulkInsert<T>(List<T> entities, string tableName = null,
@@ -433,71 +432,61 @@ namespace VOL.Core.Dapper
             {
                 tmpPath = tmpPath.ReplacePath();
             }
-            if (Connection.GetType().Name == "MySqlConnection")
-                return MySqlBulkInsert(table, tableName, fileName, tmpPath);
-            else if (Connection.GetType().Name == "NpgsqlConnection")
+            if (DBType.Name == "MySql")
             {
-                // 2020.08.07增加PGSQL批量写入
+                return MySqlBulkInsert(table, tableName, fileName, tmpPath);
+            }
+
+            if (DBType.Name == "PgSql")
+            {
                 PGSqlBulkInsert(table, tableName);
-                return 0;
             }
             return MSSqlBulkInsert(table, tableName, sqlBulkCopyOptions ?? SqlBulkCopyOptions.KeepIdentity);
         }
 
         /// <summary>
         ///大批量数据插入,返回成功插入行数
-        ////************(网上的示例在linux上运行批量插入就是巨坑,会丢数据,至于为什么,见MySqlBulkLoader源码)***************/
+        ////
         /// </summary>
         /// <param name="connectionString">数据库连接字符串</param>
         /// <param name="table">数据表</param>
         /// <returns>返回成功插入行数</returns>
         private int MySqlBulkInsert(DataTable table, string tableName, string fileName = null, string tmpPath = null)
         {
-            if (table.Rows.Count == 0)
-                return 0;
+            if (table.Rows.Count == 0) return 0;
             tmpPath = tmpPath ?? FileHelper.GetCurrentDownLoadPath();
-            //  fileName = fileName ?? $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.csv";
             int insertCount = 0;
             string csv = DataTableToCsv(table);
-            // FileHelper.WriteFile(tmpPath, fileName, csv);
-            // string path = tmpPath + fileName;
             string text = $"当前行:{table.Rows.Count}";
             MemoryStream stream = null;
             try
             {
-                if (Connection.State == ConnectionState.Closed)
-                    Connection.Open();
-                using (IDbTransaction tran = Connection.BeginTransaction())
+                using (var Connection = DBServerProvider.GetDbConnection(_connectionString))
                 {
-                    MySqlBulkLoader bulk = new MySqlBulkLoader(Connection as MySqlConnection)
+                    using (IDbTransaction tran = Connection.BeginTransaction())
                     {
-                        LineTerminator = "\n",
-                        TableName = tableName,
-                        CharacterSet = "UTF8"
-                    };
-                    var array = Encoding.UTF8.GetBytes(csv);
-                     stream = new MemoryStream(array);
-                    // StreamReader reader = new StreamReader(stream);
-                    bulk.SourceStream = stream; //File.OpenRead(fileName);
-                    bulk.Columns.AddRange(table.Columns.Cast<DataColumn>().Select(colum => colum.ColumnName).ToList());
-                    insertCount = bulk.Load();
-                    //text = text + $",实际写入行:{insertCount}";
-                    //fileName = fileName ?? $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.text";
-                    //FileHelper.WriteFile(tmpPath, fileName, text);
-                    //Console.WriteLine(text);
-                    //Console.WriteLine(insertCount);
-                    tran.Commit();
+                        MySqlBulkLoader bulk = new MySqlBulkLoader(Connection as MySqlConnection)
+                        {
+                            LineTerminator = "\n",
+                            TableName = tableName,
+                            CharacterSet = "UTF8"
+                        };
+                        var array = Encoding.UTF8.GetBytes(csv);
+                        using (stream = new MemoryStream(array))
+                        {
+                            stream = new MemoryStream(array);
+                            bulk.SourceStream = stream; //File.OpenRead(fileName);
+                            bulk.Columns.AddRange(table.Columns.Cast<DataColumn>().Select(colum => colum.ColumnName).ToList());
+                            insertCount = bulk.Load();
+                            tran.Commit();
+                        }
+                    }
                 }
+
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                Connection?.Dispose();
-                Connection?.Close();
-                stream?.Dispose();
             }
             return insertCount;
             //   File.Delete(path);
