@@ -126,6 +126,7 @@
                     v-for="(kv, kvIndex) in item.data"
                     :key="kvIndex"
                     :value="kv.key"
+                    v-show="!kv.hidden"
                     >{{ kv.value }}</Option
                   >
                 </Select>
