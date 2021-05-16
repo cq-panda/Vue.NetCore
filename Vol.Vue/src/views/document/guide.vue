@@ -38,6 +38,12 @@
            style="border-bottom: 1px solid;margin: 0 10px"
            @click="()=>{ this.$router.push({ path: '/document/issue' });}">常见问题</a>
       </div>
+      <div style="margin-bottom:20px;">     <a target="_blank"
+           style="    border-bottom: 1px solid;
+    font-size: 20px;
+    padding: 20p;
+    margin: 25px"
+           @click="()=>{ this.$router.push({ path: '/document/netCoreDev' });}">多租户、多角色、分库多数据库、Oracle数据库、国际化</a></div>
       <div class="g-p">  <a target="_blank"
          style="    border-bottom: 1px solid;
     margin: 0px 26px;
@@ -69,7 +75,7 @@
       </p>
       <ul style="font-family:微软雅黑;font-size:13px;white-space:normal;padding-left: 30px;">
         <li>
-          <span style="line-height:3;font-size:16px;">后台：VS2019、.NetCore3.1 、EFCore3.1、JWT、Dapper、Autofac、SqlServer/MySql/PGSql、Redis(可选)</span>
+          <span style="line-height:3;font-size:16px;">后台：VS2019、.NetCore3.1 、EFCore3.1、JWT、Dapper、Autofac、SqlServer/MySql/PGSql/Oracle、Redis(可选)</span>
         </li>
         <li>
           <span style="line-height:3;font-size:16px;">前端：VSCode、Vue2.0（webpack、node.js,没有环境的搜:vue webpack npm)、Vuex、axios、promise、IView、Element-ui</span>

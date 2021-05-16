@@ -21,6 +21,9 @@ let extension = {
   text: "可在代码生成器中设置[是否只读]或如果没有编辑或新建权限，弹出框都是只读的",
   methods: {//事件扩展
     onInit () {
+      //设置显示所有查询条件
+      this.setFiexdSearchForm(true);
+
       //设置表的最大高度
       this.tableMaxHeight = 300;
       this.columns.forEach(x => {
@@ -39,6 +42,10 @@ let extension = {
           }
         }
       })
+    },
+    onInited () {
+      //移除快捷查询
+      this.singleSearch = null;
     },
     // rowChange(row) {//选中行事件
     //   console.log('选中行：' + JSON.stringify(row));

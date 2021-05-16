@@ -18,7 +18,7 @@
         <a @click="openRole()">多角色</a>
         <a @click="opendb()">分库/多数据库</a>
 		  <a @click="open_oracle()">Oracle版本</a>
-        <a @click="()=>{this.$Message.error('暂不开放')}">国际化</a>
+        <a @click="()=>{this.$Message.error('需要的进群或单独联系我')}">国际化</a>
         <a @click="scrollIntoView('extend')">后台基础代码扩展实现</a>
 
       </div>
