@@ -617,6 +617,44 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
           ],
           tips: "",
         },
+		 {
+          title: "Dapper连接其他数据库",
+          content: [  ` 
+		  <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+           //在DBServerProvider.cs类构造方法中添加如下配置
+
+        <div>
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">static</span>&nbsp;<span style="color:#dcdcaa;">DBServerProvider</span>()
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">SetConnection</span>(<span style="color:#9cdcfe;">DefaultConnName</span>,&nbsp;<span style="color:#9cdcfe;">AppSetting</span>.<span style="color:#9cdcfe;">DbConnectionString</span>);
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//添加其他数据库链接配置</span> 
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">ConnectionPool</span>.<span style="color:#dcdcaa;">TryAdd</span>(<span style="color:#ce9178;">"自定key"</span>,&nbsp;<span style="color:#ce9178;">"数据库连接字符串"</span>);
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//使用方式</span> 
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;DBServerProvider.GetSqlDapper("自定key");</span> 
+	</div>
+<br />
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	</div>
+</div>`   ],
+          tips: "",
+        },
 		  {
           title: "Dapper访问数据库/存储过程",
           content: [
