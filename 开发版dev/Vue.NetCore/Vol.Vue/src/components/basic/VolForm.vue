@@ -144,6 +144,19 @@
               <span slot="open">是</span>
               <span slot="close">否</span>
             </i-switch>
+            <!-- 2021.05.16集成iview radio组件 -->
+            <RadioGroup
+              v-else-if="item.type == 'radio'"
+              v-model="_formFields[item.field]"
+            >
+              <Radio
+                :label="kv.key"
+                v-for="(kv, kvIndex) in item.data"
+                :key="kvIndex"
+              >
+                <span>{{ kv.value }}</span>
+              </Radio>
+            </RadioGroup>
             <Row
               v-else-if="
                 item.type == 'date' ||
@@ -700,10 +713,10 @@ export default {
       // 重置表单时，禁用远程查询
       this.$refs["formValidate"].resetFields();
       if (this.rangeFields.length) {
-        this.rangeFields.forEach(key => {
+        this.rangeFields.forEach((key) => {
           this._formFields[key].splice(0);
-          this._formFields[key] = [null,null];
-        })
+          this._formFields[key] = [null, null];
+        });
       }
       if (!sourceObj) return;
       for (const key in this._formFields) {
@@ -797,7 +810,7 @@ export default {
               item.data = [];
             }
           }
-          if (item.range||item.type=="range") {
+          if (item.range || item.type == "range") {
             if (
               !(this._formFields[item.field] instanceof Array) ||
               this._formFields[item.field].length != 2

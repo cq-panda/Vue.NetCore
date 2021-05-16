@@ -15,6 +15,8 @@ let dataType = [
   { "key": "month", "value": "年月日期格式" },
   { "key": "time", "value": "time" },
   { "key": "checkbox", "value": "checkbox" },
+  // 2021.05.16集成iview radio组件
+  { "key": "radio", "value": "radio" },
   { "key": "cascader", "value": "级联" },//2020.11.01增加级联选择
   { "key": "editor", "value": "富文本编辑器" },
   { "key": "mail", "value": "mail" },
@@ -39,6 +41,8 @@ let searchDataType = [
   { "key": "time", "value": "time" },
   { "key": "cascader", "value": "级联" },//2020.11.01增加级联选择
   { "key": "checkbox", "value": "checkbox" },
+    // 2021.05.16集成iview radio组件
+    { "key": "radio", "value": "radio" },
   { "key": "range", "value": "区间查询" },
   { "key": "mail", "value": "mail" },
   { "key": "number", "value": "number" },
@@ -125,14 +129,14 @@ let data = {
       // ]
     ]
   },
-      //2021.01.09增加代码生成器设置table排序功能
+  //2021.01.09增加代码生成器设置table排序功能
   columns: [
     { field: 'columnId', title: 'ColumnId', width: 120, align: 'left', edit: { type: "text" }, hidden: true },
     { field: 'table_Id', title: 'Table_Id', width: 120, align: 'left', editor: 'text', hidden: true },
     { field: 'columnCnName', title: '列显示名称', fixed: true, width: 120, align: 'left', edit: { type: "text" } },
     { field: 'columnName', title: '列名', fixed: true, width: 120, align: 'left', edit: { type: "text" } },
     { field: 'isKey', title: '主键', width: 90, align: 'left', edit: { type: "switch" } },
-    { field: 'sortable', title: '是否排序', width: 90, align: 'left', edit: { type: "switch",keep:true } },
+    { field: 'sortable', title: '是否排序', width: 90, align: 'left', edit: { type: "switch", keep: true } },
     { field: 'searchRowNo', title: '查询行', width: 90, align: 'left', edit: { type: "text" } },
     { field: 'searchColNo', title: '查询列', width: 90, align: 'left', edit: { type: "text" } },
     { field: 'searchType', title: '查询类型', width: 150, align: 'left', edit: { type: "select" }, bind: { data: searchDataType } },
@@ -144,10 +148,10 @@ let data = {
     { field: 'orderNo', title: '列显示顺序', width: 120, align: 'left', edit: { type: "text" } },
     { field: 'maxlength', title: '字段最大长度', width: 130, align: 'left', edit: { type: "text" } },
     { field: 'columnType', title: '数据类型', width: 120, align: 'left', edit: { type: "text" } },
-    { field: 'isNull', title: '可为空', width: 120, align: 'left', edit: { type: "switch" ,keep:true } },
-    { field: 'isReadDataset', title: '是否只读', width: 120, align: 'left', edit: { type: "switch",keep:true  } },
-    { field: 'isColumnData', title: '数据列', width: 120, align: 'left', edit: { type: "switch" ,keep:true } },
-    { field: 'isDisplay', title: '是否显示', width: 120, align: 'left', edit: { type: "switch",keep:true  } },
+    { field: 'isNull', title: '可为空', width: 120, align: 'left', edit: { type: "switch", keep: true } },
+    { field: 'isReadDataset', title: '是否只读', width: 120, align: 'left', edit: { type: "switch", keep: true } },
+    { field: 'isColumnData', title: '数据列', width: 120, align: 'left', edit: { type: "switch", keep: true } },
+    { field: 'isDisplay', title: '是否显示', width: 120, align: 'left', edit: { type: "switch", keep: true } },
     { field: 'columnWidth', title: 'table列宽度', width: 120, align: 'left', edit: { type: "text" } },
     { field: 'colSize', title: '编辑列标签宽度colSize', width: 180, align: 'left', edit: { type: "text" } },
     // { field: 'import', title: '导入列', hidden: true, width: 100, align: 'left', edit: { type: "switch" } },
