@@ -39,7 +39,7 @@ axios.interceptors.request.use((config) => {
 //返回状态判断(添加响应拦截器)
 axios.interceptors.response.use((res) => {
   _showLoading && loading.close();
-  //对响应数据做些事
+  checkResponse(res);
   if (res.data.success) {
     return res;
   }
@@ -64,6 +64,18 @@ let $httpVue,
 const _authkey = 'Authorization', _Bearer = '';
 function init (vue) {
   $httpVue = vue;
+}
+
+function checkResponse (res) {
+  //刷新token
+  if (!res.headers) {
+      if (res.getResponseHeader("vol_exp") == "1") {
+          replaceToken();
+      }
+  }
+  else if (res.headers.vol_exp == "1") {
+      replaceToken();
+  }
 }
 // let $loading;
 let loading = {
@@ -107,19 +119,10 @@ function post (url, params, showLoading) {
     //  axios.post(url, qs.stringify(params))   //
     axios.post(url, params)
       .then(response => {
-        if (response.status == 202) {
-          getNewToken(() => {
-            post(url, params, _showLoading);
-          });
-          return;
-        }
+    
         resolve(response.data);
       }, err => {
-        // if (err.status == 401) {
-        //   $httpVue.$toast("没有权限操作");
-        // }
         if (err.status == 403 || err.status == 401) {
-          // return toLogin();
           return redirect(err);
         }
         if (err.status == 404) {
@@ -212,7 +215,7 @@ function toLogin () {
   $httpVue.$router.push({ path: '/login', params: { r: Math.random() } });
 }
 //当前token快要过期时，用现有的token换成一个新的token
-function getNewToken (callBack) {
+function replaceToken (callBack) {
   ajax({
     url: "/api/User/replaceToken",
     param: {},
@@ -259,7 +262,6 @@ function ajax (param) {
       redirect(xhr.responseText);
       return;
     }
-
     if (xhr.readyState == 4 && xhr.status == 200) {
       httpParam.success(httpParam.json ? JSON.parse(xhr.responseText) : xhr.responseText);
       return;
