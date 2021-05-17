@@ -60,7 +60,7 @@ namespace VOL.Core.Dapper
             {
                 return ExecuteTransaction(func);
             }
-            using (var connection = new SqlConnection(DBServerProvider.GetConnectionString(_connectionString)))
+            using (var connection = DBServerProvider.GetDbConnection(_connectionString))
             {
                 T reslutT = func(connection, dbTransaction);
                 if (!_transaction && dbTransaction != null)
@@ -73,7 +73,7 @@ namespace VOL.Core.Dapper
 
         private T ExecuteTransaction<T>(Func<IDbConnection, IDbTransaction, T> func)
         {
-            using (var connection = new SqlConnection(DBServerProvider.GetConnectionString(_connectionString)))
+            using (var connection = DBServerProvider.GetDbConnection(_connectionString))
             {
                 try
                 {
@@ -101,7 +101,7 @@ namespace VOL.Core.Dapper
         public void BeginTransaction(Func<ISqlDapper, bool> action, Action<Exception> error)
         {
             _transaction = true;
-            using (_transactionConnection = new SqlConnection(DBServerProvider.GetConnectionString(_connectionString)))
+            using (var connection = DBServerProvider.GetDbConnection(_connectionString))
             {
                 try
                 {
@@ -463,6 +463,10 @@ namespace VOL.Core.Dapper
             {
                 using (var Connection = DBServerProvider.GetDbConnection(_connectionString))
                 {
+                    if (Connection.State == ConnectionState.Closed)
+                    {
+                        Connection.Open();
+                    }
                     using (IDbTransaction tran = Connection.BeginTransaction())
                     {
                         MySqlBulkLoader bulk = new MySqlBulkLoader(Connection as MySqlConnection)
