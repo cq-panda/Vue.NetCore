@@ -1,7 +1,6 @@
 ﻿
 using Dapper;
 using MySql.Data.MySqlClient;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -36,7 +35,7 @@ namespace VOL.Core.Dapper
 
         private bool _transaction { get; set; }
 
-        private IDbConnection _transactionConnection;
+        private IDbConnection _transactionConnection = null;
 
         /// <summary>
         /// 超时时间(秒)
@@ -62,34 +61,30 @@ namespace VOL.Core.Dapper
             }
             using (var connection = DBServerProvider.GetDbConnection(_connectionString))
             {
-                T reslutT = func(connection, dbTransaction);
-                if (!_transaction && dbTransaction != null)
-                {
-                    dbTransaction.Commit();
-                }
-                return reslutT;
+                return func(connection, dbTransaction);
             }
         }
 
         private T ExecuteTransaction<T>(Func<IDbConnection, IDbTransaction, T> func)
         {
-            using (var connection = DBServerProvider.GetDbConnection(_connectionString))
+            using (_transactionConnection = DBServerProvider.GetDbConnection(_connectionString))
             {
                 try
                 {
-                    connection.Open();
-                    dbTransaction = connection.BeginTransaction();
-                    T reslutT = func(connection, dbTransaction);
-                    if (!_transaction && dbTransaction != null)
-                    {
-                        dbTransaction.Commit();
-                    }
+                    _transactionConnection.Open();
+                    dbTransaction = _transactionConnection.BeginTransaction();
+                    T reslutT = func(_transactionConnection, dbTransaction);
+                    dbTransaction.Commit();
                     return reslutT;
                 }
                 catch (Exception ex)
                 {
                     dbTransaction?.Rollback();
                     throw ex;
+                }
+                finally
+                {
+                    dbTransaction?.Dispose();
                 }
             }
         }
@@ -105,6 +100,7 @@ namespace VOL.Core.Dapper
             {
                 try
                 {
+                    _transactionConnection = connection;
                     _transactionConnection.Open();
                     dbTransaction = _transactionConnection.BeginTransaction();
                     bool result = action(this);
@@ -518,7 +514,7 @@ namespace VOL.Core.Dapper
                     if (i != 0) sb.Append("\t");
                     if (colum.DataType == typeString && row[colum].ToString().Contains(","))
                     {
-                        sb.Append("\"" + row[colum].ToString().Replace("\"", "\"\"") + "\"");
+                        sb.Append(row[colum].ToString());
                     }
                     else if (colum.DataType == typeDate)
                     {
