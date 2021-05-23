@@ -244,6 +244,7 @@
                    @loadAfter="loadTableAfter"
                    @rowChange="rowOnChange"
                    @rowClick="rowOnClick"
+                   @row-dbclick="rowOnDbClick"
                    :tableData="[]"
                    :linkView="linkData"
                    :columns="columns"

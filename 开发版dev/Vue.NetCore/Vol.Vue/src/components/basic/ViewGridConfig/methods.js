@@ -1137,7 +1137,7 @@ let methods = {
     this.initColumns(this.columns, this.dicKeys, keys);
     //2021.05.23默认开启查询页面所有字段排序,如果不需要排序，在onInited遍历columns设置sort=false
     this.columns.forEach(x => {
-      x.sort =x.render?false:true;
+      x.sort = x.render ? false : true;
     })
     if (this.detailOptions && this.detailOptions.columns) {
       this.initColumns(this.detailOptions.columns, this.dicKeys, keys);
@@ -1260,6 +1260,12 @@ let methods = {
   },
   rowClick({ row, column, event }) {
     // 点击行事件(2020.11.07)
+  },
+  rowOnDbClick({ row, column, event }) {
+    this.rowDbClick({ row, column, event });
+  },
+  rowDbClick({ row, column, event }) {
+    // 双击击行事件(2021.05.23)
   },
   $error(message) {
     this.$Message.error({
