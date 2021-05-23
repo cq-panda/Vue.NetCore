@@ -39,7 +39,7 @@
         </a>
       </div>
       <div  style="margin-top: 1rem;">
-        <Cow></Cow>
+        <list></list>
       </div>
       </div>
     </div>
@@ -47,9 +47,9 @@
   <!--  -->
 </template>
 <script>
-import Cow from "@/../src/components/Community/cow.vue";
+import list from "@/../src/components/Community/list.vue";
 export default {
-  components: { Cow: Cow },
+  components: { list: list },
   data() {
     return {
       icons: [

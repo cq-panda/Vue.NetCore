@@ -4,22 +4,45 @@
       <div class="order-title">
         <h2>订单统计</h2>
       </div>
-      <div data-v-542f4644 class="ivu-row" style="padding:15px;background: white;">
+      <div
+        data-v-542f4644
+        class="ivu-row"
+        style="padding: 15px; background: white"
+      >
         <div
           v-for="item in topColor"
           :key="item.name"
           class="ivu-col ivu-col-span-6"
-          style="padding-left: 8px; padding-right: 8px;"
+          style="padding-left: 8px; padding-right: 8px"
         >
-          <div data-v-542f4644 class="ivu-card" :style="{background:item.background}">
+          <div
+            data-v-542f4644
+            class="ivu-card"
+            :style="{ background: item.background }"
+          >
             <div class="icon-left">
               <Icon :type="item.icon" />
             </div>
             <div class="ivu-card-body">
-              <div class="demo-color-name">{{item.name}}</div>
-              <div class="demo-color-desc">#{{item.qty}}</div>
+              <div class="demo-color-name">{{ item.name }}</div>
+              <div class="demo-color-desc">#{{ item.qty }}</div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="numbers">
+        
+        <div class="item" v-for="index in 8" :key="index">
+          <div class="number">
+            <!-- {{value}} -->
+            <count-to
+              :startVal="0"
+              :endVal="index * 1000"
+              :duration="3000"
+            ></count-to>
+          </div>
+          <div>Order total</div>
         </div>
       </div>
 
@@ -35,7 +58,12 @@
             :value="beginDate"
             type="date"
             show-week-numbers
-              @on-change="(time)=>{beginDate=time; return time}"
+            @on-change="
+              (time) => {
+                beginDate = time;
+                return time;
+              }
+            "
             placeholder="Select date"
             style="width: 200px"
           ></DatePicker>
@@ -45,7 +73,12 @@
             :value="endDate"
             type="date"
             show-week-numbers
-              @on-change="(time)=>{endDate=time; return time}"
+            @on-change="
+              (time) => {
+                endDate = time;
+                return time;
+              }
+            "
             placeholder="Select date"
             style="width: 200px"
           ></DatePicker>
@@ -57,10 +90,25 @@
         </div>
       </div>
       <div class="order-range">
-        <div class="order-item" v-for="(item,index) in totalRange" :key="index">
-          <div class="total">{{item.qty}}</div>
-          <div class="name">{{titleLeft+item.name}}</div>
-          <div class="date">{{beginDate.replace(/-/g,'.')}} -- {{endDate.replace(/-/g,'.')}}</div>
+        <div
+          class="order-item"
+          v-for="(item, index) in totalRange"
+          :key="index"
+        >
+          <div class="total">
+            <div class="number">
+              <count-to
+                :startVal="0"
+                :endVal="item.qty"
+                :duration="3000"
+              ></count-to>
+            </div>
+          </div>
+          <div class="name">{{ titleLeft + item.name }}</div>
+          <div class="date">
+            {{ beginDate.replace(/-/g, ".") }} --
+            {{ endDate.replace(/-/g, ".") }}
+          </div>
         </div>
       </div>
     </div>
@@ -68,9 +116,10 @@
 </template>
 <script>
 // var echarts = require("echarts");
+import countTo from "vue-count-to";
 
 export default {
-  components: {},
+  components: { "count-to": countTo },
   data() {
     return {
       beginDate: "",
@@ -83,39 +132,39 @@ export default {
           background: "rgb(25, 190, 107)",
           icon: "ios-cart",
           qty: 6000,
-          key: "total"
+          key: "total",
         },
         {
-          name: "已付款订单",
+          name: "已付款",
           desc: "#412",
           background: "rgb(45, 183, 245)",
           icon: "ios-cash",
           qty: 7100,
-          key: "total"
+          key: "total",
         },
         {
-          name: "待发货订单",
+          name: "待发货",
           desc: "#412",
           background: "rgb(255, 153, 0)",
           icon: "md-bus",
           qty: 500,
-          key: "hasPay"
+          key: "hasPay",
         },
         {
-          name: "配送中订单",
+          name: "配送中",
           desc: "#412",
           background: " rgb(84, 110, 122)",
           icon: "md-pin",
           qty: 800,
-          key: "notShip"
+          key: "notShip",
         },
         {
-          name: "交易完成",
+          name: "已完成",
           desc: "#412",
           background: "rgb(45, 183, 245)",
-          icon: "ios-help-buoy",
+          icon: "logo-android",
           qty: 1880,
-          key: "completed"
+          key: "completed",
         },
         {
           name: "退货订单",
@@ -123,8 +172,8 @@ export default {
           background: "rgb(237, 64, 20)",
           icon: "ios-navigate",
           qty: 2290,
-          key: "refund"
-        }
+          key: "refund",
+        },
       ],
       totalRange: [
         {
@@ -133,31 +182,31 @@ export default {
           background: "rgb(25, 190, 107)",
           icon: "ios-cart",
           qty: 1290,
-          key: "total"
+          key: "total",
         },
         {
-          name: "已付款订单",
+          name: "已付款",
           desc: "#412",
           background: "rgb(45, 183, 245)",
           icon: "ios-cash",
           qty: 3450,
-          key: "total"
+          key: "total",
         },
         {
-          name: "待发货订单",
+          name: "待发货",
           desc: "#412",
           background: "rgb(255, 153, 0)",
           icon: "md-bus",
           qty: 200,
-          key: "hasPay"
+          key: "hasPay",
         },
         {
-          name: "配送中订单",
+          name: "配送中",
           desc: "#412",
           background: " rgb(84, 110, 122)",
           icon: "md-pin",
           qty: 7000,
-          key: "notShip"
+          key: "notShip",
         },
         {
           name: "交易完成",
@@ -165,7 +214,7 @@ export default {
           background: "rgb(45, 183, 245)",
           icon: "ios-help-buoy",
           qty: 8900,
-          key: "completed"
+          key: "completed",
         },
         {
           name: "退货订单",
@@ -173,12 +222,12 @@ export default {
           background: "rgb(237, 64, 20)",
           icon: "ios-navigate",
           qty: 2450,
-          key: "refund"
-        }
+          key: "refund",
+        },
       ],
       value1: "1",
-      titleLeft:'',
-      dateNow:'',
+      titleLeft: "",
+      dateNow: "",
     };
   },
   methods: {
@@ -197,19 +246,20 @@ export default {
         "-" +
         (day < 10 ? "0" + day : day);
       this.endDate = this.beginDate;
-      this.dateNow=this.beginDate;
-    },search(){
-      if (this.dateNow==this.beginDate&&this.dateNow==this.endDate) {
-        this.titleLeft='今日';
-      }else{
-        this.titleLeft="当期"
+      this.dateNow = this.beginDate;
+    },
+    search() {
+      if (this.dateNow == this.beginDate && this.dateNow == this.endDate) {
+        this.titleLeft = "今日";
+      } else {
+        this.titleLeft = "当期";
       }
-    }
+    },
   },
   created() {
     this.getDate();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 <style scoped>
@@ -324,7 +374,13 @@ export default {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
-
+.order-range .number {
+  transition: transform 0.8s;
+}
+.order-range .number:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
 .order-range .name {
   font-size: 20px;
   padding: 10px;
@@ -337,3 +393,41 @@ export default {
 }
 </style>
 
+
+<style lang="less" scoped>
+.numbers {
+    margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  background: white;
+  display: flex;
+
+  padding: 20px 0px;
+  .item {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #e5e5e5;
+  }
+  .item > 　div:first-child {
+    word-break: break-all;
+    color: #282727;
+    font-size: 30px;
+    // padding-bottom: 12px;
+  }
+  .item > 　div:last-child {
+    font-size: 13px;
+    color: #777;
+  }
+  .item:last-child {
+    border-right: none;
+  }
+  .number {
+    cursor: pointer;
+    transition: transform 0.8s;
+  }
+  .number:hover {
+    transform: scale(1.2);
+    color: #03c10b !important;
+  }
+}
+</style>

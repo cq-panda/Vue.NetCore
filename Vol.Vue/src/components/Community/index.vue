@@ -57,13 +57,13 @@
 
 <script>
 import topic from "./topic.vue";
-import cow from "./cow.vue";
+import list from "./list.vue";
 import question from "./question.vue";
 
 export default {
   components: {
     topic: topic,
-    cow: cow,
+    list: list,
     question: question
   },
   data() {

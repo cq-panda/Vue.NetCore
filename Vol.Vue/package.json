@@ -24,6 +24,7 @@
     "nprogress": "^0.2.0",
     "qs": "^6.7.0",
     "vue": "^2.5.2",
+    "vue-count-to": "^1.0.13",
     "vue-gemini-scrollbar": "^2.0.0",
     "vue-router": "^3.0.1",
     "vuex": "^3.1.1"
