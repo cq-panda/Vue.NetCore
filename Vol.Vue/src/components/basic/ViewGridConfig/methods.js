@@ -1135,6 +1135,10 @@ let methods = {
     });
     //初始化datatable表数据源,默认为一个空数组,dicKeys为界面所有的数据字典编号
     this.initColumns(this.columns, this.dicKeys, keys);
+    //2021.05.23默认开启查询页面所有字段排序,如果不需要排序，在onInited遍历columns设置sort=false
+    this.columns.forEach(x => {
+      x.sort =x.render?false:true;
+    })
     if (this.detailOptions && this.detailOptions.columns) {
       this.initColumns(this.detailOptions.columns, this.dicKeys, keys);
     }
@@ -1293,8 +1297,8 @@ let methods = {
   destroyed() { //2021.04.11增加vue页面销毁方法,路由必须设置keepLive:false，设置方法见：前端开发文档-》[禁用页面缓存keepAlive]
 
   },
-  loadTreeTableChildren(tree, treeNode, resolve){
-    this.loadTreeChildren.call(this,tree, treeNode, resolve);
+  loadTreeTableChildren(tree, treeNode, resolve) {
+    this.loadTreeChildren.call(this, tree, treeNode, resolve);
   },
   loadTreeChildren(tree, treeNode, resolve) {//树形结构加载子节点(2021.05.02),在onInit中设置了rowKey主键字段后才会生效
     return resolve([]);
