@@ -227,6 +227,16 @@ const param = {
             </span><span style="line-height:1.5;font-size:18px;"><span style="display:none;"></span></span><br />` },
     { name: "loadTableAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
     { name: "rowChange", desc: "行选中事件,只有设置single=true单选才会生效", param: "row,当前选中的行 " },
+    { name: "rowClick", desc: `单击行事件,点击时设置当前行选中:
+    <p>
+    rowClick ({ row, column, event }) {   </p>
+        <p>&nbsp;  this.$refs.table.toggleRowSelection(row);  </p>
+        <p> },  </p>
+        <p> //如果是代码生成的页面，请用下面的方法选中行  </p>
+        <p> // this.$refs.table.$refs.table.toggleRowSelection(row);    </p>
+    </p>
+    `, param: "{row:当前选中的行,column:当前行配置,$event:当前事件}" },
+    { name: "rowDbClick", desc: "双击行事件(2021.05.23新增),点击时选中当前行，见上面rowClick", param: "{row:当前选中的行,column:当前行配置,$event:当前事件}" },
     { name: "loadTreeChildren", desc: `<span style="color:red;"></span>&nbsp; loadTreeChildren(tree, treeNode, resolve) { //加载子节点<br />
       &nbsp; &nbsp; &nbsp; let url="api/xxx?roleId="+tree.Role_Id<br />
       &nbsp; &nbsp; &nbsp; this.http.post(url,{}).then(result=&gt;{<br />

@@ -44,6 +44,13 @@ export default {
     return {
       active: 0,
       log: [
+        { date: "2021-05-23 15:58:41",desc:"集成table双击行事件"},
+{ date: "2021-05-23 15:34:04",desc:"加深查询界面标题颜色"},
+{ date: "2021-05-23 15:21:01",desc:"设置查询界面table默认开启排序功能"},
+{ date: "2021-05-23 15:04:12",desc:"集成vue-count-to"},
+{ date: "2021-05-23 03:38:27",desc:"修复sqldapper事务未实例化的问题，移除sqldapper mysql批量插入双引号的替换"},
+{ date: "2021-05-17 23:07:13",desc:"优化H5"},
+{ date: "2021-05-17 22:16:17",desc:"修复SqlDapper在mysql中使用异常的问题"},
         { date: "2021-05-16 21:50:11",desc:"增加dapper连接其他数据库使用说明"},
 { date: "2021-05-16 21:49:45",desc:"增加表单select动态显示、隐藏下拉框选项"},
 { date: "2021-05-16 21:20:24",desc:"集成代码生成iview radio组件"},
