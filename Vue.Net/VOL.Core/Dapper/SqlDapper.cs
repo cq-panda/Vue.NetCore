@@ -191,6 +191,7 @@ namespace VOL.Core.Dapper
             }, beginTransaction);
         }
 
+
         /// <summary>
         /// 获取output值 param.Get<int>("@b");
         /// </summary>
@@ -202,18 +203,24 @@ namespace VOL.Core.Dapper
         /// <returns></returns>
         public (List<T1>, List<T2>) QueryMultiple<T1, T2>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
         {
-            using (SqlMapper.GridReader reader = QueryMultiple(cmd, param, commandType, beginTransaction))
+            return Execute((conn, dbTransaction) =>
             {
-                return (reader.Read<T1>().ToList(), reader.Read<T2>().ToList());
-            }
+                using (SqlMapper.GridReader reader = conn.QueryMultiple(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout))
+                {
+                    return (reader.Read<T1>().ToList(), reader.Read<T2>().ToList());
+                }
+            }, beginTransaction);
         }
 
         public (List<T1>, List<T2>, List<T3>) QueryMultiple<T1, T2, T3>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
         {
-            using (SqlMapper.GridReader reader = QueryMultiple(cmd, param, commandType, beginTransaction))
+            return Execute((conn, dbTransaction) =>
             {
-                return (reader.Read<T1>().ToList(), reader.Read<T2>().ToList(), reader.Read<T3>().ToList());
-            }
+                using (SqlMapper.GridReader reader = conn.QueryMultiple(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout))
+                {
+                    return (reader.Read<T1>().ToList(), reader.Read<T2>().ToList(), reader.Read<T3>().ToList());
+                }
+            }, beginTransaction);
         }
         IDbTransaction dbTransaction = null;
 
