@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8" />
@@ -11,12 +11,12 @@
 	.iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
 	.iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
 </style>
-<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+<script type="text/javascript" src="//api.map.baidu.com/api?key=&v=1.3&services=true"></script>
 </head>
 
 <body onload="initMap();">
   <!--百度地图容器-->
-  <div style="width:697px;height:550px;border:#ccc solid 1px;" id="dituContent"></div>
+  <div style="height:680px;border:#ccc solid 1px;" id="dituContent"></div>
 </body>
 <script type="text/javascript">
 	function getParam(name) {
@@ -36,8 +36,12 @@
 			return;
 		}
 		var dituContent = document.getElementById('dituContent');
-		dituContent.style.width = widthParam + 'px';
-		dituContent.style.height = heightParam + 'px';
+		if(isNaN(widthParam)){
+          dituContent.style.width = "100%";
+    }else{
+      dituContent.style.width = widthParam + 'px';
+    }
+    dituContent.style.height = heightParam + 'px';
 
 		createMap();//创建地图
 		setMapEvent();//设置地图事件
