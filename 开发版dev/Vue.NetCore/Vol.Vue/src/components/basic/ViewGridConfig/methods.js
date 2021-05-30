@@ -539,7 +539,13 @@ let methods = {
         });
         _editFormFields[key] = allPath.join(",");
       } else {
-        _editFormFields[key] = this._editFormFields[key];
+        //2021.05.30修复下拉框清除数据后后台不能保存的问题
+        if (this._editFormFields[key] === undefined && this.dicKeys.some(x => { return x.fileds && x.fileds.indexOf(key) != -1 })) {
+          _editFormFields[key] = null;
+        }else{
+          _editFormFields[key] = this._editFormFields[key];
+        }
+       
       }
     }
     //将数组转换成string
