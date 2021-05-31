@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -74,7 +73,8 @@ namespace VOL.Core.EFDbContext
             string connectionString = DBServerProvider.GetConnectionString(null);
             if (Const.DBType.Name == Enums.DbCurrentType.MySql.ToString())
             {
-                optionsBuilder.UseMySql(connectionString);
+                // optionsBuilder.UseMySql(connectionString);
+                optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(5, 7, 33)));
             }
             else if (Const.DBType.Name == Enums.DbCurrentType.PgSql.ToString())
             {

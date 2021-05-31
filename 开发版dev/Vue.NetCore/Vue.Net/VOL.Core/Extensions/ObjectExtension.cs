@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -56,7 +57,7 @@ namespace VOL.Core.Extensions
                     rowList.Add(row);
                 }
             }
-            catch (Exception ex) { throw ex; }
+            catch (Exception ex) { throw new ArgumentException(ex.Message); }
             finally
             {
                 Reader.Close();
@@ -127,8 +128,7 @@ namespace VOL.Core.Extensions
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new ArgumentException(ex.Message);
             }
             finally
             {
@@ -545,23 +545,27 @@ namespace VOL.Core.Extensions
         {
             if (obj == null)
                 return null;
-            var bf = new BinaryFormatter();
+            // var bf = new BinaryFormatter(); 替换过时方法
             using (var ms = new MemoryStream())
             {
-                bf.Serialize(ms, obj);
+               // bf.Serialize(ms, obj);
+                DataContractSerializer ser = new DataContractSerializer(typeof(object));
+                ser.WriteObject(ms, obj);
                 return ms.ToArray();
             }
         }
 
         public static object ToObject(this byte[] source)
         {
-            using (var memStream = new MemoryStream())
+            using (var memStream = new MemoryStream(source))
             {
-                var bf = new BinaryFormatter();
-                memStream.Write(source, 0, source.Length);
-                memStream.Seek(0, SeekOrigin.Begin);
-                var obj = bf.Deserialize(memStream);
-                return obj;
+                //var bf = new BinaryFormatter();
+                //memStream.Write(source, 0, source.Length);
+                //memStream.Seek(0, SeekOrigin.Begin);
+                //var obj = bf.Deserialize(memStream);
+                DataContractSerializer serializer = new DataContractSerializer(typeof(object));
+                return serializer.ReadObject(memStream);
+                // return obj;
             }
         }
 
