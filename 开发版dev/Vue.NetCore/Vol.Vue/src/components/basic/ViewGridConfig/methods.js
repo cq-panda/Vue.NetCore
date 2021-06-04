@@ -1211,7 +1211,7 @@ let methods = {
     let maxTableWidth = clientWidth - 270;
     this.setFiexdColumn(this.columns, maxTableWidth);
 
-    this.height = this.tableHeight || clientHeight - 210;
+    this.height = this.tableHeight || clientHeight - 206;
     this.url = this.getUrl(this.const.PAGE);
     //计算弹出框的高与宽度
     //如果有明细表，高度与宽带设置为0.9/0.82
