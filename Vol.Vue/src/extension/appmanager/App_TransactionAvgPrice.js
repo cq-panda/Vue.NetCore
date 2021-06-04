@@ -19,7 +19,18 @@ let extension = {
       //设置页面上显示的按钮个数(不是必须的)
       this.maxBtnLength = 6;
       //this.boxButtons弹出框的按钮,this.detailOptions.buttons，同样适用上面上方法
-    }
+
+      //设置显示所有查询条件
+     // this.setFiexdSearchForm(true);
+    },
+    onInited(){
+      //设置表高度
+     // this.height=this.height-125;
+    },
+    rowDbClick ({ row, column, event }) { //查询界面table点击行时选中当前行
+       
+      this.$refs.table.$refs.table.toggleRowSelection(row);
+    },
   }
 };
 export default extension;
