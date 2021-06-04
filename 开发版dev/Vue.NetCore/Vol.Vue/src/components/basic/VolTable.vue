@@ -1047,6 +1047,8 @@ export default {
       this.loading = true;
       this.http.post(this.url, param).then(
         (data) => {
+          //2021.06.04修复tree不刷新的问题
+          this.rowKey && this.rowData.splice(0);
           this.loading = false;
           // 查询返回结果后处理
           // 2020.10.30增加查询后返回所有的查询信息
