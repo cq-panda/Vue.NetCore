@@ -18,21 +18,21 @@ let buttons = [{
 //         this.resetSearch();
 //     }
 // }, 
-{
-    name: "刷 新",
-    icon: 'md-refresh',
-    class: '',
-    type: 'success',
-    onClick: function () {
-        this.refresh();
-    }
-},
+// {
+//     name: "刷 新",
+//     icon: 'md-refresh',
+//     class: '',
+//     type: 'success',
+//     onClick: function () {
+//         this.refresh();
+//     }
+// },
 {
     name: "新 建",
     icon: 'md-add',
     value: 'Add',
     class: '',
-    type: 'error',
+    type: 'success',
     onClick: function () {
         this.add();
     }
@@ -41,7 +41,7 @@ let buttons = [{
     icon: 'md-create',
     value: 'Update',
     class: '',
-    type: 'success',
+    type: 'primary',
     onClick: function () {
         this.edit();
     }
@@ -59,7 +59,7 @@ let buttons = [{
     icon: 'md-create',
     class: '',
     value: 'Audit',
-    type: 'error',
+    type: 'info',
     onClick: function () {
         this.audit();
     }
