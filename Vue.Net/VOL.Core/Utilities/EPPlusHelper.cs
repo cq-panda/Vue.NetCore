@@ -94,11 +94,16 @@ namespace VOL.Core.Utilities
 
                         CellOptions options = cellOptions.Where(x => x.Index == j).FirstOrDefault();
                         PropertyInfo property = propertyInfos.Where(x => x.Name == options.ColumnName).FirstOrDefault();
-
-                        if (options.Requierd && string.IsNullOrEmpty(value))
+                        //2021.06.04优化判断
+                        if (string.IsNullOrEmpty(value))
                         {
-                            return responseContent.Error($"第{m}行[{options.ColumnCNName}]验证未通过,不能为空。");
+                            if (options.Requierd)
+                            {
+                                return responseContent.Error($"第{m}行[{options.ColumnCNName}]验证未通过,不能为空。");
+                            }
+                            continue;
                         }
+                    
 
                         //验证字典数据
                         //2020.09.20增加判断数据源是否有值
@@ -119,6 +124,19 @@ namespace VOL.Core.Utilities
                             }
                             //将值设置为数据字典的Key,如果导入为是/否字典项，存在表中应该对为1/0
                             value = key;
+                        }
+                        else if (property.PropertyType== typeof(DateTime)||property.PropertyType==typeof(DateTime?))
+                        {
+                            //2021.06.04增加日期格式处理
+                            if (value.Length == 5 && int.TryParse(value, out int days))
+                            {
+                                property.SetValue(entity, new DateTime(1900, 1, 1).AddDays(days - 2));
+                            }
+                            else
+                            {
+                                property.SetValue(entity, value.ChangeType(property.PropertyType));
+                            }
+                            continue;
                         }
 
                         //验证导入与实体数据类型是否相同
