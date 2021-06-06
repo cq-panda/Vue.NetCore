@@ -585,6 +585,9 @@ export default vueParam;
 .view-model-content {
   background: #eee;
 }
+.grid-detail >>> .v-table  .el-table__header th {
+  height: 41px;
+}
 </style>
 <style lang="less">
 .grid-search {
