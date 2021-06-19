@@ -38,13 +38,13 @@
         <el-table-column
           v-if="columnIndex"
           type="index"
-          :fixed="true"
+          :fixed="ck_index_fixed"
           width="55"
         ></el-table-column>
         <el-table-column
           v-if="ck"
           type="selection"
-          :fixed="true"
+          :fixed="ck_index_fixed"
           width="55"
         ></el-table-column>
         <!-- 2020.10.10移除table第一行强制排序 -->
@@ -477,6 +477,7 @@ export default {
       remoteColumns: [], // 需要每次刷新或分页后从后台加载字典数据源的列配置
       cellStyleColumns: {}, // 有背景颜色的配置
       isChrome: false, //2021.06.19判断谷歌内核浏览重新计算table高度
+      ck_index_fixed:false //左侧checkbox与行号是否固定
     };
   },
   created() {
@@ -484,6 +485,15 @@ export default {
      if (navigator.userAgent.indexOf('Chrome') != -1 || navigator.userAgent.indexOf('Edge') != -1) {
       this.isChrome = true;
     }
+    //2021.06.19调整左侧checkbox与行号是否固定规则
+     let hasSummary = this.columns.find(x=>{return x.summary});
+     if (this.columns.some(x=>{return x.fixed})) {
+       if (hasSummary) {
+          this.isChrome =false;
+       }
+      this.ck_index_fixed=true;
+     }
+
     // 升级element 2.15.1版本后，这个高度有问题，如果有统计求和的table，强制使用max-height属性
     if (
       this.columns.some((x) => {
@@ -1367,6 +1377,7 @@ export default {
 .chrome >>> .el-table__fixed {
   height: calc(100% - 11px) !important;
   background: white;
+  /* box-shadow: 0px -11px 10px rgb(0 0 0 / 12%) !important; */
 }
 .chrome >>> .el-table__body-wrapper::-webkit-scrollbar {
   width: 11px;
@@ -1378,5 +1389,8 @@ export default {
 }
 .chrome >>> .el-table__fixed:before {
   background-color: unset;
+}
+.chrome >>> .el-table__fixed-footer-wrapper{
+      bottom: -11.5px;
 }
 </style>
