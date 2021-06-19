@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="vol-table" :class="[textInline ? 'text-inline' : '']">
+    <div class="vol-table" :class="[textInline ? 'text-inline' : '', isChrome?'chrome':'']">
       <div class="mask" v-show="loading"></div>
       <div class="message" v-show="loading">加载中.....</div>
       <el-table
@@ -476,9 +476,14 @@ export default {
       summaryIndex: {},
       remoteColumns: [], // 需要每次刷新或分页后从后台加载字典数据源的列配置
       cellStyleColumns: {}, // 有背景颜色的配置
+      isChrome: false, //2021.06.19判断谷歌内核浏览重新计算table高度
     };
   },
   created() {
+    //2021.06.19判断谷歌内核浏览重新计算table高度
+     if (navigator.userAgent.indexOf('Chrome') != -1 || navigator.userAgent.indexOf('Edge') != -1) {
+      this.isChrome = true;
+    }
     // 升级element 2.15.1版本后，这个高度有问题，如果有统计求和的table，强制使用max-height属性
     if (
       this.columns.some((x) => {
@@ -1049,7 +1054,7 @@ export default {
       this.loading = true;
       this.http.post(this.url, param).then(
         (data) => {
-        //2021.06.04修复tree不刷新的问题
+          //2021.06.04修复tree不刷新的问题
           if (this.rowKey) {
             this.randomTableKey++;
             this.rowData.splice(0);
@@ -1356,5 +1361,22 @@ export default {
 } */
 .v-table >>> .el-table__fixed:before {
   border-color: none !important;
+}
+
+/* 2021.06.19判断谷歌内核浏览重新计算table高度 */
+.chrome >>> .el-table__fixed {
+  height: calc(100% - 11px) !important;
+  background: white;
+}
+.chrome >>> .el-table__body-wrapper::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+.chrome >>> .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #ddd;
+}
+.chrome >>> .el-table__fixed:before {
+  background-color: unset;
 }
 </style>
