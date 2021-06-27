@@ -536,7 +536,7 @@ namespace VOL.Core.BaseProvider
             return DBSet.AddRangeAsync(entities);
         }
 
-        public virtual Task AddRangeAsync(TEntity entities)
+        public virtual Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
             return DBSet.AddRangeAsync(entities);
         }
