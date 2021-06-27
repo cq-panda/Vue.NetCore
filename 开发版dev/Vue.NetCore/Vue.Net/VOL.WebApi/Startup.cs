@@ -106,6 +106,7 @@ namespace VOL.WebApi
                         builder.WithOrigins(corsUrls.Split(","))
                         //添加预检请求过期时间
                          .SetPreflightMaxAge(TimeSpan.FromSeconds(2520))
+                        //如果不需要跨域请注释掉.AllowCredentials()或者增加跨域策略
                         .AllowCredentials()
                         .AllowAnyHeader().AllowAnyMethod();
                     });
@@ -166,11 +167,20 @@ namespace VOL.WebApi
             }
             app.UseMiddleware<ExceptionHandlerMiddleWare>();
             app.UseStaticFiles().UseStaticFiles(new StaticFileOptions
-            {  
+            {
                 ServeUnknownFileTypes = true
             });
             app.UseDefaultFiles();
             app.Use(HttpRequestMiddleware.Context);
+
+            //2021.06.27增加创建默认upload文件夹
+            string _uploadPath = (env.ContentRootPath + "/Upload").ReplacePath();
+
+            if (!Directory.Exists(_uploadPath))
+            {
+                Directory.CreateDirectory(_uploadPath);
+            }
+
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
@@ -186,7 +196,7 @@ namespace VOL.WebApi
             });
             //配置HttpContext
             app.UseStaticHttpContext();
-              
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
