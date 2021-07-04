@@ -424,18 +424,18 @@ namespace VOL.Core.BaseProvider
                 Response.Error("未能处理导入的文件,请检查导入的文件是否正确");
                 Logger.Error($"表{typeof(T).GetEntityTableCnName()}导入失败{ex.Message + ex.InnerException?.Message}");
             }
-            if (!Response.Status) return Response;
+            if (CheckResponseResult()) return Response;
             List<T> list = Response.Data as List<T>;
             if (ImportOnExecuting != null)
             {
                 Response = ImportOnExecuting.Invoke(list);
-                if (!Response.Status) return Response;
+                if (CheckResponseResult()) return Response;
             }
             repository.AddRange(list, true);
             if (ImportOnExecuted != null)
             {
                 Response = ImportOnExecuted.Invoke(list);
-                if (!Response.Status) return Response;
+                if (CheckResponseResult()) return Response;
             }
             return new WebResponseContent { Status = true, Message = "文件上传成功" };
         }
@@ -457,7 +457,7 @@ namespace VOL.Core.BaseProvider
             if (ExportOnExecuting != null)
             {
                 Response = ExportOnExecuting(list, ignoreColumn);
-                if (!Response.Status) return Response;
+                if (CheckResponseResult()) return Response;
             }
             //ExportColumns 2020.05.07增加扩展指定导出模板的列
             EPPlusHelper.Export(list, ExportColumns?.GetExpressionToArray(), ignoreColumn, savePath, fileName);
@@ -474,7 +474,7 @@ namespace VOL.Core.BaseProvider
             if (AddOnExecute != null)
             {
                 Response = AddOnExecute(saveDataModel);
-                if (!Response.Status) return Response;
+                if (CheckResponseResult()) return Response;
             }
             if (saveDataModel == null
                 || saveDataModel.MainData == null
@@ -510,7 +510,7 @@ namespace VOL.Core.BaseProvider
                 if (base.AddOnExecuting != null)
                 {
                     Response = base.AddOnExecuting(mainEntity, null);
-                    if (!Response.Status) return Response;
+                    if (CheckResponseResult()) return Response;
                 }
                 Response = repository.DbContextBeginTransaction(() =>
                 {
@@ -556,17 +556,17 @@ namespace VOL.Core.BaseProvider
             if (validationEntity)
             {
                 Response = entity.ValidationEntity();
-                if (!Response.Status) return Response;
+                if (CheckResponseResult()) return Response;
                 if (list != null && list.Count > 0)
                 {
                     Response = list.ValidationEntity();
-                    if (!Response.Status) return Response;
+                    if (CheckResponseResult()) return Response;
                 }
             }
             if (this.AddOnExecuting != null)
             {
                 Response = AddOnExecuting(entity, list);
-                if (!Response.Status) return Response;
+                if (CheckResponseResult()) return Response;
             }
             Response = repository.DbContextBeginTransaction(() =>
             {
@@ -617,7 +617,7 @@ namespace VOL.Core.BaseProvider
             Response = Add<TDetail>(mainEntity, list, false);
 
             //保存失败
-            if (!Response.Status)
+            if (CheckResponseResult())
             {
                 Logger.Error(LoggerType.Add, saveDataModel.Serialize() + Response.Message);
                 return Response;
@@ -715,7 +715,7 @@ namespace VOL.Core.BaseProvider
             if (UpdateOnExecuting != null)
             {
                 Response = UpdateOnExecuting(mainEnity, addList, editList, delKeys);
-                if (!Response.Status)
+                if (CheckResponseResult())
                     return Response;
             }
             mainEnity.SetModifyDefaultVal();
@@ -838,7 +838,7 @@ namespace VOL.Core.BaseProvider
             if (UpdateOnExecute != null)
             {
                 Response = UpdateOnExecute(saveModel);
-                if (!Response.Status) return Response;
+                if (CheckResponseResult()) return Response;
             }
             if (saveModel == null)
                 return Response.Error(ResponseType.ParametersLack);
@@ -912,7 +912,7 @@ namespace VOL.Core.BaseProvider
             if (IsMultiTenancy && !UserContext.Current.IsSuperAdmin)
             {
                 CheckUpdateMultiTenancy(mainKeyProperty.PropertyType == typeof(Guid) ? "'" + mainKeyVal.ToString() + "'" : mainKeyVal.ToString(), mainKeyProperty.Name);
-                if (!Response.Status)
+                if (CheckResponseResult())
                 {
                     return Response;
                 }
@@ -929,7 +929,7 @@ namespace VOL.Core.BaseProvider
                 if (UpdateOnExecuting != null)
                 {
                     Response = UpdateOnExecuting(mainEntity, null, null, null);
-                    if (!Response.Status) return Response;
+                    if (CheckResponseResult()) return Response;
                 }
                 //不修改!CreateFields.Contains创建人信息
                 repository.Update(mainEntity, type.GetEditField().Where(c => saveModel.MainData.Keys.Contains(c) && !CreateFields.Contains(c)).ToArray());
@@ -1028,7 +1028,7 @@ namespace VOL.Core.BaseProvider
             if (DelOnExecuting != null)
             {
                 Response = DelOnExecuting(keys);
-                if (!Response.Status) return Response;
+                if (CheckResponseResult()) return Response;
             }
 
             FieldType fieldType = entityType.GetFieldType();
@@ -1040,7 +1040,7 @@ namespace VOL.Core.BaseProvider
             if (IsMultiTenancy && !UserContext.Current.IsSuperAdmin)
             {
                 CheckDelMultiTenancy(joinKeys, tKey);
-                if (!Response.Status)
+                if (CheckResponseResult())
                 {
                     return Response;
                 }
@@ -1147,13 +1147,13 @@ namespace VOL.Core.BaseProvider
             if (base.AuditOnExecuting != null)
             {
                 Response = AuditOnExecuting(auditList);
-                if (!Response.Status) return Response;
+                if (CheckResponseResult()) return Response;
             }
             repository.UpdateRange(auditList, updateFileds.Select(x => x.Name).ToArray(), true);
             if (base.AuditOnExecuted != null)
             {
                 Response = AuditOnExecuted(auditList);
-                if (!Response.Status) return Response;
+                if (CheckResponseResult()) return Response;
             }
             return Response.OK(ResponseType.AuditSuccess);
         }
@@ -1199,7 +1199,7 @@ namespace VOL.Core.BaseProvider
                 {
                     Response = list[i].ValidationEntity(expression?.GetExpressionProperty(),
                         validateExpression?.GetExpressionProperty());
-                    if (!Response.Status)
+                    if (CheckResponseResult())
                         return (Response.Message, default(TInput), false);
                 }
                 return ("", input, true);
@@ -1248,6 +1248,14 @@ namespace VOL.Core.BaseProvider
         public virtual void MapValueToEntity<TSource, TResult>(TSource source, TResult result, Expression<Func<TResult, object>> expression = null) where TResult : class
         {
             source.MapValueToEntity<TSource, TResult>(result, expression);
+        }
+        /// <summary>
+        /// 2021.07.04增加code="-1"强制返回，具体使用见：后台开发文档->后台基础代码扩展实现
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckResponseResult()
+        {
+            return !Response.Status || Response.Code == "-1";
         }
     }
 }
