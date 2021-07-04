@@ -48,6 +48,34 @@ export default {
     return {
       active: 0,
       log: [
+        { date: "2021.06", type: "month" },
+        { date: "2021-06-20 01:04:21", desc: "调整voltable默认固定列规则" },
+        {
+          date: "2021-06-19 23:58:52",
+          desc: "增加谷歌内核浏览判断,重新计算table高度",
+        },
+        {
+          date: "2021-06-19 23:52:40",
+          desc: "修复treetable删除后刷新无效的问题",
+        },
+        { date: "2021-06-06 14:59:21", desc: "调用明细表单元格高度" },
+        { date: "2021-06-06 14:35:43", desc: "增加table tree后台使用说明" },
+        { date: "2021-06-06 14:31:53", desc: "优化tabletree错位的问题" },
+        { date: "2021-06-05 01:42:36", desc: "优化查询界面样式" },
+        { date: "2021-06-05 01:09:31", desc: "更新文档" },
+        {
+          date: "2021-06-05 00:45:07",
+          desc: "优化显示所有固定查询样式(修改文件viewgrid.less,viewgrid.vue,methods.js)",
+        },
+        {
+          date: "2021-06-04 23:31:45",
+          desc: "修复element table tree不刷新的问题",
+        },
+        { date: "2021-06-04 23:31:09", desc: "移除刷新按钮" },
+        {
+          date: "2021-06-04 22:49:37",
+          desc: "增加导入excel时对5位数字日期格式处理",
+        },
         { date: "2021.05", type: "month" },
         {
           date: "2021-05-30 19:43:59",
@@ -64,8 +92,7 @@ export default {
         { date: "2021-05-23 15:04:12", desc: "集成vue-count-to" },
         {
           date: "2021-05-23 03:38:27",
-          desc:
-            "修复sqldapper事务未实例化的问题，移除sqldapper mysql批量插入双引号的替换",
+          desc: "修复sqldapper事务未实例化的问题，移除sqldapper mysql批量插入双引号的替换",
         },
         { date: "2021-05-17 23:07:13", desc: "优化H5" },
         {
@@ -83,8 +110,7 @@ export default {
         { date: "2021-05-16 21:20:24", desc: "集成代码生成iview radio组件" },
         {
           date: "2021-05-16 13:41:47",
-          desc:
-            "修复SqlDapper逻辑处理错误的问题(建议更新,更新文档SqlDapper.cs,ISqlDapper.cs)",
+          desc: "修复SqlDapper逻辑处理错误的问题(建议更新,更新文档SqlDapper.cs,ISqlDapper.cs)",
         },
         { date: "2021-05-14 00:05:40", desc: "重写菜单、权限分配页面样式" },
         {
@@ -112,14 +138,12 @@ export default {
         },
         {
           date: "2021-05-02 15:27:19",
-          desc:
-            "集成treetable，需要更新(package-lock.json,ViewGrid.vue,methods.js,VolTable.vue);注意更新后需要在前端vol.vue文件夹下重新执行下npm install命令",
+          desc: "集成treetable，需要更新(package-lock.json,ViewGrid.vue,methods.js,VolTable.vue);注意更新后需要在前端vol.vue文件夹下重新执行下npm install命令",
         },
         { date: "2021-05-02 14:11:26", desc: "升级element版本2.4.11" },
         {
           date: "2021-05-02 00:32:29",
-          desc:
-            "增加代码生成器区间查询(需要更新文件Sys_TableInfoService.cs,methods.js,VolForm.vue,builderData.js)",
+          desc: "增加代码生成器区间查询(需要更新文件Sys_TableInfoService.cs,methods.js,VolForm.vue,builderData.js)",
         },
         {
           date: "2021-05-01 23:59:28",
@@ -127,13 +151,11 @@ export default {
         },
         {
           date: "2021-05-01 14:36:42",
-          desc:
-            "完善前端http请求文档(现在可以设置请求超时时间，自定义请求头等信息)",
+          desc: "完善前端http请求文档(现在可以设置请求超时时间，自定义请求头等信息)",
         },
         {
           date: "2021-05-01 14:26:57",
-          desc:
-            "重写http.js、token过期自动刷新机制(需要更新前端http.js,后台Sys_UserController.cs,ApiAuthorizeFilter.cs,HttpRequestMiddleware.cs)",
+          desc: "重写http.js、token过期自动刷新机制(需要更新前端http.js,后台Sys_UserController.cs,ApiAuthorizeFilter.cs,HttpRequestMiddleware.cs)",
         },
         { date: "2021-05-01 14:22:58", desc: "优化文档" },
         { date: "2021-05-01 14:22:34", desc: "优化dapper" },
@@ -209,8 +231,7 @@ export default {
         { date: "2021-03-14 23:41:43", desc: "增加一对一、一对多详细使用demo" },
         {
           date: "2021-03-06 17:39:37",
-          desc:
-            "增加生成前端页面生成到指定文件夹下(原来生成到项目类库名下,原有文件不受影响)",
+          desc: "增加生成前端页面生成到指定文件夹下(原来生成到项目类库名下,原有文件不受影响)",
         },
         { date: "2021-03-06 17:37:56", desc: "重命名删除方法" },
         { date: "2021-03-06 17:36:42", desc: "增加表单只读时日期格式化处理" },
@@ -222,8 +243,7 @@ export default {
         { date: "2021-02-01 20:12:23", desc: "增加表单年月查询" },
         {
           date: "2021-02-01 18:23:19",
-          desc:
-            "设置表单多图上传时默认累开启追加功能(以前多图上传重新选择时会移除原来的图片)",
+          desc: "设置表单多图上传时默认累开启追加功能(以前多图上传重新选择时会移除原来的图片)",
         },
         {
           date: "2021-02-01 18:21:15",
@@ -232,8 +252,7 @@ export default {
         { date: "2021.01", type: "month" },
         {
           date: "2021-01-31 16:00:04",
-          desc:
-            "增加http.js post方法第4个参数(可以设置自定义响应类型，请求头等，更多参数具体参照axios文档或源码)",
+          desc: "增加http.js post方法第4个参数(可以设置自定义响应类型，请求头等，更多参数具体参照axios文档或源码)",
         },
         {
           date: "2021-01-30 23:56:59",
@@ -258,8 +277,7 @@ export default {
         { date: "2021-01-23 13:48:48", desc: "移除无用文件" },
         {
           date: "2021-01-22 19:39:06",
-          desc:
-            "修复一对一从表点击编辑按钮时没有加载从表数据(点击快捷编辑的不受影响)",
+          desc: "修复一对一从表点击编辑按钮时没有加载从表数据(点击快捷编辑的不受影响)",
         },
         {
           date: "2021-01-16 12:11:41",
@@ -282,8 +300,7 @@ export default {
         { date: "2021-01-10 00:55:17", desc: "完善文档" },
         {
           date: "2021-01-10 00:12:57",
-          desc:
-            "增加新建、编辑前可以阻止弹出框弹出(使用方法见：组件api->viewgrid文档)",
+          desc: "增加新建、编辑前可以阻止弹出框弹出(使用方法见：组件api->viewgrid文档)",
         },
         {
           date: "2021-01-09 23:48:05",
@@ -326,8 +343,7 @@ export default {
         { date: "2020-12-27 19:03:00", desc: "增加上传组件默认base64的支持" },
         {
           date: "2020-12-27 18:26:35",
-          desc:
-            "增加菜单不显示也可以分配仅限功能，需要更新文件VolElementMenu.vue  VolElementMenuChild.vue  Sys_Menu.vue   Sys_MenuService.cs  UserContext.cs",
+          desc: "增加菜单不显示也可以分配仅限功能，需要更新文件VolElementMenu.vue  VolElementMenuChild.vue  Sys_Menu.vue   Sys_MenuService.cs  UserContext.cs",
         },
         {
           date: "2020-12-27 13:38:48",
@@ -338,8 +354,7 @@ export default {
         { date: "2020-12-26 19:21:44", desc: "移除模板多余引用" },
         {
           date: "2020-12-21 19:40:45",
-          desc:
-            "增加菜单收缩功能更新文件：更新文件VolElementMenuChild.vue 、VolElementMenu.vue 、Index.vue",
+          desc: "增加菜单收缩功能更新文件：更新文件VolElementMenuChild.vue 、VolElementMenu.vue 、Index.vue",
         },
         {
           date: "2020-12-19 13:36:32",
@@ -348,8 +363,7 @@ export default {
         { date: "2020-12-19 13:29:06", desc: "增加前端禁止缓存与完善其他文档" },
         {
           date: "2020-12-19 13:09:50",
-          desc:
-            "增加table单元格为img时，可以自定义formatter及对base64图片的默认支持",
+          desc: "增加table单元格为img时，可以自定义formatter及对base64图片的默认支持",
         },
         {
           date: "2020-12-19 12:47:06",
@@ -440,8 +454,7 @@ export default {
         { date: "2020-11-21 14:34:33", desc: "增加代码生成器使用说明" },
         {
           date: "2020-11-21 14:22:09",
-          desc:
-            "增加Controller、Service中构造方法获取实例文档，补充代码生成器文档",
+          desc: "增加Controller、Service中构造方法获取实例文档，补充代码生成器文档",
         },
         { date: "2020-11-20 23:12:01", desc: "更新sqlserver字典数据库脚本" },
         { date: "2020-11-17 20:26:25", desc: "优化H5表单与http.js" },
@@ -472,8 +485,7 @@ export default {
         },
         {
           date: "2020-11-02 18:49:46",
-          desc:
-            "修复表单只有一个input时按回车自动提交的问题，修复级联类型判断错误的问题",
+          desc: "修复表单只有一个input时按回车自动提交的问题，修复级联类型判断错误的问题",
         },
         {
           date: "2020-11-01 18:09:26",
@@ -551,8 +563,7 @@ export default {
         },
         {
           date: "2020-09-20 16:33:31",
-          desc:
-            "移除未实现的EF调用存储过程的方法,增加EF调用原生sql参数化查询FromSqlInterpolated",
+          desc: "移除未实现的EF调用存储过程的方法,增加EF调用原生sql参数化查询FromSqlInterpolated",
         },
         { date: "2020-09-20 16:21:01", desc: "增加排序表达式的null判断" },
         { date: "2020-09-20 16:18:36", desc: "修复dapper事务嵌套异常的问题" },
@@ -573,8 +584,7 @@ export default {
         { date: "2020-09-06 02:21:01", desc: "完善文档" },
         {
           date: "2020-09-06 01:26:30",
-          desc:
-            "增加table有数据源的列可以移除或自定义显示背景颜色及点击事件；增加添加行方法时设置默认字段(解决编辑状态下编辑值可能不刷新的问题)",
+          desc: "增加table有数据源的列可以移除或自定义显示背景颜色及点击事件；增加添加行方法时设置默认字段(解决编辑状态下编辑值可能不刷新的问题)",
         },
         {
           date: "2020-09-05 23:57:42",
@@ -598,8 +608,7 @@ export default {
         { date: "2020-08-30 15:42:49", desc: "优化导入成功后的提示信息" },
         {
           date: "2020-08-29 01:29:33",
-          desc:
-            "添加table设置分页条大小、获取table所有行、获取table选中的行文档",
+          desc: "添加table设置分页条大小、获取table所有行、获取table选中的行文档",
         },
         {
           date: "2020-08-29 00:42:04",
@@ -627,8 +636,7 @@ export default {
         { date: "2020-08-18 18:55:12", desc: "完善文档" },
         {
           date: "2020-08-16 23:01:30",
-          desc:
-            "增加表单、table输入值后实时计算文档。增加项目启动异常处理方法文档",
+          desc: "增加表单、table输入值后实时计算文档。增加项目启动异常处理方法文档",
         },
         { date: "2020-08-15 03:20:56", desc: "完善文档" },
         {
@@ -682,8 +690,7 @@ export default {
         },
         {
           date: "2020-07-10 16:33:03",
-          desc:
-            "修复登陆页IE底部显示问题、优化首页菜单border、修改代码生成器字段描述",
+          desc: "修复登陆页IE底部显示问题、优化首页菜单border、修改代码生成器字段描述",
         },
         { date: "2020.06", type: "month" },
         { date: "2020-06-26 18:43:14", desc: "添加首页大屏显示" },
@@ -704,8 +711,7 @@ export default {
         },
         {
           date: "2020-06-20 02:17:52",
-          desc:
-            "增加volform、voltable对原生render的支持(现可任意扩展其他组件到form与table)",
+          desc: "增加volform、voltable对原生render的支持(现可任意扩展其他组件到form与table)",
         },
         { date: "2020-06-20 00:44:33", desc: "优化首页、首页皮肤" },
         {
@@ -731,8 +737,7 @@ export default {
         { date: "2020-06-14 16:38:58", desc: "增加对mysql数据类型double区分" },
         {
           date: "2020-06-14 16:12:12",
-          desc:
-            "增加代码生成器pgsql实体直实表名使用小写,dapper获取pgsql的NpgsqlConnection",
+          desc: "增加代码生成器pgsql实体直实表名使用小写,dapper获取pgsql的NpgsqlConnection",
         },
         { date: "2020-06-14 15:28:33", desc: "增加pgsql数据库配置" },
         {
@@ -742,8 +747,7 @@ export default {
         { date: "2020-06-07 14:49:00", desc: "修复级联操作文档描述错误的问题" },
         {
           date: "2020-06-06 22:51:34",
-          desc:
-            "编辑表单类型selectList数据源为自定义sql并且key是数字时，强制转换成字符串",
+          desc: "编辑表单类型selectList数据源为自定义sql并且key是数字时，强制转换成字符串",
         },
         {
           date: "2020-06-06 22:47:43",
@@ -751,8 +755,7 @@ export default {
         },
         {
           date: "2020-06-06 21:54:42",
-          desc:
-            "增加代码生成器文档，对select/selectList自定义sql数据源，在编辑时无法绑定默认值的问题说明",
+          desc: "增加代码生成器文档，对select/selectList自定义sql数据源，在编辑时无法绑定默认值的问题说明",
         },
         {
           date: "2020-06-06 20:36:16",
@@ -796,8 +799,7 @@ export default {
         { date: "2020.05", type: "month" },
         {
           date: "2020-05-31 23:15:20",
-          desc:
-            "集成iview级联组件cascader到框架volform、viewgrid组件中；增加级联操作文档",
+          desc: "集成iview级联组件cascader到框架volform、viewgrid组件中；增加级联操作文档",
         },
         { date: "2020-05-31 21:15:33", desc: "移除无用文件夹test" },
         {
@@ -818,8 +820,7 @@ export default {
         { date: "2020-05-17 15:17:01", desc: "优化首页tab选项卡border样式" },
         {
           date: "2020-05-17 15:04:17",
-          desc:
-            "修复代码生成器mysql获取表结构没有区分数据库的问题(感谢jerry指正)",
+          desc: "修复代码生成器mysql获取表结构没有区分数据库的问题(感谢jerry指正)",
         },
         { date: "2020-05-12 10:08:23", desc: "优化手动上传组件图片选择器" },
         {
@@ -833,8 +834,7 @@ export default {
         },
         {
           date: "2020-05-07 14:46:08",
-          desc:
-            "增加(导入、下载导入模板、导出表数据)时可以指定导入与导出字段(默认为界面上可以看到的字段)",
+          desc: "增加(导入、下载导入模板、导出表数据)时可以指定导入与导出字段(默认为界面上可以看到的字段)",
         },
         {
           date: "2020-05-03 12:12:08",
@@ -868,8 +868,7 @@ export default {
         },
         {
           date: "2020-04-21 23:00:06",
-          desc:
-            "增加没有编辑或新建权限时，也可以通过buttons属性添加自定义弹出框按钮",
+          desc: "增加没有编辑或新建权限时，也可以通过buttons属性添加自定义弹出框按钮",
         },
         { date: "2020-04-21 20:17:25", desc: "修复首页字符拼写错误" },
         { date: "2020-04-21 10:58:15", desc: "将默认皮肤黑色改为蓝色" },
@@ -959,8 +958,7 @@ export default {
         },
         {
           date: "2020-03-14 13:29:14",
-          desc:
-            "增加table组件可始终开启编辑状态，增加单元格编辑类型switch组件onChange事件",
+          desc: "增加table组件可始终开启编辑状态，增加单元格编辑类型switch组件onChange事件",
         },
         {
           date: "2020-03-12 19:41:52",
@@ -1000,8 +998,7 @@ export default {
         },
         {
           date: "2020-02-04 10:58:01",
-          desc:
-            "修复select远程搜索数组分割错误的问题及select清空时同时清空数据源",
+          desc: "修复select远程搜索数组分割错误的问题及select清空时同时清空数据源",
         },
         { date: "2020-02-02 21:19:20", desc: "表单优化" },
         {
@@ -1064,8 +1061,7 @@ export default {
         { date: "2019-12-19 17:36:37", desc: "优化代生成模板" },
         {
           date: "2019-12-19 17:34:38",
-          desc:
-            "增加Dapper调用批量删除、更新(mysql未实现)、写入的实现，优化Dapper使用",
+          desc: "增加Dapper调用批量删除、更新(mysql未实现)、写入的实现，优化Dapper使用",
         },
         { date: "2019-12-19 11:30:40", desc: "优化表单只读时提示" },
         {
@@ -1078,13 +1074,11 @@ export default {
         },
         {
           date: "2019-12-17 17:48:43",
-          desc:
-            "增加voltable可使用button操作进行编辑、编辑select标签事件触发，编辑开始与编辑完成事件扩展、增加td单元格额外选项标签",
+          desc: "增加voltable可使用button操作进行编辑、编辑select标签事件触发，编辑开始与编辑完成事件扩展、增加td单元格额外选项标签",
         },
         {
           date: "2019-12-17 11:45:21",
-          desc:
-            "增加代码生成的表单是否默认加载数据属性，增加table编辑的select可筛选，增加selectList校验",
+          desc: "增加代码生成的表单是否默认加载数据属性，增加table编辑的select可筛选，增加selectList校验",
         },
         { date: "2019-12-17 10:36:11", desc: "优化加载提示" },
         { date: "2019-12-14 11:17:28", desc: "优化头像默认显示" },
@@ -1140,14 +1134,12 @@ export default {
         },
         {
           date: "2019-12-06 20:06:30",
-          desc:
-            "table添加行时，如果是可编辑的switch类型没有初始值时，设置默认值为0",
+          desc: "table添加行时，如果是可编辑的switch类型没有初始值时，设置默认值为0",
         },
         { date: "2019-12-06 19:50:00", desc: "增加页面刷新加载效果" },
         {
           date: "2019-12-06 19:46:09",
-          desc:
-            "添加表单支持额外标签显示及事件处理，增加table表单元格可下载文件",
+          desc: "添加表单支持额外标签显示及事件处理，增加table表单元格可下载文件",
         },
         {
           date: "2019-12-06 18:38:26",
@@ -1155,8 +1147,7 @@ export default {
         },
         {
           date: "2019-12-05 13:12:05",
-          desc:
-            "修复代码生成器bigint识别错误的问题，优化代码生成器同步表结构的功能",
+          desc: "修复代码生成器bigint识别错误的问题，优化代码生成器同步表结构的功能",
         },
         { date: "2019-12-02 17:34:42", desc: "优化代码生成器排序规则" },
         { date: "2019-12-02 15:26:38", desc: "添加可自定义编辑框大小" },
@@ -1176,8 +1167,7 @@ export default {
         },
         {
           date: "2019-11-28 13:13:44",
-          desc:
-            "修复代码生成器对sqlserver数据非主键GUID生成的model错误的问题，修复从表别名后删除时未获取到真实表名的问题",
+          desc: "修复代码生成器对sqlserver数据非主键GUID生成的model错误的问题，修复从表别名后删除时未获取到真实表名的问题",
         },
         { date: "2019-11-28 11:50:47", desc: "优化登陆界面" },
         { date: "2019-11-27 15:02:22", desc: "优化表单组件对password的提示" },
@@ -1252,8 +1242,7 @@ export default {
         },
         {
           date: "2019-11-18 18:45:28",
-          desc:
-            "修复select字典数据类型与绑定值的数据类型不一致时不能绑定默认值的问题",
+          desc: "修复select字典数据类型与绑定值的数据类型不一致时不能绑定默认值的问题",
         },
         { date: "2019-11-18 18:44:13", desc: "优化代码生成器" },
         {
@@ -1319,8 +1308,7 @@ export default {
         { date: "2019-11-12 11:55:19", desc: "增加文档" },
         {
           date: "2019-11-12 11:50:04",
-          desc:
-            "增加可设置FixedTokenAttribute属性标识Token是否永远不过期,修复获取用户信息存在异常的问题",
+          desc: "增加可设置FixedTokenAttribute属性标识Token是否永远不过期,修复获取用户信息存在异常的问题",
         },
         {
           date: "2019-11-11 13:50:39",
@@ -1333,8 +1321,7 @@ export default {
         },
         {
           date: "2019-11-11 11:16:56",
-          desc:
-            "修复SaveChanges方法拼写错误的问题，增加菜单保存对表名重复性验证",
+          desc: "修复SaveChanges方法拼写错误的问题，增加菜单保存对表名重复性验证",
         },
         {
           date: "2019-11-08 15:19:02",
@@ -1384,8 +1371,7 @@ export default {
         },
         {
           date: "2019-10-31 10:42:37",
-          desc:
-            "优化编辑弹出框自适应功能，增加编辑弹出框可以自行设置高度与宽度",
+          desc: "优化编辑弹出框自适应功能，增加编辑弹出框可以自行设置高度与宽度",
         },
         { date: "2019-10-29 17:13:42", desc: "增加代码生成器非空判断" },
         { date: "2019-10-29 09:51:24", desc: "修改日志处理" },
@@ -1413,8 +1399,7 @@ export default {
         },
         {
           date: "2019-10-22 18:55:00",
-          desc:
-            "修复第一次弹出框时获取不到子组件的问题,增加记录当前编辑行的属性",
+          desc: "修复第一次弹出框时获取不到子组件的问题,增加记录当前编辑行的属性",
         },
         {
           date: "2019-10-22 15:41:27",
@@ -1423,8 +1408,7 @@ export default {
         { date: "2019-10-22 10:28:45", desc: "修改项目启动介绍说明" },
         {
           date: "2019-10-21 19:02:19",
-          desc:
-            "添加IE9以上版本的支持,添加打包后文件后缀加上时间戳解决缓存问题",
+          desc: "添加IE9以上版本的支持,添加打包后文件后缀加上时间戳解决缓存问题",
         },
         { date: "2019-10-18 15:47:00", desc: "增加textarea标签可自行设定高度" },
         {
@@ -1499,17 +1483,17 @@ li:before {
   top: -1px;
   position: relative;
 }
-  .month{
-     font-size: 26px;
-    font-weight: bold;
-    margin-top: 20px;
-    .date{
-      border-right: 0;
-    }
+.month {
+  font-size: 26px;
+  font-weight: bold;
+  margin-top: 20px;
+  .date {
+    border-right: 0;
   }
-    .month:before{
-   display: none;
-  }
+}
+.month:before {
+  display: none;
+}
 .log {
   display: flex;
   .active {
