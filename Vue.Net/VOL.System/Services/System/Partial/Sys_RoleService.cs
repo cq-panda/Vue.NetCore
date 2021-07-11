@@ -16,7 +16,7 @@ namespace VOL.System.Services
 {
     public partial class Sys_RoleService
     {
-
+        private WebResponseContent _responseContent = new WebResponseContent();
         public override PageGridData<Sys_Role> GetPageData(PageDataOptions pageData)
         {
             //角色Id=1默认为超级管理员角色，界面上不显示此角色
@@ -46,13 +46,12 @@ namespace VOL.System.Services
         /// <param name="roleId"></param>
         /// <returns></returns>
         public async Task<WebResponseContent> GetUserTreePermission(int roleId)
-        { 
-            WebResponseContent webResponse = new WebResponseContent();
+        {
             if (!UserContext.IsRoleIdSuperAdmin(roleId) && UserContext.Current.RoleId != roleId)
             {
                 if (!(await GetAllChildrenAsync(UserContext.Current.RoleId)).Exists(x => x.Id == roleId))
                 {
-                    return webResponse.Error("没有权限获取此角色的权限信息");
+                    return _responseContent.Error("没有权限获取此角色的权限信息");
                 }
             }
             //获取用户权限
@@ -67,7 +66,7 @@ namespace VOL.System.Services
                 Text = x.MenuName,
                 Actions = GetActions(x.Menu_Id, x.Actions, permissions, roleId)
             });
-            return webResponse.OK(null, data);
+            return _responseContent.OK(null, data);
         }
 
         private List<Sys_Actions> GetActions(int menuId, List<Sys_Actions> menuActions, List<Permissions> permissions, int roleId)
@@ -91,11 +90,11 @@ namespace VOL.System.Services
         /// <returns></returns>
         public async Task<WebResponseContent> GetCurrentTreePermission()
         {
-            WebResponseContent webResponse = await GetCurrentUserTreePermission();
+            _responseContent = await GetCurrentUserTreePermission();
             int roleId = UserContext.Current.RoleId;
-            return new WebResponseContent().OK(null, new
+            return _responseContent.OK(null, new
             {
-                tree = webResponse.Data,
+                tree = _responseContent.Data,
                 roles = await GetAllChildrenAsync(roleId)
             });
         }
@@ -161,24 +160,31 @@ namespace VOL.System.Services
             if (UserContext.IsRoleIdSuperAdmin(roleId)) return roles;
             Dictionary<int, bool> completedRoles = new Dictionary<int, bool>();
             rolesChildren = GetChildren(roleId, completedRoles);
+            //2021.07.11增加无限递归异常数据移除当前节点
+            if (rolesChildren.Any(x => x.Id == roleId))
+            {
+                return rolesChildren.Where(x => x.Id != roleId).ToList();
+            }
             return rolesChildren;
         }
         /// <summary>
         /// 递归获取所有子节点权限
         /// </summary>
         /// <param name="roleId"></param>
-        private List<RoleNodes> GetChildren(int roleId,Dictionary<int, bool> completedRoles)
+        private List<RoleNodes> GetChildren(int roleId, Dictionary<int, bool> completedRoles)
         {
             roles.ForEach(x =>
             {
                 if (x.ParentId == roleId)
                 {
-                    if (completedRoles.TryGetValue(roleId, out bool isWrite))
+                    if (completedRoles.TryGetValue(x.Id, out bool isWrite))
                     {
                         if (!isWrite)
                         {
-                            completedRoles[roleId] = true;
-                            Logger.Error($"获取子角色异常Sys_RoleService,角色id:{roleId}");
+                            roles.Where(x => x.Id == roleId).FirstOrDefault().ParentId = 0;
+                            Logger.Error($"sys_roleservice获取子角色异常RoleContext,角色id:{x.Id}");
+                            Console.WriteLine($"sys_roleservice获取子角色异常RoleContext,角色id:{x.Id}");
+                            completedRoles[x.Id] = true;
                         }
                         return;
                     }
@@ -204,13 +210,13 @@ namespace VOL.System.Services
         /// <returns></returns>
         public async Task<WebResponseContent> SavePermission(List<UserPermissions> userPermissions, int roleId)
         {
-            WebResponseContent webResponse = new WebResponseContent();
+
             string message = "";
             try
             {
                 UserInfo user = UserContext.Current.UserInfo;
                 if (!(await GetAllChildrenAsync(user.Role_Id)).Exists(x => x.Id == roleId))
-                    return webResponse.Error("没有权限修改此角色的权限信息");
+                    return _responseContent.Error("没有权限修改此角色的权限信息");
                 //当前用户的权限
                 List<Permissions> permissions = UserContext.Current.Permissions;
 
@@ -291,7 +297,7 @@ namespace VOL.System.Services
                 //标识缓存已更新
                 base.CacheContext.Add(roleId.GetRoleIdKey(), _version);
 
-                webResponse.OK($"保存成功：新增加配菜单权限{addCount}条,更新菜单{updateCount}条,删除权限{delAuths.Count()}条");
+                _responseContent.OK($"保存成功：新增加配菜单权限{addCount}条,更新菜单{updateCount}条,删除权限{delAuths.Count()}条");
             }
             catch (Exception ex)
             {
@@ -299,10 +305,10 @@ namespace VOL.System.Services
             }
             finally
             {
-                Logger.Info($"权限分配置:{message}{webResponse.Message}");
+                Logger.Info($"权限分配置:{message}{_responseContent.Message}");
             }
 
-            return webResponse;
+            return _responseContent;
         }
 
 
@@ -322,12 +328,11 @@ namespace VOL.System.Services
 
         private WebResponseContent ValidateRoleName(Sys_Role role, Expression<Func<Sys_Role, bool>> predicate)
         {
-            WebResponseContent responseContent = new WebResponseContent(true);
             if (repository.Exists(predicate))
             {
-                return responseContent.Error($"角色名【{role.RoleName}】已存在,请设置其他角色名");
+                return _responseContent.Error($"角色名【{role.RoleName}】已存在,请设置其他角色名");
             }
-            return responseContent;
+            return _responseContent.OK();
         }
 
         public override WebResponseContent Update(SaveModel saveModel)
@@ -337,17 +342,15 @@ namespace VOL.System.Services
                 //2020.05.07新增禁止选择上级角色为自己
                 if (role.Role_Id == role.ParentId)
                 {
-                    return WebResponseContent.Instance.Error($"上级角色不能选择自己");
+                    return _responseContent.Error($"上级角色不能选择自己");
                 }
-                if (role.Role_Id==UserContext.Current.RoleId)
+                if (role.Role_Id == UserContext.Current.RoleId)
                 {
-                    return WebResponseContent.Instance.Error($"不能修改自己的角色");
+                    return _responseContent.Error($"不能修改自己的角色");
                 }
-
-                if (GetAllChildren(role.ParentId).Any(x => x.ParentId == role.Role_Id)
-                ||repository.Exists(x=>x.ParentId== role.Role_Id))
+                if (repository.Exists(x => x.Role_Id == role.ParentId && x.ParentId == role.Role_Id))
                 {
-                    return WebResponseContent.Instance.Error($"不能选择此上级角色，选择的上级角色与当前角色形成依赖关系");
+                    return _responseContent.Error($"不能选择此上级角色，选择的上级角色与当前角色形成依赖关系");
                 }
                 return ValidateRoleName(role, x => x.RoleName == role.RoleName && x.Role_Id != role.Role_Id);
             };
