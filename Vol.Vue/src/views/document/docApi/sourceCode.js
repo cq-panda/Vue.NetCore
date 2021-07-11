@@ -119,61 +119,132 @@ var codeString = {
 		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
 	</div>
 </div>`,
-  box: `<div>
-    <div>
-    <div class="cnblogs_code">
-    <pre>&lt;template&gt;
-      &lt;div&gt;
-        &lt;Button type="info" @click="model=!model"&gt;弹出框&lt;/Button&gt;
-        &lt;<span style="color: #000000;">VolBox
-          icon</span>="ios-chatbubbles"<span style="color: #000000;">
-          :lazy</span>="true"<span style="color: #000000;">
-          :model.sync</span>="model"<span style="color: #000000;">
-          title</span>="弹出框标题"<span style="color: #000000;">
-          :height</span>="400"<span style="color: #000000;">
-          :width</span>="700"<span style="color: #000000;">
-          :padding</span>="15"
-        &gt;
-          &lt;div&gt;弹出框内容&lt;/div&gt;
-          &lt;!-- footer 这里不写，默认有一个关闭按钮 --&gt;
-          &lt;div slot="footer"&gt;
-            &lt;Button type="default" @click="()=&gt;{this.$Message.error('点击确认')}"&gt;确认&lt;/Button&gt;
-            &lt;Button type="default" @click="()=&gt;{model=false}"&gt;点击关闭弹出框&lt;/Button&gt;
-          &lt;/div&gt;
-        &lt;/VolBox&gt;
-        &lt;div&gt;
-          &lt;docParamTable name="box"&gt;&lt;/docParamTable&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/template&gt;
-    &lt;script&gt;<span style="color: #000000;">
-    import VolBox from </span>"@/components/basic/VolBox.vue"<span style="color: #000000;">;
-    export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
-      data() {
-        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
-          model: </span><span style="color: #0000ff;">false</span><span style="color: #000000;">
-        };
-      },
-      components: { VolBox },
-      methods: {}
-    };
-    </span>&lt;/script&gt;</pre>
-    </div>
-    <p>&nbsp;</p>
-    </div>
-    </div>
-    <script type="text/javascript">// <![CDATA[
-    import VolBox from "@/components/basic/VolBox.vue";
-    export default {
-      data() {
-        return {
-          model: false
-        };
-      },
-      components: { VolBox },
-      methods: {}
-    };
-    // ]]></script>`,
+  box: `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;white-space:pre;">
+  <div>
+	  <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;white-space:pre;">
+		  <div>
+			  <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">model</span>&nbsp;=&nbsp;!<span style="color:#9cdcfe;">model</span>"<span style="color:#808080;">&gt;</span>弹出框<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">VolBox</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">on-model-close</span>="<span style="color:#9cdcfe;">onModelClose</span>"
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">lazy</span>="<span style="color:#569cd6;">true</span>"
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>"
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"标题"</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">height</span>="<span style="color:#b5cea8;">400</span>"
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">width</span>="<span style="color:#b5cea8;">700</span>"
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">15</span>"
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>弹出框内容<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;&lt;div&nbsp;slot="footer"&gt;&lt;/div&gt;&nbsp;这里不写，默认有一个关闭按钮&nbsp;--&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">slot</span>=<span style="color:#ce9178;">"footer"</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"default"</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'点击确认'</span>)"<span style="color:#808080;">&gt;</span>确认<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"default"</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">model</span>&nbsp;=&nbsp;<span style="color:#569cd6;">false</span>"<span style="color:#808080;">&gt;</span>点击关闭弹出框<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">VolBox</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+		  </div>
+		  <div>
+			  <span style="color:#c586c0;">import</span>&nbsp;<span style="color:#9cdcfe;">VolBox</span>&nbsp;<span style="color:#c586c0;">from</span>&nbsp;<span style="color:#ce9178;">"@/components/basic/VolBox.vue"</span>;
+		  </div>
+		  <div>
+			  <span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;{
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;<span style="color:#dcdcaa;">data</span>()&nbsp;{
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;{
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">model</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">false</span>,
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;};
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;},
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;<span style="color:#9cdcfe;">components</span><span style="color:#9cdcfe;">:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">VolBox</span>&nbsp;},
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;<span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span>&nbsp;{
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onModelClose</span>(){
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'点击【X】触发的关闭事件'</span>);
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果return&nbsp;false则不会执行关闭</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;return&nbsp;false</span>
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;&nbsp;&nbsp;}
+		  </div>
+		  <div>
+			  &nbsp;&nbsp;},
+		  </div>
+		  <div>
+			  };
+		  </div>
+		  <div>
+			  <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+		  </div>
+	  </div>
+<span style="line-height:1;"></span>
+  </div>
+  <div>
+  </div>
+</div></script>`,
   form: `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		<span style="color:#808080;">

@@ -8,6 +8,7 @@
       </ul>
     </div>
     <div class="right">
+            <h1 class="big-text">如果生成代码出现问题或不能跑起来，请把此文档重新仔细看一遍!!!</h1>
       <div id="doc-0"
            class="coder-doc">
         <div class="title">
@@ -58,6 +59,7 @@
         </Alert>
 
       </p>
+
       <h2 style="color:red;font-weight: 500; margin-bottom: 15px;">生成代码后，查询框或弹出编辑框是空的，请看代码生成第3步说明</h2>
       <h2 style="color:red;font-weight: 500; margin-bottom: 15px;">生成代码后，打开页面异常，请看代码生成第6步说明</h2>
       <div id="doc-3"
@@ -500,6 +502,44 @@ export default {
 //   .step:last-child {
 //     margin-bottom: 15px;
 //   }
+@-webkit-keyframes shake {
+    0% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes shake {
+    0% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 0.8;
+    }
+}
+.big-text{
+      background: #ffff29;
+ width: 940px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid;
+    margin-bottom: 19px;
+    font-size: 28px;
+    margin-top: 18px;
+  color: red;
+    -webkit-animation: shake 0.5s infinite;
+    animation: shake 0.5s infinite;
+}
+
 </style>
 <style lang="less" scoped>
 table {
