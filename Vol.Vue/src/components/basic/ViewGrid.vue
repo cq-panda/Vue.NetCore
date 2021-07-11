@@ -159,6 +159,7 @@
           :width="boxOptions.width"
           :height="boxOptions.height"
           :padding="0"
+          :on-model-close="onModelClose"
         >
           <!--明细头部自定义组件-->
           <div class="iview-com" slot="content">
@@ -259,7 +260,8 @@
               <Icon :type="btn.icon" />
               {{ btn.name }}
             </Button>
-            <Button type="info" @click="boxModel = false">
+            <!-- 2021.07.11增加弹出框关闭事件 -->
+            <Button type="info" @click="()=>{onModelClose(false)}">
               <Icon type="md-close" />关闭
             </Button>
           </div>

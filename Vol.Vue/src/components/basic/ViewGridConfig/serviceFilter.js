@@ -94,6 +94,12 @@ let serviceFilter = {
   },
   exportBefore (param) { //2020.06.25增加导出前处理
     return true;
+  },
+  onModelClose(iconClick){
+    //iconClick=true为点击左中上角X触发的关闭事件
+    //如果返回 false不会关闭弹出框 
+    //return false;
+    this.boxModel=false;
   }
 
 }
