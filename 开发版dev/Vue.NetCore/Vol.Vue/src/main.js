@@ -43,6 +43,8 @@ Vue.prototype.permission.init(vue);
 Vue.prototype.base = base;
 /* 2020.07.31增加手动打开tabs*/
 Vue.prototype.$tabs = {};
+//设置element的弹出框层zIndex高度
+Vue.prototype.$ELEMENT = { zIndex: 3000 };
 router.beforeEach((to, from, next) => {
     vue.$Loading.start({ color: 'white', height: 2 });
     // NProgress.start();
