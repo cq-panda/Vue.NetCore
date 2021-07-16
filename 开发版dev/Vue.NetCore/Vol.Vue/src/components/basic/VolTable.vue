@@ -385,10 +385,10 @@ export default {
       type: Boolean, // 是否双击启用编辑功能
       default: true,
     },
-    clickEdit: {
-      type: Boolean, // 是否点击行编辑，再次点击行时结束编辑(默认点击行编辑，鼠标离开结束编辑)
-      default: false,
-    },
+    // clickEdit: {
+    //   type: Boolean, // 是否点击行编辑，再次点击行时结束编辑(默认点击行编辑，鼠标离开结束编辑)
+    //   default: false,2021.07.17设置为点击行结束编辑
+    // },
     beginEdit: {
       // 编辑开始
       type: Function,
@@ -423,6 +423,7 @@ export default {
   },
   data() {
     return {
+      clickEdit: true,//2021.07.17设置为点击行结束编辑
       randomTableKey: 1,
       visiblyColumns: [],
       key: "",
