@@ -178,6 +178,7 @@
                     :format="getDateFormat(item)"
                     :placeholder="item.placeholder || item.title"
                     :value="_formFields[item.field]"
+                    :options="getDateOptions(item)"
                     @on-change="
                       (time) => {
                         _formFields[item.field] = time;
@@ -1061,6 +1062,22 @@ export default {
       });
       // 2020.07.24增加日期onChange事件
       item.onChange && item.onChange(this._formFields[item.field]);
+    },
+    getDateOptions(item) {
+      //2021.07.17设置时间可选范围
+      if (item.min || item.max) {
+        return {
+          disabledDate: (date) => {
+            if (!date) return true;
+            return date.valueOf() < (typeof item.min == "number"
+              ? item.min
+              : new Date(item.min || "1970-01-01").valueOf()) ||
+                date.valueOf() >( typeof item.max == "number"
+              ? item.max
+              : new Date(item.max || "2100-01-01").valueOf());
+          },
+        };
+      }
     },
   },
 };
