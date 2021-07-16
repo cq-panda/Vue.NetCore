@@ -98,7 +98,16 @@ import Question from "@/../src/components/Community/question.vue";
 
 import flex from "@/../src/views/charts/flex.vue";
 
-var echarts = require("echarts");
+
+import "echarts/lib/chart/line";
+
+import "echarts/lib/component/legend";
+import "echarts/lib/component/title";
+import "echarts/lib/component/grid";
+import "echarts/lib/component/tooltip";
+
+import * as echarts from "echarts/lib/echarts";
+
 
 export default {
   components: { Community: Community, list: list, Question: Question, flex },

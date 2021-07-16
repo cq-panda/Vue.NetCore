@@ -16,40 +16,14 @@
       </el-scrollbar>
     </div>
     <div class="doc-right">
-      <Alert type="info" show-icon>
-        <span style="color: red">
-          [FormFields]拼写错误兼容更新提示2020.09.13</span
-        >
-        <div
-          slot="desc"
-          style="line-height: 2; font-size: 15px; margin-top: 20px"
-        >
-          <p>
-            如果是2020.09.13之后下载的项目或者2020.09.13后有更新过代码并且重新生成过vue页面,请忽略此提示
-          </p>
-          <p>
-            由于框架FormFileds字段拼写错误，文档中editFormFileds已变修正editFormFields，searchFormFileds已变修正为searchFormFields
-          </p>
-          <p>
-            更新文件：<a
-              href="https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2"
-              target="_blank"
-              >https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2</a
-            >
-          </p>
-          <p style="color: red">
-            如果没有更新过项目,使用文档中searchFormFields、editFormFields对象时，修改拼写为searchFormFileds、editFormFileds，或者更新代码后再重新生成vue页面
-          </p>
-        </div>
-      </Alert>
+
       <div class="title">
         <h2>前端开发</h2>
       </div>
-      <div class="top-content">
+      <div class="top-content big-text">
         <div>
-          <p class="desc">
-            此处是代码生成器生成的页面进行扩展，全部实现的是viewGrid组件扩展,参照viewGrid的api介绍
-          </p>
+          <p class="desc">此文档是对代码生成viewGrid组件页面业务逻辑进行扩展(列举的是常用功能)</p>
+          <p class="desc">详细文档见：组件api->代码生成页面ViewGrid</p>
         </div>
         <div>
           <p class="desc" style="font-size: 20px">
@@ -223,8 +197,7 @@ export default {
           title: "前端断点调试",
           content: [`见右边截图`],
           tips: "",
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121302.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121302.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -267,8 +240,7 @@ export default {
 </div>`,
           ],
           tips: ` this.buttons来源：ViewGrid.vue组件data->buttons属性`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/01.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/01.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "查询界面--默认排序",
@@ -317,8 +289,7 @@ export default {
 </div>`,
           ],
           tips: `还没想好`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/35.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/35.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "查询界面--默认查询值",
@@ -342,8 +313,7 @@ export default {
 </div>`,
           ],
           tips: ` 还没想好`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/36.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/36.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -352,8 +322,7 @@ export default {
             `2021.05.01更新后，直接使用代码生成器生成,<a target="_blank" href="http://www.volcore.xyz/document/log">升级方式见</a>`,
           ],
           tips: `还没想好`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/41.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/41.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -405,8 +374,7 @@ export default {
 </div>`,
           ],
           tips: ` 还没想好`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112101.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020112101.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -1079,8 +1047,7 @@ export default {
 </div>`,
           ],
           tips: `可根据this.currentAction判断当前是新建还是编辑来动态设置弹出框按钮`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/19.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/19.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "设置按钮显示个数",
@@ -1107,8 +1074,7 @@ export default {
 </div>`,
           ],
           tips: ` this.maxBtnLength来源：ViewGrid.vue组件data->maxBtnLength属性`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/02.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/02.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "点击按钮弹出框",
@@ -1120,8 +1086,7 @@ export default {
              <p>&nbsp; &nbsp; &nbsp; 3、点击按钮触发 this.$refs.gridHeader.model</p> `,
           ],
           tips: ` SellOrder.js点击自定的义按钮后，再弹弹出自定义的这个vue页面`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/06.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/06.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "手动打开/关闭tabs",
@@ -1184,8 +1149,7 @@ export default {
              <p>参照App_Appointment.js实现(SellOrder.js实现更全面)</p></p> `,
           ],
           tips: ` App_Appointment.js中将自己写的vue页面引用到gridHeader/gridBody/gridFooter属性上即可实现功能`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/07.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/07.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "render渲染table对象",
@@ -1383,8 +1347,7 @@ export default {
 </div>`,
           ],
           tips: ` render操作table组件，可以在单元格中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/16.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/16.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -1529,8 +1492,7 @@ export default {
 </div>`,
           ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/17.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/17.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "render渲染form对象1-1",
@@ -1620,8 +1582,7 @@ export default {
 </div>`,
           ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020122701.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020122701.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "render渲染form对象2",
@@ -1795,8 +1756,7 @@ export default {
 </div>`,
           ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/18.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/18.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "render渲染form对象3",
@@ -1997,8 +1957,7 @@ export default {
 </div>`,
           ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/22.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/22.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -2237,8 +2196,7 @@ export default {
 </div>`,
           ],
           tips: `render操作form组件，可以在表单中添加任意组件，包括chart图表，具体render参数见vue官方文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/42.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/42.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "table自定义显示图片及base64格式",
@@ -2347,8 +2305,7 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，formatter 方法参数配置见VolTable组件文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/08.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/08.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "table动态添加一列按钮",
@@ -2432,8 +2389,7 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，options参数配置见VolTable组件中columns属性`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/05.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/05.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "table行点击事件",
@@ -2583,8 +2539,7 @@ export default {
 </div>`,
           ],
           tips: "",
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121301.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121301.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "table设置/移除列颜色",
@@ -2662,8 +2617,7 @@ export default {
 </div>`,
           ],
           tips: `还没想好`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/37.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/37.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "table手动设置排序列",
@@ -2696,8 +2650,7 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，sort参数配置见VolTable组件文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/03.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/03.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "table触发switch",
@@ -2763,8 +2716,7 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/04.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/04.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "table查询界面编辑",
@@ -2864,8 +2816,7 @@ export default {
 </div>`,
           ],
           tips: ` this.columns数据源来源ViewGrid组件props.js属性(实际为App_Expert.Vue里columns)，edit/bind/onChange参数配置见VolTable组件文档`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/13.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/13.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -2948,8 +2899,7 @@ export default {
 <br />`,
           ],
           tips: `在前端表的扩展js中,onInit与onInited初始化要统计的字段，后台在xxxService.cs中重写查询方法，并实现要统计的字段即可完成表格统计，无需其他操作`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/09.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/09.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "table动态隐藏列",
@@ -3014,8 +2964,7 @@ export default {
 </div>`,
           ],
           tips: ``,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/28.png?imageMogr2/thumbnail/!100p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/28.png?imageMogr2/thumbnail/!100p",
         },
         {
           title: "table获取所有行数据",
@@ -3112,8 +3061,7 @@ export default {
 </div>`,
           ],
           tips: `如果是单独引用的voltable组件，同样适用上面的方法`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/21.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/21.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -3315,8 +3263,7 @@ export default {
 <br />`,
           ],
           tips: ` --`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/48.png?45geMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/48.png?45geMogr2/thumbnail/!50p",
         },
         {
           title: "table显示序号checkbox",
@@ -3355,8 +3302,7 @@ export default {
 </div>`,
           ],
           tips: `如果是单独引用的voltable组件，同样适用上面的方法`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/43.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/43.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "新建保存后连续添加",
@@ -3389,8 +3335,69 @@ export default {
 </div>`,
           ],
           tips: ``,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/p2021041101.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/p2021041101.png?imageMogr2/thumbnail/!50p",
+        },
+        {
+          title: "编辑表单弹出框关闭事件",
+          content: [
+            `编辑表单弹出框,点击右上角[x]或点击关闭按钮触发事件，具体使用见:组件api->viewgrid文档->onModelClose方法`,
+          ],
+          tips: ``,
+          img: "",
+        },
+		      {
+          title: "编辑表单设置日期可选范围",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;">
+	<div>
+		<span style="color:#808080;">
+		<div style="color:#D4D4D4;background-color:#1E1E1E;">
+			<div>
+				&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2021.07.17更新volform.vue组件后才能使用</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span><span style="color:#569cd6;">=&gt;</span>{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">option</span><span style="color:#569cd6;">=&gt;</span>{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">option</span>.<span style="color:#9cdcfe;">field</span>==<span style="color:#ce9178;">"Date"</span>)&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">option</span>.<span style="color:#9cdcfe;">min</span>=<span style="color:#ce9178;">"2021-07-01&nbsp;00:00"</span>;
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">option</span>.<span style="color:#9cdcfe;">max</span>=<span style="color:#4ec9b0;">Date</span>.<span style="color:#dcdcaa;">now</span>();<span style="color:#6a9955;">//日期最大值"2021-07-20&nbsp;00:00"</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果要设置查询的日期范围选择同上</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.searchFormOptions.forEach</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+		</div>
+</span>
+	</div>
+</div>`,
+          ],
+          tips: ``,
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2021071701.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑表单实时计算",
@@ -3430,7 +3437,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//步骤2</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//步骤2(注意：实时计算的值不会提交后台，可以在前端的保存前方法(组件api->viewgrid文档里找保存前方法)或者后台的保存前方法(后台开发找保存前方法)手动处理计算结果)</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span>()&nbsp;{
@@ -3459,12 +3466,12 @@ export default {
 </div>`,
           ],
           tips: `如果是单独引用的volfrom组件，同样适用上面的方法`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20.png?imageMogr2/thumbnail/!50p",
         },
-    {
+        {
           title: "编辑表单动态显示隐藏select数据源",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenBefore</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{
 	</div>
@@ -3507,11 +3514,13 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`,
+          ],
           tips: ``,
-          img:
-            ["https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2021051601.png?imageMogr2/thumbnail/!50p",
-			"https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2021051602.png?imageMogr2/thumbnail/!50p"],
+          img: [
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2021051601.png?imageMogr2/thumbnail/!50p",
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2021051602.png?imageMogr2/thumbnail/!50p",
+          ],
         },
         {
           title: "编辑表单动态显示隐藏",
@@ -3697,8 +3706,7 @@ export default {
 </span><span style="line-height:1.5;font-size:18px;"></span><br />`,
           ],
           tips: ``,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/26.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/26.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑表单添加额外属性",
@@ -3773,8 +3781,7 @@ export default {
 </div>`,
           ],
           tips: ` 可给编辑表单添加描述或触发事件，更多属性配置参照volform组件api`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/12.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/12.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑弹出框选择数据1",
@@ -4917,8 +4924,7 @@ export default {
 </div>`,
           ],
           tips: ` 代码生成默认使用的是单图上传，多图上传更多属性配置参照volupload组件`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/11.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/11.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -5045,8 +5051,7 @@ export default {
 </div>`,
           ],
           tips: `级联操作基于Iview组件cascader(数据源的格式见iview原生组件demo配置),数据量少的情况下建议直接把数据源加载出来绑定，数据量过多时使用懒加载`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/14.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/14.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑框级联操作(2)",
@@ -5188,7 +5193,8 @@ export default {
         },
         {
           title: "编辑表单select默认值",
-          content: [`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		&nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span>()&nbsp;{
 	</div>
@@ -5241,7 +5247,8 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-</div>`],
+</div>`,
+          ],
           tips: ``,
           img: [
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2021041801.png?imageMogr2/thumbnail/!50p",
@@ -5337,8 +5344,7 @@ export default {
 </span><span style="line-height:1.5;font-size:18px;"></span><br />`,
           ],
           tips: ``,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/27.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/27.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑select触发级联",
@@ -5454,8 +5460,7 @@ export default {
 </div>`,
           ],
           tips: `select选择后给字段设置值或数据源，实现手动级联操作`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/15.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/15.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑框从表上传图片",
@@ -5463,8 +5468,7 @@ export default {
             `点击从表列即可完成对从表图片或文件上传，参照菜单:【一对一与一对多】->【从表图片上传】`,
           ],
           tips: ` 从表图片上传，是对代码生成进行的扩展实现.按此方法可自行实现任意功能`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑框从表第二种编辑",
@@ -5524,8 +5528,7 @@ export default {
 </div>`,
           ],
           tips: ` 默认为单击行开启编辑，鼠标离开结束编辑,现支持点击表头或其他行结束编辑`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/38.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/38.png?imageMogr2/thumbnail/!50p",
         },
         {
           title: "编辑表单数字最大/小值,字符串长度限制",
@@ -5573,8 +5576,7 @@ export default {
 </div>`,
           ],
           tips: ` --`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/46.png?45geMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/46.png?45geMogr2/thumbnail/!50p",
         },
 
         {
@@ -5632,8 +5634,7 @@ export default {
 </div>`,
           ],
           tips: ` `,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/47.png?45geMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/47.png?45geMogr2/thumbnail/!50p",
         },
 
         {
@@ -6247,8 +6248,7 @@ export default {
 <span style="display:none;"></span>`,
           ],
           tips: ``,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/44.png?imageMogr2/thumbnail/!50p",
+          img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/44.png?imageMogr2/thumbnail/!50p",
         },
 
         {
@@ -6859,5 +6859,40 @@ h2 {
 }
 .active {
   color: #409eff !important;
+}
+
+@-webkit-keyframes shake {
+  // 0% {
+  //     opacity: 0.8;
+  // }
+  50% {
+    background: #268af1;
+  }
+  100% {
+    background: #0b66c3;
+  }
+}
+
+@keyframes shake {
+  50% {
+    background: #268af1;
+  }
+  100% {
+    background: #0b66c3;
+  }
+}
+.big-text {
+  background: #0b69cc;
+  /* width: 940px; */
+  /* text-align: center; */
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid;
+  margin-bottom: 19px;
+  font-size: 25px;
+  margin-top: 18px;
+  color: #ffffff;
+  -webkit-animation: shake 0.5s infinite;
+  animation: shake 0.5s infinite;
 }
 </style>

@@ -26,7 +26,8 @@ const param = {
     { name: "filter", desc: "启用搜索,只对select/selectList生效,默认下拉框数据源超出10个开启搜索", type: "bool", default: "false" },
     { name: "type", desc: "渲染的标签类型,可选值,mail、text、textarea、img、checkbox、number、decimal、date、datetime、phone、switch、select、selectList(多选下拉框)、cascader(Iview级联组件,具体配置见上面[查看代码],2020.05.31)", type: "string", default: "text" },
     { name: "range", desc: "如果type是日期，需要选开始与结束日期,(2021.05.02增加区间文本)", type: "bool", default: "false" },
-    { name: "min", desc: "1、数字类型标签：最小值,如果是type=number(整数)类型，默认验证最小值是1(decimal最小默认值0.1)，如果在代码生后的页面需要修改默认值，在扩展js的方法onInit中遍历form对象，可参考SellOrder.js中onInit方法。    2、其他标签,如：input/textarea设置min就是指的字符的最大长度", type: "number", default: "" },
+    { name: "min", desc: `字段如果是数字，会自动验证数字最大、小值；如果是字符串,
+    会验证字符长度，如果日期，会限制日期可选范围<span style='color:red'>(日期范围选择2021.07.17更新volform.vue/voltable.vue组件后才能使用)</span>`, type: "number", default: "" },
     { name: "max", desc: "最大值,操作与min相同", type: "number", default: "" },
     {
       name: "validator",
