@@ -825,6 +825,8 @@ export default {
       });
     },
     getRule(item, _formFields) {
+      //2021.07.17增加只读表单不验证
+      if (item.readonly || item.disabled) return;
       // 用户设置的自定义方法
       if (item.validator && typeof item.validator === "function") {
         return {
@@ -849,11 +851,7 @@ export default {
       ) {
         // 如果是必填项的数字，设置一个默认最大与最值小
         if (item.required && typeof item.min !== "number") {
-          if (item.type == "decimal") {
-            item.min = 0.1;
-          } else {
-            item.min = 1;
-          }
+          item.min = item.type == "decimal" ? 0.1 : 1;
         }
 
         return {
@@ -872,7 +870,7 @@ export default {
                   return callback();
                 }
               }
-              if (value == "" || value == undefined) return callback();
+              if (value === "" || value === undefined) return callback();
             }
             if (rule.type == "number") {
               if (!this.rule.number.test(value)) {
@@ -886,7 +884,7 @@ export default {
               }
             }
             if (
-              rule.min != undefined &&
+              rule.min !== undefined &&
               typeof rule.min === "number" &&
               value < rule.min
             ) {
@@ -894,7 +892,7 @@ export default {
               return callback(new Error(rule.message));
             }
             if (
-              rule.max != undefined &&
+              rule.max !== undefined &&
               typeof rule.max === "number" &&
               value > rule.max
             ) {
@@ -906,18 +904,11 @@ export default {
         };
       }
 
-      // 手机验证
-      if (item.type == "phone") {
+      // 手机、密码验证
+      if (item.type == "password" || item.type == "phone") {
         return {
-          validator: this.validatorPhone,
-          required: item.required,
-          trigger: "blur",
-        };
-      }
-
-      if (item.type == "password") {
-        return {
-          validator: this.validatorPwd,
+          validator:
+            item.type == "phone" ? this.validatorPhone : this.validatorPwd,
           required: item.required,
           trigger: "blur",
         };
@@ -937,11 +928,7 @@ export default {
       if (this.inputTypeArr.indexOf(item.type) != -1) {
         let message =
           item.title +
-          (this.types[item.columnType] == "number"
-            ? "请输入一个有效的数字"
-            : item.type == "mail"
-            ? "必须是一个邮箱地址"
-            : "不能为空");
+          (item.type == "mail" ? "必须是一个邮箱地址" : "不能为空");
         let type = item.type == "mail" ? "email" : this.types[item.columnType];
         let _rule = {
           required: true,
@@ -988,12 +975,10 @@ export default {
       }
       if (item.type == "date" || item.type == "datetime") {
         return {
-          // required: true, type:  this.types[item.columnType], message:"请选择" + item.title, trigger: 'change'
           required: true,
           message: "请选择" + item.title,
           trigger: "change",
           type: item.range ? "array" : "string",
-          //  type: this.types[item.columnType],
           validator: (rule, val, callback) => {
             // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
             if (!val || (item.range && val.length == 0)) {
@@ -1006,7 +991,6 @@ export default {
         };
       }
 
-      // if (item.type == "checkbox" || item.type == "select") {
       if (
         item.type == "select" ||
         item.type == "selectList" ||
@@ -1029,7 +1013,6 @@ export default {
           },
         };
 
-        //    validator: this.validatorPhone,
         if (!item.max) return _rule;
         return [
           _rule,
@@ -1044,11 +1027,6 @@ export default {
       return {
         required: false,
       };
-    },
-    getCheckBoxModel(arr) {
-      return arr;
-      console.log(arr);
-      return arr || [];
     },
     validateField(item, callback) {
       // 2020.07.17增加对日期onchange时校验
@@ -1069,12 +1047,16 @@ export default {
         return {
           disabledDate: (date) => {
             if (!date) return true;
-            return date.valueOf() < (typeof item.min == "number"
-              ? item.min
-              : new Date(item.min || "1970-01-01").valueOf()) ||
-                date.valueOf() >( typeof item.max == "number"
-              ? item.max
-              : new Date(item.max || "2100-01-01").valueOf());
+            return (
+              date.valueOf() <
+                (typeof item.min == "number"
+                  ? item.min
+                  : new Date(item.min || "1970-01-01").valueOf()) ||
+              date.valueOf() >
+                (typeof item.max == "number"
+                  ? item.max
+                  : new Date(item.max || "2100-01-01").valueOf())
+            );
           },
         };
       }
