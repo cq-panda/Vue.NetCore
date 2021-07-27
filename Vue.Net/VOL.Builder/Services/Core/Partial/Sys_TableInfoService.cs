@@ -734,7 +734,7 @@ DISTINCT
                 columns = sb.ToString().Trim();
                 columns = columns.Substring(0, columns.Length - 1);
                 pageContent = pageContent.Replace("#detailColumns", columns).
-                    Replace("#detailCnName", detailTable.CnName).
+                    Replace("#detailCnName", detailTable.ColumnCNName).
                     Replace("#detailKey", detailTable.TableColumns.Where(c => c.IsKey == 1).Select(x => x.ColumnName).First()).
                     Replace("#detailSortName", string.IsNullOrEmpty(detailTable.SortName) ? key : detailTable.SortName);
             }
