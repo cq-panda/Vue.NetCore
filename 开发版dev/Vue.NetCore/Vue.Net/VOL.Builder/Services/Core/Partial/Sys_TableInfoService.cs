@@ -1426,6 +1426,11 @@ DISTINCT
                     {
                         colType = "file";
                     }
+                    //2021.07.27增加table列显示类型date(自动格式化)
+                    else if (item.IsImage == 4)
+                    {
+                        colType = "date";
+                    }
                     sb.Append("type:'" + colType + "',");
                     if (!string.IsNullOrEmpty(item.DropNo))
                     {
