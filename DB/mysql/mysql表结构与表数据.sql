@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 127
+ Source Server         : 120
  Source Server Type    : MySQL
- Source Server Version : 80017
- Source Host           : localhost:3306
- Source Schema         : 0530
+ Source Server Version : 50729
+ Source Host           : 120.53.251.208:3306
+ Source Schema         : netcoredev1
 
  Target Server Type    : MySQL
- Target Server Version : 80017
+ Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 30/05/2020 20:08:57
+ Date: 27/07/2021 10:20:20
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `App_Appointment`  (
   `Name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `PhoneNo` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of App_Appointment
@@ -41,9 +41,6 @@ CREATE TABLE `App_Appointment`  (
 INSERT INTO `App_Appointment` VALUES ('08d73c0e-edef-0a68-ab81-c3dc5e0fe407', '2019-09-18 16:05:11', 1, '超级管理员', '来自火星。。。', '超级管理员', '2020-04-24 13:47:46', 1, '元霸', '138888887698');
 INSERT INTO `App_Appointment` VALUES ('08d73c0e-edf8-595b-9a8f-2ff134751833', '2019-09-18 16:05:11', 1, '超级管理员', '元歌有8个技能..', '超级管理员', '2020-04-24 13:44:04', 1, '元歌', '1300111235');
 INSERT INTO `App_Appointment` VALUES ('08d73c11-6a43-97e8-ca70-e8b0d906807e', '2019-09-18 16:22:59', 1, '超级管理员', '来自火星。。。', '超级管理员', '2020-05-28 16:41:33', 1, '元华', '138888887698');
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for App_Expert
@@ -78,15 +75,13 @@ CREATE TABLE `App_Expert`  (
   `UserTrueName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `User_Id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`ExpertId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 277 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 277 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of App_Expert
 -- ----------------------------
 INSERT INTO `App_Expert` VALUES (275, '2018-09-07 10:58:17', 1, 1, '测试超级管理员', NULL, '上海市', '中国农业大学', '2018-09-04 15:49:44', 3344, 'User31110458', '博士', 1, '黑旋风', 'Upload/Tables/App_Expert/202004241352584173/1111s.jpg', '150124199911110116', '超级管理员', '2020-07-10 16:31:15', 1, '13381277739', '教授', '拉美西斯', '男人没个好东西，所谓的爱情有时效的，脑残女人才信什么海枯石烂之类的话，小3可耻，你家男人也有责任', 'Upload/Tables/App_Expert/201911271400081947/启用图片支持 (1).xlsx', '13381277739', 'User31110458', 3344);
 INSERT INTO `App_Expert` VALUES (276, '2019-09-22 22:30:08', 3362, 1, 'zs', '', '北京市', '窦天宝传奇', '2018-09-18 17:45:54', 3358, '较瘦', '小学', 1, '包工头', 'Upload/Tables/App_Expert/202004241340529512/04.jpg,Upload/Tables/App_Expert/202005090948255705/1111.jpg', '88888', '超级管理员', '2020-05-09 09:48:31', 1, '18612111053', '演员', '木兰', '从前有座山从前有座山，山里有座庙，庙里两个和尚讲故事，老和尚说，从前有座山，山里有座庙，庙里两个和尚讲故事……', 'Upload/Tables/App_Expert/201912111717154170/exceltest.xlsx', '18612119023', '较瘦', 3358);
-
-SET FOREIGN_KEY_CHECKS = 1;
 
 -- ----------------------------
 -- Table structure for App_News
@@ -113,7 +108,7 @@ CREATE TABLE `App_News`  (
   `Title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `ViewCount` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 73784 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 73784 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of App_News
@@ -147,7 +142,7 @@ CREATE TABLE `App_ReportPrice`  (
   `Price` decimal(10, 0) NOT NULL,
   `Variety` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 86 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 86 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of App_ReportPrice
@@ -178,7 +173,7 @@ CREATE TABLE `App_Transaction`  (
   `Quantity` int(11) NOT NULL,
   `TransactionType` int(11) NOT NULL,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of App_Transaction
@@ -208,7 +203,7 @@ CREATE TABLE `App_TransactionAvgPrice`  (
   `ModifyID` int(11) NULL DEFAULT NULL,
   `Variety` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of App_TransactionAvgPrice
@@ -242,7 +237,7 @@ CREATE TABLE `SellOrder`  (
   `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `ModifyDate` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`Order_Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of SellOrder
@@ -270,7 +265,7 @@ CREATE TABLE `SellOrderList`  (
   `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `ModifyDate` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`OrderList_Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of SellOrderList
@@ -292,7 +287,7 @@ CREATE TABLE `Sys_City`  (
   `CityCode` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `CityName` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `ProvinceCode` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_City
@@ -665,7 +660,7 @@ CREATE TABLE `Sys_Dictionary`  (
   `ParentId` int(11) NOT NULL,
   `Remark` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`Dic_ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 68 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 69 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_Dictionary
@@ -691,6 +686,7 @@ INSERT INTO `Sys_Dictionary` VALUES (64, NULL, '2019-09-18 19:25:47', 1, '超级
 INSERT INTO `Sys_Dictionary` VALUES (65, NULL, '2019-09-19 10:07:23', 1, '超级管理员', NULL, NULL, '商品名称', 'pn', 1, NULL, NULL, NULL, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (66, NULL, '2020-05-08 09:42:50', 1, '超级管理员', NULL, NULL, 'dr', 'dr', 1, NULL, NULL, NULL, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (67, NULL, '2020-05-30 19:48:29', 1, '超级管理员', NULL, NULL, '获取所有角色Table显示用', 't_roles', 1, '超级管理员', '2020-05-30 19:48:36', 1, NULL, 0, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (68, NULL, '2021-07-27 10:19:53', 1, '超级管理员', NULL, 'SELECT Role_Id AS id,parentId,Role_Id AS `key`,RoleName AS `value` FROM Sys_Role', '级联角色', 'tree_roles', 1, NULL, NULL, NULL, NULL, 0, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_DictionaryList
@@ -711,7 +707,7 @@ CREATE TABLE `Sys_DictionaryList`  (
   `OrderNo` int(11) NULL DEFAULT NULL,
   `Remark` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`DicList_ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 160 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 160 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_DictionaryList
@@ -799,7 +795,11 @@ CREATE TABLE `Sys_Log`  (
   `UserName` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `User_Id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 249520 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 249520 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+
+-- ----------------------------
+-- Records of Sys_Log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for Sys_Menu
@@ -821,86 +821,85 @@ CREATE TABLE `Sys_Menu`  (
   `ModifyDate` datetime(0) NULL DEFAULT NULL,
   `Modifier` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`Menu_Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 88 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 98 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_Menu
 -- ----------------------------
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (2, '用户基础信息', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-md-contact', NULL, 1, 1600, '.', 0, NULL, '2017-08-28 12:21:13', '2017-08-28 11:12:45', '2019-10-11 14:33:29', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (3, '角色管理', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 900, 'Sys_Role', 2, '/Sys_Role/Manager', '2017-09-12 16:20:02', '2017-08-28 14:19:13', '2019-08-15 10:27:41', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (5, '日志管理', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-ios-create', NULL, 1, 1300, 'xxx', 0, '/', '2017-09-22 17:59:37', '2017-09-22 17:59:37', '2019-10-11 14:34:00', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (6, '系统日志', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 0, 'Sys_Log', 5, '/Sys_Log/Manager', '2017-09-22 18:00:25', '2017-09-22 18:0:25', '2019-08-14 16:20:35', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (7, '角色权限分配', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 0, 10, 'Sys_Role1', 2, '/Sys_Role/TreeManager', NULL, NULL, '2019-09-19 15:15:54', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (9, '用户管理', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 11110, 'Sys_User', 2, '/Sys_User/Manager', NULL, NULL, '2019-08-14 14:28:43', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (10, '表单与上传下载', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, '/', 28, '/formUpload', NULL, NULL, '2019-12-07 11:16:47', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (11, 'api加载table数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 600, 'table2', 12, '/table2', NULL, NULL, '2019-11-14 00:11:17', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (12, 'table使用', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ios-grid', NULL, 1, 1710, '/', 0, '', '2017-08-28 14:22:10', 'null', '2021-02-28 22:08:14', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (16, '首页轮播图片', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 0, 2000, 'App_HomeHeadImages', 15, '/App_HomeHeadImages/Manager', NULL, NULL, '2019-08-12 16:26:44', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (17, '用户注册信息', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 0, 10, 'Sys_UserRegisterRecord', 2, '/Sys_UserRegisterRecord/Manager', NULL, NULL, '2019-09-18 15:31:24', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (24, '后台加载table数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 750, '/', 56, '/table', NULL, NULL, '2019-09-20 14:59:25', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (25, '其他组件', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 1100, '/', 29, '/form6', NULL, NULL, '2019-09-22 23:27:37', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (26, '文件上传', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 1050, 'volUploadExample', 28, '/volUploadExample', NULL, NULL, '2019-12-17 18:29:50', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (27, 'table编辑(一)', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 1050, 'vtable', 12, '/table1', NULL, NULL, '2021-03-20 15:20:43', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (28, '文件上传与载', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', 'ios-folder-open', NULL, 1, 1690, '/', 0, NULL, NULL, NULL, '2020-02-24 12:11:24', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (29, '其他组件', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-md-hammer', NULL, 1, 1670, '其他组件', 0, '', NULL, NULL, '2019-12-22 00:39:08', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (30, '图表', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 100000, 'App_PriceTendency', 34, '/chart', NULL, NULL, '2019-11-14 00:07:26', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (31, '图表+表单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 950, 'App_Comment', 34, '/formChart', NULL, NULL, '2019-11-14 00:07:51', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (32, '表单一对多', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ios-podium', NULL, 1, 1740, '/', 0, '', NULL, NULL, '2019-11-15 14:33:07', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (33, '完整table+forms', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 800, 'tableForms', 12, '/tableForms', NULL, NULL, '2020-04-03 22:58:27', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (34, '图表+表单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ios-pie', NULL, 1, 1720, '/', 0, '', NULL, NULL, '2019-11-15 14:32:56', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (35, '可编辑的table', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 730, 'editTable', 56, '/editTable', NULL, NULL, '2019-09-20 15:50:21', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (36, '表单一对多table', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 950, 'App_TransactionAvgPrice1', 32, '/multi1', NULL, NULL, '2019-11-14 00:03:19', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (37, '表单+图表', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 800, 'App_Transaction', 32, '/multi3', NULL, NULL, '2019-11-14 00:04:17', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (39, '用户Token生成记录', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 0, 10, 'x', 2, '/Sys_UserTokenLog/Manager', NULL, NULL, '2019-09-18 15:31:19', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (41, '可复用后台校验', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ios-switch', NULL, 1, 1700, '/', 0, '', NULL, NULL, '2020-02-02 20:01:16', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (42, '主从表单明细一对多', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 0, 'SellOrder1', 32, '/multi4', NULL, NULL, '2020-04-03 22:54:52', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (45, '不用节点放此处', '', '', NULL, 0, 0, '/', 0, NULL, NULL, NULL, '2020-05-05 12:02:07', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (48, 'Table+单表数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-md-grid', NULL, 1, 2000, 'Table+表单数据', 0, '/', '2019-07-12 13:26:32', '超级管理员', '2019-10-11 14:29:14', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (49, '基础表单+编辑只读', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"test\",\"value\":\"test\"}]', '', NULL, 1, 1000, 'App_Appointment', 48, '/App_Appointment', '2019-07-12 13:28:17', '超级管理员', '2020-12-21 23:25:27', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (50, '自动绑定下拉框', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 900, 'App_TransactionAvgPrice', 48, '/App_TransactionAvgPrice', '2019-07-12 13:53:32', '超级管理员', '2020-12-27 13:34:36', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (51, '主从一对多弹出框(4)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 800, 'App_ReportPrice', 74, '/App_ReportPrice', '2019-07-12 13:55:21', '超级管理员', '2021-03-14 23:53:29', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (52, '导入导出表单', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 600, 'App_Transaction', 48, '/App_Transaction', '2019-07-12 13:56:15', '超级管理员', '2019-10-31 13:23:37', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (56, '表单布局', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-ios-color-filter', NULL, 1, 1750, '/', 0, NULL, '2019-07-12 14:00:19', '超级管理员', '2020-01-08 13:54:41', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (57, '单列表单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 1000, '.', 56, '/form1', '2019-07-12 14:01:12', '超级管理员', '2019-09-20 13:59:00', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (58, '两列表单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 900, '两列表单', 56, '/form2', '2019-07-12 14:01:43', '超级管理员', '2019-09-20 13:59:03', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (59, '多列表单自动数据源', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 800, '多列表单', 56, '/form3', '2019-07-12 14:02:17', '超级管理员', '2019-12-17 11:08:06', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (60, 'Table+表单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 700, 'Table+表单', 56, '/form4', '2019-07-12 14:03:14', '超级管理员', '2019-09-20 13:59:09', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (61, '系统', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-md-settings', NULL, 1, 1350, '系统', 0, '/', '2019-07-12 14:04:04', '超级管理员', '2019-11-27 13:30:08', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (62, '菜单设置', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 10, 'Sys_Menu', 61, '/sysmenu', '2019-07-12 14:04:35', '超级管理员', '2019-10-31 13:23:09', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (63, '下拉框绑定设置', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 10, 'Sys_Dictionary', 61, '/Sys_Dictionary', '2019-07-12 14:05:58', '超级管理员', '2019-08-16 17:41:15', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (64, '代码在线生成器', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-ios-construct', NULL, 1, 1500, '代码在线生成器', 0, '/coding', '2019-07-12 14:07:55', '超级管理员', '2020-01-08 13:54:50', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (65, 'Vue+后台代码生成', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 10, '/', 64, '/coder', '2019-07-12 14:08:58', '超级管理员', '2019-09-22 23:27:54', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (66, '编辑器与HTML', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-md-compass', NULL, 1, 1680, '静态页面发布', 0, '/coding', '2019-07-12 14:12:38', '超级管理员', '2019-12-22 00:40:19', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (67, '静态页面发布', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"}]', '', NULL, 1, 10, 'App_News', 66, '/App_News', '2019-07-12 14:14:16', '超级管理员', '2019-12-22 00:40:46', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (68, '文件上传多弹出框', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 700, 'App_Expert', 48, '/App_Expert', '2019-07-12 14:24:15', '超级管理员', '2021-03-08 21:29:55', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (69, '前端自定义扩展', '', '', NULL, 0, 500, '前端自定义扩展', 48, '/coding', '2019-07-12 14:26:25', '超级管理员', '2019-09-25 17:22:22', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (70, '编辑器与表格换行', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"}]', '', NULL, 1, 400, 'App_NewsEditor', 48, '/App_NewsEditor', '2019-07-12 14:28:45', '超级管理员', '2021-01-16 12:00:58', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (71, '权限管理', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', 'ivu-icon ivu-icon-ios-boat', NULL, 1, 1000, 'Sys_Role2', 2, '/permission', '2019-08-10 10:25:36', '超级管理员', '2020-12-21 23:27:09', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (72, '移动H5开发', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-logo-android', NULL, 1, 1650, '/', 0, '', '2019-08-14 13:16:06', '超级管理员', '2019-10-11 14:32:41', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (73, '移动H5开发打包介绍', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, NULL, '/', 72, '/app/guide', '2019-08-14 13:16:55', '超级管理员', NULL, NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (74, '一对一与一对多', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'md-film', NULL, 1, 1770, '/', 0, '/', '2019-08-22 17:43:58', '超级管理员', '2020-04-07 23:57:06', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (75, '主从一对一(1)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 1000, 'SellOrder', 74, '/SellOrder', '2019-08-22 18:12:43', '超级管理员', '2021-03-14 23:52:28', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (76, 'api加载table数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 0, 950, 'table2', 2, '/table2', '2019-08-26 11:57:51', '超级管理员', '2019-11-19 17:30:17', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (77, '表单只读', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 600, '表单只读', 56, '/form7', '2019-08-26 11:58:55', '超级管理员', '2019-09-20 13:59:13', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (78, '混合表单一对多', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 900, '32', 32, '/multi2', '2019-10-12 09:18:41', '超级管理员', '2019-11-14 00:03:51', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (79, 'KindEditor编辑器', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 100, 'KindEditor编辑器', 66, '/kindEditor', '2019-12-22 00:36:10', '超级管理员', '2019-12-22 00:40:43', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (80, '静态页面列表', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, 'htmlList', 66, '/htmlList', '2019-12-22 00:36:54', '超级管理员', '2019-12-21 22:50:41', NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (81, '后台参数校验', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, '/', 41, '/validator', '2020-02-02 20:01:59', '超级管理员', '2020-02-02 20:01:16', NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (82, '数字排版', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, 'flex', 34, '/flex', '2020-04-07 23:55:33', '超级管理员', '2019-11-15 14:32:56', NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (83, '从表图片上传', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 0, 'vSellorderImg', 74, '/vSellorderImg', '2020-04-07 23:56:22', '超级管理员', '2020-04-07 23:56:28', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (84, '树形菜单与table', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'md-analytics', NULL, 1, 1705, '树形菜单与table', 0, '', '2020-04-26 20:19:42', '超级管理员', '2020-04-26 20:19:55', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (85, 'tree与代码生成页面', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 100, 'treetable1', 84, '/treetable1', '2020-04-26 20:20:28', '超级管理员', '2019-11-15 14:32:32', NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (86, 'tree自定义table数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 10, 'treetable2', 84, '/treetable2', '2020-04-26 20:20:57', '超级管理员', '2020-04-26 20:21:34', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (89, '审批流', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'md-git-network', NULL, 1, 1702, '审批流', 0, '', '2020-11-29 16:49:27', '超级管理员', '2020-02-02 20:01:16', NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (90, '审批流', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, 'workFlow', 89, '/workFlow', '2020-11-29 16:49:42', '超级管理员', '2020-02-02 20:01:16', NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (91, '多列合并显示', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 0, '/App_Expert', 48, '/App_Expert2', '2021-03-06 17:47:23', '超级管理员', '2021-02-28 22:18:37', NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (92, '主从一对一(2)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 890, 'SellOrder2', 74, '/SellOrder2', '2021-03-14 23:52:46', '超级管理员', '2021-03-14 23:52:54', '超级管理员');
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (93, '主从一对一(3)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 880, 'SellOrder3', 74, '/SellOrder3', '2021-03-14 23:53:50', '超级管理员', '2021-03-14 23:52:54', NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (94, '在线表格编辑', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 0, 'App_Transaction2', 48, '/App_Transaction2', '2021-03-20 15:19:14', '超级管理员', '2021-02-28 22:18:37', NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (95, 'table编辑(二)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 1040, 'table3', 12, '/table3', '2021-03-20 15:21:05', '超级管理员', '2021-03-20 15:21:07', '超级管理员'); 
-
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (96, 'treetable', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, 'treetable3', 84, 'treetable3', '2021-05-02 15:54:23', '超级管理员', '2019-11-15 14:32:32', NULL);
-INSERT INTO `Sys_Menu`(`Menu_Id`, `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) VALUES (97, '角色管理(tree)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 0, 'Sys_Role1', 2, '/Sys_Role1', '2021-05-02 15:56:15', '超级管理员', '2021-05-02 18:29:18', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (2, '用户基础信息', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-md-contact', NULL, 1, 1600, '.', 0, NULL, '2017-08-28 12:21:13', '2017-08-28 11:12:45', '2019-10-11 14:33:29', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (3, '角色管理', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 900, 'Sys_Role', 2, '/Sys_Role/Manager', '2017-09-12 16:20:02', '2017-08-28 14:19:13', '2019-08-15 10:27:41', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (5, '日志管理', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-ios-create', NULL, 1, 1300, 'xxx', 0, '/', '2017-09-22 17:59:37', '2017-09-22 17:59:37', '2019-10-11 14:34:00', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (6, '系统日志', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 0, 'Sys_Log', 5, '/Sys_Log/Manager', '2017-09-22 18:00:25', '2017-09-22 18:0:25', '2019-08-14 16:20:35', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (7, '角色权限分配', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 0, 10, 'Sys_Role1', 2, '/Sys_Role/TreeManager', NULL, NULL, '2019-09-19 15:15:54', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (9, '用户管理', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 11110, 'Sys_User', 2, '/Sys_User/Manager', NULL, NULL, '2019-08-14 14:28:43', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (10, '表单与上传下载', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, '/', 28, '/formUpload', NULL, NULL, '2019-12-07 11:16:47', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (11, 'api加载table数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 600, 'table2', 12, '/table2', NULL, NULL, '2019-11-14 00:11:17', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (12, 'table使用', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ios-grid', NULL, 1, 1710, '/', 0, '', '2017-08-28 14:22:10', 'null', '2021-02-28 22:08:14', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (16, '首页轮播图片', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 0, 2000, 'App_HomeHeadImages', 15, '/App_HomeHeadImages/Manager', NULL, NULL, '2019-08-12 16:26:44', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (17, '用户注册信息', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 0, 10, 'Sys_UserRegisterRecord', 2, '/Sys_UserRegisterRecord/Manager', NULL, NULL, '2019-09-18 15:31:24', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (24, '后台加载table数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 750, '/', 56, '/table', NULL, NULL, '2019-09-20 14:59:25', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (25, '其他组件', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 1100, '/', 29, '/form6', NULL, NULL, '2019-09-22 23:27:37', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (26, '文件上传', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 1050, 'volUploadExample', 28, '/volUploadExample', NULL, NULL, '2019-12-17 18:29:50', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (27, 'table编辑(一)', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 1050, 'vtable', 12, '/table1', NULL, NULL, '2021-03-20 15:20:43', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (28, '文件上传与载', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', 'ios-folder-open', NULL, 1, 1690, '/', 0, NULL, NULL, NULL, '2020-02-24 12:11:24', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (29, '其他组件', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-md-hammer', NULL, 1, 1670, '其他组件', 0, '', NULL, NULL, '2019-12-22 00:39:08', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (30, '图表', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 100000, 'App_PriceTendency', 34, '/chart', NULL, NULL, '2019-11-14 00:07:26', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (31, '图表+表单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 950, 'App_Comment', 34, '/formChart', NULL, NULL, '2019-11-14 00:07:51', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (32, '表单一对多', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ios-podium', NULL, 1, 1740, '/', 0, '', NULL, NULL, '2019-11-15 14:33:07', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (33, '完整table+forms', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 800, 'tableForms', 12, '/tableForms', NULL, NULL, '2020-04-03 22:58:27', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (34, '图表+表单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ios-pie', NULL, 1, 1720, '/', 0, '', NULL, NULL, '2019-11-15 14:32:56', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (35, '可编辑的table', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 730, 'editTable', 56, '/editTable', NULL, NULL, '2019-09-20 15:50:21', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (36, '表单一对多table', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 950, 'App_TransactionAvgPrice1', 32, '/multi1', NULL, NULL, '2019-11-14 00:03:19', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (37, '表单+图表', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 800, 'App_Transaction', 32, '/multi3', NULL, NULL, '2019-11-14 00:04:17', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (39, '用户Token生成记录', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 0, 10, 'x', 2, '/Sys_UserTokenLog/Manager', NULL, NULL, '2019-09-18 15:31:19', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (41, '可复用后台校验', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ios-switch', NULL, 1, 1700, '/', 0, '', NULL, NULL, '2020-02-02 20:01:16', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (42, '主从表单明细一对多', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 0, 'SellOrder1', 32, '/multi4', NULL, NULL, '2020-04-03 22:54:52', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (45, '不用节点放此处', '', '', NULL, 0, 0, '/', 0, NULL, NULL, NULL, '2020-05-05 12:02:07', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (48, 'Table+单表数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-md-grid', NULL, 1, 2000, 'Table+表单数据', 0, '/', '2019-07-12 13:26:32', '超级管理员', '2019-10-11 14:29:14', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (49, '基础表单+编辑只读', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"test\",\"value\":\"test\"}]', '', NULL, 1, 1000, 'App_Appointment', 48, '/App_Appointment', '2019-07-12 13:28:17', '超级管理员', '2020-12-21 23:25:27', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (50, '自动绑定下拉框', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 900, 'App_TransactionAvgPrice', 48, '/App_TransactionAvgPrice', '2019-07-12 13:53:32', '超级管理员', '2020-12-27 13:34:36', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (51, '主从一对多弹出框(4)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 800, 'App_ReportPrice', 74, '/App_ReportPrice', '2019-07-12 13:55:21', '超级管理员', '2021-03-14 23:53:29', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (52, '导入导出表单', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 600, 'App_Transaction', 48, '/App_Transaction', '2019-07-12 13:56:15', '超级管理员', '2019-10-31 13:23:37', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (56, '表单布局', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-ios-color-filter', NULL, 1, 1750, '/', 0, NULL, '2019-07-12 14:00:19', '超级管理员', '2020-01-08 13:54:41', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (57, '单列表单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 1000, '.', 56, '/form1', '2019-07-12 14:01:12', '超级管理员', '2019-09-20 13:59:00', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (58, '两列表单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 900, '两列表单', 56, '/form2', '2019-07-12 14:01:43', '超级管理员', '2019-09-20 13:59:03', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (59, '多列表单自动数据源', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 800, '多列表单', 56, '/form3', '2019-07-12 14:02:17', '超级管理员', '2019-12-17 11:08:06', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (60, 'Table+表单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 700, 'Table+表单', 56, '/form4', '2019-07-12 14:03:14', '超级管理员', '2019-09-20 13:59:09', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (61, '系统', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-md-settings', NULL, 1, 1350, '系统', 0, '/', '2019-07-12 14:04:04', '超级管理员', '2019-11-27 13:30:08', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (62, '菜单设置', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 10, 'Sys_Menu', 61, '/sysmenu', '2019-07-12 14:04:35', '超级管理员', '2019-10-31 13:23:09', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (63, '下拉框绑定设置', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 10, 'Sys_Dictionary', 61, '/Sys_Dictionary', '2019-07-12 14:05:58', '超级管理员', '2019-08-16 17:41:15', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (64, '代码在线生成器', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-ios-construct', NULL, 1, 1500, '代码在线生成器', 0, '/coding', '2019-07-12 14:07:55', '超级管理员', '2020-01-08 13:54:50', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (65, 'Vue+后台代码生成', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 10, '/', 64, '/coder', '2019-07-12 14:08:58', '超级管理员', '2019-09-22 23:27:54', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (66, '编辑器与HTML', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-md-compass', NULL, 1, 1680, '静态页面发布', 0, '/coding', '2019-07-12 14:12:38', '超级管理员', '2019-12-22 00:40:19', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (67, '静态页面发布', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"}]', '', NULL, 1, 10, 'App_News', 66, '/App_News', '2019-07-12 14:14:16', '超级管理员', '2019-12-22 00:40:46', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (68, '文件上传多弹出框', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 700, 'App_Expert', 48, '/App_Expert', '2019-07-12 14:24:15', '超级管理员', '2021-03-08 21:29:55', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (69, '前端自定义扩展', '', '', NULL, 0, 500, '前端自定义扩展', 48, '/coding', '2019-07-12 14:26:25', '超级管理员', '2019-09-25 17:22:22', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (70, '编辑器与表格换行', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"}]', '', NULL, 1, 400, 'App_NewsEditor', 48, '/App_NewsEditor', '2019-07-12 14:28:45', '超级管理员', '2021-01-16 12:00:58', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (71, '权限管理', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', 'ivu-icon ivu-icon-ios-boat', NULL, 1, 1000, 'Sys_Role2', 2, '/permission', '2019-08-10 10:25:36', '超级管理员', '2020-12-21 23:27:09', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (72, '移动H5开发', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'ivu-icon ivu-icon-logo-android', NULL, 1, 1650, '/', 0, '', '2019-08-14 13:16:06', '超级管理员', '2019-10-11 14:32:41', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (73, '移动H5开发打包介绍', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, NULL, '/', 72, '/app/guide', '2019-08-14 13:16:55', '超级管理员', NULL, NULL);
+INSERT INTO `Sys_Menu` VALUES (74, '一对一与一对多', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'md-film', NULL, 1, 1770, '/', 0, '/', '2019-08-22 17:43:58', '超级管理员', '2020-04-07 23:57:06', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (75, '主从一对一(1)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 1000, 'SellOrder', 74, '/SellOrder', '2019-08-22 18:12:43', '超级管理员', '2021-03-14 23:52:28', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (76, 'api加载table数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 0, 950, 'table2', 2, '/table2', '2019-08-26 11:57:51', '超级管理员', '2019-11-19 17:30:17', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (77, '表单只读', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 600, '表单只读', 56, '/form7', '2019-08-26 11:58:55', '超级管理员', '2019-09-20 13:59:13', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (78, '混合表单一对多', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"},{\"text\":\"上传\",\"value\":\"Upload\"},{\"text\":\"审核\",\"value\":\"Audit\"}]', '', NULL, 1, 900, '32', 32, '/multi2', '2019-10-12 09:18:41', '超级管理员', '2019-11-14 00:03:51', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (79, 'KindEditor编辑器', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 100, 'KindEditor编辑器', 66, '/kindEditor', '2019-12-22 00:36:10', '超级管理员', '2019-12-22 00:40:43', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (80, '静态页面列表', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, 'htmlList', 66, '/htmlList', '2019-12-22 00:36:54', '超级管理员', '2019-12-21 22:50:41', NULL);
+INSERT INTO `Sys_Menu` VALUES (81, '后台参数校验', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, '/', 41, '/validator', '2020-02-02 20:01:59', '超级管理员', '2020-02-02 20:01:16', NULL);
+INSERT INTO `Sys_Menu` VALUES (82, '数字排版', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, 'flex', 34, '/flex', '2020-04-07 23:55:33', '超级管理员', '2019-11-15 14:32:56', NULL);
+INSERT INTO `Sys_Menu` VALUES (83, '从表图片上传', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 0, 'vSellorderImg', 74, '/vSellorderImg', '2020-04-07 23:56:22', '超级管理员', '2020-04-07 23:56:28', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (84, '树形菜单与table', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'md-analytics', NULL, 1, 1705, '树形菜单与table', 0, '', '2020-04-26 20:19:42', '超级管理员', '2020-04-26 20:19:55', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (85, 'tree与代码生成页面', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 100, 'treetable1', 84, '/treetable1', '2020-04-26 20:20:28', '超级管理员', '2019-11-15 14:32:32', NULL);
+INSERT INTO `Sys_Menu` VALUES (86, 'tree自定义table数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 10, 'treetable2', 84, '/treetable2', '2020-04-26 20:20:57', '超级管理员', '2020-04-26 20:21:34', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (89, '审批流', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'md-git-network', NULL, 1, 1702, '审批流', 0, '', '2020-11-29 16:49:27', '超级管理员', '2020-02-02 20:01:16', NULL);
+INSERT INTO `Sys_Menu` VALUES (90, '审批流', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, 'workFlow', 89, '/workFlow', '2020-11-29 16:49:42', '超级管理员', '2020-02-02 20:01:16', NULL);
+INSERT INTO `Sys_Menu` VALUES (91, '多列合并显示', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 0, '/App_Expert', 48, '/App_Expert2', '2021-03-06 17:47:23', '超级管理员', '2021-02-28 22:18:37', NULL);
+INSERT INTO `Sys_Menu` VALUES (92, '主从一对一(2)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 890, 'SellOrder2', 74, '/SellOrder2', '2021-03-14 23:52:46', '超级管理员', '2021-03-14 23:52:54', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (93, '主从一对一(3)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 880, 'SellOrder3', 74, '/SellOrder3', '2021-03-14 23:53:50', '超级管理员', '2021-03-14 23:52:54', NULL);
+INSERT INTO `Sys_Menu` VALUES (94, '在线表格编辑', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 0, 'App_Transaction2', 48, '/App_Transaction2', '2021-03-20 15:19:14', '超级管理员', '2021-02-28 22:18:37', NULL);
+INSERT INTO `Sys_Menu` VALUES (95, 'table编辑(二)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 1040, 'table3', 12, '/table3', '2021-03-20 15:21:05', '超级管理员', '2021-03-20 15:21:07', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (96, 'treetable', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, 'treetable3', 84, 'treetable3', '2021-05-02 15:54:23', '超级管理员', '2019-11-15 14:32:32', NULL);
+INSERT INTO `Sys_Menu` VALUES (97, '角色管理(tree)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 0, 'Sys_Role1', 2, '/Sys_Role1', '2021-05-02 15:56:15', '超级管理员', '2021-05-02 18:29:18', '超级管理员');
 
 -- ----------------------------
 -- Table structure for Sys_Province
@@ -912,7 +911,7 @@ CREATE TABLE `Sys_Province`  (
   `ProvinceName` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `RegionCode` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ProvinceId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_Province
@@ -972,7 +971,7 @@ CREATE TABLE `Sys_Role`  (
   `ParentId` int(11) NOT NULL,
   `RoleName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`Role_Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_Role
@@ -999,7 +998,7 @@ CREATE TABLE `Sys_RoleAuth`  (
   `Role_Id` int(11) NULL DEFAULT NULL,
   `User_Id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`Auth_Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 213 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 213 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_RoleAuth
@@ -1084,7 +1083,11 @@ CREATE TABLE `Sys_RoleAuthData`  (
   `Modifier` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `ModifyDate` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`Auth_Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+
+-- ----------------------------
+-- Records of Sys_RoleAuthData
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for Sys_TableColumn
@@ -1128,7 +1131,7 @@ CREATE TABLE `Sys_TableColumn`  (
   `TableName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `Table_Id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`ColumnId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 764 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 764 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_TableColumn
@@ -1378,7 +1381,7 @@ CREATE TABLE `Sys_TableInfo`  (
   `UploadField` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `UploadMaxCount` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`Table_Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_TableInfo
@@ -1441,12 +1444,12 @@ CREATE TABLE `Sys_User`  (
   `UserTrueName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Token` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`User_Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3372 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3372 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_User
 -- ----------------------------
-INSERT INTO `Sys_User` VALUES (1, '北京市西城区', 0, '2019-08-18 00:54:06', 1, '超级管理员', '2012-06-10 11:10:03', NULL, NULL, NULL, 0, '283591387@qq.com', 1, 1, 'https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/head.png', 0, '2017-08-28 09:58:55', '2019-12-14 15:13:49', NULL, '超级管理员', '2019-05-30 11:37:41', 1, 0, 1, '超级管理员', '13888888888', '~还没想好...', NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', '超级管理员', '');
+INSERT INTO `Sys_User` VALUES (1, '北京市西城区', 0, '2019-08-18 00:54:06', 1, '超级管理员', '2012-06-10 11:10:03', NULL, NULL, NULL, 0, '283591387@qq.com', 1, 1, 'https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/head.png', 0, '2017-08-28 09:58:55', '2019-12-14 15:13:49', NULL, '超级管理员', '2019-05-30 11:37:41', 1, 0, 1, '超级管理员', '13888888888', '~还没想好...', NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', '超级管理员', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTYyNzM1MjI5OCIsIm5iZiI6IjE2MjczNTIyOTgiLCJleHAiOiIxNjI3MzU5NDk4IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.1njJI8ICQR-gSgeFM24zJb2qkZ-eu2YyxBGENhtaDIA');
 INSERT INTO `Sys_User` VALUES (3362, '北京市还没注册', NULL, '2019-08-18 00:54:06', 1, '超级管理员', '2019-08-13 14:24:27', NULL, NULL, NULL, NULL, NULL, 1, 0, 'Upload/Tables/Sys_User/202004241341311851/04.jpg', 0, NULL, '2019-09-22 23:12:33', '01012345678', '超级管理员', '2020-04-27 09:48:53', 1, NULL, 2, '测试管理员', NULL, NULL, NULL, 'admin666', 'j79rYYvCz4vdhcboB1Ausg==', '演示帐号', '');
 INSERT INTO `Sys_User` VALUES (3364, '北京市西城区', NULL, NULL, NULL, NULL, '2019-10-10 17:29:14', 1, '超级管理员', NULL, NULL, '123@qq.com', 1, 0, 'Upload/Tables/Sys_User/202004270952013790/06.jpg', 0, NULL, NULL, '139999999999', '超级管理员', '2020-04-27 09:52:01', 1, NULL, 2, '测试管理员', NULL, NULL, NULL, 'admin777', 'E2J_2bOfPPSTYWeMKksiaw==', '你猜？', NULL);
 INSERT INTO `Sys_User` VALUES (3365, '北京市还没注册', NULL, NULL, NULL, NULL, '2019-10-24 11:39:22', 1, '超级管理员', NULL, NULL, NULL, 1, NULL, 'Upload/Tables/Sys_User/202004270952176882/111.jpg', 0, NULL, NULL, '01012345678', '超级管理员', '2020-04-27 09:52:18', 1, NULL, 4, '信息员', NULL, NULL, NULL, 'test123', 'CfpTfV6KXdeC5TVoy5WL~w==', 'zs j', '');
