@@ -71,6 +71,9 @@ export default {
       data.forEach((x) => {
         if (!x.children) x.children = [];
         if (x.parentId === rootId) {
+             if (!x.icon||x.icon.substring(0,3)=='el-') {
+              x.icon='ios-apps'
+            }
           x.isRoot = true;
           if (!x.hasOwnProperty("enable")) x.enable = 1;
           root_data.push(x);
