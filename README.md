@@ -24,6 +24,8 @@
  
 ## 项目启动与上手
  - http://www.volcore.xyz/document/guide
+## 框架已支持Vue3版本
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/v3.png)  
 
 ## 框架2.0已更新(部分新增功能截图)
 增加切换皮肤功能
