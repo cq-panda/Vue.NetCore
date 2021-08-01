@@ -679,7 +679,18 @@ DISTINCT
 
             List<object> list = GetSearchData(panelHtml, sysColumnList, true);
 
-            string pageContent = FileHelper.ReadFile("Template\\Page\\VueSearchPage.html");
+            string pageContent = null;
+            //2021.08.01增加vue3页面模板
+            if (HttpContext.Current.Request.Query.ContainsKey("v3"))
+            {
+                pageContent = FileHelper.ReadFile("Template\\Page\\Vue3SearchPage.html");
+            }
+            else
+            {
+                pageContent = FileHelper.ReadFile("Template\\Page\\VueSearchPage.html");
+            }
+
+
             if (string.IsNullOrEmpty(pageContent))
             {
                 return "未找到Template模板文件";
