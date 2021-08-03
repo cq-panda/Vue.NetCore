@@ -1,21 +1,18 @@
 <template>
   <div class="home-contianer">
     <div class="h-top">
-      <div class="h-top-left" id="h-chart1">left</div>
+      <div class="h-top-left"
+           id="h-chart1">left</div>
       <div class="h-top-center">
         <div class="n-item">
-          <div
-            @click="open(item)"
-            class="item"
-            :class="'item' + (index + 1)"
-            v-for="(item, index) in center"
-            :key="index"
-          >
-            <i
-              style="font-size: 30px; padding-bottom: 10px"
-              :class="item.icon"
-              :size="20"
-            ></i>
+          <div @click="open(item)"
+               class="item"
+               :class="'item' + (index + 1)"
+               v-for="(item, index) in center"
+               :key="index">
+            <i style="font-size: 30px; padding-bottom: 10px"
+               :class="item.icon"
+               :size="20"></i>
             <br />
             {{ item.title }}
           </div>
@@ -23,15 +20,19 @@
       </div>
       <div class="h-top-right task-table">
         <h3 class="h3">#框架Vue3.x版本变更说明</h3>
-        <table border="0" cellspacing="0" cellpadding="0">
-          <tr v-for="(row, index) in list" :key="index">
+        <table border="0"
+               cellspacing="0"
+               cellpadding="0">
+          <tr v-for="(row, index) in list"
+              :key="index">
             <td>{{ index + 1 }}</td>
             <td>{{ row.desc }}</td>
           </tr>
         </table>
       </div>
     </div>
-    <div class="h-chart">
+    <div class="h-chart"
+         style="max-height:340px;">
       <div id="h-chart2"></div>
       <div id="h-chart3"></div>
     </div>
@@ -53,7 +54,7 @@ var $chart2;
 export default {
   components: {
   },
-  data() {
+  data () {
     return {
       center: [
         {
@@ -113,20 +114,20 @@ export default {
       ],
     };
   },
-  setup() {
+  setup () {
     let open = (item) => {
       window.open(item.url, "_blank");
     };
     let interval;
     onMounted(() => {
-      var $chart = echarts.init(document.getElementById("h-chart1"));
+      $chart = echarts.init(document.getElementById("h-chart1"));
       $chart.setOption(chart1);
       $chart2 = echarts.init(document.getElementById("h-chart2"));
       $chart2.setOption(chart2);
 
       interval = setInterval(() => {
         chart2.xAxis[0].data.splice(0, 1);
-        var lastYear =
+        let lastYear =
           chart2.xAxis[0].data[chart2.xAxis[0].data.length - 1] * 1 + 1;
         chart2.xAxis[0].data.push(lastYear);
 
@@ -138,18 +139,24 @@ export default {
         $chart2.setOption(chart2);
       }, 2000);
 
-      var $chart3 = echarts.init(document.getElementById("h-chart3"));
+      $chart3 = echarts.init(document.getElementById("h-chart3"));
       $chart3.setOption(chart3);
     });
     onUnmounted(() => {
       interval && clearInterval(interval);
+      if ($chart) {
+        $chart.dispose();
+        $chart2.dispose();
+        $chart3.dispose();
+      }
     });
     return { open };
   },
-  destroyed() {
-    $chart2=null;
+  destroyed () {
+    $chart2 = null;
   },
 };
+var $chart, $chart2, $chart3
 // window.addEventListener("resize", function () {
 //   $chart2.setOption(chart2);
 // });
