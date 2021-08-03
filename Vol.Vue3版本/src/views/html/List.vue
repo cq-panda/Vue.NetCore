@@ -1,38 +1,38 @@
 <template>
-  <div
-    style=" overflow: scroll; position: absolute;
+  <div style="overflow: auto; position: absolute;
     background: rgb(245, 245, 245);
     height: 100%;
-    width: 100%;"
-  >
+    width: 100%;">
     <div class="com-container">
-      <div class="list" v-for="(item, index) in list2" :key="index">
+      <div class="list"
+           v-for="(item, index) in list2"
+           :key="index">
         <div class="tab-swiper vux-center">
           <div>
-            <div class="info-item" v-for="(ritem,rindex) in item.data" :key="rindex">
-              <div class="info-title" @click="openUrl(ritem)">
-                <div
-                  :class="{'info-text':true,'info-img':ritem.imgs&&ritem.imgs.length==1}"
-                >{{ritem.title}}</div>
-                <div v-if="ritem.imgs&&ritem.imgs.length==1" class="single-img">
-                  <img v-bind:src="getImg(ritem.imgs[0])" :onerror="errorImg" />
+            <div class="info-item"
+                 v-for="(ritem,rindex) in item.data"
+                 :key="rindex">
+              <div class="info-title"
+                   @click="openUrl(ritem)">
+                <div :class="{'info-text':true,'info-img':ritem.imgs&&ritem.imgs.length==1}">{{ritem.title}}</div>
+                <div v-if="ritem.imgs&&ritem.imgs.length==1"
+                     class="single-img">
+                  <img v-bind:src="getImg(ritem.imgs[0])"
+                       :onerror="errorImg" />
                 </div>
               </div>
-              <div
-                v-if="ritem.imgs&&(ritem.imgs.length>=3||ritem.imgs.length==2)"
-                class="img-group"
-              >
-                <img
-                  :onerror="errorImg"
-                  v-for="(img,imageIndex) in ritem.imgs"
-                  :key="imageIndex"
-                  v-bind:src="getImg(img)"
-                />
+              <div v-if="ritem.imgs&&(ritem.imgs.length>=3||ritem.imgs.length==2)"
+                   class="img-group">
+                <img :onerror="errorImg"
+                     v-for="(img,imageIndex) in ritem.imgs"
+                     :key="imageIndex"
+                     v-bind:src="getImg(img)" />
               </div>
               <div class="info-foot">
-                <img v-bind:src="header" :onerror="errorImg" />
+                <img v-bind:src="header"
+                     :onerror="errorImg" />
                 <span class="author">{{ritem.creator}}</span>
-                <el-tag >{{ritem.type||""}}</el-tag>
+                <el-tag>{{ritem.type||""}}</el-tag>
                 <span class="date">{{ritem.createDate}}</span>
               </div>
             </div>
@@ -46,7 +46,7 @@
 <script>
 export default {
   components: {},
-  created() {
+  created () {
     this.http.post("api/news/GetDemoPageList").then(result => {
       result.data.forEach(x => {
         x.createDate = (x.createDate || "").replace("T", " ");
@@ -60,7 +60,7 @@ export default {
       });
     });
   },
-  data() {
+  data () {
     return {
       header:
         "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/head1.jpg",
@@ -73,14 +73,14 @@ export default {
     };
   },
   methods: {
-    getImg(img) {
+    getImg (img) {
       if (!img) return;
       if (!this.base.isUrl(img) && img.indexOf(".") != -1) {
         return this.http.ipAddress + img;
       }
       return img;
     },
-    openUrl(row) {
+    openUrl (row) {
       if (
         !row.detailUrl ||
         row.detailUrl.indexOf(".html") == -1 ||
