@@ -19,7 +19,7 @@ else if (process.env.NODE_ENV == 'debug') {
 }
 
 else if (process.env.NODE_ENV == 'production') {
-  axios.defaults.baseURL = 'http://api.volcore.xyz/';
+    axios.defaults.baseURL = 'http://api.volcore.xyz/';
 }
 let ipAddress = axios.defaults.baseURL;
 axios.interceptors.request.use((config) => {
@@ -41,13 +41,14 @@ axios.interceptors.response.use((res) => {
     if (error.response) {
         if (error.response.status == '401') {
             if (error.response.data && error.response.data.code == 401) {
-                Message.error({
-                    showClose: true,
-                    message: '登陆已过期',
-                    type: 'error'
-                });
-              
-               toLogin();
+                if (!localStorage.getItem('user')) {
+                    Message.error({
+                        showClose: true,
+                        message: '登陆已过期',
+                        type: 'error'
+                    });
+                }
+                toLogin();
                 return;
             }
 
@@ -65,7 +66,7 @@ axios.interceptors.response.use((res) => {
     redirect(httpMessage);
     return Promise.reject(error.response || {}, httpMessage);
 });
-function closeLoading() {
+function closeLoading () {
     if (loadingInstance) {
         loadingInstance.close();
     }
@@ -77,7 +78,7 @@ function closeLoading() {
     }
 
 }
-function checkResponse(res) {
+function checkResponse (res) {
     //刷新token
     if (!res.headers) {
         if (res.getResponseHeader("vol_exp") == "1") {
@@ -91,7 +92,7 @@ function checkResponse(res) {
 
 const _Authorization = 'Authorization';
 
-function showLoading(loading) {
+function showLoading (loading) {
     if (!loading || loadingStatus) {
         return;
     }
@@ -104,7 +105,7 @@ function showLoading(loading) {
     });
 }
 
-function getToken() {
+function getToken () {
     return store.getters.getToken();
 }
 
@@ -114,7 +115,7 @@ function getToken() {
   loading是否显示遮罩层,可以传入true.false.及提示文本
   config配置信息,如{timeout:3000,headers:{token:123}}
 */
-function post(url, params, loading, config) {
+function post (url, params, loading, config) {
     showLoading(loading);
     axios.defaults.headers[_Authorization] = getToken();
     return new Promise((resolve, reject) => {
@@ -131,7 +132,7 @@ function post(url, params, loading, config) {
 }
 
 //=true异步请求时会显示遮罩层,=字符串，异步请求时遮罩层显示当前字符串
-function get(url, param, loading, config) {
+function get (url, param, loading, config) {
     showLoading(loading);
     axios.defaults.headers[_Authorization] = getToken();
     return new Promise((resolve, reject) => {
@@ -150,7 +151,7 @@ function get(url, param, loading, config) {
 
 
 
-function createXHR() {
+function createXHR () {
     if (XMLHttpRequest) {
         return new XMLHttpRequest();
     }
@@ -175,7 +176,7 @@ function createXHR() {
     }
 }
 
-function redirect(responseText, message) {
+function redirect (responseText, message) {
     try {
         let responseData = typeof responseText == 'string' ? JSON.parse(responseText) : responseText;
         if ((responseData.hasOwnProperty('code') && responseData.code == 401)
@@ -202,17 +203,17 @@ function redirect(responseText, message) {
 }
 
 
-function toLogin() {
+function toLogin () {
     //  const vueinstance=  getCurrentInstance();
-     if (window.location.hash) {
-        window.location.href=window.location.origin+'/#/login'
-         return
-     }
-     window.location.href=window.location.origin+'/login'
-  //  router.push({ path: '/login', params: { r: Math.random() } });
+    if (window.location.hash) {
+        window.location.href = window.location.origin + '/#/login'
+        return
+    }
+    window.location.href = window.location.origin + '/login'
+    //  router.push({ path: '/login', params: { r: Math.random() } });
 }
 //动态刷新token
-function replaceToken() {
+function replaceToken () {
     ajax({
         url: "/api/User/replaceToken",
         param: {},
@@ -238,7 +239,7 @@ function replaceToken() {
 
 }
 
-function ajax(param) {
+function ajax (param) {
     let httpParam =
         Object.assign({
             url: '', headers: {},
