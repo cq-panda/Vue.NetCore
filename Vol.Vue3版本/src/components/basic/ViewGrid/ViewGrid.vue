@@ -589,7 +589,7 @@ export default defineComponent(vueParam);
   background: #eee;
 }
 .grid-detail ::v-deep(.v-table .el-table__header th) {
-  height: 41px;
+  height: 44px;
 }
 </style>
 <style lang="less" scoped>

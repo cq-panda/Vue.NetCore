@@ -1363,7 +1363,7 @@ export default defineComponent({
   /* padding: 0px !important; */
   background-color: #f8f8f9 !important;
   font-size: 13px;
-  /* height: 42px; */
+  height: 46px;
   color: #616161;
 }
 .v-table ::v-deep(.el-table__header th.is-sortable) {
