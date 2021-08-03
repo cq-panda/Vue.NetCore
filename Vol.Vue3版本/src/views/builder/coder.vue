@@ -181,7 +181,7 @@ export default {
       this[funName]();
     },
     help() {
-      window.open("http://www.volcore.xyz/document/coder");
+      window.open("http://v2.volcore.xyz/document/coder");
       // this.helpModel = true;
     },
     addVisible(pid) {
@@ -195,24 +195,26 @@ export default {
     delTree() {
       let tableId = this.layOutOptins.fields.table_Id;
       if (!tableId) return this.$message.error("请选择节点");
-      this.$Modal.confirm({
-        title: "删除警告!",
-        content:
-          '<p style="color: red;font-weight: bold;letter-spacing: 3px;">确认要删除' +
-          this.layOutOptins.fields.columnCNName +
-          "?</p>",
-        onOk: () => {
-          this.http
-            .post("/api/builder/delTree?table_Id=" + tableId, {}, true)
-            .then((x) => {
-              if (!x.status) return this.$message.error(x.message);
-              for (let index = 0; index < this.tree.length; index++) {
-                if (this.tree[index].id == tableId) {
-                  this.tree.splice(index, 1);
-                }
-              }
-            });
-        },
+      let tigger = false;
+      this.$confirm("删除警告?", "确认要删除吗", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true,
+      }).then(() => {
+        if (tigger) return;
+        tigger = true;
+        this.http
+          .post("/api/builder/delTree?table_Id=" + tableId, {}, true)
+          .then((x) => {
+            if (!x.status) return this.$message.error(x.message);
+               this.$message.error("删除成功,请刷新页面");
+            // for (let index = 0; index < this.tree.length; index++) {
+            //   if (this.tree[index].id == tableId) {
+            //     this.tree.splice(index, 1);
+            //   }
+            // }
+          });
       });
     },
     add() {
@@ -278,14 +280,16 @@ export default {
       this.data.push({});
     },
     delRow() {
-      this.$Modal.confirm({
-        title: "删除警告!",
-        content:
-          '<p style="color: red;font-weight: bold;letter-spacing: 3px;">确认要删除选择的数据吗?</p>',
-        onOk: () => {
-          let rows = this.$refs.table.delRow();
-          console.log(rows);
-        },
+      let tigger = false;
+      this.$confirm("删除警告?", "确认要删除选择的数据吗", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true,
+      }).then(() => {
+        if (tigger) return;
+        tigger = true;
+        this.$refs.table.delRow();
       });
     },
     validateTableInfo(callback) {
@@ -493,7 +497,7 @@ export default {
     this.http.post("/api/builder/GetTableTree", {}, false).then((x) => {
       this.tree = JSON.parse(x.list);
       if (!x.nameSpace) {
-        return this.$message(
+        return this.$message.error(
           "未获取后台项目类库所在命名空间,请确认目录或调试Sys_TableInfoService类GetTableTree方法"
         );
       }
