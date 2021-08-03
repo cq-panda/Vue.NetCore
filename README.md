@@ -23,9 +23,13 @@
  - 前端：VsCode、Vue2/vue3（webpack、node.js,如果没有此环境自行搜索:vue webpack npm)、vuex、axios、promise、iview、element-ui
  
 ## 项目启动与上手
- -vue2版本 http://v2.volcore.xyz/document/guide
- -vue3版本 http://v2.volcore.xyz/document/guide
- -App/H5开发 http://v2.volcore.xyz/app/guide
+ - http://v2.volcore.xyz/document/guide
+## vue2版本
+ - http://v2.volcore.xyz
+## vue3版本
+ - http://www.volcore.xyz
+## App/H5开发
+ - http://v2.volcore.xyz/app/guide
 ## 框架已支持Vue3版本
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/v3.png)  
 
