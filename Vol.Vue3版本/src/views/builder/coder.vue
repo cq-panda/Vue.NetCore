@@ -367,10 +367,7 @@ export default {
         this.http
           .post("/api/builder/CreateModel", this.tableInfo, true)
           .then((x) => {
-            this.$Message.info({
-              content: x,
-              duration: 5,
-            });
+            this.$message.info(x);
           });
       });
     },
@@ -422,7 +419,7 @@ export default {
           });
           this.tableInfo = x.data;
           this.$refs.form.reset(x.data);
-          //  this.layOutOptins.fields.vuePath = localStorage.getItem("vuePath");
+          this.layOutOptins.fields.vuePath = localStorage.getItem("vuePath");
           this.data = x.data.tableColumns;
           //  this.$Message.info(x);
         });
