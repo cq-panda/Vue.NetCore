@@ -832,12 +832,15 @@ export default defineComponent({
       }
       return true;
     },
+    isReadonly(item) {
+      return item.readonly || item.disabled;
+    },
     getRule(item, formFields) {
       //2021.07.17增加只读表单不验证
       //range与swtich暂时不做校验
       if (
-        item.readonly ||
-        item.disabled ||
+        // item.readonly ||
+        // item.disabled ||
         item.type == "switch" ||
         item.type == "range"
       )
@@ -858,7 +861,7 @@ export default defineComponent({
       if (["img", "excel", "file"].indexOf(item.type) != -1) {
         return {
           validator: (rule, val, callback) => {
-            if (!val || !val.length) {
+            if (!this.isReadonly(item) && (!val || !val.length)) {
               return callback(
                 new Error(item.type == "img" ? "请上传照片" : "请上传文件")
               );
@@ -899,6 +902,7 @@ export default defineComponent({
               }
               if (value === "" || value === undefined) return callback();
             }
+            if (this.isReadonly(item)) return callback();
             if (ruleObj.type == "number") {
               if (!rule.number.test(value)) {
                 ruleObj.message = ruleObj.title + "只能是整数";
@@ -955,6 +959,15 @@ export default defineComponent({
           message: message,
           trigger: "blur",
           type: type,
+          validator: (ruleObj, value, callback) => {
+            if (
+              !this.isReadonly(item) &&
+              (value === "" || value === undefined || value === null)
+            ) {
+              return callback(new Error(ruleObj.message));
+            }
+            return callback();
+          },
         };
         if (item.type == "mail") {
           _rule.required = item.required;
@@ -1000,6 +1013,7 @@ export default defineComponent({
           trigger: "change",
           type: item.range ? "array" : "string",
           validator: (rule, val, callback) => {
+            if (this.isReadonly(item)) return callback();
             // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
             if (!val || (item.range && !val.length)) {
               return callback(new Error("请选择日期"));
@@ -1017,6 +1031,7 @@ export default defineComponent({
           // message: "请选择" + item.title,
           trigger: "change",
           validator: (rule, val, callback) => {
+            if (this.isReadonly(item)) return callback();
             // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
             let _arr = this.formFields[item.field];
             if (!_arr || !_arr.length) {
@@ -1038,6 +1053,7 @@ export default defineComponent({
           message: "请选择" + item.title,
           trigger: "change",
           validator: (rule, value, callback) => {
+            if (this.isReadonly(item)) return callback();
             if (value == undefined || value === "") {
               return callback(new Error(rule.message));
             }
