@@ -71,7 +71,7 @@ let extension = {
             this.editFormOptions.forEach(item => {
                 item.forEach(x => {
                     if (x.field == "UserName") {
-                        this.$set(x, "disabled", isEDIT)
+                        x.disabled=isEDIT;
                     }
                 })
                 //不是新建，性别默认值设置为男
