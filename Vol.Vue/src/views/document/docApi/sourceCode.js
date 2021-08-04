@@ -141,7 +141,7 @@ var codeString = {
 			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">lazy</span>="<span style="color:#569cd6;">true</span>"
 		  </div>
 		  <div>
-			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>"
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>  //vue3版本使用v-model="model""
 		  </div>
 		  <div>
 			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"标题"</span>
@@ -1768,7 +1768,7 @@ var codeString = {
   &nbsp; &nbsp; &lt;!-- 上传图片弹出框 --&gt;<br />
   &nbsp; &nbsp; &lt;VolBox<br />
   &nbsp; &nbsp; &nbsp; icon="ios-chatbubbles"<br />
-  &nbsp; &nbsp; &nbsp; :model.sync="model"<br />
+  &nbsp; &nbsp; &nbsp; :model.sync="model"//vue3版本请使用v-model="model"<br />
   &nbsp; &nbsp; &nbsp; title="选择图片"<br />
   &nbsp; &nbsp; &nbsp; :height="220"<br />
   &nbsp; &nbsp; &nbsp; :url="url"<br />
