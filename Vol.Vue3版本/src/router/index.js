@@ -22,26 +22,26 @@ const routes = [
       {
         path: '/home',
         name: 'home',
-        component:() => import('@/views/Home.vue')
+        component: () => import('@/views/Home.vue')
       }, {
         path: '/UserInfo',
         name: 'UserInfo',
-        component:() => import('@/views/system/UserInfo.vue')
+        component: () => import('@/views/system/UserInfo.vue')
       },
       {
         path: '/sysMenu',
         name: 'sysMenu',
-        component:() => import('@/views/system/Sys_Menu.vue')
+        component: () => import('@/views/system/Sys_Menu.vue')
       }, {
         path: '/coder',
         name: 'coder',
-        component:() => import('@/views/builder/coder.vue')
+        component: () => import('@/views/builder/coder.vue')
       }]
   },
   {
     path: '/login',
     name: 'login',
-    component:() => import('@/views/Login.vue')
+    component: () => import('@/views/Login.vue')
   },
   {
     path: '/app/guide',
@@ -49,12 +49,12 @@ const routes = [
     meta: {
       anonymous: true
     },
-    component:() => import('@/views/h5/Guide.vue'),
+    component: () => import('@/views/h5/Guide.vue'),
   },
   {
     path: '/bigdata',
     name: 'bigdata',
-    component:() => import('@/views/charts/bigdata.vue'),
+    component: () => import('@/views/charts/bigdata.vue'),
     meta: {
       keepAlive: false
     }
@@ -74,6 +74,7 @@ router.beforeEach((to, from, next) => {
   if ((to.hasOwnProperty('meta') && to.meta.anonymous) || store.getters.isLogin() || to.path == '/login') {
     return next();
   }
+
   next({ path: '/login', query: { redirect: Math.random() } });
 })
 router.afterEach((to, from) => {
@@ -81,8 +82,15 @@ router.afterEach((to, from) => {
 })
 router.onError((error) => {
   // const targetPath = router.currentRoute.value.matched;
-  console.log(error.message);
-  alert(error.message)
+  try {
+    console.log(error.message);
+    if (process.env.NODE_ENV == 'development') {
+      alert(error.message)
+    }
+    localStorage.setItem("route_error", error.message)
+  } catch (e) {
+
+  }
   window.location.href = '/'
 });
 export default router
