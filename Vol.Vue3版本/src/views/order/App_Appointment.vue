@@ -31,7 +31,7 @@
             });
             const editFormFields = ref({"Name":"","Id":"","Describe":"","PhoneNo":"","CreateDate":"","Creator":"","Modifier":"","ModifyDate":""});
             const editFormOptions = ref([[{"title":"用户姓名","required":true,"field":"Name","disabled":true},
-                               {"title":"","required":true,"field":"Id","disabled":true}],
+                               {"title":"主键ID","required":true,"field":"Id","disabled":true}],
                               [{"title":"描述信息","required":true,"field":"Describe","disabled":true},
                                {"title":"电话","required":true,"field":"PhoneNo","disabled":true}],
                               [{"title":"创建时间","field":"CreateDate","disabled":true},
@@ -43,7 +43,7 @@
             const columns = ref([{field:'Name',title:'用户姓名',type:'string',link:true,width:100,readonly:true,require:true,align:'left',sortable:true},
                        {field:'Describe',title:'描述信息',type:'string',width:180,readonly:true,require:true,align:'left'},
                        {field:'PhoneNo',title:'电话',type:'string',width:130,readonly:true,require:true,align:'left'},
-                       {field:'Id',title:'Id',type:'string',width:90,hidden:true,readonly:true,require:true,align:'left'},
+                       {field:'Id',title:'主键ID',type:'string',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'CreateDate',title:'创建时间',type:'datetime',width:120,readonly:true,align:'left',sortable:true},
                        {field:'CreateID',title:'CreateID',type:'int',width:80,hidden:true,align:'left'},
                        {field:'Creator',title:'创建人',type:'string',width:130,readonly:true,align:'left'},

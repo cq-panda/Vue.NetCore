@@ -298,7 +298,7 @@ export default defineComponent({
       if (_userInfo) {
         userName.value = _userInfo.userName;
         userImg.value = _config.base.getImgSrc(
-          userInfo.value.img,
+          _userInfo.img,
           http.ipAddress
         );
       }
