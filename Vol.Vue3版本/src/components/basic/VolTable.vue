@@ -1083,6 +1083,7 @@ export default defineComponent({
     },
     getInputChangeSummaries() {},
     handleSizeChange(val) {
+      this.paginations.size = val;
       this.paginations.rows = val;
       this.load();
     },
