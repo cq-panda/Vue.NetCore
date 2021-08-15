@@ -259,7 +259,6 @@
 import VolTableRender from "./VolTable/VolTableRender";
 var $vue;
 let _errMsg;
-let selectRows = [];
 import { defineComponent } from "vue";
 export default defineComponent({
   //https://github.com/element-plus/element-plus/issues/1483
@@ -457,6 +456,7 @@ export default defineComponent({
       remoteColumns: [], // 需要每次刷新或分页后从后台加载字典数据源的列配置
       cellStyleColumns: {}, // 有背景颜色的配置
       fxRight: false, //是否有右边固定表头
+      selectRows:[]//当前选中的行
     };
   },
   created() {
@@ -551,8 +551,8 @@ export default defineComponent({
   },
   methods: {
     watchRowSelectChange(newLen, oldLen) {
-      if (newLen < oldLen && selectRows.length) {
-        selectRows = [];
+      if (newLen < oldLen && this.selectRows.length) {
+        this.selectRows = [];
         $vue.$refs.table.clearSelection();
       }
     },
@@ -947,14 +947,14 @@ export default defineComponent({
       this.$props.linkView(row, column);
     },
     getSelected() {
-      return selectRows;
+      return this.selectRows;
     },
     getSelectedIndex() {
       if (!this.index) {
         // 只有设置了属性index才有索引行
         return [];
       }
-      let indexArr = selectRows.map((x) => {
+      let indexArr = this.selectRows.map((x) => {
         return x.elementIndex;
       });
       return indexArr || [];
@@ -1103,7 +1103,7 @@ export default defineComponent({
     selectionChange(selection) {
       // console.log(selection);
       // 选择行事件,只有单选才触发
-      selectRows = selection;
+      this.selectRows = selection;
       if (this.single) {
         if (selection.length == 1) {
           this.$emit("rowChange", selection[0]);
@@ -1111,7 +1111,7 @@ export default defineComponent({
         if (selection.length > 1) {
           let _row = selection[selection.length - 1];
           this.$refs.table.toggleRowSelection(selection[0]);
-          selectRows = [_row];
+          this.selectRows = [_row];
         }
       }
     },
@@ -1257,7 +1257,7 @@ export default defineComponent({
       return column.edit.type == "date" ? "YYYY-MM-DD" : "YYYY-MM-DD HH:mm:ss";
     },
     userSelect(selection, row) {
-      selectRows = selection;
+      this.selectRows = selection;
       if (!this.single) {
         this.$emit("rowChange", { row, selection });
       }
