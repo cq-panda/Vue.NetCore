@@ -589,7 +589,7 @@ export default defineComponent({
     },
     rowDbClick(row, column, event) {
       //2021.05.23增加双击行事件
-      this.$emit("row-dbclick", { row, column, event });
+      this.$emit("rowDbClick", { row, column, event });
     },
     rowClick(row, column, event) {
       //正在编辑时，禁止出发rowClick事件
