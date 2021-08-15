@@ -881,7 +881,7 @@ export default defineComponent({
       ) {
         // 如果是必填项的数字，设置一个默认最大与最值小
         if (item.required && typeof item.min !== "number") {
-          item.min = item.type == "decimal" ? 0.1 : 1;
+          item.min =0 //item.type == "decimal" ? 0.1 : 1;
         }
 
         return {
