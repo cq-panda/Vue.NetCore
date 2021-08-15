@@ -36,7 +36,7 @@
               <span>Gitee</span></a
             >
                 <a
-              href="http://www.volcore.xyz/app/guide"
+              href="http://v2.volcore.xyz/app/guide"
               target="_blank"
               style="color: #ffff; border: 1px solid #ffff; width: 80px;margin-right: 5px;"
               class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
@@ -44,7 +44,7 @@
               <span>H5/App</span></a
             >
             <a
-              href="http://www.volcore.xyz/document/guide"
+              href="http://v2.volcore.xyz/document/guide"
               target="_blank"
               style="color: #ffff; border: 1px solid #ffff"
               class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
@@ -148,14 +148,14 @@
         </div>
       </div>
     </div>
-    <div class="l-bg"></div>
+ <div class="l-bg"></div>
     <div class="r-bg"></div>
-    <div class="c-bg">
+     <!--   <div class="c-bg">
       <div class="c-bg-item"></div>
       <div class="c-bg-item"></div>
       <div class="c-bg-item"></div>
       <div class="c-bg-item"></div>
-    </div>
+    </div> -->
     <div class="login-footer">
       <a @click="toGitHub">
         <!-- <Icon type="logo-github" /> -->
