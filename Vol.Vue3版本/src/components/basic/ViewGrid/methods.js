@@ -590,10 +590,11 @@ let methods = {
     let _currentIsAdd = this.currentAction == this.const.ADD;
     if (_currentIsAdd) {
       //2020.12.06增加新建前异步处理方法
-      if (!this.addBefore(formData) || await !this.addBeforeAsync(formData)) return;
+      //2021.08.16修复异步语法写错的问题
+      if (!this.addBefore(formData) ||  !await this.addBeforeAsync(formData)) return;
     } else {
       //2020.12.06增加修改前异步处理方法
-      if (!this.updateBefore(formData) || await !this.updateBeforeAsync(formData)) return;
+      if (!this.updateBefore(formData) || !await this.updateBeforeAsync(formData)) return;
     }
     let url = this.getUrl(this.currentAction);
     this.http.post(url, formData, true).then(x => {
