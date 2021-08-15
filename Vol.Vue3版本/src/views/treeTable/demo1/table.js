@@ -73,7 +73,7 @@ let extension = {
         })
         //不是新建，性别默认值设置为男
         if (!isEDIT) {
-          this.editFormFileds.Gender = "0";
+          this.editFormFields.Gender = "0";
         }
       })
     }
