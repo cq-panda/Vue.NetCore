@@ -93,7 +93,6 @@ let viewgird = [
     path: '/App_NewsEditor',
     name: 'App_NewsEditor',
     component:  () => import('@/views/appmanager/App_NewsEditor.vue' )
-  }
-]
+  }]
 
 export default viewgird

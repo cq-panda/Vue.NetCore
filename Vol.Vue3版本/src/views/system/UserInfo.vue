@@ -5,12 +5,20 @@
         <img class="header-img" :src="userInfo.img" :onerror="errorImg" />
         <div class="text">
           <p class="name">
-            <span>{{ userInfo.userName }}</span>
+            <span style="font-size: 13px">{{ userInfo.userName }}</span>
           </p>
           <p class="date">
             <span>注册日期：{{ userInfo.createDate }}</span>
           </p>
           <p>
+            <el-button
+              type="error"
+              @click="modifyPwd"
+              size="small"
+              icon="md-lock"
+              long
+              >修改密码</el-button
+            >
             <el-button
               style="padding: 3px 16px"
               @click="modifyImg"
@@ -22,17 +30,6 @@
           </p>
         </div>
       </div>
-
-      <div style="padding: 17px">
-        <el-button
-          type="error"
-          @click="modifyPwd"
-          size="small"
-          icon="md-lock"
-          long
-          >修改密码</el-button
-        >
-      </div>
     </div>
     <div class="right">
       <vol-form
@@ -40,7 +37,7 @@
         :load-key="true"
         :width="500"
         :formRules="editFormOptions"
-        :formFileds="editFormFields"
+        :formFields="editFormFields"
       >
         <div class="footer">
           <el-button
@@ -58,7 +55,6 @@
     <VolBox
       :width="500"
       :height="260"
-
       v-model="modifyOptions.model"
       title="修改密码"
     >
@@ -66,7 +62,7 @@
         <VolForm
           ref="pwd"
           :formRules="modifyOptions.data"
-          :formFileds="modifyOptions.fileds"
+          :formFields="modifyOptions.fields"
         ></VolForm>
         <el-button
           type="info"
@@ -103,15 +99,15 @@ export default {
     savePwd() {
       if (!this.$refs.pwd.validate()) return;
       if (
-        this.modifyOptions.fileds.newPwd != this.modifyOptions.fileds.newPwd1
+        this.modifyOptions.fields.newPwd != this.modifyOptions.fields.newPwd1
       ) {
         return this.$message.error("两次密码不一致");
       }
       let url =
         "/api/user/modifyPwd?oldPwd=" +
-        this.modifyOptions.fileds.oldPwd +
+        this.modifyOptions.fields.oldPwd +
         "&newPwd=" +
-        this.modifyOptions.fileds.newPwd;
+        this.modifyOptions.fields.newPwd;
       this.http.post(url, {}, true).then((x) => {
         if (!x.status) {
           return this.$message.error(x.message);
@@ -149,7 +145,7 @@ export default {
       errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       modifyOptions: {
         model: false,
-        fileds: { oldPwd: "", newPwd: "", newPwd1: "" },
+        fields: { oldPwd: "", newPwd: "", newPwd1: "" },
         data: [
           [
             {
@@ -274,18 +270,18 @@ img:not([src]) {
   opacity: 0;
 }
 .user-info {
-    box-shadow: #d6d6d6 0px 4px 21px;
-    position: absolute;
-    transform: translateY(-40%);
-    top: 40%;
-    /* position: relative; */
-    margin: 0 auto;
-    left: 0;
-    width: 950px;
-    right: 0;
-    text-align: center;
-    padding: 0px;
-    padding: 20px;
+  box-shadow: #d6d6d6 0px 4px 21px;
+  position: absolute;
+  transform: translateY(-40%);
+  top: 40%;
+  /* position: relative; */
+  margin: 0 auto;
+  left: 0;
+  width: 950px;
+  right: 0;
+  text-align: center;
+  padding: 0px;
+  padding: 20px;
   .text {
     padding: 5px;
     .name {
