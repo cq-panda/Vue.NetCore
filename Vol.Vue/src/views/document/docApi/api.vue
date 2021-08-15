@@ -12,15 +12,8 @@
         关于组件
         <span slot="desc" >所有组件都是基于iviewui组件、table表使用element-ui进行的二次封装，目前使用只需要配置好JSON格式即可使用..</span>
       </Alert>
-      <Alert type="info" show-icon>
-           <span style="color: red;">   [FormFields]拼写错误兼容更新提示2020.09.13</span>
-        <div slot="desc" style="line-height: 2;font-size: 15px;margin-top: 20px;">
-          <p>如果是2020.09.13之后下载的项目或者2020.09.13后有更新过代码并且重新生成过vue页面,请忽略此提示</p>
-          <p
-          >由于框架FormFileds字段拼写错误，文档中editFormFileds已变修正editFormFields，searchFormFileds已变修正为searchFormFields</p>
-          <p >更新文件：<a  href="https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2" target="_blank">https://github.com/cq-panda/Vue.NetCore/releases/tag/v2.1.2</a></p>
-          <p style="color: red;">如果没有更新过项目,使用文档中searchFormFields、editFormFields对象时，修改拼写为searchFormFileds、editFormFileds，或者更新代码后再重新生成vue页面</p>
-        </div>
+      <Alert  style="padding: 10px;" >
+          <h2>此页面需要从首页点击【框架文档】进来,否则看不了下面：VolTable组件、代码生成页面ViewGrid这两个组件文档 </h2>
       </Alert>
 
       <component v-bind:is="currentComponent"></component>

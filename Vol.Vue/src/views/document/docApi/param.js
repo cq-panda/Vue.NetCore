@@ -214,6 +214,9 @@ const param = {
     methods: [{ name: "delRow", desc: "删除选中行，this.$refs.自定义的名字.delRow()", param: "" },
     { name: "addRow", desc: "添加行，this.$refs.自定义的名字.addRow({'字段1':'值1'}),目前不支持传入数组，数组请循环遍历", param: "" },
     { name: "selection", desc: "获取选中的行，this.$refs.自定义的名字.selection,注意此处selection是属性", param: "" },
+    { name: "getSelected", desc: "获取选中的行(vue3版本才能使用)，this.$refs.自定义的名字.getSelected()", param: "" },
+    { name: "tableData/rowData", desc: "获取表中的所有行数据", param: "this.$refs.自定义的名字.tableData/rowData(如果传入了url参数，使用rowData)" },
+    { name: "reset", desc: "清空表数据", param: "this.$refs.自定义的名字.reset" },
     { name: "load", desc: "刷新表数据，this.$refs.自定义的名字.load({条件:xx},true),条件可以任意写你自己接收的格式,第二个参数是否重置分页信息", param: "" },
     { name: "resetPage", desc: "重置分页信息，this.$refs.自定义的名字.resetPage()", param: "" },
     {
