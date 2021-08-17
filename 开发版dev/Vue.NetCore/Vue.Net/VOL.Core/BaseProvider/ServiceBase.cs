@@ -660,17 +660,17 @@ namespace VOL.Core.BaseProvider
         /// <returns></returns>
         public WebResponseContent UpdateToEntity<DetailT>(SaveModel saveModel, PropertyInfo mainKeyProperty, PropertyInfo detailKeyInfo, object keyDefaultVal) where DetailT : class
         {
-            T mainEnity = saveModel.MainData.DicToEntity<T>();
+            T mainEnity = saveModel.MainData.DicToEntity<T>();  
             List<DetailT> detailList = saveModel.DetailData.DicToList<DetailT>();
+            //2021.08.21优化明细表删除
             //删除的主键
-
             //查出所有明细表数据的ID
-            System.Collections.IList detailKeys = this.GetType().GetMethod("GetUpdateDetailSelectKeys")
-                    .MakeGenericMethod(new Type[] { typeof(DetailT), detailKeyInfo.PropertyType })
-                    .Invoke(this, new object[] {
-                        detailKeyInfo.Name, mainKeyProperty.Name,
-                        saveModel.MainData[mainKeyProperty.Name].ToString()
-                    }) as System.Collections.IList;
+            //System.Collections.IList detailKeys = this.GetType().GetMethod("GetUpdateDetailSelectKeys")
+            //        .MakeGenericMethod(new Type[] { typeof(DetailT), detailKeyInfo.PropertyType })
+            //        .Invoke(this, new object[] {
+            //            detailKeyInfo.Name, mainKeyProperty.Name,
+            //            saveModel.MainData[mainKeyProperty.Name].ToString()
+            //        }) as System.Collections.IList;
 
             //新增对象
             List<DetailT> addList = new List<DetailT>();
@@ -697,7 +697,7 @@ namespace VOL.Core.BaseProvider
                     }
                     addList.Add(item);
                 }
-                else if (detailKeys.Contains(value))
+                else //if (detailKeys.Contains(value))
                 {
                     //containsKeys.Add(value);
                     editList.Add(item);
@@ -707,9 +707,10 @@ namespace VOL.Core.BaseProvider
             //获取需要删除的对象的主键
             if (saveModel.DelKeys != null && saveModel.DelKeys.Count > 0)
             {
-                delKeys = saveModel.DelKeys
-                    .Where(x => detailKeys.Contains(x.ChangeType(detailKeyInfo.PropertyType)))
-                    .Select(q => q.ChangeType(detailKeyInfo.PropertyType)).ToList();
+                //2021.08.21优化明细表删除
+                delKeys = saveModel.DelKeys.Select(q => q.ChangeType(detailKeyInfo.PropertyType)).Where(x=>x!=null).ToList();
+                //.Where(x => detailKeys.Contains(x.ChangeType(detailKeyInfo.PropertyType)))
+                //.Select(q => q.ChangeType(detailKeyInfo.PropertyType)).ToList();
             }
 
             if (UpdateOnExecuting != null)
