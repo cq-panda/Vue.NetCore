@@ -118,7 +118,7 @@
   </div>
 </template>
 <script>
-import { defineComponent, ref, getCurrentInstance } from "vue";
+import { defineComponent, ref, reactive, toRefs, getCurrentInstance } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import store from "../store/index";
 import http from "@/../src/api/http.js";
@@ -126,7 +126,7 @@ export default defineComponent({
   setup (props, context) {
     const loading = ref(false);
     const codeImgSrc = ref("");
-    const userInfo = ref({
+    const userInfo = reactive({
       userName: "",
       password: "",
       verificationCode: "",
@@ -136,7 +136,7 @@ export default defineComponent({
     const getVierificationCode = () => {
       http.get("/api/User/getVierificationCode").then((x) => {
         codeImgSrc.value = "data:image/png;base64," + x.img;
-        userInfo.value.UUID = x.uuid;
+        userInfo.UUID = x.uuid;
       });
     };
     getVierificationCode();
@@ -146,14 +146,14 @@ export default defineComponent({
     let router = useRouter();
 
     const login = () => {
-      if (!userInfo.value.userName) return $message.error("请输入用户名");
-      if (!userInfo.value.password) return $message.error("请输入密码");
-      if (!userInfo.value.verificationCode) {
+      if (!userInfo.userName) return $message.error("请输入用户名");
+      if (!userInfo.password) return $message.error("请输入密码");
+      if (!userInfo.verificationCode) {
         return $message.error("请输入验证码");
       }
       loading.value = true;
       http
-        .post("/api/user/login", userInfo.value, "正在登陆....")
+        .post("/api/user/login", userInfo, "正在登陆....")
         .then((result) => {
           if (!result.status) {
             loading.value = false;
@@ -166,7 +166,7 @@ export default defineComponent({
         });
     };
     const loginPress = (e) => {
-      if (event.keyCode == 13) {
+      if (e.keyCode == 13) {
         login();
       }
     };
@@ -176,9 +176,9 @@ export default defineComponent({
     return {
       loading,
       codeImgSrc,
-      userInfo,
       getVierificationCode,
       login,
+      userInfo,
       loginPress,
       openUrl,
     };
