@@ -194,6 +194,39 @@ export default {
           tips: "",
           img: "",
         },
+		    {
+          title: "判断是否有按钮权限",
+          content: [` <div style="color:#D4D4D4;background-color:#1E1E1E;">
+	<div>
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas">
+			<div>
+				&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//例：判断用户是否有SellOrder表有没有Add权限(2021.03.19到最后的才能使用)</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第二个参数可选值：Add、Update、Delete、Audit、Import、Export、Search，也可以是自定的义的按钮权限值</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">filterPermission</span>(<span style="color:#ce9178;">"SellOrder"</span>,<span style="color:#ce9178;">'Add'</span>))&nbsp;{
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//to&nbsp;do...</span>
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+			<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;}
+			</div>
+		</div>
+	</div>
+</div>
+<br />`],
+          tips: "",
+          img: "",
+        },
         {
           title: "前端断点调试",
           content: [`见右边截图`],

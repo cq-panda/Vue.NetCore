@@ -406,6 +406,15 @@ const param = {
 
     methods: [{ name: "refresh", desc: "刷新查询界面的表数据,使用：this.refresh()", param: "" },
     { name: "getSelectRows", desc: "查询界面获取选中的行,使用：this.getSelectRows()", param: "" },
+    { name: "filterPermission", desc: `&nbsp; &nbsp; onInit()<br />
+    &nbsp; &nbsp; {<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; //例：判断用户是否有SellOrder表有没有Add权限(2021.03.19到最后的才能使用)<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; //第二个参数可选值：Add、Update、Delete、Audit、Import、Export、Search，也可以是自定的义的按钮权限值<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; if (this.filterPermission("SellOrder", 'Add'))<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //to do...<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+    &nbsp; &nbsp; }<br />`, param: "" },
     { name: "获取从表明细选择中的行", desc: "获取从表明细选择中的行,使用：this.$refs.detail.getSelected()", param: "" },
     { name: "获取table所有的行数据", desc: "this.$refs.table.rowData", param: "" },
     { name: "获取明细表table所有的行数据", desc: "this.$refs.detail.rowData", param: "" },
@@ -660,9 +669,28 @@ const param = {
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
       </div>
+      <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas">
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp; <span style="color:#6a9955;">//例：判断用户是否有SellOrder表有没有Add权限(2021.03.19到最后的才能使用)</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第二个参数可选值：Add、Update、Delete、Audit、Import、Export、Search，也可以是自定的义的按钮权限值</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">filterPermission</span>(<span style="color:#ce9178;">"SellOrder"</span>,<span style="color:#ce9178;">'Add'</span>))&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//to&nbsp;do...</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+    </div>
+    <br />
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//表格设置为单选</span>
       </div>
+    
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.single=true;</span>
       </div>
