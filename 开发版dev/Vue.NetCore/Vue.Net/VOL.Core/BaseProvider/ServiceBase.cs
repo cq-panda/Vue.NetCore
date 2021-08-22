@@ -83,13 +83,16 @@ namespace VOL.Core.BaseProvider
         /// <returns></returns>
         private IQueryable<T> GetSearchQueryable()
         {
+            //2021.08.22移除数据隔离(租房管理)超级管理员的判断
             //没有自定sql与多租户执行默认查询
-            if ((QuerySql == null && !IsMultiTenancy) || UserContext.Current.IsSuperAdmin)
+            if (QuerySql == null && !IsMultiTenancy)
+            //  if ((QuerySql == null && !IsMultiTenancy) || UserContext.Current.IsSuperAdmin)
             {
                 return repository.DbContext.Set<T>();
             }
             //自定sql,没有使用多租户，直接执行自定义sql
-            if ((QuerySql != null && !IsMultiTenancy) || UserContext.Current.IsSuperAdmin)
+            if (QuerySql != null && !IsMultiTenancy)
+            // if ((QuerySql != null && !IsMultiTenancy) || UserContext.Current.IsSuperAdmin)
             {
                 return repository.DbContext.Set<T>().FromSqlRaw(QuerySql);
             }
@@ -660,7 +663,7 @@ namespace VOL.Core.BaseProvider
         /// <returns></returns>
         public WebResponseContent UpdateToEntity<DetailT>(SaveModel saveModel, PropertyInfo mainKeyProperty, PropertyInfo detailKeyInfo, object keyDefaultVal) where DetailT : class
         {
-            T mainEnity = saveModel.MainData.DicToEntity<T>();  
+            T mainEnity = saveModel.MainData.DicToEntity<T>();
             List<DetailT> detailList = saveModel.DetailData.DicToList<DetailT>();
             //2021.08.21优化明细表删除
             //删除的主键
@@ -708,7 +711,7 @@ namespace VOL.Core.BaseProvider
             if (saveModel.DelKeys != null && saveModel.DelKeys.Count > 0)
             {
                 //2021.08.21优化明细表删除
-                delKeys = saveModel.DelKeys.Select(q => q.ChangeType(detailKeyInfo.PropertyType)).Where(x=>x!=null).ToList();
+                delKeys = saveModel.DelKeys.Select(q => q.ChangeType(detailKeyInfo.PropertyType)).Where(x => x != null).ToList();
                 //.Where(x => detailKeys.Contains(x.ChangeType(detailKeyInfo.PropertyType)))
                 //.Select(q => q.ChangeType(detailKeyInfo.PropertyType)).ToList();
             }
