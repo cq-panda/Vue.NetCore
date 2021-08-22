@@ -681,7 +681,13 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
           img: "",
         },
 
-
+		{
+          title: "多表关联生成代码",
+          content: [
+         `<p>方法1、直接创建一个多表关联的视图,然后生成代码(如果需要进行新增、删除、修改,参照下面【视图操作】,请同时将原表生成代码(只需要生成model与业务类))</p>
+		 <p>方法2、如果多表关联逻辑比较简单，见下面【后台基础代码扩展实现】中的GetPageData方法自定义sql属性QuerySql</p> `
+		  ]
+		  },
 		  {
           title: "EF多表关联",
           content: [
