@@ -612,5 +612,20 @@ namespace VOL.Core.BaseProvider
             return DBSet.FromSqlInterpolated(sql);
         }
 
+        /// <summary>
+        /// 取消上下文跟踪
+        /// </summary>
+        /// <param name="entity"></param>
+        public virtual void Detached(TEntity entity)
+        {
+            DbContext.Entry(entity).State = EntityState.Detached;
+        }
+        public virtual void DetachedRange(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                DbContext.Entry(entity).State = EntityState.Detached;
+            }
+        }
     }
 }

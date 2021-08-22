@@ -274,6 +274,14 @@ namespace VOL.Core.BaseProvider
         /// <param name="formattableString"></param>
         /// <returns></returns>
         IQueryable<TEntity> FromSqlInterpolated([System.Diagnostics.CodeAnalysis.NotNull] FormattableString sql);
-      
+
+
+        /// <summary>
+        /// 取消上下文跟踪(2021.08.22)
+        /// 更新报错时，请调用此方法：The instance of entity type 'XXX' cannot be tracked because another instance with the same key value for {'XX'} is already being tracked.
+        /// </summary>
+        /// <param name="entity"></param>
+        void Detached(TEntity entity);
+        void DetachedRange(IEnumerable<TEntity> entities);
     }
 }
