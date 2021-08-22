@@ -1,4 +1,30 @@
 <template>
+    <VolBox
+      :width="500"
+      :height="270"
+      v-model="modifyOptions.model"
+      title="修改密码"
+    >
+      <div style="padding:10px;20px;">
+        <VolForm
+          ref="pwd"
+          :formRules="modifyOptions.data"
+          :formFields="modifyOptions.fields"
+        ></VolForm>
+      </div>
+      <template #footer>
+        <div style="text-align: center;">
+          <el-button
+            type="primary"
+            size="mini"
+            icon="md-checkmark-circle"
+            long
+            @click="savePwd"
+            >保存</el-button
+          >
+        </div>
+      </template>
+    </VolBox>
   <div class="user-info">
     <div class="left">
       <div>
@@ -52,36 +78,16 @@
         </div>
       </vol-form>
     </div>
-    <VolBox
-      :width="500"
-      :height="260"
-      v-model="modifyOptions.model"
-      title="修改密码"
-    >
-      <div style="padding:10px;20px;">
-        <VolForm
-          ref="pwd"
-          :formRules="modifyOptions.data"
-          :formFields="modifyOptions.fields"
-        ></VolForm>
-        <el-button
-          type="info"
-          size="large"
-          icon="md-checkmark-circle"
-          long
-          @click="savePwd"
-          >保存</el-button
-        >
-      </div>
-    </VolBox>
+
   </div>
 </template>
 <script>
 import VolForm from "@/components/basic/VolForm.vue";
+import VolBox from "@/components/basic/VolBox.vue";
 export default {
   components: {
-    VolForm: VolForm,
-    VolBox: () => import("@/components/basic/VolBox.vue"),
+    VolForm,
+    VolBox,
   },
   methods: {
     modifyImg() {
