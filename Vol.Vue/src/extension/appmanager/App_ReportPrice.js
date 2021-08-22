@@ -1,4 +1,4 @@
-import AsyncLoading from "@/components/basic/AsyncLoading.vue";
+import modelBody from "./App_ReportPrice/App_ReportPriceModelBody.vue"
 let extension = {
   components: {//动态扩充组件或组件路径
     gridHeader: "",
@@ -9,7 +9,7 @@ let extension = {
     gridFooter: '',
     modelHeader: '',
     //将自己写的App_ReportPriceModelBody.vue从表配置加载到弹出框中(此处可以同步加载，但会影响第一打开速度)
-    modelBody: () => ({ component: import("./App_ReportPrice/App_ReportPriceModelBody.vue"), loading: AsyncLoading }),
+    modelBody: modelBody,
     modelFooter: ''
   },
   buttons: [],//扩展的按钮

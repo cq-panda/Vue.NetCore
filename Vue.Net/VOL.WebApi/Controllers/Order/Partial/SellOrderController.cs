@@ -16,6 +16,7 @@ using VOL.Core.Enums;
 using VOL.Core.Filters;
 using VOL.Entity.DomainModels;
 using VOL.Order.IRepositories;
+using VOL.Order.IServices;
 using VOL.Order.Repositories;
 
 namespace VOL.Order.Controllers
@@ -25,12 +26,14 @@ namespace VOL.Order.Controllers
         private readonly ISellOrderRepository _orderRepository;
         [ActivatorUtilitiesConstructor]
 
-        public SellOrderController(ISellOrderRepository orderRepository)
+        public SellOrderController(ISellOrderRepository orderRepository, ISellOrderService service):base(service)
         {
             //数据库访问，更多操作见后台开发：数据库访问
-            //http://localhost:8081/document/netCoreDev
             _orderRepository = orderRepository;
+            
+            //http://localhost:8081/document/netCoreDev
         }
+
         [HttpPost]
         [ApiActionPermission("SellOrder", Core.Enums.ActionPermissionOptions.Search)]
         [Route("getServiceDate"), FixedToken]//FixedToken请求此接口只要token合法就能能过//AllowAnonymous
@@ -38,7 +41,6 @@ namespace VOL.Order.Controllers
         {
             return Content(Service.GetServiceDate());
         }
-
 
         /************重写权限************/
 

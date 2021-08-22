@@ -11,34 +11,49 @@
       </ul>
     </div>
   
+     <a class="avd1" href="https://curl.qcloud.com/6OoRDPjn" target="_blank">
+    <img src="https://txspread-1256993465.cos.ap-beijing.myqcloud.com/server345_200%20.jpg"></a>
+        <a class="avd2" href="https://curl.qcloud.com/qndt9pnm" target="_blank">
+    <img src="https://txspread-1256993465.cos.ap-beijing.myqcloud.com/560x300.jpg"></a>
     <div class="g-right"
          style="margin-left: 140px;">
-      <div style="line-height: 50px;
-    text-align: center;
-    font-size: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;">
+      <div class="h-box">
+        
+      <a target="_blank"
+         href="http://donate.volcore.xyz">
+         <Icon type="ios-color-filter" /><br>
+         项目赞助</a>
+      <a><Icon type="ios-chatbubbles-outline" /><br>QQ群:45221949</a>
+            <a target="_blank"
+           href="https://github.com/cq-panda/Vue.NetCore">         
+         <Icon type="logo-github" /><br>GitHub</a>
+            <a target="_blank"
+           href="https://gitee.com/x_discoverer/Vue.NetCore">         
+         <Icon type="logo-github" /><br>Gitee</a>
         <a target="_blank"
-           style="border-bottom: 1px solid;margin: 0 10px"
-           href="https://github.com/cq-panda/Vue.NetCore">GitHub</a>
-        <a target="_blank"
-           style="border-bottom: 1px solid;margin: 0 10px"
-           href="https://gitee.com/x_discoverer/Vue.NetCore">Gitee</a>
+           @click="()=>{ this.$router.push({ path: '/document/coder' });}">         
+           <Icon type="ios-ionic" /><br>代码生成</a>
 
+       <a target="_blank" @click="()=>{ this.$router.push({ path: '/document/netCoreDev' });}">
+            <Icon type="md-people" /><br>多租户</a>
+      <a target="_blank" @click="()=>{ this.$router.push({ path: '/document/netCoreDev' });}">
+     <Icon type="ios-people" /><br>多角色</a>
+        <a target="_blank" @click="()=>{ this.$router.push({ path: '/document/netCoreDev' });}">
+                  <Icon type="ios-paper-outline" /><br>分库多数据库</a>
+                                 <a target="_blank"
+           href="http://v2.volcore.xyz/">      
+         <Icon type="md-apps" /><br>框架Vue2.x版本</a>
+                   <a target="_blank"
+           href="http://www.volcore.xyz/">      
+         <Icon type="md-apps" /><br>框架Vue3.x版本</a>
+          <a target="_blank" @click="()=>{ this.$router.push({ path: '/document/netCoreDev' });}">
+                    <Icon type="ios-globe-outline" /><br>国际化</a>
         <a target="_blank"
-           style="border-bottom: 1px solid;margin: 0 10px"
-           href="http://www.volcore.xyz/">演示环境</a>
-        <a target="_blank"
-           style="border-bottom: 1px solid;margin: 0 10px"
-           @click="()=>{ this.$router.push({ path: '/document/coder' });}">代码生成</a>
-        <a target="_blank"
-           style="border-bottom: 1px solid;margin: 0 10px"
-           @click="()=>{ this.$router.push({ path: '/document/api' });}">组件Api</a>
-        <a target="_blank"
-           style="border-bottom: 1px solid;margin: 0 10px"
-           @click="()=>{ this.$router.push({ path: '/document/issue' });}">常见问题</a>
+         
+           @click="()=>{ this.$router.push({ path: '/document/issue' });}">         
+     <Icon type="ios-help-circle-outline" /><br>常见问题</a>
       </div>
-      <div style="margin-bottom:20px;">     <a target="_blank"
+      <!-- <div style="margin-bottom:20px;">     <a target="_blank"
            style="    border-bottom: 1px solid;
     font-size: 20px;
     padding: 20p;
@@ -51,7 +66,12 @@
          href="http://donate.volcore.xyz">项目赞助</a>
       <a style="    border-bottom: 1px solid;
     margin: 0px 26px;
-    font-size: 26px;">QQ群:45221949</a></div>
+    font-size: 26px;">QQ群:45221949</a></div> -->
+<div style="font-size: 15px;background: #eee;border-radius: 5px; padding: 14px; line-height: 1.8;">
+        <p>1、框架现在分vue2.x与vue3.x版本，vue3.x版本使用的是element plus组件</p>
+    <p>2、vue2.x与vue3.x版本都会独立维护，暂不支持框架vue2.x版本升级</p>
+        <p>3、vue2.x与vue3.x使用同一套文档(因涉及文档问题，vue3.x版本示例大部份还是使用的vue2语法,通用组件一半以上是用的vue3语法，你也可以用vue3语法)</p>
+</div>
       <h2 style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;color:#EBEBEB;font-family:&quot;background:#00BCD4;font-size:20px;line-height:37px;white-space:normal;margin:18px 0px !important;">
         <span style="display:none;"></span>
         <span style="color:#666666;">开发及依赖环境</span>
@@ -581,6 +601,10 @@ export default {
     return {
       activedIndex: 0,
       list: [
+             {
+          id: "#1-1",
+          name: "Vue3版本",
+        },
         {
           id: "#1-1",
           name: "启动项目",
@@ -666,5 +690,48 @@ table {
 }
 .actived a {
   color: #2196f3 !important;
+}
+.avd1,
+.avd2 {
+  position: fixed;
+  right: 10px;
+  img {
+    width: 270px;
+  }
+}
+.avd2 {
+  top: 250px;
+}
+.h-box {
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  width: 900px;
+  a {
+    cursor: pointer;
+    display: inline-block;
+    padding: 25px 10px;
+    height: 150px;
+    width: 24%;
+    border: 1px solid #eee;
+    font-size: 16px;
+    margin: 0px;
+    color: #676767;
+    margin-right: -6px;
+    margin-bottom: -1px;
+  }
+  i {
+    transition: transform 0.8s;
+    font-size: 40px;
+  }
+  a:hover {
+    background: #e8e8e8;
+    i {
+      transform: scale(1.2);
+      font-size: 50px !important;
+    }
+  }
 }
 </style>

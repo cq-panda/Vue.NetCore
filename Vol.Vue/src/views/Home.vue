@@ -105,6 +105,8 @@ import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import "echarts/lib/component/grid";
 import "echarts/lib/component/tooltip";
+import "echarts/lib/component/toolbox";
+ 
 
 import * as echarts from "echarts/lib/echarts";
 

@@ -1,113 +1,64 @@
-
-import gridHeader from './App_Expert/App_ExpertGridHeader'
-//声明vue对象
+//如果嫌render双向绑定麻烦或内容太多，可以使用下面的方式
+var $com;
+var MyComponent = {
+  data() { return { time: "" } },
+  created() {
+    $com = this;
+  },
+  methods: {
+    btnClick() {
+      this.$message.info(JSON.stringify($this.editFormFields))
+    }
+  },
+  //创建自定义组件模板
+  template: ` <div style="margin-bottom: 17px;">
+            <div style="display: flex;">
+              <label style="text-align: right;width: 100px;padding: 7px 12px 10px 0;color:red;">
+                选择时间：
+              </label>
+              <TimePicker style="flex:1" type="time" :value="time" placeholder="Select time">
+              </TimePicker>
+              <div style="line-height: 33px;padding-left: 15px;color:red;">
+                <Button @click="btnClick" type="primary">获取弹出框表单内容</Button>
+                这里是render直接使用的html代码渲染的
+              </div>
+            </div>
+          <div style="padding-left: 100px;margin-top: 10px;color: #0089ff;">
+              动态render渲染出来的组件可以与当前页面互相调用,见modelOpenAfter与btnClick方法
+          </div>
+ </div>`
+};
 let $this;
 let extension = {
   components: {
-    gridHeader: gridHeader,
+    gridHeader: '',
     gridBody: '',
     gridFooter: '',
     modelHeader: '',
     modelBody: '',
     modelFooter: ''
   }, //动态扩充组件或组件路径
-  buttons: {
-    view: [{
-      name: "弹出框1",
-      icon: 'md-add',
-      index: 1,//添加到第一个按钮后面
-      type: 'error',
-      onClick: function () {
-        this.$refs.gridHeader.open1()
-      }
-    }]
-  },
+  buttons: { box: [] },
   methods: { //事件扩展
     onInit() {
-      //设置保存后继续添加 ，不关闭当前窗口
-      //2021.04.11需要更新methods.js,ViewGrid.vue
-      this.continueAdd = true;
-      this.continueAddName = "连续添加";
-
-      //将编辑表单第一行第一列【名称】字段添加一个额外提示属性
-      //需要2020.12.27更新volform组件后才能使用
-      this.editFormOptions[0][0].extra = {
-        render: h => {
-          return h(
-            "div",
-            {
-              props: {}, style: { color: "#03A9F4", cursor: "pointer" },
-              on: { click: () => { this.$Message.info("点击事件") } }
-            },
-            [
-              h(
-                "Tooltip",
-                {
-                  props: { content: "这里是提示的内容", placement: "right-start" },
-                  class: "ivu-icon ivu-icon-ios-alert-outline",
-                  style: {}
-                }, [
-                h("span", {}, ["提示信息"])
-              ]
-              )
-            ]
-          );
-        }
-      }
-
-
-
-      //设置界面上最多可显示的按钮数量 
-      this.maxBtnLength = 6;
-      // 第2个弹出框操作
-      this.buttons.splice(2, 0, ...[{
-        name: "弹出框2",
-        icon: 'md-add',
-        type: 'info',
-        onClick: function () {
-          this.$refs.gridHeader.open2()
-        }
-      },
-      {
-        name: "获取子组件对象",
-        icon: 'md-add',
-        type: 'info',
-        onClick: function () {
-          this.$Message.info(this.$refs.gridHeader.getTestData())
+      //必须
+      $this = this;
+      //在表单配置的第二行后，将MyComponent组件添加到表单中
+      this.editFormOptions.splice(2, 0, [{
+        colSize: 12,
+        render: () => {
+          return h(MyComponent)
         }
       }])
-
-
-      // 第3个弹出框操作
-      this.columns.forEach(x => {
-        if (x.field == "Resume") {
-          x.formatter = (row, column, event) => {
-            return '<a>(弹出框3)' + row.Resume + '</a>'
-          };
-          //绑定点击事件
-          x.click = (row, column, event) => {
-            this.$refs.gridHeader.open3(row)
-          };
-        }
-      })
-
-      //启用多图上传,其他上传参数，参照volupload组件api
-      this.editFormOptions.forEach(x => {
-        x.forEach(item => {
-          if (item.field == 'HeadImageUrl') {
-            //item.type = 'file';
-            //设置成100%宽度
-            item.colSize = 12;
-            item.multiple = true;
-            //最多可以上传3张照片
-            item.maxFile = 3;
-            //限制图片大小，默认3M
-            item.maxSize = 3;
-           // item.append = true;
-          }
-        })
-      })
     },
+    modelOpenAfter(row) { //打开弹出框后给组件设置不同的值
+      //调用render渲染的组件
+      if (this.currentAction == "Add") {
+        $com.time = "09:41:00";
+      } else { //编辑
+        $com.time = "23:22:00";
+      }
+    }
   }
 };
 export default extension;
