@@ -5,26 +5,94 @@
  */
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using VOL.Core.Enums;
 using VOL.Core.Filters;
 using VOL.Entity.DomainModels;
+using VOL.Order.IRepositories;
 using VOL.Order.Repositories;
 
 namespace VOL.Order.Controllers
 {
     public partial class SellOrderController
     {
+        private readonly ISellOrderRepository _orderRepository;
+        [ActivatorUtilitiesConstructor]
+
+        public SellOrderController(ISellOrderRepository orderRepository)
+        {
+            //数据库访问，更多操作见后台开发：数据库访问
+            //http://localhost:8081/document/netCoreDev
+            _orderRepository = orderRepository;
+        }
         [HttpPost]
         [ApiActionPermission("SellOrder", Core.Enums.ActionPermissionOptions.Search)]
-        [Route("getServiceDate"),FixedToken]//FixedToken请求此接口只要token合法就能能过//AllowAnonymous
+        [Route("getServiceDate"), FixedToken]//FixedToken请求此接口只要token合法就能能过//AllowAnonymous
         public IActionResult GetServiceDate()
         {
             return Content(Service.GetServiceDate());
         }
+
+
+        /************重写权限************/
+
+        /// <summary>
+        /// 页面数据查询
+        /// </summary>
+        /// <param name="loadData"></param>
+        /// <returns></returns>
+        /// ApiActionPermission注释后，只会验证用户是否登陆，不会验证用户查询权限
+        //[ApiActionPermission(ActionPermissionOptions.Search)]
+        //第一个参数可以输入表名，指定某张表的权限
+        //[ApiActionPermission("SellOrder",ActionPermissionOptions.Search)]
+        [HttpPost, Route("GetPageData")]
+        public override ActionResult GetPageData([FromBody] PageDataOptions loadData)
+        {
+
+            return base.GetPageData(loadData);
+        }
+
+        /// <summary>
+        /// 新增操作（权限重写同上）
+        /// </summary>
+        /// <param name="saveModel"></param>
+        /// <returns></returns>
+        //[ApiActionPermission("SellOrder", ActionPermissionOptions.Add)]
+        [HttpPost, Route("Add")]
+        public override ActionResult Add([FromBody] SaveModel saveModel)
+        {
+            return base.Add(saveModel);
+        }
+        /// <summary>
+        ///编译操作（权限重写同上）
+        /// </summary>
+        /// <param name="saveModel"></param>
+        /// <returns></returns>
+       // [ApiActionPermission(ActionPermissionOptions.Update)]
+        [HttpPost, Route("Update")]
+        public override ActionResult Update([FromBody] SaveModel saveModel)
+        {
+            return base.Update(saveModel);
+        }
+        /// <summary>
+        /// 通过key删除文件（权限重写同上）
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <returns></returns>
+        //  [ApiActionPermission(ActionPermissionOptions.Delete)]
+        [HttpPost, Route("Del")]
+        public override ActionResult Del([FromBody] object[] keys)
+        {
+            return base.Del(keys);
+        }
+
+        ///更多可重写的权限见ApiBaseController
+
     }
 }
