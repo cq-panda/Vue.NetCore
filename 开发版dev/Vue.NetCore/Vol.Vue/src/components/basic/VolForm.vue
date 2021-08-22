@@ -589,6 +589,23 @@ export default {
       if (item.type == "switch") {
         return text ? "是" : "否";
       }
+      //2021.08.22修复级联表单只读时字典转换
+      if (item.type == "cascader") {
+        if (typeof text == "string") {
+          return text;
+        }
+        text = text.map((x) => {
+          return x + "";
+        });
+        return item.orginData
+          .filter((x) => {
+            return text.indexOf(x.key + "") != -1;
+          })
+          .map((x) => {
+            return x.value;
+          })
+          .join(",");
+      }
       if (!item.data) return text;
       if (item.type == "selectList" || item.type == "checkbox") {
         return this.convertArrayValue(item.data, text);
@@ -851,7 +868,7 @@ export default {
       ) {
         // 如果是必填项的数字，设置一个默认最大与最值小
         if (item.required && typeof item.min !== "number") {
-          item.min = 0;//item.type == "decimal" ? 0.1 : 1;
+          item.min = 0; //item.type == "decimal" ? 0.1 : 1;
         }
 
         return {
