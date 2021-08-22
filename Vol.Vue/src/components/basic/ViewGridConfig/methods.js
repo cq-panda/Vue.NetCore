@@ -490,7 +490,10 @@ let methods = {
               _cascaderParentTree.forEach(c => {
                 c.label = c.value;
               })
-              this.$refs.form.$refs[key][0].selected = _cascaderParentTree;
+              //2021.08.22优化表单级联只读判断
+              if (this.$refs.form.$refs[key]) {
+                this.$refs.form.$refs[key][0].selected = _cascaderParentTree;
+              }
             });
           }
         } else {
@@ -542,10 +545,10 @@ let methods = {
         //2021.05.30修复下拉框清除数据后后台不能保存的问题
         if (this._editFormFields[key] === undefined && this.dicKeys.some(x => { return x.fileds && x.fileds.indexOf(key) != -1 })) {
           _editFormFields[key] = null;
-        }else{
+        } else {
           _editFormFields[key] = this._editFormFields[key];
         }
-       
+
       }
     }
     //将数组转换成string
