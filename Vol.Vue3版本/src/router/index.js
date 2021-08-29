@@ -36,7 +36,13 @@ const routes = [
         path: '/coder',
         name: 'coder',
         component: () => import('@/views/builder/coder.vue')
-      }]
+      },
+      {
+        path: '/formDraggable',  //表单设计
+        name: 'formDraggable',
+        component: () => import('@/views/formDraggable/formDraggable.vue')
+      }
+    ]
   },
   {
     path: '/login',
