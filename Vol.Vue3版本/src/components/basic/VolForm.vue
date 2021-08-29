@@ -371,6 +371,7 @@ import {
   ref,
   getCurrentInstance,
   onMounted,
+  watch,
 } from "vue";
 export default defineComponent({
   components: {
@@ -604,6 +605,7 @@ export default defineComponent({
   created() {
     //this.initFormRules(true);
   },
+
   data() {
     return {
       // remoteCall: true,
@@ -614,8 +616,13 @@ export default defineComponent({
   },
   methods: {
     getColWidth(item) {
+      //2021.08.30增加动态计算表单宽度
+      let _span=0;
+      this.formRules.forEach((row, xIndex) => {
+        if (row.length > _span) _span = row.length;
+      });
       let rete =
-        Math.round(((item.colSize || 12 / this.span) / 0.12) * colPow, 10.0) /
+        Math.round(((item.colSize || 12 / _span) / 0.12) * colPow, 10.0) /
         colPow;
       if (item.colSize) return rete.toFixed(3);
       return rete.toFixed(3);
@@ -881,7 +888,7 @@ export default defineComponent({
       ) {
         // 如果是必填项的数字，设置一个默认最大与最值小
         if (item.required && typeof item.min !== "number") {
-          item.min =0 //item.type == "decimal" ? 0.1 : 1;
+          item.min = 0; //item.type == "decimal" ? 0.1 : 1;
         }
 
         return {
