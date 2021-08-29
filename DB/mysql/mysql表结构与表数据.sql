@@ -1457,3 +1457,10 @@ INSERT INTO `Sys_User` VALUES (3367, NULL, NULL, NULL, NULL, NULL, '2020-03-25 1
 INSERT INTO `Sys_User` VALUES (3371, NULL, NULL, NULL, NULL, NULL, '2020-04-29 15:44:15', 1, '超级管理员', NULL, NULL, NULL, 1, 0, 'Upload/Tables/Sys_User/202004291544153171/1111s.jpg', 0, NULL, NULL, NULL, '超级管理员', '2020-05-09 11:52:29', 1, NULL, 6, '测试003', NULL, NULL, NULL, 'treetest1', 'kba29e~WKmea~Dis3YNQKg==', 'tree', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+
+INSERT INTO `Sys_Menu`( `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`)
+VALUES ( '低代码设计器', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'el-icon-news', NULL, 1, 3000, '.', 0, '', '2021-08-30 02:48:10', '超级管理员', '2021-08-30 02:50:12', '超级管理员');
+INSERT INTO `Sys_Menu`( `MenuName`, `Auth`, `Icon`, `Description`, `Enable`, `OrderNo`, `TableName`, `ParentId`, `Url`, `CreateDate`, `Creator`, `ModifyDate`, `Modifier`) 
+VALUES ('低代码设计器', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, NULL, '.', 98, '/formDraggable', '2021-08-30 02:48:34', '超级管理员', NULL, NULL);
