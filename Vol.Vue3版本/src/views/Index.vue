@@ -177,6 +177,15 @@ export default defineComponent({
       isCollapse.value = !isCollapse.value;
       menuWidth.value = isCollapse.value ? 63 : 200;
     };
+    //2021.08.28开放手动折叠菜单方法
+    _config.menu = {
+      show() {
+        toggleLeft();
+      },
+      hide() {
+        toggleLeft();
+      },
+    };
     const changeTheme = (name) => {
       if (theme.value != name) {
         theme.value = name;
@@ -297,10 +306,7 @@ export default defineComponent({
       let _userInfo = store.getters.getUserInfo();
       if (_userInfo) {
         userName.value = _userInfo.userName;
-        userImg.value = _config.base.getImgSrc(
-          _userInfo.img,
-          http.ipAddress
-        );
+        userImg.value = _config.base.getImgSrc(_userInfo.img, http.ipAddress);
       }
       Object.assign(_config.$tabs, { open: open, close: close });
 
@@ -360,7 +366,7 @@ export default defineComponent({
       permissionInited,
       changeTheme,
       to,
-      toggleLeft
+      toggleLeft,
     };
   },
   mounted() {
