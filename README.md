@@ -32,7 +32,9 @@
  - http://v2.volcore.xyz/app/guide
 ## 框架已支持Vue3版本
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/v3.png)  
-
+## 框架已增加低代码设计器
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/fd01.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/fd02.png)  
 ## 框架2.0已更新(部分新增功能截图)
 增加切换皮肤功能
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/h.png)  
