@@ -254,14 +254,23 @@
               filterable
               v-model="_formFields[item.field]"
             ></Cascader>
-            <kind-editor
+            <!-- <kind-editor
               ref="editor"
               v-else-if="item.type == 'editor'"
               :UploadImgUrl="editor.uploadImgUrl"
               :upload="editor.upload"
               :content.sync="_formFields[item.field]"
               height="460px"
-            ></kind-editor>
+            ></kind-editor> -->
+            <vol-wang-editor
+              ref="editor"
+              v-else-if="item.type == 'editor'"
+              :url="editor.uploadImgUrl"
+              :upload="editor.upload"
+              :content="formFields[item.field]"
+              :height="item.height || 350"
+            ></vol-wang-editor>
+
             <!-- 2021.05.02增加区间查询 -->
             <div
               style="display: flex"
@@ -359,11 +368,12 @@
 <script>
 import moment from "moment";
 import FormExpand from "./VolForm/VolFormRender";
+import VolWangEditor from "@/components/basic/VolWangEditor.vue";
 export default {
   components: {
     FormExpand,
     VolUpload: () => import("@/components/basic/VolUpload.vue"),
-    KindEditor: () => import("@/components/kindeditor/KindEditor.vue"),
+    "vol-wang-editor": VolWangEditor,
   },
   props: {
     loadKey: {
