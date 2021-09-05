@@ -1147,9 +1147,9 @@ let methods = {
     this.initColumns(this.columns, this.dicKeys, keys);
     //2021.05.23默认开启查询页面所有字段排序,如果不需要排序，在onInited遍历columns设置sort=false
     //2021.09.25移除强制排序功能
-    this.columns.forEach(x => {
-      x.sort = x.render ? false : true;
-    })
+    // this.columns.forEach(x => {
+    //   x.sort = x.render ? false : true;
+    // })
     if (this.detailOptions && this.detailOptions.columns) {
       this.initColumns(this.detailOptions.columns, this.dicKeys, keys);
     }
