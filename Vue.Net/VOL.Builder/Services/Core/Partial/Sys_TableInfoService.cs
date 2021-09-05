@@ -1544,7 +1544,8 @@ DISTINCT
 
                 if (item.ColumnType.ToLower() == "datetime" || (item.IsDisplay == 1 & !sort))
                 {
-                    sb.Append("align:'left',sortable:true},");
+                    //2021.09.05修改排序名称
+                    sb.Append("align:'left',sort:true},");
                     if (item.IsDisplay == 1)
                     {
                         sort = true;

@@ -1146,6 +1146,7 @@ let methods = {
     //初始化datatable表数据源,默认为一个空数组,dicKeys为界面所有的数据字典编号
     this.initColumns(this.columns, this.dicKeys, keys);
     //2021.05.23默认开启查询页面所有字段排序,如果不需要排序，在onInited遍历columns设置sort=false
+    //2021.09.25移除强制排序功能
     this.columns.forEach(x => {
       x.sort = x.render ? false : true;
     })
