@@ -140,7 +140,7 @@ let data = {
     { field: 'columnCnName', title: '列显示名称', fixed: true, width: 120, align: 'left', edit: { type: "text" } },
     { field: 'columnName', title: '列名', fixed: true, width: 120, align: 'left', edit: { type: "text" } },
     { field: 'isKey', title: '主键', width: 90, align: 'left', edit: { type: "switch" } },
-  //  { field: 'sortable', title: '是否排序', width: 90, align: 'left', edit: { type: "switch", keep: true } },
+    { field: 'sortable', title: '是否排序', width: 90, align: 'left', edit: { type: "switch", keep: true } },
     { field: 'searchRowNo', title: '查询行', width: 90, align: 'left', edit: { type: "text" } },
     { field: 'searchColNo', title: '查询列', width: 90, align: 'left', edit: { type: "text" } },
     { field: 'searchType', title: '查询类型', width: 150, align: 'left', edit: { type: "select" }, bind: { data: searchDataType } },
