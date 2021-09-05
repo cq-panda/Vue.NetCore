@@ -617,7 +617,7 @@ export default defineComponent({
   methods: {
     getColWidth(item) {
       //2021.08.30增加动态计算表单宽度
-      let _span=0;
+      let _span = 0;
       this.formRules.forEach((row, xIndex) => {
         if (row.length > _span) _span = row.length;
       });
@@ -868,14 +868,15 @@ export default defineComponent({
       if (["img", "excel", "file"].indexOf(item.type) != -1) {
         return {
           validator: (rule, val, callback) => {
-            if (!this.isReadonly(item) && (!val || !val.length)) {
+            //2021.09.05移除文件上传默认必填
+            if (item.required&&!this.isReadonly(item) && (!val || !val.length)) {
               return callback(
                 new Error(item.type == "img" ? "请上传照片" : "请上传文件")
               );
             }
             return callback();
           },
-          required: true,
+          required: item.required,
           trigger: "change",
         };
       }
