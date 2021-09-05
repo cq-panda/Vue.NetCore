@@ -1,10 +1,9 @@
 <template>
-  <div class="hello" :id="id"></div>
+  <div class="hello" ref="volWangEditor"></div>
 </template>
 
 <script>
 import E from "wangeditor";
-let editor = null;
 export default {
   props: {
     url: {
@@ -43,20 +42,21 @@ export default {
   name: "wang-editor",
   data() {
     return {
-      id: "volwangeditor" + ~~(Math.random() * 100000),
+      editor: null,
     };
   },
   watch: {
     modelValue(newVal) {
-      editor.txt.html(newVal);
+      this.editor.txt.html(newVal);
     },
   },
   destroyed() {
-    editor = null;
-    $this = null;
+    this.editor = null;
   },
   mounted() {
-    editor = new E("#" + this.id);
+    this.editor = null;
+    let editor = new E(this.$refs.volWangEditor);
+    this.editor = editor;
     let $this = this;
     editor.config.height = this.height;
     editor.config.onchange = (html) => {
@@ -70,7 +70,7 @@ export default {
     // };
     //上传地址
     editor.config.uploadImgServer = this.http.ipAddress + this.url;
-    console.log(editor.config.uploadImgServer);
+    // console.log(editor.config.uploadImgServer);
     editor.config.customUploadImg = function (resultFiles, insertImgFn) {
       let formData = new FormData();
       let nameArr = [];
