@@ -267,7 +267,7 @@
               v-else-if="item.type == 'editor'"
               :url="editor.uploadImgUrl"
               :upload="editor.upload"
-              :content="formFields[item.field]"
+              v-model="_formFields[item.field]"
               :height="item.height || 350"
             ></vol-wang-editor>
 
