@@ -35,7 +35,7 @@
           size="small"
       v-model="searchFormFields[singleSearch.field]"
       :placeholder="singleSearch.title"
-      @on-keypress="tiggerPress"
+      @keypress="tiggerPress"
     />
   </div>
 </template>
