@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using VOL.Core.Configuration;
 using VOL.Core.Const;
+using VOL.Core.Enums;
 using VOL.Core.Utilities;
 using VOL.Entity;
 using VOL.Entity.DomainModels;
@@ -21,6 +23,53 @@ namespace VOL.Core.Extensions
 {
     public static class EntityProperties
     {
+        public static IQueryable<T> Where<T>(this IQueryable<T> queryable,[NotNull] Expression<Func<T, object>> field, string value)
+        {
+            if (value == null)
+            {
+                value = "";
+            }
+            return queryable.Where(field.GetExpressionPropertyFirst<T>().CreateExpression<T>(value, LinqExpressionType.Equal));
+        }
+
+        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, string field, string value)
+        {
+            if (value == null)
+            {
+                value = "";
+            }
+            return queryable.Where(field.CreateExpression<T>(value, LinqExpressionType.Equal));
+        }
+
+        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, string field, string[] values)
+        {
+            if (values == null || values.Length == 0)
+            {
+                return queryable.Where(x => false);
+            }
+            return queryable.Where(field.CreateExpression<T>(values, LinqExpressionType.In));
+        }
+
+        /// <summary>
+        /// 如果值为null则不生成条件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="queryable"></param>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <param name="linqExpression"></param>
+        /// <returns></returns>
+        public static IQueryable<T> WhereNotEmpty<T>(this IQueryable<T> queryable, string field, string value, LinqExpressionType linqExpression = LinqExpressionType.Equal)
+        {
+            if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(field)) return queryable;
+            return queryable.Where(field.CreateExpression<T>(value, linqExpression));
+        }
+
+        public static IQueryable<T> WhereNotEmpty<T>(this IQueryable<T> queryable, [NotNull] Expression<Func<T, object>> field, string value, LinqExpressionType linqExpression = LinqExpressionType.Equal)
+        {
+            if (string.IsNullOrEmpty(value)) return queryable;
+            return queryable.Where(field.GetExpressionPropertyFirst<T>().CreateExpression<T>(value, linqExpression));
+        }
 
         public static string GetExpressionPropertyFirst<TEntity>(this Expression<Func<TEntity, object>> properties)
         {
