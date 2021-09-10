@@ -84,11 +84,17 @@ namespace VOL.Core.DBManager
         /// <returns></returns>
         public static IDbConnection GetDbConnection(string connString = null, string dapperConnDBType = null)
         {
-
-            if (!connString.IsNullOrEmpty())
+            //默认获取DbConnection
+            if (connString.IsNullOrEmpty())
             {
                 return GetDbConnection(connString);
             }
+            //批量写入获取的DbConnection,比如SqlDapper.BulkInsert
+            if (!connString.IsNullOrEmpty() && dapperConnDBType.IsNullOrEmpty())
+            {
+                return GetDbConnection(connString);
+            }
+            //获取指定数据类型的DbConnection
             if (!dapperConnDBType.IsNullOrEmpty())
             {
                 if ("mysql" == dapperConnDBType.Trim().ToLower())
