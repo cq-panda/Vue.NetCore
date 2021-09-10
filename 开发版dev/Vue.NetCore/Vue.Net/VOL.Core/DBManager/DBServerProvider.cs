@@ -87,7 +87,7 @@ namespace VOL.Core.DBManager
 
             if (!connString.IsNullOrEmpty())
             {
-                GetDbConnection(connString);
+                return GetDbConnection(connString);
             }
             if (!dapperConnDBType.IsNullOrEmpty())
             {
