@@ -22,12 +22,16 @@ namespace VOL.Core.Dapper
     {
         private string _connectionString;
         private int? commandTimeout = null;
-
+        private DbCurrentType _dbCurrentType;
         public SqlDapper()
         {
             _connectionString = DBServerProvider.GetConnectionString();
         }
-
+        public SqlDapper(string connKeyName, DbCurrentType dbCurrentType)
+        {
+            _dbCurrentType = dbCurrentType;
+            _connectionString = DBServerProvider.GetConnectionString(connKeyName);
+        }
         public SqlDapper(string connKeyName)
         {
             _connectionString = DBServerProvider.GetConnectionString(connKeyName);
@@ -59,7 +63,7 @@ namespace VOL.Core.Dapper
             {
                 return ExecuteTransaction(func);
             }
-            using (var connection = DBServerProvider.GetDbConnection(_connectionString))
+            using (var connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
             {
                 return func(connection, dbTransaction);
             }
@@ -67,7 +71,7 @@ namespace VOL.Core.Dapper
 
         private T ExecuteTransaction<T>(Func<IDbConnection, IDbTransaction, T> func)
         {
-            using (_transactionConnection = DBServerProvider.GetDbConnection(_connectionString))
+            using (_transactionConnection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
             {
                 try
                 {
@@ -96,7 +100,7 @@ namespace VOL.Core.Dapper
         public void BeginTransaction(Func<ISqlDapper, bool> action, Action<Exception> error)
         {
             _transaction = true;
-            using (var connection = DBServerProvider.GetDbConnection(_connectionString))
+            using (var connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
             {
                 try
                 {
@@ -403,7 +407,7 @@ namespace VOL.Core.Dapper
         /// <returns></returns>
         private int MSSqlBulkInsert(DataTable table, string tableName, SqlBulkCopyOptions sqlBulkCopyOptions = SqlBulkCopyOptions.UseInternalTransaction, string dbKeyName = null)
         {
-            using (var Connection = DBServerProvider.GetDbConnection(_connectionString))
+            using (var Connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
             {
                 if (!string.IsNullOrEmpty(dbKeyName))
                 {
@@ -464,7 +468,7 @@ namespace VOL.Core.Dapper
             MemoryStream stream = null;
             try
             {
-                using (var Connection = DBServerProvider.GetDbConnection(_connectionString))
+                using (var Connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
                 {
                     if (Connection.State == ConnectionState.Closed)
                     {

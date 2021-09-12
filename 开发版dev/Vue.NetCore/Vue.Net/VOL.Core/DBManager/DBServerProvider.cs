@@ -82,41 +82,24 @@ namespace VOL.Core.DBManager
         /// <param name="connString">如果connString为null 执行重载GetDbConnection(string connString = null)</param>
         /// <param name="dapperType">指定连接数据库的类型：MySql/MsSql/PgSql</param>
         /// <returns></returns>
-        public static IDbConnection GetDbConnection(string connString = null, string dapperConnDBType = null)
+        public static IDbConnection GetDbConnection(string connString = null, DbCurrentType dbCurrentType=DbCurrentType.Default)
         {
             //默认获取DbConnection
-            if (connString.IsNullOrEmpty())
+            if (connString.IsNullOrEmpty()|| DbCurrentType.Default== dbCurrentType)
             {
                 return GetDbConnection(connString);
             }
-            //批量写入获取的DbConnection,比如SqlDapper.BulkInsert
-            if (!connString.IsNullOrEmpty() && dapperConnDBType.IsNullOrEmpty())
+            if (dbCurrentType==DbCurrentType.MySql)
             {
-                return GetDbConnection(connString);
+                return new MySql.Data.MySqlClient.MySqlConnection(connString);
             }
-            //获取指定数据类型的DbConnection
-            if (!dapperConnDBType.IsNullOrEmpty())
+            if (dbCurrentType == DbCurrentType.PgSql)
             {
-                if ("mysql" == dapperConnDBType.Trim().ToLower())
-                {
-                    return new MySql.Data.MySqlClient.MySqlConnection(connString);
-                }
-                if ("pgsql" == dapperConnDBType)
-                {
-                    return new NpgsqlConnection(connString);
-                }
-
-                return new SqlConnection(connString);
+                return new NpgsqlConnection(connString);
             }
-            else
-            {
-                return null;
-            }
+            return new SqlConnection(connString);
 
         }
-
-
-
 
         public static VOLContext DbContext
         {
@@ -177,16 +160,16 @@ namespace VOL.Core.DBManager
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="dapperConnDBType">指定数据库类型：MySql/MsSql/PgSql</param>
+        /// <param name="dbCurrentType">指定数据库类型：MySql/MsSql/PgSql</param>
         /// <param name="dbName">指定数据连串名称</param>
         /// <returns></returns>
-        public static ISqlDapper GetSqlDapper(string dapperConnDBType, string dbName = null)
+        public static ISqlDapper GetSqlDapper(DbCurrentType dbCurrentType, string dbName = null)
         {
             if (dbName.IsNullOrEmpty())
             {
                 return new SqlDapper(dbName ?? DefaultConnName);
             }
-            return new SqlDapper(dbName, dapperConnDBType);
+            return new SqlDapper(dbName, dbCurrentType);
         }
         public static ISqlDapper GetSqlDapper<TEntity>()
         {
