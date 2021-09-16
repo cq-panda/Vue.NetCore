@@ -51,16 +51,17 @@ export default {
   data() {
     return {
       change: false,
+      outChange: false,
       editor: null,
     };
   },
   watch: {
     value(newVal) {
       if (!this.change) {
+        this.outChange = true;
         this.editor.txt.html(newVal);
       }
-
-      //  this.editor.txt.html(newVal);
+      this.change = false;
     },
   },
   destroyed() {
@@ -73,9 +74,14 @@ export default {
     let $this = this;
     editor.config.height = this.height;
     editor.config.onchange = (html) => {
+      if (this.outChange) {
+          this.outChange = false;
+        return;
+      }
       this.change = true;
+      this.outChange = false;
       this.$emit("input", html);
-      this.change = false;
+
       // this.$emit("update:content", html);
     };
     // editor.config.uploadFileName = "fileInput";
