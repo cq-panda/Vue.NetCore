@@ -43,11 +43,17 @@ export default {
   data() {
     return {
       editor: null,
+      change: false,
+      outChange: false,
     };
   },
   watch: {
     modelValue(newVal) {
-      this.editor.txt.html(newVal);
+      if (!this.change) {
+        this.outChange = true;
+        this.editor.txt.html(newVal);
+      }
+      this.change = false;
     },
   },
   destroyed() {
@@ -59,8 +65,14 @@ export default {
     this.editor = editor;
     let $this = this;
     editor.config.height = this.height;
-    editor.config.onchange = (html) => {
-      $this.$emit("update:modelValue", html);
+     editor.config.onchange = (html) => {
+      if (this.outChange) {
+        this.outChange = false;
+        return;
+      }
+      this.change = true;
+      this.outChange = false;
+      this.$emit("update:modelValue", html);
     };
     // editor.config.uploadFileName = "fileInput";
     // //设置header
