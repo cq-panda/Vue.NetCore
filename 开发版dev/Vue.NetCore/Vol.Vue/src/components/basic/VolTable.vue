@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="vol-table" :class="[textInline ? 'text-inline' : '', isChrome?'chrome':'']">
+    <div
+      class="vol-table"
+      :class="[textInline ? 'text-inline' : '', isChrome ? 'chrome' : '']"
+    >
       <div class="mask" v-show="loading"></div>
       <div class="message" v-show="loading">加载中.....</div>
       <el-table
@@ -423,7 +426,7 @@ export default {
   },
   data() {
     return {
-      clickEdit: true,//2021.07.17设置为点击行结束编辑
+      clickEdit: true, //2021.07.17设置为点击行结束编辑
       randomTableKey: 1,
       visiblyColumns: [],
       key: "",
@@ -478,22 +481,31 @@ export default {
       remoteColumns: [], // 需要每次刷新或分页后从后台加载字典数据源的列配置
       cellStyleColumns: {}, // 有背景颜色的配置
       isChrome: false, //2021.06.19判断谷歌内核浏览重新计算table高度
-      ck_index_fixed:false //左侧checkbox与行号是否固定
+      ck_index_fixed: false, //左侧checkbox与行号是否固定
     };
   },
   created() {
     //2021.06.19判断谷歌内核浏览重新计算table高度
-     if (navigator.userAgent.indexOf('Chrome') != -1 || navigator.userAgent.indexOf('Edge') != -1) {
+    if (
+      navigator.userAgent.indexOf("Chrome") != -1 ||
+      navigator.userAgent.indexOf("Edge") != -1
+    ) {
       this.isChrome = true;
     }
     //2021.06.19调整左侧checkbox与行号是否固定规则
-     let hasSummary = this.columns.find(x=>{return x.summary});
-     if (this.columns.some(x=>{return x.fixed})) {
-       if (hasSummary) {
-          this.isChrome =false;
-       }
-      this.ck_index_fixed=true;
-     }
+    let hasSummary = this.columns.find((x) => {
+      return x.summary;
+    });
+    if (
+      this.columns.some((x) => {
+        return x.fixed;
+      })
+    ) {
+      if (hasSummary) {
+        this.isChrome = false;
+      }
+      this.ck_index_fixed = true;
+    }
 
     // 升级element 2.15.1版本后，这个高度有问题，如果有统计求和的table，强制使用max-height属性
     if (
@@ -610,6 +622,10 @@ export default {
       this.$emit("row-dbclick", { row, column, event });
     },
     rowClick(row, column, event) {
+        //2021.09.16修复edge浏览器可能报错的问题
+      if (!column) {
+        return;
+      }
       // 点击行事件(2020.11.07)
       this.$emit("rowClick", { row, column, event });
       if (!this.doubleEdit) {
@@ -620,13 +636,14 @@ export default {
         if (row.elementIdex == this.edit.rowIndex) {
           // 点击的单元格如果不可以编辑，直接结束编辑
           // 2020.10.12修复结束编辑时，element table高版本属性获取不到的问题
-          if (
-            !this.columns.some(
-              (x) =>
-                x.field == ((event && event.property) || column.property) &&
-                x.edit
-            )
-          ) {
+          //2021.09.16修复edge浏览器可能报错的问题
+          let _field;
+          if (event && event.property) {
+            _field = event.property;
+          } else {
+            _field = column.property;
+          }
+          if (!this.columns.some((x) => x.field == _field && x.edit)) {
             if (this.rowEndEdit(row, event)) {
               this.edit.rowIndex = -1;
             }
@@ -1391,7 +1408,7 @@ export default {
 .chrome >>> .el-table__fixed:before {
   background-color: unset;
 }
-.chrome >>> .el-table__fixed-footer-wrapper{
-      bottom: -11.5px;
+.chrome >>> .el-table__fixed-footer-wrapper {
+  bottom: -11.5px;
 }
 </style>
