@@ -71,6 +71,7 @@
           <!-- 2021.09.21增加编辑时对readonly属性判断 -->
           <div v-else-if="column.edit && !column.readonly" class="edit-el">
             <div
+            @click.stop
               v-if="column.edit.keep || edit.rowIndex == scope.$index"
               class="e-item"
             >
@@ -579,6 +580,7 @@ export default defineComponent({
     },
     inputKeyPress(row, column, $event, $e) {
       column.onKeyPress && column.onKeyPress(row, column, $event);
+      this.getInputSummaries(null,null,$event,column);
     },
     extraClick(row, column) {
       column.extra.click &&
@@ -1225,7 +1227,7 @@ export default defineComponent({
           sum += x[column.field] * 1;
         }
       });
-      this.$set(this.summaryData, this.summaryIndex[column.field], sum);
+      this.summaryData[this.summaryIndex[column.field]] = sum;
     },
     getSummaryData({ columns, data }) {
       return this.summaryData;
