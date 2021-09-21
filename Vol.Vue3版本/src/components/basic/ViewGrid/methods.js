@@ -1179,19 +1179,20 @@ let methods = {
   },
   setFiexdColumn(columns, containerWidth) {
     //计算整个table的宽度，根据宽度决定是否启用第一行显示的列为固定列
-    let columnsWidth = 0;
-    columns.forEach(x => {
-      if (!x.hidden && x.width) {
-        columnsWidth += x.width;
-      }
-    });
-    //启用第一列为固定列
-    if (columnsWidth > containerWidth) {
-      let firstColumn = columns.find(x => !x.hidden);
-      if (firstColumn) {
-        firstColumn.fixed = true;
-      }
-    }
+    //2021.09.21移除强制固定第一列
+    // let columnsWidth = 0;
+    // columns.forEach(x => {
+    //   if (!x.hidden && x.width) {
+    //     columnsWidth += x.width;
+    //   }
+    // });
+    // //启用第一列为固定列
+    // if (columnsWidth > containerWidth) {
+    //   let firstColumn = columns.find(x => !x.hidden);
+    //   if (firstColumn) {
+    //     firstColumn.fixed = true;
+    //   }
+    // }
   },
   initBoxHeightWidth() {
     //初始化弹出框的高度与宽度

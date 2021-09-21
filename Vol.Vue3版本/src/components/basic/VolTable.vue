@@ -35,13 +35,13 @@
       <el-table-column
         v-if="columnIndex"
         type="index"
-        :fixed="true"
+        :fixed="fixed"
         width="55"
       ></el-table-column>
       <el-table-column
         v-if="ck"
         type="selection"
-        :fixed="true"
+        :fixed="fixed"
         width="55"
       ></el-table-column>
       <!-- 2020.10.10移除table第一行强制排序 -->
@@ -187,7 +187,7 @@
               )"
               :key="imgIndex"
               :onerror="defaultImg"
-              @click="viewImg(scope.row, column, file.path,$event)"
+              @click="viewImg(scope.row, column, file.path, $event)"
               class="table-img"
               :src="file.path"
             />
@@ -400,6 +400,7 @@ export default defineComponent({
   },
   data() {
     return {
+      fixed: false, //是固定行号与checkbox
       clickEdit: true, //2021.07.17设置为点击行结束编辑
       randomTableKey: 1,
       visiblyColumns: [],
@@ -456,7 +457,7 @@ export default defineComponent({
       remoteColumns: [], // 需要每次刷新或分页后从后台加载字典数据源的列配置
       cellStyleColumns: {}, // 有背景颜色的配置
       fxRight: false, //是否有右边固定表头
-      selectRows:[]//当前选中的行
+      selectRows: [], //当前选中的行
     };
   },
   created() {
@@ -465,6 +466,16 @@ export default defineComponent({
     this.fxRight = this.columns.some((x) => {
       return x.fixed == "right";
     });
+    //2021.09.21移除强制固定行号与checkbox列
+    if (
+      this.fxRight ||
+      this.columns.some((x) => {
+        return x.fixed;
+      })
+    ) {
+      this.fixed = true;
+    }
+
     // 从后台加下拉框的[是否启用的]数据源
     let keys = [];
     let columnBind = [];
@@ -796,7 +807,7 @@ export default defineComponent({
         for (let index = 0; index < this.columns.length; index++) {
           const _column = this.columns[index];
           if (_column.edit) {
-            if (!this.validateRow( row, _column)) {
+            if (!this.validateRow(row, _column)) {
               return;
             }
           }
@@ -937,7 +948,7 @@ export default defineComponent({
       }
       this.rowData.push(row);
     },
-    viewImg(row, column, url,$event) {
+    viewImg(row, column, url, $event) {
       $event.stopPropagation();
       this.base.previewImg(url);
       // window.open(row[column.field]);
