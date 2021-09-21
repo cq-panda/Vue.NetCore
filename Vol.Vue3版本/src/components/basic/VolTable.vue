@@ -68,7 +68,8 @@
           ></table-render>
           <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
           <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
-          <div v-else-if="column.edit" class="edit-el">
+          <!-- 2021.09.21增加编辑时对readonly属性判断 -->
+          <div v-else-if="column.edit && !column.readonly" class="edit-el">
             <div
               v-if="column.edit.keep || edit.rowIndex == scope.$index"
               class="e-item"
@@ -617,13 +618,10 @@ export default defineComponent({
         if (row.elementIndex == this.edit.rowIndex) {
           // 点击的单元格如果不可以编辑，直接结束编辑
           // 2020.10.12修复结束编辑时，element table高版本属性获取不到的问题
-          if (
-            !this.columns.some(
-              (x) =>
-                x.field == ((event && event.property) || column.property) &&
-                x.edit
-            )
-          ) {
+          let _col = this.columns.find((x) => {
+            return x.field == ((event && event.property) || column.property);
+          });
+          if (_col && (!_col.edit || _col.readonly)) {
             if (this.rowEndEdit(row, event)) {
               this.edit.rowIndex = -1;
             }
@@ -759,6 +757,9 @@ export default defineComponent({
       }
       let _row = this.columns.find((x) => x.field == column.property);
       if (_row) {
+        if (_row.readonly) {
+          return;
+        }
         if (
           //不能编辑的字段、switch，点击不开启启编辑功能
           !_row.edit ||
