@@ -128,6 +128,7 @@ const param = {
     { name: "type", desc: "目前只有img,file(设置了此属性，点击即可下载文件),其他不需要设置", type: "string", default: "" },
     { name: "required", desc: "是否必填项(设置edit了属性才会生效)", type: "bool", default: "false" },
     { name: "summary", desc: "是否显示统计求和,目前远程api返回的数据才有效，前台参照sellorder.js配置,后台可参照SellOrder表查询数据返回的格式", type: "bool", default: "false" },
+    { name: "readonly", desc: "<span style='color:red;'>2021.09.21(vue3版本可用),单元格是否只读,为true时单元格不可以编辑，下面edit属性会同时失效(应用场景：动态设置table列是否可以编辑)</span>", type: "bool", default: "false" },
     { name: "edit:{", desc: "表格编辑配置", type: "json", default: "" },
     { name: "type", desc: "编辑创建的标签类型：number、decimal、text、datetime、date、switch、select", type: "", default: "" },
     { name: "keep", desc: "当前单元格始终处于编辑状态", type: "bool", default: "false" },

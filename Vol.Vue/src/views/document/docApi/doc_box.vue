@@ -18,7 +18,7 @@
       </div>
     </VolBox>
     <div>
-      <docParamTable name="box"></docParamTable>
+      <docParamTable name="box" :v3="true"></docParamTable>
     </div>
   </div>
 </template>
