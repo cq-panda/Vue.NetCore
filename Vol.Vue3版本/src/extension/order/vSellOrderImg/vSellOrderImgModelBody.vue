@@ -51,6 +51,10 @@ export default {
       if (!result.status) return true;
       //生成图片保存后返回的路径
       let imgs = files.map((x) => {
+        //2021.09.25修复示例上传路径逻辑错误的问题
+        if (x.path) {
+          return x.path;
+        }
         return result.data + x.name;
       });
       // //获取vue父组件(查询界面)
