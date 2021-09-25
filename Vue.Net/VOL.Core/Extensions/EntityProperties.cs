@@ -905,9 +905,9 @@ namespace VOL.Core.Extensions
             {
 
                 //默认nvarchar(max) 、text 长度不能超过20000
-                if (val.Length > 20000)
+                if (val.Length > 200000)
                 {
-                    reslutMsg = $"字符长度最多【20000】";
+                    reslutMsg = $"字符长度最多【200000】";
                 }
                 else
                 {
@@ -1092,12 +1092,14 @@ namespace VOL.Core.Extensions
             if (dic == null || dic.Count == 0) { return "参数无效"; }
             if (propertyInfo == null)
                 propertyInfo = typeinfo.GetProperties().Where(x => x.PropertyType.Name != "List`1").ToArray();
-
-            // 不存在的字段直接移除
-            dic.Where(x => !propertyInfo.Any(p => p.Name == x.Key)).Select(s => s.Key).ToList().ForEach(f =>
+            if (removeNotContains)
             {
-                dic.Remove(f);
-            });
+                // 不存在的字段直接移除
+                dic.Where(x => !propertyInfo.Any(p => p.Name == x.Key)).Select(s => s.Key).ToList().ForEach(f =>
+                {
+                    dic.Remove(f);
+                });
+            }
             string keyName = typeinfo.GetKeyName();
             //移除主键
             if (removerKey)
