@@ -113,7 +113,8 @@
         Gitee
       </a>
       <a @click="openUrl('http://v2.volcore.xyz/')"> Vue2版本 </a>
-      <a>QQ群：45221949</a>
+      <a>QQ1群：45221949</a>
+      <a>QQ2群：913189178</a>
     </div>
   </div>
 </template>

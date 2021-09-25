@@ -232,13 +232,11 @@ const param = {
             </span><span style="line-height:1.5;font-size:18px;"><span style="display:none;"></span></span><br />` },
     { name: "loadTableAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
     { name: "rowChange", desc: "行选中事件,只有设置single=true单选才会生效", param: "row,当前选中的行 " },
-    { name: "rowClick", desc: `单击行事件,点击时设置当前行选中:
+    { name: "rowClick", desc: `单击行事件同时选中当前行选中:
     <p>
     rowClick ({ row, column, event }) {   </p>
-        <p>&nbsp;  this.$refs.table.toggleRowSelection(row);  </p>
+        <p>&nbsp; this.$refs.table.$refs.table.toggleRowSelection(row);  </p>
         <p> },  </p>
-        <p> //如果是代码生成的页面，请用下面的方法选中行  </p>
-        <p> // this.$refs.table.$refs.table.toggleRowSelection(row);    </p>
     </p>
     `, param: "{row:当前选中的行,column:当前行配置,$event:当前事件}" },
     { name: "rowDbClick", desc: "双击行事件(2021.05.23新增),点击时选中当前行，见上面rowClick", param: "{row:当前选中的行,column:当前行配置,$event:当前事件}" },
@@ -257,7 +255,7 @@ const param = {
   },
   viewGrid: {
     attr: [
-
+      { name: "自定义扩展页面获取父组件(获取生成页面对象)", desc: "<span style='color:red;'>1、通过 this.$emit('parentCall', $parent => { //如：调用页面查询 $parent.search()  })可以访问父组件ViewGird中的任何属性、对象、方法<p>2、见上面示例【扩展弹出框按钮】</p></span>", type: "", default: "" },
       { name: "rowKey", desc: "<span style='color:red;'>树形table的主键字段,字段的值必须是唯一的(2021.05.02)</span>", type: "String", default: "" },
       { name: "columns", desc: "查询页面table表的配置,如果满足不了业务,可参照VolTable参数动态扩展", type: "array", default: "[]" },
     { name: "detail", desc: "从表配置：{columns:[],sortName:''},columns从表table列配置,sortName从表排序字段", type: "json", default: "{}" },

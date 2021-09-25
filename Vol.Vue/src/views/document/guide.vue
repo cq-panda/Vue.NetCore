@@ -23,7 +23,7 @@
          href="http://donate.volcore.xyz">
          <Icon type="ios-color-filter" /><br>
          项目赞助</a>
-      <a><Icon type="ios-chatbubbles-outline" /><br>QQ群:45221949</a>
+      <a>QQ1群:45221949 <br>QQ2群:913189178</a>
             <a target="_blank"
            href="https://github.com/cq-panda/Vue.NetCore">         
          <Icon type="logo-github" /><br>GitHub</a>
@@ -261,7 +261,7 @@
           <p style="font-size:16px;line-height:3;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1、直接右击发布(发布方法，选文件系统即可)，发布完成后，将upload文件夹复制到发布后的路径</p>
           <p style="font-size:16px;line-height:3;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、配置跨域,发布后的文件夹下，配置appsettings.json属性CorsUrls,将部署好的前端vue站点url添加到CorsUrls中</p>
           <p style="font-size:16px;line-height:3;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、部署后台项目站点</p>
-          <p style="font-size:16px;line-height:3;color:red;">部署IIS上需要安装Runtime(linux上也需要),否则站点打不开<a ref="https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-aspnetcore-3.1.8-windows-hosting-bundle-installer"> 点击下载3.1.8 hosting </a>,下载安装完成后重启IIS，或者使用cmd输入iisreset重启</p>
+          <p style="font-size:16px;line-height:3;color:red;">部署IIS上需要安装Runtime(linux上也需要),否则站点打不开<a href="https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-aspnetcore-3.1.8-windows-hosting-bundle-installer" target="_blank"> 点击下载3.1.8 hosting </a>,下载安装完成后重启IIS，或者使用cmd输入iisreset重启</p>
         </li>
         </li>
         <li>

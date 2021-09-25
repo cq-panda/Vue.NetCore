@@ -2,13 +2,13 @@
   <div class="app-guide">
     <Divider>
       <icon type="md-phone-portrait" />
-      <span>移动H5开发待更新</span>
+      <span>移动app/H5开发</span>
     </Divider>
     <br> <br>
     <div class="guide"
          style="    padding: 0 17%;">
       <div>
-        <h3>安卓扫描下载</h3>
+        <h3>安卓扫描下载(使用的HBuilder打包)</h3>
         <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/qrapk.png" />
       </div>
       <div style="margin-left: 30px;">
