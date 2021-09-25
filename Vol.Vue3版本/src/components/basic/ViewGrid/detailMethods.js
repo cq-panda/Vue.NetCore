@@ -42,7 +42,7 @@ let detailMethods = {
   },
   addRow() {
     this.$refs.detail.addRow({});
-    //  this.detailOptions.columns.push({});
+    this.updateDetailTableSummaryTotal();
   },
   delRow() {
     let rows = this.$refs.detail.getSelected();
@@ -52,7 +52,6 @@ let detailMethods = {
     if (!this.delDetailRow(rows)) {
       return false;
     }
-
     let tigger = false;
     this.$confirm('确认要删除选择的数据吗?', '警告', {
       confirmButtonText: '确定',
@@ -70,8 +69,20 @@ let detailMethods = {
           this.detailOptions.delKeys.push(x[key]);
         }
       })
+      this.updateDetailTableSummaryTotal();
     });
-
+  },
+  updateDetailTableSummaryTotal() { //2021.09.25增加明细表删除、修改时重新计算行数与汇总
+    //删除或新增行时重新设置显示的总行数
+    this.$refs.detail.paginations.total = this.$refs.detail.rowData.length;
+    //重新设置合计
+    if (this.$refs.detail.summary) {
+      this.$refs.detail.columns.forEach(column => {
+        if (column.summary) {
+          this.$refs.detail.getInputSummaries(null, null, null, column);
+        }
+      })
+    }
   }
 }
 
