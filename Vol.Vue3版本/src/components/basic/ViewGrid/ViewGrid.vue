@@ -221,7 +221,7 @@
                       v-for="(btn, bIndex) in detailOptions.buttons"
                       :key="bIndex"
                       :plain="btn.plain"
-                      v-show="!btn.hasOwnProperty('hidden') || !btn.hidden"
+                      v-show="!(typeof btn.hidden == 'boolean' && btn.hidden)"
                       @click="onClick(btn.onClick)"
                       size="mini"
                       ><i :class="btn.icon"></i>{{ btn.name }}</el-button
@@ -270,7 +270,7 @@
                 :type="btn.type"
                 size="mini"
                 :plain="btn.plain"
-                v-show="!btn.hasOwnProperty('hidden') || !btn.hidden"
+                v-show="!(typeof btn.hidden == 'boolean' && btn.hidden)"
                 :disabled="btn.hasOwnProperty('disabled') && !!btn.disabled"
                 @click="onClick(btn.onClick)"
               >
