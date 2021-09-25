@@ -1096,7 +1096,7 @@ DISTINCT
                      WHEN[Maxlength] < 200 AND[Maxlength] >= 110 THEN 180
 
                      WHEN[Maxlength] > 200 THEN 220
-                     ELSE 90
+                     ELSE 110
                    END AS ColumnWidth ,
                 0 AS OrderNo,
                 --CASE WHEN IsKey = 1 OR t.[IsNull]=0 THEN 0
@@ -1175,7 +1175,7 @@ DISTINCT
             stringBuilder.Append("			AND MM.\"Maxlength\" >= 110 THEN ");
             stringBuilder.Append("				180  ");
             stringBuilder.Append("				WHEN MM.\"Maxlength\" > 200 THEN ");
-            stringBuilder.Append("				220 ELSE 90  ");
+            stringBuilder.Append("				220 ELSE 110  ");
             stringBuilder.Append("			END AS \"ColumnWidth\", ");
             stringBuilder.Append("			MM.\"OrderNo\", ");
             stringBuilder.Append("		 case WHEN MM.\"IsKey\"=1 or \"lower\"(MM.\"IsNull\")='no' then 0 else 1 end as 	\"IsNull\" , ");
@@ -1303,7 +1303,7 @@ DISTINCT
                 }
                 else
                 {
-                    x.ColumnWidth = 90;
+                    x.ColumnWidth = 110;
                 }
             });
         }
@@ -1544,7 +1544,8 @@ DISTINCT
 
                 if (item.ColumnType.ToLower() == "datetime" || (item.IsDisplay == 1 & !sort))
                 {
-                    sb.Append("align:'left',sortable:true},");
+                    //2021.09.05修改排序名称
+                    sb.Append("align:'left',sort:true},");
                     if (item.IsDisplay == 1)
                     {
                         sort = true;
