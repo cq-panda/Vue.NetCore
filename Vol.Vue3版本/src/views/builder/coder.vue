@@ -208,7 +208,7 @@ export default {
           .post("/api/builder/delTree?table_Id=" + tableId, {}, true)
           .then((x) => {
             if (!x.status) return this.$message.error(x.message);
-               this.$message.error("删除成功,请刷新页面");
+            this.$message.error("删除成功,请刷新页面");
             // for (let index = 0; index < this.tree.length; index++) {
             //   if (this.tree[index].id == tableId) {
             //     this.tree.splice(index, 1);
@@ -315,10 +315,11 @@ export default {
             keyInfo.columnType != "bigint" &&
             !this.layOutOptins.fields.sortName
           ) {
-            this.$message.error("主键非自增类型,必须设置排序字段");
+            this.$message.error("主键非自增类型,请设置上面表单的【排序字段】");
             return false;
           }
         }
+
         for (const key in this.tableInfo) {
           if (this.layOutOptins.fields.hasOwnProperty(key)) {
             let newVal = this.layOutOptins.fields[key];

@@ -54,9 +54,9 @@ namespace VOL.System.Controllers
         /// <returns></returns>
         [HttpPost, Route("GetBuilderDictionary")]
         // [ApiActionPermission(ActionRolePermission.SuperAdmin)]
-        public IActionResult GetBuilderDictionary()
+        public async Task<IActionResult> GetBuilderDictionary()
         {
-            return Json(Service.GetBuilderDictionary());
+            return Json(await Service.GetBuilderDictionary());
         }
 
     }

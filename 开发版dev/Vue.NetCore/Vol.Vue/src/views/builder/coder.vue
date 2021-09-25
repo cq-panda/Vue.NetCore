@@ -4,19 +4,21 @@
     <!-- <vol-box ref="help" title="代码生成手册" :model.sync="helpModel">
       <div><p></p></div>
     </vol-box>-->
-    <vol-box ref="add"
-             :width="550"
-             :height="350"
-             title="新建配置信息"
-             :model.sync="addModel">
+    <vol-box
+      ref="add"
+      :width="550"
+      :height="350"
+      title="新建配置信息"
+      :model.sync="addModel"
+    >
       <div class="addModel">
-        <vol-form ref="addForm"
-                  :formRules="addOptions"
-                  :formFileds="layOutOptins.fileds"></vol-form>
+        <vol-form
+          ref="addForm"
+          :formRules="addOptions"
+          :formFileds="layOutOptins.fileds"
+        ></vol-form>
       </div>
-      <Button slot="footer"
-              type="info"
-              @click="add">确 认</Button>
+      <Button slot="footer" type="info" @click="add">确 认</Button>
     </vol-box>
     <div class="builder-left">
       <div class="module-name">代码生成配置</div>
@@ -24,23 +26,24 @@
         <i class="ivu-icon ivu-icon-ios-chatbubbles"></i>配置菜单列表
       </Alert>-->
       <div class="builder-tree">
-        <el-scrollbar style="height:100%;">
-          <VolMenu :onOpenChange="onOpenChange"
-                   :options="tree"
-                   :onSelect="onSelect"></VolMenu>
+        <el-scrollbar style="height: 100%">
+          <VolMenu
+            :onOpenChange="onOpenChange"
+            :options="tree"
+            :onSelect="onSelect"
+          ></VolMenu>
         </el-scrollbar>
       </div>
     </div>
     <div class="builder-content">
-      <div style="height:100%;">
-        <el-scrollbar style="height:100%;">
+      <div style="height: 100%">
+        <el-scrollbar style="height: 100%">
           <div class="coder-container">
-            <div class="coder-item"
-                 style="padding-top: 7px;">
-              <VolHeader icon="ios-chatbubbles"
-                         text="代码生成器">
-                <div slot="content"
-                     style="color: red;">删除左侧配置菜单:删除行->保存->删除菜单</div>
+            <div class="coder-item" style="padding-top: 7px">
+              <VolHeader icon="ios-chatbubbles" text="代码生成器">
+                <div slot="content" style="color: red">
+                  删除左侧配置菜单:删除行->保存->删除菜单
+                </div>
                 <div class="action">
                   <span @click="save">
                     <i class="ivu-icon ivu-icon-md-checkbox"></i>保存
@@ -52,7 +55,8 @@
                     <i class="ivu-icon ivu-icon-md-paper"></i>生成Vue页面
                   </span>
                   <span @click="ceateModel">
-                    <i class="ivu-icon ivu-icon-ios-radio-button-on"></i>生成Model
+                    <i class="ivu-icon ivu-icon-ios-radio-button-on"></i
+                    >生成Model
                   </span>
                   <span @click="createService">
                     <i class="ivu-icon ivu-icon-ios-switch"></i>生成业务类
@@ -78,44 +82,53 @@
                 </div>
               </VolHeader>
               <div class="config">
-                <vol-form :label-width="130"
-                          ref="form"
-                          :formRules="layOutOptins.options"
-                          :formFileds="layOutOptins.fileds"></vol-form>
+                <vol-form
+                  :label-width="130"
+                  ref="form"
+                  :formRules="layOutOptins.options"
+                  :formFileds="layOutOptins.fileds"
+                ></vol-form>
               </div>
             </div>
             <Alert>
-              <p>1、如果需要修改表结构，请在数据库修改，再点同步表结构->生成vue页面->生成model。 2、修改编辑行后需要点击生成model、生成vue页面</p>
-
+              <p>
+                1、如果需要修改表结构，请在数据库修改，再点同步表结构->生成vue页面->生成model。
+                2、修改编辑行后需要点击生成model、生成vue页面
+              </p>
             </Alert>
             <div class="coder-item">
-
-              <VolHeader icon="md-podium"
-                         text="表结构">
-                <div slot="content"
-                     style="color:red;">数据库表结构发生变化时请点【同步表结构】</div>
+              <VolHeader icon="md-podium" text="表结构">
+                <div slot="content" style="color: red">
+                  数据库表结构发生变化时请点【同步表结构】
+                </div>
                 <div class="action">
-                  <span style="color: rgb(23, 156, 216);"
-                        class="ivu-icon ivu-icon-ios-folder"
-                        @click="help">代码生成器参数文档</span>
-                  <span @click="delRow"
-                        class="ivu-icon ivu-icon-md-close">删除行数据</span>
-                  <span @click="syncTable"
-                        class="ivu-icon ivu-icon-md-sync">同步表结构</span>
+                  <span
+                    style="color: rgb(23, 156, 216)"
+                    class="ivu-icon ivu-icon-ios-folder"
+                    @click="help"
+                    >代码生成器参数文档</span
+                  >
+                  <span @click="delRow" class="ivu-icon ivu-icon-md-close"
+                    >删除行数据</span
+                  >
+                  <span @click="syncTable" class="ivu-icon ivu-icon-md-sync"
+                    >同步表结构</span
+                  >
                 </div>
               </VolHeader>
 
-              <div class="grid-container"
-                   style="padding-bottom:20px">
-                <vol-table ref="table"
-                           :paginationHide="true"
-                           :tableData="data"
-                           :height="tableHeight"
-                           :columns="layOutOptins.columns"
-                           :color="false"
-                           :index="true"
-                           :allowEmpty="true"
-                           :clickEdit="true"></vol-table>
+              <div class="grid-container" style="padding-bottom: 20px">
+                <vol-table
+                  ref="table"
+                  :paginationHide="true"
+                  :tableData="data"
+                  :height="tableHeight"
+                  :columns="layOutOptins.columns"
+                  :color="false"
+                  :index="true"
+                  :allowEmpty="true"
+                  :clickEdit="true"
+                ></vol-table>
               </div>
             </div>
           </div>
@@ -136,16 +149,16 @@ export default {
     VolTable: VolTable,
     VolBox: VolBox,
     VolHeader: VolHeader,
-    VolMenu: () => import("@/../src/components/basic/VolMenu")
+    VolMenu: () => import("@/../src/components/basic/VolMenu"),
   },
-  data () {
+  data() {
     return {
       more: {
         addChild: "addChild",
         ceateController: "ceateController",
         addRow: "addRow",
         delRow: "delRow",
-        delTree: "delTree"
+        delTree: "delTree",
       },
       addModel: false,
       helpModel: false,
@@ -154,29 +167,29 @@ export default {
       layOutOptins: {
         fileds: builderData.form.fields,
         options: builderData.form.options,
-        columns: builderData.columns
+        columns: builderData.columns,
       },
       tableInfo: null,
       data: [],
-      tree: []
+      tree: [],
     };
   },
   watch: {
-    "layOutOptins.fileds.vuePath" (val) {
+    "layOutOptins.fileds.vuePath"(val) {
       localStorage.setItem("vuePath", val);
     },
-    deep: true
+    deep: true,
     //localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
   },
   methods: {
-    changeMore (funName) {
+    changeMore(funName) {
       this[funName]();
     },
-    help () {
+    help() {
       window.open("/document/coder");
       // this.helpModel = true;
     },
-    addVisible (pid) {
+    addVisible(pid) {
       this.addModel = true;
       this.$refs.form.reset();
       this.data.splice(0);
@@ -184,7 +197,7 @@ export default {
         this.layOutOptins.fileds.parentId = pid;
       }
     },
-    delTree () {
+    delTree() {
       let tableId = this.layOutOptins.fileds.table_Id;
       if (!tableId) return this.$message.error("请选择节点");
       this.$Modal.confirm({
@@ -196,7 +209,7 @@ export default {
         onOk: () => {
           this.http
             .post("/api/builder/delTree?table_Id=" + tableId, {}, true)
-            .then(x => {
+            .then((x) => {
               if (!x.status) return this.$message.error(x.message);
               for (let index = 0; index < this.tree.length; index++) {
                 if (this.tree[index].id == tableId) {
@@ -204,16 +217,17 @@ export default {
                 }
               }
             });
-        }
+        },
       });
     },
-    add () {
+    add() {
       this.$refs.form.validate(() => {
         this.layOutOptins.fileds.tableName =
           this.layOutOptins.fileds.tableName.slice(0, 1).toUpperCase() +
           this.layOutOptins.fileds.tableName.slice(1);
         if (!this.layOutOptins.fileds.tableTrueName) {
-          this.layOutOptins.fileds.tableTrueName = this.layOutOptins.fileds.tableName;
+          this.layOutOptins.fileds.tableTrueName =
+            this.layOutOptins.fileds.tableName;
         }
 
         let queryParam =
@@ -230,12 +244,12 @@ export default {
           "&isTreeLoad=false";
         this.http
           .post("/api/builder/LoadTableInfo?" + queryParam, {}, true)
-          .then(x => {
+          .then((x) => {
             if (!x.status) {
               this.$message.error(x.message);
               return;
             }
-            let hasTree = this.tree.some(t => {
+            let hasTree = this.tree.some((t) => {
               return t.id == x.data.table_Id;
             });
             if (!hasTree) {
@@ -244,7 +258,7 @@ export default {
                 pId: x.data.parentId,
                 parentId: x.data.parentId,
                 name: x.data.columnCNName,
-                orderNo: x.data.orderNo
+                orderNo: x.data.orderNo,
               });
             }
             if (!x.data.tableTrueName) {
@@ -257,7 +271,7 @@ export default {
           });
       });
     },
-    addChild () {
+    addChild() {
       // this.$message.info("开发中");
       let id = this.layOutOptins.fileds.table_Id;
       if (!id) {
@@ -265,10 +279,10 @@ export default {
       }
       this.addVisible(id);
     },
-    addRow () {
+    addRow() {
       this.data.push({});
     },
-    delRow () {
+    delRow() {
       this.$Modal.confirm({
         title: "删除警告!",
         content:
@@ -276,17 +290,17 @@ export default {
         onOk: () => {
           let rows = this.$refs.table.delRow();
           console.log(rows);
-        }
+        },
       });
     },
-    validateTableInfo (callback) {
+    validateTableInfo(callback) {
       this.$refs.form.validate(() => {
         if (!this.tableInfo) {
           this.$message.error("请先加载数据");
           return false;
         }
         if (this.data && this.data.length > 0) {
-          let keyInfo = this.data.find(x => {
+          let keyInfo = this.data.find((x) => {
             return x.isKey;
           });
           if (!keyInfo) {
@@ -302,7 +316,7 @@ export default {
             keyInfo.columnType != "bigint" &&
             !this.layOutOptins.fileds.sortName
           ) {
-            this.$message.error("主键非自增类型,必须设置排序字段");
+            this.$message.error("主键非自增类型,请设置上面表单的【排序字段】");
             return false;
           }
         }
@@ -315,7 +329,7 @@ export default {
         callback();
       });
     },
-    ceateVuePage () {
+    ceateVuePage() {
       this.validateTableInfo(() => {
         let vuePath = localStorage.getItem("vuePath");
         if (!vuePath) {
@@ -329,12 +343,12 @@ export default {
             this.tableInfo,
             true
           )
-          .then(x => {
+          .then((x) => {
             this.$Message.info(x);
           });
       });
     },
-    createService () {
+    createService() {
       this.validateTableInfo(() => {
         let queryParam =
           "tableName=" +
@@ -349,34 +363,34 @@ export default {
             this.tableInfo,
             true
           )
-          .then(x => {
+          .then((x) => {
             this.$Message.info(x);
           });
       });
     },
-    ceateModel () {
+    ceateModel() {
       this.validateTableInfo(() => {
         this.http
           .post("/api/builder/CreateModel", this.tableInfo, true)
-          .then(x => {
+          .then((x) => {
             this.$Message.info({
               content: x,
-              duration: 5
+              duration: 5,
             });
           });
       });
     },
-    syncTable () {
+    syncTable() {
       if (!this.layOutOptins.fileds.tableName)
         return this.$Message.error("请选模块");
       this.http
         .post(
           "/api/builder/syncTable?tableName=" +
-          this.layOutOptins.fileds.tableName,
+            this.layOutOptins.fileds.tableName,
           {},
           true
         )
-        .then(x => {
+        .then((x) => {
           if (!x.status) {
             return this.$Message.error(x.message);
           }
@@ -384,25 +398,29 @@ export default {
           this.loadTableInfo(this.layOutOptins.fileds.table_Id);
         });
     },
-    ceateApiController () { },
-    ceateController () { },
-    checkSortName () { },
-    save () {
+    ceateApiController() {},
+    ceateController() {},
+    checkSortName() {},
+    save() {
       // localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
-      if (this.tableInfo
-        && this.tableInfo.tableColumns
-        && this.tableInfo.tableColumns.length
-        && this.tableInfo.tableColumns.filter(x => { return x.isKey == 1 }).length > 1) {
-        return this.$Message.error("表结构只能勾选一个主键字段")
+      if (
+        this.tableInfo &&
+        this.tableInfo.tableColumns &&
+        this.tableInfo.tableColumns.length &&
+        this.tableInfo.tableColumns.filter((x) => {
+          return x.isKey == 1;
+        }).length > 1
+      ) {
+        return this.$Message.error("表结构只能勾选一个主键字段");
       }
       this.validateTableInfo(() => {
-        this.http.post("/api/builder/Save", this.tableInfo, true).then(x => {
+        this.http.post("/api/builder/Save", this.tableInfo, true).then((x) => {
           if (!x.status) {
             this.$Message.error(x.message);
             return;
           }
           this.$Message.info(x.message);
-          this.tree.forEach(x => {
+          this.tree.forEach((x) => {
             if (x.id == this.layOutOptins.fileds.table_Id) {
               x.name = this.layOutOptins.fileds.columnCNName;
               x.parentId = this.layOutOptins.fileds.parentId;
@@ -416,52 +434,58 @@ export default {
         });
       });
     },
-    onSelect (node) {
+    onSelect(node) {
       this.loadTableInfo(node);
     },
-    onOpenChange (node) {
+    onOpenChange(node) {
       if (node.length == 0) return;
       this.loadTableInfo(node.length == 1 ? node[0] : node[node.length - 1]);
     },
-    loadTableInfo (id) {
+    loadTableInfo(id) {
       this.http
         .post(
           "/api/builder/LoadTableInfo?table_Id=" + id + "&isTreeLoad=true",
           {},
           true
         )
-        .then(x => {
+        .then((x) => {
           if (!x.data.tableTrueName) {
             x.data.tableTrueName = x.data.tableName;
           }
           //2021.01.09增加代码生成器设置table排序功能
-          const _fields=["sortable","isNull","isReadDataset","isColumnData","isDisplay"]
-          x.data.tableColumns.forEach(item=>{
-             for (let index = 0; index < _fields.length; index++) {
-                item[_fields[index]]=  item[_fields[index]]||0;
-             }
-          })
+          const _fields = [
+            "sortable",
+            "isNull",
+            "isReadDataset",
+            "isColumnData",
+            "isDisplay",
+          ];
+          x.data.tableColumns.forEach((item) => {
+            for (let index = 0; index < _fields.length; index++) {
+              item[_fields[index]] = item[_fields[index]] || 0;
+            }
+          });
           this.tableInfo = x.data;
           this.$refs.form.reset(x.data);
           this.data = x.data.tableColumns;
         });
     },
-    getVuePath () {
+    getVuePath() {
       let vuePath = localStorage.getItem("vuePath");
       if (!vuePath || vuePath == "null" || vuePath == "undefined") {
         vuePath = "";
       }
       return vuePath;
-    }
+    },
   },
-  mounted () { },
-  created () {
+  mounted() {},
+  created() {
     let clientHeight = document.documentElement.clientHeight - 170;
     this.tableHeight = clientHeight < 400 ? 400 : clientHeight;
     this.http
       .post("/api/Sys_Dictionary/GetBuilderDictionary", {}, true)
-      .then(dic => {
-        let column = this.layOutOptins.columns.find(x => {
+      .then((dic) => {
+        let column = this.layOutOptins.columns.find((x) => {
           return x.field == "dropNo";
         });
         if (!column) return;
@@ -475,7 +499,7 @@ export default {
       });
 
     builderData.form.fields.vuePath = this.getVuePath();
-    this.http.post("/api/builder/GetTableTree", {}, false).then(x => {
+    this.http.post("/api/builder/GetTableTree", {}, false).then((x) => {
       this.tree = JSON.parse(x.list);
       if (!x.nameSpace) {
         return this.$message(
@@ -487,27 +511,27 @@ export default {
       for (let index = 0; index < nameSpace.length; index++) {
         nameSpaceArr.push({
           key: nameSpace[index],
-          value: nameSpace[index]
+          value: nameSpace[index],
         });
       }
 
       //初始化项目命令空间
-      this.layOutOptins.options.forEach(option => {
-        option.forEach(item => {
+      this.layOutOptins.options.forEach((option) => {
+        option.forEach((item) => {
           if (item.field == "namespace") {
             item.data.push(...nameSpaceArr);
           }
         });
       });
-      this.addOptions.forEach(option => {
-        option.forEach(item => {
+      this.addOptions.forEach((option) => {
+        option.forEach((item) => {
           if (item.field == "namespace") {
             item.data.push(...nameSpaceArr);
           }
         });
       });
     });
-  }
+  },
 };
 </script>
 <style scoped>
