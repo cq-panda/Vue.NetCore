@@ -388,14 +388,15 @@ export default {
             //  if (!this.multiple) {
             this.fileInfo.splice(0);
             // }
-            this.fileInfo.push(
-              ...this.files.map((file) => {
-                return {
-                  name: file.name,
-                  path: file.path || x.data + file.name,
-                };
-              })
-            );
+            let _files = this.files.map((file) => {
+              return {
+                name: file.name,
+                path: file.path || x.data + file.name,
+              };
+            });
+            this.fileInfo.push(..._files);
+            //2021.09.25修复文件上传后不能同时下载的问题
+            this.files = _files;
           },
           (error) => {
             this.loadText = "上传文件";
