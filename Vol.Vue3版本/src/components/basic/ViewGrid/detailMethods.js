@@ -1,7 +1,7 @@
 //从表方法
 let detailMethods = {
   //查询从表前先做内部处理
-  loadInternalDetailTableBefore (param, callBack) {//加载明细表数据之前,需要设定查询的主表的ID
+  loadInternalDetailTableBefore(param, callBack) {//加载明细表数据之前,需要设定查询的主表的ID
     //每次只要加载明细表格数据就重置删除明细的值
     if (this.detailOptions.delKeys.length > 0) {
       this.detailOptions.delKeys = [];
@@ -12,20 +12,20 @@ let detailMethods = {
     }
     return this.loadDetailTableBefore(param, callBack);
   },
-  detailRowOnChange (row) {
+  detailRowOnChange(row) {
     this.detailRowChange(row);
   },
-  detailRowChange (row) {//checkbox选中行事件
+  detailRowChange(row) {//checkbox选中行事件
 
   },
-  detailRowOnClick ({ row, column, event }) {
+  detailRowOnClick({ row, column, event }) {
     //明细表点击行事件2020.11.07
     this.detailRowClick({ row, column, event })
   },
-  detailRowClick ({ row, column, event }) {
+  detailRowClick({ row, column, event }) {
 
   },
-  resetDetailTable (row) {//编辑和查看明细时重置从表数据
+  resetDetailTable(row) {//编辑和查看明细时重置从表数据
     if (!this.detailOptions.columns || this.detailOptions.columns.length == 0) {
       return;
     }
@@ -37,15 +37,14 @@ let detailMethods = {
     }
   },
   //从后面加载从表数据
-  refreshRow () {
+  refreshRow() {
     this.resetDetailTable();
   },
-  addRow () {
+  addRow() {
     this.$refs.detail.addRow({});
     this.updateDetailTableSummaryTotal();
-    //  this.detailOptions.columns.push({});
   },
-  delRow () {
+  delRow() {
     let rows = this.$refs.detail.getSelected();
     if (!rows || rows.length == 0) {
       return this.$message.error("请选择要删除的行!");
@@ -53,21 +52,25 @@ let detailMethods = {
     if (!this.delDetailRow(rows)) {
       return false;
     }
-    this.$Modal.confirm({
-      title: "删除警告!",
-      content:
-        '<p style="color: red;font-weight: bold;letter-spacing: 3px;">确认要删除选择的数据吗?</p>',
-      onOk: () => {
-        rows = this.$refs.detail.delRow();
-        let key = this.detailOptions.key;
-        //记录删除的行数据
-        rows.forEach(x => {
-          if (x.hasOwnProperty(key) && x[key]) {
-            this.detailOptions.delKeys.push(x[key]);
-          }
-        })
-        this.updateDetailTableSummaryTotal();
-      }
+
+    let tigger = false;
+    this.$confirm('确认要删除选择的数据吗?', '警告', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+      center: true
+    }).then(() => {
+      if (tigger) return;
+      tigger = true;
+      rows = this.$refs.detail.delRow();
+      let key = this.detailOptions.key;
+      //记录删除的行数据
+      rows.forEach(x => {
+        if (x.hasOwnProperty(key) && x[key]) {
+          this.detailOptions.delKeys.push(x[key]);
+        }
+      })
+      this.updateDetailTableSummaryTotal();
     });
   },
   updateDetailTableSummaryTotal() { //2021.09.25增加明细表删除、修改时重新计算行数与汇总
