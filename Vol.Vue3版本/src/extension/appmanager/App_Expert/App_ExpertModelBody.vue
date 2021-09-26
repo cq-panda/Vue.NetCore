@@ -1,6 +1,6 @@
 <template>
   <VolBox
-    :model.sync="model"
+    v-model="model"
     :lazy="true"
     title="选择数据"
     :height="450"
@@ -10,9 +10,22 @@
     <!-- 设置查询条件 -->
     <div style="padding-bottom: 10px">
       <span style="margin-right: 20px">请选择数据</span>
-      <Input placeholder="名称" style="width: 300px" v-model="expertName" />
-      <Button type="info" icon="ios-search" @click="search()">搜索</Button>
+      <el-input
+      
+        placeholder="名称"
+        style="width: 200px"
+        v-model="expertName"
+      />
+      <el-button
+        type="primary"
+        style="margin-left:10px"
+        size="medium"
+        icon="el-icon-zoom-out"
+        @click="search"
+        >搜索</el-button
+      >
     </div>
+
     <!-- vol-table配置的这些属性见VolTable组件api文件 -->
     <vol-table
       ref="mytable"
@@ -29,28 +42,36 @@
       @loadAfter="loadTableAfter"
     ></vol-table>
     <!-- 设置弹出框的操作按钮 -->
-    <div slot="footer">
-      <Button type="info" icon="ios-add" @click="addRow()"
-        >添加选择的数据</Button
-      >
-      <Button type="success" icon="ios-remove" @click="model = false"
-        >关闭</Button
-      >
-    </div>
+    <template #footer>
+      <div>
+        <el-button
+          size="mini"
+          type="primary"
+          icon="el-icon-plus"
+          @click="addRow()"
+          >添加选择的数据</el-button
+        >
+        <el-button size="mini" icon="el-icon-close" @click="model = false"
+          >关闭</el-button
+        >
+      </div>
+    </template>
   </VolBox>
 </template>
 <script>
+import VolBox from "@/components/basic/VolBox.vue";
+import VolTable from "@/components/basic/VolTable.vue";
 export default {
   components: {
-    VolBox: () => import("@/components/basic/VolBox.vue"),
-    VolTable: () => import("@/components/basic/VolTable.vue"),
+    VolBox: VolBox,
+    VolTable: VolTable,
   },
   data() {
     return {
       model: false,
-      defaultLoadPage:false,//第一次打开时不加载table数据，openDemo手动调用查询table数据
+      defaultLoadPage: false, //第一次打开时不加载table数据，openDemo手动调用查询table数据
       expertName: "", //查询条件字段
-      url: "api/App_Expert/getSelectorDemo",
+      url: "api/App_Expert/getSelectorDemo",//加载数据的接口
       columns: [
         { field: "expertId", title: "主键id", width: 90, hidden: true },
         { field: "expertName", title: "名称", width: 120 },
@@ -75,25 +96,22 @@ export default {
       });
     },
     search() {
-      //搜索
+      //点击搜索
       this.$refs.mytable.load();
     },
     addRow() {
       var rows = this.$refs.mytable.getSelected();
       if (!rows || rows.length == 0) {
-        return this.$Message.error("请选择行数据");
+        return this.$message.error("请选择行数据");
       }
       //回写数据到表单
       this.$emit("parentCall", ($parent) => {
         //将选择的数据合并到表单中(注意框架生成的代码都是大写，后台自己写的接口是小写的)
-        var _row = {
-          ExpertId: rows[0].expertId,
-          ExpertName: rows[0].expertName,
-          HeadImageUrl: rows[0].headImageUrl,
-          Resume: rows[0].resume,
-          Enable: rows[0].enable + "", //enable是数字类型，框架绑定下拉框的时候要转换成字符串
-        };
-        Object.assign($parent.editFormFields, _row);
+        $parent.editFormFields.ExpertId = rows[0].expertId;
+        $parent.editFormFields.ExpertName = rows[0].expertName;
+        $parent.editFormFields.HeadImageUrl = rows[0].headImageUrl;
+        $parent.editFormFields.Resume = rows[0].resume;
+        $parent.editFormFields.Enable = rows[0].enable + ""; //enable是数字类型，框架绑定下拉框的时候要转换成字符串
       });
       //关闭当前窗口
       this.model = false;

@@ -1,5 +1,8 @@
 
 import gridHeader from './App_Expert/App_ExpertGridHeader'
+
+//自定义选择数据源页面
+import App_ExpertModelBody from './App_Expert/App_ExpertModelBody'
 import { h, resolveComponent } from 'vue';
 //声明vue对象
 let $this;
@@ -18,7 +21,7 @@ let extension = {
     },
     gridFooter: '',
     modelHeader: '',
-    modelBody: '',
+    modelBody: App_ExpertModelBody,  //将选择数据源页面App_ExpertModelBody注册到弹出框中
     modelFooter: ''
   }, //动态扩充组件或组件路径
   buttons: {
@@ -42,6 +45,25 @@ let extension = {
       this.height = this.height - 100;
     },
     onInit() {
+
+      //选择数据源功能
+      this.editFormOptions.forEach(x => {
+        x.forEach(item => {
+          if (item.field == 'CreateDate') {
+            //给编辑表单设置[选择数据]操作,extra具体配置见volform组件api
+            item.extra = {
+              icon: "el-icon-zoom-out",
+              text: "选择数据",
+              style: "color:red;font-size: 12px;cursor: pointer;",
+              click: item => {
+                this.$refs.modelBody.openDemo();
+              }
+            }
+          }
+        })
+      })
+
+
       //设置保存后继续添加 ，不关闭当前窗口
       //2021.04.11需要更新methods.js,ViewGrid.vue
       this.continueAdd = true;
@@ -127,7 +149,7 @@ let extension = {
               'show-icon': true,
               title: "这里是render动态渲染的内容",
               closable: false,
-            }, [h('div', {style:{'margin-top': '-20px'}}, '代码生成器中编辑类型选择file/excel/img类型文件上传,同时可以设置上传文件数量、大小等,具体见App_Expert.js配置')])]
+            }, [h('div', { style: { 'margin-top': '-20px' } }, '代码生成器中编辑类型选择file/excel/img类型文件上传,同时可以设置上传文件数量、大小等,具体见App_Expert.js配置')])]
           )
         }
       }])
