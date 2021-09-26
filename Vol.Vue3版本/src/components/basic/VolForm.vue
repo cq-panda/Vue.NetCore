@@ -811,7 +811,8 @@ export default defineComponent({
           val;
       }
       this.http.post(url).then((dicData) => {
-        this.$set(item, "loading", false);
+        //this.$set(item, "loading", false);
+        item.loading=false;
         item.data = dicData;
         this.formRules[item.point.x].splice(item.point.y, 1, item);
       });

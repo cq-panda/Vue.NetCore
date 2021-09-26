@@ -742,11 +742,11 @@ export default defineComponent({
     },
     toggleEdit(event) {},
     setEditStatus(status) {
-      this.columns.forEach((x) => {
-        if (x.hasOwnProperty("edit")) {
-          this.$set(x.edit, "status", status);
-        }
-      });
+      // this.columns.forEach((x) => {
+      //   if (x.hasOwnProperty("edit")) {
+      //     this.$set(x.edit, "status", status);
+      //   }
+      // });
     },
     // 通过button按钮启用编辑
     beginWithButtonEdit(scope) {
