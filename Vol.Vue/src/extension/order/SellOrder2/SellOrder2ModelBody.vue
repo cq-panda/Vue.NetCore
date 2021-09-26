@@ -1,9 +1,9 @@
 <template>
   <VolBox
-    v-model="model"
+    :model.sync="model"
     title="选择数据"
     :lazy="true"
-    :height="530"
+    :height="500"
     :width="1100"
     :padding="10"
   >
@@ -38,20 +38,13 @@
       :defaultLoadPage="false"
       @loadBefore="loadTableBefore"
     ></vol-table>
-    <template #footer>
-      <div>
-        <el-button
-          size="mini"
-          type="primary"
-          icon="el-icon-plus"
-          @click="addRow()"
-          >添加选择的数据</el-button
-        >
-        <el-button size="mini" icon="el-icon-close" @click="model = false"
-          >关闭</el-button
-        >
-      </div>
-    </template>
+
+    <div slot="footer">
+      <Button type="info" icon="ios-add" @click="addRow">添加选择的数据</Button>
+      <Button type="success" icon="ios-remove" @click="model = false"
+        >关闭</Button
+      >
+    </div>
   </VolBox>
 </template>
 <script>
@@ -117,6 +110,7 @@ export default {
       this.row.Qty = rows[0].Qty;
       this.row.Weight = rows[0].Weight;
       this.row.Remark = rows[0].Remark;
+      
       this.model = false;
     },
     loadTableBefore(params) {
