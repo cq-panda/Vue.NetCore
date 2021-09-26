@@ -19,8 +19,6 @@ let extension = {
     },
     //方式1,通过select选择触发显示与隐藏
     onInit() {
-      //点击单元格编辑与结束编辑(默认是点击单元格编辑，鼠标离开结束编辑)
-      this.detailOptions.clickEdit = true;
       //设置为单选，用于明细表加载数据时获取主表选行的id
       this.single = true;
     },
