@@ -196,7 +196,15 @@
               </el-date-picker>
             </div>
 
-            <div v-else-if="item.type == 'time'">time组件待完善</div>
+            <el-time-picker
+              v-else-if="item.type == 'time'"
+              v-model="formFields[item.field]"
+              placeholder="请选择时间"
+              :format="item.format"
+              style="width:100%;"
+              size="medium"
+            >
+            </el-time-picker>
 
             <vol-wang-editor
               ref="editor"
@@ -869,7 +877,11 @@ export default defineComponent({
         return {
           validator: (rule, val, callback) => {
             //2021.09.05移除文件上传默认必填
-            if (item.required&&!this.isReadonly(item) && (!val || !val.length)) {
+            if (
+              item.required &&
+              !this.isReadonly(item) &&
+              (!val || !val.length)
+            ) {
               return callback(
                 new Error(item.type == "img" ? "请上传照片" : "请上传文件")
               );
@@ -1014,7 +1026,7 @@ export default defineComponent({
           type: "string",
         };
       }
-      if (item.type == "date" || item.type == "datetime") {
+      if (item.type == "date" || item.type == "datetime"||item.type=='time') {
         return {
           required: true,
           message: "请选择" + item.title,
