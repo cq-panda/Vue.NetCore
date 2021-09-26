@@ -201,7 +201,7 @@
               v-model="formFields[item.field]"
               placeholder="请选择时间"
               :format="item.format"
-              style="width:100%;"
+              style="width: 100%"
               size="medium"
             >
             </el-time-picker>
@@ -209,8 +209,8 @@
             <vol-wang-editor
               ref="editor"
               v-else-if="item.type == 'editor'"
-              :url="editor.uploadImgUrl"
-              :upload="editor.upload"
+              :url="item.url || editor.uploadImgUrl"
+              :upload="item.upload || editor.upload"
               v-model="formFields[item.field]"
               :height="item.height || 350"
             ></vol-wang-editor>
@@ -1026,7 +1026,11 @@ export default defineComponent({
           type: "string",
         };
       }
-      if (item.type == "date" || item.type == "datetime"||item.type=='time') {
+      if (
+        item.type == "date" ||
+        item.type == "datetime" ||
+        item.type == "time"
+      ) {
         return {
           required: true,
           message: "请选择" + item.title,
