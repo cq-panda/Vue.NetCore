@@ -23,7 +23,7 @@ namespace VOL.Core.Extensions
 {
     public static class EntityProperties
     {
-        public static IQueryable<T> Where<T>(this IQueryable<T> queryable,[NotNull] Expression<Func<T, object>> field, string value)
+        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, [NotNull] Expression<Func<T, object>> field, string value)
         {
             if (value == null)
             {
@@ -860,10 +860,17 @@ namespace VOL.Core.Extensions
             string val = value?.ToString();
             //验证长度
             string reslutMsg = string.Empty;
-            if (dbType == SqlDbTypeName.Int || dbType == SqlDbTypeName.BigInt)
+            if (dbType == SqlDbTypeName.Int)
             {
                 if (!value.IsInt())
                     reslutMsg = "只能为有效整数";
+            }  //2021.10.12增加属性校验long类型的支持
+            else if (dbType == SqlDbTypeName.BigInt)
+            {
+                if (!long.TryParse(val, out _))
+                {
+                    reslutMsg = "只能为有效整数";
+                }
             }
             else if (dbType == SqlDbTypeName.DateTime
                 || dbType == SqlDbTypeName.Date
