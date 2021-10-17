@@ -100,7 +100,7 @@ export default defineComponent({
       let result = props.onModelClose(!!iconClose);
       if (result === false) return;
       vmodel.value = false;
-      context.emit("update:modelValue", vmodel);
+      context.emit("update:modelValue", false);
       done && done();
     };
     const calcHeight = (val) => {
