@@ -34,7 +34,7 @@
         ></vol-table>
       </el-tab-pane>
       <!-- 从表2 -->
-      <el-tab-pane :lazy="true" label="从表2">
+      <el-tab-pane :lazy="false" label="从表2">
         <template #label>
           <span><i class="el-icon-date"></i> 从表2</span>
         </template>
@@ -69,8 +69,8 @@
           @loadAfter="loadTableAfter2"
         ></vol-table>
       </el-tab-pane>
-      <el-tab-pane :lazy="true" label="角色管理">从表3</el-tab-pane>
-      <el-tab-pane :lazy="true" label="定时任务补偿">从表4</el-tab-pane>
+      <el-tab-pane :lazy="false" label="角色管理">从表3</el-tab-pane>
+      <el-tab-pane :lazy="false" label="定时任务补偿">从表4</el-tab-pane>
     </el-tabs>
   </div>
 </template>

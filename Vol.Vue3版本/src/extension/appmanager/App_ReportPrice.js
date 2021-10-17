@@ -1,5 +1,6 @@
 
 import { h, resolveComponent, defineAsyncComponent } from 'vue';
+import modelBody from "./App_ReportPrice/App_ReportPriceModelBody.vue"
 let extension = {
   components: {//动态扩充组件或组件路径
     gridHeader: "",
@@ -16,7 +17,8 @@ let extension = {
     gridFooter: '',
     modelHeader: '',
     //通过defineAsyncComponent异步引用
-    modelBody: defineAsyncComponent(() => (import("./App_ReportPrice/App_ReportPriceModelBody.vue"))),
+    modelBody:modelBody,
+    // defineAsyncComponent(() => (import("./App_ReportPrice/App_ReportPriceModelBody.vue"))),
     modelFooter: ''
   },
   buttons: [],//扩展的按钮
