@@ -24,6 +24,13 @@
             :render="item.render"
             :par="12"
           ></form-expand>
+          <!-- 2021.10.17增加表单实时方法计算 -->
+          <span
+            v-else-if="
+              item.readonly && typeof formFields[item.field] == 'function'
+            "
+            >{{ formFields[item.field]() }}</span
+          >
           <!-- 只读图片或文件  -->
           <div v-else-if="isReadonlyImgFile(item, formFields)">
             <div v-if="item.type == 'img'" class="form-imgs">
@@ -341,7 +348,9 @@
       </div>
     </template>
     <slot></slot>
-    <div style="width: 100%"><slot name="footer"></slot></div>
+    <div style="width: 100%">
+      <slot name="footer"></slot>
+    </div>
   </el-form>
 </template>
 <script>
@@ -812,7 +821,7 @@ export default defineComponent({
       }
       this.http.post(url).then((dicData) => {
         //this.$set(item, "loading", false);
-        item.loading=false;
+        item.loading = false;
         item.data = dicData;
         this.formRules[item.point.x].splice(item.point.y, 1, item);
       });
