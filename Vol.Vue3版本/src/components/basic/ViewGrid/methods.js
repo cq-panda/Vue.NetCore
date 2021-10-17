@@ -115,7 +115,7 @@ let methods = {
     //从表表格操作按钮
     let detailGridButtons = {
       name: "刷新",
-      type:'info',
+      type: 'info',
       icon: "el-icon-refresh",
       onClick() {
         //如果明细表当前的状态为新建时，禁止刷新
@@ -591,7 +591,7 @@ let methods = {
     if (_currentIsAdd) {
       //2020.12.06增加新建前异步处理方法
       //2021.08.16修复异步语法写错的问题
-      if (!this.addBefore(formData) ||  !await this.addBeforeAsync(formData)) return;
+      if (!this.addBefore(formData) || !await this.addBeforeAsync(formData)) return;
     } else {
       //2020.12.06增加修改前异步处理方法
       if (!this.updateBefore(formData) || !await this.updateBeforeAsync(formData)) return;
@@ -1022,14 +1022,15 @@ let methods = {
             }
           })
         }
-
-        //2020.01.30移除内部表单formOptions数据源配置格式data.data，所有参数改为与组件api格式相同
-        Object.assign(
-          d,
-          this.dicKeys.filter(f => {
-            return f.dicNo == d.dataKey;
-          })[0]
-        );
+        if (d.type != "cascader") {
+          //2020.01.30移除内部表单formOptions数据源配置格式data.data，所有参数改为与组件api格式相同
+          Object.assign(
+            d,
+            this.dicKeys.filter(f => {
+              return f.dicNo == d.dataKey;
+            })[0]
+          );
+        }
       });
     });
   },
@@ -1087,10 +1088,26 @@ let methods = {
               node.value = node.key;
             }
           })
-          // x.data = arr;
-          // x.orginData = d.data;
           x.data.push(...arr);
           x.orginData.push(...d.data);
+          //2021.10.17修复查询级联不能绑定数据源的问题 
+          this.searchFormOptions.forEach(searhcOption => {
+            searhcOption.forEach(_option => {
+              if (_option.type == 'cascader' && _option.dataKey == x.dicNo) {
+                _option.data = arr;
+                _option.orginData = d.data;
+              }
+            })
+          })
+           //2021.10.17修复级联不能二级刷新的问题 
+          this.editFormOptions.forEach(editOption => {
+            editOption.forEach(_option => {
+              if (_option.type == 'cascader' && _option.dataKey == x.dicNo) {
+                _option.data = arr;
+                _option.orginData = d.data;
+              }
+            })
+          })
         } else if (d.data.length > 0 && !d.data[0].hasOwnProperty("key")) {
           let source = d.data,
             newSource = new Array(source.length);
