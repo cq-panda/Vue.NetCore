@@ -265,8 +265,8 @@
             <vol-wang-editor
               ref="editor"
               v-else-if="item.type == 'editor'"
-              :url="editor.uploadImgUrl"
-              :upload="editor.upload"
+              :url="item.url||editor.uploadImgUrl"
+              :upload="item.upload||editor.upload"
               v-model="_formFields[item.field]"
               :height="item.height || 350"
             ></vol-wang-editor>
@@ -366,7 +366,7 @@
   </Form>
 </template>
 <script>
-import moment from "moment";
+// import moment from "moment";
 import FormExpand from "./VolForm/VolFormRender";
 import VolWangEditor from "@/components/basic/VolWangEditor.vue";
 export default {
@@ -732,7 +732,7 @@ export default {
     },
     validateNumber() {},
     formatTime(time) {
-      return moment(time).format("YYYY-MM-DD");
+      return time;//moment(time).format("YYYY-MM-DD");
     },
     changeTime(time) {
       console.log(time);

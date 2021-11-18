@@ -366,7 +366,7 @@
   </Form>
 </template>
 <script>
-import moment from "moment";
+// import moment from "moment";
 import FormExpand from "./VolForm/VolFormRender";
 import VolWangEditor from "@/components/basic/VolWangEditor.vue";
 export default {
@@ -732,7 +732,7 @@ export default {
     },
     validateNumber() {},
     formatTime(time) {
-      return moment(time).format("YYYY-MM-DD");
+      return time;//moment(time).format("YYYY-MM-DD");
     },
     changeTime(time) {
       console.log(time);
