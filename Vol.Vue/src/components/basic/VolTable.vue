@@ -73,8 +73,10 @@
             ></table-render>
             <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
             <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
+            <!-- 2021.11.18增加table编辑时阻止无效事件触发 -->
             <div v-else-if="column.edit" class="edit-el">
               <div
+                 @click.stop
                 v-if="column.edit.keep || edit.rowIndex == scope.$index"
                 class="e-item"
               >
