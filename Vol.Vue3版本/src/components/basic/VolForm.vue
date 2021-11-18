@@ -309,7 +309,7 @@
                 item.placeholder ? item.placeholder : '请输入' + item.title
               "
             />
-
+            <!-- 2021.11.18修复el-input没有默认enter事件时回车异常 -->
             <el-input
               clearable
               v-else
@@ -322,7 +322,11 @@
               v-model="formFields[item.field]"
               @keypress="item.onKeyPress"
               @change="item.onKeyPress"
-              @keyup.enter="item.onKeyPress"
+              @keyup.enter="
+                (e) => {
+                  item.onKeyPress && item.onKeyPress(e);
+                }
+              "
             ></el-input>
 
             <div class="form-extra" v-if="item.extra">
