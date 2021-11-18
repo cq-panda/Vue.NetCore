@@ -230,7 +230,7 @@ const param = {
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; })</span><br />
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; */</span><br />
             </span><span style="line-height:1.5;font-size:18px;"><span style="display:none;"></span></span><br />` },
-    { name: "loadTableAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
+    { name: "loadAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
     { name: "rowChange", desc: "行选中事件,只有设置single=true单选才会生效", param: "row,当前选中的行 " },
     { name: "rowClick", desc: `单击行事件同时选中当前行选中:
     <p>

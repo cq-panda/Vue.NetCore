@@ -1,5 +1,5 @@
 
-import { h,resolveComponent } from 'vue';
+import { h, resolveComponent } from 'vue';
 let extension = {
   components: {
     //动态扩充组件或组件路径
@@ -38,7 +38,13 @@ let extension = {
             option.min = "2021-07-01 00:00";
             option.max = Date.now();//日期最大值"2021-07-20 00:00" 
           }
+
         })
+      })
+      this.columns.forEach(option => {
+        if (option.field == 'AgeRange') {
+          option.normal = true;
+        }
       })
       //如果要设置查询的日期范围选择同上 
       //this.searchFormOptions.forEach 
@@ -50,7 +56,7 @@ let extension = {
       //设置表高度
       this.height = this.height - 50;
     },
-    rowDbClick({ row, column, event }) { //查询界面table点击行时选中当前行
+    rowClick({ row, column, event }) { //查询界面table点击行时选中当前行
       this.$refs.table.$refs.table.toggleRowSelection(row);
     },
   }

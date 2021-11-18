@@ -113,8 +113,9 @@
         Gitee
       </a>
       <a @click="openUrl('http://v2.volcore.xyz/')"> Vue2版本 </a>
-      <a>QQ1群：45221949</a>
+      <a>QQ1群：45221949(已满)</a>
       <a>QQ2群：913189178</a>
+      <a style="text-decoration: none;" href="https://beian.miit.gov.cn/" target="_blank">京ICP备19056538号-1</a>
     </div>
   </div>
 </template>
@@ -383,7 +384,7 @@ input:-webkit-autofill {
   cursor: pointer;
   padding: 10px;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   position: absolute;
   width: 100%;
   bottom: 0px;
