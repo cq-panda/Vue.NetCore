@@ -42,6 +42,7 @@ let detailMethods = {
   },
   addRow () {
     this.$refs.detail.addRow({});
+    this.updateDetailTableSummaryTotal();
     //  this.detailOptions.columns.push({});
   },
   delRow () {
@@ -65,9 +66,21 @@ let detailMethods = {
             this.detailOptions.delKeys.push(x[key]);
           }
         })
-
+        this.updateDetailTableSummaryTotal();
       }
     });
+  },
+  updateDetailTableSummaryTotal() { //2021.09.25增加明细表删除、修改时重新计算行数与汇总
+    //删除或新增行时重新设置显示的总行数
+    this.$refs.detail.paginations.total = this.$refs.detail.rowData.length;
+    //重新设置合计
+    if (this.$refs.detail.summary) {
+      this.$refs.detail.columns.forEach(column => {
+        if (column.summary) {
+          this.$refs.detail.getInputSummaries(null, null, null, column);
+        }
+      })
+    }
   }
 }
 
