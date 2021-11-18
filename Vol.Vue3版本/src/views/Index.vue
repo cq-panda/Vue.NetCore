@@ -153,7 +153,7 @@ export default defineComponent({
     ]);
     const links = ref([
       { text: "大屏数据", path: "/bigdata", id: -3 },
-      { text: "框架文档", path: "http://v2.volcore.xyz/", id: -2 },
+      { text: "框架文档", path: "http://v2.volcore.xyz/document/guide", id: -2 },
       { text: "GitHub", path: "#", id: -3 },
       { text: "个人中心", path: "/UserInfo", id: -1 },
       { text: "安全退出", path: "/login", id: -4 },
@@ -167,7 +167,7 @@ export default defineComponent({
     const userImg = ref("");
     const navigation = ref([{ name: "首页", id: 0, path: "/home" }]);
     const logo = ref(imgUrl);
-    const theme = ref("red2");
+    const theme = ref("blue2");
     const menuOptions = ref([]);
     const permissionInited = ref(false);
 
