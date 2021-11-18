@@ -1,4 +1,5 @@
 <template>
+  <!-- 2021.11.18移除voltable方法@cell-mouse-leave="rowEndEdit" -->
   <div
     class="vol-table"
     :class="[textInline ? 'text-inline' : '', fxRight ? 'fx-right' : '']"
@@ -16,10 +17,9 @@
       @select="userSelect"
       @select-all="userSelect"
       @selection-change="selectionChange"
-      @row-click="rowClick"
       @row-dblclick="rowDbClick"
+      @row-click="rowClick"
       @header-click="headerClick"
-      @cell-mouse-leave="rowEndEdit"
       ref="table"
       class="v-table"
       @sort-change="sortChange"
@@ -71,7 +71,7 @@
           <!-- 2021.09.21增加编辑时对readonly属性判断 -->
           <div v-else-if="column.edit && !column.readonly" class="edit-el">
             <div
-            @click.stop
+              @click.stop
               v-if="column.edit.keep || edit.rowIndex == scope.$index"
               class="e-item"
             >
@@ -213,10 +213,10 @@
               @click="formatterClick(scope.row, column, $event)"
               v-html="column.formatter(scope.row, column)"
             ></div>
-
+            <!-- 2021.11.18修复table数据源设置为normal后点击行$event缺失的问题 -->
             <div
               v-else-if="column.bind && column.normal"
-              @click="formatterClick(scope.row, column)"
+              @click="formatterClick(scope.row, column, $event)"
               :style="column.getStyle && column.getStyle(scope.row, column)"
             >
               {{ formatter(scope.row, column, true) }}
@@ -580,7 +580,7 @@ export default defineComponent({
     },
     inputKeyPress(row, column, $event, $e) {
       column.onKeyPress && column.onKeyPress(row, column, $event);
-      this.getInputSummaries(null,null,$event,column);
+      this.getInputSummaries(null, null, $event, column);
     },
     extraClick(row, column) {
       column.extra.click &&
