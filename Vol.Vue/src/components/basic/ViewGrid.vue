@@ -344,9 +344,10 @@ import Empty from "@/components/basic/Empty.vue";
 var $viewGridVue, $this;
 
 import VolTable from "@/components/basic/VolTable.vue";
+import VolForm from "@/components/basic/VolForm.vue";
 var vueParam = {
   components: {
-    VolForm: () => import("@/components/basic/VolForm.vue"),
+    VolForm,
     VolBoxForm: () => import("@/components/basic/VolBoxForm.vue"),
     VolTable: VolTable, //() => import("@/components/basic/VolTable.vue"),
     VolBox: () => import("@/components/basic/VolBox.vue"),
