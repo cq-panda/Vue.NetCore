@@ -312,6 +312,24 @@
             <!-- 2021.11.18修复el-input没有默认enter事件时回车异常 -->
             <el-input
               clearable
+              v-else-if="item.onKeyPress"
+              size="medium"
+              :placeholder="
+                item.placeholder ? item.placeholder : '请输入' + item.title
+              "
+              :disabled="item.readonly || item.disabled"
+              v-show="!item.hidden"
+              v-model="formFields[item.field]"
+              @keypress="
+                ($event) => {
+                  onKeyPress($event, item);
+                }
+              "
+              @change="item.onKeyPress"
+              @keyup.enter="item.onKeyPress"
+            ></el-input>
+            <el-input
+              clearable
               v-else
               size="medium"
               :placeholder="
@@ -320,13 +338,6 @@
               :disabled="item.readonly || item.disabled"
               v-show="!item.hidden"
               v-model="formFields[item.field]"
-              @keypress="item.onKeyPress"
-              @change="item.onKeyPress"
-              @keyup.enter="
-                (e) => {
-                  item.onKeyPress && item.onKeyPress(e);
-                }
-              "
             ></el-input>
 
             <div class="form-extra" v-if="item.extra">
@@ -1139,6 +1150,12 @@ export default defineComponent({
         return;
       }
       item.onChange && item.onChange(val);
+    },
+    onKeyPress($event, item) {
+      if ($event.keyCode == 13) {
+        return;
+      }
+      item.onKeyPress($event);
     },
   },
 });
