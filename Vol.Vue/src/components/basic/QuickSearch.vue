@@ -9,7 +9,6 @@
               :key="kvIndex"
               :value="kv.key||''">{{kv.value}}</Option>
     </Select>
-
     <DatePicker clearable
                 :type="singleSearch.type=='month'?'month':singleSearch.dateType"
                 v-else-if="singleSearch.type=='date'||singleSearch.type=='datetime'||singleSearch.type=='month'"
@@ -18,7 +17,7 @@
                 @on-change="
                       (time) => {
                         this.searchFormFields[this.singleSearch.field] = time;}"
-                v-model="searchFormFields[singleSearch.field]"></DatePicker>
+                :value="searchFormFields[singleSearch.field]"></DatePicker>
 
     <Input clearable
            v-else
