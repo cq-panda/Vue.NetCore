@@ -27,7 +27,12 @@ let extension = {
     onInit() {
       //设置显示所有查询条件
       this.setFiexdSearchForm(true);
-
+      this.searchFormOptions[0][0].onKeyPress=($event)=>{
+        if ($event.keyCode==13) {
+       
+        }
+        console.log($event)
+      }
       //设置表的最大高度
       this.tableMaxHeight = 300;
       //格式化单格颜色

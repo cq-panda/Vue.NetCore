@@ -1348,9 +1348,7 @@ export default defineComponent({
 .v-table ::v-deep(.el-date-editor .el-icon-time) {
   width: 10px;
 }
-.v-table ::v-deep(.el-date-editor .el-input__inner) {
-  padding-left: 20px;
-}
+
 .vol-table.fx-right ::v-deep(.el-table__header th:last-child) {
   border-left: 1px solid #eff1f5;
 }
@@ -1380,6 +1378,9 @@ export default defineComponent({
   font-size: 13px;
   height: 46px;
   color: #616161;
+}
+.v-table ::v-deep(.el-date-editor .el-input__inner) {
+  padding-left: 20px;
 }
 .v-table ::v-deep(.el-table__header th.is-sortable) {
   padding: 3px !important;
