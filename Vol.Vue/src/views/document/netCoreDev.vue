@@ -224,6 +224,60 @@ export default {
           tips: ` 还没想好`,
           img: "",
         },
+		  {
+          title: "取消跨域",
+		  content:[`<p>
+	<br />
+</p>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<p>
+		<p>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		</p>
+		<p>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //在后台项目Startup.cs第103行中找到&nbsp;options.AddDefaultPolicy替换为下面的代码
+		</p>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9CDCFE;">options</span>.<span style="color:#DCDCAA;">AddDefaultPolicy</span>(
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color:#9CDCFE;">builder</span>&nbsp;<span style="color:#569CD6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color:#9CDCFE;">builder</span>.<span style="color:#DCDCAA;">AllowAnyOrigin</span>()
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;.<span style="color:#DCDCAA;">SetPreflightMaxAge</span>(<span style="color:#9CDCFE;">TimeSpan</span>.<span style="color:#DCDCAA;">FromSeconds</span>(<span style="color:#B5CEA8;">2520</span>))
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .<span style="color:#DCDCAA;">AllowAnyHeader</span>().<span style="color:#DCDCAA;">AllowAnyMethod</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; });
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; });
+		</div>
+	</p>
+	<div>
+		<span style="color:#569cd6;"></span><span style="color:#dcdcaa;"></span>
+	</div>
+</div>
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>
+<div>
+	&nbsp; &nbsp; &nbsp; &nbsp;
+</div>`],
+          tips: ` 还没想好`,
+          img: "",
+        },
         {
           title: "不显示的菜单权限分配",
           content: [
