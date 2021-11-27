@@ -1,8 +1,8 @@
 <template>
   <div class="v-header">
     <div class="v-left-text">
-      <Icon size="20" :type="icon" />
-      <span>{{text}}</span>
+      <Icon size="19" class="tx-icon" :type="icon" />
+      <span>{{ text }}</span>
     </div>
     <div class="content">
       <slot name="content"></slot>
@@ -17,13 +17,13 @@ export default {
   props: {
     icon: {
       type: String,
-      default: ""
+      default: "",
     },
     text: {
       type: String,
-      default: "未定义名称"
-    }
-  }
+      default: "未定义名称",
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -32,16 +32,20 @@ export default {
   border-bottom: 1px solid #dcdee2;
   .v-left-text {
     margin-top: 3px;
-    padding-bottom: 6px;
-    // padding-top: 10px;
+    padding-bottom: 3px;
     font-weight: bold;
-    font-size: 15px;
-    color: #57a3f3;
+    font-size: 14px;
+    color: #464646;
     white-space: nowrap;
-    border-bottom: 2px solid #57a3f3;
+    border-bottom: 2px solid #464646;
+    .tx-icon {
+      position: relative;
+      bottom: -1px;
+    }
     > span {
       position: relative;
       top: 2px;
+      margin-left: -3px;
     }
   }
   .content {
