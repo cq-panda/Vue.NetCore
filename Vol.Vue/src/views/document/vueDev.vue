@@ -520,15 +520,18 @@ export default {
         {
           title: "查询界面-隐藏查询按钮",
           content: [
-            `<div style="color:red">2020.11.29更新viewgrid.vue组件才能使用</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+            `<div style="color:red;">
+	2020.11.29更新viewgrid.vue组件才能使用
+</div>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//事件扩展</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//事件扩展</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//隐藏查询界面按钮</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//隐藏查询界面按钮</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">buttons</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
@@ -537,7 +540,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">name</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"刷&nbsp;新"</span>&nbsp;||&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">name</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"新&nbsp;建"</span>)&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">x</span>,&nbsp;<span style="color:#ce9178;">"hidden"</span>,&nbsp;<span style="color:#569cd6;">true</span>);
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">x</span>,&nbsp;<span style="color:#ce9178;">"hidden"</span>,&nbsp;<span style="color:#569cd6;">true</span>);//vue3版本改为直接设置：x.hidden=true
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -546,13 +549,13 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置页面上显示的按钮个数(不是必须的)</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置页面上显示的按钮个数(不是必须的)</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">maxBtnLength</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">6</span>;
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.boxButtons弹出框的按钮,this.detailOptions.buttons弹出框明细表操作按钮，同样适用上面上方法</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.boxButtons弹出框的按钮,this.detailOptions.buttons弹出框明细表操作按钮，同样适用上面上方法</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -568,26 +571,28 @@ export default {
         {
           title: "查询界面-自定义弹出框",
           content: [
-            `<div style="color:red;font-size:20px">扩展子组件的内容App_ExpertGridHeader.vue</div>
-            <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+            `<div style="color:red;font-size:20px;">
+	扩展子组件的内容App_ExpertGridHeader.vue
+</div>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 	<div>
-		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span> 
 	</div>
 <br />
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;弹出框1&nbsp;--&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;弹出框1&nbsp;--&gt;</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-box</span>&nbsp;:<span style="color:#9cdcfe;">lazy</span>="<span style="color:#569cd6;">true</span>"
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box1</span>"
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box1</span>" //vue3版本改为v-model="<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#9CDCFE;">model</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">.</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#9CDCFE;">box1</span>"
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"弹出框1"</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"弹出框1"</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">height</span>="<span style="color:#b5cea8;">400</span>"
@@ -596,41 +601,41 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">width</span>="<span style="color:#b5cea8;">700</span>"
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">15</span>"<span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">15</span>"<span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>弹出框1
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>弹出框1&nbsp; &nbsp;//vue3版本Button改为el-button具体见elemen-puls文档
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">getParent</span>"<span style="color:#808080;">&gt;</span>获取父组件对象<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">getParent</span>"<span style="color:#808080;">&gt;</span>获取父组件对象<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">p</span><span style="color:#808080;">&gt;</span>通过&nbsp;this.$emit("parentCall",&nbsp;$vue&nbsp;=&gt;&nbsp;{})可以访问父组件ViewGird中的任何属性、对象、方法<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">p</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">p</span><span style="color:#808080;">&gt;</span>通过&nbsp;this.$emit("parentCall",&nbsp;$vue&nbsp;=&gt;&nbsp;{})可以访问父组件ViewGird中的任何属性、对象、方法<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">p</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">p</span><span style="color:#808080;">&gt;</span>{{<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box1Text</span>}}<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">p</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">p</span><span style="color:#808080;">&gt;</span>{{<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box1Text</span>}}<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">p</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">vol-box</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">vol-box</span><span style="color:#808080;">&gt;</span> 
 	</div>
 <br />
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;弹出框2&nbsp;--&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;弹出框2&nbsp;--&gt;</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-box</span>&nbsp;:<span style="color:#9cdcfe;">lazy</span>="<span style="color:#569cd6;">true</span>"
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box2</span>"
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box2</span>"&nbsp;<span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">//vue3版本改为v-model="</span><span style="color:#9CDCFE;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">model</span><span style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">.</span><span style="color:#9CDCFE;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">box2</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">"</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"弹出框3"</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"弹出框3"</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">height</span>="<span style="color:#b5cea8;">400</span>"
@@ -639,68 +644,68 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">width</span>="<span style="color:#b5cea8;">700</span>"
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">15</span>"<span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">15</span>"<span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>弹出框2
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-tabs</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"border-card"</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-tabs</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"border-card"</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"height:&nbsp;350px;"</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"height:&nbsp;350px;"</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-tab-pane</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-tab-pane</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">span</span>&nbsp;<span style="color:#9cdcfe;">slot</span>=<span style="color:#ce9178;">"label"</span><span style="color:#808080;">&gt;&lt;</span><span style="color:#569cd6;">i</span>&nbsp;<span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"el-icon-date"</span><span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">i</span><span style="color:#808080;">&gt;</span>&nbsp;我的行程<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">span</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">span</span>&nbsp;<span style="color:#9cdcfe;">slot</span>=<span style="color:#ce9178;">"label"</span><span style="color:#808080;">&gt;&lt;</span><span style="color:#569cd6;">i</span>&nbsp;<span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"el-icon-date"</span><span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">i</span><span style="color:#808080;">&gt;</span>&nbsp;我的行程<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">span</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我的行程
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-tab-pane</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-tab-pane</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-tab-pane</span>&nbsp;:<span style="color:#9cdcfe;">lazy</span>="<span style="color:#569cd6;">true</span>"
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">label</span>=<span style="color:#ce9178;">"消息中心"</span><span style="color:#808080;">&gt;</span>消息中心<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-tab-pane</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">label</span>=<span style="color:#ce9178;">"消息中心"</span><span style="color:#808080;">&gt;</span>消息中心<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-tab-pane</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-tab-pane</span>&nbsp;:<span style="color:#9cdcfe;">lazy</span>="<span style="color:#569cd6;">true</span>"
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">label</span>=<span style="color:#ce9178;">"角色管理"</span><span style="color:#808080;">&gt;</span>角色管理<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-tab-pane</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">label</span>=<span style="color:#ce9178;">"角色管理"</span><span style="color:#808080;">&gt;</span>角色管理<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-tab-pane</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-tab-pane</span>&nbsp;:<span style="color:#9cdcfe;">lazy</span>="<span style="color:#569cd6;">true</span>"
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">label</span>=<span style="color:#ce9178;">"定时任务补偿"</span><span style="color:#808080;">&gt;</span>定时任务补偿<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-tab-pane</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">label</span>=<span style="color:#ce9178;">"定时任务补偿"</span><span style="color:#808080;">&gt;</span>定时任务补偿<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-tab-pane</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-tabs</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-tabs</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">vol-box</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">vol-box</span><span style="color:#808080;">&gt;</span> 
 	</div>
 <br />
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;弹出框3&nbsp;--&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;弹出框3&nbsp;--&gt;</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-box</span>&nbsp;:<span style="color:#9cdcfe;">lazy</span>="<span style="color:#569cd6;">true</span>"
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box3</span>"
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">sync</span>="<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box3</span>"&nbsp;<span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">//vue3版本改为v-model="</span><span style="color:#9CDCFE;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">model</span><span style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">.</span><span style="color:#9CDCFE;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">box3</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">"</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"弹出框3"</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"弹出框3"</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">height</span>="<span style="color:#b5cea8;">400</span>"
@@ -709,40 +714,40 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">width</span>="<span style="color:#b5cea8;">700</span>"
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">15</span>"<span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">15</span>"<span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>当前操作的行数据{{<span style="color:#4ec9b0;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box3Row</span>)}}<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>当前操作的行数据{{<span style="color:#4ec9b0;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box3Row</span>)}}<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">slot</span>=<span style="color:#ce9178;">"footer"</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">slot</span>=<span style="color:#ce9178;">"footer"</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"default"</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"default"</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">click</span>="()<span style="color:#569cd6;">=&gt;</span>{<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'点击确认'</span>)}"<span style="color:#808080;">&gt;</span>确认<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">click</span>="()<span style="color:#569cd6;">=&gt;</span>{<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'点击确认'</span>)}"<span style="color:#808080;">&gt;</span>确认<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"default"</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"default"</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">click</span>="()<span style="color:#569cd6;">=&gt;</span>{<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box3</span>=<span style="color:#569cd6;">false</span>}"<span style="color:#808080;">&gt;</span>点击关闭弹出框<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">click</span>="()<span style="color:#569cd6;">=&gt;</span>{<span style="color:#9cdcfe;">model</span>.<span style="color:#9cdcfe;">box3</span>=<span style="color:#569cd6;">false</span>}"<span style="color:#808080;">&gt;</span>点击关闭弹出框<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">vol-box</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">vol-box</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
-		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span> 
 	</div>
 	<div>
 		<span style="color:#c586c0;">import</span>&nbsp;<span style="color:#9cdcfe;">VolBox</span>&nbsp;<span style="color:#c586c0;">from</span>&nbsp;<span style="color:#ce9178;">"@/components/basic/VolBox.vue"</span>;
@@ -823,7 +828,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框1</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框1</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">open1</span>&nbsp;()&nbsp;{
@@ -835,7 +840,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框2</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框2</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">open2</span>&nbsp;()&nbsp;{
@@ -847,7 +852,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框3</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框3</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">open3</span>&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;{
@@ -868,17 +873,19 @@ export default {
 		};
 	</div>
 	<div>
-		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span> 
 	</div>
 </div>
-<div style="color:red;font-size:20px;margin-top:15px">表的扩展文件App_Expert.js</div>
-<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+<div style="color:red;font-size:20px;">
+	表的扩展文件App_Expert.js
+</div>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 	<br />
 	<div>
-		<span style="color:#c586c0;">import</span>&nbsp;<span style="color:#9cdcfe;">gridHeader</span>&nbsp;<span style="color:#c586c0;">from</span>&nbsp;<span style="color:#ce9178;">'./App_Expert/App_ExpertGridHeader'</span>
+		<span style="color:#c586c0;">import</span>&nbsp;<span style="color:#9cdcfe;">gridHeader</span>&nbsp;<span style="color:#c586c0;">from</span>&nbsp;<span style="color:#ce9178;">'./App_Expert/App_ExpertGridHeader'</span> 
 	</div>
 	<div>
-		<span style="color:#6a9955;">//声明vue对象</span>
+		<span style="color:#6a9955;">//声明vue对象</span> 
 	</div>
 	<div>
 		<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">$this</span>;
@@ -905,10 +912,10 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelBody</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>,
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelFooter</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">modelFooter</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">''</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;},&nbsp;<span style="color:#6a9955;">//动态扩充组件或组件路径</span>
+		&nbsp;&nbsp;},&nbsp;<span style="color:#6a9955;">//动态扩充组件或组件路径</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;<span style="color:#9cdcfe;">buttons</span><span style="color:#9cdcfe;">:</span>&nbsp;{
@@ -923,7 +930,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'md-add'</span>,
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">index</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">1</span>,<span style="color:#6a9955;">//添加到第一个按钮后面</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">index</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#b5cea8;">1</span>,<span style="color:#6a9955;">//添加到第一个按钮后面</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'error'</span>,
@@ -944,19 +951,19 @@ export default {
 		&nbsp;&nbsp;},
 	</div>
 	<div>
-		&nbsp;&nbsp;<span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span>&nbsp;{&nbsp;<span style="color:#6a9955;">//事件扩展</span>
+		&nbsp;&nbsp;<span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span>&nbsp;{&nbsp;<span style="color:#6a9955;">//事件扩展</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置界面上最多可显示的按钮数量&nbsp;</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置界面上最多可显示的按钮数量&nbsp;</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">maxBtnLength</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">6</span>;
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;第2个弹出框操作</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;第2个弹出框操作</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">buttons</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#b5cea8;">2</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;...[{
@@ -1008,7 +1015,7 @@ export default {
 	</div>
 <br />
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;第3个弹出框操作</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;第3个弹出框操作</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
@@ -1020,13 +1027,13 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">formatter</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#ce9178;">'&lt;a&gt;(弹出框3)'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">Resume</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'&lt;/a&gt;'</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#ce9178;">'&lt;a&gt;(弹出框3)'</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">Resume</span>&nbsp;+&nbsp;<span style="color:#ce9178;">'&lt;/a&gt;'</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//绑定点击事件</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//绑定点击事件</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">click</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
@@ -1074,62 +1081,62 @@ export default {
         {
           title: "弹出框界面动态按钮",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-	<div>
+            `<div style="background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div style="color:#D4D4D4;">
 		&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在弹出框的第一个按钮后面动态添加一个按钮</span>
+	<div style="color:#D4D4D4;">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在弹出框的第一个按钮后面动态添加一个按钮</span> 
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#b5cea8;">0</span>,
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"button"</span>,
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'md-create'</span>,
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'Edit'</span>,
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'info'</span>,
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">hidden</span><span style="color:#9cdcfe;">:</span><span style="color:#569cd6;">false</span>,
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>&nbsp;()&nbsp;{
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"动态添加的button"</span>);
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenBefore</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{
 	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框打开时，将第1个按钮隐藏，第2个按钮禁用</span>
+	<div style="color:#D4D4D4;">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框打开时，将第1个按钮隐藏，第2个按钮禁用</span> 
+	</div>
+	<div style="color:#D4D4D4;">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>[<span style="color:#b5cea8;">0</span>],&nbsp;<span style="color:#ce9178;">'hidden'</span>,&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Add'</span>); <br>//vue3版本改为直接设置:<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#569CD6;">this</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">.</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#9CDCFE;">boxButtons</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">[</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#B5CEA8;">0</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">].hidden=<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#569CD6;">this</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">.</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#9CDCFE;">currentAction</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">&nbsp;==&nbsp;</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#CE9178;">'Add'</span></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>[<span style="color:#b5cea8;">0</span>],&nbsp;<span style="color:#ce9178;">'hidden'</span>,&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Add'</span>);
+		<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#569CD6;">this</span><span>.</span><span style="color:#DCDCAA;">$set</span><span>(</span><span style="color:#569CD6;">this</span><span>.</span><span style="color:#9CDCFE;">boxButtons</span><span>[</span><span style="color:#B5CEA8;">1</span><span>],&nbsp;</span><span style="color:#CE9178;">'disabled'</span><span>,&nbsp;</span><span style="color:#569CD6;">this</span><span>.</span><span style="color:#9CDCFE;">currentAction</span><span>&nbsp;==&nbsp;</span><span style="color:#CE9178;">'Add'</span><span>);</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;"><br>//vue3版本改为直接设置:</span><span style="color:#569CD6;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">this</span><span style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">.</span><span style="color:#9CDCFE;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">boxButtons</span><span style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">[</span><span style="background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;"><span>1]</span></span><span style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">.hidden=<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#569CD6;">this</span>.<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#9CDCFE;">currentAction</span>&nbsp;==&nbsp;<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#CE9178;">'Add'</span></span>
 	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>[<span style="color:#b5cea8;">1</span>],&nbsp;<span style="color:#ce9178;">'disabled'</span>,&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Add'</span>);
-	</div>
-	<div>
+	<div style="color:#D4D4D4;">
 		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
 </div>`,
@@ -3682,12 +3689,12 @@ export default {
         {
           title: "编辑表单动态显示隐藏select数据源",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 	<div>
 		&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenBefore</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//动态隐藏、显示下拉框的数据源(2021.05.16更新后volform.vue才能使用)</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//动态隐藏、显示下拉框的数据源(2021.05.16更新后volform.vue才能使用)</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
@@ -3705,10 +3712,10 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">kvItem</span>)&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//新建时间隐藏数据源字典==1的下拉项</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//新建时间隐藏数据源字典==1的下拉项</span> 
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">kvItem</span>,&nbsp;<span style="color:#ce9178;">"hidden"</span>,&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Add"</span>)
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">kvItem</span>,&nbsp;<span style="color:#ce9178;">"hidden"</span>,&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"Add"</span>) <span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;"><br>//vue3版本改为：</span><span style="background-color:#1E1E1E;color:#9CDCFE;font-family:Consolas, &quot;font-size:14px;">kvItem.hidden=<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#569CD6;">this</span><span style="color:#D4D4D4;">.</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#9CDCFE;">currentAction</span><span style="color:#D4D4D4;">&nbsp;==&nbsp;</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#CE9178;">"Add"</span></span><span style="color:#9CDCFE;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;"></span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -3736,113 +3743,229 @@ export default {
         {
           title: "编辑表单动态显示隐藏",
           content: [
-            `<div style='color:red'>2020-11-21后更新的才可以使用</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+            `<div style="color:red;">
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			<br />
+		</div>
+		<div>
+			&nbsp; <span style="color:#dcdcaa;">getFormOption</span> (<span style="color:#9cdcfe;">field</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">option</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span> <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span> == <span style="color:#9cdcfe;">field</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">option</span> = <span style="color:#9cdcfe;">item</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">option</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">//方式1,通过select选择触发显示与隐藏</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">onInit</span> () {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//获取订单类型select配置，当前订单类型select改变值时，动态设置Remark,SellNo两个字段是否显示 </span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">var</span> <span style="color:#9cdcfe;">orderTypeOption</span> = <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getFormOption</span>(<span style="color:#ce9178;">"OrderType"</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">orderTypeOption</span>.<span style="color:#dcdcaa;">onChange</span> = (<span style="color:#9cdcfe;">val</span>) <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//当订单类型select改变值时，如果选中的是发货(对应字典编号为2)，emark,SellNo隐藏，否则显示出来</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">var</span> <span style="color:#9cdcfe;">remarkOption</span> = <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getFormOption</span>(<span style="color:#ce9178;">"Remark"</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//vue3版本改为remarkOption.hidden=val == "2"</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">remarkOption</span>, <span style="color:#ce9178;">"hidden"</span>, <span style="color:#9cdcfe;">val</span> == <span style="color:#ce9178;">"2"</span>)
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">var</span> <span style="color:#9cdcfe;">sellNoOption</span> = <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getFormOption</span>(<span style="color:#ce9178;">"SellNo"</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//vue3版本改为sellNoOption.hidden=val == "2"</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">sellNoOption</span>, <span style="color:#ce9178;">"hidden"</span>, <span style="color:#9cdcfe;">val</span> == <span style="color:#ce9178;">"2"</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">//方式2,通过打开弹出框时触发显示与隐藏</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">modelOpenAfter</span> (<span style="color:#9cdcfe;">row</span>) { &nbsp;<span style="color:#6a9955;">//编辑或新建时，根据不同的情况控制字段是否显示 </span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; this.editFormOptions.forEach(x =&gt; {</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; x.forEach(item =&gt; {</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; if (item.field == "Remark" || item.field == "SellNo") {</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; //如果不是新建，则隐藏Remark,SellNo两个字段是否显示 </span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//也可以根据row当前编辑行的值来处理</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; //vue3版本改为item.hidden=val == this.currentAction != "Add"</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; this.$set(item, "hidden", this.currentAction != "Add")</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; }</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; })</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; })</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
+	</div>
+</div>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 	<div>
-		&nbsp;&nbsp;<span style="color:#dcdcaa;">getFormOption</span>&nbsp;(<span style="color:#9cdcfe;">field</span>)&nbsp;{
+		<span style="color:#dcdcaa;"></span><span style="color:#9cdcfe;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">option</span>;
+		<span style="color:#569cd6;"></span><span style="color:#9cdcfe;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		<span style="color:#569cd6;"></span><span style="color:#9cdcfe;"></span><span style="color:#dcdcaa;"></span><span style="color:#9cdcfe;"></span><span style="color:#569cd6;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		<span style="color:#9cdcfe;"></span><span style="color:#dcdcaa;"></span><span style="color:#9cdcfe;"></span><span style="color:#569cd6;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#9cdcfe;">field</span>)&nbsp;{
+		<span style="color:#c586c0;"></span><span style="color:#9cdcfe;"></span><span style="color:#9cdcfe;"></span><span style="color:#9cdcfe;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">option</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">item</span>;
+		<span style="color:#9cdcfe;"></span><span style="color:#9cdcfe;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">option</span>;
+		<span style="color:#c586c0;"></span><span style="color:#9cdcfe;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//方式1,通过select选择触发显示与隐藏</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
+		<span style="color:#dcdcaa;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取订单类型select配置，当前订单类型select改变值时，动态设置Remark,SellNo两个字段是否显示&nbsp;</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">orderTypeOption</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getFormOption</span>(<span style="color:#ce9178;">"OrderType"</span>);
+		<span style="color:#569cd6;"></span><span style="color:#9cdcfe;"></span><span style="color:#569cd6;"></span><span style="color:#dcdcaa;"></span><span style="color:#ce9178;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">orderTypeOption</span>.<span style="color:#dcdcaa;">onChange</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">val</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		<span style="color:#9cdcfe;"></span><span style="color:#dcdcaa;"></span><span style="color:#9cdcfe;"></span><span style="color:#569cd6;"></span>
 	</div>
 <br />
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//当订单类型select改变值时，如果选中的是发货(对应字典编号为2)，emark,SellNo隐藏，否则显示出来</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">remarkOption</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getFormOption</span>(<span style="color:#ce9178;">"Remark"</span>);
+		<span style="color:#569cd6;"></span><span style="color:#9cdcfe;"></span><span style="color:#569cd6;"></span><span style="color:#dcdcaa;"></span><span style="color:#ce9178;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">remarkOption</span>,&nbsp;<span style="color:#ce9178;">"hidden"</span>,&nbsp;<span style="color:#9cdcfe;">val</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"2"</span>)
+		<span style="color:#569cd6;"></span><span style="color:#dcdcaa;"></span><span style="color:#9cdcfe;"></span><span style="color:#ce9178;"></span><span style="color:#9cdcfe;"></span><span style="color:#ce9178;"></span>
 	</div>
 <br />
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">sellNoOption</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getFormOption</span>(<span style="color:#ce9178;">"SellNo"</span>);
+		<span style="color:#569cd6;"></span><span style="color:#9cdcfe;"></span><span style="color:#569cd6;"></span><span style="color:#dcdcaa;"></span><span style="color:#ce9178;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">sellNoOption</span>,&nbsp;<span style="color:#ce9178;">"hidden"</span>,&nbsp;<span style="color:#9cdcfe;">val</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"2"</span>)
+		<span style="color:#569cd6;"></span><span style="color:#dcdcaa;"></span><span style="color:#9cdcfe;"></span><span style="color:#ce9178;"></span><span style="color:#9cdcfe;"></span><span style="color:#ce9178;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//方式2,通过打开弹出框时触发显示与隐藏</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span>&nbsp;(<span style="color:#9cdcfe;">row</span>)&nbsp;{&nbsp;&nbsp;<span style="color:#6a9955;">//编辑或新建时，根据不同的情况控制字段是否显示&nbsp;</span>
+		<span style="color:#dcdcaa;"></span><span style="color:#9cdcfe;"></span><span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;this.editFormOptions.forEach(x&nbsp;=&gt;&nbsp;{</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x.forEach(item&nbsp;=&gt;&nbsp;{</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(item.field&nbsp;==&nbsp;"Remark"&nbsp;||&nbsp;item.field&nbsp;==&nbsp;"SellNo")&nbsp;{</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//如果不是新建，则隐藏Remark,SellNo两个字段是否显示&nbsp;</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//也可以根据row当前编辑行的值来处理</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.$set(item,&nbsp;"hidden",&nbsp;this.currentAction&nbsp;!=&nbsp;"Add")</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;})</span>
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
 </div>`,
           ],
@@ -3857,64 +3980,65 @@ export default {
         {
           title: "编辑表单只读/默认值",
           content: [
-            `<span style="display:none;"></span><span style="line-height:2;font-size:18px;">
-<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span>()&nbsp;{
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">modelOpenAfter</span>() {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取当前弹出框是新建还是编辑状态</span>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//获取当前弹出框是新建还是编辑状态</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">isEDIT</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span>&nbsp;==&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">const</span>.<span style="color:#4fc1ff;">EDIT</span>;
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">isEDIT</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span> == <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">const</span>.<span style="color:#4fc1ff;">EDIT</span>;
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//点击弹出框后，如果是编辑状态，禁止编辑帐号，如果新建状态，将帐号字段设置为可编辑</span>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//点击弹出框后，如果是编辑状态，禁止编辑帐号，如果新建状态，将帐号字段设置为可编辑</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span> <span style="color:#569cd6;">=&gt;</span> {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果是编辑帐号设置为只读</span>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果是编辑帐号设置为只读</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"UserName"</span>)&nbsp;{
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span> == <span style="color:#ce9178;">"UserName"</span>) {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//disabled是editFormOptions的动态属性，这里只能通过this.$set修改值</span>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//disabled是editFormOptions的动态属性，这里只能通过this.$set修改值</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">x</span>,&nbsp;<span style="color:#ce9178;">"disabled"</span>,&nbsp;<span style="color:#9cdcfe;">isEDIT</span>)
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//vue3版本改为设置：x.disabled=isEDIT</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">x</span>, <span style="color:#ce9178;">"disabled"</span>, <span style="color:#9cdcfe;">isEDIT</span>)
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//不是新建，性别默认值设置为男</span>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; })
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(!<span style="color:#9cdcfe;">isEDIT</span>)&nbsp;{
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//不是新建，性别默认值设置为男</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Gender</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"0"</span>;
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (!<span style="color:#9cdcfe;">isEDIT</span>) {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Gender</span> = <span style="color:#ce9178;">"0"</span>;
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; })
 	</div>
-</div>
-</span><span style="line-height:1.5;font-size:18px;"></span><br />`,
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</div>
+</div>`,
           ],
           tips: ``,
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/26.png?imageMogr2/thumbnail/!35p",
@@ -4476,8 +4600,8 @@ export default {
         {
           title: "编辑select触发只读",
           content: [
-            `<span style="display:none;"></span><span style="line-height:2;font-size:18px;">
-<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+            `<span></span><span style="font-size:18px;"> 
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-size:14px;">
 	<div>
 		&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">getFormOption</span>(<span style="color:#9cdcfe;">field</span>)&nbsp;{
 	</div>
@@ -4515,7 +4639,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取[城市]字段下拉框的配置，并绑定onChange事件</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取[城市]字段下拉框的配置，并绑定onChange事件</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">selectOption</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getFormOption</span>(<span style="color:#ce9178;">'City'</span>);
@@ -4524,19 +4648,19 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">selectOption</span>.<span style="color:#dcdcaa;">onChange</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">val</span>,&nbsp;<span style="color:#9cdcfe;">item</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//触发onChange事件时，价格字段设置为只读</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//触发onChange事件时，价格字段设置为只读</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">priceOption</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getFormOption</span>(<span style="color:#ce9178;">"AvgPrice"</span>);
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果select选中的值是[北京市]，将价格字段设置为只读,日期字段设置为'2020-08-26'</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果select选中的值是[北京市]，将价格字段设置为只读,日期字段设置为'2020-08-26'</span> 
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">val</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"北京市"</span>)&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">priceOption</span>,&nbsp;<span style="color:#ce9178;">"disabled"</span>,&nbsp;<span style="color:#569cd6;">true</span>);
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">priceOption</span>,&nbsp;<span style="color:#ce9178;">"disabled"</span>,&nbsp;<span style="color:#569cd6;">true</span>);&nbsp; //vue3版本改为直接设置：<span style="color:#9CDCFE;font-size:14px;background-color:#1E1E1E;">priceOpti</span><span style="color:#9CDCFE;font-size:14px;background-color:#1E1E1E;">on.<span style="color:#CE9178;font-size:14px;background-color:#1E1E1E;">disabled=true</span></span><span id="__kindeditor_bookmark_start_236__"></span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Date</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'2020-08-26'</span>;
@@ -4545,7 +4669,7 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span style="color:#c586c0;">else</span>&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">priceOption</span>,&nbsp;<span style="color:#ce9178;">"disabled"</span>,&nbsp;<span style="color:#569cd6;">false</span>);
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">priceOption</span>,&nbsp;<span style="color:#ce9178;">"disabled"</span>,&nbsp;<span style="color:#569cd6;">false</span>);&nbsp;<span style="color:#D4D4D4;font-size:14px;background-color:#1E1E1E;">&nbsp;//vue3版本改为直接设置：</span><span style="font-size:14px;color:#9CDCFE;background-color:#1E1E1E;">priceOpti</span><span style="font-size:14px;color:#9CDCFE;background-color:#1E1E1E;">on.<span style="color:#CE9178;">disabled=false</span></span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Date</span>&nbsp;=&nbsp;<span style="color:#ce9178;">'2030-12-11'</span>;

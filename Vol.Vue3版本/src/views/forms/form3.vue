@@ -78,7 +78,7 @@ export default {
         Variety: "",
         AgeRange: "",
         DateRange: ["", ""],
-        City: "",
+        City: [],
         AvgPrice: 8.88, //input标签如果是数字，此处注意区分不要写成字符串了
         Date: "",
         IsTop: 0,
