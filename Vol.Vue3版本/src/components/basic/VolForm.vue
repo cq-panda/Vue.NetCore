@@ -296,7 +296,14 @@
               "
               :ref="item.field"
             />
-
+            <el-input-number
+              style="width: 100%"
+              v-else-if="item.type == 'number'"
+              v-model="formFields[item.field]"
+              :min="item.min"
+              :max="item.max"
+              controls-position="right"
+            />
             <el-input
               clearable
               v-else-if="item.type == 'password'"
@@ -1104,7 +1111,12 @@ export default defineComponent({
           validator: (rule, value, callback) => {
             if (this.isReadonly(item)) return callback();
             //2021.11.27修复多选没有提示的问题
-            if (!value || !(value instanceof Array) || !value.length) {
+            if (value == undefined || value === "") {
+              return callback(new Error(rule.message));
+            } else if (
+              (item.type == "checkbox"||item.type=='selectList') &&
+              (!(value instanceof Array) || !value.length)
+            ) {
               return callback(new Error(rule.message));
             }
             return callback();
