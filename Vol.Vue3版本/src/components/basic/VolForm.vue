@@ -1103,7 +1103,8 @@ export default defineComponent({
           trigger: "change",
           validator: (rule, value, callback) => {
             if (this.isReadonly(item)) return callback();
-            if (value == undefined || value === "") {
+            //2021.11.27修复多选没有提示的问题
+            if (!value || !(value instanceof Array) || !value.length) {
               return callback(new Error(rule.message));
             }
             return callback();
