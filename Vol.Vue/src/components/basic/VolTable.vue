@@ -150,6 +150,7 @@
                         )
                     "
                     clearable
+                    :disabled="column.readonly"
                   >
                     <Option
                       v-for="(kv, kvIndex) in getSelectedOptions(column)"
