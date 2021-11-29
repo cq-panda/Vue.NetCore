@@ -150,11 +150,13 @@
                         )
                     "
                     clearable
+                    :disabled="column.readonly"
                   >
                     <Option
                       v-for="(kv, kvIndex) in getSelectedOptions(column)"
                       :key="kvIndex"
                       :value="kv.key === undefined ? '' : kv.key"
+                      v-show="!kv.hidden"
                       >{{ kv.value }}</Option
                     >
                   </Select>
