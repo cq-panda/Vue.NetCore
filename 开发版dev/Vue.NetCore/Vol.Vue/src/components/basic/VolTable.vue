@@ -142,12 +142,15 @@
                     "
                     :placeholder="'请选择' + column.title"
                     @on-change="
-                      column.onChange &&
+                      (value) => {
+                        column.onChange &&
                         column.onChange(
                           column,
                           scope.row,
-                          url ? rowData : tableData
+                          url ? rowData : tableData,
+                          value
                         )
+                      }
                     "
                     clearable
                     :disabled="column.readonly"
