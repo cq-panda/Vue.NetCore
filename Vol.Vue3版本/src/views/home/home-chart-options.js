@@ -73,12 +73,13 @@ var chart2 = {
         left: '3%',
         right: '4%',
         bottom: '3%',
+        top:'13%',
         containLabel: true
     },
     xAxis: [
         {
             type: 'category',
-            data: ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021']
+            data: [ '2015', '2016', '2017', '2018', '2019', '2020', '2021']
         }
     ],
     yAxis: [
@@ -100,7 +101,7 @@ var chart2 = {
                     barBorderRadius: [4, 4, 0, 0]
                 }
             },
-            data: [520, 432, 501, 334, 390, 730, 620, 420, 932, 701, 834, 890]
+            data: [ 730, 620, 420, 932, 701, 834, 890]
         },
         {
             name: '3.0下载量',
@@ -110,7 +111,7 @@ var chart2 = {
             backgroundStyle: {
                 color: 'rgba(180, 180, 180, 0.2)'
             },
-            data: [90, 132, 121, 134, 190, 230, 210, 120, 132, 101, 134, 90]
+            data: [230, 210, 120, 132, 101, 134, 90]
         }
     ]
 }
@@ -158,4 +159,90 @@ var chart3 = {
         }
     ]
 }
-export { chart1, chart2, chart3 }
+var chart4={
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        // Use axis to trigger tooltip
+        type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
+      }
+    },
+    legend: {},
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        top:'13%',
+        containLabel: true
+    },
+    xAxis: {
+      type: 'value'
+    },
+    yAxis: {
+      type: 'category',
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    series: [
+      {
+        name: 'Direct',
+        type: 'bar',
+        stack: 'total',
+        label: {
+          show: true
+        },
+        emphasis: {
+          focus: 'series'
+        },
+        data: [320, 302, 301, 334, 390, 330, 320]
+      },
+      {
+        name: 'Mail Ad',
+        type: 'bar',
+        stack: 'total',
+        label: {
+          show: true
+        },
+        emphasis: {
+          focus: 'series'
+        },
+        data: [120, 132, 101, 134, 90, 230, 210]
+      },
+      {
+        name: 'Affiliate Ad',
+        type: 'bar',
+        stack: 'total',
+        label: {
+          show: true
+        },
+        emphasis: {
+          focus: 'series'
+        },
+        data: [220, 182, 191, 234, 290, 330, 310]
+      },
+      {
+        name: 'Video Ad',
+        type: 'bar',
+        stack: 'total',
+        label: {
+          show: true
+        },
+        emphasis: {
+          focus: 'series'
+        },
+        data: [150, 212, 201, 154, 190, 330, 410]
+      },
+      {
+        name: 'Search Engine',
+        type: 'bar',
+        stack: 'total',
+        label: {
+          show: true
+        },
+        emphasis: {
+          focus: 'series'
+        },
+        data: [820, 832, 901, 934, 1290, 1330, 1320]
+      }
+    ]
+  }
+export { chart1, chart2, chart3,chart4 }

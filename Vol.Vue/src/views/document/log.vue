@@ -49,6 +49,18 @@ export default {
       active: 0,
       log: [
         { date: "2021.11", type: "month" },
+        { date: "2021-11-27 23:45:51", desc: "优化vue2版本volheader样式" },
+        { date: "2021-11-27 23:44:10", desc: "增加vue3版本文档" },
+        { date: "2021-11-27 23:27:15", desc: "增加取消跨域文档" },
+        { date: "2021-11-27 23:07:52", desc: "修复多选没有提示的问题" },
+        {
+          date: "2021-11-27 22:40:24",
+          desc: "修复vue3版本表单多选校验没有提示的问题",
+        },
+        {
+          date: "2021-11-27 22:32:41",
+          desc: "升级element plus到1.0.2-beta.71(更新package.json文件后执行npm install)",
+        },
         {
           date: "2021-11-21 21:45:39",
           desc: "修复vue3版本vol-table编辑日期时前缀被挡住的问题",
