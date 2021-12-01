@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using System;
@@ -75,6 +75,11 @@ namespace VOL.Core.BaseProvider
         protected virtual void Init(IRepository<T> repository)
         {
 
+        }
+
+        protected virtual Type GetRealDetailType()
+        {
+            return typeof(T).GetCustomAttribute<EntityAttribute>()?.DetailTable?[0];
         }
 
         /// <summary>
@@ -530,7 +535,7 @@ namespace VOL.Core.BaseProvider
                 return Response;
             }
 
-            Type detailType = typeof(T).GetCustomAttribute<EntityAttribute>().DetailTable[0];
+            Type detailType = GetRealDetailType();
 
             return typeof(ServiceBase<T, TRepository>)
                 .GetMethod("Add", BindingFlags.Instance | BindingFlags.NonPublic)
@@ -868,7 +873,7 @@ namespace VOL.Core.BaseProvider
                     ? new List<Dictionary<string, object>>()
                     : saveModel.DetailData.Where(x => x.Count > 0).ToList();
 
-                detailType = typeof(T).GetCustomAttribute<EntityAttribute>().DetailTable[0];
+                detailType = GetRealDetailType();
 
                 result = detailType.ValidateDicInEntity(saveModel.DetailData, true, false, new string[] { mainKeyProperty.Name });
                 if (result != string.Empty) return Response.Error(result);
@@ -1058,7 +1063,7 @@ namespace VOL.Core.BaseProvider
             }
             if (delList)
             {
-                Type detailType = entityType.GetCustomAttribute<EntityAttribute>()?.DetailTable?[0];
+                Type detailType = GetRealDetailType();
                 if (detailType != null)
                 {
                     if (DBType.Name == DbCurrentType.PgSql.ToString())
