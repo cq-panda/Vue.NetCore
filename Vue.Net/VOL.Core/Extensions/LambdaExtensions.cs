@@ -320,6 +320,27 @@ namespace VOL.Core.Extensions
 
             IOrderedQueryable<TEntity> queryableOrderBy = null;
             //  string orderByKey = orderByKeys[^1];
+            string orderByKey = orderByKeys[0];
+            queryableOrderBy = orderBySelector[orderByKey] == QueryOrderBy.Desc
+                ? queryableOrderBy = queryable.OrderByDescending(orderByKey.GetExpression<TEntity>())
+                : queryable.OrderBy(orderByKey.GetExpression<TEntity>());
+
+            for (int i = 1; i<orderByKeys.Length ; i++)
+            {
+                queryableOrderBy = orderBySelector[orderByKeys[i]] == QueryOrderBy.Desc
+                    ? queryableOrderBy.ThenByDescending(orderByKeys[i].GetExpression<TEntity>())
+                    : queryableOrderBy.ThenBy(orderByKeys[i].GetExpression<TEntity>());
+            }
+            return queryableOrderBy;
+        }
+        /*多字段排序时，优先级为从后面到前面
+         * public static IQueryable<TEntity> GetIQueryableOrderBy<TEntity>(this IQueryable<TEntity> queryable, Dictionary<string, QueryOrderBy> orderBySelector)
+        {
+            string[] orderByKeys = orderBySelector.Select(x => x.Key).ToArray();
+            if (orderByKeys == null || orderByKeys.Length == 0) return queryable;
+
+            IOrderedQueryable<TEntity> queryableOrderBy = null;
+            //  string orderByKey = orderByKeys[^1];
             string orderByKey = orderByKeys[orderByKeys.Length - 1];
             queryableOrderBy = orderBySelector[orderByKey] == QueryOrderBy.Desc
                 ? queryableOrderBy = queryable.OrderByDescending(orderByKey.GetExpression<TEntity>())
@@ -333,6 +354,7 @@ namespace VOL.Core.Extensions
             }
             return queryableOrderBy;
         }
+        */
 
         /// <summary>
         /// 获取对象表达式指定属性的值
