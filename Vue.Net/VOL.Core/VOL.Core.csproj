@@ -38,6 +38,7 @@
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
     <PackageReference Include="CSRedisCore" Version="3.6.5" />
     <PackageReference Include="Dapper" Version="1.50.5" />
     <PackageReference Include="EFCore.BulkExtensions" Version="2.2.2" />

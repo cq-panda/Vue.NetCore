@@ -23,6 +23,8 @@ using Newtonsoft.Json;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
+using VOL.Core.KafkaManager.IService;
+using VOL.Core.KafkaManager.Service;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
 
@@ -153,6 +155,9 @@ namespace VOL.WebApi
                     "https://*/404";
             });
             //ApiBehaviorOptions
+            //×¢Èëkafka
+            services.AddSingleton<IKafkaConsumer<string, string>, KafkaConsumer<string, string>>();
+            services.AddSingleton<IKafkaProducer<string, string>, KafkaProducer<string, string>>();
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
