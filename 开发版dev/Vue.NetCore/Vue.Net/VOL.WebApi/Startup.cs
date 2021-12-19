@@ -177,7 +177,7 @@ namespace VOL.WebApi
             string _uploadPath = (env.ContentRootPath + "/Upload").ReplacePath();
 
             if (!Directory.Exists(_uploadPath))
-            {
+            {    
                 Directory.CreateDirectory(_uploadPath);
             }
 
@@ -201,6 +201,7 @@ namespace VOL.WebApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "VOL.Core后台Api");
+                c.RoutePrefix = ""; 
             });
             app.UseRouting();
             //UseCors,UseAuthenticationg两个位置的顺序很重要 
@@ -209,9 +210,7 @@ namespace VOL.WebApi
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=ApiHome}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }
