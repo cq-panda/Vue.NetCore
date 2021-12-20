@@ -121,6 +121,63 @@ namespace VOL.Core.KafkaManager.Service
         }
 
         /// <summary>
+        /// 批量订阅回调模式-消费(持续订阅)
+        /// </summary>
+        /// <param name="Func">回调函数,若配置为非自动提交(默认为否),则通过回调函数的返回值判断是否提交</param>
+        /// <param name="Topic">主题</param>
+        public void ConsumeBatch(Func<ConsumeResult<TKey, TValue>, bool> Func, List<string> Topics)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var builder = new ConsumerBuilder<TKey, TValue>(ConsumerConfig);
+                //设置反序列化方式
+                builder.SetValueDeserializer(new KafkaDConverter<TValue>());
+                builder.SetErrorHandler((_, e) =>
+                {
+                    Logger.Error(LoggerType.KafkaException, null, null, $"Error:{e.Reason}");
+                }).SetStatisticsHandler((_, json) =>
+                {
+                    Console.WriteLine($"-{DateTime.Now:yyyy-MM-dd HH:mm:ss} > 消息监听中..");
+                }).SetPartitionsAssignedHandler((c, partitions) =>
+                {
+                    string partitionsStr = string.Join(", ", partitions);
+                    Console.WriteLine($"-分配的kafka分区:{partitionsStr}");
+                }).SetPartitionsRevokedHandler((c, partitions) =>
+                {
+                    string partitionsStr = string.Join(", ", partitions);
+                    Console.WriteLine($"-回收了kafka的分区:{partitionsStr}");
+                });
+                using var consumer = builder.Build();
+                consumer.Subscribe(Topics);
+                while (AppSetting.Kafka.IsConsumerSubscribe) //true
+                {
+                    ConsumeResult<TKey, TValue> result = null;
+                    try
+                    {
+                        result = consumer.Consume();
+                        if (result.IsPartitionEOF) continue;
+                        if (Func(result))
+                        {
+                            if (!(bool)ConsumerConfig.EnableAutoCommit)
+                            {
+                                //手动提交，如果上面的EnableAutoCommit=true表示自动提交，则无需调用Commit方法
+                                consumer.Commit(result);
+                            }
+                        }
+                    }
+                    catch (ConsumeException ex)
+                    {
+                        Logger.Error(LoggerType.KafkaException, $"Topic:{Topics.ToArray()},{ex.Error.Reason}", null, ex.Message + ex.StackTrace);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(LoggerType.KafkaException, $"Topic:{result.Topic}", null, ex.Message + ex.StackTrace);
+                    }
+                }
+            });
+        }
+
+        /// <summary>
         /// 批量消费模式-单次消费(消费出当前Kafka缓存的所有数据,并持续监听 300ms,如无新数据生产,则返回(最多一次消费 100条)
         /// </summary>
         /// <param name="Topic">主题</param>

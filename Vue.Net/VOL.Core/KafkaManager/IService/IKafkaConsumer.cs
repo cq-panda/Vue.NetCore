@@ -15,6 +15,13 @@ namespace VOL.Core.KafkaManager.IService
         void Consume(Func<ConsumeResult<TKey, TValue>, bool> Func, string Topic);
 
         /// <summary>
+        /// 批量订阅回调模式-消费(持续订阅)
+        /// </summary>
+        /// <param name="Func">回调函数,若配置为非自动提交(默认为否),则通过回调函数的返回值判断是否提交</param>
+        /// <param name="Topics">主题集合</param>
+        void ConsumeBatch(Func<ConsumeResult<TKey, TValue>, bool> Func, List<string> Topics);
+
+        /// <summary>
         /// 批量消费模式-单次消费(消费出当前Kafka缓存的所有数据,并持续监听 300ms,如无新数据生产,则返回(最多一次消费 100条)
         /// </summary>
         /// <param name="Topic">主题</param>
