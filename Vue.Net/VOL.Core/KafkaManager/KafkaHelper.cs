@@ -68,7 +68,7 @@ namespace VOL.Core.KafkaManager
         }
     }
 
-    #region 实现消息序列化和反序列化的接口
+    #region 实现消息序列化和反序列化
     public class KafkaConverter<T> : ISerializer<T>
     {
         /// <summary>
@@ -112,12 +112,12 @@ namespace VOL.Core.KafkaManager
 
     #region 日志类
     /// <summary>
-    /// 默认日志类
+    /// 默认日志类 可自行构造使用
     /// </summary>
     public class KafkaLogModel
     {
         /// <summary>
-        /// 构造默认日志类(设置默认值 ServerIp,ServerName,TimeStamp,TimeStamp,ApplicationVersion)
+        /// 构造默认日志类(设置默认值 ServerIp,ServerName,TimeStamp,ApplicationVersion)
         /// </summary>
         public KafkaLogModel()
         {

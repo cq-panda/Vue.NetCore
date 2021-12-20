@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using VOL.Core.Configuration;
+using VOL.Core.Enums;
 using VOL.Core.KafkaManager.IService;
+using VOL.Core.Services;
 
 namespace VOL.Core.KafkaManager.Service
 {
@@ -17,7 +19,7 @@ namespace VOL.Core.KafkaManager.Service
     public class KafkaConsumer<TKey, TValue> : KafkaConfig, IKafkaConsumer<TKey, TValue>
     {
         /// <summary>
-        ///  Kafka地址(包含端口号) 默认为 127.0.0.1:9092
+        ///  Kafka地址(包含端口号)
         /// </summary>
         public string Servers
         {
@@ -75,7 +77,7 @@ namespace VOL.Core.KafkaManager.Service
                 builder.SetValueDeserializer(new KafkaDConverter<TValue>());
                 builder.SetErrorHandler((_, e) =>
                 {
-                    Console.WriteLine($"Error:{e.Reason}");
+                    Logger.Error(LoggerType.KafkaException, null, null, $"Error:{e.Reason}");
                 }).SetStatisticsHandler((_, json) =>
                 {
                     Console.WriteLine($"-{DateTime.Now:yyyy-MM-dd HH:mm:ss} > 消息监听中..");
@@ -92,19 +94,15 @@ namespace VOL.Core.KafkaManager.Service
                 consumer.Subscribe(Topic);
                 while (AppSetting.Kafka.IsConsumerSubscribe) //true
                 {
-                    var result = consumer.Consume();
+                    ConsumeResult<TKey, TValue> result = null;
                     try
                     {
-                        if (result.IsPartitionEOF)
-                        {
-                            //WriteLog($"Reached end of topic {consumeResult.Topic}, partition {consumeResult.Partition}, offset {consumeResult.Offset}.");
-                            continue;
-                        }
+                        result = consumer.Consume();
+                        if (result.IsPartitionEOF) continue;
                         if (Func(result))
                         {
                             if (!(bool)ConsumerConfig.EnableAutoCommit)
                             {
-                                //WriteLog($"Reached end of topic {consumeResult.Topic}, partition {consumeResult.Partition}, offset {consumeResult.Offset}.");
                                 //手动提交，如果上面的EnableAutoCommit=true表示自动提交，则无需调用Commit方法
                                 consumer.Commit(result);
                             }
@@ -112,11 +110,68 @@ namespace VOL.Core.KafkaManager.Service
                     }
                     catch (ConsumeException ex)
                     {
-                        Console.WriteLine($"Error occured: {ex.Error.Reason}");
+                        Logger.Error(LoggerType.KafkaException, $"Topic:{Topic},{ex.Error.Reason}", null, ex.Message + ex.StackTrace);
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Topic:{result.Topic},Message:{result.Value},Error occured: {ex.StackTrace}");
+                        Logger.Error(LoggerType.KafkaException, $"Topic:{result.Topic}", null, ex.Message + ex.StackTrace);
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        /// 批量订阅回调模式-消费(持续订阅)
+        /// </summary>
+        /// <param name="Func">回调函数,若配置为非自动提交(默认为否),则通过回调函数的返回值判断是否提交</param>
+        /// <param name="Topic">主题</param>
+        public void ConsumeBatch(Func<ConsumeResult<TKey, TValue>, bool> Func, List<string> Topics)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var builder = new ConsumerBuilder<TKey, TValue>(ConsumerConfig);
+                //设置反序列化方式
+                builder.SetValueDeserializer(new KafkaDConverter<TValue>());
+                builder.SetErrorHandler((_, e) =>
+                {
+                    Logger.Error(LoggerType.KafkaException, null, null, $"Error:{e.Reason}");
+                }).SetStatisticsHandler((_, json) =>
+                {
+                    Console.WriteLine($"-{DateTime.Now:yyyy-MM-dd HH:mm:ss} > 消息监听中..");
+                }).SetPartitionsAssignedHandler((c, partitions) =>
+                {
+                    string partitionsStr = string.Join(", ", partitions);
+                    Console.WriteLine($"-分配的kafka分区:{partitionsStr}");
+                }).SetPartitionsRevokedHandler((c, partitions) =>
+                {
+                    string partitionsStr = string.Join(", ", partitions);
+                    Console.WriteLine($"-回收了kafka的分区:{partitionsStr}");
+                });
+                using var consumer = builder.Build();
+                consumer.Subscribe(Topics);
+                while (AppSetting.Kafka.IsConsumerSubscribe) //true
+                {
+                    ConsumeResult<TKey, TValue> result = null;
+                    try
+                    {
+                        result = consumer.Consume();
+                        if (result.IsPartitionEOF) continue;
+                        if (Func(result))
+                        {
+                            if (!(bool)ConsumerConfig.EnableAutoCommit)
+                            {
+                                //手动提交，如果上面的EnableAutoCommit=true表示自动提交，则无需调用Commit方法
+                                consumer.Commit(result);
+                            }
+                        }
+                    }
+                    catch (ConsumeException ex)
+                    {
+                        Logger.Error(LoggerType.KafkaException, $"Topic:{Topics.ToArray()},{ex.Error.Reason}", null, ex.Message + ex.StackTrace);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(LoggerType.KafkaException, $"Topic:{result.Topic}", null, ex.Message + ex.StackTrace);
                     }
                 }
             });
@@ -142,23 +197,18 @@ namespace VOL.Core.KafkaManager.Service
                 try
                 {
                     var result = consumer.Consume(TimeSpan.FromMilliseconds(TimeOut));
-                    if (result == null)
-                    {
-                        break;
-                    }
+                    if (result == null) break;
                     else
                     {
                         Res.Add(result);
                         //手动提交，如果上面的EnableAutoCommit=true表示自动提交，则无需调用Commit方法
                         consumer.Commit();
                     }
-                    if (Res.Count > MaxRow)
-                    {
-                        break;
-                    }
+                    if (Res.Count > MaxRow) break;
                 }
                 catch (Exception ex)
                 {
+                    Logger.Error(LoggerType.KafkaException, $"Topic:{Topic}", null, ex.Message + ex.StackTrace);
                     return null;
                 }
             }
@@ -190,6 +240,7 @@ namespace VOL.Core.KafkaManager.Service
             }
             catch (Exception ex)
             {
+                Logger.Error(LoggerType.KafkaException, $"Topic:{Topic}", null, ex.Message + ex.StackTrace);
                 return null;
             }
         }

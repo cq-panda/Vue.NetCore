@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using VOL.Core.Enums;
 using VOL.Core.KafkaManager.IService;
+using VOL.Core.Services;
 
 namespace VOL.Core.KafkaManager.Service
 {
@@ -23,7 +25,7 @@ namespace VOL.Core.KafkaManager.Service
         }
 
         /// <summary>
-        ///  Kafka地址(包含端口号) 默认为 127.0.0.1:9092
+        ///  Kafka地址(包含端口号)
         /// </summary>
         public string Servers
         {
@@ -56,14 +58,13 @@ namespace VOL.Core.KafkaManager.Service
                     Value = Value
                 }, (result) =>
                 {
-                    //日志
-                    //WriteLog(!result.Error.IsError ? $"Delivered message to {result.TopicPartitionOffset}" : $"Delivery Error:{result.Error.Reason}");
+                    if (result.Error.IsError)
+                        Logger.Error(LoggerType.KafkaException, $"Topic:{Topic},ServerIp:{KafkaHelper.GetServerIp()},ServerName:{ KafkaHelper.GetServerName()}", null, $"Delivery Error:{result.Error.Reason}");
                 });//Value = JsonConvert.SerializeObject(value)
-                Console.WriteLine($"Key:{Key}  Value:{Value}");
             }
-            catch (ProduceException<Null, string> e)
+            catch (ProduceException<Null, string> ex)
             {
-                Console.WriteLine($"Delivery failed: {e.Error.Reason}");
+                Logger.Error(LoggerType.KafkaException, $"Topic:{Topic},Delivery failed: { ex.Error.Reason}", null, ex.Message + ex.StackTrace);
             }
         }
 
@@ -77,16 +78,20 @@ namespace VOL.Core.KafkaManager.Service
         public async Task ProduceAsync(TKey Key, TValue Value, string Topic)
         {
             var producerBuilder = new ProducerBuilder<TKey, TValue>(ProducerConfig);
-            producerBuilder.SetValueSerializer(new KafkaConverter<TValue>());//设置序列化方式
+            producerBuilder.SetValueSerializer(new KafkaConverter<TValue>());
             using var producer = producerBuilder.Build();
             try
             {
-                var dr = await producer.ProduceAsync(Topic, new Message<TKey, TValue> { Key = Key, Value = Value });
-                Console.WriteLine($"Delivered '{dr.Value}' to '{dr.TopicPartitionOffset}'");
+                var dr = await producer.ProduceAsync(Topic, new Message<TKey, TValue>
+                {
+                    Key = Key,
+                    Value = Value
+                });
+                //Console.WriteLine($"Delivered '{dr.Value}' to '{dr.TopicPartitionOffset}'");
             }
-            catch (ProduceException<Null, string> e)
+            catch (ProduceException<Null, string> ex)
             {
-                Console.WriteLine($"Delivery failed: {e.Error.Reason}");
+                Logger.Error(LoggerType.KafkaException, $"Topic:{Topic},ServerIp:{KafkaHelper.GetServerIp()},ServerName:{ KafkaHelper.GetServerName()},Delivery failed: { ex.Error.Reason}", null, ex.Message + ex.StackTrace);
             }
         }
     }
