@@ -17,9 +17,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
@@ -117,9 +119,17 @@ namespace VOL.WebApi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VOL.Core后台Api", Version = "v1" });
-                var security = new Dictionary<string, IEnumerable<string>>
-                { { AppSetting.Secret.Issuer, new string[] { } }};
+                //分为2份接口文档
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VOL.Core后台Api", Version = "v1",Description="这是对文档的描述。。" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "VOL.Core对外三方Api", Version = "v2", Description = "xxx接口文档" });  //控制器里使用[ApiExplorerSettings(GroupName = "v2")]              
+                //启用中文注释功能
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var xmlPath = Path.Combine(basePath, "VOL.WebApi.xml");
+                c.IncludeXmlComments(xmlPath);
+                //添加过滤器
+                c.DocumentFilter<SwaggerDocTag>();
+
+                var security = new Dictionary<string, IEnumerable<string>> { { AppSetting.Secret.Issuer, new string[] { } } };
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Description = "JWT授权token前面需要加上字段Bearer与一个空格,如Bearer token",
@@ -182,7 +192,7 @@ namespace VOL.WebApi
             string _uploadPath = (env.ContentRootPath + "/Upload").ReplacePath();
 
             if (!Directory.Exists(_uploadPath))
-            {    
+            {
                 Directory.CreateDirectory(_uploadPath);
             }
 
@@ -205,8 +215,10 @@ namespace VOL.WebApi
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
+                //2个下拉框选项  选择对应的文档
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "VOL.Core后台Api");
-                c.RoutePrefix = ""; 
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "测试第三方Api");
+                c.RoutePrefix = "";
             });
             app.UseRouting();
             //UseCors,UseAuthenticationg两个位置的顺序很重要 
@@ -217,6 +229,27 @@ namespace VOL.WebApi
             {
                 endpoints.MapControllers();
             });
+        }
+    }
+
+    /// <summary>
+    /// Swagger注释帮助类
+    /// </summary>
+    public class SwaggerDocTag : IDocumentFilter
+    {
+        /// <summary>
+        /// 添加附加注释
+        /// </summary>
+        /// <param name="swaggerDoc"></param>
+        /// <param name="context"></param>
+        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        {
+            //添加对应的控制器描述
+            swaggerDoc.Tags = new List<OpenApiTag>
+            {
+                new OpenApiTag { Name = "Test", Description = "这是描述" },
+                //new OpenApiTag { Name = "你的控制器名字，不带Controller", Description = "控制器描述" },
+            };
         }
     }
 }
