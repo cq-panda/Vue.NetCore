@@ -48,7 +48,70 @@ export default {
     return {
       active: 0,
       log: [
+        { date: "2022.01", type: "month" },
+        {
+          date: "2022-01-03 20:20:44",
+          desc: "暂时屏蔽vue3版本的快捷查询的日期类型",
+        },
+        { date: "2022-01-03 20:12:31", desc: "优化vue2版本快捷查询显示方式" },
+        { date: "2022-01-03 20:11:39", desc: "优化vue3版本快捷查询显示方式" },
+        {
+          date: "2022-01-03 20:01:23",
+          desc: "完善演示vue3版本表单设置设计器下载及使用功能",
+        },
+        { date: "2022-01-03 19:58:38", desc: "更新最新开发版数据库脚本" },
+        {
+          date: "2022-01-03 18:10:14",
+          desc: "增加通过List对象导出excel方法：EPPlusHelper.ExportGeneralExcel",
+        },
+
+        { date: "2021.12", type: "month" },
+        {
+          date: "20211-12-30 13:50:50",
+          desc: "Merge pull request #214 from cd-linxi/master",
+        },
+        {
+          date: "20211-12-28 16:05:17",
+          desc: "1.显示控制器xml注释内容 2.添加过滤器 可自定义添加对控制器的注释描述",
+        },
+        {
+          date: "20211-12-28 15:21:01",
+          desc: "swagger文档分组显示，swagger对控制器描述",
+        },
+        {
+          date: "20211-12-20 22:29:48",
+          desc: "Merge pull request #213 from cd-linxi/master",
+        },
+        { date: "20211-12-20 17:16:05", desc: "增加批量点阅发布的方法" },
+        { date: "20211-12-20 15:36:35", desc: "kafka异常日志记录" },
+        { date: "20211-12-17 18:13:19", desc: "kafka" },
+        { date: "2021-12-12 20:58:55", desc: "增加[前后台发布在一起]文档" },
+        {
+          date: "2021-12-12 20:44:23",
+          desc: "优化Startup.cs 中swagger启动方式",
+        },
+        {
+          date: "2021-12-12 20:34:21",
+          desc: "优化vue2版本明细表强制刷新合计时判断",
+        },
+        {
+          date: "2021-12-12 20:32:45",
+          desc: "优化vue3版本明细表强制刷新合计时判断",
+        },
+        {
+          date: "2021-12-01 09:27:58",
+          desc: "(Cookie Tang)添加一个GetRealDetailType的函数用来获取从表的类型，如果从表使用的是view直接重载这个函数即可",
+        },
         { date: "2021.11", type: "month" },
+        {
+          date: "2021-11-30 00:33:23",
+          desc: "(Cookie Tang)Table Select 添加value参数",
+        },
+        { date: "2021-11-29 22:56:26", desc: "优化vue3版本home页面" },
+        {
+          date: "2021-11-29 00:41:54",
+          desc: "(Cookie Tang)table字段设置Select时readonly无效",
+        },
         { date: "2021-11-27 23:45:51", desc: "优化vue2版本volheader样式" },
         { date: "2021-11-27 23:44:10", desc: "增加vue3版本文档" },
         { date: "2021-11-27 23:27:15", desc: "增加取消跨域文档" },
