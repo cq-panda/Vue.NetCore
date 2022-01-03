@@ -104,7 +104,7 @@
             <a class="text" :title="extend.text">{{ extend.text }}</a>
           </div>
           <!--快速查询字段-->
-          <div class="search-line">
+          <div class="search-line"  v-if="!fiexdSearchForm">
             <QuickSearch
               v-if="singleSearch"
               :singleSearch="singleSearch"
