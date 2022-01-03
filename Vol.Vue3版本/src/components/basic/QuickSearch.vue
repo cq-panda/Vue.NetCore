@@ -4,7 +4,9 @@
       size="small"
       v-if="['select', 'selectList'].indexOf(singleSearch.type) != -1"
       v-model="searchFormFields[singleSearch.field]"
-      :filterable="singleSearch.filter || singleSearch.data.length > 10 ? true : false"
+      :filterable="
+        singleSearch.filter || singleSearch.data.length > 10 ? true : false
+      "
       :placeholder="'请选择' + singleSearch.title"
       clearable
     >
@@ -16,7 +18,10 @@
       >
       </el-option>
     </el-select>
-    <el-date-picker
+    <span
+      v-else-if="['date', 'datetime'].indexOf(singleSearch.type) != -1"
+    ></span>
+    <!--<el-date-picker
       clearable
       style="width: 100%"
       size="small"
@@ -27,12 +32,12 @@
       :disabledDate="(val) => getDateOptions(val, singleSearch.item)"
       :value-format="getDateFormat(singleSearch.item)"
     >
-    </el-date-picker>
+    </el-date-picker> -->
 
     <el-input
       clearable
       v-else
-          size="small"
+      size="small"
       v-model="searchFormFields[singleSearch.field]"
       :placeholder="singleSearch.title"
       @keypress="tiggerPress"
