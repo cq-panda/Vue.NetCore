@@ -103,7 +103,7 @@ namespace VOL.Core.Utilities
                             }
                             continue;
                         }
-                    
+
 
                         //验证字典数据
                         //2020.09.20增加判断数据源是否有值
@@ -125,7 +125,7 @@ namespace VOL.Core.Utilities
                             //将值设置为数据字典的Key,如果导入为是/否字典项，存在表中应该对为1/0
                             value = key;
                         }
-                        else if (property.PropertyType== typeof(DateTime)||property.PropertyType==typeof(DateTime?))
+                        else if (property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(DateTime?))
                         {
                             //2021.06.04增加日期格式处理
                             if (value.Length == 5 && int.TryParse(value, out int days))
@@ -424,7 +424,7 @@ namespace VOL.Core.Utilities
                         {
                             cellValue = propertyInfo[j].GetValue(list[i]);
                         }
-                        if (cellValue!=null&&dicNoKeys.Exists(x => x.ColumnName == propertyInfo[j].Name))
+                        if (cellValue != null && dicNoKeys.Exists(x => x.ColumnName == propertyInfo[j].Name))
                         {
                             //2021.01.24修复多选类型，导出excel文件没有转换数据源的问题
                             if (selectList.Contains(propertyInfo[j].Name))
@@ -516,6 +516,77 @@ namespace VOL.Core.Utilities
             }
             return cellOptions;
         }
+     
+        /// <summary>
+        /// 2021.01.10增加通过excel导出功能
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="fileName"></param>
+        /// <param name="path"></param>
+        /// <param name="onFillCell"></param>
+        /// <param name="saveBefore"></param>
+        /// <returns></returns>
+        public static string ExportGeneralExcel(
+                List<Dictionary<string, object>> rows,
+                string fileName,
+                string path = null,
+                Action<ExcelWorksheet, int, int, object> onFillCell = null,
+                Action<ExcelWorksheet> saveBefore = null)
+        {
+            path = path ?? $"Download/ExcelExport/{ DateTime.Now.ToString("yyyyyMMdd")}/";
+            string fullPath = path.MapPath();
+            fileName = Guid.NewGuid() + "_" + fileName;
+            if (!Directory.Exists(fullPath)) Directory.CreateDirectory(fullPath);
+
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("sheet1");
+                int j = 0;
+                foreach (var item in rows[0])
+                {
+                    object cellValue = item.Key;
+
+                    int i = 0;
+                    worksheet.Cells[1 + i, j + 1].Value = cellValue;
+                    //worksheet.Column(j + 1).Width = 11;
+                    worksheet.Row(i + 1).Height = 20;//设置行高
+                    var style = worksheet.Cells[i + 1, j + 1].Style;
+                    style.Fill.PatternType = ExcelFillStyle.Solid;
+                    style.HorizontalAlignment = ExcelHorizontalAlignment.Center;//水平居中
+                    style.VerticalAlignment = ExcelVerticalAlignment.Center;//垂直剧中
+                    style.Font.Bold = true;//字体为粗体
+                                           //style
+                    style.Fill.BackgroundColor.SetColor(Color.FromArgb(216, 216, 216));//背景色
+                    style.Border.BorderAround(ExcelBorderStyle.Thin, Color.FromArgb(191, 191, 191));//边框
+
+                    onFillCell?.Invoke(worksheet, i, j, cellValue);
+                    j++;
+                }
+                for (int i = 0; i < rows.Count; i++)
+                {
+                    var row = rows[i];
+                    j = 0;
+                    foreach (var item in row)
+                    {
+                        object cellValue = item.Value;
+                        worksheet.Cells[i + 2, j + 1].Value = cellValue;
+
+                        onFillCell?.Invoke(worksheet, i + 1, j, cellValue);
+                        j++;
+                    }
+                    worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+                    for (var col = 1; col <= worksheet.Dimension.End.Column; col++)
+                    {
+                        worksheet.Column(col).Width = worksheet.Column(col).Width + 2;
+                    }
+                }
+                saveBefore?.Invoke(worksheet);
+                package.SaveAs(new FileInfo(fullPath + fileName));
+            }
+            return path + fileName;
+        }
+
+
     }
 
     public class CellOptions
