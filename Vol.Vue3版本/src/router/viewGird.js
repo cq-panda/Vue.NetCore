@@ -93,6 +93,14 @@ let viewgird = [
     path: '/App_NewsEditor',
     name: 'App_NewsEditor',
     component:  () => import('@/views/appmanager/App_NewsEditor.vue' )
-  }]
+  }    ,{
+        path: '/FormDesignOptions',
+        name: 'FormDesignOptions',
+        component: () => import('@/views/system/form/FormDesignOptions.vue')
+    }    ,{
+        path: '/FormCollectionObject',
+        name: 'FormCollectionObject',
+        component: () => import('@/views/system/form/FormCollectionObject.vue')
+    }]
 
 export default viewgird

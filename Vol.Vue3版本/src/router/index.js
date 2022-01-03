@@ -41,6 +41,22 @@ const routes = [
         path: '/formDraggable',  //表单设计
         name: 'formDraggable',
         component: () => import('@/views/formDraggable/formDraggable.vue')
+      },
+      {
+        path: '/formSubmit',  //表单提交页面
+        name: 'formSubmit',
+        component: () => import('@/views/formDraggable/FormSubmit.vue'),
+        meta:{
+          keepAlive:false
+        }
+      },
+      {
+        path: '/formCollectionResultTree',  //显示收集的数据表单
+        name: 'formCollectionResultTree',
+        component: () => import('@/views/formDraggable/FormCollectionResultTree.vue'),
+        meta:{
+          keepAlive:false
+        }
       }
     ]
   },

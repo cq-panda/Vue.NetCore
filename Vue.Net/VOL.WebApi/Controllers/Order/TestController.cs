@@ -12,9 +12,9 @@ namespace VOL.WebApi.Controllers.Order
     [ApiExplorerSettings(GroupName = "v2")]//Select a definition 下拉选项
     public class TestController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
     }
 }

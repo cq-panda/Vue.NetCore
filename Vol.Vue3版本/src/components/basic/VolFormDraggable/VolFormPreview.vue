@@ -100,8 +100,21 @@
       <el-button type="primary" @click="submit" icon="el-icon-check" size="mini"
         >提交</el-button
       >
-      <el-button type="primary" @click="reset" plain icon="el-icon-refresh-right" size="mini"
+      <el-button
+        type="primary"
+        @click="reset"
+        plain
+        icon="el-icon-refresh-right"
+        size="mini"
         >重置</el-button
+      >
+      <el-button
+        type="primary"
+        @click="download"
+        plain
+        icon="el-icon-refresh-right"
+        size="mini"
+        >下载代码</el-button
       >
     </div>
   </div>
@@ -111,7 +124,7 @@
 import VolTable from "./../VolTable";
 import VolBox from "./../VolBox";
 import VolForm from "./../VolForm";
-
+import downloadForm from "./DownloadForm";
 export default {
   props: {
     options: {
@@ -149,13 +162,14 @@ export default {
         return;
       }
     },
-    submit(){
-
+    submit() {},
+    reset() {
+      this.$refs.form.reset();
+      this.$Message.success("表单已重置");
     },
-    reset(){
-        this.$refs.form.reset();
-        this.$Message.success("表单已重置")
-    }
+    download() {
+      downloadForm.call(this);
+    },
   },
   components: {
     "vol-table": VolTable,

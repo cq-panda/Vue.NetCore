@@ -14,5 +14,9 @@ let redirect = [{
     path: '/coding',
     name: 'coding',
     component: () => import('@/components/redirect/coding')
+}, {
+    path: '/message',
+    name: 'message',
+    component: () => import('@/components/redirect/Message.vue')
 }]
 export default redirect;
