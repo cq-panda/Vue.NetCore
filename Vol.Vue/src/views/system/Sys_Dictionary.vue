@@ -69,6 +69,7 @@
                        {field:'ModifyDate',title:'修改时间',type:'datetime',width:150,readonly:true,align:'left',sortable:true}],
                 detail: {
                     cnName:"字典明细",
+                    table: "Sys_DictionaryList",
                     columns: [{field:'DicList_ID',title:'DicList_ID',type:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'Dic_ID',title:'数据源ID',type:'int',width:90,readonly:true,align:'left',sortable:true},
                        {field:'DicValue',title:'数据源Value',type:'string',width:90,edit:{type:'text'},align:'left'},
