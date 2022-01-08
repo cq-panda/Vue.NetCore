@@ -57,6 +57,53 @@
         :sortable="column.sort ? 'custom' : false"
       >
         <template #default="scope">
+          <!-- 2022.01.08增加多表头，现在只支持常用功能渲染，不支持编辑功能(涉及到组件重写) -->
+          <el-table-column
+            style="border: none"
+            v-for="columnChildren in filterChildrenColumn(column.children)"
+            :key="columnChildren.field"
+            :min-width="columnChildren.width"
+            :class-name="columnChildren.class"
+            :prop="columnChildren.field"
+            :align="columnChildren.align"
+            :label="columnChildren.title"
+          >
+            <template #scope1>
+              <a
+                href="javascript:void(0)"
+                @click="link(scope1.row, columnChildren, $event)"
+                v-if="column.link"
+                v-text="scope1.row[columnChildren.field]"
+              ></a>
+              <div
+                v-else-if="columnChildren.formatter"
+                @click="
+                  columnChildren.click &&
+                    columnChildren.click(
+                      scope1.row,
+                      columnChildren,
+                      scope1.$index
+                    )
+                "
+                v-html="
+                  columnChildren.formatter(
+                    scope1.row,
+                    columnChildren,
+                    scope1.$index
+                  )
+                "
+              ></div>
+              <div v-else-if="column.bind">
+                {{ formatter(scope1.row, columnChildren, true) }}
+              </div>
+              <span v-else-if="column.type == 'date'">{{
+                formatterDate(scope1.row, columnChildren)
+              }}</span>
+              <template v-else>
+                {{ scope1.row[columnChildren.field] }}
+              </template>
+            </template>
+          </el-table-column>
           <!-- 2020.06.18增加render渲染自定义内容 -->
           <table-render
             v-if="column.render && typeof column.render == 'function'"
@@ -1282,6 +1329,14 @@ export default defineComponent({
         return "empty-tag";
       }
       return "";
+    },
+    filterChildrenColumn(children) {
+      if (!children) {
+        return [];
+      }
+      return children.filter((x) => {
+        return !x.hidden;
+      });
     },
   },
 });
