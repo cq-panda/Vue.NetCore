@@ -58,6 +58,11 @@ let viewgird = [
     component:  () => import('@/views/order/App_Appointment.vue' )
   },
   {
+    path: '/App_Appointment2', //二级表头
+    name: 'App_Appointment2',
+    component:  () => import('@/views/order/App_Appointment2.vue' )
+  },
+  {
     path: '/App_TransactionAvgPrice',
     name: 'App_TransactionAvgPrice',
     component:  () => import('@/views/appmanager/App_TransactionAvgPrice.vue' )
