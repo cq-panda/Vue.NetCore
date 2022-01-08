@@ -35,17 +35,18 @@
     <!--导入excel功能-->
     <!--2020.10.31添加导入前的方法-->
     <!--开启懒加载2020.12.06 -->
+    <!-- 2022.01.08增加明细表导入判断 -->
     <vol-box
       v-if="upload.url"
       :model.sync="upload.excel"
       :height="285"
       :width="600"
       :lazy="true"
-      :title="table.cnName + '--导入'"
+      :title="(boxModel ? detailOptions.cnName : table.cnName) + '-导入'"
     >
       <UploadExcel
         ref="upload_excel"
-        @importExcelAfter="importAfter"
+        @importExcelAfter="importExcelAfter"
         :importExcelBefore="importExcelBefore"
         :url="upload.url"
         :template="upload.template"
