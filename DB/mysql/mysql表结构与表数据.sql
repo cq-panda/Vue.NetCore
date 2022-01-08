@@ -899,7 +899,6 @@ CREATE TABLE `Sys_Menu`  (
 
 -- ----------------------------
 -- Records of Sys_Menu
--- ----------------------------
 INSERT INTO `Sys_Menu` VALUES (2, '用户信息', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'el-icon-user-solid', NULL, 1, 1600, '.', 0, NULL, '2017-08-28 12:21:13', '2017-08-28 11:12:45', '2021-08-02 02:59:11', '超级管理员');
 INSERT INTO `Sys_Menu` VALUES (3, '角色管理', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 900, 'Sys_Role', 2, '/Sys_Role', '2017-09-12 16:20:02', '2017-08-28 14:19:13', '2021-05-02 15:55:09', '超级管理员');
 INSERT INTO `Sys_Menu` VALUES (5, '日志管理', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'el-icon-info', NULL, 1, 1300, 'xxx', 0, '/', '2017-09-22 17:59:37', '2017-09-22 17:59:37', '2021-08-02 03:00:14', '超级管理员');
@@ -975,6 +974,8 @@ INSERT INTO `Sys_Menu` VALUES (99, '低代码设计器', '[{\"text\":\"查询\",
 INSERT INTO `Sys_Menu` VALUES (100, '明细表', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 2, 0, 'SellOrderList', 74, '', '2021-09-27 00:47:23', '超级管理员', '2021-03-14 23:52:28', NULL);
 INSERT INTO `Sys_Menu` VALUES (101, '表单配置', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 900, 'FormDesignOptions', 98, '/FormDesignOptions', '2022-01-03 19:32:02', '超级管理员', '2022-01-03 19:32:29', '超级管理员');
 INSERT INTO `Sys_Menu` VALUES (102, '数据收集', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 0, 'formCollectionResultTree', 98, '/formCollectionResultTree', '2022-01-03 19:33:09', '超级管理员', '2022-01-03 19:33:36', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (103, '多页签表数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, '.', 48, '/tabsTable', '2022-01-08 17:14:01', '超级管理员', '2022-01-08 17:15:39', '超级管理员');
+INSERT INTO `Sys_Menu` VALUES (104, '多表头(合并)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 0, '.', 48, '/App_Appointment2', '2022-01-08 17:14:44', '超级管理员', '2022-01-08 17:15:47', '超级管理员');
 
 -- ----------------------------
 -- Table structure for Sys_Province
