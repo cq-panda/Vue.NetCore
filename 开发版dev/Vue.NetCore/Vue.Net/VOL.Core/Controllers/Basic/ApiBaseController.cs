@@ -117,36 +117,43 @@ namespace VOL.Core.Controllers.Basic
         [HttpPost, Route("Export")]
         public virtual ActionResult Export([FromBody] PageDataOptions loadData)
         {
-            return Json(InvokeService("Export", new object[] { loadData }));
+           var result= InvokeService("Export", new object[] { loadData }) as WebResponseContent;
+            return File(
+                   System.IO.File.ReadAllBytes(result.Data.ToString().MapPath()),
+                   System.Net.Mime.MediaTypeNames.Application.Octet,
+                   Path.GetFileName(result.Data.ToString())
+               );
         }
         /// <summary>
-        /// 下载文件
+        /// 2022.01.08移除原来的导出功能
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="path"></param>
         /// <returns></returns>
+        [Obsolete]
         [ApiActionPermission(Enums.ActionPermissionOptions.Export)]
         [HttpGet, Route("DownLoadFile")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual IActionResult DownLoadFile()
         {
-            string path = HttpContext.Request("path");
-            if (string.IsNullOrEmpty(path)) return Content("未找到文件");
-            try
-            {
-                path = path.IndexOf("/") == -1 && path.IndexOf("\\") == -1 
-                    ?path.DecryptDES(AppSetting.Secret.ExportFile)
-                    : path.MapPath();
-                return File(
-                        System.IO.File.ReadAllBytes(path), 
-                        System.Net.Mime.MediaTypeNames.Application.Octet, 
-                        Path.GetFileName(path)
-                    );
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"文件下载出错:{path}{ex.Message}");
-            }
-            return Content("");
+            throw new Exception("原导出方法已停用");
+            //string path = HttpContext.Request("path");
+            //if (string.IsNullOrEmpty(path)) return Content("未找到文件");
+            //try
+            //{
+            //    path = path.IndexOf("/") == -1 && path.IndexOf("\\") == -1 
+            //        ?path.DecryptDES(AppSetting.Secret.ExportFile)
+            //        : path.MapPath();
+            //    return File(
+            //            System.IO.File.ReadAllBytes(path), 
+            //            System.Net.Mime.MediaTypeNames.Application.Octet, 
+            //            Path.GetFileName(path)
+            //        );
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.Error($"文件下载出错:{path}{ex.Message}");
+            //}
+            //return Content("");
         }
 
         /// <summary>

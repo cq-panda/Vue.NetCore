@@ -1,8 +1,6 @@
-﻿/*
- *Author：jxx
- *Contact：283591387@qq.com
- *Date：2018-07-01
- * 此代码由框架生成，请勿随意更改
+/*
+ *代码由框架生成,任何更改都可能导致被代码生成器覆盖
+ *Repository提供数据库操作，如果要增加数据库操作请在当前目录下Partial文件夹Sys_DictionaryListRepository编写代码
  */
 using VOL.System.IRepositories;
 using VOL.Core.BaseProvider;
@@ -12,17 +10,15 @@ using VOL.Entity.DomainModels;
 
 namespace VOL.System.Repositories
 {
-    public partial class Sys_DictionaryListRepository : RepositoryBase<Sys_DictionaryList>, ISys_DictionaryListRepository
+    public partial class Sys_DictionaryListRepository : RepositoryBase<Sys_DictionaryList> , ISys_DictionaryListRepository
     {
-        public Sys_DictionaryListRepository(VOLContext dbContext)
-        : base(dbContext)
-        {
+    public Sys_DictionaryListRepository(VOLContext dbContext)
+    : base(dbContext)
+    {
 
-        }
-        public static ISys_DictionaryListRepository Instance
-        {
-            get { return AutofacContainerModule.GetService<ISys_DictionaryListRepository>(); }
-        }
+    }
+    public static ISys_DictionaryListRepository Instance
+    {
+      get {  return AutofacContainerModule.GetService<ISys_DictionaryListRepository>(); } }
     }
 }
-

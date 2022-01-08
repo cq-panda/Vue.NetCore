@@ -439,13 +439,19 @@ namespace VOL.Core.BaseProvider
                 Response = ImportOnExecuting.Invoke(list);
                 if (CheckResponseResult()) return Response;
             }
+            //2022.01.08增加明细表导入判断
+            if (HttpContext.Current.Request.Query.ContainsKey("table"))
+            {
+                ImportOnExecuted?.Invoke(list);
+                return Response.OK("文件上传成功",list.Serialize());
+            }
             repository.AddRange(list, true);
             if (ImportOnExecuted != null)
             {
                 Response = ImportOnExecuted.Invoke(list);
                 if (CheckResponseResult()) return Response;
             }
-            return new WebResponseContent { Status = true, Message = "文件上传成功" };
+            return Response.OK("文件上传成功" );
         }
 
         /// <summary>
@@ -469,7 +475,9 @@ namespace VOL.Core.BaseProvider
             }
             //ExportColumns 2020.05.07增加扩展指定导出模板的列
             EPPlusHelper.Export(list, ExportColumns?.GetExpressionToArray(), ignoreColumn, savePath, fileName);
-            return Response.OK(null, (savePath + "/" + fileName).EncryptDES(AppSetting.Secret.ExportFile));
+            //return Response.OK(null, (savePath + "/" + fileName).EncryptDES(AppSetting.Secret.ExportFile));
+            //2022.01.08优化导出功能
+            return Response.OK(null, (savePath + "/" + fileName));
         }
 
         /// <summary>
