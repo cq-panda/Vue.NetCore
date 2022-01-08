@@ -25,6 +25,7 @@ let extension = {
     modelBody: '',
     modelFooter: ''
   },
+  tableAction:"App_Appointment",//指定菜单权限，其他任何页面引用时都会走对应权限
   text: "目前导入导出的字段为代码生成器中配置[是否显示与编辑列],可自行添加配置字段处理",
   buttons: [],//扩展的按钮
   methods: {//事件扩展
@@ -48,6 +49,7 @@ let extension = {
       this.tableMaxHeight = 500;
       //移除快捷查询
       this.singleSearch = null;
+   
     },
   }
 };

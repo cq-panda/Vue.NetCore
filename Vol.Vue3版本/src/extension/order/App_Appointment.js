@@ -11,8 +11,8 @@ let extension = {
           'show-icon': true,
           type: 'success',
           closable: false,
-        }, [h('p',{},'1、 onInit(){ this.setFiexdSearchForm(true);  //设置固定显示所有查询条件}'),
-        h('p',{},' 2、 可在扩展js中的onInit方法设置this.tableHeight/tableMaxHeight属性，指定table高度(默认自适应)，如果设置 了tableMaxHeight属性，tableHeight则不会生效)')]);
+        }, [h('p', {}, '1、 onInit(){ this.setFiexdSearchForm(true);  //设置固定显示所有查询条件}'),
+        h('p', {}, ' 2、 可在扩展js中的onInit方法设置this.tableHeight/tableMaxHeight属性，指定table高度(默认自适应)，如果设置 了tableMaxHeight属性，tableHeight则不会生效)')]);
       }
     },
     gridFooter: '',
@@ -22,24 +22,28 @@ let extension = {
     modelFooter: ''
   },
   buttons: [],//扩展的按钮
+  tableAction: "App_Appointment",//指定菜单权限，其他任何页面引用时都会走对应权限
   text: "可在代码生成器中设置[是否只读]或如果没有编辑或新建权限，弹出框都是只读的",
   methods: {//事件扩展
     onInit() {
+      //设置表的最大高度
+      this.tableMaxHeight = 300;
+
+
       //设置显示所有查询条件
       this.setFiexdSearchForm(true);
-      this.searchFormOptions[0][0].onKeyPress=($event)=>{
-        if ($event.keyCode==13) {
-       
+      this.searchFormOptions[0][0].onKeyPress = ($event) => {
+        if ($event.keyCode == 13) {
+
         }
         console.log($event)
       }
-      //设置表的最大高度
-      this.tableMaxHeight = 300;
+
       //格式化单格颜色
       this.columns.forEach(x => {
         if (x.field == "PhoneNo") {
           x.cellStyle = (row, rowIndex, columnIndex) => {
-            if (row.PhoneNo == "138888887698"&&rowIndex==0) {
+            if (row.PhoneNo == "138888887698" && rowIndex == 0) {
               return { background: "#ddecfd" }
             }
           }
@@ -54,6 +58,10 @@ let extension = {
       })
     },
     onInited() {
+      //多页签打开时，重新设置表格的最大高度
+      if (this.$route.path == "/tabsTable") {
+        this.tableMaxHeight = document.body.clientHeight - 415;
+      }
       //移除快捷查询
       this.singleSearch = null;
     },
