@@ -16,7 +16,7 @@ let tables = [
         component: () => import('@/views/tables/table3.vue')
     },
     {
-        path: '/tabsTable',
+        path: '/tabsTable',//多页签
         name: 'tabsTable',
         component: () => import('@/views/tables/tabsTable.vue')
     }

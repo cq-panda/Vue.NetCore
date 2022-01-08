@@ -41,25 +41,26 @@
             const searchFormFields = ref({"DicNo":"","DicName":"","ParentId":"","Enable":"","CreateDate":"","ModifyDate":""});
             const searchFormOptions = ref([[{"title":"字典编号","field":"DicNo"},{"title":"字典名称","field":"DicName","type":"textarea"},{"title":"父级ID","field":"ParentId","type":"number"}],[{"dataKey":"enable","data":[],"title":"是否启用","field":"Enable","type":"select"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"修改时间","field":"ModifyDate","type":"datetime"}]]);
             const columns = ref([{field:'Dic_ID',title:'字典ID',type:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'DicNo',title:'字典编号',type:'string',width:90,require:true,align:'left',sortable:true},
-                       {field:'DicName',title:'字典名称',type:'string',link:true,width:120,require:true,align:'left'},
+                       {field:'DicNo',title:'字典编号',type:'string',width:90,require:true,align:'left',sort:true},
+                       {field:'DicName',title:'字典名称',type:'string',link:true,width:140,require:true,align:'left'},
                        {field:'ParentId',title:'父级ID',type:'int',width:90,require:true,align:'left'},
-                       {field:'Config',title:'配置项',type:'string',width:100,hidden:true,align:'left'},
-                       {field:'DbSql',title:'sql语句',type:'string',width:120,align:'left'},
+                       {field:'Config',title:'配置项',type:'string',width:300,hidden:true,align:'left'},
+                       {field:'DbSql',title:'sql语句',type:'string',width:200,align:'left'},
                        {field:'DBServer',title:'DBServer',type:'string',width:90,hidden:true,align:'left'},
                        {field:'OrderNo',title:'排序号',type:'int',width:90,align:'left'},
                        {field:'Remark',title:'备注',type:'string',width:90,align:'left'},
                        {field:'Enable',title:'是否启用',type:'byte',bind:{ key:'enable',data:[]},width:90,require:true,align:'left'},
                        {field:'CreateID',title:'CreateID',type:'int',width:90,hidden:true,align:'left'},
-                       {field:'Creator',title:'创建人',type:'string',width:120,hidden:true,readonly:true,align:'left'},
-                       {field:'CreateDate',title:'创建时间',type:'datetime',width:140,readonly:true,align:'left',sortable:true},
+                       {field:'Creator',title:'创建人',type:'string',width:130,hidden:true,readonly:true,align:'left'},
+                       {field:'CreateDate',title:'创建时间',type:'datetime',width:150,readonly:true,align:'left',sort:true},
                        {field:'ModifyID',title:'ModifyID',type:'int',width:90,hidden:true,align:'left'},
                        {field:'Modifier',title:'修改人',type:'string',width:130,hidden:true,readonly:true,align:'left'},
-                       {field:'ModifyDate',title:'修改时间',type:'datetime',width:140,readonly:true,align:'left',sortable:true}]);
+                       {field:'ModifyDate',title:'修改时间',type:'datetime',width:150,readonly:true,align:'left',sort:true}]);
             const detail = ref({
                 cnName: "字典明细",
+                table: "Sys_DictionaryList",
                 columns: [{field:'DicList_ID',title:'DicList_ID',type:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'Dic_ID',title:'数据源ID',type:'int',width:90,readonly:true,align:'left',sortable:true},
+                       {field:'Dic_ID',title:'数据源ID',type:'int',width:90,readonly:true,align:'left',sort:true},
                        {field:'DicValue',title:'数据源Value',type:'string',width:90,edit:{type:'text'},align:'left'},
                        {field:'DicName',title:'数据源Text',type:'string',width:90,edit:{type:'text'},align:'left'},
                        {field:'OrderNo',title:'排序号',type:'int',width:90,edit:{type:'text'},align:'left'},
@@ -67,10 +68,10 @@
                        {field:'Enable',title:'是否可用',type:'byte',bind:{ key:'enable',data:[]},width:90,edit:{type:'switch'},align:'left'},
                        {field:'CreateID',title:'CreateID',type:'int',width:90,hidden:true,align:'left'},
                        {field:'Creator',title:'创建人',type:'string',width:130,readonly:true,align:'left'},
-                       {field:'CreateDate',title:'创建时间',type:'datetime',width:90,readonly:true,align:'left',sortable:true},
+                       {field:'CreateDate',title:'创建时间',type:'datetime',width:90,readonly:true,align:'left',sort:true},
                        {field:'ModifyID',title:'ModifyID',type:'int',width:90,hidden:true,align:'left'},
                        {field:'Modifier',title:'修改人',type:'string',width:130,align:'left'},
-                       {field:'ModifyDate',title:'修改时间',type:'datetime',width:90,align:'left',sortable:true}],
+                       {field:'ModifyDate',title:'修改时间',type:'datetime',width:90,align:'left',sort:true}],
                 sortName: "DicList_ID",
                 key: "DicList_ID"
             });

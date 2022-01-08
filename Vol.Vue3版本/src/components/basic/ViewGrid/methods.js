@@ -194,6 +194,7 @@ let methods = {
           name: "添加行",
           icon: "el-icon-plus",
           type: 'primary',
+          hidden: false,
           plain: true,
           onClick() {
             this.addRow();
@@ -203,9 +204,38 @@ let methods = {
           type: 'danger',
           plain: true,
           name: "删除行",
+          hidden: false,
           icon: "el-icon-delete",
           onClick() {
             this.delRow();
+          }
+        },
+        //2022.01.08增加明细表导入导出功能
+        //注意需要重写后台明细表接口的导入与下载模板、导出的权限,Sys_DictionaryListController.cs/SellOrderListController.cs
+        {
+          type: 'danger',
+          plain: true,
+          name: "导入",
+          value: 'import',
+          hidden: false,
+          icon: "el-icon-upload2",
+          onClick() {
+            this.upload.url = `${this.http.ipAddress}api/${this.detail.table}/${this.const.IMPORT}?table=1`;
+            this.upload.template.url = `${this.http.ipAddress}api/${this.detail.table}/${this.const.DOWNLOADTEMPLATE}`;
+            //定义下载模板的文件名
+            this.upload.template.fileName = this.detail.cnName;
+            this.upload.excel = true;
+          }
+        },
+        {
+          type: 'danger',
+          plain: true,
+          name: "导出",
+          value: 'export',
+          icon: "el-icon-download",
+          hidden: false,
+          onClick() {
+            this.export(true);
           }
         }
       ]
@@ -695,6 +725,12 @@ let methods = {
     return true;
   },
   async initBox() {
+    //2022.01.08增加新建时隐藏明细表导出功能
+    this.detailOptions.buttons.forEach(x => {
+      if (x.value == 'export') {
+        x.hidden = this.currentAction == 'Add'
+      }
+    })
     //初始化新建、编辑的弹出框
     if (!await this.modelOpenBeforeAsync(this.currentRow)) return false;
     this.modelOpenBefore(this.currentRow);
@@ -876,14 +912,29 @@ let methods = {
     };
     xmlResquest.send();
   },
-  export() {
+  getFileName(isDetail) { //2021.01.08增加导出excel时自定义文件名
+    if (isDetail) {
+      return this.detail.cnName + '.xlsx';
+    }
+    return this.table.cnName + '.xlsx';
+  },
+  export(isDetail) {
     //导出
-    //导出
-    let url = this.getUrl(this.const.EXPORT);
-    let query = this.getSearchParameters();
-    let param = { order: this.pagination.order, wheres: query.wheres || [] };
+    let url, query, param;
+    if (isDetail) {
+      //明细表导出时如果是新建状态，禁止导出
+      if (this.currentAction == "Add") {
+        return;
+      }
+      url = `api/${this.detail.table}/${this.const.EXPORT}`;
+      param = { wheres: [{ name: this.table.key, value: this.editFormFields[this.table.key] }] };
+    } else {//主表导出
+      url = this.getUrl(this.const.EXPORT);
+      query = this.getSearchParameters();
+      param = { order: this.pagination.order, wheres: query.wheres || [] };
+    }
     //2020.06.25增加导出前处理
-    if (!this.exportBefore(param)) {
+    if (!isDetail && !this.exportBefore(param)) {
       return;
     }
 
@@ -891,18 +942,37 @@ let methods = {
       param.wheres = JSON.stringify(param.wheres);
     }
     let $http = this.http;
-    $http.post(url, param, "正在导出数据....").then(result => {
-      if (!result.status) {
-        return this.$error(result.message);
+    let fileName = this.getFileName(isDetail)
+    //2021.01.08优化导出功能
+    $http.post(url, param, "正在导出数据....", { responseType: "blob" }).then((content) => {
+      const blob = new Blob([content]);
+      if ("download" in document.createElement("a")) {
+        // 非IE下载
+        const elink = document.createElement("a");
+        elink.download = fileName;
+        elink.style.display = "none";
+        elink.href = URL.createObjectURL(blob);
+        document.body.appendChild(elink);
+        elink.click();
+        URL.revokeObjectURL(elink.href);
+        document.body.removeChild(elink);
+      } else {
+        // IE10+下载
+        navigator.msSaveBlob(blob, fileName);
       }
-      let path = this.getUrl(this.const.DOWNLOAD);
-      path = path[0] == "/" ? path.substring(1) : path;
-      this.download(
-        $http.ipAddress + path + "?path=" + result.data,
-        this.table.cnName + ".xlsx" // filePath
-      );
-      ///  window.open($http.ipAddress + path + "?fileName=" + filePath, "_self");
     });
+    //.then(result => {
+    // if (!result.status) {
+    //   return this.$error(result.message);
+    // }
+    // let path = this.getUrl(this.const.DOWNLOAD);
+    // path = path[0] == "/" ? path.substring(1) : path;
+    // this.download(
+    //   $http.ipAddress + path + "?path=" + result.data,
+    //   this.table.cnName + ".xlsx" // filePath
+    // );
+    ///  window.open($http.ipAddress + path + "?fileName=" + filePath, "_self");
+    // });
   },
   getSelectRows() {
     //获取选中的行
@@ -1099,7 +1169,7 @@ let methods = {
               }
             })
           })
-           //2021.10.17修复级联不能二级刷新的问题 
+          //2021.10.17修复级联不能二级刷新的问题 
           this.editFormOptions.forEach(editOption => {
             editOption.forEach(_option => {
               if (_option.type == 'cascader' && _option.dataKey == x.dicNo) {
@@ -1342,6 +1412,32 @@ let methods = {
   },
   loadTreeChildren(tree, treeNode, resolve) {//树形结构加载子节点(2021.05.02),在onInit中设置了rowKey主键字段后才会生效
     return resolve([]);
+  },
+  importDetailAfter(data) { //2022.01.08增加明细表导入后处理
+
+  },
+  importExcelAfter(data) {//2022.01.08增加明细表导入后方法判断
+
+    if (!data.status) {
+      return;// this.$message.error(data.message);
+    }
+    //明细表导入
+    if (this.boxModel) {
+      if (data.data) {
+        data.data = JSON.parse(data.data);
+      } else {
+        data.data = []
+      }
+      data.data.forEach(x=>{
+        x[this.detail.key]=undefined;
+        x[this.table.key]=undefined;
+      })
+      this.importDetailAfter(data); //增加明细表导入后处理
+      this.$refs.detail.rowData.unshift(...data.data);
+      this.upload.excel=false;
+      return;
+    }
+    this.importAfter(data);
   }
 };
 //合并扩展方法

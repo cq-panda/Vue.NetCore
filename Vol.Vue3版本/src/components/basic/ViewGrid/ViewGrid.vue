@@ -42,17 +42,18 @@
     <!--导入excel功能-->
     <!--2020.10.31添加导入前的方法-->
     <!--开启懒加载2020.12.06 -->
+    <!-- 2022.01.08增加明细表导入判断 -->
     <vol-box
       v-if="upload.url"
       v-model="upload.excel"
       :height="350"
       :width="600"
       :lazy="true"
-      :title="table.cnName + '--导入'"
+      :title="(boxModel ? detailOptions.cnName : table.cnName) + '-导入'"
     >
       <UploadExcel
         ref="upload_excel"
-        @importExcelAfter="importAfter"
+        @importExcelAfter="importExcelAfter"
         :importExcelBefore="importExcelBefore"
         :url="upload.url"
         :template="upload.template"
@@ -357,10 +358,15 @@ const _const = {
 };
 import Empty from "@/components/basic/Empty.vue";
 
-
 import VolTable from "@/components/basic/VolTable.vue";
 import VolForm from "@/components/basic/VolForm.vue";
-import { defineAsyncComponent, defineComponent, ref, shallowRef,toRaw } from "vue";
+import {
+  defineAsyncComponent,
+  defineComponent,
+  ref,
+  shallowRef,
+  toRaw,
+} from "vue";
 var vueParam = {
   components: {
     "vol-form": VolForm,
@@ -377,7 +383,7 @@ var vueParam = {
   props: {},
   setup(props) {
     //2021.07.17调整扩展组件组件
-    const dynamicCom ={
+    const dynamicCom = {
       gridHeader: Empty,
       gridBody: Empty,
       gridFooter: Empty,
@@ -389,11 +395,11 @@ var vueParam = {
     if (props.extend.components) {
       for (const key in props.extend.components) {
         if (props.extend.components[key]) {
-          dynamicCom[key] =toRaw(props.extend.components[key]);
+          dynamicCom[key] = toRaw(props.extend.components[key]);
         }
       }
     }
-    const dynamicComponent=shallowRef(dynamicCom);
+    const dynamicComponent = shallowRef(dynamicCom);
     return { dynamicComponent };
   },
   data() {
@@ -532,7 +538,7 @@ var vueParam = {
   },
   destroyed() {
     this.destroyed();
-    this.dynamicComponent=null;
+    this.dynamicComponent = null;
   },
   created: function () {
     //合并自定义业务扩展方法
