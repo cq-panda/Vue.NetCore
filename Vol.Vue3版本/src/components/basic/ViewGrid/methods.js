@@ -918,12 +918,6 @@ let methods = {
     }
     return this.table.cnName + '.xlsx';
   },
-  getFileName(isDetail) { //2021.01.08增加导出excel时自定义文件名
-    if (isDetail) {
-      return this.detail.cnName + '.xlsx';
-    }
-    return this.table.cnName + '.xlsx';
-  },
   export(isDetail) {
     //导出
     let url, query, param;
