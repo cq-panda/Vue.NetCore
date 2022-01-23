@@ -3430,7 +3430,11 @@ export default {
         {
           title: "编辑表单操作",
           type: "line",
-        },
+        },   {
+          title: "明细表导入导出",
+          content: [`<p>1、2021.01.08更新明细表导入导出功能,更新文件见2021.01.08更新说明：http://v2.volcore.xyz/document/log</p>
+		  <p>明细表导入导出同样全部由框架自动完成，但需要重写明细表的接口权限,可参照Sys_DictionaryListController.cs或SellOrderListController.cs</p>`]
+		  ,  tips: ""},
         {
           title: "新建保存后连续添加",
           content: [
