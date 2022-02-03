@@ -16,13 +16,7 @@
         :key="index"
         v-show="!item.hidden"
       >
-        <!-- 2020.06.18增加render渲染自定义内容 -->
-        <form-expand
-          v-if="item.render && typeof item.render == 'function'"
-          :render="item.render"
-        ></form-expand>
         <FormItem
-          v-else
           :rules="getRule(item, _formFields)"
           :label="item.title ? item.title + '：' : ''"
           :prop="item.field"
@@ -57,8 +51,14 @@
             </template>
           </template>
           <div v-else :class="{ 'form-item-extra': item.extra }">
+            <!-- 2020.06.18增加render渲染自定义内容 -->
+            <form-expand
+              v-if="item.render && typeof item.render == 'function'"
+              :render="item.render"
+              :item="item"
+            ></form-expand>
             <label
-              v-if="item.disabled || item.readonly"
+              v-else-if="item.disabled || item.readonly"
               class="readonly-input"
               >{{ getText(_formFields, item) }}</label
             >
