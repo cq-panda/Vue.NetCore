@@ -1058,7 +1058,8 @@ DISTINCT
                 FROM
                     information_schema.COLUMNS
                 WHERE
-                    table_name = ?tableName {GetMysqlTableSchema()}";
+                    table_name = ?tableName {GetMysqlTableSchema()}
+                ORDER BY ORDINAL_POSITION";
         }
 
         /// <summary>
