@@ -343,7 +343,7 @@
               <form-expand
                 v-if="item.extra.render"
                 :render="item.extra.render"
-                :item="item"
+                :fields="_formFields"
               ></form-expand>
               <a
                 v-else

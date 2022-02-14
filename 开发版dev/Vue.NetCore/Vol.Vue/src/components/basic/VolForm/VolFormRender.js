@@ -3,10 +3,10 @@ export default {
   functional: true,
   props: {
     render: Function,
-    item: Object
+    fields: Object,
   },
   render: (h, ctx) => {
-    return ctx.props.render(h, ctx.props.item); //h();
-  }
+    return ctx.props.render(h, ctx.props.fields); //h();
+  },
 };
 
