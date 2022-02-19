@@ -37,10 +37,14 @@ namespace VOL.Core.Controllers.Basic
         /// <param name="data"></param>
         /// <param name="serializerSettings"></param>
         /// <returns></returns>
-        protected JsonResult JsonNormal(object data, JsonSerializerSettings serializerSettings = null)
+        protected JsonResult JsonNormal(object data, JsonSerializerSettings serializerSettings = null, bool formateDate = true)
         {
             serializerSettings = serializerSettings ?? new JsonSerializerSettings();
             serializerSettings.ContractResolver = null;
+            if (formateDate)
+            {
+                serializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+            }
             return Json(data, serializerSettings);
         }
 
@@ -102,7 +106,7 @@ namespace VOL.Core.Controllers.Basic
         [HttpPost, Route("Import")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Import)]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public  virtual ActionResult Import(List<IFormFile> fileInput)
+        public virtual ActionResult Import(List<IFormFile> fileInput)
         {
             return Json(InvokeService("Import", new object[] { fileInput }));
         }
@@ -117,7 +121,7 @@ namespace VOL.Core.Controllers.Basic
         [HttpPost, Route("Export")]
         public virtual ActionResult Export([FromBody] PageDataOptions loadData)
         {
-           var result= InvokeService("Export", new object[] { loadData }) as WebResponseContent;
+            var result = InvokeService("Export", new object[] { loadData }) as WebResponseContent;
             return File(
                    System.IO.File.ReadAllBytes(result.Data.ToString().MapPath()),
                    System.Net.Mime.MediaTypeNames.Application.Octet,
@@ -180,7 +184,7 @@ namespace VOL.Core.Controllers.Basic
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual ActionResult Audit([FromBody] object[] id, int? auditStatus, string auditReason)
         {
-            _baseWebResponseContent =InvokeService("Audit", new object[] { id, auditStatus, auditReason }) as WebResponseContent;
+            _baseWebResponseContent = InvokeService("Audit", new object[] { id, auditStatus, auditReason }) as WebResponseContent;
             Logger.Info(Enums.LoggerType.Del, id?.Serialize() + "," + (auditStatus ?? -1) + "," + auditReason, _baseWebResponseContent.Status ? "Ok" : _baseWebResponseContent.Message);
             return Json(_baseWebResponseContent);
         }
@@ -194,8 +198,8 @@ namespace VOL.Core.Controllers.Basic
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual ActionResult Add([FromBody] SaveModel saveModel)
         {
-            _baseWebResponseContent =InvokeService("Add", 
-                new Type[] { typeof(SaveModel) }, 
+            _baseWebResponseContent = InvokeService("Add",
+                new Type[] { typeof(SaveModel) },
                 new object[] { saveModel }) as WebResponseContent;
             Logger.Info(Enums.LoggerType.Add, saveModel.Serialize(), _baseWebResponseContent.Status ? "Ok" : _baseWebResponseContent.Message);
             _baseWebResponseContent.Data = _baseWebResponseContent.Data?.Serialize();
