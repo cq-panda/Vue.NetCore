@@ -48,7 +48,7 @@ namespace VOL.Core.Controllers.Basic
         [HttpPost, Route("GetPageData")]
         public virtual ActionResult GetPageData([FromBody] PageDataOptions loadData)
         {
-            return Content(InvokeService("GetPageData", new object[] { loadData }).Serialize());
+            return JsonNormal(InvokeService("GetPageData", new object[] { loadData }));
         }
 
         /// <summary>
