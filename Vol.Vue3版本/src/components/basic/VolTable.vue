@@ -2,7 +2,11 @@
   <!-- 2021.11.18移除voltable方法@cell-mouse-leave="rowEndEdit" -->
   <div
     class="vol-table"
-    :class="[textInline ? 'text-inline' : '', fxRight ? 'fx-right' : '', isChrome ? 'chrome' : '']"
+    :class="[
+      textInline ? 'text-inline' : '',
+      fxRight ? 'fx-right' : '',
+      isChrome ? 'chrome' : '',
+    ]"
   >
     <div class="mask" v-show="loading"></div>
     <div class="message" v-show="loading">加载中.....</div>
@@ -71,6 +75,7 @@
             <template #scope1>
               <a
                 href="javascript:void(0)"
+                style="text-decoration: none"
                 @click="link(scope1.row, columnChildren, $event)"
                 v-if="column.link"
                 v-text="scope1.row[columnChildren.field]"
@@ -197,6 +202,7 @@
               >
                 <a
                   :style="column.extra.style"
+                  style="text-decoration: none"
                   @click="extraClick(scope.row, column)"
                 >
                   <i v-if="column.extra.icon" :clss="[column.extra.icon]" />
@@ -216,6 +222,7 @@
           <template v-else>
             <a
               href="javascript:void(0)"
+              style="text-decoration: none"
               @click="link(scope.row, column, $event)"
               v-if="column.link"
               v-text="scope.row[column.field]"
@@ -499,11 +506,11 @@ export default defineComponent({
       cellStyleColumns: {}, // 有背景颜色的配置
       fxRight: false, //是否有右边固定表头
       selectRows: [], //当前选中的行
-      isChrome:false
+      isChrome: false,
     };
   },
   created() {
-        //2021.06.19判断谷歌内核浏览重新计算table高度
+    //2021.06.19判断谷歌内核浏览重新计算table高度
     if (
       navigator.userAgent.indexOf("Chrome") != -1 ||
       navigator.userAgent.indexOf("Edge") != -1
@@ -1475,7 +1482,6 @@ export default defineComponent({
   cursor: pointer;
 }
 
-
 .vol-table.chrome ::v-deep(.el-table__fixed) {
   height: calc(100% - 8px) !important;
   /* background: white; */
@@ -1490,7 +1496,7 @@ export default defineComponent({
   background: rgb(109, 109, 109);
 }
 
-.vol-table.chrome ::v-deep(.el-table__fixed:before){
-  background-color:unset;
+.vol-table.chrome ::v-deep(.el-table__fixed:before) {
+  background-color: unset;
 }
 </style>
