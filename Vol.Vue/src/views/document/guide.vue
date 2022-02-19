@@ -398,6 +398,12 @@
               Sqlserver2008，请使用2008以上的数据库或使用mysql</span
             >
           </span>
+
+                <div style="line-height:1.2;  color: red">
+            <span style="font-size: 20px"
+              >7、如果能看到验证码但点击登陆提示服务器异常，原因就是数据库没连上，请检查配置文件的链接，或者将后台错误信息返回(ExceptionHandlerMiddleWare.cs文件中将new { message = "~服务器没有正确处理请求,请稍等再试!", status = false }改为new { message = message, status = false })</span
+            >
+          </div>
         </li>
       </ul>
       <br />
@@ -613,6 +619,9 @@
         <div>2021.12.12更新Startup.cs文件后才能使用</div>
         将前端发布后的dist文件里面的内容(只要复制dist里面的内容)直接放到wwwroot文件下即可(前端http.js里面的ipaddress值改为/)
       </div>
+      <div style="color: red">
+        注意：如果是vue3版本请将Startup.cs中的app.UseDefaultFiles();注释掉
+      </div>
       <h2
         id="#6"
         style='box-sizing:border-box;-webkit-tap-highlight-color:transparent;padding:2px 20px;border-radius:6px;color:#EBEBEB;font-family:"background:#00BCD4;font-size:20px;line-height:37px;white-space:normal;margin:18px 0px !important;'
@@ -666,7 +675,7 @@
         >
           <span style="line-height: 3; font-size: 14px">
             <span style="font-size: 16px"
-              >其他文件更新：后台：VOL.System类库；前端：main.js、views->index.vue、login.vue、router文件夹，根据需要更新，不更新也没影响</span
+              >其他文件更新：后台：VOL.System类库,Template文件夹；前端：main.js、views->index.vue、login.vue、router文件夹，根据需要更新，不更新也没影响</span
             >
           </span>
         </li>
