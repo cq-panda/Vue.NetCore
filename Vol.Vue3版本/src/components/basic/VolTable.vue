@@ -2,7 +2,7 @@
   <!-- 2021.11.18移除voltable方法@cell-mouse-leave="rowEndEdit" -->
   <div
     class="vol-table"
-    :class="[textInline ? 'text-inline' : '', fxRight ? 'fx-right' : '']"
+    :class="[textInline ? 'text-inline' : '', fxRight ? 'fx-right' : '', isChrome ? 'chrome' : '']"
   >
     <div class="mask" v-show="loading"></div>
     <div class="message" v-show="loading">加载中.....</div>
@@ -499,9 +499,17 @@ export default defineComponent({
       cellStyleColumns: {}, // 有背景颜色的配置
       fxRight: false, //是否有右边固定表头
       selectRows: [], //当前选中的行
+      isChrome:false
     };
   },
   created() {
+        //2021.06.19判断谷歌内核浏览重新计算table高度
+    if (
+      navigator.userAgent.indexOf("Chrome") != -1 ||
+      navigator.userAgent.indexOf("Edge") != -1
+    ) {
+      this.isChrome = true;
+    }
     this.realHeight = this.getHeight();
     this.realMaxHeight = this.getMaxHeight();
     this.fxRight = this.columns.some((x) => {
@@ -1465,5 +1473,24 @@ export default defineComponent({
 }
 .vol-table .table-img:hover {
   cursor: pointer;
+}
+
+
+.vol-table.chrome ::v-deep(.el-table__fixed) {
+  height: calc(100% - 8px) !important;
+  /* background: white; */
+  /* box-shadow: 0px -11px 10px rgb(0 0 0 / 12%) !important; */
+}
+.vol-table.chrome ::v-deep(.el-table__body-wrapper::-webkit-scrollbar) {
+  width: 8px;
+  height: 8px;
+}
+.vol-table.chrome ::v-deep(.el-table__body-wrapper::-webkit-scrollbar-thumb) {
+  border-radius: 5px;
+  background: rgb(109, 109, 109);
+}
+
+.vol-table.chrome ::v-deep(.el-table__fixed:before){
+  background-color:unset;
 }
 </style>
