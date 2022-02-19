@@ -48,7 +48,53 @@ export default {
     return {
       active: 0,
       log: [
+        { date: "2022.02", type: "month" },
+        {
+          date: "2022-02-20 02:39:56",
+          desc: "移除vue3版本voltable快捷编辑a标签下划线",
+        },
+        { date: "2022-02-20 02:35:46", desc: "优化vue3版本voltable滚动条样式" },
+        {
+          date: "2022-02-20 02:32:32",
+          desc: "增加ApiBaseController方法JsonNormal默认日期格式处理",
+        },
+        {
+          date: "2022-02-20 01:59:01",
+          desc: "增加vue3版本table双击行事件参数判断",
+        },
+        { date: "2022-02-20 01:48:00", desc: "增加登陆异常排除文档说明" },
+        {
+          date: "2022-02-20 01:40:06",
+          desc: "优化ApiBaseController中GetPageData方法",
+        },
+        {
+          date: "2022-02-20 01:35:33",
+          desc: "启用vue3版本代码生成器的表别名功能",
+        },
+        {
+          date: "2022-02-20 01:26:24",
+          desc: "优化vue版本voltable属性placeholder",
+        },
+        {
+          date: "2022-02-20 01:20:18",
+          desc: "完善代码生器、前后端发布及更新文档说明",
+        },
+        {
+          date: "2022-02-20 01:13:34",
+          desc: "强制开启vue3版本联级可以选择任意节点",
+        },
+        {
+          date: "2022-02-20 01:13:21",
+          desc: "强制开启vue2版本联级可以选择任意节点",
+        },
+        {
+          date: "2022-02-20 01:05:40",
+          desc: "优化vue3版本placeholder属性显示",
+        },
+        { date: "2022-02-20 01:01:39", desc: "优化vue3登陆页面" },
         { date: "2022.01", type: "month" },
+        { date: "2022-01-26 10:58:07", desc: "Update 表结构与数据.sql" },
+
         { date: "2022-01-23 12:14:41", desc: "完善文档" },
         { date: "2022-01-15 18:57:29", desc: "移除vue3重复代码" },
         { date: "2022-01-11 22:59:47", desc: "提交vue2版本导出遗漏方法" },
