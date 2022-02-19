@@ -1051,6 +1051,11 @@ let methods = {
           this.uploadfiled.push(d.field);
         }
         if (!d.dataKey) return true;
+        //2022.02.20强制开启联级可以选择某个节点
+        if (d.type == "cascader" && !d.hasOwnProperty("changeOnSelect")) {
+          //强制开启联级可以选择某个节点
+          d.changeOnSelect = true;
+        }
         //开启远程搜索
         if (d.remote) {
           this.remoteKeys.push(d.dataKey);
@@ -1077,14 +1082,6 @@ let methods = {
           }
           this.dicKeys.push(_dic);
         } else if (d.type == "cascader") {
-          //强制开启联级可以选择某个节点
-          if (!d.hasOwnProperty("changeOnSelect")) {
-            d.changeOnSelect = true;
-            // d.formatter = label => {
-            //   return label.join(' / ')
-            // };
-          }
-
           this.dicKeys.forEach(x => {
             if (x.dicNo == d.dataKey) {
               x.type = "cascader";
@@ -1428,13 +1425,13 @@ let methods = {
       } else {
         data.data = []
       }
-      data.data.forEach(x=>{
-        x[this.detail.key]=undefined;
-        x[this.table.key]=undefined;
+      data.data.forEach(x => {
+        x[this.detail.key] = undefined;
+        x[this.table.key] = undefined;
       })
       this.importDetailAfter(data); //增加明细表导入后处理
       this.$refs.detail.rowData.unshift(...data.data);
-      this.upload.excel=false;
+      this.upload.excel = false;
       return;
     }
     this.importAfter(data);
