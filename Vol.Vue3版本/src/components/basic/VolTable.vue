@@ -132,11 +132,7 @@
                   v-model="scope.row[column.field]"
                   @change="column.onChange"
                   :type="column.edit.type"
-                  :placeholder="
-                    column.placeholder
-                      ? column.placeholder
-                      : '请选择' + column.title
-                  "
+                  :placeholder="column.placeholder || column.title"
                   :disabledDate="(val) => getDateOptions(val, column)"
                   :value-format="getDateFormat(column)"
                 >
@@ -170,11 +166,7 @@
                     column.filter || column.bind.data.length > 10 ? true : false
                   "
                   :multiple="column.edit.type == 'select' ? false : true"
-                  :placeholder="
-                    column.placeholder
-                      ? column.placeholder
-                      : '请选择' + column.title
-                  "
+                  :placeholder="column.placeholder || column.title"
                   :autocomplete="column.autocomplete"
                   @change="
                     column.onChange && column.onChange(scope.row, column)
@@ -196,7 +188,7 @@
                   @keyup.enter="inputKeyPress(scope.row, column, $event)"
                   size="small"
                   v-model="scope.row[column.field]"
-                  :placeholder="'请输入' + column.title"
+                  :placeholder="column.placeholder || column.title"
                 ></el-input>
               </div>
               <div
