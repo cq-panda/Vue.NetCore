@@ -645,6 +645,10 @@ export default defineComponent({
       this.$emit("rowDbClick", { row, column, event });
     },
     rowClick(row, column, event) {
+      //2022.02.20增加点击时表格参数判断
+      if (!column) {
+        return;
+      }
       //正在编辑时，禁止出发rowClick事件
       if (this.edit.rowIndex == -1) {
         this.$emit("rowClick", { row, column, event });
