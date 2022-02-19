@@ -101,21 +101,23 @@ let data = {
       ],
       [
         { "title": "表中文名", "field": "columnCNName", "dataSource": [], "required": true },
-       // { "title": "表 别 名", placeholder: "默认与实际表名相同", "field": "tableName", "required": true },
+        { "title": "表 别 名", placeholder: "默认与实际表名相同", "field": "tableName", "required": true },
         { "title": "实际表名", "field": "tableTrueName" },
-        { "title": "文件夹名", placeholder: "生成文件所在类库中的文件夹名(文件夹可以不存在)", "field": "folderName", "required": true },
+      
       ],
       [
-     
+        { "title": "文件夹名", placeholder: "生成文件所在类库中的文件夹名(文件夹可以不存在)", "field": "folderName", "required": true },
         { "title": "明细表名", "field": "detailCnName",placeholder:"明细表中文名字" },
         { "title": "明 细 表", "field": "detailName",placeholder:"数据库的表名" },
-        { "title": "排序字段", "field": "sortName", "placeholder": "非自增主键需要输入排序字段" },
+
       ],
       [
         { "title": "快捷编辑", "field": "expressField", placeholder: "快捷编辑字段" },
-        { "title": "Vue路径", "field": "vuePath", type: "text", placeholder: 'Vue项目所在绝对路径,到views文件夹,如：E:/app/src/views', colSize:8}
+        { "title": "排序字段", "field": "sortName", "placeholder": "非自增主键需要输入排序字段" },
+       
         // { "title": "还没想好", "field": "richtitle" }
       ],
+      [ { "title": "Vue路径", "field": "vuePath", type: "text", placeholder: 'Vue项目所在绝对路径,到views文件夹,如：E:/app/src/views', colSize:12}]
       // [ //待完
       //     { "title": "开启用户权限数据", "field": "enable", bind: { data: [{ key: 1, value: '是', key: 0, value: '否' }] }, type: 'switch', colSize: 2 },
       //     { "title": "提示", "required": true, "field": "userPermissionDesc", colSize: 10, "placeholder": "非自增主键需要输入排序字段",readonly:true }
