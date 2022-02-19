@@ -151,7 +151,7 @@
         </div>
         <ul class="coder-group">
           <li class="coder-list"
-              style="color:red;">确认后台项目运行的是路径 …/VOL.WebApi/dev_run.bat 文件,</li>
+              style="color:red;">如果后台启动的是builder_run.bat请关掉后台(否则打开菜单后会提示未找到路径),点击目录 …/VOL.WebApi/dev_run.bat文件启动后台,</li>
           <li class="coder-list">输入http://localhost:8080/sellOrder</li>
           <li class="coder-img"
               @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep6.png')">
