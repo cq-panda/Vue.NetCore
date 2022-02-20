@@ -2,7 +2,11 @@
   <!-- 2021.11.18移除voltable方法@cell-mouse-leave="rowEndEdit" -->
   <div
     class="vol-table"
-    :class="[textInline ? 'text-inline' : '', fxRight ? 'fx-right' : '']"
+    :class="[
+      textInline ? 'text-inline' : '',
+      fxRight ? 'fx-right' : '',
+      isChrome ? 'chrome' : '',
+    ]"
   >
     <div class="mask" v-show="loading"></div>
     <div class="message" v-show="loading">加载中.....</div>
@@ -71,6 +75,7 @@
             <template #scope1>
               <a
                 href="javascript:void(0)"
+                style="text-decoration: none"
                 @click="link(scope1.row, columnChildren, $event)"
                 v-if="column.link"
                 v-text="scope1.row[columnChildren.field]"
@@ -132,11 +137,7 @@
                   v-model="scope.row[column.field]"
                   @change="column.onChange"
                   :type="column.edit.type"
-                  :placeholder="
-                    column.placeholder
-                      ? column.placeholder
-                      : '请选择' + column.title
-                  "
+                  :placeholder="column.placeholder || column.title"
                   :disabledDate="(val) => getDateOptions(val, column)"
                   :value-format="getDateFormat(column)"
                 >
@@ -170,11 +171,7 @@
                     column.filter || column.bind.data.length > 10 ? true : false
                   "
                   :multiple="column.edit.type == 'select' ? false : true"
-                  :placeholder="
-                    column.placeholder
-                      ? column.placeholder
-                      : '请选择' + column.title
-                  "
+                  :placeholder="column.placeholder || column.title"
                   :autocomplete="column.autocomplete"
                   @change="
                     column.onChange && column.onChange(scope.row, column)
@@ -196,7 +193,7 @@
                   @keyup.enter="inputKeyPress(scope.row, column, $event)"
                   size="small"
                   v-model="scope.row[column.field]"
-                  :placeholder="'请输入' + column.title"
+                  :placeholder="column.placeholder || column.title"
                 ></el-input>
               </div>
               <div
@@ -205,6 +202,7 @@
               >
                 <a
                   :style="column.extra.style"
+                  style="text-decoration: none"
                   @click="extraClick(scope.row, column)"
                 >
                   <i v-if="column.extra.icon" :clss="[column.extra.icon]" />
@@ -224,6 +222,7 @@
           <template v-else>
             <a
               href="javascript:void(0)"
+              style="text-decoration: none"
               @click="link(scope.row, column, $event)"
               v-if="column.link"
               v-text="scope.row[column.field]"
@@ -507,9 +506,17 @@ export default defineComponent({
       cellStyleColumns: {}, // 有背景颜色的配置
       fxRight: false, //是否有右边固定表头
       selectRows: [], //当前选中的行
+      isChrome: false,
     };
   },
   created() {
+    //2021.06.19判断谷歌内核浏览重新计算table高度
+    if (
+      navigator.userAgent.indexOf("Chrome") != -1 ||
+      navigator.userAgent.indexOf("Edge") != -1
+    ) {
+      this.isChrome = true;
+    }
     this.realHeight = this.getHeight();
     this.realMaxHeight = this.getMaxHeight();
     this.fxRight = this.columns.some((x) => {
@@ -653,6 +660,10 @@ export default defineComponent({
       this.$emit("rowDbClick", { row, column, event });
     },
     rowClick(row, column, event) {
+      //2022.02.20增加点击时表格参数判断
+      if (!column) {
+        return;
+      }
       //正在编辑时，禁止出发rowClick事件
       if (this.edit.rowIndex == -1) {
         this.$emit("rowClick", { row, column, event });
@@ -1469,5 +1480,23 @@ export default defineComponent({
 }
 .vol-table .table-img:hover {
   cursor: pointer;
+}
+
+.vol-table.chrome ::v-deep(.el-table__fixed) {
+  height: calc(100% - 8px) !important;
+  /* background: white; */
+  /* box-shadow: 0px -11px 10px rgb(0 0 0 / 12%) !important; */
+}
+.vol-table.chrome ::v-deep(.el-table__body-wrapper::-webkit-scrollbar) {
+  width: 8px;
+  height: 8px;
+}
+.vol-table.chrome ::v-deep(.el-table__body-wrapper::-webkit-scrollbar-thumb) {
+  border-radius: 5px;
+  background: rgb(109, 109, 109);
+}
+
+.vol-table.chrome ::v-deep(.el-table__fixed:before) {
+  background-color: unset;
 }
 </style>

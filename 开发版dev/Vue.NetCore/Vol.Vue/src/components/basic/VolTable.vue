@@ -141,7 +141,7 @@
                         ? 'yyyy-MM-dd'
                         : 'yyyy-MM-dd HH:mm:ss'
                     "
-                    :placeholder="column.title"
+                    :placeholder="column.placeholder || column.title"
                     :value="scope.row[column.field]"
                     @on-change="
                       (time) => {
@@ -187,7 +187,7 @@
                         ? true
                         : false
                     "
-                    :placeholder="'请选择' + column.title"
+                    :placeholder="column.placeholder || column.title"
                     @on-change="
                       (value) => {
                         column.onChange &&
@@ -227,7 +227,7 @@
                       }
                     "
                     v-model="scope.row[column.field]"
-                    :placeholder="'请输入' + column.title"
+                    :placeholder="column.placeholder || column.title"
                   ></Input>
                 </div>
                 <div

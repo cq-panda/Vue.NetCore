@@ -4,53 +4,59 @@
       <div class="l-left">
         <div class="desc">
           <div class="title">
-            vol.vue<span style="
+            vol.vue<span
+              style="
                 font-size: 13px;
                 background: #46c706;
                 border-radius: 24px;
                 padding: 4px 9px;
                 border: 1px solid;
                 margin-left: 5px;
-              ">vue3.x</span>
+              "
+              >vue3.x</span
+            >
           </div>
           <p>后台</p>
           <p>.NetCore、EntityFrameWorkCore、Dapper、Redis</p>
           <p>Vue、Promise、Vuex、IView、Element-UI</p>
           <p>演示账号：admin666 密码:123456</p>
           <p>本地账号：admin &nbsp; &nbsp; &nbsp; 密码:123456</p>
-          <div style="margin-top: 30px"
-               class="link">
-            <a href="https://github.com/cq-panda/Vue.NetCore"
-               target="_blank">
-              <span>GitHub</span></a>
-            <a href="https://gitee.com/x_discoverer/Vue.NetCore"
-               target="_blank">
-              <span>Gitee</span></a>
-            <a href="http://v2.volcore.xyz/"
-               target="_blank">
-              <span>Vue2版本</span></a>
-            <a href="http://v2.volcore.xyz/document/guide"
-               target="_blank">
-              <span>框架文档</span></a>
+          <div style="margin-top: 30px" class="link">
+            <a href="https://github.com/cq-panda/Vue.NetCore" target="_blank">
+              <span>GitHub</span></a
+            >
+            <a
+              href="https://gitee.com/x_discoverer/Vue.NetCore"
+              target="_blank"
+            >
+              <span>Gitee</span></a
+            >
+            <a href="http://v2.volcore.xyz/" target="_blank">
+              <span>Vue2版本</span></a
+            >
+            <a href="http://v2.volcore.xyz/document/guide" target="_blank">
+              <span>框架文档</span></a
+            >
           </div>
         </div>
       </div>
       <div class="login">
         <div class="login-contianer">
           <div class="login-form">
-            <h2>账号登陆</h2>
+            <h2>账号登录</h2>
             <div class="v-tag">Vue3.x版本</div>
-            <div class="form-user"
-                 @keypress="loginPress">
+            <div class="form-user" @keypress="loginPress">
               <div class="item">
                 <div class="f-text">
                   <label> 用户名： </label>
                 </div>
                 <div class="f-input">
-                  <input type="text"
-                         v-focus
-                         v-model="userInfo.userName"
-                         placeholder="输入用户" />
+                  <input
+                    type="text"
+                    v-focus
+                    v-model="userInfo.userName"
+                    placeholder="输入用户"
+                  />
                 </div>
               </div>
               <div class="item">
@@ -58,10 +64,12 @@
                   <label> 密&nbsp;&nbsp;&nbsp;码： </label>
                 </div>
                 <div class="f-input">
-                  <input type="password"
-                         v-focus
-                         v-model="userInfo.password"
-                         placeholder="输入密码" />
+                  <input
+                    type="password"
+                    v-focus
+                    v-model="userInfo.password"
+                    placeholder="输入密码"
+                  />
                 </div>
               </div>
               <div class="item">
@@ -69,32 +77,34 @@
                   <label> 验证码： </label>
                 </div>
                 <div class="f-input">
-                  <input v-focus
-                         type="text"
-                         v-model="userInfo.verificationCode"
-                         placeholder="输入验证码" />
+                  <input
+                    v-focus
+                    type="text"
+                    v-model="userInfo.verificationCode"
+                    placeholder="输入验证码"
+                  />
                 </div>
-                <div class="code"
-                     @click="getVierificationCode">
-                  <img v-show="codeImgSrc != ''"
-                       :src="codeImgSrc" />
+                <div class="code" @click="getVierificationCode">
+                  <img v-show="codeImgSrc != ''" :src="codeImgSrc" />
                 </div>
               </div>
             </div>
             <div class="loging-btn">
-              <el-button size="large"
-                         :loading="loading"
-                         type="primary"
-                         @click="login"
-                         long>
-                <span v-if="!loading">登陆</span>
-                <span v-else>正在登陆...</span>
+              <el-button
+                size="large"
+                :loading="loading"
+                type="primary"
+                @click="login"
+                long
+              >
+                <span v-if="!loading">登录</span>
+                <span v-else>正在登录...</span>
               </el-button>
             </div>
             <div class="action">
-              <a href="http://v2.volcore.xyz/"
-                 target="_blank">
-                <span>查看Vue2版本</span></a>
+              <a href="http://v2.volcore.xyz/" target="_blank">
+                <span>查看Vue2版本</span></a
+              >
               <a @click="() => {}">注册</a>
               <a @click="() => {}">忘记密码</a>
             </div>
@@ -115,17 +125,28 @@
       <a @click="openUrl('http://v2.volcore.xyz/')"> Vue2版本 </a>
       <a>QQ1群：45221949(已满)</a>
       <a>QQ2群：913189178</a>
-      <a style="text-decoration: none;" href="https://beian.miit.gov.cn/" target="_blank">京ICP备19056538号-1</a>
+      <a
+        style="text-decoration: none"
+        href="https://beian.miit.gov.cn/"
+        target="_blank"
+        >京ICP备19056538号-1</a
+      >
     </div>
   </div>
 </template>
 <script>
-import { defineComponent, ref, reactive, toRefs, getCurrentInstance } from "vue";
+import {
+  defineComponent,
+  ref,
+  reactive,
+  toRefs,
+  getCurrentInstance,
+} from "vue";
 import { useRouter, useRoute } from "vue-router";
 import store from "../store/index";
 import http from "@/../src/api/http.js";
 export default defineComponent({
-  setup (props, context) {
+  setup(props, context) {
     const loading = ref(false);
     const codeImgSrc = ref("");
     const userInfo = reactive({
@@ -154,18 +175,16 @@ export default defineComponent({
         return $message.error("请输入验证码");
       }
       loading.value = true;
-      http
-        .post("/api/user/login", userInfo, "正在登陆....")
-        .then((result) => {
-          if (!result.status) {
-            loading.value = false;
-            getVierificationCode();
-            return $message.error(result.message);
-          }
-          $message.success("登陆成功,正在跳转!");
-          store.commit("setUserInfo", result.data);
-          router.push({ path: "/" });
-        });
+      http.post("/api/user/login", userInfo, "正在登录....").then((result) => {
+        if (!result.status) {
+          loading.value = false;
+          getVierificationCode();
+          return $message.error(result.message);
+        }
+        $message.success("登录成功,正在跳转!");
+        store.commit("setUserInfo", result.data);
+        router.push({ path: "/" });
+      });
     };
     const loginPress = (e) => {
       if (e.keyCode == 13) {
@@ -231,8 +250,8 @@ export default defineComponent({
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     width: 400px;
-    background-image: linear-gradient(135deg, #0d82ff 10%, #0cd7bd);
-    border: 1px solid #5c87ff;
+    // background-image: linear-gradient(135deg, #0d82ff 10%, #0cd7bd);
+    // border: 1px solid #5c87ff;
   }
 }
 
@@ -340,7 +359,7 @@ input:-webkit-autofill {
     min-height: 340px;
     background: white;
     height: 400px;
-    box-shadow: 0px 4px 21px #d6d6d6;
+    box-shadow: 2px 5px 18px #6453534a;
     h2 {
       font-weight: 500;
       padding: 10px 0px;
@@ -351,14 +370,13 @@ input:-webkit-autofill {
       top: -23px;
       text-align: center;
       position: absolute;
-      background: #eee;
       right: -43px;
       line-height: 49px;
       top: -17px;
       padding-left: 21px;
       font-size: 12px;
       width: 158px;
-      background: #5fbd30;
+      background: #3a8ee6;
       padding-top: 25px;
       color: white;
       -webkit-transform: rotate(40deg);
