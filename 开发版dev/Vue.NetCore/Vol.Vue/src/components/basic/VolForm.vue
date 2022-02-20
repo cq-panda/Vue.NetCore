@@ -298,6 +298,7 @@
                   item.onKeyPress && item.onKeyPress($event);
                 }
               "
+              @on-change="onChange(item, _formFields[item.field])"
               clearable
               :autosize="{
                 minRows: item.minRows || 2,
@@ -319,6 +320,7 @@
                   item.onKeyPress && item.onKeyPress($event);
                 }
               "
+              @on-change="onChange(item, _formFields[item.field])"
               :placeholder="
                 item.placeholder ? item.placeholder : '请输入' + item.title
               "
@@ -332,6 +334,7 @@
                   item.onKeyPress && item.onKeyPress($event);
                 }
               "
+              @on-change="onChange(item, _formFields[item.field])"
               v-model="_formFields[item.field]"
               :placeholder="
                 item.placeholder ? item.placeholder : '请输入' + item.title
