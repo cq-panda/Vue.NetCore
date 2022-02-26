@@ -18,36 +18,31 @@ let extension = {
     onInited() {
       //初始化后将table高度减少85,因为gridHeader加了提示会导致页面有滚动条
       this.height = this.height - 85;
+      //自定义弹出框的高与宽
+      this.boxOptions.height = document.body.clientHeight * 0.85;
+      this.boxOptions.width = document.body.clientWidth * 0.8;
     },
     onInit() {
-      //缓存当前对象
-      this.$store.getters.data().reportPrice = this;
-      //自定义弹出框的高与宽
-      this.boxOptions.height = document.documentElement.clientHeight * 0.8;
-      this.boxOptions.width = document.documentElement.clientWidth * 0.8;
+
     },
     modelOpenAfter() {//打开弹出框时
       //是否子组件渲染完成
-      if (this.$refs.modelBody) {
-        //新建功时，清空 清空,从表1，从表2的数据
-        if (this.currentAction == 'Add') {
-          this.$refs.modelBody.$refs.table1.reset();
-          this.$refs.modelBody.$refs.table2.reset();
-        } else {
-          //编辑时，加载从表1，从表2的数据
-          this.$refs.modelBody.$refs.table1.load();
-          this.$refs.modelBody.$refs.table2.load();
-        }
-      }
+      //新建功时，清空 清空,从表1，从表2的数据
+      this.$nextTick(() => {
+        //这里没有给弹出框中的表格传参，如果需要参数可以通过 this.$emit("parentCall", 获取页面的参数
+        //具体见自定义页面App_ReportPriceModelBody.vue中的modelOpen方法的使用 this.$emit("parentCall", ($this) => {
+        this.$refs.modelBody.modelOpen();
+      })
     },
-    addBefore(formData) { //新建或编辑功能点保存时可以将从表1，从表2的数据提到后台
-      this.setFormData(formData);
-      return true;
-    }, updateBefore(formData) { //编辑时功能点保存时可以将从表1，从表2的数据提到后台
+    addBefore(formData) { //弹出框新建或编辑功能点保存时可以将从表1，从表2的数据提到后台
       this.setFormData(formData);
       return true;
     },
-    setFormData(formData) { //新建或编辑时，将从表1、2的数据提交到后台
+    updateBefore(formData) { //编辑时功能点保存时可以将从表1，从表2的数据提到后台
+      this.setFormData(formData);
+      return true;
+    },
+    setFormData(formData) { //新建或编辑时，将从表1、2的数据提交到后台,见后台App_ReportPriceService的新建方法
       //后台从对象里直接取extra的值
       let extra = {
         table1List: this.$refs.modelBody.$refs.table1.rowData,//获取从表1的行数据
