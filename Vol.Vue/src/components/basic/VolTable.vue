@@ -121,7 +121,7 @@
             <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
             <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
             <!-- 2021.11.18增加table编辑时阻止无效事件触发 -->
-            <div v-else-if="column.edit" class="edit-el">
+            <div v-else-if="column.edit&&!column.readonly" class="edit-el">
               <div
                 @click.stop
                 v-if="column.edit.keep || edit.rowIndex == scope.$index"
@@ -850,6 +850,16 @@ export default {
         return;
       }
       if (!this.enableEdit) return;
+      // 不能编辑的字段、switch，点击不开启启编辑功能
+      let _row = this.columns.find((x) => x.field == column.property);
+      //不能编辑的字段、switch，点击不开启启编辑功能2022.02.26
+      if (
+        (_row && _row.readonly) ||
+        !_row.edit ||
+        (_row.edit.keep && _row.edit.type == "switch")
+      ) {
+        return;
+      }
       // 编辑前
       if (!this.beginEdit(row, column, row.elementIdex)) return;
       if (row.hasOwnProperty("elementIdex")) {
