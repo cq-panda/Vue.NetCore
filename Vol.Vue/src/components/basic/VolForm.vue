@@ -368,12 +368,13 @@
 <script>
 // import moment from "moment";
 import FormExpand from "./VolForm/VolFormRender";
-import VolWangEditor from "@/components/basic/VolWangEditor.vue";
+// import VolWangEditor from "@/components/basic/VolWangEditor.vue";
 export default {
   components: {
     FormExpand,
     VolUpload: () => import("@/components/basic/VolUpload.vue"),
-    "vol-wang-editor": VolWangEditor,
+    //2022.02.26编辑器改为懒加载
+    "vol-wang-editor": ()=>import("@/components/basic/VolWangEditor.vue"),
   },
   props: {
     loadKey: {
