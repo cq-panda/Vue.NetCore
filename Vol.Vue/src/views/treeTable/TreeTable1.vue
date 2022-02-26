@@ -14,7 +14,7 @@ import TableDemo from "./demo1/Table.vue";
 export default {
   components: {
     treeDemo,
-    TableDemo
+    TableDemo,
   },
   created() {
     //初始化一个对象全局缓存起来，当点击左边树形菜单时，把点击菜单的treeId(角色id)存到treeDemo1里
@@ -23,9 +23,9 @@ export default {
   methods: {
     onChange1(treeId) {
       //调用table(viewGird.vue)刷新方法
-      this.$store.getters.data().viewGridDemo.refresh();
-    }
-  }
+      this.$store.getters.data().viewGridDemo.nodeClick(treeId); //这里可以写任意参数
+    },
+  },
 };
 </script>
 

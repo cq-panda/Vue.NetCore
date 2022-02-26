@@ -14,7 +14,7 @@ import treeDemo from "./demo2/Tree2.vue";
 export default {
   components: {
     treeDemo,
-    TableDemo
+    TableDemo,
   },
   created() {
     //初始化一个对象全局缓存起来，当点击左边树形菜单时，把点击菜单的treeId(角色id)存到treeDemo1里
@@ -22,15 +22,11 @@ export default {
   },
   methods: {
     onChange2(treeId) {
-      if (!this.$refs.table2) {
-        this.$nextTick(() => {
-          this.$store.getters.data().tableDemo2.refresh();
-        });
-      } else {
+      this.$nextTick(() => {
         this.$store.getters.data().tableDemo2.refresh();
-      }
-    }
-  }
+      });
+    },
+  },
 };
 </script>
 
