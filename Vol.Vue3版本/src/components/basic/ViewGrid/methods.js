@@ -788,11 +788,11 @@ let methods = {
         this.$refs.detail.reset();
     }
     let obj = {};
-    //如果有switch标签，默认都设置为是
+    //如果有switch标签，默认都设置为否
     this.editFormOptions.forEach(x => {
       x.forEach(item => {
         if (item.type == "switch") {
-          obj[item.field] = 1;
+          obj[item.field] = 0;
         }
       });
     });
