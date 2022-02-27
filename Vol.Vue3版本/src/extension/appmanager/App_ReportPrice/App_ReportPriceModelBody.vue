@@ -1,60 +1,98 @@
 <template>
   <div class="vol-tabs">
-    <el-tabs type="border-card" style="min-height: 370px; box-shadow: none;border-bottom:0;border-top: 10px solid #eee">
+    <el-tabs
+      type="border-card"
+      style="
+        min-height: 370px;
+        box-shadow: none;
+        border-bottom: 0;
+        border-top: 10px solid #eee;
+      "
+    >
       <el-tab-pane>
         <template #label>
           <span><i class="el-icon-date"></i> 从表1</span>
         </template>
         <!-- 显示操作按钮 -->
-        <div  style="padding-bottom: 10px;">
-          <label style="margin-right: 14px;font-size: 13px;">双击行可以编辑,或者可以根据菜单： table使用->table编辑(二)在行上配置操作,完整文档见:组件api->voltable</label>
-          <el-button type="primary" size="mini"  ghost @click="del">删除行</el-button>
-          <el-button type="primary" size="mini"  ghost @click="add">添加行</el-button>
-          <el-button type="primary" size="mini"  ghost @click="getRows"
+        <div>
+          <el-button
+            type="primary"
+            icon="el-icon-close"
+            size="mini"
+            ghost
+            @click="del"
+            >删除行</el-button
+          >
+          <el-button
+            type="success"
+            icon="el-icon-plus"
+            size="mini"
+            ghost
+            @click="add"
+            >添加行</el-button
+          >
+          <el-button
+            type="warning"
+            icon="el-icon-check"
+            size="mini"
+            ghost
+            @click="getRows"
             >获取选中的行</el-button
           >
           <el-button
-            type="primary"
-            size="mini" 
-            @click="$refs.table1.load();"
+            type="info"
+            icon="el-icon-refresh"
+            size="mini"
+            @click="$refs.table1.load()"
             >刷新</el-button
           >
         </div>
+        <el-alert
+          title="双击行可以编辑,或者可以根据菜单： table使用->table编辑(二)在行上配置操作,完整文档见:组件api->voltable"
+          type="warning"
+          style="margin: 10px 0"
+          show-icon
+        >
+        </el-alert>
+        <!-- :defaultLoadPage="false"打开窗口禁用默认加载数据 -->
         <vol-table
           ref="table1"
           :clickEdit="true"
           :loadKey="true"
           :columns="tableColumns1"
           :pagination-hide="false"
-          :height="270"
+          :height="230"
           :url="table1Url"
           :index="true"
+          :defaultLoadPage="false"
           @loadBefore="loadTableBefore1"
           @loadAfter="loadTableAfter1"
         ></vol-table>
       </el-tab-pane>
+
       <!-- 从表2 -->
       <el-tab-pane :lazy="false" label="从表2">
         <template #label>
           <span><i class="el-icon-date"></i> 从表2</span>
         </template>
         <!-- 从表2配置 ,双击可以开启编辑-->
-         <div  style="padding-bottom: 10px;">
-                <label style="margin-right: 14px;font-size: 13px;">双击行可以编辑</label>
-            <el-button
-              type="primary"
-              size="mini" 
-              ghost
-              @click="$refs.table2.addRow({}); "
-              >添加行</el-button
-            >
-            <el-button
-              type="primary"
-              size="mini" 
-              ghost
-              @click=" $refs.table2.load()"
-              >刷新</el-button
-            >
+        <div style="padding-bottom: 10px">
+          <el-button
+            type="primary"
+            size="mini"
+            ghost
+            icon="el-icon-plus"
+            @click="$refs.table2.addRow({})"
+            >添加行</el-button
+          >
+          <el-button
+            icon="el-icon-close"
+            size="mini"
+            type="success"
+            ghost
+            @click="$refs.table2.load()"
+            >刷新</el-button
+          >
         </div>
         <vol-table
           ref="table2"
@@ -62,15 +100,14 @@
           :clickEdit="true"
           :columns="tableColumns2"
           :pagination-hide="false"
-          :max-height="450"
+          :height="275"
           :url="table2Ur"
-          :index="true"
+          :defaultLoadPage="false"
           @loadBefore="loadTableBefore2"
-          @loadAfter="loadTableAfter2"
+          :index="true"
         ></vol-table>
       </el-tab-pane>
-      <el-tab-pane :lazy="false" label="角色管理">从表3</el-tab-pane>
-      <el-tab-pane :lazy="false" label="定时任务补偿">从表4</el-tab-pane>
+      <el-tab-pane :lazy="false" label="从表3">从表3</el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -90,7 +127,7 @@ export default {
           field: "title",
           title: "标题",
           type: "string",
-          width: 200,
+          width: 400,
           require: true,
           sortable: true,
           edit: { type: "text" }, //keep:true始终开启编辑，false双击才能编辑
@@ -149,13 +186,7 @@ export default {
           edit: { type: "text" },
           width: 150,
         },
-        {
-          field: "describe",
-          title: "描述",
-          type: "text",
-          edit: { type: "text" },
-          width: 300,
-        },
+
         {
           field: "createDate",
           title: "创建时间",
@@ -163,55 +194,68 @@ export default {
           edit: { type: "datetime" },
           width: 150,
         },
+        {
+          field: "describe",
+          title: "描述",
+          type: "text",
+          edit: { type: "text" },
+          width: 500,
+        },
       ],
     };
   },
   methods: {
-    //第一次打开弹出框时，如果是新建功能，禁止从后台查询
-    loadTableBefore(param, callBack) {
-      //获取查询页面的整个(App_ReportPrice界面)vue对象
-
-      //所有属性都在：组件api->viewgrid文档上找到
-      //http://www.volcore.xyz/document/guide
-      let _this =null;
-      this.$emit('parentCall',($this)=>{
-        _this=$this;
-      })
-      //如果是新建功能，禁止从后台查询
-      if (_this.currentAction == "Add") {
-        // this.$refs.table1.reset();
+    //如果要获取页面的参数请使用 this.$emit("parentCall",见下面的使用方法
+    modelOpen() {
+      let $parent;
+      //获取生成页面viewgrid的对象
+      this.$emit("parentCall", ($this) => {
+        $parent = $this;
+      });
+      //当前如果是新建重置两个表格数据
+      if ($parent.currentAction == "Add") {
+        this.$refs.table1.reset();
+        this.$refs.table2.reset();
+      } else {
+        //如果是编辑，添加两个表格的数据
+        this.$refs.table1.load();
+        this.$refs.table2.load();
+      }
+    },
+    loadTableBefore1(param, callBack) {
+      let $parent = null;
+      //当前是子页面，获取查询viewgrid页面的对象()
+      this.$emit("parentCall", ($this) => {
+        $parent = $this;
+      });
+      //如果是新建功能，禁止刷新操作
+      if ($parent.currentAction == "Add") {
         return callBack(false);
       }
-      //获取当前选中行的主键
-      let id = _this.currentRow.Id;
+      //获取当前编辑主键id值
+      let id = $parent.currentRow.Id;
       //添加从表的查询参数(条件)
       //将当前选中的行主键传到后台用于查询(后台在GetTable2Data(PageDataOptions loadData)会接收到此参数)
-      param.wheres.push({ id: id });
+      param.wheres.push({ name: "Id", value: id });
       callBack(true);
     },
-    //加载从表1数据数前
-    loadTableBefore1(param, callBack) {
-      this.loadTableBefore(param, callBack);
-    },
-    //加载从表2数据数前
+    //从表2加载数据数前(操作与上面一样的,增加查询条件)
     loadTableBefore2(param, callBack) {
-      this.loadTableBefore(param, callBack);
+      callBack(true);
     },
     //从后台加载从表1数据后
     loadTableAfter1(data, callBack) {
       return true;
     },
-    //从后台加载从表2数据后
-    loadTableAfter2(data, callBack) {
-      return true;
-    },
-    remoteLoad() {},
+
+
     del() {
       let rows = this.$refs.table1.getSelected();
       if (rows.length == 0) {
         return this.$Message.error("请先选中行");
       }
       this.$refs.table1.delRow();
+      //可以this.http.post调用后台实际执行查询
     },
     clear() {
       this.$refs.table1.reset();
@@ -234,5 +278,4 @@ export default {
 .vol-tabs {
   background: white;
 }
-
 </style>
