@@ -754,8 +754,6 @@ DISTINCT
                 columns = sb.ToString().Trim();
                 columns = columns.Substring(0, columns.Length - 1);
                 pageContent = pageContent.Replace("#detailColumns", columns).
-                    //2022.01.08增加明细表导入
-                    Replace("#detailTable", detailTable.TableName).
                     Replace("#detailCnName", detailTable.ColumnCNName).
                     Replace("#detailKey", detailTable.TableColumns.Where(c => c.IsKey == 1).Select(x => x.ColumnName).First()).
                     Replace("#detailSortName", string.IsNullOrEmpty(detailTable.SortName) ? key : detailTable.SortName);
@@ -1089,7 +1087,7 @@ DISTINCT
                      WHEN ColumnType = 'float' THEN 'float'
                      ELSE 'string '
                 END ColumnType,
-                    [Maxlength],
+                CASE WHEN   ColumnType IN ('NVARCHAR','NCHAR') THEN [Maxlength]/2 ELSE [Maxlength] END  [Maxlength],
                 IsKey,
                 CASE WHEN ColumnName IN('CreateID', 'ModifyID', '')
                           OR IsKey = 1 THEN 0
