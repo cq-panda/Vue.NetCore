@@ -1,31 +1,52 @@
 <template>
   <div class="content">
-    <Tabs>
-      <TabPane label="KindEditor" icon="ios-link">
-        <div style="padding-top:15px">
-          <VolForm ref="myform" :label-width="90" :formFileds="formFileds1" :formRules="formRules1"></VolForm>
-          <div class="v-kind">
-            <label class="ivu-form-item-label" style="width: 90px;">发布内容：</label>
-            <div>
-              <kind-editor ref="editor" :content="content" height="400px"></kind-editor>
-            </div>
-          </div>
+    <el-alert
+      type="info"
+      show-icon
+      style="margin-bottom: 15px"
+      :closable="false"
+      title="编辑器使用"
+    >
+      <p>编辑器集成的是wangeditor,框架只做了一个基本功能集成</p>
+      框架代码生成器默认集成了编辑器,代码生成器里面编辑类型选择editor即可自动生成,更多功能：<a
+        href="https://www.wangeditor.com/"
+        target="_blank"
+        >查看wangeditor文档</a
+      >
+    </el-alert>
+    <div style="padding-top: 15px">
+      <VolForm
+        ref="myform"
+        :label-width="90"
+        :formFileds="formFileds1"
+        :formRules="formRules1"
+      ></VolForm>
+      <div class="v-kind">
+        <label class="ivu-form-item-label" style="width: 90px"
+          >发布内容：</label
+        >
+        <div>
+          <vol-wang-editor
+            v-model="content"
+            :height="310"
+            url="api/App_Expert/Upload"
+          ></vol-wang-editor>
         </div>
-      </TabPane>
-    </Tabs>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import VolBox from "@/components/basic/VolBox.vue";
 import VolHeader from "@/components/basic/VolHeader.vue";
 import VolForm from "@/components/basic/VolForm.vue";
-import KindEditor from "@/components/kindeditor/KindEditor.vue";
+import VolWangEditor from "@/components/basic/VolWangEditor.vue";
 export default {
   components: {
     VolBox,
     VolForm,
     VolHeader,
-    KindEditor: KindEditor
+    "vol-wang-editor": VolWangEditor,
   },
   methods: {
     getContent() {
@@ -36,7 +57,7 @@ export default {
         this.content = content;
         this.$refs.editor.setContent(content);
       }
-    }
+    },
   },
   mounted() {},
   data() {
@@ -47,34 +68,38 @@ export default {
 </p>
 <br />
 <span style="line-height:1.5;font-size:18px;">&nbsp; &nbsp; &nbsp;&nbsp;</span><br />`, //文本编辑器内容
-      formFileds1: { title1: "创业板指走低跌0.5% 手机游戏板块逆势大涨", title2: "今日上午震荡下行，小幅下跌，创指表现疲软，弱势下行，高送转概念股美联新材4连板，网络直播强势上涨，领涨两市，奥飞娱乐等4股涨停，手机游戏表现活跃，涨幅居前，中文在线等5股涨停，前期大涨的消费电子今日大跌，领跌两市，芯片概念也表现疲软，次新股跌幅居前，银行、证券、保险等权重股也未能持续带头上涨" },
+      formFileds1: {
+        title1: "创业板指走低跌0.5% 手机游戏板块逆势大涨",
+        title2:
+          "今日上午震荡下行，小幅下跌，创指表现疲软，弱势下行，高送转概念股美联新材4连板，网络直播强势上涨，领涨两市，奥飞娱乐等4股涨停，手机游戏表现活跃，涨幅居前，中文在线等5股涨停，前期大涨的消费电子今日大跌，领跌两市，芯片概念也表现疲软，次新股跌幅居前，银行、证券、保险等权重股也未能持续带头上涨",
+      },
       formRules1: [
         [
           {
             title: "一级标题",
             required: true,
             field: "title1",
-            type: "text"
-          }
+            type: "text",
+          },
         ],
         [
           {
             title: "二级标题",
             required: true,
             field: "title2",
-            type: "textarea"
-          }
-        ]
-      ]
+            type: "textarea",
+          },
+        ],
+      ],
     };
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
 .content {
-    padding: 20px 50px;
-    min-height: 400px;
-    background: white;
+  padding: 15px;
+  min-height: 400px;
+  background: white;
 }
 .v-kind {
   > label {
@@ -82,7 +107,7 @@ export default {
     padding: 10px 12px 10px 0;
     text-align: right;
     width: 90px;
-    line-height: 450px;
+    line-height: 300px;
   }
   display: flex;
   > div {

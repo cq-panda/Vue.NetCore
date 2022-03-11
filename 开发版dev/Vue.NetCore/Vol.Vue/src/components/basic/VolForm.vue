@@ -178,6 +178,7 @@
                     :format="getDateFormat(item)"
                     :placeholder="item.placeholder || item.title"
                     :value="_formFields[item.field]"
+                    :options="getDateOptions(item)"
                     @on-change="
                       (time) => {
                         _formFields[item.field] = time;
@@ -253,14 +254,23 @@
               filterable
               v-model="_formFields[item.field]"
             ></Cascader>
-            <kind-editor
+            <!-- <kind-editor
               ref="editor"
               v-else-if="item.type == 'editor'"
               :UploadImgUrl="editor.uploadImgUrl"
               :upload="editor.upload"
               :content.sync="_formFields[item.field]"
               height="460px"
-            ></kind-editor>
+            ></kind-editor> -->
+            <vol-wang-editor
+              ref="editor"
+              v-else-if="item.type == 'editor'"
+              :url="item.url||editor.uploadImgUrl"
+              :upload="item.upload||editor.upload"
+              v-model="_formFields[item.field]"
+              :height="item.height || 350"
+            ></vol-wang-editor>
+
             <!-- 2021.05.02增加区间查询 -->
             <div
               style="display: flex"
@@ -356,13 +366,15 @@
   </Form>
 </template>
 <script>
-import moment from "moment";
+// import moment from "moment";
 import FormExpand from "./VolForm/VolFormRender";
+// import VolWangEditor from "@/components/basic/VolWangEditor.vue";
 export default {
   components: {
     FormExpand,
     VolUpload: () => import("@/components/basic/VolUpload.vue"),
-    KindEditor: () => import("@/components/kindeditor/KindEditor.vue"),
+    //2022.02.26编辑器改为懒加载
+    "vol-wang-editor": ()=>import("@/components/basic/VolWangEditor.vue"),
   },
   props: {
     loadKey: {
@@ -588,6 +600,23 @@ export default {
       if (item.type == "switch") {
         return text ? "是" : "否";
       }
+      //2021.08.22修复级联表单只读时字典转换
+      if (item.type == "cascader") {
+        if (typeof text == "string") {
+          return text;
+        }
+        text = text.map((x) => {
+          return x + "";
+        });
+        return item.orginData
+          .filter((x) => {
+            return text.indexOf(x.key + "") != -1;
+          })
+          .map((x) => {
+            return x.value;
+          })
+          .join(",");
+      }
       if (!item.data) return text;
       if (item.type == "selectList" || item.type == "checkbox") {
         return this.convertArrayValue(item.data, text);
@@ -704,7 +733,7 @@ export default {
     },
     validateNumber() {},
     formatTime(time) {
-      return moment(time).format("YYYY-MM-DD");
+      return time;//moment(time).format("YYYY-MM-DD");
     },
     changeTime(time) {
       console.log(time);
@@ -824,6 +853,8 @@ export default {
       });
     },
     getRule(item, _formFields) {
+      //2021.07.17增加只读表单不验证
+      if (item.readonly || item.disabled) return;
       // 用户设置的自定义方法
       if (item.validator && typeof item.validator === "function") {
         return {
@@ -848,11 +879,7 @@ export default {
       ) {
         // 如果是必填项的数字，设置一个默认最大与最值小
         if (item.required && typeof item.min !== "number") {
-          if (item.type == "decimal") {
-            item.min = 0.1;
-          } else {
-            item.min = 1;
-          }
+          item.min = 0; //item.type == "decimal" ? 0.1 : 1;
         }
 
         return {
@@ -871,7 +898,7 @@ export default {
                   return callback();
                 }
               }
-              if (value == "" || value == undefined) return callback();
+              if (value === "" || value === undefined) return callback();
             }
             if (rule.type == "number") {
               if (!this.rule.number.test(value)) {
@@ -885,7 +912,7 @@ export default {
               }
             }
             if (
-              rule.min != undefined &&
+              rule.min !== undefined &&
               typeof rule.min === "number" &&
               value < rule.min
             ) {
@@ -893,7 +920,7 @@ export default {
               return callback(new Error(rule.message));
             }
             if (
-              rule.max != undefined &&
+              rule.max !== undefined &&
               typeof rule.max === "number" &&
               value > rule.max
             ) {
@@ -905,18 +932,11 @@ export default {
         };
       }
 
-      // 手机验证
-      if (item.type == "phone") {
+      // 手机、密码验证
+      if (item.type == "password" || item.type == "phone") {
         return {
-          validator: this.validatorPhone,
-          required: item.required,
-          trigger: "blur",
-        };
-      }
-
-      if (item.type == "password") {
-        return {
-          validator: this.validatorPwd,
+          validator:
+            item.type == "phone" ? this.validatorPhone : this.validatorPwd,
           required: item.required,
           trigger: "blur",
         };
@@ -936,11 +956,7 @@ export default {
       if (this.inputTypeArr.indexOf(item.type) != -1) {
         let message =
           item.title +
-          (this.types[item.columnType] == "number"
-            ? "请输入一个有效的数字"
-            : item.type == "mail"
-            ? "必须是一个邮箱地址"
-            : "不能为空");
+          (item.type == "mail" ? "必须是一个邮箱地址" : "不能为空");
         let type = item.type == "mail" ? "email" : this.types[item.columnType];
         let _rule = {
           required: true,
@@ -987,12 +1003,10 @@ export default {
       }
       if (item.type == "date" || item.type == "datetime") {
         return {
-          // required: true, type:  this.types[item.columnType], message:"请选择" + item.title, trigger: 'change'
           required: true,
           message: "请选择" + item.title,
           trigger: "change",
           type: item.range ? "array" : "string",
-          //  type: this.types[item.columnType],
           validator: (rule, val, callback) => {
             // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
             if (!val || (item.range && val.length == 0)) {
@@ -1005,7 +1019,6 @@ export default {
         };
       }
 
-      // if (item.type == "checkbox" || item.type == "select") {
       if (
         item.type == "select" ||
         item.type == "selectList" ||
@@ -1028,7 +1041,6 @@ export default {
           },
         };
 
-        //    validator: this.validatorPhone,
         if (!item.max) return _rule;
         return [
           _rule,
@@ -1044,11 +1056,6 @@ export default {
         required: false,
       };
     },
-    getCheckBoxModel(arr) {
-      return arr;
-      console.log(arr);
-      return arr || [];
-    },
     validateField(item, callback) {
       // 2020.07.17增加对日期onchange时校验
       let fields = this.$refs.formValidate.fields;
@@ -1061,6 +1068,26 @@ export default {
       });
       // 2020.07.24增加日期onChange事件
       item.onChange && item.onChange(this._formFields[item.field]);
+    },
+    getDateOptions(item) {
+      //2021.07.17设置时间可选范围
+      if (item.min || item.max) {
+        return {
+          disabledDate: (date) => {
+            if (!date) return true;
+            return (
+              date.valueOf() <
+                (typeof item.min == "number"
+                  ? item.min
+                  : new Date(item.min || "1970-01-01").valueOf()) ||
+              date.valueOf() >
+                (typeof item.max == "number"
+                  ? item.max
+                  : new Date(item.max || "2100-01-01").valueOf())
+            );
+          },
+        };
+      }
     },
   },
 };

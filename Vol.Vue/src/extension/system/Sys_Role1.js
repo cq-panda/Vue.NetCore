@@ -20,6 +20,15 @@ let extension = {
   methods: {//事件扩展
     onInited () {
       this.height = this.height - 80;
+       this.editFormOptions.forEach(x => {
+        x.forEach(item => {
+          if (item.field == 'ParentId') {
+            item.title = "上级角色";
+            //设置任意节点都能选中(默认只能选中最后一个节点)
+            item.changeOnSelect = true;
+          }
+        })
+      })
     },
     onInit() {
       //设置treetable的唯一值字段(这个字段的值在表里面必须是唯一的)

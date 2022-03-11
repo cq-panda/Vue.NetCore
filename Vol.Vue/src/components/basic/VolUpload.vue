@@ -245,10 +245,17 @@ export default {
     cloneFile(files) {
       this.files = files.map((x) => {
         return {
-          name: x.name || "未定义文件名",
+          name: x.name || this.getFileName(x.path),
           path: x.path,
         };
       });
+    },
+    getFileName(path) {
+      if (!path) {
+        return "未定义文件名";
+      }
+      let _index = path.lastIndexOf("/");
+      return path.substring(_index + 1);
     },
     previewImg(index) {
       //查看大图预览模式待完
@@ -394,24 +401,16 @@ export default {
               // this.files = null;
               return;
             }
-            //单选清除以前的数据
-            //  if (!this.multiple) {
             this.fileInfo.splice(0);
-            // }
-            this.fileInfo.push(
-              ...this.files.map((file) => {
-                return {
-                  name: file.name,
-                  path: file.path || x.data + file.name,
-                };
-              })
-            );
-            // this.files.forEach((file) => {
-            //   this.fileInfo.push({ name: file.name, path: x.data + file.name });
-            // });
-            // if (this.clear) {
-            //  this.clearFiles();
-            // }
+            let _files = this.files.map((file) => {
+              return {
+                name: file.name,
+                path: file.path || x.data + file.name,
+              };
+            });
+            this.fileInfo.push(..._files);
+            //2021.09.25修复文件上传后不能同时下载的问题
+            this.files = _files;
           },
           (error) => {
             this.loadText = "上传文件";

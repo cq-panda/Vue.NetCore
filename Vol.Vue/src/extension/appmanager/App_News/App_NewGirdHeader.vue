@@ -42,8 +42,12 @@ export default {
       if (!result.status) {
         return true;
       }
-      //上传完成后，保存每个图片所存储的文件路径
-      let fileUrls = files.map(x => {
+       //上传完成后，保存每个图片所存储的文件路径
+      let fileUrls = files.map((x) => {
+           //2021.09.25修复示例上传路径逻辑错误的问题
+        if (x.path) {
+          return x.path;
+        }
         return result.data + x.name;
       });
       let data = { imageUrl: fileUrls.join(",") };

@@ -1,6 +1,8 @@
 let columnType = [{ "key": 1, "value": "img" },
 { "key": 2, "value": "excel" },
-{ "key": 3, "value": "file" }
+{ "key": 3, "value": "file" },
+//2021.07.27增加table列显示类型date(自动格式化)
+{ "key": 4, "value": "date" }
 ]
 
 let dataType = [

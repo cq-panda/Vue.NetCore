@@ -8,7 +8,7 @@
       :formRules="formRules"
     ></VolForm>
 
-    <div style="text-align: center;">
+    <div style="text-align: center">
       <Button type="success" @click="getForm">获取表单</Button>
       <Button type="error" @click="reset">重置表单</Button>
     </div>
@@ -68,11 +68,12 @@ export default {
       required: false,
       formFields: {
         Variety: "",
-        AgeRange: [50,100],
+        AgeRange: [50, 100],
         DateRange: [],
         City: [],
         AvgPrice: null,
         Date: "",
+        date3: "",
       },
       formRules: [
         [
@@ -161,6 +162,18 @@ export default {
             range: true, //设置为true可以选择开始与结束日期
             required: true,
             field: "DateRange",
+            colSize: 12,
+            type: "date",
+          },
+        ],
+        [
+          {
+            title: "日期范围",
+            min: "2021-07-01 00:00:000",//设置只能选2021-07-01到今天的数据(注意后面的小时00:00:000)
+            max:Date.now(),// "2021-07-10",
+            required: true,
+            field: "date3",
+            placeholder:"设置日期选择范围(可选与不可选)",
             colSize: 12,
             type: "date",
           },

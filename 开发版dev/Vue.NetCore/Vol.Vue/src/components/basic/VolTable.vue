@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="vol-table" :class="[textInline ? 'text-inline' : '']">
+    <div
+      class="vol-table"
+      :class="[textInline ? 'text-inline' : '', isChrome ? 'chrome' : '']"
+    >
       <div class="mask" v-show="loading"></div>
       <div class="message" v-show="loading">加载中.....</div>
       <el-table
@@ -11,6 +14,7 @@
           }
         "
         :row-key="rowKey"
+        :key="randomTableKey"
         lazy
         :load="loadTreeChildren"
         @selection-change="selectionChange"
@@ -37,13 +41,13 @@
         <el-table-column
           v-if="columnIndex"
           type="index"
-          :fixed="true"
+          :fixed="ck_index_fixed"
           width="55"
         ></el-table-column>
         <el-table-column
           v-if="ck"
           type="selection"
-          :fixed="true"
+          :fixed="ck_index_fixed"
           width="55"
         ></el-table-column>
         <!-- 2020.10.10移除table第一行强制排序 -->
@@ -58,6 +62,53 @@
           :align="column.align"
           :sortable="column.sort ? 'custom' : false"
         >
+          <!-- 2022.01.08增加多表头，现在只支持常用功能渲染，不支持编辑功能(涉及到组件重写) -->
+          <el-table-column
+            style="border: none"
+            v-for="columnChildren in filterChildrenColumn(column.children)"
+            :key="columnChildren.field"
+            :min-width="columnChildren.width"
+            :class-name="columnChildren.class"
+            :prop="columnChildren.field"
+            :align="columnChildren.align"
+            :label="columnChildren.title"
+          >
+            <template slot-scope="scope1">
+              <a
+                href="javascript:void(0)"
+                @click="link(scope.row, columnChildren, $event)"
+                v-if="column.link"
+                v-text="scope1.row[columnChildren.field]"
+              ></a>
+              <div
+                v-else-if="columnChildren.formatter"
+                @click="
+                  columnChildren.click &&
+                    columnChildren.click(
+                      scope1.row,
+                      columnChildren,
+                      scope1.$index
+                    )
+                "
+                v-html="
+                  columnChildren.formatter(
+                    scope1.row,
+                    columnChildren,
+                    scope1.$index
+                  )
+                "
+              ></div>
+              <div v-else-if="column.bind">
+                {{ formatter(scope1.row, columnChildren, true) }}
+              </div>
+              <span v-else-if="column.type == 'date'">{{
+                formatterDate(scope1.row, columnChildren)
+              }}</span>
+              <template v-else>
+                {{ scope1.row[columnChildren.field] }}
+              </template>
+            </template>
+          </el-table-column>
           <template slot-scope="scope">
             <!-- 2020.06.18增加render渲染自定义内容 -->
             <table-render
@@ -69,8 +120,10 @@
             ></table-render>
             <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
             <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
-            <div v-else-if="column.edit" class="edit-el">
+            <!-- 2021.11.18增加table编辑时阻止无效事件触发 -->
+            <div v-else-if="column.edit&&!column.readonly" class="edit-el">
               <div
+                @click.stop
                 v-if="column.edit.keep || edit.rowIndex == scope.$index"
                 class="e-item"
               >
@@ -88,7 +141,7 @@
                         ? 'yyyy-MM-dd'
                         : 'yyyy-MM-dd HH:mm:ss'
                     "
-                    :placeholder="column.title"
+                    :placeholder="column.placeholder || column.title"
                     :value="scope.row[column.field]"
                     @on-change="
                       (time) => {
@@ -134,21 +187,26 @@
                         ? true
                         : false
                     "
-                    :placeholder="'请选择' + column.title"
+                    :placeholder="column.placeholder || column.title"
                     @on-change="
-                      column.onChange &&
-                        column.onChange(
-                          column,
-                          scope.row,
-                          url ? rowData : tableData
-                        )
+                      (value) => {
+                        column.onChange &&
+                          column.onChange(
+                            column,
+                            scope.row,
+                            url ? rowData : tableData,
+                            value
+                          );
+                      }
                     "
                     clearable
+                    :disabled="column.readonly"
                   >
                     <Option
                       v-for="(kv, kvIndex) in getSelectedOptions(column)"
                       :key="kvIndex"
                       :value="kv.key === undefined ? '' : kv.key"
+                      v-show="!kv.hidden"
                       >{{ kv.value }}</Option
                     >
                   </Select>
@@ -169,7 +227,7 @@
                       }
                     "
                     v-model="scope.row[column.field]"
-                    :placeholder="'请输入' + column.title"
+                    :placeholder="column.placeholder || column.title"
                   ></Input>
                 </div>
                 <div
@@ -384,10 +442,10 @@ export default {
       type: Boolean, // 是否双击启用编辑功能
       default: true,
     },
-    clickEdit: {
-      type: Boolean, // 是否点击行编辑，再次点击行时结束编辑(默认点击行编辑，鼠标离开结束编辑)
-      default: false,
-    },
+    // clickEdit: {
+    //   type: Boolean, // 是否点击行编辑，再次点击行时结束编辑(默认点击行编辑，鼠标离开结束编辑)
+    //   default: false,2021.07.17设置为点击行结束编辑
+    // },
     beginEdit: {
       // 编辑开始
       type: Function,
@@ -422,6 +480,8 @@ export default {
   },
   data() {
     return {
+      clickEdit: true, //2021.07.17设置为点击行结束编辑
+      randomTableKey: 1,
       visiblyColumns: [],
       key: "",
       realHeight: 0,
@@ -474,9 +534,33 @@ export default {
       summaryIndex: {},
       remoteColumns: [], // 需要每次刷新或分页后从后台加载字典数据源的列配置
       cellStyleColumns: {}, // 有背景颜色的配置
+      isChrome: false, //2021.06.19判断谷歌内核浏览重新计算table高度
+      ck_index_fixed: false, //左侧checkbox与行号是否固定
     };
   },
   created() {
+    //2021.06.19判断谷歌内核浏览重新计算table高度
+    if (
+      navigator.userAgent.indexOf("Chrome") != -1 ||
+      navigator.userAgent.indexOf("Edge") != -1
+    ) {
+      this.isChrome = true;
+    }
+    //2021.06.19调整左侧checkbox与行号是否固定规则
+    let hasSummary = this.columns.find((x) => {
+      return x.summary;
+    });
+    if (
+      this.columns.some((x) => {
+        return x.fixed;
+      })
+    ) {
+      if (hasSummary) {
+        this.isChrome = false;
+      }
+      this.ck_index_fixed = true;
+    }
+
     // 升级element 2.15.1版本后，这个高度有问题，如果有统计求和的table，强制使用max-height属性
     if (
       this.columns.some((x) => {
@@ -592,6 +676,10 @@ export default {
       this.$emit("row-dbclick", { row, column, event });
     },
     rowClick(row, column, event) {
+      //2021.09.16修复edge浏览器可能报错的问题
+      if (!column) {
+        return;
+      }
       // 点击行事件(2020.11.07)
       this.$emit("rowClick", { row, column, event });
       if (!this.doubleEdit) {
@@ -602,13 +690,14 @@ export default {
         if (row.elementIdex == this.edit.rowIndex) {
           // 点击的单元格如果不可以编辑，直接结束编辑
           // 2020.10.12修复结束编辑时，element table高版本属性获取不到的问题
-          if (
-            !this.columns.some(
-              (x) =>
-                x.field == ((event && event.property) || column.property) &&
-                x.edit
-            )
-          ) {
+          //2021.09.16修复edge浏览器可能报错的问题
+          let _field;
+          if (event && event.property) {
+            _field = event.property;
+          } else {
+            _field = column.property;
+          }
+          if (!this.columns.some((x) => x.field == _field && x.edit)) {
             if (this.rowEndEdit(row, event)) {
               this.edit.rowIndex = -1;
             }
@@ -761,6 +850,16 @@ export default {
         return;
       }
       if (!this.enableEdit) return;
+      // 不能编辑的字段、switch，点击不开启启编辑功能
+      let _row = this.columns.find((x) => x.field == column.property);
+      //不能编辑的字段、switch，点击不开启启编辑功能2022.02.26
+      if (
+        (_row && _row.readonly) ||
+        !_row.edit ||
+        (_row.edit.keep && _row.edit.type == "switch")
+      ) {
+        return;
+      }
       // 编辑前
       if (!this.beginEdit(row, column, row.elementIdex)) return;
       if (row.hasOwnProperty("elementIdex")) {
@@ -1047,6 +1146,11 @@ export default {
       this.loading = true;
       this.http.post(this.url, param).then(
         (data) => {
+          //2021.06.04修复tree不刷新的问题
+          if (this.rowKey) {
+            this.randomTableKey++;
+            this.rowData.splice(0);
+          }
           this.loading = false;
           // 查询返回结果后处理
           // 2020.10.30增加查询后返回所有的查询信息
@@ -1242,6 +1346,14 @@ export default {
         );
       }
     },
+    filterChildrenColumn(children) {
+      if (!children) {
+        return [];
+      }
+      return children.filter((x) => {
+        return !x.hidden;
+      });
+    },
   },
 };
 </script>
@@ -1298,7 +1410,7 @@ export default {
   padding: 0px !important;
   background-color: #f8f8f9 !important;
   font-size: 13px;
-  height: 41px;
+  height: 42px;
   color: #616161;
 }
 .v-table >>> .el-table__header th.is-sortable {
@@ -1349,5 +1461,26 @@ export default {
 } */
 .v-table >>> .el-table__fixed:before {
   border-color: none !important;
+}
+
+/* 2021.06.19判断谷歌内核浏览重新计算table高度 */
+.chrome >>> .el-table__fixed {
+  height: calc(100% - 11px) !important;
+  background: white;
+  /* box-shadow: 0px -11px 10px rgb(0 0 0 / 12%) !important; */
+}
+.chrome >>> .el-table__body-wrapper::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+.chrome >>> .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #ddd;
+}
+.chrome >>> .el-table__fixed:before {
+  background-color: unset;
+}
+.chrome >>> .el-table__fixed-footer-wrapper {
+  bottom: -11.5px;
 }
 </style>

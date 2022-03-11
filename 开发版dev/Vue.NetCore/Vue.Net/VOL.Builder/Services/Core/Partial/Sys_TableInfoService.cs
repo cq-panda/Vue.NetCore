@@ -331,6 +331,10 @@ DISTINCT
             {
                 return WebResponseContent.Instance.Error($"父级id不能为自己");
             }
+            if (sysTableInfo.TableColumns!=null&& sysTableInfo.TableColumns.Any(x=>!string.IsNullOrEmpty(x.DropNo)&&x.ColumnName== sysTableInfo.ExpressField))
+            {
+                return WebResponseContent.Instance.Error($"不能将字段【{sysTableInfo.ExpressField}】设置为快捷编辑,因为已经设置了数据源");
+            }
             if (sysTableInfo.TableColumns != null)
             {
                 sysTableInfo.TableColumns.ForEach(x =>
@@ -679,7 +683,18 @@ DISTINCT
 
             List<object> list = GetSearchData(panelHtml, sysColumnList, true);
 
-            string pageContent = FileHelper.ReadFile("Template\\Page\\VueSearchPage.html");
+            string pageContent = null;
+            //2021.08.01增加vue3页面模板
+            if (HttpContext.Current.Request.Query.ContainsKey("v3"))
+            {
+                pageContent = FileHelper.ReadFile("Template\\Page\\Vue3SearchPage.html");
+            }
+            else
+            {
+                pageContent = FileHelper.ReadFile("Template\\Page\\VueSearchPage.html");
+            }
+
+
             if (string.IsNullOrEmpty(pageContent))
             {
                 return "未找到Template模板文件";
@@ -726,6 +741,11 @@ DISTINCT
                     return $"请先生成明细表{ sysTableInfo.DetailName}的配置!";
                 if (detailTable.TableColumns == null || detailTable.TableColumns.Count == 0)
                     return $"明细表{ sysTableInfo.DetailName}没有列的信息,请确认是否有列数据或列数据是否被删除!";
+                var _name= detailTable.TableColumns.Where(x => x.IsImage < 4 && x.EditRowNo > 0).Select(s => s.ColumnName).FirstOrDefault();
+                if (!string.IsNullOrEmpty(_name))
+                {
+                    return $"明细表【{_name}】字段【table显示类型】设置为了【文件或图片】,编辑行只能设置为0或不设置";
+                }
                 //明细列数据
                 List<Sys_TableColumn> detailList = detailTable.TableColumns;
                 //替换明细列数据
@@ -734,7 +754,7 @@ DISTINCT
                 columns = sb.ToString().Trim();
                 columns = columns.Substring(0, columns.Length - 1);
                 pageContent = pageContent.Replace("#detailColumns", columns).
-                    Replace("#detailCnName", detailTable.CnName).
+                    Replace("#detailCnName", detailTable.ColumnCNName).
                     Replace("#detailKey", detailTable.TableColumns.Where(c => c.IsKey == 1).Select(x => x.ColumnName).First()).
                     Replace("#detailSortName", string.IsNullOrEmpty(detailTable.SortName) ? key : detailTable.SortName);
             }
@@ -1067,7 +1087,7 @@ DISTINCT
                      WHEN ColumnType = 'float' THEN 'float'
                      ELSE 'string '
                 END ColumnType,
-                    [Maxlength],
+                CASE WHEN   ColumnType IN ('NVARCHAR','NCHAR') THEN [Maxlength]/2 ELSE [Maxlength] END  [Maxlength],
                 IsKey,
                 CASE WHEN ColumnName IN('CreateID', 'ModifyID', '')
                           OR IsKey = 1 THEN 0
@@ -1085,7 +1105,7 @@ DISTINCT
                      WHEN[Maxlength] < 200 AND[Maxlength] >= 110 THEN 180
 
                      WHEN[Maxlength] > 200 THEN 220
-                     ELSE 90
+                     ELSE 110
                    END AS ColumnWidth ,
                 0 AS OrderNo,
                 --CASE WHEN IsKey = 1 OR t.[IsNull]=0 THEN 0
@@ -1164,7 +1184,7 @@ DISTINCT
             stringBuilder.Append("			AND MM.\"Maxlength\" >= 110 THEN ");
             stringBuilder.Append("				180  ");
             stringBuilder.Append("				WHEN MM.\"Maxlength\" > 200 THEN ");
-            stringBuilder.Append("				220 ELSE 90  ");
+            stringBuilder.Append("				220 ELSE 110  ");
             stringBuilder.Append("			END AS \"ColumnWidth\", ");
             stringBuilder.Append("			MM.\"OrderNo\", ");
             stringBuilder.Append("		 case WHEN MM.\"IsKey\"=1 or \"lower\"(MM.\"IsNull\")='no' then 0 else 1 end as 	\"IsNull\" , ");
@@ -1292,7 +1312,7 @@ DISTINCT
                 }
                 else
                 {
-                    x.ColumnWidth = 90;
+                    x.ColumnWidth = 110;
                 }
             });
         }
@@ -1426,6 +1446,11 @@ DISTINCT
                     {
                         colType = "file";
                     }
+                    //2021.07.27增加table列显示类型date(自动格式化)
+                    else if (item.IsImage == 4)
+                    {
+                        colType = "date";
+                    }
                     sb.Append("type:'" + colType + "',");
                     if (!string.IsNullOrEmpty(item.DropNo))
                     {
@@ -1528,7 +1553,8 @@ DISTINCT
 
                 if (item.ColumnType.ToLower() == "datetime" || (item.IsDisplay == 1 & !sort))
                 {
-                    sb.Append("align:'left',sortable:true},");
+                    //2021.09.05修改排序名称
+                    sb.Append("align:'left',sort:true},");
                     if (item.IsDisplay == 1)
                     {
                         sort = true;

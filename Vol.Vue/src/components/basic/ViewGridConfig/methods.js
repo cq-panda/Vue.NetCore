@@ -197,6 +197,33 @@ let methods = {
           onClick() {
             this.delRow();
           }
+        },//2022.01.08增加明细表导入导出功能
+        //注意需要重写后台明细表接口的导入与下载模板、导出的权限,Sys_DictionaryListController.cs/SellOrderListController.cs
+        {
+          type: 'danger',
+          plain: true,
+          name: "导入",
+          value: 'import',
+          hidden: false,
+          icon: "md-arrow-up",
+          onClick() {
+            this.upload.url = `${this.http.ipAddress}api/${this.detail.table}/${this.const.IMPORT}?table=1`;
+            this.upload.template.url = `${this.http.ipAddress}api/${this.detail.table}/${this.const.DOWNLOADTEMPLATE}`;
+            //定义下载模板的文件名
+            this.upload.template.fileName = this.detail.cnName;
+            this.upload.excel = true;
+          }
+        },
+        {
+          type: 'danger',
+          plain: true,
+          name: "导出",
+          value: 'export',
+          icon: "md-arrow-down",
+          hidden: false,
+          onClick() {
+            this.export(true);
+          }
         }
       ]
     );
@@ -490,7 +517,10 @@ let methods = {
               _cascaderParentTree.forEach(c => {
                 c.label = c.value;
               })
-              this.$refs.form.$refs[key][0].selected = _cascaderParentTree;
+              //2021.08.22优化表单级联只读判断
+              if (this.$refs.form.$refs[key]) {
+                this.$refs.form.$refs[key][0].selected = _cascaderParentTree;
+              }
             });
           }
         } else {
@@ -542,10 +572,10 @@ let methods = {
         //2021.05.30修复下拉框清除数据后后台不能保存的问题
         if (this._editFormFields[key] === undefined && this.dicKeys.some(x => { return x.fileds && x.fileds.indexOf(key) != -1 })) {
           _editFormFields[key] = null;
-        }else{
+        } else {
           _editFormFields[key] = this._editFormFields[key];
         }
-       
+
       }
     }
     //将数组转换成string
@@ -580,10 +610,11 @@ let methods = {
     let _currentIsAdd = this.currentAction == this.const.ADD;
     if (_currentIsAdd) {
       //2020.12.06增加新建前异步处理方法
-      if (!this.addBefore(formData) || await !this.addBeforeAsync(formData)) return;
+      //2021.08.16修复异步语法写错的问题
+      if (!this.addBefore(formData) || !await this.addBeforeAsync(formData)) return;
     } else {
       //2020.12.06增加修改前异步处理方法
-      if (!this.updateBefore(formData) || await !this.updateBeforeAsync(formData)) return;
+      if (!this.updateBefore(formData) || !await this.updateBeforeAsync(formData)) return;
     }
     let url = this.getUrl(this.currentAction);
     this.http.post(url, formData, true).then(x => {
@@ -676,6 +707,12 @@ let methods = {
     return true;
   },
   async initBox() {
+    //2022.01.08增加新建时隐藏明细表导出功能
+    this.detailOptions.buttons.forEach(x => {
+      if (x.value == 'export') {
+        x.hidden = this.currentAction == 'Add'
+      }
+    })
     //初始化新建、编辑的弹出框
     if (!await this.modelOpenBeforeAsync(this.currentRow)) return false;
     this.modelOpenBefore(this.currentRow);
@@ -850,14 +887,29 @@ let methods = {
     };
     xmlResquest.send();
   },
-  export() {
+  getFileName(isDetail) { //2021.01.08增加导出excel时自定义文件名
+    if (isDetail) {
+      return this.detail.cnName + '.xlsx';
+    }
+    return this.table.cnName + '.xlsx';
+  },
+  export(isDetail) {//2021.01.08增加导出明细表与主表区分
     //导出
-    //导出
-    let url = this.getUrl(this.const.EXPORT);
-    let query = this.getSearchParameters();
-    let param = { order: this.pagination.order, wheres: query.wheres || [] };
+    let url, query, param;
+    if (isDetail) {
+      //明细表导出时如果是新建状态，禁止导出
+      if (this.currentAction == "Add") {
+        return;
+      }
+      url = `api/${this.detail.table}/${this.const.EXPORT}`;
+      param = { wheres: [{ name: this.table.key, value: this.editFormFields[this.table.key] }] };
+    } else {//主表导出
+      url = this.getUrl(this.const.EXPORT);
+      query = this.getSearchParameters();
+      param = { order: this.pagination.order, wheres: query.wheres || [] };
+    }
     //2020.06.25增加导出前处理
-    if (!this.exportBefore(param)) {
+    if (!isDetail && !this.exportBefore(param)) {
       return;
     }
 
@@ -865,18 +917,37 @@ let methods = {
       param.wheres = JSON.stringify(param.wheres);
     }
     let $http = this.http;
-    $http.post(url, param, "正在导出数据....").then(result => {
-      if (!result.status) {
-        return this.$error(result.message);
+    let fileName = this.getFileName(isDetail)
+    //2021.01.08优化导出功能
+    $http.post(url, param, "正在导出数据....", { responseType: "blob" }).then((content) => {
+      const blob = new Blob([content]);
+      if ("download" in document.createElement("a")) {
+        // 非IE下载
+        const elink = document.createElement("a");
+        elink.download = fileName;
+        elink.style.display = "none";
+        elink.href = URL.createObjectURL(blob);
+        document.body.appendChild(elink);
+        elink.click();
+        URL.revokeObjectURL(elink.href);
+        document.body.removeChild(elink);
+      } else {
+        // IE10+下载
+        navigator.msSaveBlob(blob, fileName);
       }
-      let path = this.getUrl(this.const.DOWNLOAD);
-      path = path[0] == "/" ? path.substring(1) : path;
-      this.download(
-        $http.ipAddress + path + "?path=" + result.data,
-        this.table.cnName + ".xlsx" // filePath
-      );
-      ///  window.open($http.ipAddress + path + "?fileName=" + filePath, "_self");
     });
+    //.then(result => {
+    // if (!result.status) {
+    //   return this.$error(result.message);
+    // }
+    // let path = this.getUrl(this.const.DOWNLOAD);
+    // path = path[0] == "/" ? path.substring(1) : path;
+    // this.download(
+    //   $http.ipAddress + path + "?path=" + result.data,
+    //   this.table.cnName + ".xlsx" // filePath
+    // );
+    ///  window.open($http.ipAddress + path + "?fileName=" + filePath, "_self");
+    // });
   },
   getSelectRows() {
     //获取选中的行
@@ -982,6 +1053,11 @@ let methods = {
           this.uploadfiled.push(d.field);
         }
         if (!d.dataKey) return true;
+        //2022.02.20强制开启联级可以选择某个节点
+        if (d.type == "cascader" && !d.hasOwnProperty("changeOnSelect")) {
+          //强制开启联级可以选择某个节点
+          d.changeOnSelect = true;
+        }
         //开启远程搜索
         if (d.remote) {
           this.remoteKeys.push(d.dataKey);
@@ -1008,14 +1084,6 @@ let methods = {
           }
           this.dicKeys.push(_dic);
         } else if (d.type == "cascader") {
-          //强制开启联级可以选择某个节点
-          if (!d.hasOwnProperty("changeOnSelect")) {
-            d.changeOnSelect = true;
-            // d.formatter = label => {
-            //   return label.join(' / ')
-            // };
-          }
-
           this.dicKeys.forEach(x => {
             if (x.dicNo == d.dataKey) {
               x.type = "cascader";
@@ -1142,9 +1210,10 @@ let methods = {
     //初始化datatable表数据源,默认为一个空数组,dicKeys为界面所有的数据字典编号
     this.initColumns(this.columns, this.dicKeys, keys);
     //2021.05.23默认开启查询页面所有字段排序,如果不需要排序，在onInited遍历columns设置sort=false
-    this.columns.forEach(x => {
-      x.sort = x.render ? false : true;
-    })
+    //2021.09.25移除强制排序功能
+    // this.columns.forEach(x => {
+    //   x.sort = x.render ? false : true;
+    // })
     if (this.detailOptions && this.detailOptions.columns) {
       this.initColumns(this.detailOptions.columns, this.dicKeys, keys);
     }
@@ -1211,7 +1280,7 @@ let methods = {
     let maxTableWidth = clientWidth - 270;
     this.setFiexdColumn(this.columns, maxTableWidth);
 
-    this.height = this.tableHeight || clientHeight - 210;
+    this.height = this.tableHeight || clientHeight - 206;
     this.url = this.getUrl(this.const.PAGE);
     //计算弹出框的高与宽度
     //如果有明细表，高度与宽带设置为0.9/0.82
@@ -1314,6 +1383,31 @@ let methods = {
   },
   loadTreeChildren(tree, treeNode, resolve) {//树形结构加载子节点(2021.05.02),在onInit中设置了rowKey主键字段后才会生效
     return resolve([]);
+  },
+  importDetailAfter(data) { //2022.01.08增加明细表导入后处理
+
+  },
+  importExcelAfter(data) {//2022.01.08增加明细表导入后方法判断
+    if (!data.status) {
+      return;// this.$message.error(data.message);
+    }
+    //明细表导入
+    if (this.boxModel) {
+      if (data.data) {
+        data.data = JSON.parse(data.data);
+      } else {
+        data.data = []
+      }
+      data.data.forEach(x => {
+        x[this.detail.key] = undefined;
+        x[this.table.key] = undefined;
+      })
+      this.importDetailAfter(data); //增加明细表导入后处理
+      this.$refs.detail.rowData.unshift(...data.data);
+      this.upload.excel = false;
+      return;
+    }
+    this.importAfter(data);
   }
 };
 //合并扩展方法

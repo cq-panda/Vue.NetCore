@@ -26,7 +26,8 @@ const param = {
     { name: "filter", desc: "启用搜索,只对select/selectList生效,默认下拉框数据源超出10个开启搜索", type: "bool", default: "false" },
     { name: "type", desc: "渲染的标签类型,可选值,mail、text、textarea、img、checkbox、number、decimal、date、datetime、phone、switch、select、selectList(多选下拉框)、cascader(Iview级联组件,具体配置见上面[查看代码],2020.05.31)", type: "string", default: "text" },
     { name: "range", desc: "如果type是日期，需要选开始与结束日期,(2021.05.02增加区间文本)", type: "bool", default: "false" },
-    { name: "min", desc: "1、数字类型标签：最小值,如果是type=number(整数)类型，默认验证最小值是1(decimal最小默认值0.1)，如果在代码生后的页面需要修改默认值，在扩展js的方法onInit中遍历form对象，可参考SellOrder.js中onInit方法。    2、其他标签,如：input/textarea设置min就是指的字符的最大长度", type: "number", default: "" },
+    { name: "min", desc: `字段如果是数字，会自动验证数字最大、小值；如果是字符串,
+    会验证字符长度，如果日期，会限制日期可选范围<span style='color:red'>(日期范围选择2021.07.17更新volform.vue/voltable.vue组件后才能使用)</span>`, type: "number", default: "" },
     { name: "max", desc: "最大值,操作与min相同", type: "number", default: "" },
     {
       name: "validator",
@@ -127,6 +128,7 @@ const param = {
     { name: "type", desc: "目前只有img,file(设置了此属性，点击即可下载文件),其他不需要设置", type: "string", default: "" },
     { name: "required", desc: "是否必填项(设置edit了属性才会生效)", type: "bool", default: "false" },
     { name: "summary", desc: "是否显示统计求和,目前远程api返回的数据才有效，前台参照sellorder.js配置,后台可参照SellOrder表查询数据返回的格式", type: "bool", default: "false" },
+    { name: "readonly", desc: "<span style='color:red;'>2021.09.21(vue3版本可用),单元格是否只读,为true时单元格不可以编辑，下面edit属性会同时失效(应用场景：动态设置table列是否可以编辑)</span>", type: "bool", default: "false" },
     { name: "edit:{", desc: "表格编辑配置", type: "json", default: "" },
     { name: "type", desc: "编辑创建的标签类型：number、decimal、text、datetime、date、switch、select", type: "", default: "" },
     { name: "keep", desc: "当前单元格始终处于编辑状态", type: "bool", default: "false" },
@@ -213,6 +215,9 @@ const param = {
     methods: [{ name: "delRow", desc: "删除选中行，this.$refs.自定义的名字.delRow()", param: "" },
     { name: "addRow", desc: "添加行，this.$refs.自定义的名字.addRow({'字段1':'值1'}),目前不支持传入数组，数组请循环遍历", param: "" },
     { name: "selection", desc: "获取选中的行，this.$refs.自定义的名字.selection,注意此处selection是属性", param: "" },
+    { name: "getSelected", desc: "获取选中的行(vue3版本才能使用)，this.$refs.自定义的名字.getSelected()", param: "" },
+    { name: "tableData/rowData", desc: "获取表中的所有行数据", param: "this.$refs.自定义的名字.tableData/rowData(如果传入了url参数，使用rowData)" },
+    { name: "reset", desc: "清空表数据", param: "this.$refs.自定义的名字.reset" },
     { name: "load", desc: "刷新表数据，this.$refs.自定义的名字.load({条件:xx},true),条件可以任意写你自己接收的格式,第二个参数是否重置分页信息", param: "" },
     { name: "resetPage", desc: "重置分页信息，this.$refs.自定义的名字.resetPage()", param: "" },
     {
@@ -225,15 +230,13 @@ const param = {
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; })</span><br />
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; */</span><br />
             </span><span style="line-height:1.5;font-size:18px;"><span style="display:none;"></span></span><br />` },
-    { name: "loadTableAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
+    { name: "loadAfter", desc: "从后台加载数据后处理，可参照【从api加载数据】Demo", param: "(data, callBack) 参数：data为后台返回的数据;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行" },
     { name: "rowChange", desc: "行选中事件,只有设置single=true单选才会生效", param: "row,当前选中的行 " },
-    { name: "rowClick", desc: `单击行事件,点击时设置当前行选中:
+    { name: "rowClick", desc: `单击行事件同时选中当前行选中:
     <p>
     rowClick ({ row, column, event }) {   </p>
-        <p>&nbsp;  this.$refs.table.toggleRowSelection(row);  </p>
+        <p>&nbsp; this.$refs.table.$refs.table.toggleRowSelection(row);  </p>
         <p> },  </p>
-        <p> //如果是代码生成的页面，请用下面的方法选中行  </p>
-        <p> // this.$refs.table.$refs.table.toggleRowSelection(row);    </p>
     </p>
     `, param: "{row:当前选中的行,column:当前行配置,$event:当前事件}" },
     { name: "rowDbClick", desc: "双击行事件(2021.05.23新增),点击时选中当前行，见上面rowClick", param: "{row:当前选中的行,column:当前行配置,$event:当前事件}" },
@@ -252,7 +255,7 @@ const param = {
   },
   viewGrid: {
     attr: [
-
+      { name: "自定义扩展页面获取父组件(获取生成页面对象)", desc: "<span style='color:red;'>1、通过 this.$emit('parentCall', $parent => { //如：调用页面查询 $parent.search()  })可以访问父组件ViewGird中的任何属性、对象、方法<p>2、见上面示例【扩展弹出框按钮】</p></span>", type: "", default: "" },
       { name: "rowKey", desc: "<span style='color:red;'>树形table的主键字段,字段的值必须是唯一的(2021.05.02)</span>", type: "String", default: "" },
       { name: "columns", desc: "查询页面table表的配置,如果满足不了业务,可参照VolTable参数动态扩展", type: "array", default: "[]" },
     { name: "detail", desc: "从表配置：{columns:[],sortName:''},columns从表table列配置,sortName从表排序字段", type: "json", default: "{}" },
@@ -402,6 +405,15 @@ const param = {
 
     methods: [{ name: "refresh", desc: "刷新查询界面的表数据,使用：this.refresh()", param: "" },
     { name: "getSelectRows", desc: "查询界面获取选中的行,使用：this.getSelectRows()", param: "" },
+    { name: "filterPermission", desc: `&nbsp; &nbsp; onInit()<br />
+    &nbsp; &nbsp; {<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; //例：判断用户是否有SellOrder表有没有Add权限(2021.03.19到最后的才能使用)<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; //第二个参数可选值：Add、Update、Delete、Audit、Import、Export、Search，也可以是自定的义的按钮权限值<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; if (this.filterPermission("SellOrder", 'Add'))<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //to do...<br />
+    &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+    &nbsp; &nbsp; }<br />`, param: "" },
     { name: "获取从表明细选择中的行", desc: "获取从表明细选择中的行,使用：this.$refs.detail.getSelected()", param: "" },
     { name: "获取table所有的行数据", desc: "this.$refs.table.rowData", param: "" },
     { name: "获取明细表table所有的行数据", desc: "this.$refs.detail.rowData", param: "" },
@@ -656,9 +668,28 @@ const param = {
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
       </div>
+      <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas">
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp; <span style="color:#6a9955;">//例：判断用户是否有SellOrder表有没有Add权限(2021.03.19到最后的才能使用)</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第二个参数可选值：Add、Update、Delete、Audit、Import、Export、Search，也可以是自定的义的按钮权限值</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">filterPermission</span>(<span style="color:#ce9178;">"SellOrder"</span>,<span style="color:#ce9178;">'Add'</span>))&nbsp;{
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//to&nbsp;do...</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+      </div>
+    </div>
+    <br />
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//表格设置为单选</span>
       </div>
+    
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.single=true;</span>
       </div>
@@ -1314,13 +1345,23 @@ const param = {
         &nbsp;&nbsp;&nbsp;&nbsp;},
       </div>
       <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowClick</span>&nbsp;({&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>&nbsp;})&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面table点击行时选中当前行</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowClick</span>&nbsp;({&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>&nbsp;})&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面点击行事件</span>
       </div>
       <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">toggleRowSelection</span>(<span style="color:#9cdcfe;">row</span>);
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">toggleRowSelection</span>(<span style="color:#9cdcfe;">row</span>)//单击行时选中当前行;
       </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;},
+
+        <div> 
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowDbClick</span>&nbsp;({&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>&nbsp;})&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面双击行事件</span>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">toggleRowSelection</span>(<span style="color:#9cdcfe;">row</span>)//双击行时选中当前行;
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;},
+
         <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		<br />
@@ -1337,9 +1378,35 @@ const param = {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"destroyed"</span>)
 	</div>
-	<div>
+	<div >
 		&nbsp;&nbsp;&nbsp;&nbsp;},
-    <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+    <div  style="padding-left: 20px;">
+	<div>
+
+	</div>
+	<p>
+		&nbsp;&nbsp;<span style="color:#dcdcaa;">onModelClose</span>(<span style="color:#9cdcfe;">iconClick</span>){
+	</p>
+	<p>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">2021.07.11更新后才能使用</span>
+	</p>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//iconClick=true为点击左中上角X触发的关闭事件</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果返回&nbsp;false不会关闭弹出框&nbsp;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//return&nbsp;false;</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxModel</span>=<span style="color:#569cd6;">false</span>;
+	</div>
+	<div>
+		&nbsp;&nbsp;}		,
+	</div>
+</div>
+    <div style="padding-left: 20px;color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 	</div>
 	<div>

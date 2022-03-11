@@ -1,5 +1,7 @@
 import gridFooter from "./SellOrder2/SellOrder2GridFooter.vue"
-// () => import("./SellOrder2/SellOrder2GridFooter.vue")
+
+//自定义从表选择数据源页面
+import modelBody from "./SellOrder2/SellOrder2ModelBody.vue"
 let extension = {
   components: {//动态扩充组件或组件路径
     //表单header、content、footer对应位置扩充的组件
@@ -10,7 +12,7 @@ let extension = {
     gridFooter: gridFooter,
     //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
     modelHeader: "",
-    modelBody: '',
+    modelBody: modelBody,
     modelFooter: "", //() => import("./SellOrderComponents/ModelFooter.vue"),
   },
   text: "点击主表行加载明细表数据,如果本地看不到此菜单,可以按照演示环境配置下此页面菜单",
@@ -36,6 +38,35 @@ let extension = {
           x.summary = true;
         }
       })
+
+      //明细表选择数据源操作
+      //获取明细表备注列，给备注列添加选择数据操作
+      let _column = this.detailOptions.columns.find(x => { return x.field == "Remark" });
+      _column.title = "(备注)点击选择数据"
+      //移除编辑操作
+      _column.edit = null;
+      //给备注列添加选择数据操作
+      _column.render = (h, { row, column, index }) => {
+        return h("div", { style: {} },
+          [
+            h("i", {
+              class: ["el-icon-zoom-out"],
+              style: {
+                cursor: "pointer",
+                "margin-right": "8px",
+                color: "#409eff",
+              },
+              on: {
+                click: (e) => {
+                  e.stopPropagation();
+                  //弹出选择数据源
+                  this.$refs.modelBody.open(row);
+                },
+              }
+            }),
+            h("span", {}, row.Remark)
+          ])
+      };
     },
 
     rowClick({ row, column, event }) { //查询界面table点击行选中当前行
@@ -52,7 +83,7 @@ let extension = {
         // this.$nextTick(() => {
         this.$refs.gridFooter.$refs.tableList.load({ value: rows[0].Order_Id, sort: "CreateDate" })
         // })
-      }else{
+      } else {
         //没有数据时，清空明细数据
         this.$refs.gridFooter.$refs.tableList.rowData.splice(0)
       }

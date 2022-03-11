@@ -82,7 +82,7 @@ namespace VOL.System.Controllers
         [HttpPost, Route("GetPageData")]
         public override ActionResult GetPageData([FromBody] PageDataOptions loadData)
         {
-            //获取根节点数据
+            //获取根节点数据(对应Sys_Role1.js中searchBefore方法)
             if (loadData.Value.GetInt() == 1)
             {
                 return GetTreeTableRootData(loadData).Result;
@@ -98,6 +98,7 @@ namespace VOL.System.Controllers
         [ApiActionPermission(ActionPermissionOptions.Search)]
         public async Task<ActionResult> GetTreeTableRootData([FromBody] PageDataOptions options)
         {
+            //页面加载根节点数据条件x => x.ParentId == 0,自己根据需要设置
             var query = Sys_RoleRepository.Instance.FindAsIQueryable(x => x.ParentId == 0);
             var rows = await query.TakeOrderByPage(options.Page, options.Rows)
                 .OrderBy(x => x.Role_Id).Select(s => new
@@ -126,6 +127,7 @@ namespace VOL.System.Controllers
         [ApiActionPermission(ActionPermissionOptions.Search)]
         public async Task<ActionResult> GetTreeTableChildrenData(int roleId)
         {
+            //点击节点时，加载子节点数据
             var roleRepository = Sys_RoleRepository.Instance.FindAsIQueryable(x => true);
             var rows = await roleRepository.Where(x => x.ParentId == roleId)
                 .Select(s => new

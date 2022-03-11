@@ -31,18 +31,17 @@ namespace VOL.System.Services
             get { return DictionaryManager.Dictionaries; }
         }
 
-        public async Task<object> GetVueDictionary(string[] dicNos)
+        public object GetVueDictionary(string[] dicNos)
         {
             if (dicNos == null || dicNos.Count() == 0) return new string[] { };
-            var dicConfig = await Task.FromResult(
-                      DictionaryManager.GetDictionaries(dicNos, false).Select(s => new
-                      {
-                          dicNo = s.DicNo,
-                          config = s.Config,
-                          dbSql = s.DbSql,
-                          list = s.Sys_DictionaryList.OrderByDescending(o => o.OrderNo)
-                           .Select(list => new { key = list.DicValue, value = list.DicName })
-                      }).ToList());
+            var dicConfig = DictionaryManager.GetDictionaries(dicNos, false).Select(s => new
+            {
+                dicNo = s.DicNo,
+                config = s.Config,
+                dbSql = s.DbSql,
+                list = s.Sys_DictionaryList.OrderByDescending(o => o.OrderNo)
+                          .Select(list => new { key = list.DicValue, value = list.DicName })
+            }).ToList();
 
             object GetSourceData(string dicNo, string dbSql, object data)
             {
@@ -69,7 +68,7 @@ namespace VOL.System.Services
         /// <param name="dicNo"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public async Task<object> GetSearchDictionary(string dicNo, string value)
+        public object GetSearchDictionary(string dicNo, string value)
         {
             if (string.IsNullOrEmpty(dicNo) || string.IsNullOrEmpty(value))
             {
@@ -83,7 +82,7 @@ namespace VOL.System.Services
                 return null;
             }
             sql = $"SELECT * FROM ({sql}) AS t WHERE value LIKE @value";
-            return await Task.FromResult(repository.DapperContext.QueryList<object>(sql, new { value = "%" + value + "%" }));
+            return repository.DapperContext.QueryList<object>(sql, new { value = "%" + value + "%" });
         }
 
         /// <summary>

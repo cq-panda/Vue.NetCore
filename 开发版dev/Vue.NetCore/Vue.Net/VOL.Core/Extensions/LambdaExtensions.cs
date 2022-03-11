@@ -275,7 +275,12 @@ namespace VOL.Core.Extensions
                 exp.Arguments[0] is MemberExpression ?
                 (exp.Arguments[0] as MemberExpression).Member.Name.ToString()
                 : ((exp.Arguments[0] as UnaryExpression).Operand as MemberExpression).Member.Name,
-                 (QueryOrderBy)((exp.Arguments[1] as ConstantExpression).Value));
+                 (QueryOrderBy)(
+                 exp.Arguments[1] as ConstantExpression != null
+                  ? (exp.Arguments[1] as ConstantExpression).Value
+                  //2021.07.04增加自定排序按条件表达式
+                 : Expression.Lambda<Func<QueryOrderBy>>(exp.Arguments[1] as Expression).Compile()()
+                 ));
             }
         }
 
@@ -315,7 +320,7 @@ namespace VOL.Core.Extensions
 
             IOrderedQueryable<TEntity> queryableOrderBy = null;
             //  string orderByKey = orderByKeys[^1];
-            string orderByKey = orderByKeys[orderByKeys.Length-1];
+            string orderByKey = orderByKeys[orderByKeys.Length - 1];
             queryableOrderBy = orderBySelector[orderByKey] == QueryOrderBy.Desc
                 ? queryableOrderBy = queryable.OrderByDescending(orderByKey.GetExpression<TEntity>())
                 : queryable.OrderBy(orderByKey.GetExpression<TEntity>());
