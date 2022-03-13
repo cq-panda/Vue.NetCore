@@ -133,7 +133,7 @@ namespace VOL.Core.Services
                         DequeueToTable(queueTable); continue;
                     }
                     //每5秒写一次数据
-                    Thread.Sleep(5000);
+                    Thread.Sleep(1000);
                     if (queueTable.Rows.Count == 0) { continue; }
 
                     DBServerProvider.SqlDapper.BulkInsert(queueTable, "Sys_Log", SqlBulkCopyOptions.KeepIdentity, null, _loggerPath);
@@ -173,14 +173,18 @@ namespace VOL.Core.Services
         {
             loggerQueueData.TryDequeue(out Sys_Log log);
             DataRow row = queueTable.NewRow();
-            if (log.BeginDate == null)
+            if (log.BeginDate == null || log.BeginDate?.Year < 2010)
             {
                 log.BeginDate = DateTime.Now;
             }
+            if (log.EndDate == null)
+            {
+                log.EndDate = DateTime.Now;
+            }
             //  row["Id"] = log.Id;
             row["LogType"] = log.LogType;
-            row["RequestParameter"] = log.RequestParameter;
-            row["ResponseParameter"] = log.ResponseParameter;
+            row["RequestParameter"] = log.RequestParameter?.Replace("\r\n", "");
+            row["ResponseParameter"] = log.ResponseParameter?.Replace("\r\n", "");
             row["ExceptionInfo"] = log.ExceptionInfo;
             row["Success"] = log.Success ?? -1;
             row["BeginDate"] = log.BeginDate;
