@@ -134,6 +134,7 @@
             </template>
             <i-switch
               v-else-if="item.type == 'switch'"
+              @on-change="item.onChange"
               :true-value="
                 typeof _formFields[item.field] == 'boolean' ? true : 1
               "
@@ -149,6 +150,7 @@
             <RadioGroup
               v-else-if="item.type == 'radio'"
               v-model="_formFields[item.field]"
+              @on-change="item.onChange"
             >
               <Radio
                 :label="kv.key"
@@ -201,11 +203,7 @@
             >
             </TimePicker>
             <CheckboxGroup
-              @on-change="
-                (arr) => {
-                  item.onChange && item.onChange(arr);
-                }
-              "
+              @on-change="item.onChange"
               v-else-if="item.type == 'checkbox'"
               v-model="_formFields[item.field]"
             >
