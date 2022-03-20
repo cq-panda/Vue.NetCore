@@ -1129,11 +1129,11 @@ export default {
   width: 100% !important;
   z-index: 99999;
 }
-
+/* 
 .line-row >>> .ivu-form-item img {
   max-height: 100px;
 }
-/* .ivu-form-item{
+.ivu-form-item{
 
 } */
 .line-row >>> .ivu-form-item-label {
