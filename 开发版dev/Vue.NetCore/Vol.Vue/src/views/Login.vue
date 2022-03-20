@@ -1,15 +1,6 @@
 <template>
   <div class="bg">
     <div class="content">
-      <!-- <div class="desc">
-        <div class="title">vol.vue</div>
-        <p>前后端分离</p>
-        <p>全自动代码生成</p>
-        <p>支持前端、后台扩展的快速开发框架</p>
-        <p>后台.NetCore 3.1、EntityFrameWorkCore 3.1、Dapper</p>
-        <p>前端Vue、Promise、Vuex、Axios、Iview、Element-UI</p>
-        <p>帐号admin666,密码123456(本地帐号admin,密码123456)</p>
-      </div> -->
       <div class="l-left">
         <div class="desc">
           <div class="title">vol.vue</div>
@@ -148,14 +139,6 @@
         </div>
       </div>
     </div>
- <div class="l-bg"></div>
-    <div class="r-bg"></div>
-     <!--   <div class="c-bg">
-      <div class="c-bg-item"></div>
-      <div class="c-bg-item"></div>
-      <div class="c-bg-item"></div>
-      <div class="c-bg-item"></div>
-    </div> -->
     <div class="login-footer">
       <a @click="toGitHub">
         <!-- <Icon type="logo-github" /> -->
@@ -264,10 +247,6 @@ export default {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     width: 400px;
-    background-image: linear-gradient( 
-135deg
- , #0d82ff 10%, #0cd7bd);
-    border: 1px solid #5c87ff;
   }
 }
 
@@ -376,7 +355,7 @@ input:-webkit-autofill {
     min-height: 340px;
     background: white;
         height: 400px;
-    box-shadow: 0px 4px 21px #d6d6d6;
+    box-shadow: 2px 5px 18px #6453534a;
   }
 }
 .login-project {
