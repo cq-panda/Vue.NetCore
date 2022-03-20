@@ -801,6 +801,9 @@ let methods = {
     if (rows.length == 0) {
       return this.$error("请选择要编辑的行!");
     }
+    if (rows.length!=1) {
+      return this.$error("只能选择一行数据进行编辑!");
+    }
     //记录当前编辑的行
     this.currentRow = rows[0];
     //初始化弹出框
