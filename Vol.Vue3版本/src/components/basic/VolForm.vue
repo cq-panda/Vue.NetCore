@@ -1,40 +1,42 @@
 <template>
-  <Form
-    ref="formValidate"
-    :style="{ width: width > 0 ? width + 'px' : '100%' }"
-    :model="_formFields"
+  <el-form
+    style="display: inline-block; width: 100%"
+    :inline="true"
+    ref="volform"
+    @submit.prevent
+    :model="formFields"
     :label-width="labelWidth"
-    @submit.native.prevent
+    :rules="rules"
   >
-    <!-- :rules="ruleValidate" -->
-    <slot name="header"></slot>
-    <Row class="line-row" v-for="(row, findex) in formRules" :key="findex">
-      <!-- 2020.11.21增加表单hidden属性 -->
-      <Col
-        :span="item.colSize ? item.colSize * 2 : 24 / span"
-        v-for="(item, index) in row"
-        :key="index"
-        v-show="!item.hidden"
-      >
-        <!-- 2020.06.18增加render渲染自定义内容 -->
-        <form-expand
-          v-if="item.render && typeof item.render == 'function'"
-          :render="item.render"
-        ></form-expand>
-        <FormItem
-          v-else
-          :rules="getRule(item, _formFields)"
+    <template v-for="(row, findex) in formRules" :key="findex">
+      <div style="width: 100%">
+        <el-form-item
           :label="item.title ? item.title + '：' : ''"
+          v-show="!item.hidden"
+          v-for="(item, index) in row"
           :prop="item.field"
+          :key="item.field + index"
+          :style="{ width: getColWidth(item) + '%' }"
         >
-          <template v-if="isReadonlyImgFile(item, _formFields)">
-            <div
-              v-if="item.type == 'img' || item.columnType == 'img'"
-              class="form-imgs"
-            >
+          <!-- render -->
+          <form-expand
+            v-if="item.render && typeof item.render == 'function'"
+            :render="item.render"
+            :par="12"
+          ></form-expand>
+          <!-- 2021.10.17增加表单实时方法计算 -->
+          <span
+            v-else-if="
+              item.readonly && typeof formFields[item.field] == 'function'
+            "
+            >{{ formFields[item.field]() }}</span
+          >
+          <!-- 只读图片或文件  -->
+          <div v-else-if="isReadonlyImgFile(item, formFields)">
+            <div v-if="item.type == 'img'" class="form-imgs">
               <div
                 class="img-item"
-                v-for="(img, imgIndex) in _formFields[item.field]"
+                v-for="(img, imgIndex) in formFields[item.field]"
                 :key="imgIndex"
               >
                 <img
@@ -44,186 +46,192 @@
                 />
               </div>
             </div>
-            <template v-else>
-              <div
-                class="form-file-list"
-                v-for="(file, fileIndex) in _formFields[item.field]"
-                :key="fileIndex"
-              >
-                <a @click="dowloadFile(_formFields[item.field][fileIndex])">{{
-                  file.name
-                }}</a>
-              </div>
-            </template>
-          </template>
+            <div
+              v-else
+              class="form-file-list"
+              v-for="(file, fileIndex) in formFields[item.field]"
+              :key="fileIndex"
+            >
+              <a @click="dowloadFile(formFields[item.field][fileIndex])">{{
+                file.name
+              }}</a>
+            </div>
+          </div>
+
           <div v-else :class="{ 'form-item-extra': item.extra }">
-            <label
-              v-if="item.disabled || item.readonly"
-              class="readonly-input"
-              >{{ getText(_formFields, item) }}</label
-            >
-            <!--下拉框绑定时如果key为数字，请将key+''转换为字符串-->
-            <template
-              v-else-if="
-                item.type == 'select' ||
-                item.type == 'selectList' ||
-                item.type == 'drop' ||
-                item.type == 'dropList'
+            <!-- 只读属性 -->
+            <label v-if="item.type == 'label'" class="readonly-input">{{
+              getText(formFields, item)
+            }}</label>
+            <el-select
+              :disabled="item.readonly || item.disabled"
+              v-show="!item.hidden"
+              size="medium"
+              style="width: 100%"
+              v-else-if="['select', 'selectList'].indexOf(item.type) != -1"
+              v-model="formFields[item.field]"
+              filterable
+              :multiple="item.type == 'select' ? false : true"
+              :placeholder="
+                item.placeholder ? item.placeholder : '请选择' + item.title
               "
-            >
-              <!--select绑定默认值时，如果设置了默认值，数据源也有数据，但没绑定上，问题在于key与默认值类型不一致，如:默认值是字符串，数据源的key是数字，类型不至会导致绑定失败-->
-              <template>
-                <!-- {{ item.remote||item.url?"1":"0"}} -->
-                <!-- 远程搜索 -->
-                <!-- 从后台字典搜索remote  -->
-                <Select
-                  v-if="item.remote || item.url"
-                  :transfer="true"
-                  v-model="_formFields[item.field]"
-                  filterable
-                  remote
-                  @on-clear="
-                    () => {
-                      onClear(item, _formFields);
-                    }
-                  "
-                  :remote-method="
-                    (val) => {
-                      remoteSearch(item, _formFields, val);
-                    }
-                  "
-                  :loading="item.loading"
-                  :placeholder="
-                    item.placeholder ? item.placeholder : '请选择' + item.title
-                  "
-                  @on-change="onRemoteChange(item, _formFields[item.field])"
-                  clearable
-                >
-                  <Option
-                    v-for="(kv, kvIndex) in getData(item)"
-                    :key="kvIndex"
-                    :value="kv.key"
-                    >{{ kv.value }}</Option
-                  >
-                </Select>
-                <Select
-                  v-else
-                  :transfer="true"
-                  v-model="_formFields[item.field]"
-                  :multiple="
-                    item.type == 'select' || item.type == 'drop' ? false : true
-                  "
-                  :filterable="
-                    item.filter || item.data.length > 10 ? true : false
-                  "
-                  :placeholder="
-                    item.placeholder ? item.placeholder : '请选择' + item.title
-                  "
-                  @on-change="onChange(item, _formFields[item.field])"
-                  clearable
-                >
-                  <Option
-                    v-for="(kv, kvIndex) in item.data"
-                    :key="kvIndex"
-                    :value="kv.key"
-                    v-show="!kv.hidden"
-                    >{{ kv.value }}</Option
-                  >
-                </Select>
-              </template>
-            </template>
-            <i-switch
-              v-else-if="item.type == 'switch'"
-              :true-value="
-                typeof _formFields[item.field] == 'boolean' ? true : 1
-              "
-              :false-value="
-                typeof _formFields[item.field] == 'boolean' ? false : 0
-              "
-              v-model="_formFields[item.field]"
-            >
-              <span slot="open">是</span>
-              <span slot="close">否</span>
-            </i-switch>
-            <!-- 2021.05.16集成iview radio组件 -->
-            <RadioGroup
-              v-else-if="item.type == 'radio'"
-              v-model="_formFields[item.field]"
-            >
-              <Radio
-                :label="kv.key"
-                v-for="(kv, kvIndex) in item.data"
-                :key="kvIndex"
-              >
-                <span>{{ kv.value }}</span>
-              </Radio>
-            </RadioGroup>
-            <Row
-              v-else-if="
-                item.type == 'date' ||
-                item.type == 'datetime' ||
-                item.columnType == 'datetime' ||
-                item.type == 'month'
-              "
-            >
-              <Col span="24">
-                <FormItem :prop="item.field">
-                  <DatePicker
-                    :transfer="true"
-                    :type="
-                      item.range && item.type != 'month'
-                        ? item.type + 'range'
-                        : item.type
-                    "
-                    :format="getDateFormat(item)"
-                    :placeholder="item.placeholder || item.title"
-                    :value="_formFields[item.field]"
-                    :options="getDateOptions(item)"
-                    @on-change="
-                      (time) => {
-                        _formFields[item.field] = time;
-                        validateField(item);
-                        return time;
-                      }
-                    "
-                  ></DatePicker>
-                </FormItem>
-              </Col>
-            </Row>
-            <!-- 2020.10.17增加iview time组件 -->
-            <TimePicker
-              confirm
-              v-else-if="item.type == 'time'"
-              type="time"
-              :format="item.format"
-              v-model="_formFields[item.field]"
-              :placeholder="item.placeholder || item.title"
-            >
-            </TimePicker>
-            <CheckboxGroup
-              @on-change="
-                (arr) => {
-                  item.onChange && item.onChange(arr);
+              :allow-create="item.autocomplete"
+              @change="item.onChange"
+              :remote="item.remote || item.url"
+              clearable
+              :remote-method="
+                (val) => {
+                  remoteSearch(item, formFields, val);
                 }
               "
-              v-else-if="item.type == 'checkbox'"
-              v-model="_formFields[item.field]"
             >
-              <Checkbox
-                v-for="(kv, kvIndex) in item.data"
-                :key="kvIndex"
-                :label="kv.key"
-                >{{ kv.value }}</Checkbox
+              <el-option
+                v-for="item in item.data"
+                :key="item.key"
+                :label="item.value"
+                :value="item.key"
               >
-            </CheckboxGroup>
+              </el-option>
+            </el-select>
+            <el-switch
+              v-show="!item.hidden"
+              v-else-if="item.type == 'switch'"
+              v-model="formFields[item.field]"
+              :disabled="item.readonly || item.disabled"
+              active-color="#0f84ff"
+              @change="item.onChange"
+              inactive-color="rgb(194 194 194)"
+              :active-value="
+                typeof formFields[item.field] == 'boolean' ? true : 1
+              "
+              :inactive-value="
+                typeof formFields[item.field] == 'boolean' ? false : 0
+              "
+            >
+            </el-switch>
+
+            <el-radio-group
+              :disabled="item.readonly || item.disabled"
+              v-show="!item.hidden"
+              v-model="formFields[item.field]"
+              v-else-if="item.type == 'radio'"
+              @change="item.onChange"
+            >
+              <el-radio v-for="kv in item.data" :key="kv.key" :label="kv.key">{{
+                kv.value
+              }}</el-radio>
+            </el-radio-group>
+
+            <el-checkbox-group
+              :disabled="item.readonly || item.disabled"
+              v-show="!item.hidden"
+              v-model="formFields[item.field]"
+              v-else-if="item.type == 'checkbox'"
+              @change="item.onChange"
+            >
+              <el-checkbox
+                v-for="kv in item.data"
+                :key="kv.key"
+                :label="kv.key"
+                >{{ kv.value }}</el-checkbox
+              >
+            </el-checkbox-group>
+            <div
+              class="v-date-range"
+              style="display: flex"
+              v-else-if="
+                ['date', 'datetime'].indexOf(item.type) != -1 && item.range
+              "
+            >
+              <el-date-picker
+                size="medium"
+                :disabled="item.readonly || item.disabled"
+                style="flex: 1; width: auto"
+                v-model="formFields[item.field][0]"
+                :type="item.type == 'date' ? 'date' : 'datetime'"
+                :disabledDate="(val) => getDateOptions(val, item)"
+                placeholder="开始时间"
+                prefix-icon=" "
+                @change="
+                  (val) => {
+                    dateRangeChange(val, item);
+                  }
+                "
+                :value-format="getDateFormat(item)"
+              >
+              </el-date-picker>
+              <span style="margin: 0px 5px; font-size: 13px; color: #6f6b6b"
+                >至</span
+              >
+              <el-date-picker
+                size="medium"
+                :disabled="item.readonly || item.disabled"
+                style="flex: 1; width: auto"
+                v-model="formFields[item.field][1]"
+                placeholder="结束时间"
+                :type="item.type == 'date' ? 'date' : 'datetime'"
+                :disabledDate="(val) => getDateOptions(val, item)"
+                @change="
+                  (val) => {
+                    dateRangeChange(val, item);
+                  }
+                "
+                :value-format="getDateFormat(item)"
+              >
+              </el-date-picker>
+            </div>
+            <!-- v-show不添加根节点就会报错没有根点节 -->
+            <div
+              v-show="!item.hidden"
+              style="width: 100%"
+              v-else-if="['date', 'datetime'].indexOf(item.type) != -1"
+            >
+              <el-date-picker
+                clearable
+                :disabled="item.readonly || item.disabled"
+                style="width: 100%"
+                size="medium"
+                v-model="formFields[item.field]"
+                @change="item.onChange"
+                :type="item.type"
+                :placeholder="
+                  item.placeholder ? item.placeholder : '请选择' + item.title
+                "
+                :disabledDate="(val) => getDateOptions(val, item)"
+                :value-format="getDateFormat(item)"
+              >
+              </el-date-picker>
+            </div>
+
+            <el-time-picker
+              v-else-if="item.type == 'time'"
+              v-model="formFields[item.field]"
+              :disabled="item.readonly || item.disabled"
+              placeholder="请选择时间"
+              :format="item.format"
+              style="width: 100%"
+              size="medium"
+            >
+            </el-time-picker>
+
+            <vol-wang-editor
+              ref="editor"
+              v-else-if="item.type == 'editor'"
+              :url="item.url || editor.uploadImgUrl"
+              :upload="item.upload || editor.upload"
+              v-model="formFields[item.field]"
+              :height="item.height || 350"
+            ></vol-wang-editor>
+
             <vol-upload
-              v-else-if="isFile(item, _formFields)"
+              v-show="!item.hidden"
+              v-else-if="isFile(item, formFields)"
               :desc="item.desc"
               :multiple="item.multiple"
               :max-file="item.maxFile"
               :max-size="item.maxSize"
               :autoUpload="item.autoUpload"
-              :fileInfo="_formFields[item.field]"
+              :fileInfo="formFields[item.field]"
               :url="item.url"
               :img="item.type == 'img' || item.columnType == 'img'"
               :excel="item.type == 'excel'"
@@ -231,74 +239,55 @@
               :upload-before="item.uploadBefore"
               :upload-after="item.uploadAfter"
               :append="item.multiple"
-              :on-change="item.onChange"
+              :on-change="
+                (files) => {
+                  return fileOnChange(files, item);
+                }
+              "
               :file-click="item.fileClick"
               :remove-before="item.removeBefore"
               :downLoad="item.downLoad ? true : false"
             ></vol-upload>
-            <!-- 2020.05.31增加iview组件Cascader -->
-            <!--2020.09.19增加级联 @on-change="item.onChange"事件 -->
-            <!--2020.10.23增加级联 change-on-select属性 -->
-            <Cascader
+            <el-cascader
+              clearable
+              size="medium"
+              style="width: 100%"
+              v-model="formFields[item.field]"
+              :disabled="item.readonly || item.disabled"
               v-else-if="item.type == 'cascader'"
-              :load-data="item.loadData"
-              @on-change="
-                (value, selectedData) => {
-                  item.onChange && item.onChange(value, selectedData);
-                }
-              "
-              :ref="item.field"
-              :change-on-select="item.changeOnSelect"
-              :data="item.data"
-              :render-format="item.formatter"
-              filterable
-              v-model="_formFields[item.field]"
-            ></Cascader>
-            <!-- <kind-editor
-              ref="editor"
-              v-else-if="item.type == 'editor'"
-              :UploadImgUrl="editor.uploadImgUrl"
-              :upload="editor.upload"
-              :content.sync="_formFields[item.field]"
-              height="460px"
-            ></kind-editor> -->
-            <vol-wang-editor
-              ref="editor"
-              v-else-if="item.type == 'editor'"
-              :url="item.url || editor.uploadImgUrl"
-              :upload="item.upload || editor.upload"
-              v-model="_formFields[item.field]"
-              :height="item.height || 350"
-            ></vol-wang-editor>
-
-            <!-- 2021.05.02增加区间查询 -->
+              :options="item.data"
+              :props="{
+                checkStrictly: item.changeOnSelect || item.checkStrictly
+              }"
+              @change="item.onChange"
+            >
+            </el-cascader>
             <div
               style="display: flex"
               v-else-if="item.type == 'range' || item.range"
             >
-              <Input
+              <el-input
+                :disabled="item.readonly || item.disabled"
                 style="flex: 1"
-                v-model="_formFields[item.field][0]"
+                size="medium"
+                v-model="formFields[item.field][0]"
                 clearable
               />
               <span style="margin: 0 5px">-</span>
-              <Input
+              <el-input
+                size="medium"
+                :disabled="item.readonly || item.disabled"
                 style="flex: 1"
-                v-model="_formFields[item.field][1]"
+                v-model="formFields[item.field][1]"
                 clearable
               />
             </div>
-            <!--2020.09.05增加textarea标签的最小高度item.minRows属性 -->
-            <Input
-              v-else-if="item.type == 'textarea'"
-              v-model="_formFields[item.field]"
-              type="textarea"
-              @on-keypress="
-                ($event) => {
-                  item.onKeyPress && item.onKeyPress($event);
-                }
-              "
+            <el-input
               clearable
+              :disabled="item.readonly || item.disabled"
+              v-else-if="item.type == 'textarea'"
+              v-model="formFields[item.field]"
+              type="textarea"
               :autosize="{
                 minRows: item.minRows || 2,
                 maxRows: item.maxRows || 10
@@ -308,36 +297,57 @@
               "
               :ref="item.field"
             />
-            <Input
+            <el-input-number
+              style="width: 100%"
+              v-else-if="item.type == 'number'"
+              v-model="formFields[item.field]"
+              :min="item.min"
+              :disabled="item.readonly || item.disabled"
+              :max="item.max"
+              controls-position="right"
+            />
+            <el-input
               clearable
               v-else-if="item.type == 'password'"
               type="password"
-              autocomplete="off"
-              v-model.number="_formFields[item.field]"
-              @on-keypress="
-                ($event) => {
-                  item.onKeyPress && item.onKeyPress($event);
-                }
-              "
+              v-model.number="formFields[item.field]"
+              size="medium"
+              :disabled="item.readonly || item.disabled"
+              v-show="!item.hidden"
               :placeholder="
                 item.placeholder ? item.placeholder : '请输入' + item.title
               "
-              :ref="item.field"
             />
-            <Input
+            <!-- 2021.11.18修复el-input没有默认enter事件时回车异常 -->
+            <el-input
+              clearable
+              v-else-if="item.onKeyPress"
+              size="medium"
+              :placeholder="
+                item.placeholder ? item.placeholder : '请输入' + item.title
+              "
+              :disabled="item.readonly || item.disabled"
+              v-show="!item.hidden"
+              v-model="formFields[item.field]"
+              @keypress="
+                ($event) => {
+                  onKeyPress($event, item);
+                }
+              "
+              @change="item.onKeyPress"
+              @keyup.enter="item.onKeyPress"
+            ></el-input>
+            <el-input
               clearable
               v-else
-              @on-keypress="
-                ($event) => {
-                  item.onKeyPress && item.onKeyPress($event);
-                }
-              "
-              v-model="_formFields[item.field]"
+              size="medium"
               :placeholder="
                 item.placeholder ? item.placeholder : '请输入' + item.title
               "
-              :ref="item.field"
-            />
+              :disabled="item.readonly || item.disabled"
+              v-show="!item.hidden"
+              v-model="formFields[item.field]"
+            ></el-input>
 
             <div class="form-extra" v-if="item.extra">
               <form-expand
@@ -345,42 +355,80 @@
                 :render="item.extra.render"
               ></form-expand>
               <a
-                v-else
+                v-else-if="item.extra.click"
                 :style="item.extra.style"
-                @click="
-                  () => {
-                    item.extra.click &&
-                      item.extra.click(item, _formFields[item.field]);
-                  }
-                "
+                @click="item.extra.click(item, formFields[item.field])"
               >
-                <Icon v-if="item.extra.icon" :type="item.extra.icon" />
+                <i v-if="item.extra.icon" :class="item.extra.icon" />
+                {{ item.extra.text }}
+              </a>
+              <a v-else :style="item.extra.style">
+                <i v-if="item.extra.icon" :class="item.extra.icon" />
                 {{ item.extra.text }}
               </a>
             </div>
           </div>
-        </FormItem>
-      </Col>
-    </Row>
-    <slot name="footer"></slot>
-  </Form>
+        </el-form-item>
+      </div>
+    </template>
+    <slot></slot>
+    <div style="width: 100%">
+      <slot name="footer"></slot>
+    </div>
+  </el-form>
 </template>
 <script>
-// import moment from "moment";
+const rule = {
+  change: [
+    'checkbox',
+    'select',
+    'date',
+    'datetime',
+    'drop',
+    'radio',
+    'cascader'
+  ], // 2020.05.31增加级联类型
+  phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+  decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
+  number: /(^[\-0-9][0-9]*([0-9]+)?)$/
+};
+const inputTypeArr = ['text', 'string', 'mail', 'textarea', 'password'];
+const types = {
+  int: 'number',
+  byte: 'number',
+  decimal: 'number', // "float",
+  string: 'string',
+  bool: 'boolean',
+  date: 'datetime',
+  date: 'date',
+  mail: 'email'
+};
+//表单验证注意：每次验证都必须执行callback,否则验证不执行回调方法
+const colPow = Math.pow(10, 3);
 import FormExpand from './VolForm/VolFormRender';
-// import VolWangEditor from "@/components/basic/VolWangEditor.vue";
-export default {
+import {
+  defineAsyncComponent,
+  defineComponent,
+  ref,
+  getCurrentInstance,
+  onMounted,
+  watch
+} from 'vue';
+export default defineComponent({
   components: {
     FormExpand,
-    VolUpload: () => import('@/components/basic/VolUpload.vue'),
-    //2022.02.26编辑器改为懒加载
-    'vol-wang-editor': () => import('@/components/basic/VolWangEditor.vue')
+    'vol-upload': defineAsyncComponent(() =>
+      import('@/components/basic/VolUpload.vue')
+    ),
+    'vol-wang-editor': defineAsyncComponent(() =>
+      import('@/components/editor/VolWangEditor.vue')
+    )
   },
   props: {
     loadKey: {
       // 是否加载formRules字段配置的数据源
       type: Boolean,
-      default: false
+      default: true
     },
     width: {
       // 表单宽度
@@ -397,16 +445,7 @@ export default {
       type: Array,
       default: []
     },
-    formFileds: {
-      // 表单字段
-      type: Object,
-      default: () => {
-        return {};
-      }
-    },
     formFields: {
-      // 2020.09.13增加formFileds拼写错误兼容处理
-      // 表单字段
       type: Object,
       default: () => {
         return {};
@@ -420,244 +459,84 @@ export default {
       }
     }
   },
-  watch: {},
-  created() {
-    // 2020.09.13增加formFileds拼写错误兼容处理
-    this._formFields = Object.keys(this.formFields).length
-      ? this.formFields
-      : this.formFileds;
-    this.initFormRules(true);
+  computed: {
+    rules() {
+      let ruleResult = {};
+      this.formRules.forEach((option, xIndex) => {
+        option.forEach((item) => {
+          ruleResult[item.field] = [this.getRule(item, this.formFields)];
+        });
+      });
+      return ruleResult;
+    }
   },
-  data() {
-    return {
-      _formFields: {},
-      remoteCall: true,
-      errorImg: 'this.src="' + require('@/assets/imgs/error-img.png') + '"',
-      rule: {
-        change: [
-          'checkbox',
-          'select',
-          'date',
-          'datetime',
-          'drop',
-          'radio',
-          'cascader'
-        ], // 2020.05.31增加级联类型
-        phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
-        decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
-        number: /(^[\-0-9][0-9]*([0-9]+)?)$/
-      },
-      inputTypeArr: ['text', 'string', 'mail', 'textarea', 'password'],
-      types: {
-        int: 'number',
-        byte: 'number',
-        decimal: 'number', // "float",
-        string: 'string',
-        bool: 'boolean',
-        date: 'datetime',
-        date: 'date',
-        mail: 'email'
-      },
-      span: 0,
-      ruleValidate: {},
-      rangeFields: []
-    };
-  },
-  methods: {
-    // 2021.01.30增加日期自定义格式
-    getDateFormat(item) {
-      if (item.format) {
-        return format;
+  setup(props, context) {
+    const { appContext } = getCurrentInstance();
+    const remoteCall = ref(true);
+    const span = ref(1);
+    const rangeFields = ref([]);
+    const volform = ref(null);
+    onMounted(() => {});
+    const initFormRules = (init) => {
+      if (props.loadKey) {
+        initSource();
       }
-      if (item.type == 'month') {
-        return undefined;
-      }
-      return item.type == 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss';
-    },
-    previewImg(url) {
-      this.base.previewImg(url, this.http.ipAddress);
-    },
-    getSrc(path) {
-      if (!path) return;
-      if (!this.base.isUrl(path) && path.indexOf('.') != -1) {
-        return this.http.ipAddress + path;
-      }
-      return path;
-    },
-    // 是否为图片文件等格式并对字段的转换成数组：[{name:'1.jpg',path:'127.0.0.1/ff/1.jpg'}]
-    isFile(item, _formFields) {
-      if (
-        item.type == 'img' ||
-        item.columnType == 'img' ||
-        item.type == 'excel' ||
-        item.type == 'file'
-      ) {
-        this.convertFileToArray(item, _formFields);
-        return true;
-      }
-      return false;
-    },
-    isReadonlyImgFile(item, _formFields) {
-      if ((item.disabled || item.readonly) && this.isFile(item, _formFields)) {
-        return true;
-      }
-      return false;
-    },
-    convertFileToArray(item, _formFields) {
-      if (!item.maxFile) {
-        item.maxFile = 1; // 默认只能上传一个文件，可以在onInit中设置
-      }
-
-      let fileInfo = _formFields[item.field];
-      if (fileInfo instanceof Array) {
-        fileInfo.forEach((x) => {
-          if (x.hasOwnProperty('path')) {
-            if (x.path && !this.base.isUrl(x.path)) {
-              // 这里修改后死循环?
-              // x.path = this.http.ipAddress + x.path;
-            }
+      props.formRules.forEach((row, xIndex) => {
+        if (row.length > span.value) span.value = row.length;
+        let _count = 0,
+          _size = 0;
+        row.forEach((x) => {
+          if (x.colSize > 0) {
+            _size = _size + x.colSize;
+            _count++;
           }
         });
-        return;
-      }
-      if (fileInfo === null || fileInfo === undefined) {
-        _formFields[item.field] = [];
-        return;
-      }
-      // 将以逗号隔开的文件分割成数组127.0.0.1/aa/1.jpg,将127.0.0.1/aa/2.jpg
-      if (typeof fileInfo === 'string') {
-        if (fileInfo.trim() === '') {
-          _formFields[item.field] = [];
-          return;
-        }
-        // 如果文件路径是字符串，则使用，拆分
-        fileInfo = fileInfo.replace(/\\/g, '/');
-        let files = fileInfo.split(',');
-        _formFields[item.field] = [];
-        for (let index = 0; index < files.length; index++) {
-          let file = files[index];
-          let splitFile = file.split('/');
-          _formFields[item.field].push({
-            name: splitFile.length > 0 ? splitFile[splitFile.length - 1] : file,
-            path: file // this.base.isUrl(file) ? file : this.http.ipAddress + file,
+        if (_count > 0 && row.length - _count > 0) {
+          let _cellSize = (12 - _size) / (row.length - _count);
+          row.forEach((x) => {
+            if (!x.colSize) {
+              x.colSize = _cellSize;
+            }
           });
         }
-      }
-    },
-    dowloadFile(file) {
-      this.base.dowloadFile(
-        file.path,
-        file.name,
-        {
-          Authorization: this.$store.getters.getToken()
-        },
-        this.http.ipAddress
-      );
-    },
-    validatorPhone(rule, value, callback) {
-      if (!rule.required && !value && value != '0') {
-        return callback();
-      }
-      if (!this.rule.phone.test((value || '').trim())) {
-        return callback(new Error('请输入正确的手机号'));
-      }
-      callback();
-    },
-    validatorPwd(rule, value, callback) {
-      if (!rule.required && !value && value != '0') {
-        return callback();
-      }
-      if ((value + '').trim().length < 6) {
-        return callback(new Error('密码长度不能小于6位'));
-      }
-      callback();
-    },
-    convertArrayValue(data, val) {
-      // 2020.12.13增加表单多选只转换字典
-      // 编辑多选table显示
-      let valArr = val instanceof Array ? val : val.split(',');
-      for (let index = 0; index < valArr.length; index++) {
-        var _item = data.find((x) => {
-          return x.key && x.key != '0' && x.key + '' == valArr[index] + '';
+        row.forEach((item, yIndex) => {
+          // 目前只支持select单选远程搜索，remote远程从后台字典数据源进行搜索，url从指定的url搜索
+          if (item.remote || item.url) {
+            // item.remoteData = [];
+            item.loading = false;
+            item.point = { x: xIndex, y: yIndex };
+          }
+          // 初始化上传文件信息
+          initUpload(item, init);
+          // 初始化数据源空对象
+          if (item.dataKey) {
+            // 下拉框都强制设置为字符串类型
+            item.columnType = 'string';
+            if (!item.data) {
+              item.data = [];
+            }
+          }
+
+          if (item.range || item.type == 'range') {
+            if (
+              !(props.formFields[item.field] instanceof Array) ||
+              props.formFields[item.field].length != 2
+            ) {
+              props.formFields[item.field] = ['', ''];
+            }
+            rangeFields.value.push(item.field);
+          }
         });
-        if (_item) {
-          valArr[index] = _item.value;
-        }
-      }
-      return valArr.join(',');
-    },
-    getText(_formFields, item) {
-      // 2019.10.24修复表单select组件为只读的属性时没有绑定数据源
-      let text = _formFields[item.field];
-      if (typeof text === 'function') return text(_formFields);
-      if (text === 'null' || text === '' || text === null || text === undefined)
-        return '--';
-      //2021.03.02增加只读时日期处理
-      if (item.type == 'date') {
-        return text.replace('T', ' ').split(' ')[0];
-      }
-      //2021.03.31修复表单switch只读时没有转换值的问题
-      if (item.type == 'switch') {
-        return text ? '是' : '否';
-      }
-      //2021.08.22修复级联表单只读时字典转换
-      if (item.type == 'cascader') {
-        if (typeof text == 'string') {
-          return text;
-        }
-        text = text.map((x) => {
-          return x + '';
-        });
-        return item.orginData
-          .filter((x) => {
-            return text.indexOf(x.key + '') != -1;
-          })
-          .map((x) => {
-            return x.value;
-          })
-          .join(',');
-      }
-      if (!item.data) return text;
-      if (item.type == 'selectList' || item.type == 'checkbox') {
-        return this.convertArrayValue(item.data, text);
-      }
-      var _item = item.data.find((x) => {
-        return x.key == text;
       });
-      return _item ? _item.value : text;
-    },
-    onClear(item, _formFields) {
-      // 远程select标签清空选项
-      item.data.splice(0);
-      // console.log(2);
-    },
-    onChange(item, value) {
-      if (item.onChange && typeof item.onChange === 'function') {
-        item.onChange(value, item);
-      }
-    },
-    onRemoteChange(item, value) {
-      // 第二次打开时，默认值成了undefined，待查viewgrid中重置代码
-      if (value == undefined && item.data.length > 0) {
-        this._formFields[item.field] = item.data[0].key;
-        //  console.log('undefined');
-      }
-      this.remoteCall = false;
-      if (item.onChange && typeof item.onChange === 'function') {
-        item.onChange(value, item);
-      }
-    },
-    getData(item) {
-      return item.data;
-    },
-    initSource() {
+    };
+
+    const initSource = () => {
       let keys = [],
         binds = [];
       // 初始化字典数据源
-      this.formRules.forEach((item) => {
+      props.formRules.forEach((item) => {
         item.forEach((x) => {
           if (x.dataKey && (!x.data || x.data.length == 0) && !x.remote) {
-            // if (!x.data)
             x.data = [];
             binds.push({ key: x.dataKey, data: x.data, type: x.type });
             if (keys.indexOf(x.dataKey) == -1) {
@@ -668,42 +547,13 @@ export default {
       });
 
       if (keys.length == 0) return;
-
-      this.http
+      appContext.config.globalProperties.http
         .post('/api/Sys_Dictionary/GetVueDictionary', keys)
         .then((dic) => {
-          this.bindOptions(dic, binds);
+          bindOptions(dic, binds);
         });
-    },
-    // 远程搜索(打开弹出框时应该禁止搜索)
-    remoteSearch(item, _formFields, val) {
-      if (
-        val == '' ||
-        (item.data.length == 1 &&
-          (val == item.data[0].key || val == item.data[0].value))
-      ) {
-        return;
-      }
-      // 弹出框或初始化表单时给data设置数组默认值2
-      // 2020.09.26修复远程搜索自定义url不起作用的问题
-      let url;
-      if (typeof item.url === 'function') {
-        url = item.url(val, item.dataKey, item);
-      } else {
-        url =
-          (item.url || '/api/Sys_Dictionary/GetSearchDictionary') +
-          '?dicNo=' +
-          item.dataKey +
-          '&value=' +
-          val;
-      }
-      this.http.post(url).then((dicData) => {
-        this.$set(item, 'loading', false);
-        item.data = dicData;
-        this.formRules[item.point.x].splice(item.point.y, 1, item);
-      });
-    },
-    bindOptions(dic, binds) {
+    };
+    const bindOptions = (dic, binds) => {
       dic.forEach((d) => {
         binds.forEach((x) => {
           if (x.key != d.dicNo) return true;
@@ -712,17 +562,18 @@ export default {
           //2022.03.13增加级联数据源自动转换
           if (x.type == 'cascader') {
             let _data = JSON.parse(JSON.stringify(d.data));
-            let cascaderArr = this.base.convertTree(
-              _data,
-              (node, data, isRoot) => {
-                if (!node.inited) {
-                  node.inited = true;
-                  node.label = node.value;
-                  node.value = node.key;
+            let cascaderArr =
+              appContext.config.globalProperties.base.convertTree(
+                _data,
+                (node, data, isRoot) => {
+                  if (!node.inited) {
+                    node.inited = true;
+                    node.label = node.value;
+                    node.value = node.key;
+                  }
                 }
-              }
-            );
-            this.formRules.forEach((option) => {
+              );
+            props.formRules.forEach((option) => {
               option.forEach((item) => {
                 if (item.dataKey == x.key) {
                   item.orginData = x.data;
@@ -745,58 +596,13 @@ export default {
           }
         });
       });
-    },
-    getObject(date) {
-      if (typeof date === 'object') {
-        return date;
-      }
-      return new Date(date);
-    },
-    validateNumber() {},
-    formatTime(time) {
-      return time; //moment(time).format("YYYY-MM-DD");
-    },
-    changeTime(time) {
-      console.log(time);
-      return time + '';
-    },
-    reset(sourceObj) {
-      // 重置表单时，禁用远程查询
-      this.$refs['formValidate'].resetFields();
-      if (this.rangeFields.length) {
-        this.rangeFields.forEach((key) => {
-          this._formFields[key].splice(0);
-          this._formFields[key] = [null, null];
-        });
-      }
-      if (!sourceObj) return;
-      for (const key in this._formFields) {
-        if (sourceObj.hasOwnProperty(key)) {
-          this._formFields[key] = sourceObj[key];
-        }
-      }
-      //  this.remoteCall = true;
-    },
-    validate(callback) {
-      let result = true;
-      this.$refs['formValidate'].validate((valid) => {
-        if (!valid) {
-          this.$Message.error('数据验证未通过!');
-          result = false;
-        } else if (typeof callback === 'function') {
-          callback(valid);
-        }
-      });
-      return result;
-    },
-    getReuired(rule, item) {},
-    initUpload(item, init) {
+    };
+
+    const initUpload = (item, init) => {
       if (!init) return;
       if (
-        item.type == 'img' ||
-        item.columnType == 'img' ||
-        item.type == 'excel' ||
-        item.type == 'file'
+        ['img', 'excel', 'file'].indexOf(item.type != -1) ||
+        item.columnType == 'img'
       ) {
         // 只是没设置是否自动上传的，默认都是选择文件后自动上传
         if (!item.hasOwnProperty('autoUpload')) {
@@ -829,53 +635,287 @@ export default {
           };
         }
         if (!item.uploadBefore) {
-          //  console.log("111");
           item.uploadBefore = (files) => {
             return true;
           };
         }
       }
-    },
-    initFormRules(init) {
-      if (this.loadKey) {
-        this.initSource();
-      }
-      //  this.ruleValidate={};
-      this.formRules.forEach((row, xIndex) => {
-        if (row.length > this.span) this.span = row.length;
+    };
+    const validate = (callback) => {
+      let result = true;
+      volform.value.validate((valid) => {
+        if (!valid) {
+          appContext.config.globalProperties.$message.error('数据验证未通过!');
+          result = false;
+        } else if (typeof callback === 'function') {
+          callback(valid);
+        }
+      });
+      return result;
+    };
 
-        row.forEach((item, yIndex) => {
-          // 目前只支持select单选远程搜索，remote远程从后台字典数据源进行搜索，url从指定的url搜索
-          if (item.remote || item.url) {
-            // item.remoteData = [];
-            item.loading = false;
-            item.point = { x: xIndex, y: yIndex };
-          }
-          // 初始化上传文件信息
-          this.initUpload(item, init);
-          // 初始化数据源空对象
-          if (item.dataKey) {
-            // 下拉框都强制设置为字符串类型
-            item.columnType = 'string';
-            if (!item.data) {
-              item.data = [];
-            }
-          }
-          if (item.range || item.type == 'range') {
-            if (
-              !(this._formFields[item.field] instanceof Array) ||
-              this._formFields[item.field].length != 2
-            ) {
-              this._formFields[item.field] = [null, null];
-            }
-            this.rangeFields.push(item.field);
-          }
+    initFormRules(true);
+    return {
+      remoteCall,
+      span,
+      rangeFields,
+      validate,
+      volform
+      //  initFormRules,
+      // initSource
+    };
+  },
+  created() {
+    //this.initFormRules(true);
+  },
+
+  data() {
+    return {
+      // remoteCall: true,
+      errorImg: 'this.src="' + require('@/assets/imgs/error-img.png') + '"'
+      // span: 1,
+      // rangeFields: [],
+    };
+  },
+  methods: {
+    getColWidth(item) {
+      //2021.08.30增加动态计算表单宽度
+      let _span = 0;
+      this.formRules.forEach((row, xIndex) => {
+        if (row.length > _span) _span = row.length;
+      });
+      let rete =
+        Math.round(((item.colSize || 12 / _span) / 0.12) * colPow, 10.0) /
+        colPow;
+      if (item.colSize) return rete.toFixed(3);
+      return rete.toFixed(3);
+      // return (100 - rete).toFixed(3);
+    },
+    previewImg(url) {
+      this.base.previewImg(url, this.http.ipAddress);
+    },
+    getSrc(path) {
+      if (!path) return;
+      if (!this.base.isUrl(path) && path.indexOf('.') != -1) {
+        return this.http.ipAddress + path;
+      }
+      return path;
+    },
+    // 是否为图片文件等格式并对字段的转换成数组：[{name:'1.jpg',path:'127.0.0.1/ff/1.jpg'}]
+    isFile(item, formFields) {
+      if (
+        item.type == 'img' ||
+        item.columnType == 'img' ||
+        item.type == 'excel' ||
+        item.type == 'file'
+      ) {
+        this.convertFileToArray(item, formFields);
+        return true;
+      }
+      return false;
+    },
+    isReadonlyImgFile(item, formFields) {
+      if ((item.disabled || item.readonly) && this.isFile(item, formFields)) {
+        return true;
+      }
+      return false;
+    },
+    convertFileToArray(item, formFields) {
+      if (!item.maxFile) {
+        item.maxFile = 1; // 默认只能上传一个文件，可以在onInit中设置
+      }
+
+      let fileInfo = formFields[item.field];
+      if (fileInfo instanceof Array) {
+        return;
+      }
+      if (fileInfo === null || fileInfo === undefined) {
+        formFields[item.field] = [];
+        return;
+      }
+      // 将以逗号隔开的文件分割成数组127.0.0.1/aa/1.jpg,将127.0.0.1/aa/2.jpg
+      if (typeof fileInfo === 'string') {
+        if (fileInfo.trim() === '') {
+          formFields[item.field] = [];
+          return;
+        }
+        // 如果文件路径是字符串，则使用，拆分
+        fileInfo = fileInfo.replace(/\\/g, '/');
+        let files = fileInfo.split(',');
+        formFields[item.field] = [];
+        for (let index = 0; index < files.length; index++) {
+          let file = files[index];
+          let splitFile = file.split('/');
+          formFields[item.field].push({
+            name: splitFile.length > 0 ? splitFile[splitFile.length - 1] : file,
+            path: file // this.base.isUrl(file) ? file : this.http.ipAddress + file,
+          });
+        }
+      }
+    },
+    dowloadFile(file) {
+      this.base.dowloadFile(
+        file.path,
+        file.name,
+        {
+          Authorization: this.$store.getters.getToken()
+        },
+        this.http.ipAddress
+      );
+    },
+    validatorPhone(ruleOption, value, callback) {
+      if (!ruleOption.required && !value && value != '0') {
+        return callback();
+      }
+      if (!rule.phone.test((value || '').trim())) {
+        return callback(new Error('请输入正确的手机号'));
+      }
+      callback();
+    },
+    validatorPwd(ruleOption, value, callback) {
+      if (!ruleOption.required && !value && value != '0') {
+        return callback();
+      }
+      if ((value + '').trim().length < 6) {
+        return callback(new Error('密码长度不能小于6位'));
+      }
+      callback();
+    },
+    convertArrayValue(data, val) {
+      // 2020.12.13增加表单多选只转换字典
+      // 编辑多选table显示
+      let valArr = val instanceof Array ? val : val.split(',');
+      for (let index = 0; index < valArr.length; index++) {
+        var _item = data.find((x) => {
+          return x.key && x.key != '0' && x.key + '' == valArr[index] + '';
         });
+        if (_item) {
+          valArr[index] = _item.value;
+        }
+      }
+      return valArr.join(',');
+    },
+    getText(formFields, item) {
+      // 2019.10.24修复表单select组件为只读的属性时没有绑定数据源
+      let text = formFields[item.field];
+      if (typeof text === 'function') return text(formFields);
+      if (text === 'null' || text === '' || text === null || text === undefined)
+        return '--';
+      //2021.03.02增加只读时日期处理
+      if (item.type == 'date') {
+        return text.replace('T', ' ').split(' ')[0];
+      }
+      //2021.03.31修复表单switch只读时没有转换值的问题
+      if (item.type == 'switch') {
+        return text ? '是' : '否';
+      }
+      if (!item.data) return text;
+      if (item.type == 'selectList' || item.type == 'checkbox') {
+        return this.convertArrayValue(item.data, text);
+      }
+      var _item = item.data.find((x) => {
+        return x.key == text;
+      });
+      return _item ? _item.value : text;
+    },
+    onClear(item, formFields) {
+      // 远程select标签清空选项
+      item.data.splice(0);
+      // console.log(2);
+    },
+    onChange(item, value) {
+      if (item.onChange && typeof item.onChange === 'function') {
+        item.onChange(value, item);
+      }
+    },
+    onRemoteChange(item, value) {
+      // 第二次打开时，默认值成了undefined，待查viewgrid中重置代码
+      if (value == undefined && item.data.length > 0) {
+        this.formFields[item.field] = item.data[0].key;
+        //  console.log('undefined');
+      }
+      this.remoteCall = false;
+      if (item.onChange && typeof item.onChange === 'function') {
+        item.onChange(value, item);
+      }
+    },
+    getData(item) {
+      return item.data;
+    },
+
+    // 远程搜索(打开弹出框时应该禁止搜索)
+    remoteSearch(item, formFields, val) {
+      if (
+        val == '' ||
+        (item.data.length == 1 &&
+          (val == item.data[0].key || val == item.data[0].value))
+      ) {
+        return;
+      }
+      // 弹出框或初始化表单时给data设置数组默认值2
+      // 2020.09.26修复远程搜索自定义url不起作用的问题
+      let url;
+      if (typeof item.url === 'function') {
+        url = item.url(val, item.dataKey, item);
+      } else {
+        url =
+          (item.url || '/api/Sys_Dictionary/GetSearchDictionary') +
+          '?dicNo=' +
+          item.dataKey +
+          '&value=' +
+          val;
+      }
+      this.http.post(url).then((dicData) => {
+        //this.$set(item, "loading", false);
+        item.loading = false;
+        item.data = dicData;
+        this.formRules[item.point.x].splice(item.point.y, 1, item);
       });
     },
-    getRule(item, _formFields) {
+    getObject(date) {
+      if (typeof date === 'object') {
+        return date;
+      }
+      return new Date(date);
+    },
+    reset(sourceObj) {
+      // 重置表单时，禁用远程查询
+      this.$refs['volform'].resetFields();
+      if (this.rangeFields.length) {
+        this.rangeFields.forEach((key) => {
+          this.formFields[key].splice(0);
+          this.formFields[key] = [null, null];
+        });
+      }
+      if (!sourceObj) return;
+      for (const key in this.formFields) {
+        if (sourceObj.hasOwnProperty(key)) {
+          this.formFields[key] = sourceObj[key];
+        }
+      }
+      //  this.remoteCall = true;
+    },
+
+    fileOnChange(files, item) {
+      this.$refs.volform.clearValidate(item.field);
+      if (item.onChange) {
+        return item.onChange(files);
+      }
+      return true;
+    },
+    isReadonly(item) {
+      return item.readonly || item.disabled;
+    },
+    getRule(item, formFields) {
       //2021.07.17增加只读表单不验证
-      if (item.readonly || item.disabled) return;
+      //range与swtich暂时不做校验
+      if (
+        // item.readonly ||
+        // item.disabled ||
+        item.type == 'switch' ||
+        item.type == 'range'
+      )
+        return { required: false };
       // 用户设置的自定义方法
       if (item.validator && typeof item.validator === 'function') {
         return {
@@ -886,10 +926,28 @@ export default {
             return callback();
           },
           required: item.required,
-          trigger: this.rule.change.indexOf(item.type) != -1 ? 'change' : 'blur'
+          trigger: rule.change.indexOf(item.type) != -1 ? 'change' : 'blur'
         };
       }
-
+      if (['img', 'excel', 'file'].indexOf(item.type) != -1) {
+        return {
+          validator: (rule, val, callback) => {
+            //2021.09.05移除文件上传默认必填
+            if (
+              item.required &&
+              !this.isReadonly(item) &&
+              (!val || !val.length)
+            ) {
+              return callback(
+                new Error(item.type == 'img' ? '请上传照片' : '请上传文件')
+              );
+            }
+            return callback();
+          },
+          required: item.required,
+          trigger: 'change'
+        };
+      }
       // 设置数字的最大值民最小值
       if (
         item.type == 'number' ||
@@ -910,42 +968,43 @@ export default {
           min: item.min,
           max: item.max,
           type: item.columnType || item.type,
-          validator: (rule, value, callback) => {
-            if (!rule.min && !rule.max) {
-              if (rule.required) {
+          validator: (ruleObj, value, callback) => {
+            if (!ruleObj.min && !ruleObj.max) {
+              if (ruleObj.required) {
                 if (value == '') {
-                  _formFields[rule.field] = 0;
+                  formFields[rule.field] = 0;
                   return callback();
                 }
               }
               if (value === '' || value === undefined) return callback();
             }
-            if (rule.type == 'number') {
-              if (!this.rule.number.test(value)) {
-                rule.message = rule.title + '只能是整数';
-                return callback(new Error(rule.message));
+            if (this.isReadonly(item)) return callback();
+            if (ruleObj.type == 'number') {
+              if (!rule.number.test(value)) {
+                ruleObj.message = ruleObj.title + '只能是整数';
+                return callback(new Error(ruleObj.message));
               }
             } else {
-              if (!this.rule.decimal.test(value)) {
-                rule.message = rule.title + '只能是数字';
-                return callback(new Error(rule.message));
+              if (!rule.decimal.test(value)) {
+                ruleObj.message = ruleObj.title + '只能是数字';
+                return callback(new Error(ruleObj.message));
               }
             }
             if (
-              rule.min !== undefined &&
-              typeof rule.min === 'number' &&
-              value < rule.min
+              ruleObj.min !== undefined &&
+              typeof ruleObj.min === 'number' &&
+              value < ruleObj.min
             ) {
-              rule.message = rule.title + '不能小于' + rule.min;
-              return callback(new Error(rule.message));
+              ruleObj.message = ruleObj.title + '不能小于' + ruleObj.min;
+              return callback(new Error(ruleObj.message));
             }
             if (
-              rule.max !== undefined &&
-              typeof rule.max === 'number' &&
-              value > rule.max
+              ruleObj.max !== undefined &&
+              typeof ruleObj.max === 'number' &&
+              value > ruleObj.max
             ) {
-              rule.message = rule.title + '不能大于' + rule.max;
-              return callback(new Error(rule.message));
+              ruleObj.message = ruleObj.title + '不能大于' + ruleObj.max;
+              return callback(new Error(ruleObj.message));
             }
             return callback();
           }
@@ -962,27 +1021,29 @@ export default {
         };
       }
 
-      if (!item.required && item.type != 'mail') {
-        return {
-          required: false
-        };
-      }
+      if (!item.required && item.type != 'mail') return { required: false };
 
-      if (!item.hasOwnProperty('type')) {
-        item.type = 'text';
-      }
+      if (!item.hasOwnProperty('type')) item.type = 'text';
 
-      // inputTypeArr:['text','string','mail','textarea'],
-      if (this.inputTypeArr.indexOf(item.type) != -1) {
+      if (inputTypeArr.indexOf(item.type) != -1) {
         let message =
           item.title +
           (item.type == 'mail' ? '必须是一个邮箱地址' : '不能为空');
-        let type = item.type == 'mail' ? 'email' : this.types[item.columnType];
+        let type = item.type == 'mail' ? 'email' : types[item.columnType];
         let _rule = {
           required: true,
           message: message,
           trigger: 'blur',
-          type: type
+          type: type,
+          validator: (ruleObj, value, callback) => {
+            if (
+              !this.isReadonly(item) &&
+              (value === '' || value === undefined || value === null)
+            ) {
+              return callback(new Error(ruleObj.message));
+            }
+            return callback();
+          }
         };
         if (item.type == 'mail') {
           _rule.required = item.required;
@@ -1021,156 +1082,173 @@ export default {
           type: 'string'
         };
       }
-      if (item.type == 'date' || item.type == 'datetime') {
+      if (
+        item.type == 'date' ||
+        item.type == 'datetime' ||
+        item.type == 'time'
+      ) {
         return {
           required: true,
           message: '请选择' + item.title,
           trigger: 'change',
           type: item.range ? 'array' : 'string',
           validator: (rule, val, callback) => {
+            if (this.isReadonly(item)) return callback();
             // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
-            if (!val || (item.range && val.length == 0)) {
+            if (!val || (item.range && !val.length)) {
               return callback(new Error('请选择日期'));
             }
-            console.log(val);
-            // if (message) return callback(new Error(message + ""));
+            return callback();
+          }
+        };
+      }
+
+      if (item.type == 'cascader') {
+        return {
+          type: 'array',
+          required: true,
+          min: item.min || 1,
+          // message: "请选择" + item.title,
+          trigger: 'change',
+          validator: (rule, val, callback) => {
+            if (this.isReadonly(item)) return callback();
+            // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
+            let _arr = this.formFields[item.field];
+            if (!_arr || !_arr.length) {
+              return callback(new Error('请选择' + item.title));
+            }
             return callback();
           }
         };
       }
 
       if (
-        item.type == 'select' ||
-        item.type == 'selectList' ||
-        item.type == 'checkbox' ||
-        item.type == 'drop' ||
-        item.type == 'cascader' // 2020.05.31增加级联类型
+        ['select', 'selectList', 'checkbox', 'cascader'].indexOf(item.type) !=
+        -1
       ) {
         let _rule = {
+          type: item.type == 'select' ? 'string' : 'array',
           required: true,
-          message: '请选择' + item.title,
           min: item.min || 1,
-          type: 'array',
+          message: '请选择' + item.title,
           trigger: 'change',
-          type: this.types[item.columnType],
           validator: (rule, value, callback) => {
+            if (this.isReadonly(item)) return callback();
+            //2021.11.27修复多选没有提示的问题
             if (value == undefined || value === '') {
+              return callback(new Error(rule.message));
+            } else if (
+              (item.type == 'checkbox' || item.type == 'selectList') &&
+              (!(value instanceof Array) || !value.length)
+            ) {
               return callback(new Error(rule.message));
             }
             return callback();
           }
         };
 
-        if (!item.max) return _rule;
-        return [
-          _rule,
-          {
-            message: '最多只能选择' + item.max + '项' + item.title,
-            max: item.max,
-            type: 'array',
-            trigger: 'change'
-          }
-        ];
-      }
-      return {
-        required: false
-      };
-    },
-    validateField(item, callback) {
-      // 2020.07.17增加对日期onchange时校验
-      let fields = this.$refs.formValidate.fields;
-      fields.forEach((field) => {
-        if (field.prop == item.field) {
-          field.validate('', (error) => {
-            console.log(error);
-          });
+        if (_rule.max) {
+          _rule.nax = item.max;
+          _rule.message = '最多只能选择' + item.max + '项';
         }
-      });
-      // 2020.07.24增加日期onChange事件
-      item.onChange && item.onChange(this._formFields[item.field]);
-    },
-    getDateOptions(item) {
-      //2021.07.17设置时间可选范围
-      if (item.min || item.max) {
-        return {
-          disabledDate: (date) => {
-            if (!date) return true;
-            return (
-              date.valueOf() <
-                (typeof item.min == 'number'
-                  ? item.min
-                  : new Date(item.min || '1970-01-01').valueOf()) ||
-              date.valueOf() >
-                (typeof item.max == 'number'
-                  ? item.max
-                  : new Date(item.max || '2100-01-01').valueOf())
-            );
-          }
-        };
+        return _rule;
       }
+      return {};
+    },
+    compareDate(date1, date2) {
+      if (!date2) {
+        return true;
+      }
+      return (
+        date1.valueOf() <
+        (typeof date2 == 'number' ? date2 : new Date(date2).valueOf())
+      );
+    },
+    getDateOptions(date, item) {
+      //2021.07.17设置时间可选范围
+      if ((!item.min && !item.max) || !date) {
+        return false;
+      }
+      if (item.min && item.min.indexOf(' ') == -1) {
+        //不设置时分秒，后面会自动加上 08:00
+        item.min = item.min + ' 00:00:000';
+      }
+      return (
+        this.compareDate(date, item.min) || !this.compareDate(date, item.max)
+      );
+    },
+    getDateFormat(item) {
+      //见https://day.js.org/docs/zh-CN/display/format
+      return item.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
+    },
+    dateRangeChange(val, item) {
+      if (!val) {
+        this.$emit('update:formFields');
+        return;
+      }
+      item.onChange && item.onChange(val);
+    },
+    onKeyPress($event, item) {
+      if ($event.keyCode == 13) {
+        return;
+      }
+      item.onKeyPress($event);
     }
   }
-};
+});
 </script>
-<style>
-.ivu-date-picker {
-  width: 100%;
+<style lang="less" scoped>
+.el-form-item {
+  margin-right: 0;
 }
-/* .ivu-form-item {
-  margin-bottom: 20px !important;
-} */
-</style>
-<style scoped>
-.readonly-input >>> input {
-  box-shadow: none;
-  border: 0px;
+.el-form-item {
+  .form-imgs {
+    img {
+      float: left;
+      cursor: pointer;
+      object-fit: cover;
+      margin: 0 10px 10px 0;
+      width: 65px;
+      height: 65px;
+      border: 1px solid #c7c7c7;
+      overflow: hidden;
+      border-radius: 5px;
+      box-sizing: content-box;
+    }
+  }
 }
-.line-row >>> .ivu-select .ivu-select-dropdown {
-  width: 100% !important;
-  z-index: 99999;
-}
-/* 
-.line-row >>> .ivu-form-item img {
-  max-height: 100px;
-}
-.ivu-form-item{
-
-} */
-.line-row >>> .ivu-form-item-label {
+.el-form-item ::v-deep(.el-form-item__label) {
+  padding: 0 0px 0 4px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-</style>
-<style lang="less" scoped>
-.form-imgs {
-  display: inline-block;
-  .img-item {
-    position: relative;
-    cursor: pointer;
-    margin: 0 10px 10px 0;
-    float: left;
-    height: 100px;
-    border: 1px solid #9e9e9e;
-    overflow: hidden;
-    border-radius: 5px;
-    width: 100px;
-  }
-  img {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+.el-form-item ::v-deep(.el-range-separator) {
+  text-align: center;
+  width: 13px;
+  padding: 0px 1px;
+  font-size: 12px;
+}
+.el-form-item ::v-deep(.el-range__close-icon) {
+  margin-right: -10px;
 }
 .form-item-extra {
-  display: flex;
-  > div:first-child {
+  > *:first-child {
     flex: 1;
   }
+  display: flex;
   .form-extra {
-    margin-left: 10px;
+    padding-left: 7px;
+    line-height: 36px;
   }
+}
+.v-date-range ::v-deep(.el-input__prefix) {
+  display: none;
+}
+.el-form-item ::v-deep(.el-checkbox) {
+  margin-right: 8px;
+}
+.el-form-item ::v-deep(.el-checkbox .el-checkbox__label) {
+  padding-left: 5px;
 }
 </style>
