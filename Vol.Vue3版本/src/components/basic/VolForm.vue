@@ -410,6 +410,8 @@ import {
   defineAsyncComponent,
   defineComponent,
   ref,
+  reactive,
+  toRefs,
   getCurrentInstance,
   onMounted,
   watch
@@ -474,8 +476,9 @@ export default defineComponent({
     const { appContext } = getCurrentInstance();
     const remoteCall = ref(true);
     const span = ref(1);
-    const rangeFields = ref([]);
+    const rangeFields = toRefs([]);
     const volform = ref(null);
+    const numberFields = toRefs([]);
     onMounted(() => {});
     const initFormRules = (init) => {
       if (props.loadKey) {
@@ -500,6 +503,9 @@ export default defineComponent({
           });
         }
         row.forEach((item, yIndex) => {
+          if (item.type == 'number') {
+            numberFields.push(item.field);
+          }
           // 目前只支持select单选远程搜索，remote远程从后台字典数据源进行搜索，url从指定的url搜索
           if (item.remote || item.url) {
             // item.remoteData = [];
@@ -524,7 +530,7 @@ export default defineComponent({
             ) {
               props.formFields[item.field] = ['', ''];
             }
-            rangeFields.value.push(item.field);
+            rangeFields.push(item.field);
           }
         });
       });
@@ -659,6 +665,7 @@ export default defineComponent({
       remoteCall,
       span,
       rangeFields,
+      numberFields,
       validate,
       volform
       //  initFormRules,
@@ -891,6 +898,9 @@ export default defineComponent({
       for (const key in this.formFields) {
         if (sourceObj.hasOwnProperty(key)) {
           this.formFields[key] = sourceObj[key];
+          if (this.numberFields.indexOf(key) != -1) {
+            this.formFields[key] = sourceObj[key] * 1 || 0;
+          }
         }
       }
       //  this.remoteCall = true;
