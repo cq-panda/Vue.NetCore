@@ -3,44 +3,71 @@
     <div class="content">
       <div class="l-left">
         <div class="desc">
-          <div class="title">vol.vue</div>
-               <p>后台</p>
+          <div class="title">vol.vue<span style="font-size:13px;background:#46c706;border-radius:24px;padding:4px 9px;border:1px solid;margin-left:5px;" >vue2.x</span></div>
+          <p>后台</p>
           <p>.NetCore、EntityFrameWorkCore、Dapper、Redis</p>
           <p>Vue、Promise、Vuex、IView、Element-UI</p>
-          <p>演示帐号：admin666  密码:123456</p>
-          <p>本地帐号：admin &nbsp; &nbsp; &nbsp; 密码:123456</p>
+          <p>演示账号：admin666 密码:123456</p>
+          <p>本地账号：admin &nbsp; &nbsp; &nbsp; 密码:123456</p>
           <div style="margin-top: 30px">
             <a
               href="https://github.com/cq-panda/Vue.NetCore"
               target="_blank"
-              style="color: #ffff; border: 1px solid #ffff;width: 80px;margin-right: 5px;"
-              class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
+              style="
+                color: #ffff;
+                border: 1px solid #ffff;
+                width: 80px;
+                margin-right: 5px;
+              "
+              class="
+                index-btn
+                ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost
+              "
             >
               <span>GitHub</span></a
             >
             <a
               href="https://gitee.com/x_discoverer/Vue.NetCore"
               target="_blank"
-              style="color: #ffff; border: 1px solid #ffff; width: 80px;margin-right: 5px;"
-              class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
+              style="
+                color: #ffff;
+                border: 1px solid #ffff;
+                width: 80px;
+                margin-right: 5px;
+              "
+              class="
+                index-btn
+                ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost
+              "
             >
               <span>Gitee</span></a
             >
-                <a
-              href="http://v2.volcore.xyz/app/guide"
-              target="_blank"
-              style="color: #ffff; border: 1px solid #ffff; width: 80px;margin-right: 5px;"
-              class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
+            <a
+            @click="$message.info('即将开放')"
+              style="
+                color: #ffff;
+                border: 1px solid #ffff;
+                width: 80px;
+                margin-right: 5px;
+                padding-left:9px;
+              "
+              class="
+                index-btn
+                ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost
+              "
             >
-              <span>H5/App</span></a
+              <span>框架小程序</span></a
             >
             <a
               href="http://v2.volcore.xyz/document/guide"
               target="_blank"
               style="color: #ffff; border: 1px solid #ffff"
-              class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
+              class="
+                index-btn
+                ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost
+              "
             >
-              <span>Document</span></a
+              <span>框架文档</span></a
             >
           </div>
         </div>
@@ -48,7 +75,7 @@
       <div class="login">
         <div class="login-contianer">
           <div class="login-form">
-      <h2 style="padding: 20px 0px;font-weight: 500;">帐号登陆</h2>
+            <h2 style="padding: 17px 0px;font-weight: 500;font-size: 26px;color: #000;">账号登录</h2>
             <div class="form-user" @keypress="loginPress">
               <div class="item">
                 <div class="f-text">
@@ -107,14 +134,7 @@
                     placeholder="输入验证码"
                   />
                 </div>
-                <div
-                  class="code"
-                  @click="
-                    () => {
-                      getVierificationCode();
-                    }
-                  "
-                >
+                <div class="code" @click="getVierificationCode">
                   <img v-show="codeImgSrc != ''" :src="codeImgSrc" />
                 </div>
               </div>
@@ -127,8 +147,8 @@
                 @click="login"
                 long
               >
-                <span v-if="!loading">登陆</span>
-                <span v-else>正在登陆...</span>
+                <span v-if="!loading">登录</span>
+                <span v-else>正在登录...</span>
               </Button>
             </div>
             <div class="action">
@@ -139,6 +159,14 @@
         </div>
       </div>
     </div>
+    <div class="l-bg"></div>
+    <div class="r-bg"></div>
+    <!--   <div class="c-bg">
+      <div class="c-bg-item"></div>
+      <div class="c-bg-item"></div>
+      <div class="c-bg-item"></div>
+      <div class="c-bg-item"></div>
+    </div> -->
     <div class="login-footer">
       <a @click="toGitHub">
         <!-- <Icon type="logo-github" /> -->
@@ -199,14 +227,14 @@ export default {
         return this.$Message.error("请输入验证码");
       this.loading = true;
       this.http
-        .post("/api/user/login", this.userInfo, "正在登陆....")
+        .post("/api/user/login", this.userInfo, "正在登录....")
         .then((result) => {
           if (!result.status) {
             this.loading = false;
             this.getVierificationCode();
             return this.$Message.error(result.message);
           }
-          this.$Message.info("登陆成功,正在跳转!");
+          this.$Message.info("登录成功,正在跳转!");
           this.$store.commit("setUserInfo", result.data);
           this.$router.push({ path: "/" });
         });
@@ -252,7 +280,7 @@ export default {
 
 .desc {
   width: 450px;
-padding: 10px 30px;
+  padding: 10px 30px;
   box-sizing: border-box;
   height: 100%;
 }
@@ -260,7 +288,7 @@ padding: 10px 30px;
 .desc p {
   font-size: 15px;
   color: white;
-  line-height: 30px;
+  line-height: 40px;
 }
 
 .desc p:before {
@@ -354,8 +382,8 @@ input:-webkit-autofill {
     width: 400px;
     min-height: 340px;
     background: white;
-        height: 400px;
-    box-shadow: 2px 5px 18px #6453534a;
+    height: 400px;
+    box-shadow: 2px 5px 18px rgb(100 83 83 / 29%);
   }
 }
 .login-project {
@@ -422,10 +450,10 @@ input:-webkit-autofill {
   .l-bg {
     display: none;
   }
-  .l-left{
-        display: none;
+  .l-left {
+    display: none;
   }
-  .c-bg-item{
+  .c-bg-item {
     background: none !important;
   }
 }
