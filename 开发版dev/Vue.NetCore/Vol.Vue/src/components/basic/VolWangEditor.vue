@@ -59,8 +59,8 @@ export default {
     value(newVal) {
       if (!this.change) {
         this.outChange = true;
-        this.editor.txt.html(newVal);
       }
+      this.editor.txt.html(newVal);
       this.change = false;
     },
   },
