@@ -70,7 +70,7 @@ export default {
         Variety: "",
         AgeRange: [50, 100],
         DateRange: [],
-        City: [],
+        ParentId: [],
         AvgPrice: null,
         Date: "",
         date3: "",
@@ -127,25 +127,26 @@ export default {
             type: "select",
           },
         ],
-        [
+      [
           {
-            dataKey: "city",
-            title: "级联",
+            dataKey: 'tree_roles',
+            title: '级联选择',
             required: true,
-            field: "City",
-            colSize: 12,
-            data: [
-              {
-                value: "北京",
-                label: "北京",
-                children: [
-                  { value: "天坛", label: "天坛" },
-                  { value: "王府井", label: "王府井" },
-                ],
-              },
-            ],
-            type: "cascader",
-          },
+            field: 'ParentId',
+            checkStrictly: true, //设置可以选择任意一级
+            data: [],
+            // data: [
+            //   {
+            //     value: "北京",
+            //     label: "北京",
+            //     children: [
+            //       { value: "天坛", label: "天坛" },
+            //       { value: "王府井", label: "王府井" },
+            //     ],
+            //   },
+            // ],
+            type: 'cascader'
+          }
         ],
         [
           {

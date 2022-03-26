@@ -51,8 +51,8 @@ export default {
     modelValue(newVal) {
       if (!this.change) {
         this.outChange = true;
-        this.editor.txt.html(newVal);
       }
+      this.editor.txt.html(newVal);
       this.change = false;
     },
   },
