@@ -59,6 +59,9 @@
                   <span @click="ceateVuePage">
                     <i class="el-icon-document"></i>生成Vue页面
                   </span>
+                  <span @click="ceateVuePage(1)">
+                    <i class="el-icon-document"></i>生成app页面
+                  </span>
                   <span @click="ceateModel">
                     <i class="el-icon-tickets"></i>生成Model
                   </span>
@@ -329,15 +332,26 @@ export default {
         callback();
       });
     },
-    ceateVuePage() {
+    ceateVuePage(isApp) {
       this.validateTableInfo(() => {
-        let vuePath = localStorage.getItem("vuePath");
-        if (!vuePath) {
-          return this.$message.error(
-            "请先设置Vue项目对应Views的绝对路径,然后再保存!"
-          );
+         let vuePath;
+        if (!isApp) {
+           vuePath = localStorage.getItem("vuePath");
+          if (!vuePath) {
+            return this.$message.error(
+              "请先设置Vue项目对应Views的绝对路径,然后再保存!"
+            );
+          }
+        } else {
+             vuePath = localStorage.getItem("appPath");
+          if (!vuePath) {
+            return this.$message.error(
+              "请先设置app路径,然后再保存!"
+            );
+          }
         }
-        let url = `/api/builder/createVuePage?vuePath=${vuePath}&v3=1`;
+
+        let url = `/api/builder/createVuePage?vuePath=${vuePath}&v3=1&app=${isApp||0}`;
         this.http.post(url, this.tableInfo, true).then((x) => {
           this.$Message.info(x);
         });
@@ -395,6 +409,8 @@ export default {
     checkSortName() {},
     save() {
       localStorage.setItem("vuePath", this.layOutOptins.fields.vuePath || "");
+      localStorage.setItem("appPath", this.layOutOptins.fields.appPath || "");
+
       if (
         this.tableInfo &&
         this.tableInfo.tableColumns &&
@@ -420,7 +436,7 @@ export default {
           });
           this.tableInfo = x.data;
           this.$refs.form.reset(x.data);
-          this.layOutOptins.fields.vuePath = localStorage.getItem("vuePath");
+        //  this.layOutOptins.fields.vuePath = localStorage.getItem("vuePath");
           this.data = x.data.tableColumns;
           //  this.$Message.info(x);
         });
@@ -434,7 +450,7 @@ export default {
       this.loadTableInfo(node.length == 1 ? node[0] : node[node.length - 1]);
     },
     loadTableInfo(id) {
-      localStorage.setItem("vuePath", this.layOutOptins.fields.vuePath || "");
+      // localStorage.setItem("vuePath", this.layOutOptins.fields.vuePath || "");
       this.http
         .post(
           "/api/builder/LoadTableInfo?table_Id=" + id + "&isTreeLoad=true",
@@ -463,8 +479,8 @@ export default {
           this.data = x.data.tableColumns;
         });
     },
-    getVuePath() {
-      let vuePath = localStorage.getItem("vuePath");
+    getVuePath(key) {
+      let vuePath = localStorage.getItem(key);
       if (!vuePath || vuePath == "null" || vuePath == "undefined") {
         vuePath = "";
       }
@@ -491,7 +507,8 @@ export default {
         column.bind.data = data;
       });
 
-    builderData.form.fields.vuePath = this.getVuePath();
+    builderData.form.fields.vuePath = this.getVuePath("vuePath");
+    builderData.form.fields.appPath = this.getVuePath("appPath");
     this.http.post("/api/builder/GetTableTree", {}, false).then((x) => {
       this.tree = JSON.parse(x.list);
       if (!x.nameSpace) {

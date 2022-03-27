@@ -20,7 +20,7 @@ namespace VOL.Core.Utilities
         /// <returns></returns>
         public static string IssueJwt(UserInfo userInfo)
         {
-            string exp = $"{new DateTimeOffset(DateTime.Now.AddMinutes(AppSetting.ExpMinutes)).ToUnixTimeSeconds()}";
+            string exp = $"{new DateTimeOffset(DateTime.Now.AddMinutes(ManageUser.UserContext.MenuType == 1? 43200: AppSetting.ExpMinutes)).ToUnixTimeSeconds()}";
             var claims = new List<Claim>
                 {
                 //new Claim(ClaimTypes.Name,userInfo.UserName ),

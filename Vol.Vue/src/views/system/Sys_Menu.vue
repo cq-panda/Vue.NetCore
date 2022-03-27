@@ -48,16 +48,15 @@
           <Divider>
             <span icon="ivu-icon ivu-icon-md-podium">{{ divider }}</span>
           </Divider>
-     <Alert show-icon>
-                <p>
-                  1、
-                  如果是用代码生器生成的Vue页面,菜单配置的Url则为Vue项目中src->router->viewGrid.js对应表名的path路径
-                </p>
-                <p>
-                  2、
-                  如果只是建一级菜单或空菜单url不用填写,【视图/表名】填写.或者/
-                </p>
-              </Alert>
+          <Alert show-icon>
+            <p>
+              1、
+              如果是用代码生器生成的Vue页面,菜单配置的Url则为Vue项目中src->router->viewGrid.js对应表名的path路径
+            </p>
+            <p>
+              2、 如果只是建一级菜单或空菜单url不用填写,【视图/表名】填写.或者/
+            </p>
+          </Alert>
           <vol-form
             class="form-content"
             ref="form"
@@ -111,7 +110,7 @@
                   <Button @click="model = true" type="dashed">选择图标</Button>
                 </div>
               </div>
-         
+
               <div class="m-btn">
                 <Button type="info" icon="md-checkmark-circle" @click="save"
                   >保存</Button
@@ -430,7 +429,6 @@ export default {
             dataType: "int",
             required: true,
             type: "select",
-            colSize:12,
             data: [
               { key: 1, value: "启用" },
               { key: 2, value: "启用不显示" },
@@ -481,13 +479,18 @@ export default {
               },
             },
           },
-          // {
-          //   title: "创建时间",
-          //   field: "createDate",
-          //   dataType: "datetime",
-          //   displayType: "label",
-          //   disabled: true,
-          // },
+          {
+            // 2022.03.26增移动端加菜单类型
+            title: "菜单类型",
+            field: "menuType",
+            required: true,
+            type: "select",
+            colSize: 4,
+            data: [
+              { key: 0, value: "PC菜单" },
+              { key: 1, value: "移动端菜单" },
+            ],
+          },
         ],
       ],
       fields: {
@@ -500,6 +503,7 @@ export default {
         icon: "",
         orderNo: "",
         enable: 1,
+        menuType:null,
         createDate: "",
         creator: "",
         modifyDate: "",
@@ -596,7 +600,7 @@ export default {
     }
   }
   .menu-right {
-        border-radius: 3px;
+    border-radius: 3px;
     border: 1px solid #eee;
     background: white;
     margin-left: 12px;
