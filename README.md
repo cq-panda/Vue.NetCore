@@ -31,9 +31,9 @@
 ## App/H5开发
  - http://v2.volcore.xyz/app/guide
 ## 框架移动端（uniapp）已发布,同样全自动生成代码
-![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/qrcode.png.png)  
-![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/m001.png.png)  
-![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/m002.png.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/qrcode.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/m001.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/m002.png)  
 ## 框架已支持Vue3版本
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/v3.png)  
 ## 框架已增加低代码设计器
