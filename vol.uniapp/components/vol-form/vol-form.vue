@@ -1,0 +1,698 @@
+<template>
+	<view>
+		<u-toast ref="uToast"></u-toast>
+		<view :style="{padding:padding+'rpx',display:item.hidden?'none':''}"
+			:class="[labelPosition=='left'?'left-form-item':'top-form-item',item.type=='group'?'f-form-group':'']"
+			class="f-form-item" v-for="(item,index) in formOptions" :key="index">
+			<view class="f-form-label" v-if="item.type!='group'" :style="{width:labelWidth+'px'}">
+				<text class="f-form-label-required" v-if="item.require||item.required">*</text>
+				<text>{{item.title}}</text>
+			</view>
+			<view v-if="item.readonly" style="font-size:15px;">
+				<view v-if="item.type=='img'" class="readonly-imgs">
+					<image v-for="(src,imgIndex) in getImgSrcs(item)" :key="imgIndex" :src="src"></image>
+				</view>
+				<text v-else> {{formatReadonlyValue(item)}}</text>
+			</view>
+			<template v-else-if="item.type=='date'||item.type=='datetime'">
+				<template v-if="item.range">
+					<view class="f-form-content f-form-content-select" @click="showPicker(item,0)">
+						<view style="color:rgb(192 196 204);font-size:15px;" v-show="!inFormFields[item.field][0]">
+							开始时间
+						</view>
+						<view style="flex:1;">
+							<view style="font-size:15px;">
+								{{item.type=='date'?(inFormFields[item.field][0]||'').substr(0,10):inFormFields[item.field][0]}}
+							</view>
+						</view>
+						<!-- <u-icon name="arrow-right"></u-icon> -->
+					</view>
+					<text style="margin:0 0rpx;">-</text>
+					<view class="f-form-content f-form-content-select" @click="showPicker(item,1)">
+						<view style="color:rgb(192 196 204);font-size:15px;text-align: right; width: 100%;"
+							v-show="!inFormFields[item.field][1]">
+							结束时间
+						</view>
+						<view style="flex:1;">
+							<view style="font-size:15px;text-align: right;">
+								{{item.type=='date'?(inFormFields[item.field][1]||'').substr(0,10):inFormFields[item.field][1]}}
+							</view>
+						</view>
+						<!-- <u-icon name="arrow-right"></u-icon> -->
+					</view>
+				</template>
+				<view v-else class="f-form-content f-form-content-select" @click="showPicker(item)">
+					<view style="color:rgb(192 196 204);font-size:15px;" v-show="!inFormFields[item.field]">
+						{{'请选择'+item.title}}
+					</view>
+					<view style="flex:1;">
+						<view style="font-size:15px;">
+							{{item.type=='date'?(inFormFields[item.field]||'').substr(0,10):inFormFields[item.field]}}
+						</view>
+					</view>
+					<u-icon name="arrow-right"></u-icon>
+				</view>
+			</template>
+
+			<view class="f-form-content f-form-content-select" @click="showActionSheet(item)"
+				v-else-if="['select','selectList','checkbox','radio'].indexOf(item.type)!=-1">
+				<view style="flex:1;">
+					<view style="color:rgb(192 196 204);font-size:15px;"
+						v-show="base.isEmpty(inFormFields[item.field],true)">
+						{{'请选择'+item.title}}
+					</view>
+					<view style="font-size:15px;" v-show="!base.isEmpty(inFormFields[item.field],true)">
+						{{formatDicValue(item)}}
+					</view>
+				</view>
+				<u-icon name="arrow-right"></u-icon>
+			</view>
+			<view class="f-form-group-content" v-else-if="item.type=='group'">
+				{{item.title||''}}
+			</view>
+
+			<view class="f-form-content" v-else-if="item.type=='number'">
+				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
+					v-model="formFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
+			</view>
+			<view class="f-form-content" v-else-if="item.type=='decimal'">
+				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
+					v-model="formFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
+			</view>
+			<view class="f-form-content" v-else-if="item.type=='switch'">
+				<u-radio-group v-model="formFields[item.field]" placement="row">
+					<u-radio :customStyle="{'margin-right': '40rpx'}" label="是" :name="1">
+					</u-radio>
+					<u-radio label="否" :name="0">
+					</u-radio>
+				</u-radio-group>
+			</view>
+			<view class="f-form-content" v-else-if="item.type=='textarea'">
+				<textarea auto-height style="width: 100%;padding-right: 8rpx;" v-model="inFormFields[item.field]"
+					border="none" :placeholder="'请输入'+item.title"></textarea>
+			</view>
+			<!-- 	 -->
+			<u-upload :sizeType="['compressed']" v-else-if="item.type=='img'" :fileList="inFormFields[item.field]"
+				@afterRead="(event)=>{afterRead(item,event)}" @delete="(event)=>{deletePic(item,event)}" name="3"
+				:multiple="item.multiple" :maxCount="item.maxCount||1" :previewFullImage="true"></u-upload>
+			<view class="f-form-content" v-else-if="item.type=='password'">
+				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="password"
+					v-model="inFormFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
+			</view>
+			<view class="f-form-content" v-else>
+				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
+					v-model="inFormFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
+			</view>
+		</view>
+		<slot></slot>
+		<!--日期 -->
+		<u-datetime-picker class="form-popup" :zIndex="9999999" :closeOnClickOverlay="true" :show="pickerModel"
+			:value="pickerValue" :mode="pickerCurrentItem.type||'date'" closeOnClickOverlay @confirm="pickerConfirm"
+			@cancel="pickerClose" @close="pickerClose"></u-datetime-picker>
+		<!--  下拉框 -->
+		<u-popup @touchmove.prevent class="form-popup" :zIndex="999999" :show="actionSheetModel"
+			@close="actionSheetModel=false;">
+			<view class="vol-action-sheet-select-container" :style="{'max-height':(maxHeight+'px')}">
+				<view class="vol-action-sheet-select-title">请选择{{actionSheetCurrentItem.title}}
+					<text class="vol-action-sheet-select-confirm" @click="actionConfirmClick">确定</text>
+				</view>
+				<view class="vol-action-sheet-select-content">
+					<view :class="{'vol-action-sheet-select-actived':actionSheetModel&&isActionSelected(item)}"
+						@click="actionClick(item)" :key="index" v-for="(item,index) in actionSheetCurrentItem.data"
+						class="vol-action-sheet-select-item">
+						{{item.value}}
+					</view>
+				</view>
+			</view>
+		</u-popup>
+		<!-- 		数字键盘 -->
+		<!-- 	<u-keyboard ref="uKeyboard" @change="numberChange" @backspace="numberBackspace"
+			:dotDisabled="numberCurrentItem.type=='decimal'" :z-index='999999999' mode="number" :show="numberModel">
+		</u-keyboard> -->
+
+	</view>
+</template>
+
+<script>
+	export default {
+		props: {
+			formOptions: {
+				type: Array,
+				default: () => {
+					return []
+				}
+			},
+			formFields: {
+				type: Object,
+				default: () => {
+					return {}
+				}
+			},
+			padding: {
+				type: Number,
+				default: 30
+			},
+			labelWidth: {
+				type: Number,
+				default: 80
+			},
+			labelPosition: {
+				type: String,
+				default: 'left'
+			},
+			loadKey: {
+				type: Boolean,
+				default: true
+			}
+		},
+		name: "vol-form",
+		data() {
+			return {
+				inFormFields: {},
+				inFormOptions: [],
+				maxHeight: 400,
+				pickerValue: '',
+				pickerModel: false, //日期组件
+				pickerCurrentItem: {}, //当前选项
+				pickerCurrentRangeIndex: 0,
+				actionSheetModel: false,
+				actionSheetCurrentItem: {}, //当前选项
+				actionSheetSelectValues: [], //当前选中的项
+				numberModel: false,
+				numberType: 'number',
+				numberCurrentItem: {},
+				imgFields: []
+			};
+		},
+		created() {
+			this.inFormOptions = this.formOptions;
+			this.inFormFields = this.formFields;
+			this.imgFields = this.inFormOptions.filter(x => {
+				return x.type == 'img'
+			}).map(x => {
+				return x.field
+			});
+			if (this.imgFields.length) {
+				this.convertImgArr(this.formFields)
+			} else {
+				this.imgFields = null;
+			}
+			if (!this.loadKey) {
+				return;
+			}
+			let dicKeys = this.formOptions.filter(x => {
+				return x.key || x.dataKey
+			}).map(m => {
+				return m.key || m.dataKey
+			});
+			if (!dicKeys.length) {
+				return;
+			}
+			this.http.post('api/Sys_Dictionary/GetVueDictionary', dicKeys, true).then(result => {
+				this.initDataSource(result)
+			})
+		},
+		mounted() {
+			var _this = this;
+			uni.getSystemInfo({
+				success: function(res) {
+					_this.maxHeight = res.screenHeight * 0.75;
+				}
+			});
+		},
+		methods: {
+			convertImgArr(formFields) {
+				if (!this.imgFields) {
+					return;
+				}
+				for (let i = 0; i < this.imgFields.length; i++) {
+					let field = this.imgFields[i];
+					if (!Array.isArray(formFields[field])) {
+						if (this.base.isEmpty(formFields[field])) {
+							formFields[field] = [];
+						} else {
+							formFields[field] = formFields[field].split(',').map(x => {
+								return {
+									url: this.http.ipAddress + x,
+									orginUrl: x //原图
+								}
+							});
+						}
+					}
+				}
+			},
+			initDataSource(result) {
+				result.forEach(res => {
+					this.inFormOptions.forEach(option => {
+						if ((option.key || option.dataKey) == res.dicNo) {
+							option.data = res.data;
+						}
+					})
+				})
+				this.$emit('dicInited', result);
+			},
+			showActionSheet(item) {
+				this.actionSheetSelectValues = [];
+				this.actionSheetCurrentItem = item;
+				var value = this.inFormFields[item.field];
+				if (!this.base.isEmpty(value, true)) {
+					if (value instanceof Array) {
+						this.actionSheetSelectValues.push(...value.map(x => {
+							return x;
+						}));
+					} else if (this.isMultiSelect()) {
+						this.actionSheetSelectValues = value.split(',');
+					} else {
+						this.actionSheetSelectValues.push(value);
+					}
+				}
+
+				this.actionSheetModel = true;
+			},
+			actionClick(item) {
+				//多选
+				if (this.isMultiSelect()) {
+					//已经选中过的再次点取消选选中
+					if (this.isActionSelected(item)) {
+						this.actionSheetSelectValues = this.actionSheetSelectValues.filter(x => {
+							return x + '' !== item.key + ''
+						});
+					} else {
+						this.actionSheetSelectValues.push(item.key)
+					}
+					return;
+				}
+				this.inFormFields[this.actionSheetCurrentItem.field] = item.key;
+				this.actionSheetModel = false;
+				this.$emit("onChange", this.actionSheetCurrentItem.field, this.inFormFields[this.actionSheetCurrentItem
+					.field]);
+			},
+			isMultiSelect(item) {
+				var type;
+				if (item) {
+					type = item.type;
+				} else {
+					type = this.actionSheetCurrentItem.type
+				}
+				if (!type) {
+					return false;
+				}
+				return ['checkbox', 'selectList'].indexOf(type) != -1;
+			},
+			actionConfirmClick(item) {
+				//单选
+				if (!this.isMultiSelect()) {
+					this.actionSheetModel = false;
+					//	return this.actionClick(item)
+				}
+				//多选
+				if (this.inFormFields[this.actionSheetCurrentItem.field] instanceof Array) {
+					//深复制原来的数据
+					this.inFormFields[this.actionSheetCurrentItem.field] = this.actionSheetSelectValues.map(x => {
+						return x
+					});
+				} else {
+					this.inFormFields[this.actionSheetCurrentItem.field] = this.actionSheetSelectValues.join(',');
+				}
+				this.actionSheetModel = false;
+			},
+			isActionSelected(item) {
+				let isSelect = this.actionSheetSelectValues.some(x => {
+					return x + '' === item.key + ''
+				});
+				//this.formFields[item.field]
+				return isSelect;
+			},
+			formatDicValueList(item) { //多选
+				var value = this.inFormFields[item.field];
+				if (this.base.isEmpty(value)) {
+					return '';
+				}
+				var _textArr = [];
+
+				if (!(value instanceof Array)) {
+					value = (value + '').split(',')
+				}
+				value.forEach(x => {
+					var obj = item.data.find(c => {
+						return x + '' === c.key + '';
+					});
+					if (obj) {
+						_textArr.push(obj.value);
+					} else {
+						_textArr.push(x);
+					}
+				})
+				return _textArr.join(",");
+			},
+			formatDicValue(item) {
+				var value = this.inFormFields[item.field];
+				if (this.base.isEmpty(value)) {
+					return undefined;
+				}
+				if (this.isMultiSelect(item)) {
+					return this.formatDicValueList(item);
+				}
+				var _kv = item.data.find(x => {
+					return x.key + '' == value + ''
+				});
+				if (!_kv) {
+					return value;
+				}
+				return _kv.value;
+			},
+			showPicker(item, index) {
+				this.pickerCurrentItem = item;
+				let val = this.inFormFields[this.pickerCurrentItem.field];
+				if (item.range) {
+					this.pickerCurrentRangeIndex = index;
+					if (!Array.isArray(val)) {
+						this.inFormFields[this.pickerCurrentItem.field] = ['', ''];
+						val = ['', ''];
+					}
+					val = val[index];
+				}
+				this.pickerValue = val || (item.type == 'date' ? this.base.getDate() : this.base.getDateTime().substring(0,
+					16))
+				this.pickerModel = true;
+				this.hideKeyboard();
+			},
+			setPickerValue(value) {
+				if (this.pickerCurrentItem.range) {
+					this.inFormFields[this.pickerCurrentItem.field][this.pickerCurrentRangeIndex] = value
+				} else {
+					this.inFormFields[this.pickerCurrentItem.field] = value
+				}
+				this.$emit("onChange", this.pickerCurrentItem.field, value);
+			},
+			pickerConfirm(e) {
+				this.pickerModel = false;
+				if (this.pickerCurrentItem.range && this.pickerCurrentRangeIndex == 1) {
+					//判断结束时间大于开始时间
+				}
+				if (typeof e.value == 'number') {
+					let timeFormat = this.pickerCurrentItem.type == 'date' ? 'yyyy-mm-dd' : 'yyyy-mm-dd hh:MM';
+					this.setPickerValue(uni.$u.timeFormat(e.value, timeFormat))
+				} else {
+					this.setPickerValue(uni.$u.timeFormat(e.value))
+				}
+			},
+			pickerClose() {
+				this.pickerModel = false;
+			},
+			hideKeyboard() {
+				uni.hideKeyboard()
+			},
+			reset(source) {
+				for (const key in this.inFormFields) {
+					if (source && source.hasOwnProperty(key)) {
+						this.inFormFields[key] = source[key];
+					} else {
+						if (this.inFormFields[key] instanceof Array) {
+							this.inFormFields[key].splice(0);
+							if (this.inFormOptions.some(x => {
+									return x.field == key && x.range
+								})) {
+								this.inFormFields[key].push(...['', '']);
+							}
+						} else {
+							this.inFormFields[key] = ""
+						}
+					}
+				}
+			},
+			validata() {
+				let _option = this.inFormOptions.find(x => {
+					let val = this.inFormFields[x.field];
+					if (Array.isArray(val)) {
+						return !val.length
+					} else {
+						return ((x.require || x.required) && (this.base.isEmpty(val)))
+					}
+				});
+				if (_option) {
+					if (['date', 'datetime', 'checkbox', 'select', 'selectList', 'radio', 'switch'].indexOf(_option
+							.type) != -
+						1) {
+						this.$toast('请选择' + _option.title, )
+					} else {
+						this.$toast(_option.title + '不能为空')
+					}
+					return false;
+				}
+				return true;
+			},
+			showNumber(item) {
+				this.numberCurrentItem = item;
+				this.numberModel = true;
+			},
+			numberBackspace() {
+				let value = this.inFormFields[this.numberCurrentItem.field];
+				if (value) {
+					value = value + '';
+					this.inFormFields[this.numberCurrentItem.field] = value.substr(0, value - 1);
+				}
+			},
+			numberChange(val) {
+				let _val = this.inFormFields[this.numberCurrentItem.field];
+				if (this.base.isEmpty(_val)) {
+					_val = '';
+				} else {
+					_val = _val + '';
+				}
+				if (val == '.' && _val.indexOf('.') != -1) {
+					return;
+				}
+				this.inFormFields[this.numberCurrentItem.field] = _val + val;
+			},
+			formatReadonlyValue(item) {
+				if (item.data) {
+					return this.formatDicValue(item);
+				}
+				if (item.type == 'date') {
+					return (this.inFormFields[item.field] || '').substr(0, 10);
+				}
+				return this.inFormFields[item.field] || '';
+			},
+			getImgSrcs(item) {
+				let imgs = this.inFormFields[item.field];
+				if (!imgs) {
+					return []
+				}
+				let imgArr = imgs.split(',');
+				return imgArr.filter(x => {
+					return x
+				}).map(m => {
+					//return this.http.ipAddress+'m'
+					return m;
+				})
+				//this.http.ipAddress
+			},
+			async afterRead(option, event) {
+				// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+				let lists = [];
+				if (option.mutiple) {
+					lists = [].concat(event.file)
+				} else {
+					lists.push(event.file)
+				}
+				let fileListLen = this.inFormFields[option.field].length
+				lists.map((item) => {
+					this.inFormFields[option.field].push({
+						...item,
+						status: 'uploading',
+						message: '上传中'
+					})
+				})
+				for (let i = 0; i < lists.length; i++) {
+					const result = await this.uploadFilePromise(lists[i].url)
+					let item = this.inFormFields[option.field][fileListLen]
+					this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
+						status: 'success',
+						message: '',
+						url: this.http.ipAddress + result + lists[i].name,
+						orginUrl: result + lists[i].name
+					}))
+					fileListLen++
+				}
+			},
+			uploadFilePromise(url) {
+				return new Promise((resolve, reject) => {
+					let a = uni.uploadFile({
+						url: this.http.ipAddress + 'api/user/upload', // 仅为示例，非真实的接口地址
+						filePath: url,
+						name: 'fileInput',
+						header: {
+							"Authorization": this.$store.getters.getToken()
+						},
+						formData: {},
+						success: (res) => {
+							setTimeout(() => {
+								resolve(JSON.parse(res.data).data)
+							}, 500)
+						}
+					});
+				})
+			},
+			// 删除图片
+			deletePic(item, event) {
+				this.inFormFields[item.field].splice(event.index, 1)
+			}
+		},
+		// #ifdef MP-WEIXIN
+		// 小程序不要使用循环生成表单,否则这里会死循环,与初始化的时候设置默认值有关,后面再处理
+		watch: {
+			inFormFields: {
+				handler(val) {
+					console.log('inFormFields')
+					this.$emit('update:form-fields', val);
+					console.log("wc")
+				},
+				immediate: true,
+				deep: true
+			},
+			formFields: {
+				handler(val) {
+					console.log('formFields')
+					this.convertImgArr(val)
+					this.inFormFields = val;
+				},
+				immediate: true,
+				deep: true
+			},
+			inFormOptions: {
+				handler(newValue, oldValue) {
+					console.log('inFormOptions')
+					this.convertImgArr(newValue)
+					this.$emit('update:formOptions', newValue)
+				},
+				immediate: true,
+				deep: true
+			},
+			formOptions: {
+				handler(newValue, oldValue) {
+					console.log('formOptions')
+					this.inOptions = newValue;
+				},
+				immediate: true,
+				deep: true
+			}
+		},
+		// #endif
+	}
+</script>
+
+<style lang="less" scoped>
+	.vol-action-sheet-select-container {
+		// min-height: 200rpx;
+		// display: flex;
+		// flex-direction: column;
+
+		// .vol-action-sheet-select-title {
+		// 	padding: 24rpx;
+		// 	text-align: center;
+		// 	position: relative;
+		// 	border-bottom: 1px solid rgb(233 233 233);
+
+		// 	.vol-action-sheet-select-confirm {
+		// 		position: absolute;
+		// 		right: 30rpx;
+		// 		color: #007AFF;
+		// 		font-weight: 500;
+		// 	}
+		// }
+
+		.vol-action-sheet-select-content {
+			// flex: 1;
+			// height: 0;
+			// overflow: scroll;
+			.vol-action-sheet-select-item {
+				border-bottom: 1px solid rgb(243 243 243);
+				padding: 26rpx;
+				text-align: center;
+				position: relative;
+				color: #5a5a5a;
+
+				.vol-action-sheet-select-icon {
+					position: absolute;
+					// display: none;
+					width: 70rpx;
+					z-index: 999;
+					right: 20rpx;
+					padding: 0 10rpx;
+					background: #FFFFFF;
+				}
+			}
+
+			.vol-action-sheet-select-actived {
+				color: red;
+			}
+
+			.vol-action-sheet-select-item:last-child {
+				border-bottom: none;
+			}
+		}
+	}
+
+	.f-form-item {
+
+		padding: 28rpx 0 24rpx 0;
+		border-bottom: 1px solid #f5f5f5;
+
+		.f-form-label {
+			position: relative;
+			color: #4c4c4c;
+			font-size: 30rpx;
+			margin-right: 20rpx;
+		}
+
+		.f-form-content-select {
+			display: flex;
+		}
+
+		.f-form-label-required {
+			color: red;
+			font-size: 24rpx;
+		}
+	}
+
+	.left-form-item {
+		display: flex;
+		background: #FFFFFF;
+
+		.f-form-content {
+			flex: 1;
+			width: 0;
+		}
+
+		.f-form-label-required {
+			margin-left: -12rpx;
+			position: relative;
+		}
+
+		.f-form-label {
+			position: relative;
+			// padding-left: 10rpx;
+			color: #4c4c4c;
+			font-size: 30rpx;
+		}
+	}
+
+	.top-form-item {
+		background: #FFFFFF;
+
+		.f-form-label {
+			width: 100% !important;
+			padding-bottom: 16rpx;
+		}
+	}
+
+	.f-form-group {
+		padding: 8rpx 20rpx !important;
+		background: none;
+		font-size: 28rpx;
+		font-weight: bold;
+
+		.f-form-group-content {}
+	}
+</style>

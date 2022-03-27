@@ -1,0 +1,218 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages{
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#00aaff",
+				"app-plus": { // 隐藏系统导航栏
+					"titleNView": false
+				},
+				"navigationStyle": "custom" //添加自定义配置
+			}
+
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"app-plus": { // 隐藏系统导航栏
+					"titleNView": false
+				}
+			}
+
+		},
+		{
+			"path": "pages/menu/menu",
+			"style": {
+				"navigationBarTitleText": "菜单",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#00aaff"
+			}
+
+		},
+		{
+			"path": "pages/form/form",
+			"style": {
+				"navigationBarTitleText": "统计",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#00aaff"
+			}
+		},
+		{
+			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "消息",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#00aaff"
+			}
+		},
+		{
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#00aaff",
+				"app-plus": { // 隐藏系统导航栏
+					"titleNView": false
+				},
+				"navigationStyle": "custom" //添加自定义配置
+			}
+		},
+		{
+			"path": "pages/user/about/about",
+			"style": {
+				"navigationBarTitleText": "关于vol",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#00aaff"
+			}
+		}, {
+			"path": "pages/user/modifyPwd/modifyPwd",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/order/App_Appointment/App_Appointment",
+			"style": {
+				"navigationBarTitleText": "只读页面"
+			}
+		}, {
+			"path": "pages/order/App_Appointment1/App_Appointment1",
+			"style": {
+				"navigationBarTitleText": "水平显示"
+			}
+		}, {
+			"path": "pages/appmanager/App_TransactionAvgPrice/App_TransactionAvgPrice",
+			"style": {
+				"navigationBarTitleText": "自动绑定下拉框"
+			}
+		}, {
+			"path": "pages/appmanager/App_Transaction/App_Transaction",
+			"style": {
+				"navigationBarTitleText": "下拉框事件"
+			}
+		}, {
+			"path": "pages/appmanager/App_Transaction1/App_Transaction1",
+			"style": {
+				"navigationBarTitleText": "格式化自定义样式"
+			}
+		}, {
+			"path": "pages/order/SellOrder/SellOrder",
+			"style": {
+				"navigationBarTitleText": "主从表"
+			}
+		}, {
+			"path": "pages/order/SellOrder/Detail/Detail",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
+		}
+	    ,{
+            "path" : "pages/form/form1",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "表单vol-form",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/form/form2",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "只读表单vol-form",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/table/table1/table1",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "table水平显示",
+                "enablePullDownRefresh": false
+            }   
+        }
+        ,{
+            "path" : "pages/table/table2/table2",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "table列表显示",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/table/table3/table3",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "table手动绑定数据",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/pagedemo/pagedemo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "完整扩展页面",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"tabBar": { //设置要与第一个pages的path相同
+		"color": "#7A7E83",
+		"selectedColor": "#F1A532",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/menu/menu",
+				"text": "菜单"
+			}, {
+				"pagePath": "pages/home/home",
+				// "iconPath": "static/assets/home.png",
+				// "selectedIconPath": "static/assets/home_actived.png",
+				"text": "首页"
+			},
+
+			{
+				"pagePath": "pages/form/form",
+				"text": "统计"
+			},
+			{
+				"pagePath": "pages/message/message",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"text": "消息"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#00aaff",
+		"navigationBarTextStyle": "white",
+		"backgroundColor": "#FFFFFF"
+	},
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^vol-(.*)": "@/components/vol-$1/vol-$1.vue",
+			"^view-(.*)": "@/components/view-$1/view-$1.vue"
+			// ,
+			// "^grid-(.*)": "@/pages/menu/grid-$1.vue"
+
+		}
+	}
+}
