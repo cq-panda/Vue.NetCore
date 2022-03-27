@@ -51,7 +51,7 @@
                   <span @click="addVisible()">
                     <i class="ivu-icon ivu-icon-md-add"></i>新建
                   </span>
-                  <span @click="ceateVuePage">
+                  <span @click="ceateVuePage(0)">
                     <i class="ivu-icon ivu-icon-md-paper"></i>生成Vue页面
                   </span>
                   <span @click="ceateVuePage(1)">
