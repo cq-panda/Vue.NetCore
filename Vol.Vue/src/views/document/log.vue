@@ -30,7 +30,8 @@
           :key="index1"
         >
           <span class="date">{{ list.date }}</span>
-          <span>{{ list.desc }}</span>
+           <div :style="list.style" v-if="list.style" v-html="list.desc"></div>
+          <span v-else >{{ list.desc }}</span>
         </li>
       </ul>
     </div>
@@ -49,6 +50,20 @@ export default {
       active: 0,
       log: [
         { date: '2022.03', type: 'month' },
+        { date: "2022-03-27 13:36:10", desc: "完善文档"},
+        { date: "2022-03-27 12:05:16", desc: "初始化uniapp项目"},
+        { date: "2022-03-27 12:01:50",style:"font-size:14px;color:red;",
+        desc: `<p>增加移动端支持、安卓、ios、h5、微信小程序(uniapp)，更新文件：</p>
+        <p>1、数据库：ALTER TABLE Sys_Menu  ADD MenuType INT </p>
+          <p> 2、前端：Sys_Menu.vue、 builder文件夹   </p>
+          <p>3、后台：Sys_Menu.cs、Sys_TableInfoController.cs、Sys_TableInfoService.cs、ISys_TableInfoService.cs、 <p>
+          <p>ApiAuthorizeFilter.cs、UserContext.cs、JwtHelper.cs、Permissions.cs、Sys_MenuService.cs、BuilderController.cs、Startup.cs、Template文件夹  </p>`},
+        { date: "2022-03-26 17:11:36", desc: "修复编辑器不能换行的问题"},
+        { date: "2022-03-26 00:35:06", desc: "增加vue3版本title修改"},
+        { date: "2022-03-24 22:16:13", desc: "修复vue3版本表单字段为number时+-默认不生效的问题"},
+        { date: "2022-03-24 21:49:27", desc: "优化vue2版本登录页面"},
+        { date: "2022-03-24 21:49:10", desc: "修复vue2版本编辑器某些情况不能设置值的问题"},
+        { date: "2022-03-24 21:48:45", desc: "修复vue3版本编辑器某些情况不能设置值的问题"},
         {
           date: '2022-03-20 20:47:06', desc: '优化vue3版本编辑时限制只能选择一行数据提示'
         },
