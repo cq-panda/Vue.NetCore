@@ -3,66 +3,66 @@
 </template>
 
 <script>
-import E from "wangeditor";
+import E from 'wangeditor';
 export default {
   props: {
     content: {
       type: String,
-      default: "",
+      default: ''
     },
     url: {
       //上传图片的url
       type: String,
-      default: "",
+      default: ''
     },
     upload: {
       //上传方法
       type: Function,
-      default: (file) => {},
+      default: (file) => {}
     },
     uploadCount: {
       //最多可以上传(图片)的数量
       type: Number,
-      default: 3,
+      default: 3
     },
-    modelValue: "",
+    modelValue: '',
     value: {
       type: String,
-      default: "",
+      default: ''
     },
     width: {
       type: String,
-      default: "100%",
+      default: '100%'
     },
     height: {
       type: Number,
-      default: 250,
+      default: 250
     },
     minWidth: {
       type: Number,
-      default: 650,
+      default: 650
     },
     minHeight: {
       type: Number,
-      default: 100,
-    },
+      default: 100
+    }
   },
-  name: "wang-editor",
+  name: 'wang-editor',
   data() {
     return {
       change: false,
       outChange: false,
-      editor: null,
+      editor: null
     };
   },
   watch: {
     value(newVal) {
       if (!this.change) {
         this.outChange = true;
+        this.editor.txt.html(newVal);
       }
-      this.editor.txt.html(newVal);
       this.change = false;
-    },
+    }
   },
   destroyed() {
     this.editor = null;
@@ -74,13 +74,13 @@ export default {
     let $this = this;
     editor.config.height = this.height;
     editor.config.onchange = (html) => {
-      if (this.outChange) {
-          this.outChange = false;
+      this.change = false;
+      if (!html || html == this.modelValue) {
         return;
       }
       this.change = true;
       this.outChange = false;
-      this.$emit("input", html);
+      this.$emit('input', html);
 
       // this.$emit("update:content", html);
     };
@@ -97,11 +97,11 @@ export default {
       let formData = new FormData();
       let nameArr = [];
       resultFiles.forEach(function (file) {
-        formData.append("fileInput", file, file.name);
+        formData.append('fileInput', file, file.name);
         nameArr.push(file.name);
       });
       if (!$this.url) {
-        $this.$message.error("未配置url");
+        $this.$message.error('未配置url');
         return;
       }
       $this.http.post($this.url, formData, true).then((x) => {
@@ -112,13 +112,13 @@ export default {
           .map((m) => {
             return $this.http.ipAddress + x.data + m;
           })
-          .join(",");
+          .join(',');
         insertImgFn(imgs);
       });
     };
     editor.create();
     editor.txt.html(this.value);
-  },
+  }
 };
 </script>
 

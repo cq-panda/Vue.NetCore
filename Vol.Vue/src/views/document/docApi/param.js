@@ -259,11 +259,11 @@ const param = {
       { name: "rowKey", desc: "<span style='color:red;'>树形table的主键字段,字段的值必须是唯一的(2021.05.02)</span>", type: "String", default: "" },
       { name: "columns", desc: "查询页面table表的配置,如果满足不了业务,可参照VolTable参数动态扩展", type: "array", default: "[]" },
     { name: "detail", desc: "从表配置：{columns:[],sortName:''},columns从表table列配置,sortName从表排序字段", type: "json", default: "{}" },
-    { name: "editFormFileds", desc: "编辑字段，可参照VolForm配置", type: "json", default: "{}" },
-    { name: "editFormFields", desc: "<span style='color:red;'>编辑字段同上（此属性用于兼容上面字段拼写错误的问题，2020.09.13更新后才能使用）</span>", type: "json", default: "" },
+  //  { name: "editFormFileds", desc: "编辑字段，可参照VolForm配置", type: "json", default: "{}" },
+    { name: "editFormFields", desc: "<span style='color:red;'>编辑字段，可参照VolForm配置</span>", type: "json", default: "" },
     { name: "editFormOptions", desc: "编辑配置,，可参照VolForm配置", type: "array", default: "[]" },
-    { name: "searchFormFileds", desc: "查询字段，同上", type: "json", default: "{}" },
-    { name: "searchFormFields", desc: "<span style='color:red;'>查询字段同上（此属性用于兼容上面字段拼写错误的问题，2020.09.13更新后才能使用）</span>", type: "json", default: "" },
+   // { name: "searchFormFileds", desc: "查询字段，同上", type: "json", default: "{}" },
+    { name: "searchFormFields", desc: "<span style='color:red;'>查询字段同上</span>", type: "json", default: "" },
     { name: "searchFormOptions", desc: "查询配置，同上", type: "array", default: "[]" },
     {
       name: "table",
@@ -368,7 +368,7 @@ const param = {
         </div>
         <p>&nbsp;</p>`
     },
-    { name: "tableHeight", desc: "查询页面table的高度", type: "number", default: "0" },
+    { name: "height", desc: "查询页面table的高度(如果在onInited方法中使用，height的值为页面自适应的高度，可用于二次计算)", type: "number", default: "0" },
     { name: "tableMaxHeight", desc: "查询页面table的最大高度,如果同时设置了tableHeight，只会tableMaxHeight起作用", type: "number", default: "0" },
     {
       name: "pagination",

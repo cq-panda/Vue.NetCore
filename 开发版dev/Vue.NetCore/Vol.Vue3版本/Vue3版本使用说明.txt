@@ -1,0 +1,10 @@
+1、vue2、3版本都是同一套后台
+2、如果是2021.08.02之前获取的后台代码，需要更新后台文件Template->page-> Vue3SearchPage.html与代码生成器类Sys_TableInfoService.cs
+
+3、前端vue3环境配置，如果没有安装过环境：
+    1、先卸载原来vue2脚手架
+    npm uninstall vue-cli -g
+    2、安装vue3脚手架
+    npm install -g @vue/cli    （如果安装很慢，切换成taobao镜像  npm config set registry https://registry.npm.taobao.org）
+   3、回滚原来vue2脚手架（vue init webpack test）
+    npm i -g @vue/cli-init

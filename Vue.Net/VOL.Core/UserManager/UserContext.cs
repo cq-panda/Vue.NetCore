@@ -145,7 +145,17 @@ namespace VOL.Core.ManageUser
         {
             return GetPermissions(RoleId).Where(x => x.TableName == tableName).FirstOrDefault();
         }
-
+        /// <summary>
+        /// 2022.03.26
+        /// 菜单类型1:移动端，0:PC端
+        /// </summary>
+        public static int MenuType
+        {
+            get
+            {
+                return Context.Request.Headers.ContainsKey("uapp") ? 1 : 0;
+            }
+        }
         /// <summary>
         /// 自定条件查询权限
         /// </summary>
@@ -153,7 +163,8 @@ namespace VOL.Core.ManageUser
         /// <returns></returns>
         public Permissions GetPermissions(Func<Permissions, bool> func)
         {
-            return GetPermissions(RoleId).Where(func).FirstOrDefault();
+            // 2022.03.26增移动端加菜单类型判断
+            return GetPermissions(RoleId).Where(func).Where(x => x.MenuType == MenuType).FirstOrDefault();
         }
 
         private List<Permissions> ActionToArray(List<Permissions> permissions)
@@ -213,6 +224,8 @@ namespace VOL.Core.ManageUser
                         TableName = (a.TableName ?? "").ToLower(),
                         //MenuAuth = a.Auth,
                         UserAuth = a.Auth,
+                        // 2022.03.26增移动端加菜单类型
+                        MenuType = a.MenuType ?? 0
                     }).ToList();
                 return MenuActionToArray(permissions);
             }
@@ -253,7 +266,9 @@ namespace VOL.Core.ManageUser
                                                       //2020.05.06增加默认将表名转换成小写，权限验证时不再转换
                                                       TableName = (a.TableName ?? "").ToLower(),
                                                       MenuAuth = a.Auth,
-                                                      UserAuth = b.AuthValue ?? ""
+                                                      UserAuth = b.AuthValue ?? "",
+                                                      // 2022.03.26增移动端加菜单类型
+                                                      MenuType = a.MenuType ?? 0
                                                   }).ToList();
                 ActionToArray(_permissions);
                 string _version = cacheService.Get(roleKey);

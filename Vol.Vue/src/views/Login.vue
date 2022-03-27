@@ -3,7 +3,19 @@
     <div class="content">
       <div class="l-left">
         <div class="desc">
-          <div class="title">vol.vue<span style="font-size:13px;background:#46c706;border-radius:24px;padding:4px 9px;border:1px solid;margin-left:5px;" >vue2.x</span></div>
+          <div class="title">
+            vol.vue<span
+              style="
+                font-size: 13px;
+                background: #46c706;
+                border-radius: 24px;
+                padding: 4px 9px;
+                border: 1px solid;
+                margin-left: 5px;
+              "
+              >vue2.x</span
+            >
+          </div>
           <p>后台</p>
           <p>.NetCore、EntityFrameWorkCore、Dapper、Redis</p>
           <p>Vue、Promise、Vuex、IView、Element-UI</p>
@@ -19,10 +31,7 @@
                 width: 80px;
                 margin-right: 5px;
               "
-              class="
-                index-btn
-                ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost
-              "
+              class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
             >
               <span>GitHub</span></a
             >
@@ -35,26 +44,20 @@
                 width: 80px;
                 margin-right: 5px;
               "
-              class="
-                index-btn
-                ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost
-              "
+              class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
             >
               <span>Gitee</span></a
             >
             <a
-            @click="$message.info('即将开放')"
+              @click="$message.info('即将开放')"
               style="
                 color: #ffff;
                 border: 1px solid #ffff;
                 width: 80px;
                 margin-right: 5px;
-                padding-left:9px;
+                padding-left: 9px;
               "
-              class="
-                index-btn
-                ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost
-              "
+              class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
             >
               <span>框架小程序</span></a
             >
@@ -62,10 +65,7 @@
               href="http://v2.volcore.xyz/document/guide"
               target="_blank"
               style="color: #ffff; border: 1px solid #ffff"
-              class="
-                index-btn
-                ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost
-              "
+              class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
             >
               <span>框架文档</span></a
             >
@@ -75,7 +75,16 @@
       <div class="login">
         <div class="login-contianer">
           <div class="login-form">
-            <h2 style="padding: 17px 0px;font-weight: 500;font-size: 26px;color: #000;">账号登录</h2>
+            <h2
+              style="
+                padding: 17px 0px;
+                font-weight: 500;
+                font-size: 26px;
+                color: #000;
+              "
+            >
+              账号登录
+            </h2>
             <div class="form-user" @keypress="loginPress">
               <div class="item">
                 <div class="f-text">
@@ -151,9 +160,25 @@
                 <span v-else>正在登录...</span>
               </Button>
             </div>
-            <div class="action">
-              <a @click="() => {}">注册</a>
-              <a @click="() => {}">忘记密码</a>
+            <div class="app-link">
+              <a>扫描二维码</a>
+              <a>
+                <i class="el-icon-chat-dot-round"></i> 小程序
+                <img
+                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg"
+              /></a>
+              <a>
+                <i class="el-icon-apple"></i>
+                Android
+                <img
+                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png"
+              /></a>
+              <a>
+                <i class="el-icon-document"></i>
+                H5
+                <img
+                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png"
+              /></a>
             </div>
           </div>
         </div>
@@ -181,34 +206,34 @@ export default {
   data() {
     return {
       loading: false,
-      codeImgSrc: "",
+      codeImgSrc: '',
       userInfo: {
-        userName: "",
-        passWord: "",
-        verificationCode: "",
-      },
+        userName: '',
+        passWord: '',
+        verificationCode: ''
+      }
     };
   },
   directives: {
     focus: {
       inserted: function (el) {
         el.focus();
-      },
-    },
+      }
+    }
   },
   created() {
     this.getVierificationCode();
   },
   methods: {
     getVierificationCode() {
-      this.http.get("/api/User/getVierificationCode").then((x) => {
-        this.codeImgSrc = "data:image/png;base64," + x.img;
+      this.http.get('/api/User/getVierificationCode').then((x) => {
+        this.codeImgSrc = 'data:image/png;base64,' + x.img;
         this.userInfo.UUID = x.uuid;
       });
     },
 
     toGitHub() {
-      window.open("https://github.com/cq-panda/Vue.NetCore");
+      window.open('https://github.com/cq-panda/Vue.NetCore');
     },
     loginPress(e) {
       if (event.keyCode == 13) {
@@ -216,30 +241,30 @@ export default {
       }
     },
     login() {
-      if (this.userInfo.userName == "" || this.userInfo.userName.trim() == "")
-        return this.$Message.error("请输入用户名");
-      if (this.userInfo.passWord == "" || this.userInfo.passWord.trim() == "")
-        return this.$Message.error("请输入密码");
+      if (this.userInfo.userName == '' || this.userInfo.userName.trim() == '')
+        return this.$Message.error('请输入用户名');
+      if (this.userInfo.passWord == '' || this.userInfo.passWord.trim() == '')
+        return this.$Message.error('请输入密码');
       if (
-        this.userInfo.verificationCode == "" ||
-        this.userInfo.verificationCode.trim() == ""
+        this.userInfo.verificationCode == '' ||
+        this.userInfo.verificationCode.trim() == ''
       )
-        return this.$Message.error("请输入验证码");
+        return this.$Message.error('请输入验证码');
       this.loading = true;
       this.http
-        .post("/api/user/login", this.userInfo, "正在登录....")
+        .post('/api/user/login', this.userInfo, '正在登录....')
         .then((result) => {
           if (!result.status) {
             this.loading = false;
             this.getVierificationCode();
             return this.$Message.error(result.message);
           }
-          this.$Message.info("登录成功,正在跳转!");
-          this.$store.commit("setUserInfo", result.data);
-          this.$router.push({ path: "/" });
+          this.$Message.info('登录成功,正在跳转!');
+          this.$store.commit('setUserInfo', result.data);
+          this.$router.push({ path: '/' });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -293,7 +318,7 @@ export default {
 
 .desc p:before {
   top: -1px;
-  content: "o";
+  content: 'o';
   position: relative;
   margin-right: 7px;
 }
@@ -496,7 +521,30 @@ input {
     height: 200px;
   }
 }
+.app-link {
+  text-align: center;
+  padding-top: 21px;
+  font-size: 14px;
+  a {
+    position: relative;
+    cursor: pointer;
+    width: 70px;
+    color: #1483f6;
+    margin: 20px 20px 0 0;
+  }
+  img {
+    display: none;
+  }
+  a:hover {
+    img {
+      display: block;
+      position: absolute;
+      z-index: 999999999;
+      top: -130px;
+      width: 120px;
+      left: -22px;
+      border: 1px solid #b1b1b1;
+    }
+  }
+}
 </style>
-
-
-

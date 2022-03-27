@@ -86,8 +86,8 @@ namespace VOL.Entity.DomainModels
        ///是否启用
        /// </summary>
        [Display(Name ="是否启用")]
-       [Column(TypeName="tinyint")]
-       public byte? Enable { get; set; }
+       [Column(TypeName="sbyte")]
+       public sbyte? Enable { get; set; }
 
        /// <summary>
        ///创建人Id
@@ -102,6 +102,7 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="提交人")]
        [MaxLength(30)]
        [Column(TypeName="nvarchar(30)")]
+       [Editable(true)]
        public string Creator { get; set; }
 
        /// <summary>
@@ -109,6 +110,7 @@ namespace VOL.Entity.DomainModels
        /// </summary>
        [Display(Name ="提交时间")]
        [Column(TypeName="datetime")]
+       [Editable(true)]
        public DateTime? CreateDate { get; set; }
 
        /// <summary>
