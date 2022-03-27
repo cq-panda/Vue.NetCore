@@ -8,9 +8,9 @@
     <div>
         <view-grid :columns="columns"
                    :detail="detail"
-                   :editFormFileds="editFormFileds"
+                   :editFormFields="editFormFields"
                    :editFormOptions="editFormOptions"
-                   :searchFormFileds="searchFormFileds"
+                   :searchFormFields="searchFormFields"
                    :searchFormOptions="searchFormOptions"
                    :table="table"
                    :extend="extend">
@@ -32,14 +32,14 @@
                     sortName: "Id"
                 },
                 extend:extend,
-                editFormFileds: {"Variety":"","AgeRange":"","City":"","AvgPrice":"","Date":"","IsTop":"","Creator":"","CreateDate":"","Modifier":"","ModifyDate":""},
+                editFormFields: {"Variety":"","AgeRange":"","City":"","AvgPrice":"","Date":"","IsTop":"","Creator":"","CreateDate":"","Modifier":"","ModifyDate":""},
                 editFormOptions: [[{"dataKey":"pz","title":"种类","required":true,"field":"Variety","type":"select"},
                               {"dataKey":"city","title":"城市","required":true,"field":"City","type":"select"}],
                               [{"title":"价格","required":true,type:"number","field":"AvgPrice"},
                               {"title":"成交日期","required":true,"field":"Date","type":"date"}],
                               [{"dataKey":"enable","title":"状态","required":true,"field":"IsTop","type":"select"},
                                {"type":"datetime","title":"创建时间","field":"CreateDate","disabled":true}]],
-                searchFormFileds: {"Variety":"","City":""},
+                searchFormFields: {"Variety":"","City":""},
                 searchFormOptions: [[{"dataKey":"pz","title":"品种","field":"Variety","type":"drop"},{"dataKey":"city","title":"城市","field":"City","type":"dropList"}]],
                 columns: [{field:'Id',title:'主键ID',type:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'Variety',title:'种类',type:'string',bind:{ key:'pz',data:[]},width:90,require:true,align:'left',sortable:true},

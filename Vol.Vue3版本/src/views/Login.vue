@@ -101,12 +101,25 @@
                 <span v-else>正在登录...</span>
               </el-button>
             </div>
-            <div class="action">
-              <a href="http://v2.volcore.xyz/" target="_blank">
-                <span>查看Vue2版本</span></a
-              >
-              <a @click="() => {}">注册</a>
-              <a @click="() => {}">忘记密码</a>
+            <div class="app-link">
+              <a>扫描二维码</a>
+              <a>
+                <i class="el-icon-chat-dot-round"></i> 小程序
+                <img
+                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg"
+              /></a>
+              <a>
+                <i class="el-icon-apple"></i>
+                Android
+                <img
+                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png"
+              /></a>
+              <a>
+                <i class="el-icon-document"></i>
+                H5
+                <img
+                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png"
+              /></a>
             </div>
           </div>
         </div>
@@ -140,25 +153,25 @@ import {
   ref,
   reactive,
   toRefs,
-  getCurrentInstance,
-} from "vue";
-import { useRouter, useRoute } from "vue-router";
-import store from "../store/index";
-import http from "@/../src/api/http.js";
+  getCurrentInstance
+} from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import store from '../store/index';
+import http from '@/../src/api/http.js';
 export default defineComponent({
   setup(props, context) {
     const loading = ref(false);
-    const codeImgSrc = ref("");
+    const codeImgSrc = ref('');
     const userInfo = reactive({
-      userName: "",
-      password: "",
-      verificationCode: "",
-      UUID: undefined,
+      userName: '',
+      password: '',
+      verificationCode: '',
+      UUID: undefined
     });
 
     const getVierificationCode = () => {
-      http.get("/api/User/getVierificationCode").then((x) => {
-        codeImgSrc.value = "data:image/png;base64," + x.img;
+      http.get('/api/User/getVierificationCode').then((x) => {
+        codeImgSrc.value = 'data:image/png;base64,' + x.img;
         userInfo.UUID = x.uuid;
       });
     };
@@ -169,21 +182,21 @@ export default defineComponent({
     let router = useRouter();
 
     const login = () => {
-      if (!userInfo.userName) return $message.error("请输入用户名");
-      if (!userInfo.password) return $message.error("请输入密码");
+      if (!userInfo.userName) return $message.error('请输入用户名');
+      if (!userInfo.password) return $message.error('请输入密码');
       if (!userInfo.verificationCode) {
-        return $message.error("请输入验证码");
+        return $message.error('请输入验证码');
       }
       loading.value = true;
-      http.post("/api/user/login", userInfo, "正在登录....").then((result) => {
+      http.post('/api/user/login', userInfo, '正在登录....').then((result) => {
         if (!result.status) {
           loading.value = false;
           getVierificationCode();
           return $message.error(result.message);
         }
-        $message.success("登录成功,正在跳转!");
-        store.commit("setUserInfo", result.data);
-        router.push({ path: "/" });
+        $message.success('登录成功,正在跳转!');
+        store.commit('setUserInfo', result.data);
+        router.push({ path: '/' });
       });
     };
     const loginPress = (e) => {
@@ -192,7 +205,7 @@ export default defineComponent({
       }
     };
     const openUrl = (url) => {
-      window.open(url, "_blank");
+      window.open(url, '_blank');
     };
     return {
       loading,
@@ -201,16 +214,16 @@ export default defineComponent({
       login,
       userInfo,
       loginPress,
-      openUrl,
+      openUrl
     };
   },
   directives: {
     focus: {
       inserted: function (el) {
         el.focus();
-      },
-    },
-  },
+      }
+    }
+  }
 });
 </script>
 
@@ -271,7 +284,7 @@ export default defineComponent({
 
 .desc p:before {
   top: -1px;
-  content: "o";
+  content: 'o';
   position: relative;
   margin-right: 7px;
 }
@@ -465,7 +478,7 @@ input:-webkit-autofill {
   border-radius: 32px;
 }
 </style>
-<style  scoped>
+<style scoped>
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
@@ -498,7 +511,30 @@ input {
     height: 200px;
   }
 }
+.app-link {
+  text-align: center;
+  padding-top: 21px;
+  font-size: 14px;
+  a {
+    position: relative;
+    cursor: pointer;
+    width: 70px;
+    color: #1483f6;
+    margin: 20px 20px 0 0;
+  }
+  img {
+    display: none;
+  }
+  a:hover {
+    img {
+      display: block;
+      position: absolute;
+      z-index: 999999999;
+      top: -130px;
+      width: 120px;
+      left: -22px;
+      border: 1px solid #b1b1b1;
+    }
+  }
+}
 </style>
-
-
-

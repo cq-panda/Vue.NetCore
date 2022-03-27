@@ -9,9 +9,9 @@
     <view-grid
       :columns="columns"
       :detail="detail"
-      :editFormFileds="editFormFileds"
+      :editFormFields="editFormFields"
       :editFormOptions="editFormOptions"
-      :searchFormFileds="searchFormFileds"
+      :searchFormFields="searchFormFields"
       :searchFormOptions="searchFormOptions"
       :table="table"
       :extend="extend"
@@ -33,7 +33,7 @@ var vueParam = {
         sortName: "Id"
       },
       extend: extend,
-      editFormFileds: { Name: "", TransactionType: "", CowType: "" },
+      editFormFields: { Name: "", TransactionType: "", CowType: "" },
       editFormOptions: [
         [
           { columnType: "string", title: "姓名", required: true, field: "Name" }
@@ -55,7 +55,7 @@ var vueParam = {
           }
         ]
       ],
-      searchFormFileds: {
+      searchFormFields: {
         Name: "",
         PhoneNo: "",
         TransactionType: "",

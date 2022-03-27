@@ -27,7 +27,7 @@ export default {
       default: '100%'
     },
     height: {
-      type: String,
+      type: Number,
       default: 250
     },
     minWidth: {

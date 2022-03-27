@@ -97,9 +97,9 @@ export default {
         },
 
         {
-          title: "大屏数据",
+          title: "小程序/app/h5",
           icon: "el-icon-chat-line-round",
-          url: "http://www.volcore.xyz/bigdata",
+          url: "http://v2.volcore.xyz/app/guide",
         },
         {
           title: "QQ群45221949",
