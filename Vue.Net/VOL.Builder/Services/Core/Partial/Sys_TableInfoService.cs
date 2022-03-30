@@ -837,7 +837,7 @@ DISTINCT
             string exFileName = sysTableInfo.TableName + ".js";
             string tableName = sysTableInfo.TableName;
 
-            if (!isApp && FileHelper.FileExists($"{extensionPath}+\\{ sysTableInfo.FolderName.ToLower()}\\{ exFileName}"))
+            if (!isApp)
             {
                 if (!FileHelper.FileExists(extensionPath + exFileName)
                     || FileHelper.FileExists($"{extensionPath}+\\{ sysTableInfo.FolderName.ToLower()}\\{ exFileName}"))
@@ -899,6 +899,7 @@ DISTINCT
             }
             else
             {
+             //   spaceFolder = spaceFolder; //+ "\\" + sysTableInfo.FolderName.ToLower();
                 //生成vue页面
                 FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\", sysTableInfo.TableName + ".vue", pageContent);
 

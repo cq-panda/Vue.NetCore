@@ -56,7 +56,7 @@
                   <span @click="addVisible()">
                     <i class="el-icon-plus"></i>新建
                   </span>
-                  <span @click="ceateVuePage">
+                  <span @click="ceateVuePage(0)">
                     <i class="el-icon-document"></i>生成Vue页面
                   </span>
                   <span @click="ceateVuePage(1)">

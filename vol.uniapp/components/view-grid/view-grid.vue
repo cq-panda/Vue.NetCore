@@ -389,7 +389,7 @@
 				})
 			},
 			gridSave() {
-				if (!this.$refs.form.validata()) {
+				if (!this.$refs.form.validate()) {
 					return;
 				}
 				if (this.currentAction == 'Add') {

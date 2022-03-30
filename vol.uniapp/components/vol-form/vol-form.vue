@@ -421,7 +421,7 @@
 					}
 				}
 			},
-			validata() {
+			validate() {
 				let _option = this.inFormOptions.find(x => {
 					let val = this.inFormFields[x.field];
 					if (Array.isArray(val)) {

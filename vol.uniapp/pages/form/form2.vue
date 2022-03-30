@@ -127,7 +127,7 @@
 				}
 			},
 			vailForm() {
-				if (this.$refs.form.validata()) {
+				if (this.$refs.form.validate()) {
 					this.$toast("表单校验成功")
 				}
 			},
