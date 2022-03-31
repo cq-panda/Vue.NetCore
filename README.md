@@ -22,8 +22,8 @@
  - 后台：VS2019 、.NetCore3.1 、EFCore3.1、JWT、Dapper、Autofac、SqlServer/MySql、Redis(可选,默认使用内置IMemory)
  - 前端：VsCode、Vue2/vue3（webpack、node.js,如果没有此环境自行搜索:vue webpack npm)、vuex、axios、promise、iview、element-ui
  
-![vol框架视频](https://www.cctalk.com/m/group/90268531)
-![NET视频教程(微软MVP-ACE录制)](https://space.bilibili.com/525836469)
+## [vol框架视频](https://www.cctalk.com/m/group/90268531)
+## [NET视频教程(微软MVP-ACE录制)](https://space.bilibili.com/525836469)
 ## 项目启动与上手
  - http://v2.volcore.xyz/document/guide
 ## vue2版本
