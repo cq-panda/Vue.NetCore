@@ -103,10 +103,9 @@
             </div>
             <div class="app-link">
               <a
-                href="https://www.cctalk.com/m/group/90268531"
+                href="#"
                 style="text-decoration: none"
-                target="blank"
-                >VOL框架视频</a
+                >扫描二维码</a
               >
               <a>
                 <i class="el-icon-chat-dot-round"></i> 小程序

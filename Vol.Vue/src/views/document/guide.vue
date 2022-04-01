@@ -590,6 +590,10 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             4、如果logs文件夹下没有日志，查数据库sys_log表或Logger\Queue\路径下日志
           </p>
+                <p style="font-size: 16px; line-height: 3">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            5、linux下发布.netcore需要安装libgdiplus插件
+          </p>
         </li>
         <li>
           <span style="font-size: 16px; line-height: 3; color: red"

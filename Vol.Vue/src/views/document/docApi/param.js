@@ -59,7 +59,7 @@ const param = {
     },
     { name: "url", desc: "从指定后台url(例：api/xx/xx)远程搜索，(返回的数据格式:[{key:'x',value:'x1'}])，type=select生效", type: "bool", default: "false" },
     { name: "remote", desc: "开启后台字典远程搜索(后台字典必须配置必须是自定sql)，type=select才会生效", type: "bool", default: "false" },
-    { name: "extra", desc: '添加额外标签：  extra: {//显示图标 icon: "ios-search", //显示文本 text: "点击可触发事件",//触发事件 click: item => {}}', type: "string", default: "" },
+    { name: "extra", desc: '添加额外标签：  extra: {//样式 style: "color:red",//显示图标 icon: "ios-search", //显示文本 text: "点击可触发事件",//触发事件 click: item => {}}', type: "string", default: "" },
     { name: "minRows", desc: "textarea标签最小高度", type: "number", default: "2" },
     { name: "maxRows", desc: "textarea标签最大高度", type: "number", default: "10" },
     { name: "}]]", desc: "表单字段formRules的参数配置说明", type: "", default: "" },
@@ -213,7 +213,7 @@ const param = {
     { name: "-----}", desc: "-----columns属性介绍结尾处-----", type: "-----", default: "-----" },
     ],
     methods: [{ name: "delRow", desc: "删除选中行，this.$refs.自定义的名字.delRow()", param: "" },
-    { name: "addRow", desc: "添加行，this.$refs.自定义的名字.addRow({'字段1':'值1'}),目前不支持传入数组，数组请循环遍历", param: "" },
+    { name: "addRow", desc: "添加行，this.$refs.自定义的名字.addRow({'字段1':'值1'})；<br>批量添加行：this.$refs.自定义的名字.addRow(...[{'字段1':'值1'},{'字段2':'值2'}]);//<br>(vue3版本不要循环添加，请使用批量添加", param: "" },
     { name: "selection", desc: "获取选中的行，this.$refs.自定义的名字.selection,注意此处selection是属性", param: "" },
     { name: "getSelected", desc: "获取选中的行(vue3版本才能使用)，this.$refs.自定义的名字.getSelected()", param: "" },
     { name: "tableData/rowData", desc: "获取表中的所有行数据", param: "this.$refs.自定义的名字.tableData/rowData(如果传入了url参数，使用rowData)" },
@@ -224,8 +224,8 @@ const param = {
       name: "loadBefore", desc: `从后台加载数据前处理，也可参照【从api加载数据】Demo", param: "(param, callBack) 参数：param为查询相关配置，可自己修改此配置;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行,<span style="display:none;"></span><span style="line-height:2;font-size:18px;"><span style="display:none;"></span><span style="font-size:14px;">&nbsp; &nbsp;
         <br/>
         /*查询前处理(如果需要查询条件，实现组件方法loadBefore方法即可:</span><br />
-            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; loadBefore:(param, callBack)=&gt;{</span><br />
-            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; param.wheres = [{ name: "PhoneNo", value: "1234567890" }];</span><br />
+            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; loadBefore(param, callBack){</span><br />
+            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; param.wheres.push(...[{ name: "PhoneNo", value: "1234567890" }]);</span><br />
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; callBack(true);</span><br />
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; })</span><br />
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; */</span><br />
@@ -256,6 +256,7 @@ const param = {
   viewGrid: {
     attr: [
       { name: "自定义扩展页面获取父组件(获取生成页面对象)", desc: "<span style='color:red;'>1、通过 this.$emit('parentCall', $parent => { //如：调用页面查询 $parent.search()  })可以访问父组件ViewGird中的任何属性、对象、方法<p>2、见上面示例【扩展弹出框按钮】</p></span>", type: "", default: "" },
+      { name: "获取自定义扩展页面", desc: "this.$refs.gridHeader/gridBody/gridFooter/modelHeader/modelBody/modelFooter", type: "", default: "" },
       { name: "rowKey", desc: "<span style='color:red;'>树形table的主键字段,字段的值必须是唯一的(2021.05.02)</span>", type: "String", default: "" },
       { name: "columns", desc: "查询页面table表的配置,如果满足不了业务,可参照VolTable参数动态扩展", type: "array", default: "[]" },
     { name: "detail", desc: "从表配置：{columns:[],sortName:''},columns从表table列配置,sortName从表排序字段", type: "json", default: "{}" },
@@ -414,6 +415,7 @@ const param = {
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //to do...<br />
     &nbsp; &nbsp; &nbsp; &nbsp; }<br />
     &nbsp; &nbsp; }<br />`, param: "" },
+    { name: "显示所有查询条件", desc: "this.setFiexdSearchForm(true)//直接放在onInit中使用", param: "" },
     { name: "获取从表明细选择中的行", desc: "获取从表明细选择中的行,使用：this.$refs.detail.getSelected()", param: "" },
     { name: "获取table所有的行数据", desc: "this.$refs.table.rowData", param: "" },
     { name: "获取明细表table所有的行数据", desc: "this.$refs.detail.rowData", param: "" },

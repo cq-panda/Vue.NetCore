@@ -102,7 +102,11 @@
               </el-button>
             </div>
             <div class="app-link">
-              <a>扫描二维码</a>
+              <a
+                href="#"
+                style="text-decoration: none"
+                >扫描二维码</a
+              >
               <a>
                 <i class="el-icon-chat-dot-round"></i> 小程序
                 <img
@@ -135,14 +139,27 @@
       <a @click="openUrl('https://gitee.com/x_discoverer/Vue.NetCore')">
         Gitee
       </a>
-      <a @click="openUrl('http://v2.volcore.xyz/')"> Vue2版本 </a>
-      <a>QQ1群：45221949(已满)</a>
-      <a>QQ2群：913189178</a>
       <a
         style="text-decoration: none"
         href="https://beian.miit.gov.cn/"
         target="_blank"
         >京ICP备19056538号-1</a
+      >
+      <a @click="openUrl('http://v2.volcore.xyz/')"> Vue2版本 </a>
+      <a>QQ1群：45221949(已满)</a>
+      <a>QQ2群：913189178</a>
+     
+          <a
+        href="https://space.bilibili.com/525836469"
+        style="text-decoration: none"
+        target="blank"
+        >NET视频教程(微软MVP-ACE录制)</a
+      >
+      <a
+        href="https://www.cctalk.com/m/group/90268531"
+        style="text-decoration: none"
+        target="blank"
+        >VOL框架视频</a
       >
     </div>
   </div>
@@ -153,25 +170,25 @@ import {
   ref,
   reactive,
   toRefs,
-  getCurrentInstance
-} from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import store from '../store/index';
-import http from '@/../src/api/http.js';
+  getCurrentInstance,
+} from "vue";
+import { useRouter, useRoute } from "vue-router";
+import store from "../store/index";
+import http from "@/../src/api/http.js";
 export default defineComponent({
   setup(props, context) {
     const loading = ref(false);
-    const codeImgSrc = ref('');
+    const codeImgSrc = ref("");
     const userInfo = reactive({
-      userName: '',
-      password: '',
-      verificationCode: '',
-      UUID: undefined
+      userName: "",
+      password: "",
+      verificationCode: "",
+      UUID: undefined,
     });
 
     const getVierificationCode = () => {
-      http.get('/api/User/getVierificationCode').then((x) => {
-        codeImgSrc.value = 'data:image/png;base64,' + x.img;
+      http.get("/api/User/getVierificationCode").then((x) => {
+        codeImgSrc.value = "data:image/png;base64," + x.img;
         userInfo.UUID = x.uuid;
       });
     };
@@ -182,21 +199,21 @@ export default defineComponent({
     let router = useRouter();
 
     const login = () => {
-      if (!userInfo.userName) return $message.error('请输入用户名');
-      if (!userInfo.password) return $message.error('请输入密码');
+      if (!userInfo.userName) return $message.error("请输入用户名");
+      if (!userInfo.password) return $message.error("请输入密码");
       if (!userInfo.verificationCode) {
-        return $message.error('请输入验证码');
+        return $message.error("请输入验证码");
       }
       loading.value = true;
-      http.post('/api/user/login', userInfo, '正在登录....').then((result) => {
+      http.post("/api/user/login", userInfo, "正在登录....").then((result) => {
         if (!result.status) {
           loading.value = false;
           getVierificationCode();
           return $message.error(result.message);
         }
-        $message.success('登录成功,正在跳转!');
-        store.commit('setUserInfo', result.data);
-        router.push({ path: '/' });
+        $message.success("登录成功,正在跳转!");
+        store.commit("setUserInfo", result.data);
+        router.push({ path: "/" });
       });
     };
     const loginPress = (e) => {
@@ -205,7 +222,7 @@ export default defineComponent({
       }
     };
     const openUrl = (url) => {
-      window.open(url, '_blank');
+      window.open(url, "_blank");
     };
     return {
       loading,
@@ -214,16 +231,16 @@ export default defineComponent({
       login,
       userInfo,
       loginPress,
-      openUrl
+      openUrl,
     };
   },
   directives: {
     focus: {
       inserted: function (el) {
         el.focus();
-      }
-    }
-  }
+      },
+    },
+  },
 });
 </script>
 
@@ -284,7 +301,7 @@ export default defineComponent({
 
 .desc p:before {
   top: -1px;
-  content: 'o';
+  content: "o";
   position: relative;
   margin-right: 7px;
 }
