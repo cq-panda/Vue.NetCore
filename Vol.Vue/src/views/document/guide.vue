@@ -23,9 +23,11 @@
     /></a>
     <div class="g-right" style="margin-left: 190px">
       <div class="h-box">
-        <a target="_blank" href="http://donate.volcore.xyz">
-          <Icon type="ios-color-filter" /><br />
-          项目赞助</a
+       <a
+          target="_blank"
+          href="https://www.cctalk.com/m/group/90268531"
+        >
+          <Icon type="ios-ionic" /><br />框架视频</a
         >
         <a>QQ1群:45221949 <br />QQ2群:913189178</a>
         <a target="_blank" href="https://github.com/cq-panda/Vue.NetCore">
@@ -34,17 +36,11 @@
         <a target="_blank" href="https://gitee.com/x_discoverer/Vue.NetCore">
           <Icon type="logo-github" /><br />Gitee</a
         >
-        <a
-          target="_blank"
-          @click="
-            () => {
-              this.$router.push({ path: '/document/coder' });
-            }
-          "
+   
+      <a target="_blank" href="http://donate.volcore.xyz">
+          <Icon type="ios-color-filter" /><br />
+          项目赞助</a
         >
-          <Icon type="ios-ionic" /><br />代码生成</a
-        >
-
         <a
           target="_blank"
           @click="
