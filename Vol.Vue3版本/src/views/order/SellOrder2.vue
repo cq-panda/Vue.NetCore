@@ -35,7 +35,7 @@
                 editFormFields: {"OrderType":"","TranNo":"","Qty":"","SellNo":"","Remark":"","Creator":"","CreateDate":"","ModifyDate":""},
                 editFormOptions: [[{"dataKey":"ordertype","title":"订单类型","required":true,"field":"OrderType","type":"select"},
                                {"title":"运单号","required":true,"field":"TranNo"},
-                               {"title":"销售数量","required":true,"field":"Qty","type":"number"}],
+                               {"title":"销售数量","required":true,"field":"Qty","type":"decimal"}],
                               [{"title":"备注","field":"Remark","colSize":8,"type":"textarea"},
                                {"title":"销售订单号","required":true,"field":"SellNo"}],
                               [{"title":"创建人","field":"Creator","disabled":true},

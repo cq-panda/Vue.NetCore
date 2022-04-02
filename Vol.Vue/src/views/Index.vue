@@ -175,7 +175,7 @@ export default {
     this.menu_theme = this.theme == "white" ? "dark" : "light";
     let userInfo = this.$store.getters.getUserInfo();
     this.userName = userInfo.userName;
-    this.userImg = this.base.getImgSrc(userInfo.img, this.http.ipAddress);
+    this.userImg =userInfo.img? this.base.getImgSrc(userInfo.img, this.http.ipAddress):'';
     /* 2020.07.31增加手动打开tabs*/
     /***注意同时更新main.js中Vue.prototype.$tabs = {};***/
     Object.assign(this.$tabs, { open: this.open, close: this.close });

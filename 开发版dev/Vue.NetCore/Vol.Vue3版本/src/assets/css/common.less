@@ -1,0 +1,75 @@
+*{
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    -webkit-box-sizing:border-box; /* Safari */
+}
+.el-pager li{
+    font-weight: 100;
+    margin-right: 9px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    min-width: 28px;
+}
+.el-pager li.active,.el-pager li:hover{
+    background: #ed4014;
+    color: white;
+}
+.el-pagination__editor.el-input .el-input__inner{
+    height: 23px;
+}
+
+
+.animated {
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+  
+  @media (print), (prefers-reduced-motion) {
+    .animated {
+      -webkit-animation: unset !important;
+      animation: unset !important;
+      -webkit-transition: none !important;
+      transition: none !important;
+    }
+  }
+  
+  @-webkit-keyframes fadeInDown {
+    from {
+      opacity: 1;
+      -webkit-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+  
+    to {
+      opacity: 1;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      -webkit-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+  
+    to {
+      opacity: 1;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  
+  .fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+  }
+  .ivu-message{
+    z-index: 999999999 !important;
+  }
+  .ivu-form-item-content{
+    text-align: left;
+  }

@@ -105,15 +105,12 @@ namespace VOL.WebApi
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.WithOrigins(corsUrls.Split(","))
-                        //添加预检请求过期时间
-                         .SetPreflightMaxAge(TimeSpan.FromSeconds(2520))
-                        //如果不需要跨域请注释掉.AllowCredentials()或者增加跨域策略
-                        .AllowCredentials()
-                        .AllowAnyHeader().AllowAnyMethod();
-                    });
+                        builder =>
+                        {
+                            builder.AllowAnyOrigin()
+                           .SetPreflightMaxAge(TimeSpan.FromSeconds(2520))
+                            .AllowAnyHeader().AllowAnyMethod();
+                        });
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllers();

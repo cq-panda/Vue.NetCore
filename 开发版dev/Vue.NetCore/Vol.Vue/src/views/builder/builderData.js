@@ -70,6 +70,7 @@ let data = {
       uploadMaxCount: '',
       enable: 0,
       vuePath: '',
+      appPath:"",
       userPermissionDesc: '开启后当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作'
     },
     addOptions: [
@@ -119,7 +120,8 @@ let data = {
       //     { "title": "提示", "required": true, "field": "userPermissionDesc", colSize: 10, "placeholder": "非自增主键需要输入排序字段",readonly:true }
       // ],
       [
-        { "title": "Vue视图绝对路径", "field": "vuePath", type: "textarea", placeholder: 'Vue项目所在绝对路径,到views文件夹,如：E:/app/src/views', colSize: 12 }
+        { "title": "Vue视图绝对路径", "field": "vuePath", type: "text", placeholder: 'Vue项目所在绝对路径,到views文件夹,如：E:/app/src/views', colSize: 6 },
+        { "title": "app路径", "field": "appPath", type: "text", placeholder: 'uniapp项目所在绝对路径,到pages文件夹,如：E:/uniapp/pages', colSize: 6 }
       ],
       // [
       //     { "title": "富文本编辑字段", "field": "richtitle", "displayType": "title" },
@@ -139,6 +141,20 @@ let data = {
     { field: 'columnName', title: '列名', fixed: true, width: 120, align: 'left', edit: { type: "text" } },
     { field: 'isKey', title: '主键', width: 90, align: 'left', edit: { type: "switch" } },
     { field: 'sortable', title: '是否排序', width: 90, align: 'left', edit: { type: "switch", keep: true } },
+    {
+      field: 'enable', title: 'app列', width: 140, align: 'left', edit: { type: "select" },
+      bind: {
+        data: [
+          { key: 1, value: "显示/查询/编辑" },
+          { key: 2, value: "显示/编辑" },
+          { key: 3, value: "显示/查询" },
+          { key: 4, value: "显示" },
+          { key: 5, value: "查询/编辑" },
+          { key: 6, value: "查询" },
+          { key: 7, value: "编辑" },
+        ]
+      }
+    },
     { field: 'searchRowNo', title: '查询行', width: 90, align: 'left', edit: { type: "text" } },
     { field: 'searchColNo', title: '查询列', width: 90, align: 'left', edit: { type: "text" } },
     { field: 'searchType', title: '查询类型', width: 150, align: 'left', edit: { type: "select" }, bind: { data: searchDataType } },

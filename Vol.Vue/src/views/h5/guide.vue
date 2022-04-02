@@ -1,93 +1,77 @@
 <template>
-  <div class="app-guide">
-    <Divider>
-      <icon type="md-phone-portrait" />
-      <span>移动app/H5开发</span>
-    </Divider>
-    <br> <br>
-    <div class="guide"
-         style="    padding: 0 17%;">
+  <div class="app-guide" >
+    <br />
+    <br />
+    <div class="title" style="padding: 0 17%">
       <div>
-        <h3>安卓扫描下载(使用的HBuilder打包)</h3>
-        <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/qrapk.png" />
+        <h3>微信小程序</h3>
+        <img
+          src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg"
+        />
       </div>
-      <div style="margin-left: 30px;">
+      <div>
+        <h3>安卓扫描下载</h3>
+        <img
+          src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png"
+        />
+      </div>
+      <div style="margin-left: 30px">
         <h3>手机浏览器访问</h3>
-        <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/qrcode.png" />
+        <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png" />
       </div>
     </div>
-    <br>
-    <Divider>
-      <icon type="md-phone-portrait" />
-      <span>移动打包APK后截图H5-UI</span>
-    </Divider>
-    <div class="img-item">
-      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h521.png" />
-      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h520.png" />
+    <br />
+    <div class="imgs">
+      <img v-for="(img, index) in imgs" :key="index" :src="img" />
     </div>
-    <div class="img-item">
-      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h01.png" />
-      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h02.png" />
-    </div>
-    <div class="img-item">
-      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h03.png" />
-      <img src="https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/h04.png" />
-    </div>
-    <div class="img-item">
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/screen/s01.jpg" />
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/screen/s02.jpg" />
-    </div>
-    <div class="img-item">
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/screen/s03.jpg" />
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/screen/s04.jpg" />
-    </div>
-    <div class="img-item">
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/screen/s05x.png" />
-      <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/screen/s06.jpg" />
-    </div>
+    <br />
+    <br />
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      imgs: [
+        'https://app-1256993465.cos.ap-nanjing.myqcloud.com/IMG_2069.jpg',
+        'https://app-1256993465.cos.ap-nanjing.myqcloud.com/IMG_2074.jpg',
+        'https://app-1256993465.cos.ap-nanjing.myqcloud.com/IMG_2075.jpg',
+        'https://app-1256993465.cos.ap-nanjing.myqcloud.com/IMG_2071.jpg',
+        'https://app-1256993465.cos.ap-nanjing.myqcloud.com/IMG_2070.jpg',
+        'https://app-1256993465.cos.ap-nanjing.myqcloud.com/IMG_2072.jpg',
+        'https://app-1256993465.cos.ap-nanjing.myqcloud.com/IMG_2073.jpg',
+        'https://app-1256993465.cos.ap-nanjing.myqcloud.com/IMG_2076.jpg'
+      ]
+    };
+  }
+};
 </script>
 
 <style lang="less" scoped>
-.app-guide {
-  position: absolute;
-  width: 900px;
+.imgs {
+  width: 1200px;
+  position: relative;
+  margin: 0 auto;
   left: 0;
   right: 0;
-  margin: 0 auto;
-  padding: 20px;
-  .img-item {
-    display: inline-block;
-    margin-top: 25px;
-    background: #fbfbfb;
-    display: inline-block;
-    padding: 28px;
-    border: 1px solid #eee;
-    border-radius: 5px;
-    > img:first-child {
-      margin-right: 3%;
-    }
-    img {
-      width: 48.5%;
-      float: left;
-    }
+  img {
+    width: 23%;
+    margin: 10px;
+    float: left;
   }
-  .guide {
-    display: flex;
-    h3 {
-      text-align: center;
-    }
-    .desc {
-      flex: 1;
-      margin-left: 56px;
-      .content {
-        letter-spacing: 1.8px;
-      }
-    }
+}
+.title {
+  display: flex;
+  > div {
+    flex: 1;
+    text-align: center;
+  }
+  h3 {
+    padding: 10px;
+  }
+  img {
+    height: 120px;
   }
 }
 </style>

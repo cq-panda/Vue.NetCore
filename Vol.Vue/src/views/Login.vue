@@ -1,28 +1,36 @@
 <template>
   <div class="bg">
     <div class="content">
-      <!-- <div class="desc">
-        <div class="title">vol.vue</div>
-        <p>前后端分离</p>
-        <p>全自动代码生成</p>
-        <p>支持前端、后台扩展的快速开发框架</p>
-        <p>后台.NetCore 3.1、EntityFrameWorkCore 3.1、Dapper</p>
-        <p>前端Vue、Promise、Vuex、Axios、Iview、Element-UI</p>
-        <p>帐号admin666,密码123456(本地帐号admin,密码123456)</p>
-      </div> -->
       <div class="l-left">
         <div class="desc">
-          <div class="title">vol.vue</div>
-               <p>后台</p>
+          <div class="title">
+            vol.vue<span
+              style="
+                font-size: 13px;
+                background: #46c706;
+                border-radius: 24px;
+                padding: 4px 9px;
+                border: 1px solid;
+                margin-left: 5px;
+              "
+              >vue2.x</span
+            >
+          </div>
+          <p>后台</p>
           <p>.NetCore、EntityFrameWorkCore、Dapper、Redis</p>
           <p>Vue、Promise、Vuex、IView、Element-UI</p>
-          <p>演示帐号：admin666  密码:123456</p>
-          <p>本地帐号：admin &nbsp; &nbsp; &nbsp; 密码:123456</p>
+          <p>演示账号：admin666 密码:123456</p>
+          <p>本地账号：admin &nbsp; &nbsp; &nbsp; 密码:123456</p>
           <div style="margin-top: 30px">
             <a
               href="https://github.com/cq-panda/Vue.NetCore"
               target="_blank"
-              style="color: #ffff; border: 1px solid #ffff;width: 80px;margin-right: 5px;"
+              style="
+                color: #ffff;
+                border: 1px solid #ffff;
+                width: 80px;
+                margin-right: 5px;
+              "
               class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
             >
               <span>GitHub</span></a
@@ -30,18 +38,28 @@
             <a
               href="https://gitee.com/x_discoverer/Vue.NetCore"
               target="_blank"
-              style="color: #ffff; border: 1px solid #ffff; width: 80px;margin-right: 5px;"
+              style="
+                color: #ffff;
+                border: 1px solid #ffff;
+                width: 80px;
+                margin-right: 5px;
+              "
               class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
             >
               <span>Gitee</span></a
             >
-                <a
-              href="http://v2.volcore.xyz/app/guide"
-              target="_blank"
-              style="color: #ffff; border: 1px solid #ffff; width: 80px;margin-right: 5px;"
+            <a
+              @click="$message.info('即将开放')"
+              style="
+                color: #ffff;
+                border: 1px solid #ffff;
+                width: 80px;
+                margin-right: 5px;
+                padding-left: 9px;
+              "
               class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
             >
-              <span>H5/App</span></a
+              <span>框架小程序</span></a
             >
             <a
               href="http://v2.volcore.xyz/document/guide"
@@ -49,7 +67,7 @@
               style="color: #ffff; border: 1px solid #ffff"
               class="index-btn ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-ghost"
             >
-              <span>Document</span></a
+              <span>框架文档</span></a
             >
           </div>
         </div>
@@ -57,7 +75,16 @@
       <div class="login">
         <div class="login-contianer">
           <div class="login-form">
-      <h2 style="padding: 20px 0px;font-weight: 500;">帐号登陆</h2>
+            <h2
+              style="
+                padding: 17px 0px;
+                font-weight: 500;
+                font-size: 26px;
+                color: #000;
+              "
+            >
+              账号登录
+            </h2>
             <div class="form-user" @keypress="loginPress">
               <div class="item">
                 <div class="f-text">
@@ -116,14 +143,7 @@
                     placeholder="输入验证码"
                   />
                 </div>
-                <div
-                  class="code"
-                  @click="
-                    () => {
-                      getVierificationCode();
-                    }
-                  "
-                >
+                <div class="code" @click="getVierificationCode">
                   <img v-show="codeImgSrc != ''" :src="codeImgSrc" />
                 </div>
               </div>
@@ -136,21 +156,37 @@
                 @click="login"
                 long
               >
-                <span v-if="!loading">登陆</span>
-                <span v-else>正在登陆...</span>
+                <span v-if="!loading">登录</span>
+                <span v-else>正在登录...</span>
               </Button>
             </div>
-            <div class="action">
-              <a @click="() => {}">注册</a>
-              <a @click="() => {}">忘记密码</a>
+            <div class="app-link">
+              <a>扫描二维码</a>
+              <a>
+                <i class="el-icon-chat-dot-round"></i> 小程序
+                <img
+                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg"
+              /></a>
+              <a>
+                <i class="el-icon-apple"></i>
+                Android
+                <img
+                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png"
+              /></a>
+              <a>
+                <i class="el-icon-document"></i>
+                H5
+                <img
+                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png"
+              /></a>
             </div>
           </div>
         </div>
       </div>
     </div>
- <div class="l-bg"></div>
+    <div class="l-bg"></div>
     <div class="r-bg"></div>
-     <!--   <div class="c-bg">
+    <!--   <div class="c-bg">
       <div class="c-bg-item"></div>
       <div class="c-bg-item"></div>
       <div class="c-bg-item"></div>
@@ -170,34 +206,34 @@ export default {
   data() {
     return {
       loading: false,
-      codeImgSrc: "",
+      codeImgSrc: '',
       userInfo: {
-        userName: "",
-        passWord: "",
-        verificationCode: "",
-      },
+        userName: '',
+        passWord: '',
+        verificationCode: ''
+      }
     };
   },
   directives: {
     focus: {
       inserted: function (el) {
         el.focus();
-      },
-    },
+      }
+    }
   },
   created() {
     this.getVierificationCode();
   },
   methods: {
     getVierificationCode() {
-      this.http.get("/api/User/getVierificationCode").then((x) => {
-        this.codeImgSrc = "data:image/png;base64," + x.img;
+      this.http.get('/api/User/getVierificationCode').then((x) => {
+        this.codeImgSrc = 'data:image/png;base64,' + x.img;
         this.userInfo.UUID = x.uuid;
       });
     },
 
     toGitHub() {
-      window.open("https://github.com/cq-panda/Vue.NetCore");
+      window.open('https://github.com/cq-panda/Vue.NetCore');
     },
     loginPress(e) {
       if (event.keyCode == 13) {
@@ -205,30 +241,30 @@ export default {
       }
     },
     login() {
-      if (this.userInfo.userName == "" || this.userInfo.userName.trim() == "")
-        return this.$Message.error("请输入用户名");
-      if (this.userInfo.passWord == "" || this.userInfo.passWord.trim() == "")
-        return this.$Message.error("请输入密码");
+      if (this.userInfo.userName == '' || this.userInfo.userName.trim() == '')
+        return this.$Message.error('请输入用户名');
+      if (this.userInfo.passWord == '' || this.userInfo.passWord.trim() == '')
+        return this.$Message.error('请输入密码');
       if (
-        this.userInfo.verificationCode == "" ||
-        this.userInfo.verificationCode.trim() == ""
+        this.userInfo.verificationCode == '' ||
+        this.userInfo.verificationCode.trim() == ''
       )
-        return this.$Message.error("请输入验证码");
+        return this.$Message.error('请输入验证码');
       this.loading = true;
       this.http
-        .post("/api/user/login", this.userInfo, "正在登陆....")
+        .post('/api/user/login', this.userInfo, '正在登录....')
         .then((result) => {
           if (!result.status) {
             this.loading = false;
             this.getVierificationCode();
             return this.$Message.error(result.message);
           }
-          this.$Message.info("登陆成功,正在跳转!");
-          this.$store.commit("setUserInfo", result.data);
-          this.$router.push({ path: "/" });
+          this.$Message.info('登录成功,正在跳转!');
+          this.$store.commit('setUserInfo', result.data);
+          this.$router.push({ path: '/' });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -264,16 +300,12 @@ export default {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     width: 400px;
-    background-image: linear-gradient( 
-135deg
- , #0d82ff 10%, #0cd7bd);
-    border: 1px solid #5c87ff;
   }
 }
 
 .desc {
   width: 450px;
-padding: 10px 30px;
+  padding: 10px 30px;
   box-sizing: border-box;
   height: 100%;
 }
@@ -281,12 +313,12 @@ padding: 10px 30px;
 .desc p {
   font-size: 15px;
   color: white;
-  line-height: 30px;
+  line-height: 40px;
 }
 
 .desc p:before {
   top: -1px;
-  content: "o";
+  content: 'o';
   position: relative;
   margin-right: 7px;
 }
@@ -375,8 +407,8 @@ input:-webkit-autofill {
     width: 400px;
     min-height: 340px;
     background: white;
-        height: 400px;
-    box-shadow: 0px 4px 21px #d6d6d6;
+    height: 400px;
+    box-shadow: 2px 5px 18px rgb(100 83 83 / 29%);
   }
 }
 .login-project {
@@ -443,10 +475,10 @@ input:-webkit-autofill {
   .l-bg {
     display: none;
   }
-  .l-left{
-        display: none;
+  .l-left {
+    display: none;
   }
-  .c-bg-item{
+  .c-bg-item {
     background: none !important;
   }
 }
@@ -489,7 +521,30 @@ input {
     height: 200px;
   }
 }
+.app-link {
+  text-align: center;
+  padding-top: 21px;
+  font-size: 14px;
+  a {
+    position: relative;
+    cursor: pointer;
+    width: 70px;
+    color: #1483f6;
+    margin: 20px 20px 0 0;
+  }
+  img {
+    display: none;
+  }
+  a:hover {
+    img {
+      display: block;
+      position: absolute;
+      z-index: 999999999;
+      top: -130px;
+      width: 120px;
+      left: -22px;
+      border: 1px solid #b1b1b1;
+    }
+  }
+}
 </style>
-
-
-

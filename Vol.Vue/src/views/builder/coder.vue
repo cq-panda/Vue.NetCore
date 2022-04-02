@@ -15,7 +15,7 @@
         <vol-form
           ref="addForm"
           :formRules="addOptions"
-          :formFileds="layOutOptins.fileds"
+          :formFileds="layOutOptins.fields"
         ></vol-form>
       </div>
       <Button slot="footer" type="info" @click="add">确 认</Button>
@@ -51,8 +51,11 @@
                   <span @click="addVisible()">
                     <i class="ivu-icon ivu-icon-md-add"></i>新建
                   </span>
-                  <span @click="ceateVuePage">
+                  <span @click="ceateVuePage(0)">
                     <i class="ivu-icon ivu-icon-md-paper"></i>生成Vue页面
+                  </span>
+                  <span @click="ceateVuePage(1)">
+                    <i class="el-icon-document"></i>生成app页面
                   </span>
                   <span @click="ceateModel">
                     <i class="ivu-icon ivu-icon-ios-radio-button-on"></i
@@ -86,7 +89,7 @@
                   :label-width="130"
                   ref="form"
                   :formRules="layOutOptins.options"
-                  :formFileds="layOutOptins.fileds"
+                  :formFileds="layOutOptins.fields"
                 ></vol-form>
               </div>
             </div>
@@ -138,55 +141,55 @@
   </div>
 </template>
 <script>
-import builderData from "./builderData";
-import VolForm from "@/components/basic/VolForm.vue";
-import VolTable from "@/components/basic/VolTable.vue";
-import VolBox from "@/components/basic/VolBox.vue";
-import VolHeader from "@/components/basic/VolHeader.vue";
+import builderData from './builderData';
+import VolForm from '@/components/basic/VolForm.vue';
+import VolTable from '@/components/basic/VolTable.vue';
+import VolBox from '@/components/basic/VolBox.vue';
+import VolHeader from '@/components/basic/VolHeader.vue';
 export default {
   components: {
     VolForm: VolForm,
     VolTable: VolTable,
     VolBox: VolBox,
     VolHeader: VolHeader,
-    VolMenu: () => import("@/../src/components/basic/VolMenu"),
+    VolMenu: () => import('@/../src/components/basic/VolMenu')
   },
   data() {
     return {
       more: {
-        addChild: "addChild",
-        ceateController: "ceateController",
-        addRow: "addRow",
-        delRow: "delRow",
-        delTree: "delTree",
+        addChild: 'addChild',
+        ceateController: 'ceateController',
+        addRow: 'addRow',
+        delRow: 'delRow',
+        delTree: 'delTree'
       },
       addModel: false,
       helpModel: false,
       tableHeight: 500,
       addOptions: builderData.form.addOptions,
       layOutOptins: {
-        fileds: builderData.form.fields,
+        fields: builderData.form.fields,
         options: builderData.form.options,
-        columns: builderData.columns,
+        columns: builderData.columns
       },
       tableInfo: null,
       data: [],
-      tree: [],
+      tree: []
     };
   },
   watch: {
-    "layOutOptins.fileds.vuePath"(val) {
-      localStorage.setItem("vuePath", val);
+    'layOutOptins.fields.vuePath'(val) {
+      localStorage.setItem('vuePath', val);
     },
-    deep: true,
-    //localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
+    deep: true
+    //localStorage.setItem("vuePath", this.layOutOptins.fields.vuePath || "");
   },
   methods: {
     changeMore(funName) {
       this[funName]();
     },
     help() {
-      window.open("/document/coder");
+      window.open('/document/coder');
       // this.helpModel = true;
     },
     addVisible(pid) {
@@ -194,21 +197,21 @@ export default {
       this.$refs.form.reset();
       this.data.splice(0);
       if (pid) {
-        this.layOutOptins.fileds.parentId = pid;
+        this.layOutOptins.fields.parentId = pid;
       }
     },
     delTree() {
-      let tableId = this.layOutOptins.fileds.table_Id;
-      if (!tableId) return this.$message.error("请选择节点");
+      let tableId = this.layOutOptins.fields.table_Id;
+      if (!tableId) return this.$message.error('请选择节点');
       this.$Modal.confirm({
-        title: "删除警告!",
+        title: '删除警告!',
         content:
           '<p style="color: red;font-weight: bold;letter-spacing: 3px;">确认要删除' +
-          this.layOutOptins.fileds.columnCNName +
-          "?</p>",
+          this.layOutOptins.fields.columnCNName +
+          '?</p>',
         onOk: () => {
           this.http
-            .post("/api/builder/delTree?table_Id=" + tableId, {}, true)
+            .post('/api/builder/delTree?table_Id=' + tableId, {}, true)
             .then((x) => {
               if (!x.status) return this.$message.error(x.message);
               for (let index = 0; index < this.tree.length; index++) {
@@ -217,33 +220,33 @@ export default {
                 }
               }
             });
-        },
+        }
       });
     },
     add() {
       this.$refs.form.validate(() => {
-        this.layOutOptins.fileds.tableName =
-          this.layOutOptins.fileds.tableName.slice(0, 1).toUpperCase() +
-          this.layOutOptins.fileds.tableName.slice(1);
-        if (!this.layOutOptins.fileds.tableTrueName) {
-          this.layOutOptins.fileds.tableTrueName =
-            this.layOutOptins.fileds.tableName;
+        this.layOutOptins.fields.tableName =
+          this.layOutOptins.fields.tableName.slice(0, 1).toUpperCase() +
+          this.layOutOptins.fields.tableName.slice(1);
+        if (!this.layOutOptins.fields.tableTrueName) {
+          this.layOutOptins.fields.tableTrueName =
+            this.layOutOptins.fields.tableName;
         }
 
         let queryParam =
-          "parentId=" +
-          this.layOutOptins.fileds.parentId +
-          "&tableName=" +
-          this.layOutOptins.fileds.tableName +
-          "&columnCNName=" +
-          this.layOutOptins.fileds.columnCNName +
-          "&nameSpace=" +
-          this.layOutOptins.fileds.namespace +
-          "&foldername=" +
-          this.layOutOptins.fileds.folderName +
-          "&isTreeLoad=false";
+          'parentId=' +
+          this.layOutOptins.fields.parentId +
+          '&tableName=' +
+          this.layOutOptins.fields.tableName +
+          '&columnCNName=' +
+          this.layOutOptins.fields.columnCNName +
+          '&nameSpace=' +
+          this.layOutOptins.fields.namespace +
+          '&foldername=' +
+          this.layOutOptins.fields.folderName +
+          '&isTreeLoad=false';
         this.http
-          .post("/api/builder/LoadTableInfo?" + queryParam, {}, true)
+          .post('/api/builder/LoadTableInfo?' + queryParam, {}, true)
           .then((x) => {
             if (!x.status) {
               this.$message.error(x.message);
@@ -258,7 +261,7 @@ export default {
                 pId: x.data.parentId,
                 parentId: x.data.parentId,
                 name: x.data.columnCNName,
-                orderNo: x.data.orderNo,
+                orderNo: x.data.orderNo
               });
             }
             if (!x.data.tableTrueName) {
@@ -273,9 +276,9 @@ export default {
     },
     addChild() {
       // this.$message.info("开发中");
-      let id = this.layOutOptins.fileds.table_Id;
+      let id = this.layOutOptins.fields.table_Id;
       if (!id) {
-        return this.$message.error("请选中节点");
+        return this.$message.error('请选中节点');
       }
       this.addVisible(id);
     },
@@ -284,19 +287,19 @@ export default {
     },
     delRow() {
       this.$Modal.confirm({
-        title: "删除警告!",
+        title: '删除警告!',
         content:
           '<p style="color: red;font-weight: bold;letter-spacing: 3px;">确认要删除选择的数据吗?</p>',
         onOk: () => {
           let rows = this.$refs.table.delRow();
           console.log(rows);
-        },
+        }
       });
     },
     validateTableInfo(callback) {
       this.$refs.form.validate(() => {
         if (!this.tableInfo) {
-          this.$message.error("请先加载数据");
+          this.$message.error('请先加载数据');
           return false;
         }
         if (this.data && this.data.length > 0) {
@@ -304,62 +307,67 @@ export default {
             return x.isKey;
           });
           if (!keyInfo) {
-            this.$message.error("请勾选设置主键");
+            this.$message.error('请勾选设置主键');
             return false;
           }
           if (keyInfo.isNull == 1) {
-            this.$message.error("主键【可为空】必须设置为否");
+            this.$message.error('主键【可为空】必须设置为否');
             return false;
           }
           if (
-            keyInfo.columnType != "int" &&
-            keyInfo.columnType != "bigint" &&
-            !this.layOutOptins.fileds.sortName
+            keyInfo.columnType != 'int' &&
+            keyInfo.columnType != 'bigint' &&
+            !this.layOutOptins.fields.sortName
           ) {
-            this.$message.error("主键非自增类型,请设置上面表单的【排序字段】");
+            this.$message.error('主键非自增类型,请设置上面表单的【排序字段】');
             return false;
           }
         }
         for (const key in this.tableInfo) {
-          if (this.layOutOptins.fileds.hasOwnProperty(key)) {
-            let newVal = this.layOutOptins.fileds[key];
+          if (this.layOutOptins.fields.hasOwnProperty(key)) {
+            let newVal = this.layOutOptins.fields[key];
             this.tableInfo[key] = newVal;
           }
         }
         callback();
       });
     },
-    ceateVuePage() {
+    ceateVuePage(isApp) {
+      let vuePath;
       this.validateTableInfo(() => {
-        let vuePath = localStorage.getItem("vuePath");
-        if (!vuePath) {
-          return this.$message.error(
-            "请先设置Vue项目对应Views的绝对路径,然后再保存!"
-          );
+        if (!isApp) {
+          vuePath = localStorage.getItem('vuePath');
+          if (!vuePath) {
+            return this.$message.error(
+              '请先设置Vue项目对应Views的绝对路径,然后再保存!'
+            );
+          }
+        } else {
+          vuePath = localStorage.getItem('appPath');
+          if (!vuePath) {
+            return this.$message.error('请先设置app路径,然后再保存!');
+          }
         }
-        this.http
-          .post(
-            "/api/builder/createVuePage?vuePath=" + vuePath,
-            this.tableInfo,
-            true
-          )
-          .then((x) => {
-            this.$Message.info(x);
-          });
+        let url = `/api/builder/createVuePage?vuePath=${vuePath}&app=${
+          isApp || 0
+        }`;
+        this.http.post(url, this.tableInfo, true).then((x) => {
+          this.$Message.info(x);
+        });
       });
     },
     createService() {
       this.validateTableInfo(() => {
         let queryParam =
-          "tableName=" +
-          this.layOutOptins.fileds.tableName +
-          "&nameSpace=" +
-          this.layOutOptins.fileds.namespace +
-          "&foldername=" +
-          this.layOutOptins.fileds.folderName;
+          'tableName=' +
+          this.layOutOptins.fields.tableName +
+          '&nameSpace=' +
+          this.layOutOptins.fields.namespace +
+          '&foldername=' +
+          this.layOutOptins.fields.folderName;
         this.http
           .post(
-            "/api/builder/CreateServices?" + queryParam,
+            '/api/builder/CreateServices?' + queryParam,
             this.tableInfo,
             true
           )
@@ -371,22 +379,22 @@ export default {
     ceateModel() {
       this.validateTableInfo(() => {
         this.http
-          .post("/api/builder/CreateModel", this.tableInfo, true)
+          .post('/api/builder/CreateModel', this.tableInfo, true)
           .then((x) => {
             this.$Message.info({
               content: x,
-              duration: 5,
+              duration: 5
             });
           });
       });
     },
     syncTable() {
-      if (!this.layOutOptins.fileds.tableName)
-        return this.$Message.error("请选模块");
+      if (!this.layOutOptins.fields.tableName)
+        return this.$Message.error('请选模块');
       this.http
         .post(
-          "/api/builder/syncTable?tableName=" +
-            this.layOutOptins.fileds.tableName,
+          '/api/builder/syncTable?tableName=' +
+            this.layOutOptins.fields.tableName,
           {},
           true
         )
@@ -395,14 +403,15 @@ export default {
             return this.$Message.error(x.message);
           }
           this.$Message.info(x.message);
-          this.loadTableInfo(this.layOutOptins.fileds.table_Id);
+          this.loadTableInfo(this.layOutOptins.fields.table_Id);
         });
     },
     ceateApiController() {},
     ceateController() {},
     checkSortName() {},
     save() {
-      // localStorage.setItem("vuePath", this.layOutOptins.fileds.vuePath || "");
+      localStorage.setItem('vuePath', this.layOutOptins.fields.vuePath || '');
+      localStorage.setItem('appPath', this.layOutOptins.fields.appPath || '');
       if (
         this.tableInfo &&
         this.tableInfo.tableColumns &&
@@ -411,24 +420,27 @@ export default {
           return x.isKey == 1;
         }).length > 1
       ) {
-        return this.$Message.error("表结构只能勾选一个主键字段");
+        return this.$Message.error('表结构只能勾选一个主键字段');
       }
       this.validateTableInfo(() => {
-        this.http.post("/api/builder/Save", this.tableInfo, true).then((x) => {
+        this.http.post('/api/builder/Save', this.tableInfo, true).then((x) => {
           if (!x.status) {
             this.$Message.error(x.message);
             return;
           }
           this.$Message.info(x.message);
           this.tree.forEach((x) => {
-            if (x.id == this.layOutOptins.fileds.table_Id) {
-              x.name = this.layOutOptins.fileds.columnCNName;
-              x.parentId = this.layOutOptins.fileds.parentId;
+            if (x.id == this.layOutOptins.fields.table_Id) {
+              x.name = this.layOutOptins.fields.columnCNName;
+              x.parentId = this.layOutOptins.fields.parentId;
             }
           });
+
           this.tableInfo = x.data;
+          x.data.vuePath = this.layOutOptins.fields.vuePath;
+          x.data.appPath = this.layOutOptins.fields.appPath;
           this.$refs.form.reset(x.data);
-          this.layOutOptins.fileds.vuePath = localStorage.getItem("vuePath");
+          // this.layOutOptins.fields.vuePath = localStorage.getItem("vuePath");
           this.data = x.data.tableColumns;
           //  this.$Message.info(x);
         });
@@ -444,7 +456,7 @@ export default {
     loadTableInfo(id) {
       this.http
         .post(
-          "/api/builder/LoadTableInfo?table_Id=" + id + "&isTreeLoad=true",
+          '/api/builder/LoadTableInfo?table_Id=' + id + '&isTreeLoad=true',
           {},
           true
         )
@@ -454,11 +466,11 @@ export default {
           }
           //2021.01.09增加代码生成器设置table排序功能
           const _fields = [
-            "sortable",
-            "isNull",
-            "isReadDataset",
-            "isColumnData",
-            "isDisplay",
+            'sortable',
+            'isNull',
+            'isReadDataset',
+            'isColumnData',
+            'isDisplay'
           ];
           x.data.tableColumns.forEach((item) => {
             for (let index = 0; index < _fields.length; index++) {
@@ -466,31 +478,34 @@ export default {
             }
           });
           this.tableInfo = x.data;
-          this.$refs.form.reset(x.data);
+
+          for (const key in x.data) {
+            this.layOutOptins.fields[key] = x.data[key];
+          }
           this.data = x.data.tableColumns;
         });
     },
-    getVuePath() {
-      let vuePath = localStorage.getItem("vuePath");
-      if (!vuePath || vuePath == "null" || vuePath == "undefined") {
-        vuePath = "";
+    getVuePath(key) {
+      let vuePath = localStorage.getItem(key);
+      if (!vuePath || vuePath == 'null' || vuePath == 'undefined') {
+        vuePath = '';
       }
       return vuePath;
-    },
+    }
   },
   mounted() {},
   created() {
     let clientHeight = document.documentElement.clientHeight - 170;
     this.tableHeight = clientHeight < 400 ? 400 : clientHeight;
     this.http
-      .post("/api/Sys_Dictionary/GetBuilderDictionary", {}, true)
+      .post('/api/Sys_Dictionary/GetBuilderDictionary', {}, true)
       .then((dic) => {
         let column = this.layOutOptins.columns.find((x) => {
-          return x.field == "dropNo";
+          return x.field == 'dropNo';
         });
         if (!column) return;
 
-        let data = [{ key: "", value: "" }];
+        let data = [{ key: '', value: '' }];
         for (let index = 0; index < dic.length; index++) {
           data.push({ key: dic[index], value: dic[index] });
         }
@@ -498,12 +513,13 @@ export default {
         column.bind.data = data;
       });
 
-    builderData.form.fields.vuePath = this.getVuePath();
-    this.http.post("/api/builder/GetTableTree", {}, false).then((x) => {
+    builderData.form.fields.vuePath = this.getVuePath('vuePath');
+    builderData.form.fields.appPath = this.getVuePath('appPath');
+    this.http.post('/api/builder/GetTableTree', {}, false).then((x) => {
       this.tree = JSON.parse(x.list);
       if (!x.nameSpace) {
         return this.$message(
-          "未获取后台项目类库所在命名空间,请确认目录或调试Sys_TableInfoService类GetTableTree方法"
+          '未获取后台项目类库所在命名空间,请确认目录或调试Sys_TableInfoService类GetTableTree方法'
         );
       }
       let nameSpace = JSON.parse(x.nameSpace);
@@ -511,27 +527,27 @@ export default {
       for (let index = 0; index < nameSpace.length; index++) {
         nameSpaceArr.push({
           key: nameSpace[index],
-          value: nameSpace[index],
+          value: nameSpace[index]
         });
       }
 
       //初始化项目命令空间
       this.layOutOptins.options.forEach((option) => {
         option.forEach((item) => {
-          if (item.field == "namespace") {
+          if (item.field == 'namespace') {
             item.data.push(...nameSpaceArr);
           }
         });
       });
       this.addOptions.forEach((option) => {
         option.forEach((item) => {
-          if (item.field == "namespace") {
+          if (item.field == 'namespace') {
             item.data.push(...nameSpaceArr);
           }
         });
       });
     });
-  },
+  }
 };
 </script>
 <style scoped>
@@ -645,5 +661,3 @@ export default {
   padding: 10px 53px 0px 40px;
 }
 </style>
-
-
