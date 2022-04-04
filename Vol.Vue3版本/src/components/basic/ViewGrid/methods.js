@@ -1150,7 +1150,7 @@ let methods = {
       }
       //2020.11.01增加级联处理
       if (dic[0].type == 'cascader') {
-        item.bind = { data: dic[0].orginData, tyep: 'select' };
+        item.bind = { data: dic[0].orginData, type: 'select',key:key };
       } else {
         item.bind = dic[0];
       }
@@ -1169,10 +1169,12 @@ let methods = {
           // x.data=d.data;
           //生成tree结构
           let _data = JSON.parse(JSON.stringify(d.data));
-          // _data.forEach(d => {
-          //   d.label = d.value;
-          //   d.value = d.key;
-          // })
+          //2022.04.04增加级联字典数据源刷新后table没有变化的问题
+          this.columns.forEach(column=>{
+             if (column.bind&&column.bind.key==d.dicNo) {
+                 column.bind.data=d.data;
+             }
+          })
           let arr = this.base.convertTree(_data, (node, data, isRoot) => {
             if (!node.inited) {
               node.inited = true;

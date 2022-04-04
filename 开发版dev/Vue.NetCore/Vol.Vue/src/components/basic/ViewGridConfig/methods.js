@@ -1078,7 +1078,7 @@ let methods = {
           //2020.05.03修复查询表单与编辑表单type类型变成强一致性的问题
           //this.dicKeys.push({ dicNo: d.dataKey, data: [], type: d.type });
           //  2020.11.01增加iview组件Cascader数据源存储
-          let _dic = { dicNo: d.dataKey, data: [], fileds: [d.field], orginData: [] };
+          let _dic = { dicNo: d.dataKey, data: [], fileds: [d.field], orginData: []};
           if (d.type == "cascader") {
             _dic.type = "cascader";
           }
@@ -1129,7 +1129,7 @@ let methods = {
       }
       //2020.11.01增加级联处理
       if (dic[0].type == "cascader") {
-        item.bind = { data: dic[0].orginData, tyep: "select" }
+        item.bind = { data: dic[0].orginData, tyep: "select",key:key }
       } else {
         item.bind = dic[0];
       }
@@ -1145,7 +1145,12 @@ let methods = {
         if (x.dicNo != d.dicNo) return true;
         //2020.10.26增加级联数据源绑定处理
         if (x.type == "cascader") {
-          // x.data=d.data;
+          //2022.04.04增加级联字典数据源刷新后table没有变化的问题
+          this.columns.forEach(column=>{
+            if (column.bind&&column.bind.key==d.dicNo) {
+                column.bind.data=d.data;
+            }
+         })
           //生成tree结构
           x.data.push(... this.base.convertTree(JSON.parse(JSON.stringify(d.data)), (node, data, isRoot) => {
             node.label = node.value;
