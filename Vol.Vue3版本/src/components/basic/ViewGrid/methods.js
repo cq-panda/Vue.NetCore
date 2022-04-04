@@ -1283,9 +1283,11 @@ let methods = {
       // this.singleSearch = this.searchFormOptions[0][0];
     }
     if (keys.length == 0) return;
-    let $internalVue = this;
+    let $this = this;
     this.http.post('/api/Sys_Dictionary/GetVueDictionary', keys).then((dic) => {
-      $internalVue.bindOptions(dic);
+      $this.bindOptions(dic);
+      //2022.04.04增加字典加载完成方法
+      $this.dicInited&&$this.dicInited(dic)
     });
   },
   setFiexdColumn(columns, containerWidth) {
