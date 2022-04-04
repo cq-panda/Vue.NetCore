@@ -134,7 +134,7 @@
             </template>
             <i-switch
               v-else-if="item.type == 'switch'"
-              @on-change="item.onChange"
+              @on-change="(value)=>{item.onChange&&item.onChange(value)}"
               :true-value="
                 typeof _formFields[item.field] == 'boolean' ? true : 1
               "

@@ -40,6 +40,18 @@ let extension = {
       })
     },
     onInited () {
+    },
+    addAfter(params) {
+      this.initDicKeys(true);
+      return true;
+    },
+    updateAfter(params) {
+      this.initDicKeys(true);
+      return true;
+    },
+    delAfter(params) {
+      this.initDicKeys(true);
+      return true;
     }
   }
 };
