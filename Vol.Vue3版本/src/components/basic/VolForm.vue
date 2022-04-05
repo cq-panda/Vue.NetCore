@@ -1261,4 +1261,7 @@ export default defineComponent({
 .el-form-item ::v-deep(.el-checkbox .el-checkbox__label) {
   padding-left: 5px;
 }
+.el-form-item ::v-deep(textarea) {
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif !important;
+}
 </style>
