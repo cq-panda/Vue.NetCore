@@ -288,7 +288,7 @@ const param = {
     { name: "ck", desc: "<span  style='color:red'>是否显示checkbox(2020.11.01)</span>", type: "bool", default: "true" },
     { name: "columnIndex", desc: "是否显示index序号(2020.11.01)", type: "bool", default: "false" },
     { name: "textInline", desc: "<span style='color:red'>table内容超出后自动换行(2021.01.16)</span>", type: "bool", default: "true" },
-    
+    { name: "(获取焦点)获取表单原生dom标签", desc: "this.$refs.form.字段名;使用场景:新建/编辑时设置input标签设置焦点：this.$refs.form.字段名.foucs", param: "" },
     {
       name: "buttons", desc: `查询界面的所有按钮，[{<br />
           &nbsp; &nbsp; name: "刷 新",//按钮名称<br />
@@ -406,6 +406,8 @@ const param = {
 
     methods: [{ name: "refresh", desc: "刷新查询界面的表数据,使用：this.refresh()", param: "" },
     { name: "getSelectRows", desc: "查询界面获取选中的行,使用：this.getSelectRows()", param: "" },
+    { name: "initDicKeys", desc: "刷新字典数据源,使用：this.initDicKeys()//使用场景如：新建编辑级联下拉框保存后，调用此方法刷新级联的数据源", param: "" },
+  
     { name: "filterPermission", desc: `&nbsp; &nbsp; onInit()<br />
     &nbsp; &nbsp; {<br />
     &nbsp; &nbsp; &nbsp; &nbsp; //例：判断用户是否有SellOrder表有没有Add权限(2021.03.19到最后的才能使用)<br />
@@ -668,8 +670,16 @@ const param = {
         &nbsp;&nbsp;&nbsp;&nbsp;},
       </div>
       <div>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">dicInited</span>&nbsp;(params)&nbsp;{&nbsp;<span style="color:#6a9955;">//数据源加载完成时的方法,2022.04.04更新method.js文件后才能使用</span>
+    </div>
+  <br />
+    <div>
+      &nbsp;&nbsp;&nbsp;&nbsp;},
+    </div>
+      <div>
         &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
       </div>
+      
       <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas">
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp; <span style="color:#6a9955;">//例：判断用户是否有SellOrder表有没有Add权限(2021.03.19到最后的才能使用)</span>
