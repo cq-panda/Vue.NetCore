@@ -364,13 +364,13 @@ export default defineComponent({
     },
     linkView: {
       type: Function,
-      default: function () {
+      default: function() {
         return 1;
       }
     },
     pagination: {
       type: Object,
-      default: function () {
+      default: function() {
         return { total: 0, size: 30, sortName: '' };
       }
     },
@@ -417,21 +417,21 @@ export default defineComponent({
     beginEdit: {
       // 编辑开始
       type: Function,
-      default: function (row, column, index) {
+      default: function(row, column, index) {
         return true;
       }
     },
     endEditBefore: {
       // 结束编辑前
       type: Function,
-      default: function (row, column, index) {
+      default: function(row, column, index) {
         return true;
       }
     },
     endEditAfter: {
       // 结束编辑前
       type: Function,
-      default: function (row, column, index) {
+      default: function(row, column, index) {
         return true;
       }
     },
@@ -530,6 +530,19 @@ export default defineComponent({
       })
     ) {
       this.fixed = true;
+    }
+    //2022.04.06优化table合计固定列显示
+    if (
+      this.columns.some((x) => {
+        return x.summary;
+      })
+    ) {
+      this.columns.forEach((x) => {
+        if (x.fixed && x.fixed != 'right') {
+          x.fixed = false;
+        }
+      });
+      this.fixed = false;
     }
 
     // 从后台加下拉框的[是否启用的]数据源
