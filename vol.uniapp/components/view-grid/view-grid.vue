@@ -359,7 +359,7 @@
 				callback(true)
 			},
 			loadGridTableAfter(rows, callback) { //查询后
-				if (this.searchAfter && !this.searchAfter(param)) {
+				if (this.searchAfter && !this.searchAfter(rows)) {
 					return callback(false);
 				}
 				callback(true)
