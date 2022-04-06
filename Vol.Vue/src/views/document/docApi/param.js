@@ -110,7 +110,8 @@ const param = {
     { name: "sortName", desc: "排序字段", type: "string", default: "" },
     { name: "}", desc: "", type: "", default: "" },
     { name: "--", desc: "--", type: "--", default: "--" },
-    { name: "url", desc: "远程加载数据的地址，配置了url默认从远程加载数据", type: "string", default: "" }, { name: "defaultLoadPage", desc: "传入了url参数，是否默认加载表格数据", type: "bool", default: "true" },
+    { name: "url", desc: `api接口地址，配置了url默认从接口加载数据,查询条件在loadBefore中实现,如<vol-table @loadBefore='loadBefore'></vol-table>,在methods中添加loadBefore方法，见下面loadBefore
+    <br><div style='color:red;'>注意：接口参数返回格式为:{rows:[],total:100,summary:{price:70,qty:20}} //rows为返回的数据，total为总数量,summary为表格汇总信息没有可以不用返回,或者随便点开生成的页面点查询，看返回的数据格式</div>`, type: "string", default: "" }, { name: "defaultLoadPage", desc: "传入了url参数，是否默认加载表格数据", type: "bool", default: "true" },
     { name: "paginationHide", desc: "是否隐藏分页数据", type: "bool", default: "true" },
     { name: "index", desc: "是否创建索引号(如果启用编辑功能,index必须设置为true)", type: "bool", default: "false" },
     { name: "tableData", desc: "table表数据，如果不需要从远程加载table数据，请设置tableData属性,格式:[{'字段1':'值1'},{'字段2':'值2'}]", type: "array", default: "[]" },
@@ -213,7 +214,7 @@ const param = {
     { name: "-----}", desc: "-----columns属性介绍结尾处-----", type: "-----", default: "-----" },
     ],
     methods: [{ name: "delRow", desc: "删除选中行，this.$refs.自定义的名字.delRow()", param: "" },
-    { name: "addRow", desc: "添加行，this.$refs.自定义的名字.addRow({'字段1':'值1'})；<br>批量添加行：this.$refs.自定义的名字.addRow(...[{'字段1':'值1'},{'字段2':'值2'}]);//<br>(vue3版本不要循环添加，请使用批量添加", param: "" },
+    { name: "addRow", desc: "添加行，this.$refs.自定义的名字.addRow({'字段1':'值1','字段2':'值2'})；<br>批量添加行：this.$refs.自定义的名字.rowData.push(...[{'字段1':'值1'},{'字段2':'值2'}]);//<br>(vue3版本不要循环添加，请使用批量添加", param: "" },
     { name: "selection", desc: "获取选中的行，this.$refs.自定义的名字.selection,注意此处selection是属性", param: "" },
     { name: "getSelected", desc: "获取选中的行(vue3版本才能使用)，this.$refs.自定义的名字.getSelected()", param: "" },
     { name: "tableData/rowData", desc: "获取表中的所有行数据", param: "this.$refs.自定义的名字.tableData/rowData(如果传入了url参数，使用rowData)" },
@@ -306,7 +307,7 @@ const param = {
     { name: "load", desc: "页面打开后是否默认加载表格数据", type: "bool", default: "true" },
     { name: "activatedLoad", desc: "页面触发actived时是否刷新页面数据", type: "bool", default: "false" },
     { name: "hasDetail", desc: "是否有明细(如果有明细表就为true)", type: "bool", default: "false" },
-    { name: "summary", desc: "查询界面是否显示统计和求，设置为true需要实现后台SummaryExpress方法,可参照SellOrderService实现", type: "bool", default: "false" },
+    //{ name: "summary", desc: "查询界面是否显示统计和求，设置为true需要实现后台SummaryExpress方法,可参照SellOrderService实现", type: "bool", default: "false" },
     {
       name: "detailOptions",
       desc: `<div class="cnblogs_code">
@@ -369,7 +370,8 @@ const param = {
         </div>
         <p>&nbsp;</p>`
     },
-    { name: "height", desc: "查询页面table的高度(如果在onInited方法中使用，height的值为页面自适应的高度，可用于二次计算)", type: "number", default: "0" },
+    { name: "tableHeight", desc: "指定页面table的高度(只能在onInit方法中使用)", type: "number", default: "0" },
+    { name: "height", desc: "查询页面table的高度,值已经计算好了(只能在onInited方法中使用)", type: "number", default: "计算后的高度" },
     { name: "tableMaxHeight", desc: "查询页面table的最大高度,如果同时设置了tableHeight，只会tableMaxHeight起作用", type: "number", default: "0" },
     {
       name: "pagination",
@@ -418,6 +420,9 @@ const param = {
     &nbsp; &nbsp; &nbsp; &nbsp; }<br />
     &nbsp; &nbsp; }<br />`, param: "" },
     { name: "显示所有查询条件", desc: "this.setFiexdSearchForm(true)//直接放在onInit中使用", param: "" },
+    { name: "调用新建方法", desc: "this.add()", param: "" },
+    { name: "调用删除方法", desc: "this.del(row)//row要删除的行数据", param: "" },
+    { name: "调用编辑方法", desc: "this.edit(row)//row要编辑的行数据", param: "" },
     { name: "获取从表明细选择中的行", desc: "获取从表明细选择中的行,使用：this.$refs.detail.getSelected()", param: "" },
     { name: "获取table所有的行数据", desc: "this.$refs.table.rowData", param: "" },
     { name: "获取明细表table所有的行数据", desc: "this.$refs.detail.rowData", param: "" },
@@ -931,6 +936,10 @@ const param = {
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#dcdcaa;">addRow</span>(<span style="color:#9cdcfe;">obj</span>);
       </div>
+      <div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//明细表批量添加行<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.
+      <span style="color:#9cdcfe;">detail</span>.<span style="color:#dcdcaa;">rowData.push(...</span>[<span style="color:#9cdcfe;">{},{}</span>]);
+    </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;},
       </div>

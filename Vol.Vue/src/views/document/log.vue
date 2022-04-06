@@ -49,7 +49,16 @@ export default {
     return {
       active: 0,
       log: [
+         { date: '2022.04', type: 'month' },
+        { date: "20222-04-05 20:59:48",desc:"完善文档"},
+        { date: "20222-04-05 20:53:15",desc:"优化vue3版本表单textarea字体"},
+        { date: "20222-04-04 14:44:44",desc:"增加vue3版本字典加载完成后的方法dicInited"},
+        { date: "20222-04-04 14:44:31",desc:"增加vue2版本字典加载完成后的方法dicInited"},
+        { date: "20222-04-04 14:36:27",desc:"修复vue3版本级联刷新数据源后table的数据源没有刷新的问题"},
+        { date: "20222-04-04 14:35:29",desc:"修复vue2版本级联刷新数据源后table的数据源没有刷新的问题"},
+        { date: "20222-04-01 23:27:54",desc:"完善文档"},
         { date: '2022.03', type: 'month' },
+        { date: "20222-03-31 22:49:49",desc:"优化代码生成器路径保存方式"},
         { date: "2022-03-27 13:36:10", desc: "完善文档"},
         { date: "2022-03-27 12:05:16", desc: "初始化uniapp项目"},
         { date: "2022-03-27 12:01:50",style:"font-size:14px;color:red;",
