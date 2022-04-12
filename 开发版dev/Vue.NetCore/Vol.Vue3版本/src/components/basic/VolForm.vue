@@ -920,8 +920,8 @@ export default defineComponent({
       //2021.07.17增加只读表单不验证
       //range与swtich暂时不做校验
       if (
-        item.readonly ||
-        item.disabled ||
+        // item.readonly ||
+        // item.disabled ||
         item.type == 'switch' ||
         item.type == 'range'
       )
