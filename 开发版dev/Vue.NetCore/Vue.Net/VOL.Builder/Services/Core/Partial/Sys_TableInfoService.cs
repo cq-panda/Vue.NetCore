@@ -899,7 +899,7 @@ DISTINCT
             }
             else
             {
-             //   spaceFolder = spaceFolder; //+ "\\" + sysTableInfo.FolderName.ToLower();
+                //   spaceFolder = spaceFolder; //+ "\\" + sysTableInfo.FolderName.ToLower();
                 //生成vue页面
                 FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\", sysTableInfo.TableName + ".vue", pageContent);
 
@@ -1539,7 +1539,7 @@ DISTINCT
                 template = "ApiOutputDomainModel.html";
             }
             string domainContent = FileHelper.ReadFile("Template\\DomianModel\\" + template);
-
+            string partialContent = domainContent;
             StringBuilder AttributeBuilder = new StringBuilder();
             sysColumn = sysColumn.OrderByDescending(c => c.OrderNo).ToList();
             bool addIgnore = false;
@@ -1758,14 +1758,22 @@ DISTINCT
                 folderName = "ApiEntity\\OutPut";
                 tableName = "Api" + tableInfo.TableName + "Output";
             }
-
-            FileHelper.WriteFile(
-                mapPath +
-                string.Format(
-                "\\" + modelNameSpace + "\\DomainModels\\{0}\\", folderName
-                )
-                , tableName + ".cs",
-                domainContent);
+            //mapPath +
+            //  string.Format(
+            //  "\\" + modelNameSpace + "\\DomainModels\\{0}\\", folderName
+            //  )
+            string modelPath = $"{mapPath}\\{modelNameSpace}\\DomainModels\\{folderName}\\";
+            FileHelper.WriteFile(  modelPath  , tableName + ".cs",  domainContent);
+            //partialContent
+            modelPath += "partial\\";
+            if (!FileHelper.FileExists(modelPath + tableName + ".cs"))
+            {
+                partialContent = partialContent.Replace("{AttributeManager}", "")
+                    .Replace("{AttributeList}", @"//此处配置字段(字段配置见此model的另一个partial),如果表中没有此字段请加上 [NotMapped]属性，否则会异常")
+                    .Replace(":BaseEntity", "")
+                    .Replace("{TableName}", tableInfo.TableName).Replace("{Namespace}", modelNameSpace);
+                FileHelper.WriteFile(modelPath, tableName + ".cs", partialContent);
+            }
             if (createType == 1)
             {
                 string mappingConfiguration = FileHelper.
@@ -1845,7 +1853,7 @@ DISTINCT
                         x.EditRowNo = 99999;
                     }
                 });
-                var arr = search? new int[] { 1, 3, 5, 6 }:new int[] { 1,2,5,7};
+                var arr = search ? new int[] { 1, 3, 5, 6 } : new int[] { 1, 2, 5, 7 };
                 predicate = x => arr.Any(c => c == x.Enable);
             }
 
