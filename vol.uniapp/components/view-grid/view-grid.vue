@@ -25,7 +25,7 @@
 					搜索
 					<view class="f-icon" @click="searchModel=false">取消</view>
 				</view>
-                <slot name="search"></slot>
+				<slot name="search"></slot>
 				<view class="vol-action-sheet-select-content">
 					<view class="search-item" @click="sortSelectModel=true">
 						<view class="f-form-label">排序字段</view>
@@ -92,7 +92,7 @@
 					{{buttons.length?(currentAction=='Add'?'新增':'编辑'):'基本信息'}}
 					<view class="f-icon" @click="model=false">取消</view>
 				</view>
-				 <slot name="edit"></slot>
+				<slot name="edit"></slot>
 				<view class="vol-action-sheet-select-content">
 					<vol-form :load-key="false" @onChange="editGirdFormOnChange" ref="form"
 						:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
@@ -198,21 +198,16 @@
 			onTableCreated() {
 				this.onInited();
 			},
-			cellFormatter(row, column,index, callback) {
+			cellFormatter(row, column, index, callback) {
 				if (_$this.formatter) {
-					return callback(_$this.formatter(row, column,index));
+					return callback(_$this.formatter(row, column, index));
 				}
 				return callback(row[column.field]);
 			},
 			gridRowClick(index, row, columns) {
 				this.currentRow = row;
 				this.currentAction = 'Update';
-				let delButton = this.buttons.find(x => {
-					return x.value == 'del'
-				});
-				if (delButton) {
-					delButton.hidden = false;
-				}
+				this.hiddenDelButton(false)
 				//this.editFormFields.Name=Math.random();
 				if (this.$refs.form) {
 					this.$refs.form.reset(row);
@@ -226,8 +221,17 @@
 				};
 				this.model = true;
 			},
+			hiddenDelButton(hidden) {
+				let delButton = this.buttons.find(x => {
+					return x.value == 'del'
+				});
+				if (delButton) {
+					delButton.hidden = hidden;
+				}
+			},
 			gridAdd() {
 				this.currentAction = 'Add';
+				this.hiddenDelButton(true);
 				this.resetEditForm();
 				this.model = true;
 			},
@@ -275,7 +279,7 @@
 				//this.$refs.table.load(null,true);
 				this.refresh();
 			},
-			search(){
+			search() {
 				this.refresh();
 			},
 			refresh() { //刷新
@@ -550,6 +554,9 @@
 					return x.key || x.dataKey
 				}))
 				keys.push(...this.editFormOptions.filter(x => {
+					if(x.type=='img'||x.type=="file"||x.type=='excel'){
+						x.url="api/"+this.options.table.name+'/upload'
+					}
 					return x.key || x.dataKey && !x.data.length
 				}).map(x => {
 					return x.key || x.dataKey
