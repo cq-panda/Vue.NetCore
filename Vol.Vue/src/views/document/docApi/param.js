@@ -219,7 +219,55 @@ const param = {
     { name: "getSelected", desc: "获取选中的行(vue3版本才能使用)，this.$refs.自定义的名字.getSelected()", param: "" },
     { name: "tableData/rowData", desc: "获取表中的所有行数据", param: "this.$refs.自定义的名字.tableData/rowData(如果传入了url参数，使用rowData)" },
     { name: "reset", desc: "清空表数据", param: "this.$refs.自定义的名字.reset" },
-    { name: "load", desc: "刷新表数据，this.$refs.自定义的名字.load({条件:xx},true),条件可以任意写你自己接收的格式,第二个参数是否重置分页信息", param: "" },
+    { name: "load", desc: `<p>
+    <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+      <div>
+        <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+          <div>
+            &nbsp; <span style="color:#6a9955;">//刷新表数据，this.$refs.自定义的名字.load(params,true)//也可以在loadBefore方法中实现查询条件</span>
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/*params查询条件格式：</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; let params = {</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; page: 1,//分页页数(可不填)</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; rows: 30,//分页大小(可不填)</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; sort:"排序字段",//可不填</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; order: "desc/asc", //可不填</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; wheres: [{ name: "字段1", value: "xx",displayType:"select/selectList/like" },</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{ name: "字段2", value: "x2",displayType:"select/selectList/like" }]// 查询条件(可不填) &nbsp; &nbsp; &nbsp; &nbsp;</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; };*/</span>
+          </div>
+          <div>
+            &nbsp; &nbsp;
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//第二个参数true:是否重置分页信息</span>
+          </div>
+        </div>
+      </div>
+      <div>
+      </div>
+    </div>
+  </p>
+  <p>
+    <br />
+  </p>`, param: "" },
     { name: "resetPage", desc: "重置分页信息，this.$refs.自定义的名字.resetPage()", param: "" },
     {
       name: "loadBefore", desc: `从后台加载数据前处理，也可参照【从api加载数据】Demo", param: "(param, callBack) 参数：param为查询相关配置，可自己修改此配置;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行,<span style="display:none;"></span><span style="line-height:2;font-size:18px;"><span style="display:none;"></span><span style="font-size:14px;">&nbsp; &nbsp;
@@ -306,7 +354,7 @@ const param = {
     { name: "hasKeyField", desc: "所有有数据源的字段", type: "array", default: "[]" },
     { name: "load", desc: "页面打开后是否默认加载表格数据", type: "bool", default: "true" },
     { name: "activatedLoad", desc: "页面触发actived时是否刷新页面数据", type: "bool", default: "false" },
-    { name: "hasDetail", desc: "是否有明细(如果有明细表就为true)", type: "bool", default: "false" },
+    { name: "hasDetail", desc: "是否有明细表数据(可控制新建、编辑弹出框中的明细表是否显示2022.04.17更新viewgrid.vue才能使用)", type: "bool", default: "false" },
     //{ name: "summary", desc: "查询界面是否显示统计和求，设置为true需要实现后台SummaryExpress方法,可参照SellOrderService实现", type: "bool", default: "false" },
     {
       name: "detailOptions",
