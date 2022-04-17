@@ -12,7 +12,6 @@
 				},
 				"navigationStyle": "custom" //添加自定义配置
 			}
-
 		},
 		{
 			"path": "pages/login/login",
@@ -166,7 +165,6 @@
                 "navigationBarTitleText": "完整扩展页面",
                 "enablePullDownRefresh": false
             }
-            
         }
     ],
 	"tabBar": { //设置要与第一个pages的path相同
