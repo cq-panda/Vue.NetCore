@@ -278,7 +278,7 @@
                 size="small"
                 :class="[isEmptyTag(scope.row, column)]"
                 :type="getColor(scope.row, column)"
-                :effect="column.effect || 'plain'"
+                :effect="column.effect"
                 >{{ formatter(scope.row, column, true) }}</el-tag
               >
             </template>
@@ -1469,7 +1469,7 @@ export default defineComponent({
   padding: 3px !important;
 }
 .vol-table.text-inline ::v-deep(.el-table__body .cell),
-.vol-table ::v-deep(.el-table__header-wrapper .cell) {
+.vol-table.text-inline ::v-deep(.el-table__header-wrapper .cell) {
   word-break: inherit !important;
   white-space: nowrap !important;
 }
