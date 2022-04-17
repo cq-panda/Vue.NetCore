@@ -362,8 +362,8 @@
 				}
 				callback(true)
 			},
-			loadGridTableAfter(rows, callback) { //查询后
-				if (this.searchAfter && !this.searchAfter(rows)) {
+			loadGridTableAfter(data, callback) { //查询后
+				if (this.searchAfter && !this.searchAfter(data.rows,data)) {
 					return callback(false);
 				}
 				callback(true)
