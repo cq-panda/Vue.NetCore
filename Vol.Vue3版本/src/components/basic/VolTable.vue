@@ -278,6 +278,7 @@
                 size="small"
                 :class="[isEmptyTag(scope.row, column)]"
                 :type="getColor(scope.row, column)"
+                :effect="column.effect || 'plain'"
                 >{{ formatter(scope.row, column, true) }}</el-tag
               >
             </template>
