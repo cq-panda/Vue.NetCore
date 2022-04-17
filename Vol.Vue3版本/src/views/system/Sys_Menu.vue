@@ -304,7 +304,12 @@ export default defineComponent({
     });
     const initTree = () => {
       http.post("/api/menu/getMenu", {}, true).then((x) => {
-        x.forEach(item=>{item.icon='el-icon-menu'})
+        x.forEach(item=>{
+          item.icon='el-icon-menu';
+          if (item.menuType==1&&!item.parentId) {
+            item.name="(app)"+item.name;
+          }
+        })
         tree.value = x;
       });
     };
