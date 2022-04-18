@@ -1,6 +1,7 @@
 ﻿
 using Dapper;
-using MySql.Data.MySqlClient;
+// using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -85,7 +86,7 @@ namespace VOL.Core.Dapper
                 catch (Exception ex)
                 {
                     dbTransaction?.Rollback();
-                    throw ex;
+                    throw new ArgumentException(ex.Message);
                 }
                 finally
                 {
@@ -299,6 +300,8 @@ namespace VOL.Core.Dapper
             }, beginTransaction);
         }
 
+<<<<<<< HEAD
+=======
 
         public async Task<(IEnumerable<T1>, IEnumerable<T2>)> QueryMultipleAsync<T1, T2>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
         {
@@ -311,6 +314,7 @@ namespace VOL.Core.Dapper
             }, beginTransaction);
         }
 
+>>>>>>> cqpanda/master
         /// <summary>
         /// 获取output值 param.Get<int>("@b");
         /// </summary>
@@ -746,6 +750,7 @@ namespace VOL.Core.Dapper
             }
             if (DBType.Name == "MySql")
             {
+
                 return MySqlBulkInsert(table, tableName, fileName, tmpPath);
             }
 
@@ -770,7 +775,7 @@ namespace VOL.Core.Dapper
             int insertCount = 0;
             string csv = DataTableToCsv(table);
             string text = $"当前行:{table.Rows.Count}";
-            MemoryStream stream = null;
+            // MemoryStream stream = null;
             try
             {
                 using (var Connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
@@ -788,9 +793,8 @@ namespace VOL.Core.Dapper
                             CharacterSet = "UTF8"
                         };
                         var array = Encoding.UTF8.GetBytes(csv);
-                        using (stream = new MemoryStream(array))
+                        using (var stream = new MemoryStream(array))
                         {
-                            stream = new MemoryStream(array);
                             bulk.SourceStream = stream; //File.OpenRead(fileName);
                             bulk.Columns.AddRange(table.Columns.Cast<DataColumn>().Select(colum => colum.ColumnName).ToList());
                             insertCount = bulk.Load();
@@ -802,7 +806,7 @@ namespace VOL.Core.Dapper
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ArgumentException(ex.Message);
             }
             return insertCount;
             //   File.Delete(path);

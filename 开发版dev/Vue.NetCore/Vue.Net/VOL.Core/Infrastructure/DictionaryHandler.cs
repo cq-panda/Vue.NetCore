@@ -45,12 +45,12 @@ namespace VOL.Core.Infrastructure
         /// <returns></returns>
         public static string GetRolesSql()
         {
+            // 20210303 vegoonet 修复PsSql报错
             if (DBType.Name == DbCurrentType.PgSql.ToString())
             {
-                return "SELECT \"Role_Id\" as key,\"RoleName\" as value from Sys_Role";
+                return "SELECT \"Role_Id\" as key,\"RoleName\" as value FROM \"Sys_Role\"";
             }
-            return $@"SELECT Role_Id as 'key',RoleName as 'value' FROM Sys_Role 
-                           WHERE Enable=1 ";
+            return $@"SELECT Role_Id as 'key',RoleName as 'value' FROM Sys_Role WHERE Enable=1 ";
         }
 
         /// <summary>
@@ -68,9 +68,9 @@ namespace VOL.Core.Infrastructure
             int currnetRoleId = UserContext.Current.RoleId;
             List<int> roleIds = RoleContext.GetAllChildrenIds(currnetRoleId);
             roleIds.Add(currnetRoleId);
-            string sql = $@"SELECT Role_Id as 'key',RoleName as 'value' FROM Sys_Role 
-                           WHERE Enable=1  and Role_Id in ({string.Join(',', roleIds)})";
-            return sql;
+            // 20210303 vegoo
+            // string sql = $@"SELECT Role_Id as 'key',RoleName as 'value' FROM Sys_Role WHERE Enable=1  and Role_Id in ({string.Join(',', roleIds)})";
+            return DBType.Name == DbCurrentType.PgSql.ToString()? $"SELECT \"Role_Id\" as key,\"RoleName\" as value FROM \"Sys_Role\" WHERE \"Enable\"=1  and \"Role_Id\" in ({string.Join(',', roleIds)})" : $@"SELECT Role_Id as 'key',RoleName as 'value' FROM Sys_Role WHERE Enable=1  and Role_Id in ({string.Join(',', roleIds)})";
         }
     }
 }

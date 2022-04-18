@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
+// using MySql.Data.MySqlClient;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -66,7 +68,9 @@ namespace VOL.Core.DBManager
             }  
             if (DBType.Name == DbCurrentType.MySql.ToString())
             {
-                return new MySql.Data.MySqlClient.MySqlConnection(connString);
+                // return new MySql.Data.MySqlClient.MySqlConnection(connString);
+                return new MySqlConnection(connString);
+
             }
             if (DBType.Name == DbCurrentType.PgSql.ToString())
             {
