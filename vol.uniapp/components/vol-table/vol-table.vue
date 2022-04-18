@@ -182,7 +182,7 @@
 				if (!status) return;
 				param.wheres = JSON.stringify(param.wheres);
 				this.http.post(this.url, param, true).then(data => {
-					this.$emit("loadAfter", data.rows, (result) => {
+					this.$emit("loadAfter", data, (result) => {
 						status = result;
 					});
 					if (!status) return;

@@ -191,6 +191,7 @@
               @parentCall="parentCall"
             ></component>
             <div
+             v-show="hasDetail"
               v-if="detail.columns && detail.columns.length > 0"
               class="grid-detail table-item item"
             >

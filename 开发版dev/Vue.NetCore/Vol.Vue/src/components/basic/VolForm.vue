@@ -150,7 +150,7 @@
             <RadioGroup
               v-else-if="item.type == 'radio'"
               v-model="_formFields[item.field]"
-              @on-change="item.onChange"
+              @on-change="(value)=>(item.onChange&&item.onChange(value))"
             >
               <Radio
                 :label="kv.key"
@@ -203,7 +203,7 @@
             >
             </TimePicker>
             <CheckboxGroup
-              @on-change="item.onChange"
+               @on-change="(value)=>(item.onChange&&item.onChange(value))"
               v-else-if="item.type == 'checkbox'"
               v-model="_formFields[item.field]"
             >

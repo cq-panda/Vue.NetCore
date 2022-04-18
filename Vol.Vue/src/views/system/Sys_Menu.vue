@@ -340,6 +340,11 @@ export default {
     initTree() {
       //2020.08.07修改菜单初始化
       this.http.post("/api/menu/getMenu", {}, true).then((x) => {
+         x.forEach(item=>{
+            if (item.menuType==1&&!item.parentId) {
+             item.name="(app)"+item.name;
+           }
+        })
         this.tree = x;
       });
     },

@@ -43,6 +43,7 @@ namespace VOL.System.Services
                  id = a.Menu_Id,
                  parentId = a.ParentId,
                  name = a.MenuName,
+                 a.MenuType,
                  a.OrderNo
              })).OrderByDescending(a => a.OrderNo)
                 .ThenByDescending(q => q.parentId).ToList();

@@ -73,11 +73,11 @@
 
 			<view class="f-form-content" v-else-if="item.type=='number'">
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
-					v-model="formFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
+					v-model="formFields[item.field]" border="none" :placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='decimal'">
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
-					v-model="formFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
+					v-model="formFields[item.field]" border="none" :placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='switch'">
 				<u-radio-group v-model="formFields[item.field]" placement="row">
@@ -89,7 +89,7 @@
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='textarea'">
 				<textarea auto-height style="width: 100%;padding-right: 8rpx;" v-model="inFormFields[item.field]"
-					border="none" :placeholder="'请输入'+item.title"></textarea>
+					border="none" :placeholder="item.placeholder||('请输入'+item.title)"></textarea>
 			</view>
 			<!-- 	 -->
 			<u-upload :sizeType="['compressed']" v-else-if="item.type=='img'" :fileList="inFormFields[item.field]"
@@ -97,11 +97,11 @@
 				:multiple="item.multiple" :maxCount="item.maxCount||1" :previewFullImage="true"></u-upload>
 			<view class="f-form-content" v-else-if="item.type=='password'">
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="password"
-					v-model="inFormFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
+					v-model="inFormFields[item.field]" border="none" :placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else>
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
-					v-model="inFormFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
+					v-model="inFormFields[item.field]" border="none" :placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 		</view>
 		<slot></slot>
@@ -479,6 +479,9 @@
 				if (!imgs) {
 					return []
 				}
+				if(Array.isArray(imgs)){
+					return imgs;
+				}
 				let imgArr = imgs.split(',');
 				return imgArr.filter(x => {
 					return x
@@ -489,6 +492,9 @@
 				//this.http.ipAddress
 			},
 			async afterRead(option, event) {
+				if(!option.url){
+					return 	this.$toast('未配置好url')
+				}
 				// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
 				let lists = [];
 				if (option.mutiple) {
@@ -505,7 +511,7 @@
 					})
 				})
 				for (let i = 0; i < lists.length; i++) {
-					const result = await this.uploadFilePromise(lists[i].url)
+					const result = await this.uploadFilePromise(lists[i].url,option.url)
 					let item = this.inFormFields[option.field][fileListLen]
 					this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
 						status: 'success',
@@ -516,10 +522,10 @@
 					fileListLen++
 				}
 			},
-			uploadFilePromise(url) {
+			uploadFilePromise(url,apiUrl) {
 				return new Promise((resolve, reject) => {
 					let a = uni.uploadFile({
-						url: this.http.ipAddress + 'api/user/upload', // 仅为示例，非真实的接口地址
+						url: this.http.ipAddress + apiUrl, // 仅为示例，非真实的接口地址
 						filePath: url,
 						name: 'fileInput',
 						header: {
@@ -530,6 +536,9 @@
 							setTimeout(() => {
 								resolve(JSON.parse(res.data).data)
 							}, 500)
+						},fail(res){
+							  	this.$toast('上传失败')
+								//console.log(res)
 						}
 					});
 				})

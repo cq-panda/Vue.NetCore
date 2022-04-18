@@ -1199,7 +1199,12 @@ let methods = {
   initDicKeys() {
     //初始化字典数据
     let keys = [];
-    this.dicKeys.splice(0);
+    //2022.04.17优化重新加载数据源
+    this.dicKeys.forEach(item=>{
+      item.data.splice(0);
+      item.orginData&&item.orginData.splice(0);
+    })
+   // this.dicKeys.splice(0);
     //初始化编辑数据源,默认为一个空数组，如果要求必填设置type=number/decimal的最小值
     this.initFormOptions(this.editFormOptions, keys, this._editFormFields, true);
     //初始化查询数据源,默认为一个空数组
