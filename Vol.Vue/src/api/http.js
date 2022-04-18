@@ -121,7 +121,7 @@ function get (url, param, loading, config) {
     showLoading(loading);
     axios.defaults.headers[_Authorization] = getToken();
     return new Promise((resolve, reject) => {
-        axios.get(url, { params: param }, config)
+        axios.get(url, config)
             .then(response => {
                 resolve(response.data)
             }, err => {

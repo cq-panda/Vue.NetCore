@@ -35,7 +35,7 @@
                 editFormFields: {"OrderType":"","TranNo":"","Qty":"","SellNo":"","Remark":"","Creator":"","CreateDate":"","ModifyDate":""},
                 editFormOptions: [[{"dataKey":"ordertype","title":"订单类型","required":true,"field":"OrderType","type":"select"},
                                {"title":"运单号","required":true,"field":"TranNo"},
-                               {"title":"销售数量","required":true,"field":"Qty","type":"number"}],
+                               {"title":"销售数量","required":true,"field":"Qty","type":"decimal"}],
                               [{"title":"备注","field":"Remark","colSize":8,"type":"textarea"},
                                {"title":"销售订单号","required":true,"field":"SellNo"}],
                               [{"title":"创建人","field":"Creator","disabled":true},
@@ -57,6 +57,7 @@
                        {field:'ModifyDate',title:'修改时间',type:'datetime',width:140,readonly:true,align:'left',sortable:true}],
                 detail: {
                     cnName:"订单明细",
+                    table: "SellOrderList",
                     columns: [{field:'OrderList_Id',title:'OrderList_Id',type:'string',width:90,hidden:true,require:true,align:'left'},
                        {field:'Order_Id',title:'订单Id',type:'string',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'ProductName',title:'商品名称',type:'string',bind:{ key:'pn',data:[]},width:150,edit:{type:'select'},require:true,align:'left',sortable:true},

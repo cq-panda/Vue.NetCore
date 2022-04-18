@@ -3155,7 +3155,10 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">Qty</span>=&nbsp;(<span style="color:#9cdcfe;">row</span>.<span style="color:#4fc1ff;">MO</span>||<span style="color:#b5cea8;">0</span>)&nbsp;&nbsp;*&nbsp;<span style="color:#b5cea8;">2</span>;
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//可以设置计算规则&nbsp;，如：</span>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">     //注意：如果字段的值是与其他字段相乘的结果,合计可能不会刷新,请取消下面的注释方法
+          <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //2021.09.25更新后才能使用
+          <br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+		  // this.updateDetailTableSummaryTotal();  <br><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //可以设置计算规则&nbsp;，如：</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//return&nbsp;row.x1&nbsp;*&nbsp;&nbsp;row.x2</span>
@@ -3427,7 +3430,11 @@ export default {
         {
           title: "编辑表单操作",
           type: "line",
-        },
+        },   {
+          title: "明细表导入导出",
+          content: [`<p>1、2021.01.08更新明细表导入导出功能,更新文件见2021.01.08更新说明：http://v2.volcore.xyz/document/log</p>
+		  <p>明细表导入导出同样全部由框架自动完成，但需要重写明细表的接口权限,可参照Sys_DictionaryListController.cs或SellOrderListController.cs</p>`]
+		  ,  tips: ""},
         {
           title: "新建保存后连续添加",
           content: [

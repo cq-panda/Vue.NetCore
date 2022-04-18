@@ -59,7 +59,7 @@ const param = {
     },
     { name: "url", desc: "从指定后台url(例：api/xx/xx)远程搜索，(返回的数据格式:[{key:'x',value:'x1'}])，type=select生效", type: "bool", default: "false" },
     { name: "remote", desc: "开启后台字典远程搜索(后台字典必须配置必须是自定sql)，type=select才会生效", type: "bool", default: "false" },
-    { name: "extra", desc: '添加额外标签：  extra: {//显示图标 icon: "ios-search", //显示文本 text: "点击可触发事件",//触发事件 click: item => {}}', type: "string", default: "" },
+    { name: "extra", desc: '添加额外标签：  extra: {//样式 style: "color:red",//显示图标 icon: "ios-search", //显示文本 text: "点击可触发事件",//触发事件 click: item => {}}', type: "string", default: "" },
     { name: "minRows", desc: "textarea标签最小高度", type: "number", default: "2" },
     { name: "maxRows", desc: "textarea标签最大高度", type: "number", default: "10" },
     { name: "}]]", desc: "表单字段formRules的参数配置说明", type: "", default: "" },
@@ -110,7 +110,8 @@ const param = {
     { name: "sortName", desc: "排序字段", type: "string", default: "" },
     { name: "}", desc: "", type: "", default: "" },
     { name: "--", desc: "--", type: "--", default: "--" },
-    { name: "url", desc: "远程加载数据的地址，配置了url默认从远程加载数据", type: "string", default: "" }, { name: "defaultLoadPage", desc: "传入了url参数，是否默认加载表格数据", type: "bool", default: "true" },
+    { name: "url", desc: `api接口地址，配置了url默认从接口加载数据,查询条件在loadBefore中实现,如<vol-table @loadBefore='loadBefore'></vol-table>,在methods中添加loadBefore方法，见下面loadBefore
+    <br><div style='color:red;'>注意：接口参数返回格式为:{rows:[],total:100,summary:{price:70,qty:20}} //rows为返回的数据，total为总数量,summary为表格汇总信息没有可以不用返回,或者随便点开生成的页面点查询，看返回的数据格式</div>`, type: "string", default: "" }, { name: "defaultLoadPage", desc: "传入了url参数，是否默认加载表格数据", type: "bool", default: "true" },
     { name: "paginationHide", desc: "是否隐藏分页数据", type: "bool", default: "true" },
     { name: "index", desc: "是否创建索引号(如果启用编辑功能,index必须设置为true)", type: "bool", default: "false" },
     { name: "tableData", desc: "table表数据，如果不需要从远程加载table数据，请设置tableData属性,格式:[{'字段1':'值1'},{'字段2':'值2'}]", type: "array", default: "[]" },
@@ -213,19 +214,67 @@ const param = {
     { name: "-----}", desc: "-----columns属性介绍结尾处-----", type: "-----", default: "-----" },
     ],
     methods: [{ name: "delRow", desc: "删除选中行，this.$refs.自定义的名字.delRow()", param: "" },
-    { name: "addRow", desc: "添加行，this.$refs.自定义的名字.addRow({'字段1':'值1'}),目前不支持传入数组，数组请循环遍历", param: "" },
+    { name: "addRow", desc: "添加行，this.$refs.自定义的名字.addRow({'字段1':'值1','字段2':'值2'})；<br>批量添加行：this.$refs.自定义的名字.rowData.push(...[{'字段1':'值1'},{'字段2':'值2'}]);//<br>(vue3版本不要循环添加，请使用批量添加", param: "" },
     { name: "selection", desc: "获取选中的行，this.$refs.自定义的名字.selection,注意此处selection是属性", param: "" },
     { name: "getSelected", desc: "获取选中的行(vue3版本才能使用)，this.$refs.自定义的名字.getSelected()", param: "" },
     { name: "tableData/rowData", desc: "获取表中的所有行数据", param: "this.$refs.自定义的名字.tableData/rowData(如果传入了url参数，使用rowData)" },
     { name: "reset", desc: "清空表数据", param: "this.$refs.自定义的名字.reset" },
-    { name: "load", desc: "刷新表数据，this.$refs.自定义的名字.load({条件:xx},true),条件可以任意写你自己接收的格式,第二个参数是否重置分页信息", param: "" },
+    { name: "load", desc: `<p>
+    <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+      <div>
+        <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+          <div>
+            &nbsp; <span style="color:#6a9955;">//刷新表数据，this.$refs.自定义的名字.load(params,true)//也可以在loadBefore方法中实现查询条件</span>
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/*params查询条件格式：</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; let params = {</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; page: 1,//分页页数(可不填)</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; rows: 30,//分页大小(可不填)</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; sort:"排序字段",//可不填</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; order: "desc/asc", //可不填</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; wheres: [{ name: "字段1", value: "xx",displayType:"select/selectList/like" },</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{ name: "字段2", value: "x2",displayType:"select/selectList/like" }]// 查询条件(可不填) &nbsp; &nbsp; &nbsp; &nbsp;</span>
+          </div>
+          <div>
+            <span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; };*/</span>
+          </div>
+          <div>
+            &nbsp; &nbsp;
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//第二个参数true:是否重置分页信息</span>
+          </div>
+        </div>
+      </div>
+      <div>
+      </div>
+    </div>
+  </p>
+  <p>
+    <br />
+  </p>`, param: "" },
     { name: "resetPage", desc: "重置分页信息，this.$refs.自定义的名字.resetPage()", param: "" },
     {
       name: "loadBefore", desc: `从后台加载数据前处理，也可参照【从api加载数据】Demo", param: "(param, callBack) 参数：param为查询相关配置，可自己修改此配置;callBack回调方法，callBack(true),如果回调传入false，将中断代码执行,<span style="display:none;"></span><span style="line-height:2;font-size:18px;"><span style="display:none;"></span><span style="font-size:14px;">&nbsp; &nbsp;
         <br/>
         /*查询前处理(如果需要查询条件，实现组件方法loadBefore方法即可:</span><br />
-            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; loadBefore:(param, callBack)=&gt;{</span><br />
-            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; param.wheres = [{ name: "PhoneNo", value: "1234567890" }];</span><br />
+            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; loadBefore(param, callBack){</span><br />
+            <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; param.wheres.push(...[{ name: "PhoneNo", value: "1234567890" }]);</span><br />
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; callBack(true);</span><br />
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; &nbsp; })</span><br />
             <span style="font-size:14px;"> &nbsp; &nbsp; &nbsp; */</span><br />
@@ -256,14 +305,15 @@ const param = {
   viewGrid: {
     attr: [
       { name: "自定义扩展页面获取父组件(获取生成页面对象)", desc: "<span style='color:red;'>1、通过 this.$emit('parentCall', $parent => { //如：调用页面查询 $parent.search()  })可以访问父组件ViewGird中的任何属性、对象、方法<p>2、见上面示例【扩展弹出框按钮】</p></span>", type: "", default: "" },
+      { name: "获取自定义扩展页面", desc: "this.$refs.gridHeader/gridBody/gridFooter/modelHeader/modelBody/modelFooter", type: "", default: "" },
       { name: "rowKey", desc: "<span style='color:red;'>树形table的主键字段,字段的值必须是唯一的(2021.05.02)</span>", type: "String", default: "" },
       { name: "columns", desc: "查询页面table表的配置,如果满足不了业务,可参照VolTable参数动态扩展", type: "array", default: "[]" },
     { name: "detail", desc: "从表配置：{columns:[],sortName:''},columns从表table列配置,sortName从表排序字段", type: "json", default: "{}" },
-    { name: "editFormFileds", desc: "编辑字段，可参照VolForm配置", type: "json", default: "{}" },
-    { name: "editFormFields", desc: "<span style='color:red;'>编辑字段同上（此属性用于兼容上面字段拼写错误的问题，2020.09.13更新后才能使用）</span>", type: "json", default: "" },
+  //  { name: "editFormFileds", desc: "编辑字段，可参照VolForm配置", type: "json", default: "{}" },
+    { name: "editFormFields", desc: "<span style='color:red;'>编辑字段，可参照VolForm配置</span>", type: "json", default: "" },
     { name: "editFormOptions", desc: "编辑配置,，可参照VolForm配置", type: "array", default: "[]" },
-    { name: "searchFormFileds", desc: "查询字段，同上", type: "json", default: "{}" },
-    { name: "searchFormFields", desc: "<span style='color:red;'>查询字段同上（此属性用于兼容上面字段拼写错误的问题，2020.09.13更新后才能使用）</span>", type: "json", default: "" },
+   // { name: "searchFormFileds", desc: "查询字段，同上", type: "json", default: "{}" },
+    { name: "searchFormFields", desc: "<span style='color:red;'>查询字段同上</span>", type: "json", default: "" },
     { name: "searchFormOptions", desc: "查询配置，同上", type: "array", default: "[]" },
     {
       name: "table",
@@ -287,7 +337,7 @@ const param = {
     { name: "ck", desc: "<span  style='color:red'>是否显示checkbox(2020.11.01)</span>", type: "bool", default: "true" },
     { name: "columnIndex", desc: "是否显示index序号(2020.11.01)", type: "bool", default: "false" },
     { name: "textInline", desc: "<span style='color:red'>table内容超出后自动换行(2021.01.16)</span>", type: "bool", default: "true" },
-    
+    { name: "(获取焦点)获取表单原生dom标签", desc: "this.$refs.form.字段名;使用场景:新建/编辑时设置input标签设置焦点：this.$refs.form.字段名.foucs", param: "" },
     {
       name: "buttons", desc: `查询界面的所有按钮，[{<br />
           &nbsp; &nbsp; name: "刷 新",//按钮名称<br />
@@ -304,8 +354,8 @@ const param = {
     { name: "hasKeyField", desc: "所有有数据源的字段", type: "array", default: "[]" },
     { name: "load", desc: "页面打开后是否默认加载表格数据", type: "bool", default: "true" },
     { name: "activatedLoad", desc: "页面触发actived时是否刷新页面数据", type: "bool", default: "false" },
-    { name: "hasDetail", desc: "是否有明细(如果有明细表就为true)", type: "bool", default: "false" },
-    { name: "summary", desc: "查询界面是否显示统计和求，设置为true需要实现后台SummaryExpress方法,可参照SellOrderService实现", type: "bool", default: "false" },
+    { name: "hasDetail", desc: "是否有明细表数据(可控制新建、编辑弹出框中的明细表是否显示2022.04.17更新viewgrid.vue才能使用)", type: "bool", default: "false" },
+    //{ name: "summary", desc: "查询界面是否显示统计和求，设置为true需要实现后台SummaryExpress方法,可参照SellOrderService实现", type: "bool", default: "false" },
     {
       name: "detailOptions",
       desc: `<div class="cnblogs_code">
@@ -368,7 +418,8 @@ const param = {
         </div>
         <p>&nbsp;</p>`
     },
-    { name: "tableHeight", desc: "查询页面table的高度", type: "number", default: "0" },
+    { name: "tableHeight", desc: "指定页面table的高度(只能在onInit方法中使用)", type: "number", default: "0" },
+    { name: "height", desc: "查询页面table的高度,值已经计算好了(只能在onInited方法中使用)", type: "number", default: "计算后的高度" },
     { name: "tableMaxHeight", desc: "查询页面table的最大高度,如果同时设置了tableHeight，只会tableMaxHeight起作用", type: "number", default: "0" },
     {
       name: "pagination",
@@ -405,6 +456,8 @@ const param = {
 
     methods: [{ name: "refresh", desc: "刷新查询界面的表数据,使用：this.refresh()", param: "" },
     { name: "getSelectRows", desc: "查询界面获取选中的行,使用：this.getSelectRows()", param: "" },
+    { name: "initDicKeys", desc: "刷新字典数据源,使用：this.initDicKeys()//使用场景如：新建编辑级联下拉框保存后，调用此方法刷新级联的数据源", param: "" },
+  
     { name: "filterPermission", desc: `&nbsp; &nbsp; onInit()<br />
     &nbsp; &nbsp; {<br />
     &nbsp; &nbsp; &nbsp; &nbsp; //例：判断用户是否有SellOrder表有没有Add权限(2021.03.19到最后的才能使用)<br />
@@ -414,6 +467,10 @@ const param = {
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //to do...<br />
     &nbsp; &nbsp; &nbsp; &nbsp; }<br />
     &nbsp; &nbsp; }<br />`, param: "" },
+    { name: "显示所有查询条件", desc: "this.setFiexdSearchForm(true)//直接放在onInit中使用", param: "" },
+    { name: "调用新建方法", desc: "this.add()", param: "" },
+    { name: "调用删除方法", desc: "this.del(row)//row要删除的行数据", param: "" },
+    { name: "调用编辑方法", desc: "this.edit(row)//row要编辑的行数据", param: "" },
     { name: "获取从表明细选择中的行", desc: "获取从表明细选择中的行,使用：this.$refs.detail.getSelected()", param: "" },
     { name: "获取table所有的行数据", desc: "this.$refs.table.rowData", param: "" },
     { name: "获取明细表table所有的行数据", desc: "this.$refs.detail.rowData", param: "" },
@@ -666,8 +723,16 @@ const param = {
         &nbsp;&nbsp;&nbsp;&nbsp;},
       </div>
       <div>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">dicInited</span>&nbsp;(params)&nbsp;{&nbsp;<span style="color:#6a9955;">//数据源加载完成时的方法,2022.04.04更新method.js文件后才能使用</span>
+    </div>
+  <br />
+    <div>
+      &nbsp;&nbsp;&nbsp;&nbsp;},
+    </div>
+      <div>
         &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
       </div>
+      
       <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas">
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp; <span style="color:#6a9955;">//例：判断用户是否有SellOrder表有没有Add权限(2021.03.19到最后的才能使用)</span>
@@ -919,6 +984,10 @@ const param = {
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">detail</span>.<span style="color:#dcdcaa;">addRow</span>(<span style="color:#9cdcfe;">obj</span>);
       </div>
+      <div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//明细表批量添加行<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.
+      <span style="color:#9cdcfe;">detail</span>.<span style="color:#dcdcaa;">rowData.push(...</span>[<span style="color:#9cdcfe;">{},{}</span>]);
+    </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;},
       </div>

@@ -31,7 +31,7 @@
             });
             const editFormFields = ref({"ExpertName":"","Enable":"","City":"","CreateDate":"","Resume":"","HeadImageUrl":""});
             const editFormOptions = ref([[{"title":"名称","field":"ExpertName"},
-                               {"dataKey":"enable","data":[],"title":"是否启用","required":true,"field":"Enable","type":"select"}],
+                               {"dataKey":"enable","data":[],"title":"是否启用","required":true,"field":"Enable","type":"switch"}],
                               [{"dataKey":"city","data":[],"title":"地区","field":"City","type":"select"},
                                {"title":"申请时间","field":"CreateDate","disabled":true}],
                               [{"title":"个人简介","field":"Resume","colSize":12,"type":"textarea"}],

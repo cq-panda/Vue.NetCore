@@ -351,11 +351,11 @@ namespace VOL.Core.BaseProvider
         {
             if (files == null || files.Count == 0) return Response.Error("请上传文件");
 
-            var limitFiles = files.Where(x => x.Length > LimitUpFileSizee * 1024 * 1024).Select(s => s.FileName);
-            if (limitFiles.Count() > 0)
-            {
-                return Response.Error($"文件大小不能超过：{ LimitUpFileSizee}M,{string.Join(",", limitFiles)}");
-            }
+            //var limitFiles = files.Where(x => x.Length > LimitUpFileSizee * 1024 * 1024).Select(s => s.FileName);
+            //if (limitFiles.Count() > 0)
+            //{
+            //    return Response.Error($"文件大小不能超过：{ LimitUpFileSizee}M,{string.Join(",", limitFiles)}");
+            //}
             string filePath = $"Upload/Tables/{typeof(T).GetEntityTableName()}/{DateTime.Now.ToString("yyyMMddHHmmsss") + new Random().Next(1000, 9999)}/";
             string fullPath = filePath.MapPath(true);
             int i = 0;
@@ -439,13 +439,19 @@ namespace VOL.Core.BaseProvider
                 Response = ImportOnExecuting.Invoke(list);
                 if (CheckResponseResult()) return Response;
             }
+            //2022.01.08增加明细表导入判断
+            if (HttpContext.Current.Request.Query.ContainsKey("table"))
+            {
+                ImportOnExecuted?.Invoke(list);
+                return Response.OK("文件上传成功",list.Serialize());
+            }
             repository.AddRange(list, true);
             if (ImportOnExecuted != null)
             {
                 Response = ImportOnExecuted.Invoke(list);
                 if (CheckResponseResult()) return Response;
             }
-            return new WebResponseContent { Status = true, Message = "文件上传成功" };
+            return Response.OK("文件上传成功" );
         }
 
         /// <summary>
@@ -469,7 +475,9 @@ namespace VOL.Core.BaseProvider
             }
             //ExportColumns 2020.05.07增加扩展指定导出模板的列
             EPPlusHelper.Export(list, ExportColumns?.GetExpressionToArray(), ignoreColumn, savePath, fileName);
-            return Response.OK(null, (savePath + "/" + fileName).EncryptDES(AppSetting.Secret.ExportFile));
+            //return Response.OK(null, (savePath + "/" + fileName).EncryptDES(AppSetting.Secret.ExportFile));
+            //2022.01.08优化导出功能
+            return Response.OK(null, (savePath + "/" + fileName));
         }
 
         /// <summary>

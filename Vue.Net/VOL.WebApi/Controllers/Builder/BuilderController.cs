@@ -33,13 +33,6 @@ namespace VOL.WebApi.Controllers.Builder
             }
         }
 
-        [Route("CreatePage")]
-        [ApiActionPermission(ActionRolePermission.SuperAdmin)]
-        [HttpPost]
-        public ActionResult CreatePage([FromBody] Sys_TableInfo sysTableInfo)
-        {
-            return Content(Service.CreatePage(sysTableInfo));
-        }
         [Route("CreateVuePage")]
         [ApiActionPermission(ActionRolePermission.SuperAdmin)]
         [HttpPost]

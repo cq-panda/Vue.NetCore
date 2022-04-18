@@ -8,9 +8,9 @@
     <div>
         <view-grid :columns="columns"
                    :detail="detail"
-                   :editFormFileds="editFormFileds"
+                   :editFormFields="editFormFields"
                    :editFormOptions="editFormOptions"
-                   :searchFormFileds="searchFormFileds"
+                   :searchFormFields="searchFormFields"
                    :searchFormOptions="searchFormOptions"
                    :table="table"
                    :extend="extend">
@@ -32,7 +32,7 @@
                     sortName: "CreateDate"
                 },
                 extend: extend,
-                editFormFileds: {"Name":"","Id":"","Describe":"","PhoneNo":"","CreateDate":"","Creator":"","Modifier":"","ModifyDate":""},
+                editFormFields: {"Name":"","Id":"","Describe":"","PhoneNo":"","CreateDate":"","Creator":"","Modifier":"","ModifyDate":""},
                 editFormOptions: [[{"title":"姓名","required":true,"field":"Name","disabled":true},
                                {"title":"","required":true,"field":"Id","disabled":true}],
                               [{"title":"描述","required":true,"field":"Describe","disabled":true},
@@ -41,7 +41,7 @@
                                {"title":"创建人","field":"Creator","disabled":true}],
                               [{"title":"修改人","field":"Modifier","disabled":true},
                                {"type":"datetime","title":"修改时间","field":"ModifyDate","disabled":true}]],
-                searchFormFileds: {"Name":"","PhoneNo":"","CreateDate":"","Creator":""},
+                searchFormFields: {"Name":"","PhoneNo":"","CreateDate":"","Creator":""},
                 searchFormOptions: [[{"title":"姓名","field":"Name"},{"title":"电话",type:"phone","field":"PhoneNo"},{"type":"datetime","title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"创建人","field":"Creator"}]],
                 columns: [{field:'Name',title:'姓名',type:'string',link:true,width:100,readonly:true,require:true,align:'left',sortable:true},
                        {field:'Describe',title:'描述',type:'string',width:180,readonly:true,require:true,align:'left'},

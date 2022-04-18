@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="padding: 30px 100px;">
+  <div class="container" style="padding: 10px 10px;">
     <vol-box :model.sync="viewModel" :height="450" :width="600" title="点击表的弹出框">
       <div
         style="display: block;word-break: break-all;word-wrap: break-word;"

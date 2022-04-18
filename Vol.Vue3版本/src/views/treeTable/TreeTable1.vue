@@ -23,7 +23,7 @@ export default {
   methods: {
     onChange1(treeId) {
       //调用table(viewGird.vue)刷新方法
-      this.$store.getters.data().viewGridDemo.refresh();
+      this.$store.getters.data().viewGridDemo.nodeClick(treeId); //这里可以写任意参数
     }
   }
 };

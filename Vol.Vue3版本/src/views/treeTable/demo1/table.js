@@ -28,9 +28,14 @@ let extension = {
       //缓存当前table页面，点击左边树形菜单时，直接刷新此页面
       this.$store.getters.data().viewGridDemo = this;
       this.boxOptions.height = 400;
+      //默认不加载表格数据,由Tree.vue中created方法来触发默认加载数据
+      this.load=false;
     },
     onInited() {
       this.height = this.height - 75;
+    },
+    nodeClick(treeId){ //点击边树节点刷新右边表格
+       this.refresh();
     },
     searchBefore(param) {
       //点击左边tree时加载table数据，其他情况都不加载数据

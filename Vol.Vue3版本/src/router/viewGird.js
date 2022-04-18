@@ -58,6 +58,11 @@ let viewgird = [
     component:  () => import('@/views/order/App_Appointment.vue' )
   },
   {
+    path: '/App_Appointment2', //二级表头
+    name: 'App_Appointment2',
+    component:  () => import('@/views/order/App_Appointment2.vue' )
+  },
+  {
     path: '/App_TransactionAvgPrice',
     name: 'App_TransactionAvgPrice',
     component:  () => import('@/views/appmanager/App_TransactionAvgPrice.vue' )
@@ -93,6 +98,14 @@ let viewgird = [
     path: '/App_NewsEditor',
     name: 'App_NewsEditor',
     component:  () => import('@/views/appmanager/App_NewsEditor.vue' )
-  }]
+  }    ,{
+        path: '/FormDesignOptions',
+        name: 'FormDesignOptions',
+        component: () => import('@/views/system/form/FormDesignOptions.vue')
+    }    ,{
+        path: '/FormCollectionObject',
+        name: 'FormCollectionObject',
+        component: () => import('@/views/system/form/FormCollectionObject.vue')
+    }]
 
 export default viewgird

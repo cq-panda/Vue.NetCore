@@ -22,13 +22,9 @@ export default {
   },
   methods: {
     onChange2(treeId) {
-      if (!this.$refs.table2) {
-        this.$nextTick(() => {
-          this.$store.getters.data().tableDemo2.refresh();
-        });
-      } else {
+      this.$nextTick(() => {
         this.$store.getters.data().tableDemo2.refresh();
-      }
+      });
     },
   },
 };

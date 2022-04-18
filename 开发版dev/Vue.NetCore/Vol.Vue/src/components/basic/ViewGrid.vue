@@ -35,17 +35,18 @@
     <!--导入excel功能-->
     <!--2020.10.31添加导入前的方法-->
     <!--开启懒加载2020.12.06 -->
+    <!-- 2022.01.08增加明细表导入判断 -->
     <vol-box
       v-if="upload.url"
       :model.sync="upload.excel"
       :height="285"
       :width="600"
       :lazy="true"
-      :title="table.cnName + '--导入'"
+      :title="(boxModel ? detailOptions.cnName : table.cnName) + '-导入'"
     >
       <UploadExcel
         ref="upload_excel"
-        @importExcelAfter="importAfter"
+        @importExcelAfter="importExcelAfter"
         :importExcelBefore="importExcelBefore"
         :url="upload.url"
         :template="upload.template"
@@ -104,7 +105,7 @@
             <a class="text" :title="extend.text">{{ extend.text }}</a>
           </div>
           <!--快速查询字段-->
-          <div class="search-line">
+          <div class="search-line"  v-if="!fiexdSearchForm">
             <QuickSearch
               v-if="singleSearch"
               :singleSearch="singleSearch"
@@ -190,6 +191,7 @@
               @parentCall="parentCall"
             ></component>
             <div
+             v-show="hasDetail"
               v-if="detail.columns && detail.columns.length > 0"
               class="grid-detail table-item item"
             >
