@@ -29,7 +29,10 @@ using VOL.Core.KafkaManager.IService;
 using VOL.Core.KafkaManager.Service;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
+using VOL.Core.Utilities.PDFHelper;
 using VOL.WebApi.Controllers.Hubs;
+using WkHtmlToPdfDotNet;
+using WkHtmlToPdfDotNet.Contracts;
 
 namespace VOL.WebApi
 {
@@ -164,6 +167,9 @@ namespace VOL.WebApi
             });
             services.AddSignalR();
             //ApiBehaviorOptions
+            //Pdf×¢Èë
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddTransient<IPDFService, PDFService>();
             //×¢Èëkafka
             services.AddSingleton<IKafkaConsumer<string, string>, KafkaConsumer<string, string>>();
             services.AddSingleton<IKafkaProducer<string, string>, KafkaProducer<string, string>>();

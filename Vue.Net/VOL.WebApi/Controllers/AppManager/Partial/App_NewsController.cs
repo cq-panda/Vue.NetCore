@@ -4,10 +4,16 @@
 *如: [ApiActionPermission("App_News",Enums.ActionPermissionOptions.Search)]
  */
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
+using VOL.Core.DBManager;
 using VOL.Core.Enums;
+using VOL.Core.Extensions;
 using VOL.Core.Filters;
+using VOL.Core.Utilities.PDFHelper;
 using VOL.Entity.DomainModels;
+using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace VOL.AppManager.Controllers
 {
@@ -21,7 +27,7 @@ namespace VOL.AppManager.Controllers
         /// <returns></returns>
         [HttpPost, Route("createPage")]
         [ApiActionPermission("App_News", ActionPermissionOptions.Add)]
-        public async Task<IActionResult> CreatePage([FromBody]App_News news)
+        public async Task<IActionResult> CreatePage([FromBody] App_News news)
         {
             return Json(await Service.CreatePage(news));
         }
@@ -32,8 +38,8 @@ namespace VOL.AppManager.Controllers
         /// <returns></returns>
         [ApiActionPermission("App_News", ActionPermissionOptions.Add)]
         [HttpPost, Route("setCover")]
-   
-        public IActionResult SetCover([FromBody]App_News news,string t1,string t2)
+
+        public IActionResult SetCover([FromBody] App_News news, string t1, string t2)
         {
             return Json(Service.SetCover(news));
         }
@@ -48,5 +54,19 @@ namespace VOL.AppManager.Controllers
         {
             return Json(await Service.GetDemoPageList());
         }
+
+        /// <summary>
+        /// 导出PDF
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, Route("ExportPDF")]
+        public ActionResult ExportPDF()
+        {
+            var content = DBServerProvider.DbContext.Set<App_News>().FirstOrDefault()?.Content;
+            var pdf = HttpContext.GetService<IPDFService>();
+            var result = pdf.CreatePDF(content);
+            return File(result, "application/pdf", $"导出新闻PDF{DateTime.Now:yyyyMMddHHmmsss}.pdf");
+        }
+
     }
 }

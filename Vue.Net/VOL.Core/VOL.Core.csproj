@@ -43,6 +43,7 @@
     <PackageReference Include="Dapper" Version="1.50.5" />
     <PackageReference Include="EFCore.BulkExtensions" Version="2.2.2" />
     <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+    <PackageReference Include="Haukcode.WkHtmlToPdfDotNet" Version="1.5.72" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
