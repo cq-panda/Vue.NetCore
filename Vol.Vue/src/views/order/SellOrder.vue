@@ -6,11 +6,15 @@
  -->
 <template>
     <div>
-        <view-grid :columns="columns"
+        <view-grid
+                   ref="grid"
+                   :columns="columns"
                    :detail="detail"
-                   :editFormFileds="editFormFileds"
+                   :editFormFields="editFormFields"
+                   :editFormFileds="editFormFields"
                    :editFormOptions="editFormOptions"
-                   :searchFormFileds="searchFormFileds"
+                   :searchFormFields="searchFormFields"
+                   :searchFormFileds="searchFormFields"
                    :searchFormOptions="searchFormOptions"
                    :table="table"
                    :extend="extend">
@@ -36,17 +40,17 @@
                     sortName: "CreateDate"
                 },
                 extend: extend,
-                editFormFileds: {"OrderType":"","TranNo":"","Qty":"","SellNo":"","Remark":"","Creator":"","CreateDate":"","ModifyDate":""},
-                editFormOptions: [[{"dataKey":"ordertype","title":"订单类型","required":true,"field":"OrderType","type":"select"},
+                editFormFields: {"OrderType":"","TranNo":"","Qty":"","Creator":"","SellNo":"","Remark":"","CreateDate":"","ModifyDate":""},
+                editFormOptions: [[{"dataKey":"ordertype","data":[],"title":"订单类型","required":true,"field":"OrderType","type":"select"},
                                {"title":"运单号","required":true,"field":"TranNo"},
-                               {"title":"销售数量","required":true,"field":"Qty","type":"number"}],
+                               {"title":"销售数量","required":true,"field":"Qty","type":"number"},
+                               {"title":"创建人","field":"Creator","disabled":true}],
                               [{"title":"备注","field":"Remark","colSize":8,"type":"textarea"},
-                               {"title":"销售订单号","required":true,"field":"SellNo"}],
-                              [{"title":"创建人","field":"Creator","disabled":true},
-                               {"title":"创建时间","field":"CreateDate","disabled":true},
-                               {"title":"修改时间","field":"ModifyDate","disabled":true}]],
-                searchFormFileds: {"OrderType":"","TranNo":"","SellNo":"","AuditStatus":"","AuditDate":"","Auditor":"","Creator":"","CreateDate":"","ModifyDate":""},
-                searchFormOptions: [[{"title":"运单号","field":"TranNo"},{"title":"销售订单号","field":"SellNo"},{"dataKey":"ordertype","title":"订单类型","field":"OrderType","type":"select"}],[{"dataKey":"audit","title":"审核状态","field":"AuditStatus","type":"select"},{"title":"审核时间","field":"AuditDate","type":"datetime"},{"title":"审核人","field":"Auditor"}],[{"title":"创建人","field":"Creator"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"修改时间","field":"ModifyDate","type":"datetime"}]],
+                               {"title":"销售订单号","required":true,"field":"SellNo"},
+                               {"title":"创建时间","field":"CreateDate","disabled":true}],
+                              [{"title":"修改时间","field":"ModifyDate","disabled":true}]],
+                searchFormFields: {"OrderType":"","TranNo":"","SellNo":"","Qty":[null,null],"AuditStatus":"","AuditDate":"","Auditor":"","Creator":"","CreateDate":""},
+                searchFormOptions: [[{"title":"运单号","field":"TranNo"},{"title":"销售订单号","field":"SellNo"},{"dataKey":"ordertype","data":[],"title":"订单类型","field":"OrderType","type":"select"}],[{"dataKey":"audit","data":[],"title":"审核状态","field":"AuditStatus","type":"select"},{"title":"审核时间","field":"AuditDate","type":"datetime"},{"title":"审核人","field":"Auditor"}],[{"title":"创建人","field":"Creator"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"销售数量","field":"Qty","type":"range"}]],
                 columns: [{field:'Order_Id',title:'Id',type:'string',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'OrderType',title:'订单类型',type:'int',bind:{ key:'ordertype',data:[]},width:90,require:true,align:'left',sortable:true},
                        {field:'TranNo',title:'运单号',type:'string',link:true,width:150,require:true,align:'left'},
@@ -65,11 +69,12 @@
                        {field:'ModifyDate',title:'修改时间',type:'datetime',width:90,readonly:true,align:'left',sortable:true}],
                 detail: {
                     cnName:"订单明细",
+                    table: "SellOrderList",
                     columns: [{field:'OrderList_Id',title:'OrderList_Id',type:'string',width:90,hidden:true,require:true,align:'left'},
                        {field:'Order_Id',title:'订单Id',type:'string',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'ProductName',title:'商品名称',type:'string',bind:{ key:'pn',data:[]},width:150,edit:{type:'select'},require:true,align:'left',sortable:true},
                        {field:'MO',title:'批次',type:'string',width:100,edit:{type:''},require:true,align:'left'},
-                       {field:'Qty',title:'数量',type:'int',width:90,edit:{type:'drop'},require:true,align:'left'},
+                       {field:'Qty',title:'数量',type:'int',width:90,edit:{type:''},require:true,align:'left'},
                        {field:'Weight',title:'重量',type:'decimal',width:90,edit:{type:''},align:'left'},
                        {field:'Remark',title:'备注',type:'string',width:120,edit:{type:''},align:'left'},
                        {field:'CreateID',title:'CreateID',type:'int',width:80,hidden:true,align:'left'},

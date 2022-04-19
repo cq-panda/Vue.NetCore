@@ -2,27 +2,26 @@
   <div class="user-info">
     <div class="info">
       <div>
-        <img
-          src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/u%3D1407034680%2C1803900872%26fm%3D26%26gp%3D0.jpg"
-        />
+        <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/u%3D1407034680%2C1803900872%26fm%3D26%26gp%3D0.jpg" />
       </div>
       <div>
         <span class="name">{{userInfo.userName}}</span>
         <br />
-        <van-tag plain type="primary">标签1</van-tag>
-        <van-tag plain type="success">标签2</van-tag>
+        <van-tag plain
+                 type="primary">标签1</van-tag>
+        <van-tag plain
+                 type="success">标签2</van-tag>
       </div>
     </div>
     <div class="list">
-      <div
-        @click="link(item)"
-        class="row"
-        :class="{group:item.group}"
-        v-for="(item,index) in list"
-        :key="index"
-      >
+      <div @click="link(item)"
+           class="row"
+           :class="{group:item.group}"
+           v-for="(item,index) in list"
+           :key="index">
         <div class="text">
-          <van-icon :color="item.color" :name="item.icon" />
+          <van-icon :color="item.color"
+                    :name="item.icon" />
           {{item.text}}
         </div>
         <div>
@@ -42,10 +41,10 @@ export default {
     "van-tag": Tag,
     "van-icon": Icon
   },
-  created() {
+  created () {
     this.userInfo = this.$store.getters.getUserInfo();
   },
-  data() {
+  data () {
     return {
       userInfo: {},
       list: [
@@ -71,9 +70,9 @@ export default {
     };
   },
   methods: {
-    link(item) {
+    link (item) {
       if (!item.path) {
-         return  this.$toast('没有配置好path');
+        return this.$toast('没有配置好path');
       }
       this.$store.commit("clearUserInfo");
       this.$router.push({ path: item.path });
@@ -102,7 +101,7 @@ export default {
 }
 .info {
   padding: 1rem;
-  background: #4775f9;
+  background: #03a9f4;
   color: white;
   font-size: 16px;
   display: inline-block;

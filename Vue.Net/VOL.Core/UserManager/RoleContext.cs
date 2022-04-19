@@ -5,6 +5,7 @@ using VOL.Core.CacheManager;
 using VOL.Core.DBManager;
 using VOL.Core.Extensions.AutofacManager;
 using VOL.Core.ManageUser;
+using VOL.Core.Services;
 using VOL.Entity.DomainModels;
 
 namespace VOL.Core.UserManager
@@ -53,8 +54,8 @@ namespace VOL.Core.UserManager
             AutofacContainerModule.GetService<ICacheService>().Remove(Key);
         }
         /// <summary>
-        /// 此处将所有角色添加到缓存中，待开发....
-        /// 获取当前角色下的所有角色
+        /// 
+        /// 获取当前角色下的所有角色(不包括自己的角色)
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
@@ -63,8 +64,15 @@ namespace VOL.Core.UserManager
             if (roleId <= 0) return null;
             var roles = GetAllRoleId();
             if (UserContext.IsRoleIdSuperAdmin(roleId)) return roles;
+            Dictionary<int, bool> completedRoles = new Dictionary<int, bool>();
             List<RoleNodes> rolesChildren = new List<RoleNodes>();
-            return GetChildren(roles, rolesChildren, roleId);
+            var list= GetChildren(roles, rolesChildren, roleId, completedRoles);
+            //2021.07.11增加无限递归异常数据移除当前节点
+            if (list.Any(x=>x.Id==roleId))
+            {
+                return list.Where(x => x.Id != roleId).ToList();
+            }
+            return list;
         }
         public static List<int> GetAllChildrenIds(int roleId)
         {
@@ -74,19 +82,34 @@ namespace VOL.Core.UserManager
         /// 递归获取所有子节点权限
         /// </summary>
         /// <param name="roleId"></param>
-        private static List<RoleNodes> GetChildren(List<RoleNodes> roles, List<RoleNodes> rolesChildren, int roleId)
+        private static List<RoleNodes> GetChildren(List<RoleNodes> roles, List<RoleNodes> rolesChildren, int roleId, Dictionary<int, bool> completedRoles)
         {
+            //2021.07.11修复不能获取三级以下角色的问题
             roles.ForEach(x =>
             {
                 if (x.ParentId == roleId)
                 {
-                    rolesChildren.Add(x);
-                    GetChildren(roles, rolesChildren, x.Id);
+                    if (completedRoles.TryGetValue(x.Id, out bool isWrite))
+                    {
+                        if (!isWrite)
+                        {
+                            roles.Where(x => x.Id == roleId).FirstOrDefault().ParentId = 0;
+                            Logger.Error($"获取子角色异常RoleContext,角色id:{x.Id}");
+                            Console.WriteLine($"获取子角色异常RoleContext,角色id:{x.Id}");
+                            completedRoles[x.Id] = true;
+                        }
+                        return;
+                    }
+                    if (!rolesChildren.Any(c => c.Id == x.Id))
+                    {
+                        rolesChildren.Add(x);
+                    }
+                    completedRoles.Add(x.Id, false);
+                    GetChildren(roles, rolesChildren, x.Id, completedRoles);
                 }
             });
             return rolesChildren;
         }
-
         /// <summary>
         /// 获取当前角色下的所有用户
         /// </summary>

@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
@@ -101,14 +102,12 @@ namespace VOL.WebApi
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.WithOrigins(corsUrls.Split(","))
-                        //添加预检请求过期时间
-                         .SetPreflightMaxAge(TimeSpan.FromSeconds(2520))
-                        .AllowCredentials()
-                        .AllowAnyHeader().AllowAnyMethod();
-                    });
+                        builder =>
+                        {
+                            builder.AllowAnyOrigin()
+                           .SetPreflightMaxAge(TimeSpan.FromSeconds(2520))
+                            .AllowAnyHeader().AllowAnyMethod();
+                        });
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllers();
@@ -166,11 +165,20 @@ namespace VOL.WebApi
             }
             app.UseMiddleware<ExceptionHandlerMiddleWare>();
             app.UseStaticFiles().UseStaticFiles(new StaticFileOptions
-            {  
+            {
                 ServeUnknownFileTypes = true
             });
             app.UseDefaultFiles();
             app.Use(HttpRequestMiddleware.Context);
+
+            //2021.06.27增加创建默认upload文件夹
+            string _uploadPath = (env.ContentRootPath + "/Upload").ReplacePath();
+
+            if (!Directory.Exists(_uploadPath))
+            {
+                Directory.CreateDirectory(_uploadPath);
+            }
+
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
@@ -186,11 +194,14 @@ namespace VOL.WebApi
             });
             //配置HttpContext
             app.UseStaticHttpContext();
-              
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
+                //2个下拉框选项  选择对应的文档
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "VOL.Core后台Api");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "测试第三方Api");
+                c.RoutePrefix = "";
             });
             app.UseRouting();
             //UseCors,UseAuthenticationg两个位置的顺序很重要 
@@ -199,10 +210,29 @@ namespace VOL.WebApi
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=ApiHome}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
+        }
+    }
+
+    /// <summary>
+    /// Swagger注释帮助类
+    /// </summary>
+    public class SwaggerDocTag : IDocumentFilter
+    {
+        /// <summary>
+        /// 添加附加注释
+        /// </summary>
+        /// <param name="swaggerDoc"></param>
+        /// <param name="context"></param>
+        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        {
+            //添加对应的控制器描述
+            swaggerDoc.Tags = new List<OpenApiTag>
+            {
+                new OpenApiTag { Name = "Test", Description = "这是描述" },
+                //new OpenApiTag { Name = "你的控制器名字，不带Controller", Description = "控制器描述" },
+            };
         }
     }
 }

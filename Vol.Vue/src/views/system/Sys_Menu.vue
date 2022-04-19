@@ -1,10 +1,26 @@
 <template>
   <div class="menu-container">
-    <vol-box :width="940" :mask="true" :height="500" title="图标列表" :model.sync="model">
+    <vol-box
+      :width="940"
+      :mask="true"
+      :height="500"
+      title="图标列表"
+      :model.sync="model"
+    >
       <Icons :onSelect="onSelect"></Icons>
     </vol-box>
-    <vol-box :width="600" :mask="true" :height="270" title="其他权限" :model.sync="actionModel">
-      <vol-form ref="actionForm" :formRules="actionOptions" :formFileds="actionFields">
+    <vol-box
+      :width="600"
+      :mask="true"
+      :height="270"
+      title="其他权限"
+      :model.sync="actionModel"
+    >
+      <vol-form
+        ref="actionForm"
+        :formRules="actionOptions"
+        :formFileds="actionFields"
+      >
         <div slot="header">
           <Alert show-icon>
             配置的其他权限
@@ -18,65 +34,100 @@
 
     <div class="menu-left">
       <Alert class="module-name" show-icon>菜单列表</Alert>
-      <div class="menu-tree" style="height:95%;">
-        <el-scrollbar style="height:100%;">
-          <VolMenu :onOpenChange="onOpenChange" :options="tree" :onSelect="menuSelect"></VolMenu>
-        </el-scrollbar>
-      </div>
+      <el-scrollbar style="height: 100%">
+        <VolMenu
+          :onOpenChange="onOpenChange"
+          :options="tree"
+          :onSelect="menuSelect"
+        ></VolMenu>
+      </el-scrollbar>
     </div>
     <div class="menu-right">
-      <el-scrollbar style="height:100%;">
-        <div style="padding:0 60px;">
+      <el-scrollbar style="height: 100%">
+        <div style="padding: 0 60px">
           <Divider>
-            <span icon="ivu-icon ivu-icon-md-podium">{{divider}}</span>
+            <span icon="ivu-icon ivu-icon-md-podium">{{ divider }}</span>
           </Divider>
-          <Alert style="box-shadow: rgb(214, 214, 214) 0px 4px 21px;  line-height: 1.8;" show-icon>
-            <p>1、 如果是用代码生器生成的Vue页面,菜单配置的Url则为Vue项目中src->router->viewGrid.js对应表名的path路径</p>
-            <p>2、 如果只是建一级菜单或空菜单url不用填写,【视图/表名】填写.或者/</p>
+          <Alert show-icon>
+            <p>
+              1、
+              如果是用代码生器生成的Vue页面,菜单配置的Url则为Vue项目中src->router->viewGrid.js对应表名的path路径
+            </p>
+            <p>
+              2、 如果只是建一级菜单或空菜单url不用填写,【视图/表名】填写.或者/
+            </p>
           </Alert>
-          <vol-form class="form-content" ref="form" :formRules="options" :formFileds="fields">
+          <vol-form
+            class="form-content"
+            ref="form"
+            :formRules="options"
+            :formFileds="fields"
+          >
             <div slot="footer">
               <div class="action">
-                <label class="ivu-form-item-label" style="width: 100px;">权限：</label>
+                <label class="ivu-form-item-label" style="width: 100px"
+                  >权限：</label
+                >
                 <div class="ck">
                   <Checkbox
                     :indeterminate="indeterminate"
                     :value="checkAll"
                     @click.prevent.native="handleCheckAll"
-                  >全选</Checkbox>
-                  <CheckboxGroup v-model="actions" @on-change="checkAllGroupChange">
+                    >全选</Checkbox
+                  >
+                  <CheckboxGroup
+                    v-model="actions"
+                    @on-change="checkAllGroupChange"
+                  >
                     <Checkbox
-                      v-for="(item,index) in action"
+                      v-for="(item, index) in action"
                       :key="index"
                       :label="item.value"
-                    >{{item.text+'('+item.value+')'}}</Checkbox>
+                      >{{ item.text + "(" + item.value + ")" }}</Checkbox
+                    >
                   </CheckboxGroup>
-                  <Button @click="actionModel=true" type="dashed">其他权限</Button>
+                  <Button @click="actionModel = true" type="dashed"
+                    >其他权限</Button
+                  >
                 </div>
               </div>
               <div class="icon-item">
-                <label class="ivu-form-item-label" style="width: 100px;">图标：</label>
+                <label class="ivu-form-item-label" style="width: 100px"
+                  >图标：</label
+                >
                 <div class="on-icon">
-                  <span style="position: relative;">
+                  <span style="position: relative">
                     <i
-                      v-if="icon!=''"
+                      v-if="icon != ''"
                       @click="removeIcon"
                       class="remove ivu-icon ivu-icon-md-remove-circle"
                     ></i>
                     <i
-                      style="margin-right: 15px;font-size: 32px;"
-                      :class="['ivu-icon ivu-icon-'+icon]"
+                      style="margin-right: 15px; font-size: 32px"
+                      :class="['ivu-icon ivu-icon-' + icon]"
                     ></i>
                   </span>
-                  <Button @click="model=true" type="dashed">选择图标</Button>
+                  <Button @click="model = true" type="dashed">选择图标</Button>
                 </div>
               </div>
+
               <div class="m-btn">
-                <Button type="info" icon="md-checkmark-circle" @click="save">保存</Button>
+                <Button type="info" icon="md-checkmark-circle" @click="save"
+                  >保存</Button
+                >
                 <Button type="success" icon="md-add" @click="add">新建</Button>
-                <Button type="warning" icon="md-add-circle" @click="addChild">添加子级</Button>
-                <Button type="error" icon="ios-barcode-outline" @click="addBrother">添加同级</Button>
-                <Button type="info" icon="ios-remove" @click="delMenu">删除菜单</Button>
+                <Button type="warning" icon="md-add-circle" @click="addChild"
+                  >添加子级</Button
+                >
+                <Button
+                  type="error"
+                  icon="ios-barcode-outline"
+                  @click="addBrother"
+                  >添加同级</Button
+                >
+                <Button type="info" icon="ios-remove" @click="delMenu"
+                  >删除菜单</Button
+                >
               </div>
             </div>
           </vol-form>
@@ -289,6 +340,11 @@ export default {
     initTree() {
       //2020.08.07修改菜单初始化
       this.http.post("/api/menu/getMenu", {}, true).then((x) => {
+         x.forEach(item=>{
+            if (item.menuType==1&&!item.parentId) {
+             item.name="(app)"+item.name;
+           }
+        })
         this.tree = x;
       });
     },
@@ -377,44 +433,70 @@ export default {
             field: "enable",
             dataType: "int",
             required: true,
-            type: "switch",
+            type: "select",
             data: [
-              { key: "1", value: "是" },
-              { key: "是", value: "否" },
+              { key: 1, value: "启用" },
+              { key: 2, value: "启用不显示" },
+              { key: 0, value: "禁用" },
             ],
+            extra: {
+              render: (h) => {
+                return h(
+                  "Poptip",
+                  {
+                    props: {
+                      "word-wrap": true,
+                      trigger: "hover",
+                      width: "400",
+                    },
+                    style: { color: "#03A9F4", cursor: "pointer" },
+                    on: {
+                      click: () => {
+                        this.$Message.info("点击事件");
+                      },
+                    },
+                  },
+                  [
+                    h(
+                      "i",
+                      {
+                        style: {},
+                      },
+                      [
+                        h(
+                          "span",
+                          { class: "ivu-icon ivu-icon-ios-alert-outline" },
+                          ["配置说明"]
+                        ),
+                      ]
+                    ),
+                    h("div", { slot: "content" }, [
+                      h("p", {}, "1、启用：页面上只会显示启用的菜单"),
+                      h(
+                        "p",
+                        {},
+                        "2、启用不显示：页面不需要显示，但又需要分配权限,请使用此配置"
+                      ),
+                      h("p", {}, "3、禁止：菜单不会启用也不会参与权限分配"),
+                    ]),
+                  ]
+                );
+              },
+            },
           },
           {
-            title: "创建时间",
-            field: "createDate",
-            dataType: "datetime",
-            displayType: "label",
-            disabled: true,
+            // 2022.03.26增移动端加菜单类型
+            title: "菜单类型",
+            field: "menuType",
+            required: true,
+            type: "select",
+            colSize: 4,
+            data: [
+              { key: 0, value: "PC菜单" },
+              { key: 1, value: "移动端菜单" },
+            ],
           },
-          // {
-          //   title: "修改时间",
-          //   field: "modifyDate",
-          //   dataType: "datetime",
-          //   displayType: "label",
-          //   disabled: true
-          // }
         ],
-        // ,
-        // [
-        //   {
-        //     title: "创建人",
-        //     field: "creator",
-        //     dataType: "string",
-        //     displayType: "label",
-        //     disabled: true
-        //   },
-        //   {
-        //     title: "创建时间",
-        //     field: "createDate",
-        //     dataType: "datetime",
-        //     displayType: "label",
-        //     disabled: true
-        //   }
-        // ]
       ],
       fields: {
         menu_Id: 0,
@@ -426,6 +508,7 @@ export default {
         icon: "",
         orderNo: "",
         enable: 1,
+        menuType:null,
         createDate: "",
         creator: "",
         modifyDate: "",
@@ -507,10 +590,13 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 5px;
+  padding: 12px;
+  background: #efefef;
   .menu-left {
     width: 201px;
     border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
     .module-name {
       border-radius: 0px;
       /* height: 5%; */
@@ -519,19 +605,14 @@ export default {
     }
   }
   .menu-right {
-    flex: 1;
-    // padding: 0 100px;
-    .form-content {
-      border: 1px solid #eee;
-      margin-top: 5px;
-      width: 100%;
-      padding: 25px;
-      box-shadow: rgb(214, 214, 214) 0px 4px 21px;
-    }
+    border-radius: 3px;
+    border: 1px solid #eee;
+    background: white;
+    margin-left: 12px;
   }
 }
 .m-btn {
-  text-align: right;
+  text-align: center;
   button {
     margin-left: 10px;
   }

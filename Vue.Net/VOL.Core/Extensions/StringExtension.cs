@@ -185,26 +185,27 @@ namespace VOL.Core.Extensions
         /// <returns></returns>
         public static bool IsNumber(this string str, string formatString)
         {
-            if (string.IsNullOrEmpty(str))
-                return false;
-            int precision = 32;
-            int scale = 5;
-            try
-            {
-                if (string.IsNullOrEmpty(formatString))
-                {
-                    precision = 10;
-                    scale = 2;
-                }
-                else
-                {
-                    string[] numbers = formatString.Split(',');
-                    precision = Convert.ToInt32(numbers[0]);
-                    scale = numbers.Length == 0 ? 2 : Convert.ToInt32(numbers[1]);
-                }
-            }
-            catch { };
-            return IsNumber(str, precision, scale);
+            if (string.IsNullOrEmpty(str)) return false;
+
+            return Regex.IsMatch(str, @"^[+-]?\d*[.]?\d*$");
+            //int precision = 32;
+            //int scale = 5;
+            //try
+            //{
+            //    if (string.IsNullOrEmpty(formatString))
+            //    {
+            //        precision = 10;
+            //        scale = 2;
+            //    }
+            //    else
+            //    {
+            //        string[] numbers = formatString.Split(',');
+            //        precision = Convert.ToInt32(numbers[0]);
+            //        scale = numbers.Length == 0 ? 2 : Convert.ToInt32(numbers[1]);
+            //    }
+            //}
+            //catch { };
+            //return IsNumber(str, precision, scale);
         }
         /**/
         /// <summary>
@@ -226,7 +227,7 @@ namespace VOL.Core.Extensions
                 pattern += @"\.\d{0," + scale + "}$)|" + pattern;
             }
             pattern += "$)";
-            return Regex.IsMatch(str, pattern);
+            return  Regex.IsMatch(str, pattern);
         }
 
 

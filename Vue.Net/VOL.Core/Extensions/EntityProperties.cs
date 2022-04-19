@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using VOL.Core.Configuration;
 using VOL.Core.Const;
+using VOL.Core.Enums;
 using VOL.Core.Utilities;
 using VOL.Entity;
 using VOL.Entity.DomainModels;
@@ -21,6 +23,53 @@ namespace VOL.Core.Extensions
 {
     public static class EntityProperties
     {
+        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, [NotNull] Expression<Func<T, object>> field, string value)
+        {
+            if (value == null)
+            {
+                value = "";
+            }
+            return queryable.Where(field.GetExpressionPropertyFirst<T>().CreateExpression<T>(value, LinqExpressionType.Equal));
+        }
+
+        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, string field, string value)
+        {
+            if (value == null)
+            {
+                value = "";
+            }
+            return queryable.Where(field.CreateExpression<T>(value, LinqExpressionType.Equal));
+        }
+
+        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, string field, string[] values)
+        {
+            if (values == null || values.Length == 0)
+            {
+                return queryable.Where(x => false);
+            }
+            return queryable.Where(field.CreateExpression<T>(values, LinqExpressionType.In));
+        }
+
+        /// <summary>
+        /// 如果值为null则不生成条件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="queryable"></param>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <param name="linqExpression"></param>
+        /// <returns></returns>
+        public static IQueryable<T> WhereNotEmpty<T>(this IQueryable<T> queryable, string field, string value, LinqExpressionType linqExpression = LinqExpressionType.Equal)
+        {
+            if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(field)) return queryable;
+            return queryable.Where(field.CreateExpression<T>(value, linqExpression));
+        }
+
+        public static IQueryable<T> WhereNotEmpty<T>(this IQueryable<T> queryable, [NotNull] Expression<Func<T, object>> field, string value, LinqExpressionType linqExpression = LinqExpressionType.Equal)
+        {
+            if (string.IsNullOrEmpty(value)) return queryable;
+            return queryable.Where(field.GetExpressionPropertyFirst<T>().CreateExpression<T>(value, linqExpression));
+        }
 
         public static string GetExpressionPropertyFirst<TEntity>(this Expression<Func<TEntity, object>> properties)
         {
@@ -811,10 +860,17 @@ namespace VOL.Core.Extensions
             string val = value?.ToString();
             //验证长度
             string reslutMsg = string.Empty;
-            if (dbType == SqlDbTypeName.Int || dbType == SqlDbTypeName.BigInt)
+            if (dbType == SqlDbTypeName.Int)
             {
                 if (!value.IsInt())
                     reslutMsg = "只能为有效整数";
+            }  //2021.10.12增加属性校验long类型的支持
+            else if (dbType == SqlDbTypeName.BigInt)
+            {
+                if (!long.TryParse(val, out _))
+                {
+                    reslutMsg = "只能为有效整数";
+                }
             }
             else if (dbType == SqlDbTypeName.DateTime
                 || dbType == SqlDbTypeName.Date
@@ -827,16 +883,17 @@ namespace VOL.Core.Extensions
             }
             else if (dbType == SqlDbTypeName.Float || dbType == SqlDbTypeName.Decimal || dbType == SqlDbTypeName.Double)
             {
-                string formatString = string.Empty;
-                if (propertyInfo != null)
-                    formatString = propertyInfo.GetTypeCustomValue<DisplayFormatAttribute>(x => x.DataFormatString);
+                //string formatString = string.Empty;
+                //if (propertyInfo != null)
+                //    formatString = propertyInfo.GetTypeCustomValue<DisplayFormatAttribute>(x => x.DataFormatString);
                 //if (string.IsNullOrEmpty(formatString))
                 //    throw new Exception("请对字段" + propertyInfo?.Name + "添加DisplayFormat属性标识");
 
-                if (!val.IsNumber(formatString))
+                if (!val.IsNumber(null))
                 {
-                    string[] arr = (formatString ?? "10,0").Split(',');
-                    reslutMsg = $"整数{arr[0]}最多位,小数最多{arr[1]}位";
+                    // string[] arr = (formatString ?? "10,0").Split(',');
+                    // reslutMsg = $"整数{arr[0]}最多位,小数最多{arr[1]}位";
+                    reslutMsg = "不是有效数字";
                 }
             }
             else if (dbType == SqlDbTypeName.UniqueIdentifier)
@@ -855,9 +912,9 @@ namespace VOL.Core.Extensions
             {
 
                 //默认nvarchar(max) 、text 长度不能超过20000
-                if (val.Length > 20000)
+                if (val.Length > 200000)
                 {
-                    reslutMsg = $"字符长度最多【20000】";
+                    reslutMsg = $"字符长度最多【200000】";
                 }
                 else
                 {
@@ -1042,12 +1099,14 @@ namespace VOL.Core.Extensions
             if (dic == null || dic.Count == 0) { return "参数无效"; }
             if (propertyInfo == null)
                 propertyInfo = typeinfo.GetProperties().Where(x => x.PropertyType.Name != "List`1").ToArray();
-
-            // 不存在的字段直接移除
-            dic.Where(x => !propertyInfo.Any(p => p.Name == x.Key)).Select(s => s.Key).ToList().ForEach(f =>
+            if (removeNotContains)
             {
-                dic.Remove(f);
-            });
+                // 不存在的字段直接移除
+                dic.Where(x => !propertyInfo.Any(p => p.Name == x.Key)).Select(s => s.Key).ToList().ForEach(f =>
+                {
+                    dic.Remove(f);
+                });
+            }
             string keyName = typeinfo.GetKeyName();
             //移除主键
             if (removerKey)

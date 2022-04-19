@@ -6,11 +6,15 @@
  -->
 <template>
     <div>
-        <view-grid :columns="columns"
+        <view-grid
+                   ref="grid"
+                   :columns="columns"
                    :detail="detail"
-                   :editFormFileds="editFormFileds"
+                   :editFormFields="editFormFields"
+                   :editFormFileds="editFormFields"
                    :editFormOptions="editFormOptions"
-                   :searchFormFileds="searchFormFileds"
+                   :searchFormFields="searchFormFields"
+                   :searchFormFileds="searchFormFields"
                    :searchFormOptions="searchFormOptions"
                    :table="table"
                    :extend="extend">
@@ -36,7 +40,7 @@
                     sortName: "CreateDate"
                 },
                 extend: extend,
-                editFormFileds: {"Name":"","Id":"","Describe":"","PhoneNo":"","CreateDate":"","Creator":"","Modifier":"","ModifyDate":""},
+                editFormFields: {"Name":"","Id":"","Describe":"","PhoneNo":"","CreateDate":"","Creator":"","Modifier":"","ModifyDate":""},
                 editFormOptions: [[{"title":"姓名","required":true,"field":"Name","disabled":true},
                                {"title":"","required":true,"field":"Id","disabled":true}],
                               [{"title":"描述","required":true,"field":"Describe","disabled":true},
@@ -45,13 +49,13 @@
                                {"title":"创建人","field":"Creator","disabled":true}],
                               [{"title":"修改人","field":"Modifier","disabled":true},
                                {"title":"修改时间","field":"ModifyDate","disabled":true}]],
-                searchFormFileds: {"Name":"","PhoneNo":"","CreateDate":"","Creator":""},
-                searchFormOptions: [[{"title":"姓名","field":"Name","type":"like"},{"title":"电话","field":"PhoneNo"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"创建人","field":"Creator"}]],
-                columns: [{field:'Name',title:'姓名',type:'string',link:true,width:100,readonly:true,require:true,align:'left',sortable:true},
-                       {field:'Describe',title:'描述',type:'string',width:180,readonly:true,require:true,align:'left'},
-                       {field:'PhoneNo',title:'电话',type:'string',width:130,readonly:true,require:true,align:'left'},
+                searchFormFields: {"Name":"","PhoneNo":"","CreateDate":"","Creator":""},
+                searchFormOptions: [[{"title":"姓名","field":"Name"},{"title":"电话","field":"PhoneNo"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"创建人","field":"Creator"}]],
+                columns: [{field:'Name',title:'姓名',type:'string',link:true,sort:true,width:100,readonly:true,require:true,align:'left',sortable:true},
+                       {field:'Describe',title:'描述',type:'string',sort:true,width:180,readonly:true,require:true,align:'left'},
+                       {field:'PhoneNo',title:'电话',type:'string',sort:true,width:130,readonly:true,require:true,align:'left'},
                        {field:'Id',title:'Id',type:'string',width:90,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'CreateDate',title:'创建时间',type:'datetime',width:120,readonly:true,align:'left',sortable:true},
+                       {field:'CreateDate',title:'创建时间',type:'datetime',sort:true,width:120,readonly:true,align:'left',sortable:true},
                        {field:'CreateID',title:'CreateID',type:'int',width:80,hidden:true,align:'left'},
                        {field:'Creator',title:'创建人',type:'string',width:130,readonly:true,align:'left'},
                        {field:'Modifier',title:'修改人',type:'string',width:130,readonly:true,align:'left'},

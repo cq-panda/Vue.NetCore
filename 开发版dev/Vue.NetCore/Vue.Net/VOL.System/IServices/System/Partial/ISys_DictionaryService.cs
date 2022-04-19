@@ -12,9 +12,9 @@ namespace VOL.System.IServices
         /// </summary>
         /// <returns></returns>
         Task<List<string>> GetBuilderDictionary();
-        Task<object> GetVueDictionary(string[] dicNos);
+        object GetVueDictionary(string[] dicNos);
         object GetTableDictionary(Dictionary<string, object[]> keyData);
-        Task<object> GetSearchDictionary(string dicNo, string value);
+        object GetSearchDictionary(string dicNo, string value);
 
         /// <summary>
         /// 表单设置为远程查询，重置或第一次添加表单时，获取字典的key、value

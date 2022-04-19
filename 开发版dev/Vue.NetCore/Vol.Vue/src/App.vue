@@ -8,21 +8,26 @@
 import "./assets/css/common.less";
 export default {
   name: "App",
-  created() {
-    document.getElementById("vue-loading").style.display = "none";
+  created () {
+
+  },
+  mounted () {
+    document.getElementById("v-loading-container").style.display = "none";
   }
 };
-</script>
+</script>  
 
 <style>
 .el-loading {
   z-index: 999999;
 }
- /* 解决element-ui的table表格控件表头与内容列不对齐问题 */
-  /* .el-table th.gutter{
+/* 解决element-ui的table表格控件表头与内容列不对齐问题 */
+/* .el-table th.gutter{
     display: table-cell !important;
   } */
-  .el-table th { display: table-cell!important; }
+.el-table th {
+  display: table-cell !important;
+}
 .el-loading .el-loading-spinner {
   padding: 7px;
   background: #ececec;
@@ -48,8 +53,12 @@ export default {
   /* filter: blur(0.5px) */
 }
 .ivu-form .ivu-form-item-label {
-  color: #939394;
+    color: #2e2e2f;
 }
+/* 2021.03.20修复明细表格错位 */
+ .grid-detail .el-table__fixed-body-wrapper{
+  top: 41px !important;
+} 
 </style>
 <style>
 html,

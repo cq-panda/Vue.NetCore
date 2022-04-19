@@ -1,0 +1,56 @@
+﻿<!--
+*Author：jxx
+ *Contact：283591387@qq.com
+ *代码由框架生成,任何更改都可能导致被代码生成器覆盖
+ *业务请在@/extension/system/#TableName.js此处编写
+ -->
+<template>
+    <view-grid ref="grid"
+               :columns="columns"
+               :detail="detail"
+               :editFormFields="editFormFields"
+               :editFormOptions="editFormOptions"
+               :searchFormFields="searchFormFields"
+               :searchFormOptions="searchFormOptions"
+               :table="table"
+               :extend="extend">
+    </view-grid>
+</template>
+<script>
+    import extend from "@/extension/#folder/#TableName.js";
+    import { ref, defineComponent } from "vue";
+    export default defineComponent({
+        setup() {
+            const table = ref({
+                key: '#key',
+                footer: "Foots",
+                cnName: '#cnName',
+                name: '#TableName',
+                url: "#url",
+                sortName: "#SortName"
+            });
+            const editFormFields = ref(#editFormFileds);
+            const editFormOptions = ref(#editFormOptions);
+            const searchFormFields = ref(#searchFormFileds);
+            const searchFormOptions = ref(#searchFormOptions);
+            const columns = ref([#columns]);
+            const detail = ref({
+                cnName: "#detailCnName",
+                table: "#detailTable",
+                columns: [#detailColumns],
+                sortName: "#detailSortName",
+                key: "#detailKey"
+            });
+            return {
+                table,
+                extend,
+                editFormFields,
+                editFormOptions,
+                searchFormFields,
+                searchFormOptions,
+                columns,
+                detail,
+            };
+        },
+    });
+</script>

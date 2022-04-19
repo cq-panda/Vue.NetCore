@@ -6,11 +6,15 @@
  -->
 <template>
     <div>
-        <view-grid :columns="columns"
+        <view-grid
+                   ref="grid"
+                   :columns="columns"
                    :detail="detail"
-                   :editFormFileds="editFormFileds"
+                   :editFormFields="editFormFields"
+                   :editFormFileds="editFormFields"
                    :editFormOptions="editFormOptions"
-                   :searchFormFileds="searchFormFileds"
+                   :searchFormFields="searchFormFields"
+                   :searchFormFileds="searchFormFields"
                    :searchFormOptions="searchFormOptions"
                    :table="table"
                    :extend="extend">
@@ -36,17 +40,17 @@
                     sortName: "Dic_ID"
                 },
                 extend: extend,
-                editFormFileds: {"DicNo":"","DicName":"","ParentId":"","OrderNo":"","Enable":"","CreateDate":"","DbSql":"","Remark":""},
+                editFormFields: {"DicNo":"","DicName":"","ParentId":"","OrderNo":"","Enable":"","CreateDate":"","DbSql":"","Remark":""},
                 editFormOptions: [[{"title":"字典编号","required":true,"field":"DicNo"},
                                {"title":"字典名称","required":true,"field":"DicName"},
                                {"title":"父级ID","required":true,"field":"ParentId","type":"number"}],
                               [{"title":"排序号","field":"OrderNo","type":"number"},
-                               {"dataKey":"enable","title":"是否启用","required":true,"field":"Enable","type":"select"},
+                               {"dataKey":"enable","data":[],"title":"是否启用","required":true,"field":"Enable","type":"select"},
                                {"title":"创建时间","field":"CreateDate","disabled":true,"type":"datetime"}],
                               [{"title":"sql语句","field":"DbSql","colSize":8,"type":"textarea"},
                                {"title":"备注","field":"Remark","type":"textarea"}]],
-                searchFormFileds: {"DicNo":"","DicName":"","ParentId":"","Enable":"","CreateDate":"","ModifyDate":""},
-                searchFormOptions: [[{"title":"字典编号","field":"DicNo"},{"title":"字典名称","field":"DicName","type":"textarea"},{"title":"父级ID","field":"ParentId","type":"number"}],[{"dataKey":"enable","title":"是否启用","field":"Enable","type":"drop"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"修改时间","field":"ModifyDate","type":"datetime"}]],
+                searchFormFields: {"DicNo":"","DicName":"","ParentId":"","Enable":"","CreateDate":"","ModifyDate":""},
+                searchFormOptions: [[{"title":"字典编号","field":"DicNo"},{"title":"字典名称","field":"DicName","type":"textarea"},{"title":"父级ID","field":"ParentId","type":"number"}],[{"dataKey":"enable","data":[],"title":"是否启用","field":"Enable","type":"select"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"修改时间","field":"ModifyDate","type":"datetime"}]],
                 columns: [{field:'Dic_ID',title:'字典ID',type:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'DicNo',title:'字典编号',type:'string',width:90,require:true,align:'left',sortable:true},
                        {field:'DicName',title:'字典名称',type:'string',link:true,width:140,require:true,align:'left'},
@@ -65,6 +69,7 @@
                        {field:'ModifyDate',title:'修改时间',type:'datetime',width:150,readonly:true,align:'left',sortable:true}],
                 detail: {
                     cnName:"字典明细",
+                    table: "Sys_DictionaryList",
                     columns: [{field:'DicList_ID',title:'DicList_ID',type:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'Dic_ID',title:'数据源ID',type:'int',width:90,readonly:true,align:'left',sortable:true},
                        {field:'DicValue',title:'数据源Value',type:'string',width:90,edit:{type:'text'},align:'left'},

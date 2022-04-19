@@ -5,20 +5,32 @@
     :closable="false"
     :mask="mask"
     title="Title"
-    :width="width+'px'"
+    :width="width + 'px'"
     v-model="model"
     class-name="vertical-center-modal"
   >
-    <a class="ivu-modal-close" @click="viewModelCancel">
+    <a
+      class="ivu-modal-close"
+      @click="
+        () => {
+          viewModelCancel(true);
+        }
+      "
+    >
       <i class="ivu-icon ivu-icon-ios-close"></i>
     </a>
     <p slot="header" class="header">
       <Icon :type="icon"></Icon>
-      <span>{{title}}</span>
+      <span>{{ title }}</span>
     </p>
-    <div class="view-model-content" :style="{height:height+'px'}">
-      <el-scrollbar style="height:100%;">
-        <div class="srcoll-content" :style="{padding:padding+'px'}">
+    <div class="view-model-content" :style="{ height: height + 'px' }">
+      <el-scrollbar style="height: 100%">
+        <!-- 是否开启懒加载2020.12.06 -->
+        <div
+          v-if="inited"
+          class="srcoll-content"
+          :style="{ padding: padding + 'px' }"
+        >
           <slot name="content"></slot>
           <slot></slot>
         </div>
@@ -33,69 +45,90 @@
 <script>
 export default {
   props: {
+    lazy: {
+      //是否开启懒加载2020.12.06
+      type: Boolean,
+      default: false,
+    },
     icon: {
       type: String,
-      default: "ios-information-circle-outline"
+      default: "ios-information-circle-outline",
     },
     title: {
       type: String,
-      default: "基本信息"
+      default: "基本信息",
     },
     model: {
       type: Boolean,
-      default: false
+      default: false,
     },
     height: {
       type: Number,
-      default: 200
+      default: 200,
     },
     width: {
       type: Number,
-      default: 650
+      default: 650,
     },
     padding: {
       type: Number,
-      default: 16
+      default: 16,
     },
     hideMask: {
       type: Boolean,
-      default: false
+      default: false,
     },
     draggable: {
       type: Boolean,
-      default: false
+      default: false,
     },
     mask: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
+    onModelClose: { //2021.07.11增加弹出框关闭事件
+      type: Function,
+      default: (iconClick) => {
+        return true;
+      },
+    },
   },
-  data: function() {
+  data: function () {
     return {
+      inited: true,
       footer: true,
-      vModel: this.model
+      vModel: this.model,
     };
   },
   watch: {
     model() {
+      if (this.model && !this.inited) {
+        this.inited = true;
+      }
       this.vModel = this.model;
-    }
+    },
   },
   mounted() {
     // console.log("cm");
   },
   created() {
+    if (this.lazy) {
+      this.inited = false;
+    }
     // console.log("c1");
     if (this.$slots.footer) {
       this.footer = false;
     }
   },
   methods: {
-    viewModelCancel() {
+    viewModelCancel(iconClick) {
       this.vModel = false;
-      this.$emit("update:model", false);
-    }
-  }
+      let result = this.onModelClose(typeof iconClick=='boolean');
+      if (result === undefined || result) {
+        this.$emit("update:model", false);
+      }
+    },
+  },
 };
 </script>
 

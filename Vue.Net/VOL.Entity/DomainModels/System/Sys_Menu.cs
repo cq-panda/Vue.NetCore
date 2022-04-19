@@ -145,14 +145,23 @@ namespace VOL.Entity.DomainModels
        ///是否启用
        /// </summary>
        [Display(Name ="是否启用")]
-       [DisplayFormat(DataFormatString="3,0")]
        [Column(TypeName="tinyint")]
        [Editable(true)]
        public byte? Enable { get; set; }
 
 
+        /// <summary>
+        /// 2022.03.26
+        /// 菜单类型1:移动端，0:PC端
+        /// </summary>
+        /// </summary>
+        [Display(Name = "是否启用")]
+        [Column(TypeName = "int")]
+        [Editable(true)]
+        public int? MenuType { get; set; }
 
 
-       public List<Sys_Actions> Actions { get; set; }
+
+        public List<Sys_Actions> Actions { get; set; }
     }
 }

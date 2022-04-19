@@ -18,7 +18,7 @@ export default {
   components: { form3, vtable },
   methods: {
     getForm() {
-      this.$message.error(JSON.stringify(this.$refs.form3.formFileds));
+      this.$message.error(JSON.stringify(this.$refs.form3.formFields));
     },
     getRow() {
      let rows=this.$refs.table.getRows();

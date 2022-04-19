@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -510,7 +511,7 @@ namespace VOL.Core.BaseProvider
         /// <param name="keys">主键key</param>
         /// <param name="delList">是否连明细一起删除</param>
         /// <returns></returns>
-        public virtual int Delete(object[] keys, bool delList = false)
+        public virtual int DeleteWithKeys(object[] keys, bool delList = false)
         {
             Type entityType = typeof(TEntity);
             string tKey = entityType.GetKeyProperty().Name;
@@ -519,14 +520,25 @@ namespace VOL.Core.BaseProvider
                  ? string.Join(",", keys)
                  : $"'{string.Join("','", keys)}'";
 
-            string sql = $"DELETE FROM {entityType.Name } where {tKey} in ({joinKeys});";
+            string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
             if (delList)
             {
                 Type detailType = entityType.GetCustomAttribute<EntityAttribute>().DetailTable?[0];
                 if (detailType != null)
-                    sql = sql + $"DELETE FROM {detailType.Name} where {tKey} in ({joinKeys});";
+                    sql = sql + $"DELETE FROM {detailType.GetEntityTableName()} where {tKey} in ({joinKeys});";
             }
             return ExecuteSqlCommand(sql);
+        }
+
+
+        public virtual Task AddAsync(TEntity entities)
+        {
+            return DBSet.AddRangeAsync(entities);
+        }
+
+        public virtual Task AddRangeAsync(IEnumerable<TEntity> entities)
+        {
+            return DBSet.AddRangeAsync(entities);
         }
 
         public virtual void Add(TEntity entities, bool saveChanges = false)
@@ -575,38 +587,6 @@ namespace VOL.Core.BaseProvider
         {
             return EFContext.SaveChangesAsync();
         }
-        /// <summary>
-        /// new SqlParameter("@tableName",TableName)
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="sql"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        /// <summary>
-        /// new SqlParameter("@tableName",TableName)
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="sql"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public virtual List<TEntity> RunProc(string sql, params SqlParameter[] parameters)
-        {
-            foreach (var item in parameters)
-            {
-                if ((item as DbParameter).Value == null)
-                {
-                    (item as DbParameter).Value = DBNull.Value;
-                }
-            }
-            if (parameters != null && parameters.Count() > 0)
-            {
-                sql = sql + " " + string.Join(",",
-                  parameters.
-                  Select(x => ((DbParameter)x).ParameterName + (((DbParameter)x).Direction.ToString() == "Output" ? " Output" : "")));
-            }
-            return null;
-            //    return DBSet.FromSql($"{sql}", parameters).ToList();
-        }
 
         public virtual int ExecuteSqlCommand(string sql, params SqlParameter[] sqlParameters)
         {
@@ -615,9 +595,37 @@ namespace VOL.Core.BaseProvider
 
         public virtual List<TEntity> FromSql(string sql, params SqlParameter[] sqlParameters)
         {
-            return null;
-            // return DBSet.FromSql(sql, sqlParameters).ToList();
+            return DBSet.FromSqlRaw(sql, sqlParameters).ToList();
         }
 
+        /// <summary>
+        /// 执行sql
+        /// 使用方式 FormattableString sql=$"select * from xx where name ={xx} and pwd={xx1} "，
+        /// FromSqlInterpolated内部处理sql注入的问题，直接在{xx}写对应的值即可
+        /// 注意：sql必须 select * 返回所有TEntity字段，
+        /// </summary>
+        /// <param name="formattableString"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> FromSqlInterpolated([NotNull] FormattableString sql)
+        {
+            //DBSet.FromSqlInterpolated(sql).Select(x => new { x,xxx}).ToList();
+            return DBSet.FromSqlInterpolated(sql);
+        }
+
+        /// <summary>
+        /// 取消上下文跟踪
+        /// </summary>
+        /// <param name="entity"></param>
+        public virtual void Detached(TEntity entity)
+        {
+            DbContext.Entry(entity).State = EntityState.Detached;
+        }
+        public virtual void DetachedRange(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                DbContext.Entry(entity).State = EntityState.Detached;
+            }
+        }
     }
 }

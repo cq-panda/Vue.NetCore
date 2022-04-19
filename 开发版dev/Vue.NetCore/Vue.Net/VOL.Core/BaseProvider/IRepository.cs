@@ -241,10 +241,13 @@ namespace VOL.Core.BaseProvider
         /// <param name="keys"></param>
         /// <param name="delList">是否将子表的数据也删除</param>
         /// <returns></returns>
-        int Delete(object[] keys, bool delList = false);
+        int DeleteWithKeys(object[] keys, bool delList = false);
 
         void Add(TEntity entities, bool SaveChanges = false);
         void AddRange(IEnumerable<TEntity> entities, bool SaveChanges = false);
+
+        Task AddAsync(TEntity entities);
+        Task AddRangeAsync(IEnumerable<TEntity> entities);
 
         void AddRange<T>(IEnumerable<T> entities, bool saveChanges = false)
            where T : class;
@@ -256,15 +259,29 @@ namespace VOL.Core.BaseProvider
 
         Task<int> SaveChangesAsync();
 
-        //执行存储过程
-        List<TEntity> RunProc(string sql, params SqlParameter[] pamrs);
+
 
         int ExecuteSqlCommand(string sql, params SqlParameter[] sqlParameters);
 
         List<TEntity> FromSql(string sql, params SqlParameter[] sqlParameters);
 
-      
+        /// <summary>
+        /// 执行sql
+        /// 使用方式 FormattableString sql=$"select * from xx where name ={xx} and pwd={xx1} "，
+        /// FromSqlInterpolated内部处理sql注入的问题，直接在{xx}写对应的值即可
+        /// 注意：sql必须 select * 返回所有TEntity字段，
+        /// </summary>
+        /// <param name="formattableString"></param>
+        /// <returns></returns>
+        IQueryable<TEntity> FromSqlInterpolated([System.Diagnostics.CodeAnalysis.NotNull] FormattableString sql);
 
 
+        /// <summary>
+        /// 取消上下文跟踪(2021.08.22)
+        /// 更新报错时，请调用此方法：The instance of entity type 'XXX' cannot be tracked because another instance with the same key value for {'XX'} is already being tracked.
+        /// </summary>
+        /// <param name="entity"></param>
+        void Detached(TEntity entity);
+        void DetachedRange(IEnumerable<TEntity> entities);
     }
 }

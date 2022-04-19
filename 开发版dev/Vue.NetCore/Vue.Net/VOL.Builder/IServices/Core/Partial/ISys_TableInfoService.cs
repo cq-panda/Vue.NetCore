@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using VOL.Core.Utilities;
 
-namespace DairyStar.Builder.IServices
+namespace VOL.Builder.IServices
 {
     public partial interface ISys_TableInfoService
     {
@@ -15,8 +15,6 @@ namespace DairyStar.Builder.IServices
         WebResponseContent SaveEidt(Sys_TableInfo sysTableInfo);
 
         string CreateServices(string tableName, string nameSpace, string foldername, bool webController, bool apiController);
-
-        string CreatePage(Sys_TableInfo sysTableInfo);
 
         string CreateVuePage(Sys_TableInfo sysTableInfo, string vuePath);
 

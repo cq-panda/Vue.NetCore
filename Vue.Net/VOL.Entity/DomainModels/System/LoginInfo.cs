@@ -14,7 +14,7 @@ namespace VOL.Entity.DomainModels
         [MaxLength(50)]
         [Display(Name = "密码")]
         [Required(ErrorMessage = "密码不能为空")]
-        public string PassWord { get; set; }
+        public string Password { get; set; }
         [MaxLength(6)]
         [Display(Name = "验证码")]
         [Required(ErrorMessage = "验证码不能为空")]

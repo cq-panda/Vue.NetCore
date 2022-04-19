@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #f3f3f3;">
+  <div style="background: #f3f3f3">
     <VolBox
       icon="ios-chatbubbles"
       :model.sync="model"
@@ -11,7 +11,7 @@
       :padding="15"
     >
       <VolUpload
-        style="text-align: center; border: 1px dotted #FF9800;padding: 20px;"
+        style="text-align: center; border: 1px dotted #ff9800; padding: 20px"
         :autoUpload="false"
         :multiple="true"
         :url="url"
@@ -24,21 +24,31 @@
       </VolUpload>
     </VolBox>
 
-    <vol-box :model.sync="viewModel" :height="300" :width="600" title="点击表的弹出框">
-      <div slot="content" style="word-break: break-all;">{{text}}</div>
+    <vol-box
+      :model.sync="viewModel"
+      :height="300"
+      :width="600"
+      title="点击表的弹出框"
+    >
+      <div slot="content" style="word-break: break-all">{{ text }}</div>
     </vol-box>
     <Alert type="success" show-icon>
       关于table
       <div slot="desc">
-        <p>table都是基于element table进行的二次封装，目前只需要配置好json数据即可使用,表字段的配置此处为手动配置，也可以由代码生成器完成...</p>
+        <p>
+          table都是基于element
+          table进行的二次封装，目前只需要配置好json数据即可使用,表字段的配置此处为手动配置，也可以由代码生成器完成...
+        </p>
         <p>具体属性配置参照组件api,--要开启table编辑必须开启index=true属性</p>
       </div>
     </Alert>
     <div class="tb">
       <VolHeader icon="md-apps" text="双击表即可编辑">
-        <div slot="content">同时可配置数据字典编号自动绑定字段的显示值,如【是否启用】列值为0/1显示文本为是、否</div>
+        <div slot="content">
+          同时可配置数据字典编号自动绑定字段的显示值,如【是否启用】列值为0/1显示文本为是、否
+        </div>
         <slot>
-          <div style="text-align: right;">
+          <div style="text-align: right">
             <Button type="info" ghost @click="clear">清空表</Button>
             <Button type="info" ghost @click="del">删除行</Button>
             <Button type="info" ghost @click="add">添加行</Button>
@@ -53,15 +63,21 @@
         :index="true"
         :tableData="tableData"
         :paginationHide="true"
+
+        :endEditBefore="endEditBefore"
+        :endEditAfter="endEditAfter"
+        :beginEdit="beginEdit"
       ></vol-table>
     </div>
 
     <div class="tb keep-edit">
       <VolHeader icon="md-apps" text="始终开启编辑">
-        <div slot="content">配置columns属性edit.keep=true即可始终开启编辑状态</div>
+        <div slot="content">
+          配置columns属性edit.keep=true即可始终开启编辑状态
+        </div>
         <slot>
-          <div style="text-align: right;">
-            <Button type="info" ghost >还没想好</Button>
+          <div style="text-align: right">
+            <Button type="info" ghost>还没想好</Button>
           </div>
         </slot>
       </VolHeader>
@@ -73,7 +89,7 @@
         :tableData="allowTable.data"
       ></vol-table>
     </div>
-    <div class="tb" style="margin-top: 20px;">
+    <div class="tb" style="margin-top: 20px">
       <VolHeader icon="md-apps" text="使用button编辑">
         <div slot="content">通过button编辑与额外标签事件</div>
       </VolHeader>
@@ -104,6 +120,18 @@ import VolUpload from "@/components/basic/VolUpload.vue";
 export default {
   components: { VolTable, VolBox, VolHeader, VolUpload },
   methods: {
+    beginEdit(row, column, index) {
+      console.log("编辑开始前" + JSON.stringify(row));
+      return true;
+    },
+    endEditBefore(row, column, index) {
+      console.log("结束编辑前" + JSON.stringify(row));
+      return true;
+    },
+    endEditAfter(row, column, index) {
+      console.log("结束编辑后" + JSON.stringify(row));
+      return true;
+    },
     del() {
       let rows = this.$refs.table.getSelected();
       if (rows.length == 0) {
@@ -133,7 +161,7 @@ export default {
     uploadAfter(result, files) {
       if (!result.status) return true;
       let imgs = [];
-      files.forEach(x => {
+      files.forEach((x) => {
         imgs.push(result.data + x.name);
       });
       // //将图片填写表格中
@@ -143,7 +171,7 @@ export default {
       this.allowTable.data.push(..._rows);
       this.model = false;
       return true;
-    }
+    },
   },
   data() {
     return {
@@ -166,7 +194,7 @@ export default {
           Enable: 1,
           ReallyName: "孤独比夜还长",
           CreateDate: "2018-09-18 17:45:54",
-          Creator: 38.88
+          Creator: 38.88,
         },
         {
           ExpertId: 276,
@@ -179,7 +207,7 @@ export default {
           Enable: 1,
           ReallyName: "七秒钟的记忆1",
           CreateDate: "2018-09-18 17:45:54",
-          Creator: 19.2
+          Creator: 19.2,
         },
         {
           ExpertId: 276,
@@ -192,8 +220,8 @@ export default {
           Enable: 0,
           ReallyName: "月穿潭底水無痕 ",
           CreateDate: "2018-09-18 17:45:54",
-          Creator: 2.2
-        }
+          Creator: 2.2,
+        },
       ],
       columns: [
         //表配置
@@ -206,7 +234,7 @@ export default {
           hidden: true, //是否显示
           readonly: true, //是否只读(功能未启用)
           require: true, //是否必填(功能未启用)
-          align: "left" //文字显示位置
+          align: "left", //文字显示位置
         },
         {
           field: "ExpertName",
@@ -225,15 +253,15 @@ export default {
             click: (column, row, tableData) => {
               //  this.getRows();
               this.$Message.error("点击标签触发的事件");
-            }
-          }
+            },
+          },
         },
         {
           field: "HeadImageUrl",
           title: "头像",
           type: "img",
           width: 160,
-          align: "left"
+          align: "left",
         },
         {
           field: "UserName",
@@ -244,7 +272,7 @@ export default {
           require: true,
           //    hidden: true, //是否显示
           edit: { type: "text", min: 3, max: 5 },
-          align: "left"
+          align: "left",
         },
         {
           field: "UserTrueName",
@@ -258,10 +286,10 @@ export default {
             //单元格点击事亻
             this.$message.error("此单元格没有设置为可以编辑");
           },
-          formatter: row => {
+          formatter: (row) => {
             //对单元格的数据格式化处理
             return row.UserTrueName;
-          }
+          },
         },
         {
           field: "AuditStatus",
@@ -273,11 +301,11 @@ export default {
             data: [
               { key: "0", value: "审核中" },
               { key: "1", value: "审核通过" },
-              { key: "2", value: "审核未通过" }
-            ]
+              { key: "2", value: "审核未通过" },
+            ],
           },
           width: 120,
-          align: "left"
+          align: "left",
         },
         {
           field: "Enable",
@@ -287,7 +315,7 @@ export default {
           width: 80,
           require: true,
           align: "left",
-          edit: { type: "switch" }
+          edit: { type: "switch" },
         },
         {
           field: "CreateDate",
@@ -297,22 +325,22 @@ export default {
           readonly: true,
           align: "left",
           edit: { type: "datetime" },
-          sortable: true
+          sortable: true,
         },
         {
           field: "ReallyName",
           title: "真实姓名",
           type: "string",
           width: 120,
-          edit: { type: "number", min: 10, max: 20 }
+          edit: { type: "number", min: 10, max: 20 },
         },
         {
           field: "Creator",
           title: "类型:小数",
           type: "string",
           width: 130,
-          edit: { type: "decimal", min: 2.2, max: 5.5 }
-        }
+          edit: { type: "decimal", min: 2.2, max: 5.5 },
+        },
       ],
       allowTable: {
         data: [
@@ -321,15 +349,15 @@ export default {
             imgs:
               "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
             enable: 1,
-            date: "2020-03-18 17:45:54"
+            date: "2020-03-18 17:45:54",
           },
           {
             userName: "梁什么伟",
             imgs:
               "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
             enable: 0,
-            date: "2020-03-20 12:20:30"
-          }
+            date: "2020-03-20 12:20:30",
+          },
         ],
         columns: [
           {
@@ -337,13 +365,13 @@ export default {
             title: "用户名",
             require: true,
             edit: { type: "text", keep: true },
-            width: 150
+            width: 150,
           },
           {
             field: "imgs",
             title: "图文介绍",
             type: "img",
-            width: 200
+            width: 200,
           },
           {
             field: "upload",
@@ -364,7 +392,7 @@ export default {
                 }
               }
               this.model = true;
-            }
+            },
           },
           {
             field: "enable",
@@ -377,18 +405,18 @@ export default {
               key: "audit",
               data: [
                 { key: 0, value: "否" },
-                { key: 1, value: "是" }
-              ]
+                { key: 1, value: "是" },
+              ],
             },
             onChange: (row, column, data, value) => {
               this.$Message.info(value ? "是" : "否");
-            }
+            },
           },
           {
             field: "date",
             title: "日期",
             edit: { type: "datetime", keep: true },
-            width: 150
+            width: 150,
           },
           {
             field: "save",
@@ -399,9 +427,9 @@ export default {
             },
             click: (row, column, event) => {
               this.$Message.info("当前保存的行数据：" + JSON.stringify(row));
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       /////////////////////////button编辑配置///////////////////
       eidtWithButton: {
@@ -411,15 +439,15 @@ export default {
             test2: "1",
             test3: "789",
             test4: "2018-09-18 17:45:54",
-            test5: "123"
+            test5: "123",
           },
           {
             test1: "123x",
             test2: "0",
             test3: "789x",
             test4: "2020-01-18 13:24:26",
-            test5: "123x"
-          }
+            test5: "123x",
+          },
         ],
         columns: [
           {
@@ -434,9 +462,9 @@ export default {
               click: (column, row, tableData) => {
                 //  this.getRows();
                 this.$Message.error("点击标签触发的事件");
-              }
+              },
             },
-            width: 250
+            width: 250,
           },
           {
             field: "test2",
@@ -451,31 +479,31 @@ export default {
               key: "audit",
               data: [
                 { key: "0", value: "否" },
-                { key: "1", value: "是" }
-              ]
+                { key: "1", value: "是" },
+              ],
             },
-            width: 130
+            width: 130,
           },
           {
             field: "test3",
             title: "测试3",
-            width: 160
+            width: 160,
           },
           {
             field: "test4",
             title: "测试4",
             edit: { type: "datetime" },
-            width: 250
+            width: 250,
           },
           {
             field: "test5",
             title: "测试5",
-            width: 150
-          }
-        ]
-      }
+            width: 150,
+          },
+        ],
+      },
     };
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

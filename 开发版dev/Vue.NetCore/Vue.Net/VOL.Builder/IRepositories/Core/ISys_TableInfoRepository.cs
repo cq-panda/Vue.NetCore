@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using VOL.Core.BaseProvider;
 using VOL.Entity.DomainModels;
 using VOL.Core.Extensions.AutofacManager;
-namespace DairyStar.Builder.IRepositories
+namespace VOL.Builder.IRepositories
 {
     public partial interface ISys_TableInfoRepository : IDependency,IRepository<Sys_TableInfo>
     {

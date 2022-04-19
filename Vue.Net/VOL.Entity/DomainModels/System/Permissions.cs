@@ -17,5 +17,11 @@ namespace VOL.Entity.DomainModels
         /// 当前用户权限,存储的是权限的值，如:Add,Search等
         /// </summary>
         public string[] UserAuthArr { get; set; }
+
+        /// <summary>
+        /// 2022.03.26
+        /// 菜单类型1:移动端，0:PC端
+        /// </summary>
+        public int MenuType { get; set; }
     }
 }

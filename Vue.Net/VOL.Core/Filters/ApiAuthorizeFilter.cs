@@ -29,7 +29,7 @@ namespace VOL.Core.Filters
         {
            // is Microsoft.AspNetCore.Authentication.AllowAnonymousAttribute
             //if (context.Filters.Any(item => item is IAllowAnonymousFilter))
-            if (context.ActionDescriptor.EndpointMetadata.Any(item => item is AllowAnonymousAttribute))
+            if (context.ActionDescriptor.EndpointMetadata.Any(item => item is IAllowAnonymous))
             {
                 //如果使用了固定Token不过期，直接对token的合法性及token是否存在进行验证
                 if (context.Filters
@@ -50,28 +50,28 @@ namespace VOL.Core.Filters
             //限定一个帐号不能在多处登陆   UserContext.Current.Token != ((ClaimsIdentity)context.HttpContext.User.Identity)?.BootstrapContext?.ToString()
 
             // &&UserContext.Current.UserName!="admin666"为演示环境，实际使用时去掉此条件
-            if (!context.HttpContext.User.Identity.IsAuthenticated
-                || (
-                UserContext.Current.Token != ((ClaimsIdentity)context.HttpContext.User.Identity)
-                ?.BootstrapContext?.ToString()
-                && UserContext.Current.UserName != "admin666" 
-                ))
-            {
-                Console.Write($"IsAuthenticated:{context.HttpContext.User.Identity.IsAuthenticated}," +
-                    $"userToken{UserContext.Current.Token}" +
-                    $"BootstrapContext:{((ClaimsIdentity)context.HttpContext.User.Identity)?.BootstrapContext?.ToString()}");
-                context.Unauthorized("登陆已过期");
-                return;
-            }
+            //if (!context.HttpContext.User.Identity.IsAuthenticated
+            //    || (
+            //    UserContext.Current.Token != ((ClaimsIdentity)context.HttpContext.User.Identity)
+            //    ?.BootstrapContext?.ToString()
+            //    && UserContext.Current.UserName != "admin666" 
+            //    ))
+            //{
+            //    Console.Write($"IsAuthenticated:{context.HttpContext.User.Identity.IsAuthenticated}," +
+            //        $"userToken{UserContext.Current.Token}" +
+            //        $"BootstrapContext:{((ClaimsIdentity)context.HttpContext.User.Identity)?.BootstrapContext?.ToString()}");
+            //    context.Unauthorized("登陆已过期");
+            //    return;
+            //}
 
             DateTime expDate = context.HttpContext.User.Claims.Where(x => x.Type == JwtRegisteredClaimNames.Exp)
                 .Select(x => x.Value).FirstOrDefault().GetTimeSpmpToDate();
-            //如果过期时间小于设置定分钟数的1/3时，返回状态需要刷新token
-            if (expDate < DateTime.Now || (expDate - DateTime.Now).TotalMinutes < AppSetting.ExpMinutes / 3)
+            //动态标识刷新token(2021.05.01)
+            if ((expDate - DateTime.Now).TotalMinutes < AppSetting.ExpMinutes/ 3 && context.HttpContext.Request.Path != replaceTokenPath)
             {
-                context.FilterResult(HttpStatusCode.Accepted, "Token即将过期,请更换token");//202
-                return;
+                context.HttpContext.Response.Headers.Add("vol_exp", "1");
             }
         }
+        private static readonly string replaceTokenPath = "/api/User/replaceToken";
     }
 }

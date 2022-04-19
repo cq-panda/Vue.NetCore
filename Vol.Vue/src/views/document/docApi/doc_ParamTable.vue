@@ -1,20 +1,24 @@
 <template>
   <div>
-    <div  class="i-text">
+    <div class="i-text">
       <h2>
-        <a @click="viewCode" v-show="!visibly" >查看代码</a>        <a v-show="visibly" @click="visibly=false">收起</a>
+        <a @click="viewCode" v-show="!visibly">查看代码</a>
+        <a style="margin-left: 20px" v-if="v3" @click="viewCode3"
+          >查看vue3代码</a
+        >
+        <a v-show="visibly" @click="visibly = false">收起</a>
       </h2>
       <slot></slot>
-      <div style="background: #eee;" v-show="visibly" v-html="code"></div>
+      <div style="background: #eee" v-show="visibly" v-html="code"></div>
       <h2>
-        <a v-show="visibly" @click="visibly=false">收起</a>
+        <a v-show="visibly" @click="visibly = false">收起</a>
       </h2>
     </div>
-    <div >
+    <div>
       <div class="i-text">
         <h2>属性</h2>
       </div>
-      <table v-if="param[name]&&param[name].attr">
+      <table v-if="param[name] && param[name].attr">
         <thead>
           <tr>
             <td>属性</td>
@@ -24,11 +28,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,index) in param[name].attr||[]" :key="index">
-            <td>{{item.name}}</td>
+          <tr v-for="(item, index) in param[name].attr || []" :key="index">
+            <td>{{ item.name }}</td>
             <td><div v-html="item.desc"></div></td>
-            <td>{{item.type}}</td>
-            <td>{{item.default}}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.default }}</td>
           </tr>
         </tbody>
       </table>
@@ -44,21 +48,35 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,index) in param[name].methods||[]" :key="index">
-            <td>{{item.name}}</td>
+          <tr v-for="(item, index) in param[name].methods || []" :key="index">
+            <td>{{ item.name }}</td>
             <td><div v-html="item.desc"></div></td>
-            <td>{{item.param}}</td>
+            <td>{{ item.param }}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <br />
+    <VolBox
+      icon="ios-chatbubbles"
+      :model.sync="model"
+      title="vue3代码"
+      :height="500"
+      :width="900"
+      :padding="0"
+    >
+      <div v-html="code3"></div>
+    </VolBox>
   </div>
 </template>
 <script>
 import param from "./param";
+import VolBox from "@/components/basic/VolBox.vue";
 import codeString from "./sourceCode";
 export default {
+  components: {
+    VolBox,
+  },
   methods: {
     viewCode() {
       // if (this.visibly) {
@@ -66,28 +84,38 @@ export default {
       // }
       this.code = this.codeString[this.name];
       this.visibly = true;
-    }
+    },
+    viewCode3() {
+      this.code3 = this.codeString[this.name + "3"];
+      this.model=true;
+    },
   },
   data() {
     return {
       onlyCode: false,
       code: "",
+      code3: "",
       visibly: false,
       param: param,
-      codeString: codeString
+      codeString: codeString,
+      model:false
     };
   },
   props: {
     name: "",
     isAttr: {
       type: Boolean,
-      default: true
+      default: true,
     },
-    showCode:{
+    v3: {
       type: Boolean,
-      default: true
-    }
-  }
+      default: false,
+    },
+    showCode: {
+      type: Boolean,
+      default: true,
+    },
+  },
 };
 </script>
 <style scoped>

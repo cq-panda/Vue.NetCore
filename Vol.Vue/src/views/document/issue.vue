@@ -35,6 +35,7 @@
   </div>
 </template>
 <script>
+import "./doc.less";
 export default {
   methods: {
     scrollIntoView(index) {

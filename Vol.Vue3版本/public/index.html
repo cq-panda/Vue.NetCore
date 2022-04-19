@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="keywords" content=".netccore,dotnet core,vue,element,element plus,vue3" />
+    <meta name="description" content=".NetCore+Vue，前后端分离，提供Vue2、Vue3版本，不一样的快速开发框架" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+<style>
+  html,body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+  *{
+    box-sizing:border-box;
+  }
+  .el-loading {
+  z-index: 999999;
+}
+
+.el-table th {
+  display: table-cell !important;
+}
+.el-loading .el-loading-spinner {
+  padding: 7px;
+  background: #ececec;
+  width: 200px;
+  color: red;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 5px;
+  border: 1px solid #a0a0a0;
+  
+}
+
+h1,h2,h3,h4{
+  margin: 0;
+}
+.v-dialog{
+  border-radius: 5px;
+  top: 50%;
+    /* margin-top: -220px !important; */
+}
+.v-dialog  .el-dialog__header {
+  border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 0px 13px;
+    line-height: 53px;
+    border-bottom: 1px solid #e2e2e2;
+    height: 50px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    background-image: linear-gradient( 
+135deg
+ ,#0cd7bd 10%,#50c3f7);
+}
+.v-dialog  .el-dialog__header .el-dialog__headerbtn {
+  top: 18px;
+    right: 15px;
+}
+.v-dialog  .el-dialog__header .el-dialog__headerbtn .el-dialog__close{
+  font-size: 19px;
+    color: white;
+}
+.v-dialog .el-dialog__body{
+  padding: 0;
+}
+.el-message{
+  z-index: 3500 !important;
+}
+.v-date-range .el-input__inner{
+  padding:0 15px 0 8px
+}
+.v-date-range .el-input__suffix .el-input__icon{
+  display: table-caption;
+    background: white;
+    margin: 1px;
+    height: auto;
+    margin-right: -4px;
+    height: 33px;
+    width: 19px;
+    font-size: 13px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.v-date-range .el-icon-circle-check{
+  display: none !important;
+}
+</style>

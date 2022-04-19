@@ -6,11 +6,15 @@
  -->
 <template>
     <div>
-        <view-grid :columns="columns"
+        <view-grid
+                   ref="grid"
+                   :columns="columns"
                    :detail="detail"
-                   :editFormFileds="editFormFileds"
+                   :editFormFields="editFormFields"
+                   :editFormFileds="editFormFields"
                    :editFormOptions="editFormOptions"
-                   :searchFormFileds="searchFormFileds"
+                   :searchFormFields="searchFormFields"
+                   :searchFormFileds="searchFormFields"
                    :searchFormOptions="searchFormOptions"
                    :table="table"
                    :extend="extend">
@@ -36,33 +40,33 @@
                     sortName: "CreateDate"
                 },
                 extend: extend,
-                editFormFileds: {"Title":"","NewsType":"","DailyRecommend":"","Enable":""},
+                editFormFields: {"Title":"","NewsType":"","DailyRecommend":"","Enable":"","Content":""},
                 editFormOptions: [[{"title":"标题","required":true,"field":"Title","colSize":12}],
-                              [{"dataKey":"dr","title":"内容推荐","required":true,"field":"DailyRecommend","type":"drop"},
-                               {"dataKey":"news","title":"新闻类型","required":true,"field":"NewsType","type":"drop"},
-                               {"dataKey":"enable","title":"是否启用","field":"Enable","type":"drop"}]],
-                searchFormFileds: {"Title":"","ReleaseDate":"","NewsType":"","DailyRecommend":"","Enable":"","Creator":""},
-                searchFormOptions: [[{"title":"标题","field":"Title"},{"dataKey":"news","title":"新闻类型","field":"NewsType","type":"drop"},{"dataKey":"dr","title":"内容推荐","field":"DailyRecommend","type":"drop"}],[{"title":"发布时间","field":"ReleaseDate","type":"datetime"},{"dataKey":"enable","title":"是否启用","field":"Enable","type":"drop"},{"title":"发布人","field":"Creator"}]],
+                              [{"dataKey":"enable","data":[],"title":"测试","required":true,"field":"DailyRecommend","type":"radio"},
+                               {"dataKey":"enable","data":[],"title":"是否启用","field":"Enable","type":"radio"},
+                               {"dataKey":"news","data":[],"title":"新闻类型","required":true,"field":"NewsType","type":"select"}],
+                              [{"title":"新闻内容","field":"Content","colSize":12,"type":"editor"}]],
+                searchFormFields: {"Title":"","ReleaseDate":"","NewsType":"","DailyRecommend":"","Enable":"","Creator":""},
+                searchFormOptions: [[{"title":"标题","field":"Title"},{"dataKey":"news","data":[],"title":"新闻类型","field":"NewsType","type":"select"},{"dataKey":"enable","data":[],"title":"测试","field":"DailyRecommend","type":"select"}],[{"title":"发布时间","field":"ReleaseDate","type":"datetime"},{"dataKey":"enable","data":[],"title":"是否启用","field":"Enable","type":"select"},{"title":"发布人","field":"Creator"}]],
                 columns: [{field:'Id',title:'主键ID',type:'int',width:80,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'Title',title:'标题',type:'string',link:true,width:200,require:true,align:'left',sortable:true},
-                       {field:'Content',title:'新闻内容',type:'string',width:300,hidden:true,align:'left'},
+                       {field:'Title',title:'标题',type:'string',link:true,width:200,require:true,align:'left',sort:true},
+                       {field:'Content',title:'新闻内容',type:'string',width:100,hidden:true,align:'left'},
                        {field:'Author',title:'发布人',type:'string',width:120,hidden:true,readonly:true,align:'left'},
-                       {field:'ReleaseDate',title:'发布时间',type:'datetime',width:150,hidden:true,readonly:true,align:'left',sortable:true},
-                       {field:'ImageUrl',title:'封面图片',type:'img',width:170,align:'left'},
-                       {field:'BigImageUrls',title:'图片(大图)',type:'string',width:220,hidden:true,align:'left'},
-                       {field:'DetailUrl',title:'新闻地址',type:'string',width:90,align:'left'},
+                       {field:'ReleaseDate',title:'发布时间',type:'datetime',width:140,hidden:true,readonly:true,align:'left',sort:true},
+                       {field:'ImageUrl',title:'封面图片',type:'img',width:120,align:'left'},
+                       {field:'BigImageUrls',title:'图片(大图)',type:'string',width:100,hidden:true,align:'left'},
+                       {field:'DetailUrl',title:'新闻地址',type:'string',width:90,hidden:true,align:'left'},
                        {field:'ViewCount',title:'浏览次数',type:'int',width:110,hidden:true,align:'left'},
                        {field:'NewsType',title:'新闻类型',type:'int',bind:{ key:'news',data:[]},width:110,require:true,align:'left'},
-                       {field:'DailyRecommend',title:'内容推荐',type:'sbyte',bind:{ key:'dr',data:[]},width:120,require:true,align:'left'},
-                       {field:'OrderNo',title:'推荐排序',type:'int',width:120,hidden:true,align:'left'},
-                       {field:'Enable',title:'是否启用',type:'sbyte',bind:{ key:'enable',data:[]},width:90,align:'left'},
+                       {field:'DailyRecommend',title:'测试',type:'int',bind:{ key:'enable',data:[]},width:120,hidden:true,require:true,align:'left'},
+                       {field:'OrderNo',title:'推荐排序',type:'int',bind:{ key:'enable',data:[]},width:90,hidden:true,align:'left'},
+                       {field:'Enable',title:'是否启用',type:'int',bind:{ key:'enable',data:[]},width:100,align:'left'},
                        {field:'CreateID',title:'创建人Id',type:'int',width:80,hidden:true,align:'left'},
-                       {field:'Creator',title:'发布人',type:'string',width:130,hidden:true,readonly:true,align:'left'},
-                       {field:'CreateDate',title:'发布时间',type:'datetime',width:150,readonly:true,align:'left',sortable:true},
+                       {field:'Creator',title:'发布人',type:'string',width:110,readonly:true,align:'left'},
+                       {field:'CreateDate',title:'发布时间',type:'datetime',width:140,readonly:true,align:'left',sort:true},
                        {field:'ModifyID',title:'修改人ID',type:'int',width:80,hidden:true,align:'left'},
                        {field:'Modifier',title:'修改人',type:'string',width:130,hidden:true,align:'left'},
-                       {field:'ModifyDate',title:'修改时间',type:'datetime',width:150,readonly:true,align:'left',sortable:true},
-                       {field:'ssss',title:'ssss',type:'string',width:120,hidden:true,align:'left'}],
+                       {field:'ModifyDate',title:'修改时间',type:'datetime',width:140,readonly:true,align:'left',sort:true}],
                 detail: {
                     cnName:"#detailCnName",
                     columns: [],

@@ -6,11 +6,15 @@
  -->
 <template>
     <div>
-        <view-grid :columns="columns"
+        <view-grid
+                   ref="grid"
+                   :columns="columns"
                    :detail="detail"
-                   :editFormFileds="editFormFileds"
+                   :editFormFields="editFormFields"
+                   :editFormFileds="editFormFields"
                    :editFormOptions="editFormOptions"
-                   :searchFormFileds="searchFormFileds"
+                   :searchFormFields="searchFormFields"
+                   :searchFormFileds="searchFormFields"
                    :searchFormOptions="searchFormOptions"
                    :table="table"
                    :extend="extend">
@@ -36,24 +40,24 @@
                     sortName: "Id"
                 },
                 extend: extend,
-                editFormFileds: {"Variety":"","AgeRange":"","City":"","AvgPrice":"","Date":"","IsTop":"","Creator":"","CreateDate":"","Modifier":"","ModifyDate":""},
-                editFormOptions: [[{"dataKey":"pz","title":"品种","required":true,"field":"Variety","colSize":12,"type":"checkbox"}],
-                              [{"dataKey":"age","title":"月龄","required":true,"field":"AgeRange","colSize":12,"type":"select"}],
-                              [{"dataKey":"city","title":"城市","required":true,"field":"City","colSize":12,"type":"select"}],
-                              [{"title":"成交均价","required":true,"field":"AvgPrice","colSize":12,"type":"decimal"}],
-                              [{"title":"成交日期","required":true,"field":"Date","colSize":12,"type":"date"}],
-                              [{"dataKey":"enable","title":"测试","required":true,"field":"IsTop","colSize":12,"type":"select"}],
+                editFormFields: {"Variety":[],"AgeRange":"","City":"","AvgPrice":"","Date":"","IsTop":"","Creator":"","CreateDate":"","Modifier":"","ModifyDate":""},
+                editFormOptions: [[{"dataKey":"pz","data":[],"title":"品种","required":true,"field":"Variety","colSize":12,"type":"checkbox"}],
+                              [{"dataKey":"age","data":[],"title":"月龄","required":true,"field":"AgeRange","colSize":12,"type":"select"}],
+                              [{"dataKey":"city","data":[],"title":"城市","required":true,"field":"City","colSize":12,"type":"select"}],
+                              [{"title":"价格","required":true,"field":"AvgPrice","colSize":12,"type":"decimal"}],
+                              [{"title":"成交日期","required":true,"field":"Date","colSize":12,"type":"datetime"}],
+                              [{"dataKey":"enable","data":[],"title":"测试","required":true,"field":"IsTop","colSize":12,"type":"radio"}],
                               [{"title":"创建人","field":"Creator","disabled":true},
                                {"title":"创建时间","field":"CreateDate","disabled":true}],
                               [{"title":"修改人","field":"Modifier","disabled":true},
                                {"title":"修改时间","field":"ModifyDate","disabled":true}]],
-                searchFormFileds: {"AgeRange":"","Variety":"","City":"","Date":"","IsTop":"","Enable":""},
-                searchFormOptions: [[{"dataKey":"age","title":"月龄","field":"AgeRange","type":"select"},{"dataKey":"pz","title":"品种","field":"Variety","type":"select"},{"dataKey":"city","title":"城市","field":"City","type":"select"}],[{"title":"成交日期","field":"Date","type":"datetime"},{"dataKey":"enable","title":"测试","field":"IsTop","type":"select"},{"dataKey":"enable","title":"远程","field":"Enable","type":"selectList"}]],
+                searchFormFields: {"AgeRange":"","Variety":"","City":"","Date":"","IsTop":"","Enable":[]},
+                searchFormOptions: [[{"dataKey":"age","data":[],"title":"月龄","field":"AgeRange","type":"select"},{"dataKey":"pz","data":[],"title":"品种","field":"Variety","type":"select"},{"dataKey":"city","data":[],"title":"城市","field":"City","type":"select"}],[{"title":"成交日期","field":"Date","type":"datetime"},{"dataKey":"enable","data":[],"title":"测试","field":"IsTop","type":"radio"},{"dataKey":"enable","data":[],"title":"远程","field":"Enable","type":"selectList"}]],
                 columns: [{field:'Id',title:'主键ID',type:'int',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'AgeRange',title:'月龄',type:'string',bind:{ key:'age',data:[]},width:90,require:true,align:'left',sortable:true},
                        {field:'Variety',title:'品种',type:'string',bind:{ key:'pz',data:[]},width:90,require:true,align:'left'},
                        {field:'City',title:'城市',type:'string',bind:{ key:'city',data:[]},width:90,require:true,align:'left'},
-                       {field:'AvgPrice',title:'成交均价',type:'decimal',link:true,width:80,require:true,align:'left'},
+                       {field:'AvgPrice',title:'价格',type:'decimal',link:true,width:80,require:true,align:'left'},
                        {field:'Date',title:'成交日期',type:'datetime',width:90,require:true,align:'left',sortable:true},
                        {field:'IsTop',title:'测试',type:'int',bind:{ key:'enable',data:[]},width:90,require:true,align:'left'},
                        {field:'Enable',title:'远程',type:'byte',bind:{ key:'enable',data:[]},width:90,hidden:true,align:'left'},

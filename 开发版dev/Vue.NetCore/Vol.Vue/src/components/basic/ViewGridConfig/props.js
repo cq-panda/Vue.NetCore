@@ -20,6 +20,13 @@ let props = {
       return {};
     }
   },
+  //2020.09.13增加formFileds拼写错误兼容处理
+  editFormFields: {//新建、编辑字段(key/value)
+    type: Object,
+    default: () => {
+      return {};
+    }
+  },
   editFormOptions: {//新建、编辑配置信息
     type: Array,
     default: () => {
@@ -27,6 +34,13 @@ let props = {
     }
   },
   searchFormFileds: {//查询字段(key/value)
+    type: Object,
+    default: () => {
+      return {};
+    }
+  },
+    //2020.09.13增加formFileds拼写错误兼容处理
+  searchFormFields: {//查询字段(key/value)
     type: Object,
     default: () => {
       return {};

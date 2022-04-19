@@ -15,11 +15,12 @@
       ref="myform"
       :label-width="150"
       :loadKey="true"
-      :formFileds="formFileds1"
+      :formFields="formFields1"
       :formRules="formRules1"
     ></VolForm>
-    <div>
-      <Button type="info" long @click="reset">重置表单</Button>
+    <div style="text-align: center">
+      <Button type="info" @click="reset">重置表单</Button>
+        <Button type="info" @click="validate">验证表单 </Button>
     </div>
     <div>
       <docParamTable name="form"></docParamTable>
@@ -35,11 +36,16 @@ export default {
     reset() {
       this.$refs.myform.reset();
       this.$Message.error("表单已重置");
+    },
+      validate(){
+      this.$refs.myform.validate(()=>{
+         this.$Message.info("验证通过");
+      });
     }
   },
   data() {
     return {
-      formFileds1: {
+      formFields1: {
         Variety: 1,
         AgeRange: "",
         DateRange: [],
@@ -54,16 +60,16 @@ export default {
         extra1: "添加其他标签",
         extra2: "添加其他标签可点击",
         Switch: 1,
-        SelectList: ["北京市", "上海市", "天津市", "广州市", "重庆市"],
+        SelectList: ["北京市", "上海市"],
         remoteSearch: "",
-        readonlyText: "还没想好....",
+        readonlyText: "阿里巴巴....",
         //多个图片可以用逗号隔开
         readonlyImg:
           "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
         ProImg:
           "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg",
         cascader1: ["beijing", "tiantan"], //级联默认值2020.05.31
-        cascader2: [] //懒加载的级联默认值
+        cascader2: [], //懒加载的级联默认值
       },
       formRules1: [
         //两列的表单，formRules数据格式为:[[{},{}]]
@@ -74,7 +80,37 @@ export default {
             required: true,
             field: "City",
             data: [],
-            type: "select"
+            type: "select",
+            extra: {
+              render: (h) => {
+                return h(
+                  "div",
+                  {
+                    props: {},
+                    style: { color: "#03A9F4", cursor: "pointer" },
+                    on: {
+                      click: () => {
+                        this.$Message.info("点击事件");
+                      },
+                    },
+                  },
+                  [
+                    h(
+                      "Tooltip",
+                      {
+                        props: {
+                          content: "这里是提示的内容",
+                          placement: "right-start",
+                        },
+                        class: "ivu-icon ivu-icon-ios-alert-outline",
+                        style: {},
+                      },
+                      [h("span", {}, ["提示"])]
+                    ),
+                  ]
+                );
+              },
+            },
           },
           {
             title: "手动绑定数据源",
@@ -83,63 +119,69 @@ export default {
             //如果这里绑定了data数据，后台不会加载此数据源
             data: [
               { key: 1, value: "是" },
-              { key: 0, value: "否" }
+              { key: 0, value: "否" },
             ],
             required: false,
             field: "Variety",
-            type: "select"
-          }
-        ],
-        [
+            type: "select",
+          },
           {
             title: "手机号",
             required: true, //设置为必选项
             field: "AgeRange",
             type: "phone",
-            onKeyPress: $event => {
+            onKeyPress: ($event) => {
               if ($event.keyCode == 13) {
-                this.$Message.error(this.formFileds1.AgeRange + "");
+                this.$Message.error(this.formFields1.AgeRange + "");
               }
-            }
+            },
           },
+        ],
+        [
           {
             title: "date日期",
             field: "Date",
-            type: "datetime"
-          }
-        ],
-        [
+            type: "datetime",
+          },
+          {
+            title: "日期可选范围",
+            field: "Date",
+            min: "2021-07-01 00:00:000", //设置只能选2021-07-01到今天的数据(注意后面的小时00:00:000)
+            max: Date.now(), // "2021-07-10",
+            field: "date3",
+            placeholder: "只能选择2021-07-01到今天的日期",
+            type: "datetime",
+          },
           {
             title: "多选日期",
             range: true, //设置为true可以选择开始与结束日期
             required: false,
             field: "DateRange",
-            type: "date"
-          },
+            type: "date",
+          }],
+        [
           {
             type: "number",
             title: "数字",
             required: true,
             placeholder: "你可以自己定义placeholder显示的文字",
-            field: "number1"
-          }
-        ],
-        [
+            field: "number1",
+          },
+       
           {
             type: "decimal",
             title: "最大最小decimal值",
             max: 10,
             min: 2,
             required: true,
-            field: "AvgPrice"
+            field: "AvgPrice",
           },
           {
             title: "邮箱",
             field: "mail",
-            range: true, //设置为true可以选择开始与结束日期
             required: false,
-            type: "mail"
-          }
+            type: "mail",
+          },
         ],
         [
           {
@@ -150,8 +192,8 @@ export default {
             extra: {
               icon: "ios-search",
               style: "color:red",
-              text: "这里可以显示额外标签"
-            }
+              text: "这里可以显示额外标签",
+            },
           },
           {
             title: "可点击额外标签",
@@ -161,21 +203,20 @@ export default {
               icon: "ios-search", //显示图标
               text: "点击可触发事件", //显示文本
               //触发事件
-              click: item => {
+              click: (item) => {
                 this.$Message.error("点击标签触发的事件");
-              }
-            }
-          }
-        ],
-        [
+              },
+            },
+          },
           {
             dataKey: "city",
             title: "多选",
             required: true,
             field: "SelectList",
             data: [],
-            type: "selectList"
-          },
+            type: "selectList",
+          }  ],
+        [
           {
             dataKey: "city",
             title: "远程搜索",
@@ -184,10 +225,10 @@ export default {
             remote: true, //远程搜索(从后台字典搜索,只会搜索自定义sql,后台如果返回的数据量较大，请将字典维护的sql取top)
             //url:'api/xx/xx'从指定url搜索 返回格式必须是[{key:'xxxx',value:'xxx'}]
             data: [],
-            type: "select"
-          }
-        ],
-        [
+            placeholder:"输入省关键字段搜索",
+            type: "select",
+          },
+       
           {
             title: "自定义验证",
             required: true,
@@ -197,7 +238,7 @@ export default {
                 return "必须输入【234】";
               }
               return "";
-            }
+            },
           },
           {
             title: "Switch",
@@ -205,8 +246,8 @@ export default {
             dataKey: "enable", //这里会从后台自动绑定数据源
             data: [],
             required: false,
-            type: "switch"
-          }
+            type: "switch",
+          },
         ],
         [
           //readonlyImg
@@ -217,21 +258,21 @@ export default {
               { key: 0, value: "冬瓜" },
               { key: 1, value: "西瓜" },
               { key: 2, value: "南瓜" },
-              { key: 3, value: "哈密瓜" }
+              { key: 3, value: "哈密瓜" },
             ],
             field: "Fruits",
-            type: "checkbox"
+            type: "checkbox",
           },
           {
             title: "字段只读",
             readonly: true, //设置readonly或disabled都行
             field: "readonlyText",
-            type: "text"
-          }
+            type: "text",
+          },
         ],
         [
           {
-            title: "级联1",//2020.05.31联级操作
+            title: "级联1", //2020.05.31联级操作
             //如果这里绑定了data数据，后台不会加载此数据源
             data: [
               {
@@ -241,18 +282,18 @@ export default {
                 children: [
                   {
                     value: "gugong",
-                    label: "故宫"
+                    label: "故宫",
                   },
                   {
                     value: "tiantan",
-                    label: "天坛"
+                    label: "天坛",
                   },
                   {
                     value: "wangfujing",
-                    label: "王府井"
-                  }
-                ]
-              }
+                    label: "王府井",
+                  },
+                ],
+              },
             ],
             field: "cascader1",
             type: "cascader",
@@ -265,7 +306,7 @@ export default {
                 return labels[index] + " - " + data.label + " - (格式化测试)";
               }
               return labels[index];
-            }
+            },
           },
           {
             title: "级联懒加载", //2020.05.31联级操作
@@ -275,8 +316,8 @@ export default {
                 value: "zhejiang",
                 label: "浙江",
                 loading: false,
-                children: []
-              }
+                children: [],
+              },
             ],
             field: "cascader2",
             required: true,
@@ -295,10 +336,10 @@ export default {
                       {
                         value: "xihu",
                         label: "西湖",
-                        code: 1000
-                      }
-                    ]
-                  }
+                        code: 1000,
+                      },
+                    ],
+                  },
                 ];
                 callback();
               }, 1000);
@@ -316,8 +357,8 @@ export default {
               //   //   }]
               //   // }]
               // });
-            }
-          }
+            },
+          },
         ],
         [
           {
@@ -328,15 +369,15 @@ export default {
             max: 5,
             placeholder: "至少输入3个字符,最多只能输入5个字符",
             colSize: 12, //设置12，此列占100%宽度
-            type: "textarea"
-          }
+            type: "textarea",
+          },
         ],
         [
           {
             title: "图片只读",
             readonly: true, //设置readonly或disabled都行
             field: "readonlyImg",
-            type: "img"
+            type: "img",
           },
           {
             title: "可上传图片",
@@ -344,11 +385,11 @@ export default {
             type: "img",
             maxSize: 0.2, //最大0.2M图片
             //上传参数可参照volupload组件
-            url: "/api/App_Appointment/Upload"
-          }
-        ]
-      ]
+            url: "/api/App_Appointment/Upload",
+          },
+        ],
+      ],
     };
-  }
+  },
 };
 </script>

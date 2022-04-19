@@ -1,28 +1,58 @@
 <template>
   <div>
-    <div class="vol-table">
+    <div
+      class="vol-table"
+      :class="[textInline ? 'text-inline' : '', isChrome ? 'chrome' : '']"
+    >
       <div class="mask" v-show="loading"></div>
       <div class="message" v-show="loading">加载中.....</div>
       <el-table
         :show-summary="summary"
-        :summary-method="(columns,row)=>{return this.summaryData;}"
+        :summary-method="
+          (columns, row) => {
+            return this.summaryData;
+          }
+        "
+        :row-key="rowKey"
+        :key="randomTableKey"
+        lazy
+        :load="loadTreeChildren"
         @selection-change="selectionChange"
         @row-click="rowClick"
-        @cell-mouse-leave="rowEndEdit"
+        @row-dblclick="rowDbClick"
+        @header-click="headerClick"
+        @cell-mouse-leave="
+          (row, column, cell) => {
+            !this.clickEdit && this.rowEndEdit(row, column, cell);
+          }
+        "
         ref="table"
         class="v-table"
         @sort-change="sortChange"
         tooltip-effect="dark"
         :height="realHeight"
         :max-height="realMaxHeight"
-        :data="url?rowData:tableData"
+        :data="url ? rowData : tableData"
         border
         :row-class-name="initIndex"
+        :cell-style="getCellStyle"
         style="width: 100%"
       >
-        <el-table-column v-if="ck" type="selection" width="55"></el-table-column>
         <el-table-column
-          v-for="(column,cindex) in filterColumns()"
+          v-if="columnIndex"
+          type="index"
+          :fixed="ck_index_fixed"
+          width="55"
+        ></el-table-column>
+        <el-table-column
+          v-if="ck"
+          type="selection"
+          :fixed="ck_index_fixed"
+          width="55"
+        ></el-table-column>
+        <!-- 2020.10.10移除table第一行强制排序 -->
+        <el-table-column
+          v-for="(column, cindex) in filterColumns"
           :key="cindex"
           :prop="column.field"
           :label="column.title"
@@ -30,12 +60,59 @@
           :formatter="formatter"
           :fixed="column.fixed"
           :align="column.align"
-          :sortable="column.sort||cindex==0?'custom':false"
+          :sortable="column.sort ? 'custom' : false"
         >
+          <!-- 2022.01.08增加多表头，现在只支持常用功能渲染，不支持编辑功能(涉及到组件重写) -->
+          <el-table-column
+            style="border: none"
+            v-for="columnChildren in filterChildrenColumn(column.children)"
+            :key="columnChildren.field"
+            :min-width="columnChildren.width"
+            :class-name="columnChildren.class"
+            :prop="columnChildren.field"
+            :align="columnChildren.align"
+            :label="columnChildren.title"
+          >
+            <template slot-scope="scope1">
+              <a
+                href="javascript:void(0)"
+                @click="link(scope.row, columnChildren, $event)"
+                v-if="column.link"
+                v-text="scope1.row[columnChildren.field]"
+              ></a>
+              <div
+                v-else-if="columnChildren.formatter"
+                @click="
+                  columnChildren.click &&
+                    columnChildren.click(
+                      scope1.row,
+                      columnChildren,
+                      scope1.$index
+                    )
+                "
+                v-html="
+                  columnChildren.formatter(
+                    scope1.row,
+                    columnChildren,
+                    scope1.$index
+                  )
+                "
+              ></div>
+              <div v-else-if="column.bind">
+                {{ formatter(scope1.row, columnChildren, true) }}
+              </div>
+              <span v-else-if="column.type == 'date'">{{
+                formatterDate(scope1.row, columnChildren)
+              }}</span>
+              <template v-else>
+                {{ scope1.row[columnChildren.field] }}
+              </template>
+            </template>
+          </el-table-column>
           <template slot-scope="scope">
             <!-- 2020.06.18增加render渲染自定义内容 -->
             <table-render
-              v-if="column.render&&typeof column.render=='function'"
+              v-if="column.render && typeof column.render == 'function'"
               :row="scope.row"
               :index="scope.$index"
               :column="column"
@@ -43,25 +120,57 @@
             ></table-render>
             <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
             <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
-            <div v-else-if="column.edit" class="edit-el">
-              <div v-if="column.edit.keep|| edit.rowIndex==scope.$index" class="e-item">
+            <!-- 2021.11.18增加table编辑时阻止无效事件触发 -->
+            <div v-else-if="column.edit && !column.readonly" class="edit-el">
+              <div
+                @click.stop
+                v-if="column.edit.keep || edit.rowIndex == scope.$index"
+                class="e-item"
+              >
                 <div>
                   <!-- 2020.07.24增加日期onChange事件 -->
                   <DatePicker
                     :transfer="true"
-                    v-if="column.edit.type=='date'||column.edit.type=='datetime'"
+                    v-if="
+                      column.edit.type == 'date' ||
+                      column.edit.type == 'datetime'
+                    "
                     :type="column.edit.type"
-                    :format="column.edit.type=='date'? 'yyyy-MM-dd':'yyyy-MM-dd HH:mm:ss'"
-                    :placeholder="column.title"
+                    :format="
+                      column.edit.type == 'date'
+                        ? 'yyyy-MM-dd'
+                        : 'yyyy-MM-dd HH:mm:ss'
+                    "
+                    :placeholder="column.placeholder || column.title"
                     :value="scope.row[column.field]"
-                    @on-change="(time)=>{scope.row[column.field]=time; column.onChange&&column.onChange(time,column); return time}"
+                    @on-change="
+                      (time) => {
+                        scope.row[column.field] = time;
+                        column.onChange && column.onChange(time, column);
+                        return time;
+                      }
+                    "
                   ></DatePicker>
                   <i-switch
-                    v-else-if="column.edit.type=='switch'"
-                    :true-value="typeof scope.row[column.field]=='boolean' ? true:1"
-                    :false-value="typeof scope.row[column.field]=='boolean' ? false:0"
+                    v-else-if="column.edit.type == 'switch'"
+                    :true-value="
+                      typeof scope.row[column.field] == 'boolean' ? true : 1
+                    "
+                    :false-value="
+                      typeof scope.row[column.field] == 'boolean' ? false : 0
+                    "
                     v-model="scope.row[column.field]"
-                    @on-change="(value)=>{column.onChange&&column.onChange(column,scope.row,url?rowData:tableData,value);}"
+                    @on-change="
+                      (value) => {
+                        column.onChange &&
+                          column.onChange(
+                            column,
+                            scope.row,
+                            url ? rowData : tableData,
+                            value
+                          );
+                      }
+                    "
                   >
                     <span slot="open">是</span>
                     <span slot="close">否</span>
@@ -71,95 +180,149 @@
                   -->
                   <Select
                     :transfer="true"
-                    v-else-if="column.edit.type=='select'"
+                    v-else-if="column.edit.type == 'select'"
                     v-model="scope.row[column.field]"
-                    :filterable="(column.filter||getSelectedOptions(column).length>10)?true:false"
-                    :placeholder="'请选择'+column.title"
-                    @on-change="column.onChange&&column.onChange(column,scope.row,url?rowData:tableData)"
+                    :filterable="
+                      column.filter || getSelectedOptions(column).length > 10
+                        ? true
+                        : false
+                    "
+                    :placeholder="column.placeholder || column.title"
+                    @on-change="
+                      (value) => {
+                        column.onChange &&
+                          column.onChange(
+                            column,
+                            scope.row,
+                            url ? rowData : tableData,
+                            value
+                          );
+                      }
+                    "
                     clearable
+                    :disabled="column.readonly"
                   >
                     <Option
-                      v-for="(kv,kvIndex) in getSelectedOptions(column)"
+                      v-for="(kv, kvIndex) in getSelectedOptions(column)"
                       :key="kvIndex"
-                      :value="kv.key===undefined?'':kv.key"
-                    >{{kv.value}}</Option>
+                      :value="kv.key === undefined ? '' : kv.key"
+                      v-show="!kv.hidden"
+                      >{{ kv.value }}</Option
+                    >
                   </Select>
+                  <!-- 2020.10.18增加iview input组件on-keypress事件 -->
                   <Input
                     v-else
                     clearable
-                    @on-change="(event)=>{onChange	(scope,scope.row[column.field],event,column);}"
+                    :ref="column.field + scope.$index"
+                    @on-change="
+                      (event) => {
+                        onChange(scope, scope.row[column.field], event, column);
+                      }
+                    "
+                    @on-keypress="
+                      ($event) => {
+                        column.onKeyPress &&
+                          column.onKeyPress($event, scope, column);
+                      }
+                    "
                     v-model="scope.row[column.field]"
-                    :placeholder="'请输入'+column.title"
+                    :placeholder="column.placeholder || column.title"
                   ></Input>
                 </div>
-                <div class="extra" v-if="column.extra&&edit.rowIndex==scope.$index">
+                <div
+                  class="extra"
+                  v-if="column.extra && edit.rowIndex == scope.$index"
+                >
                   <a
                     :style="column.extra.style"
-                    @click="()=>{column.extra.click&&column.extra.click(column,scope.row,url?rowData:tableData)}"
+                    @click="
+                      () => {
+                        column.extra.click &&
+                          column.extra.click(
+                            column,
+                            scope.row,
+                            url ? rowData : tableData
+                          );
+                      }
+                    "
                   >
                     <Icon v-if="column.extra.icon" :type="column.extra.icon" />
-                    {{column.extra.text}}
+                    {{ column.extra.text }}
                   </a>
                 </div>
               </div>
               <template v-else>
-                <div v-if="column.formatter" v-html="column.formatter(scope.row,column)"></div>
-                <div v-else>{{formatter(scope.row,column,true)}}</div>
+                <div
+                  v-if="column.formatter"
+                  v-html="column.formatter(scope.row, column)"
+                ></div>
+                <div v-else>{{ formatter(scope.row, column, true) }}</div>
               </template>
             </div>
             <!--没有编辑功能的直接渲染标签-->
-            <div v-else>
+            <template v-else>
               <a
                 href="javascript:void(0)"
-                @click="link(scope.row,column)"
+                @click="link(scope.row, column, $event)"
                 v-if="column.link"
                 v-text="scope.row[column.field]"
               ></a>
               <img
-                v-else-if="column.type=='img'"
-                v-for="(file,vIndex ) in  getFilePath(scope.row[column.field])"
+                v-else-if="column.type == 'img'"
+                v-for="(file, vIndex) in getFilePath(
+                  scope.row[column.field],
+                  column
+                )"
                 :key="vIndex"
                 :onerror="defaultImg"
-                @click="viewImg(scope.row,column,file.path)"
+                @click="viewImg(scope.row, column, file.path)"
                 class="table-img"
                 :src="file.path"
               />
               <a
-                style="margin-right: 15px;"
-                v-else-if="column.type=='file'||column.type=='excel'"
+                style="margin-right: 15px"
+                v-else-if="column.type == 'file' || column.type == 'excel'"
                 class="t-file"
-                v-for="(file,vIndex ) in  getFilePath(scope.row[column.field])"
+                v-for="(file, vIndex) in getFilePath(
+                  scope.row[column.field],
+                  column
+                )"
                 :key="vIndex"
                 @click="dowloadFile(file)"
-              >{{file.name}}</a>
-              <Tag v-else-if="column.type=='date'">{{formatterDate(scope.row,column)}}</Tag>
+                >{{ file.name }}</a
+              >
+              <Tag v-else-if="column.type == 'date'">{{
+                formatterDate(scope.row, column)
+              }}</Tag>
               <div
                 v-else-if="column.formatter"
-                @click="formatterClick(scope.row,column)"
-                v-html="column.formatter(scope.row,column)"
+                @click="formatterClick(scope.row, column)"
+                v-html="column.formatter(scope.row, column)"
               ></div>
-               <!--2020.09.06增加table有数据源的列，可以移除或自定义显示背景颜色及点击事件-->
+              <!--2020.09.06增加table有数据源的列，可以移除或自定义显示背景颜色及点击事件-->
               <div
-                v-else-if="(column.bind&&column.normal)"
-                @click="formatterClick(scope.row,column)"
-                :style="column.getStyle&&column.getStyle(scope.row,column)"
-              >{{formatter(scope.row,column,true)}}</div>
+                v-else-if="column.bind && column.normal"
+                @click="formatterClick(scope.row, column)"
+                :style="column.getStyle && column.getStyle(scope.row, column)"
+              >
+                {{ formatter(scope.row, column, true) }}
+              </div>
               <div
                 v-else-if="column.click"
-                @click="formatterClick(scope.row,column)"
-              >{{scope.row[column.field]}}</div>
+                @click="formatterClick(scope.row, column)"
+              >
+                {{ scope.row[column.field] }}
+              </div>
               <Tag
-                v-else-if="(column.bind)"
-                :color="getColor(scope.row,column)"
-              >{{formatter(scope.row,column,true)}}</Tag>
-              <div v-else>{{formatter(scope.row,column,true)}}</div>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column v-if="!doubleEdit" :min-width="100" label="操作" fixed="right">
-          <template slot-scope="scope">
-            <Button type="info" size="small" @click="beginWithButtonEdit(scope)" ghost>编辑</Button>
-            <Button type="info" size="small" @click="endWithButtonEdit(scope)" ghost>完成</Button>
+                v-else-if="column.bind"
+                :color="getColor(scope.row, column)"
+                >{{ formatter(scope.row, column, true) }}</Tag
+              >
+              <template v-else>{{
+                formatter(scope.row, column, true)
+              }}</template>
+            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -178,193 +341,262 @@
   </div>
 </template>
 <script>
+import VolTableRender from './VolTable/VolTableRender';
 var $vue;
-import VolTableRender from "./VolTable/VolTableRender";
 export default {
-  components: { "table-render": VolTableRender },
+  components: { 'table-render': VolTableRender },
   props: {
+    rowKey: {
+      // 树形结构的主键字段，如果设置值默认会开启树形table；注意rowKey字段的值必须是唯一（2021.05.02）
+      typeof: String,
+      default: undefined
+    },
+    loadTreeChildren: {
+      // 树形结构加载子节点
+      type: Function,
+      default: (tree, treeNode, resolve) => {
+        return resolve([]);
+      }
+    },
+    textInline: {
+      // 表格内容超出后是否换行显示（2020.01.16）
+      type: Boolean,
+      default: true
+    },
     tableData: {
-      //表数据源,配置了url就不用传这个参数了
+      // 表数据源,配置了url就不用传这个参数了
       type: Array,
       default: () => {
         return [];
-      },
+      }
     },
     columns: {
       type: Array,
-      default: [],
-      //[ {
+      default: []
+      // [ {
       //   field: "columnType",
       //   title: "数据类型",
       //   width: 120,
       //   hidden:false,
       //   edit: { type: "text", status: false, data: [], key: "" }
       // }] //列的的数据格式edit格式： type类型(text,date,datetime,select,switch),status是否默认为编辑状态
-      //data如果是select这里data应该有数据源，如果没有数据请设置key字典编号
+      // data如果是select这里data应该有数据源，如果没有数据请设置key字典编号
     },
     height: {
       type: Number,
-      default: 0,
+      default: 0
     },
     maxHeight: {
       type: Number,
-      default: 0,
+      default: 0
     },
     linkView: {
       type: Function,
       default: function () {
         return 1;
-      },
+      }
     },
     pagination: {
       type: Object,
       default: function () {
-        return { total: 0, size: 0, sortName: "" };
-      },
+        return { total: 0, size: 0, sortName: '' };
+      }
     },
     url: {
       type: String,
-      default: "",
+      default: ''
     },
     paginationHide: {
       type: Boolean,
-      default: true,
+      default: true
     },
     color: {
       type: Boolean,
-      default: true,
+      default: true
     },
     index: {
-      //是否创建索引号,如果需要表格编辑功能，这里需要设置为true
+      // 是否创建索引号,如果需要表格编辑功能，这里需要设置为true
       type: Boolean,
-      default: false,
+      default: false
     },
     allowEmpty: {
-      //表格数据为空时是否默认为--
+      // 表格数据为空时是否默认为--
       type: Boolean,
-      default: true,
+      default: true
     },
     defaultLoadPage: {
-      //传入了url，是否默认加载表格数据
+      // 传入了url，是否默认加载表格数据
       type: Boolean,
-      default: true,
+      default: true
     },
     loadKey: {
-      //是否自动从后台加载数据源,如【审核状态】字段是的值是数字，但要显示对应的文字，1=审核中，2=审核通过
+      // 是否自动从后台加载数据源,如【审核状态】字段是的值是数字，但要显示对应的文字，1=审核中，2=审核通过
       type: Boolean,
-      default: false,
+      default: false
     },
     single: {
-      type: Boolean, //是否单选
-      default: false,
+      type: Boolean, // 是否单选
+      default: false
     },
     doubleEdit: {
-      type: Boolean, //是否双击启用编辑功能
-      default: true,
+      type: Boolean, // 是否双击启用编辑功能
+      default: true
     },
+    // clickEdit: {
+    //   type: Boolean, // 是否点击行编辑，再次点击行时结束编辑(默认点击行编辑，鼠标离开结束编辑)
+    //   default: false,2021.07.17设置为点击行结束编辑
+    // },
     beginEdit: {
-      //编辑开始
+      // 编辑开始
       type: Function,
       default: function (row, column, index) {
         return true;
-      },
+      }
     },
     endEditBefore: {
-      //结束编辑前
+      // 结束编辑前
       type: Function,
       default: function (row, column, index) {
         return true;
-      },
+      }
     },
     endEditAfter: {
-      //结束编辑前
+      // 结束编辑前
       type: Function,
       default: function (row, column, index) {
         return true;
-      },
+      }
     },
     ck: {
-      //是否显示checkbox
+      // 是否显示checkbox
       type: Boolean,
-      default: true,
+      default: true
     },
+    columnIndex: {
+      // 是否显示行号(2020..11.1)
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
+      clickEdit: true, //2021.07.17设置为点击行结束编辑
+      randomTableKey: 1,
       visiblyColumns: [],
-      key: "",
+      key: '',
       realHeight: 0,
       realMaxHeight: 0,
-      enableEdit: false, //是否启表格用编辑功能
-      empty: this.allowEmpty ? "" : "--",
-      defaultImg: 'this.src="' + require("@/assets/imgs/error.png") + '"',
+      enableEdit: false, // 是否启表格用编辑功能
+      empty: this.allowEmpty ? '' : '--',
+      defaultImg: 'this.src="' + require('@/assets/imgs/error.png') + '"',
       loading: false,
       footer: {},
       total: 0,
       formatConfig: {},
-      defaultColor: "default",
-      //2020.09.06调整table列数据源的背景颜色
+      defaultColor: 'default',
+      // 2020.09.06调整table列数据源的背景颜色
       colors: [
-        "cyan",
-        "red",
-        "blue",
-        "green",
-        "magenta",
-        "geekblue",
-        "gold",
-        "orange",
-        "default",
+        'cyan',
+        'red',
+        'blue',
+        'green',
+        'magenta',
+        'geekblue',
+        'gold',
+        'orange',
+        'default'
       ],
       rule: {
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
-        number: /(^[\-0-9][0-9]*([0-9]+)?)$/,
+        number: /(^[\-0-9][0-9]*([0-9]+)?)$/
       },
       columnNames: [],
       rowData: [],
       paginations: {
-        sort: "",
-        order: "desc",
-        Foots: "",
+        sort: '',
+        order: 'desc',
+        Foots: '',
         total: 0,
-        //2020.08.29增加自定义分页条大小
+        // 2020.08.29增加自定义分页条大小
         sizes: [30, 60, 100, 120],
-        size: 30, //默认分页大小
+        size: 30, // 默认分页大小
         Wheres: [],
         page: 1,
-        rows: 30,
+        rows: 30
       },
-      errorFiled: "",
-      edit: { columnIndex: -1, rowIndex: -1 }, //当前双击编辑的行与列坐标
+      errorFiled: '',
+      edit: { columnIndex: -1, rowIndex: -1 }, // 当前双击编辑的行与列坐标
       editStatus: {},
-      summary: false, //是否显示合计
-      //目前只支持从后台返回的summaryData数据
+      summary: false, // 是否显示合计
+      // 目前只支持从后台返回的summaryData数据
       summaryData: [],
       summaryIndex: {},
-      remoteColumns: [], //需要每次刷新或分页后从后台加载字典数据源的列配置
+      remoteColumns: [], // 需要每次刷新或分页后从后台加载字典数据源的列配置
+      cellStyleColumns: {}, // 有背景颜色的配置
+      isChrome: false, //2021.06.19判断谷歌内核浏览重新计算table高度
+      ck_index_fixed: false //左侧checkbox与行号是否固定
     };
   },
   created() {
-    this.realHeight = this.getHeight();
-    this.realMaxHeight = this.getMaxHeight();
+    //2021.06.19判断谷歌内核浏览重新计算table高度
+    if (
+      navigator.userAgent.indexOf('Chrome') != -1 ||
+      navigator.userAgent.indexOf('Edge') != -1
+    ) {
+      this.isChrome = true;
+    }
+    //2021.06.19调整左侧checkbox与行号是否固定规则
+    let hasSummary = this.columns.find((x) => {
+      return x.summary;
+    });
+    if (
+      this.columns.some((x) => {
+        return x.fixed;
+      })
+    ) {
+      if (hasSummary) {
+        this.isChrome = false;
+      }
+      this.ck_index_fixed = true;
+    }
 
-    //从后台加下拉框的[是否启用的]数据源
+    // 升级element 2.15.1版本后，这个高度有问题，如果有统计求和的table，强制使用max-height属性
+    if (
+      this.columns.some((x) => {
+        return x.summary;
+      })
+    ) {
+      this.realHeight = null;
+      this.realMaxHeight = this.maxHeight || this.height;
+    } else {
+      this.realHeight = this.getHeight();
+      this.realMaxHeight = this.getMaxHeight();
+    }
+
+    // 从后台加下拉框的[是否启用的]数据源
     let keys = [];
     let columnBind = [];
-    this.summaryData.push("合计");
+    this.summaryData.push('合计');
+    if (this.columnIndex) {
+      this.summaryData.push(' ');
+    }
     this.columns.forEach((x, _index) => {
-      if (!x.hidden) {
-        this.summaryIndex[x.field] = _index;
-        this.summaryData.push("");
+      if (x.cellStyle) {
+        this.cellStyleColumns[x.field] = x.cellStyle;
       }
-      //求和
+      if (!x.hidden) {
+        // this.summaryIndex[x.field] = _index;
+        // 2020.10.11修复求和列错位的问题
+        this.summaryData.push('');
+        this.summaryIndex[x.field] = this.summaryData.length - 1;
+      }
+      // 求和
       if (x.summary && !this.summary) {
-        //强制开启选择框
-        this.ck = true;
         this.summary = true;
       }
       if (x.bind && x.bind.key && (!x.bind.data || x.bind.data.length == 0)) {
-        //写入远程
+        // 写入远程
         if (!x.bind.data) x.bind.data = [];
         if (x.bind.remote) {
           this.remoteColumns.push(x);
@@ -377,14 +609,14 @@ export default {
     });
     if (keys.length > 0) {
       this.http
-        .post("/api/Sys_Dictionary/GetVueDictionary", keys)
+        .post('/api/Sys_Dictionary/GetVueDictionary', keys)
         .then((dic) => {
           dic.forEach((x) => {
             columnBind.forEach((c) => {
-              //转换数据源的类型与列的类型一致(2020.04.04)
-              if (c.valueTyoe == "int" || c.valueTyoe == "sbyte") {
+              // 转换数据源的类型与列的类型一致(2020.04.04)
+              if (c.valueTyoe == 'int' || c.valueTyoe == 'sbyte') {
                 x.data.forEach((d) => {
-                  //2020.09.01增加对数字类型的二次判断
+                  // 2020.09.01增加对数字类型的二次判断
                   if (!isNaN(d.key)) {
                     d.key = ~~d.key;
                   }
@@ -397,13 +629,13 @@ export default {
     }
 
     this.paginations.sort = this.pagination.sortName;
-    //2020.08.29增加自定义分页条大小
+    // 2020.08.29增加自定义分页条大小
     Object.assign(this.paginations, this.pagination);
     if (this.pagination.size) {
       this.paginations.rows = this.pagination.size;
     }
     this.enableEdit = this.columns.some((x) => {
-      return x.hasOwnProperty("edit");
+      return x.hasOwnProperty('edit');
     });
     let keyColumn = this.columns.find((x) => {
       return x.isKey;
@@ -411,15 +643,70 @@ export default {
     if (keyColumn) {
       this.key = keyColumn.field;
     }
-    //如果下拉框，判断bind或edit.data是否有数据源，妱果没有则获取数据源bind
+    // 如果下拉框，判断bind或edit.data是否有数据源，妱果没有则获取数据源bind
     $vue = this;
     // this.$emit
     this.defaultLoadPage && this.load();
   },
+  computed: {
+    filterColumns() {
+      return this.columns.filter((x) => {
+        return !x.hidden;
+      });
+    }
+  },
   methods: {
-    rowClick(row, column) {
+    headerClick(column, event) {
+      if (this.clickEdit && this.edit.rowIndex != -1) {
+        if (
+          this.rowEndEdit(
+            this.url
+              ? this.rowData[this.edit.rowIndex]
+              : this.tableData[this.edit.rowIndex],
+            column
+          )
+        ) {
+          this.edit.rowIndex = -1;
+        }
+      }
+      // this.edit.rowIndex = -1;
+    },
+    rowDbClick(row, column, event) {
+      //2021.05.23增加双击行事件
+      this.$emit('row-dbclick', { row, column, event });
+    },
+    rowClick(row, column, event) {
+      //2021.09.16修复edge浏览器可能报错的问题
+      if (!column) {
+        return;
+      }
+      // 点击行事件(2020.11.07)
+      this.$emit('rowClick', { row, column, event });
       if (!this.doubleEdit) {
         return;
+      }
+      // 点击其他行时，如果点击的行与正在编辑的行相同，保持编辑状态
+      if (this.clickEdit && this.edit.rowIndex != -1) {
+        if (row.elementIdex == this.edit.rowIndex) {
+          // 点击的单元格如果不可以编辑，直接结束编辑
+          // 2020.10.12修复结束编辑时，element table高版本属性获取不到的问题
+          //2021.09.16修复edge浏览器可能报错的问题
+          let _field;
+          if (event && event.property) {
+            _field = event.property;
+          } else {
+            _field = column.property;
+          }
+          if (!this.columns.some((x) => x.field == _field && x.edit)) {
+            if (this.rowEndEdit(row, event)) {
+              this.edit.rowIndex = -1;
+            }
+          }
+          return;
+        }
+        if (this.rowEndEdit(row, event && event.property ? event : column)) {
+          this.edit.rowIndex = -1;
+        }
       }
       this.rowBeginEdit(row, column);
     },
@@ -428,31 +715,44 @@ export default {
         file.path,
         file.name,
         {
-          Authorization: this.$store.getters.getToken(),
+          Authorization: this.$store.getters.getToken()
         },
         this.http.ipAddress
       );
     },
-    getFilePath(pathSring) {
-      //获取表的图片与文件显示
-      if (!pathSring) return "";
-      let filePath = pathSring.replace(/\\/g, "/").split(",");
+    getFilePath(pathSring, column) {
+      // 获取表的图片与文件显示
+      if (!pathSring) return [];
+      // 增加图片自定义操作
+      // 返回格式必须是[{name:"文件名",path:"图片全路径或base64格式"}]
+      if (column.formatter) {
+        return column.formatter(pathSring);
+      }
+      let filePath = pathSring.replace(/\\/g, '/').split(',');
       let fileInfo = [];
       for (let index = 0; index < filePath.length; index++) {
         let file = filePath[index];
-        if (file.indexOf(".") != -1) {
-          let splitFile = file.split("/");
+        // 2020.12.19增加base64图片显示
+        if (column.base64) {
+          fileInfo.push({
+            name: '',
+            path:
+              (file.indexOf('base64,') == -1 ? 'data:image/png;base64,' : '') +
+              file
+          });
+        } else if (file.indexOf('.') != -1) {
+          let splitFile = file.split('/');
           if (splitFile.length > 0) {
             fileInfo.push({
               name: splitFile[splitFile.length - 1],
-              path: this.base.isUrl(file) ? file : this.http.ipAddress + file,
+              path: this.base.isUrl(file) ? file : this.http.ipAddress + file
             });
           }
         }
       }
       return fileInfo;
     },
-    //重置table
+    // 重置table
     reset() {
       if (this.tableData && this.tableData.length > 0) {
         this.tableData.splice(0);
@@ -467,32 +767,32 @@ export default {
           this.paginations.wheres.splice(0);
         }
       }
-      this.errorFiled = "";
+      this.errorFiled = '';
       this.edit.columnIndex = -1;
       this.edit.rowIndex = -1;
     },
     getHeight() {
-      //没有定义高度与最大高度，使用table默认值
+      // 没有定义高度与最大高度，使用table默认值
       if (!this.height && !this.maxHeight) {
         return null;
       }
-      //定义了最大高度则不使用高度
+      // 定义了最大高度则不使用高度
       if (this.maxHeight) {
         return null;
       }
-      //使用当前定义的高度
+      // 使用当前定义的高度
       return this.height;
     },
     getMaxHeight() {
-      //没有定义高度与最大高度，使用table默认值
+      // 没有定义高度与最大高度，使用table默认值
       if (!this.height && !this.maxHeight) {
         return null;
       }
-      //定义了最大高度使用最大高度
+      // 定义了最大高度使用最大高度
       if (this.maxHeight) {
         return this.maxHeight;
       }
-      //不使用最大高度
+      // 不使用最大高度
       return null;
     },
     getSelectedOptions(column) {
@@ -508,29 +808,30 @@ export default {
       if (this.index) {
         obj.row.elementIdex = obj.rowIndex;
       }
-      return "";
+      return '';
     },
     toggleEdit(event) {},
     setEditStatus(status) {
       this.columns.forEach((x) => {
-        if (x.hasOwnProperty("edit")) {
-          this.$set(x.edit, "status", status);
+        if (x.hasOwnProperty('edit')) {
+          this.$set(x.edit, 'status', status);
         }
       });
     },
-    //通过button按钮启用编辑
+    // 通过button按钮启用编辑
     beginWithButtonEdit(scope) {
-      //url?rowData:tableData
+      // url?rowData:tableData
       this.rowBeginEdit(scope.row, this.columns[scope.$index]);
     },
-    //通过button结束编辑
+    // 通过button结束编辑
     endWithButtonEdit(scope) {
       if (this.edit.rowIndex == -1) return;
 
       if (
         !this.endEditBefore(scope.row, this.columns[scope.$index], scope.$index)
-      )
+      ) {
         return;
+      }
 
       for (let index = 0; index < this.columns.length; index++) {
         let column = this.columns[index];
@@ -541,17 +842,27 @@ export default {
       this.edit.rowIndex = -1;
       if (
         !this.endEditAfter(scope.row, this.columns[scope.$index], scope.$index)
-      )
-        return;
+      ) {
+      }
     },
     rowBeginEdit(row, column) {
       if (this.edit.rowIndex != -1) {
         return;
       }
       if (!this.enableEdit) return;
-      //编辑前
+      // 不能编辑的字段、switch，点击不开启启编辑功能
+      let _row = this.columns.find((x) => x.field == column.property);
+      //不能编辑的字段、switch，点击不开启启编辑功能2022.02.26
+      if (
+        (_row && _row.readonly) ||
+        !_row.edit ||
+        (_row.edit.keep && _row.edit.type == 'switch')
+      ) {
+        return;
+      }
+      // 编辑前
       if (!this.beginEdit(row, column, row.elementIdex)) return;
-      if (row.hasOwnProperty("elementIdex")) {
+      if (row.hasOwnProperty('elementIdex')) {
         if (this.edit.rowIndex == row.elementIdex) {
           return;
         }
@@ -562,10 +873,10 @@ export default {
       if (option.hidden || option.bind) return true;
       let val = data[option.field];
       if (option.require || option.required) {
-        if (val != "0" && (val == "" || val == undefined)) {
+        if (val != '0' && (val == '' || val == undefined)) {
           if (!this.errorFiled) {
             //  event.focus();
-            this.$Message.error(option.title + "不能为空");
+            this.$Message.error(option.title + '不能为空');
           }
           return false;
         }
@@ -574,56 +885,57 @@ export default {
         return true;
       }
       let editType = option.edit.type;
-      //验证数字
-      if (editType == "int" || editType == "decimal" || editType == "number") {
-        if (val == "" || val == undefined) return true;
-        if (editType == "decimal") {
+      // 验证数字
+      if (editType == 'int' || editType == 'decimal' || editType == 'number') {
+        if (val == '' || val == undefined) return true;
+        if (editType == 'decimal') {
           if (!this.rule.decimal.test(val)) {
-            this.$Message.error(option.title + "只能是数字");
+            this.$Message.error(option.title + '只能是数字');
             return false;
           }
         } else if (!this.rule.decimal.test(val)) {
-          this.$Message.error(option.title + "只能是整数");
+          this.$Message.error(option.title + '只能是整数');
           return false;
         }
         if (
           option.edit.min != undefined &&
-          typeof option.edit.min == "number" &&
+          typeof option.edit.min === 'number' &&
           val < option.edit.min
         ) {
-          this.$Message.error(option.title + "不能小于" + option.edit.min);
+          this.$Message.error(option.title + '不能小于' + option.edit.min);
           return false;
         }
         if (
           option.edit.max != undefined &&
-          typeof option.edit.max == "number" &&
+          typeof option.edit.max === 'number' &&
           val > option.edit.max
         ) {
-          this.$Message.error(option.title + "不能大于" + option.edit.min);
+          // 2020.09.26修复表格验证最大值取值错误的问题
+          this.$Message.error(option.title + '不能大于' + option.edit.max);
           return false;
         }
         return true;
       }
 
-      //验证字符串
-      if (val && (editType == "text" || editType == "string")) {
+      // 验证字符串
+      if (val && (editType == 'text' || editType == 'string')) {
         if (
           option.edit.min != undefined &&
-          typeof option.edit.min == "number" &&
+          typeof option.edit.min === 'number' &&
           val.length < option.edit.min
         ) {
           this.$Message.error(
-            option.title + "至少" + option.edit.min + "个字符"
+            option.title + '至少' + option.edit.min + '个字符'
           );
           return false;
         }
         if (
           option.edit.max != undefined &&
-          typeof option.edit.max == "number" &&
+          typeof option.edit.max === 'number' &&
           val.length > option.edit.max
         ) {
           this.$Message.error(
-            option.title + "最多" + option.edit.max + "个字符"
+            option.title + '最多' + option.edit.max + '个字符'
           );
           return false;
         }
@@ -632,17 +944,26 @@ export default {
       return true;
     },
     rowEndEdit(row, column, event) {
+      if (this.clickEdit && event) {
+        return true;
+      }
       if (!this.enableEdit) {
         if (!this.errorFiled) {
+          if (
+            this.edit.rowIndex != -1 &&
+            !this.endEditAfter(row, column, this.edit.rowIndex)
+          ) {
+            return false;
+          }
           this.edit.rowIndex = -1;
         }
-        return;
+        return true;
       }
       if (!this.doubleEdit && event) {
-        return;
+        return true;
       }
-      //结束编辑前
-      if (!this.endEditBefore(row, column, this.edit.rowIndex)) return;
+      // 结束编辑前
+      if (!this.endEditBefore(row, column, this.edit.rowIndex)) return false;
 
       if (
         this.edit.rowIndex != -1 &&
@@ -655,35 +976,36 @@ export default {
           return x.field == column.property;
         });
         if (!option || !option.edit) {
-          return;
+          return true;
         }
         if (
-          option.edit.type == "datetime" ||
-          option.edit.type == "date" ||
-          option.edit.type == "select"
+          option.edit.type == 'datetime' ||
+          option.edit.type == 'date' ||
+          option.edit.type == 'select'
         ) {
           if (this.edit.rowIndex == row.elementIdex) {
-            return;
+            return true;
           }
         }
         if (!this.validateColum(option, data)) {
           this.errorFiled = option.field;
           return false;
         } else {
-          this.errorFiled = "";
+          this.errorFiled = '';
         }
       }
       if (this.errorFiled) {
-        return;
+        return false;
       }
-      if (!this.endEditAfter(row, column, this.edit.rowIndex)) return;
+      if (!this.endEditAfter(row, column, this.edit.rowIndex)) return false;
       //  this.errorFiled = "";
       this.edit.rowIndex = -1;
-      //this.edit.columnIndex=-1;
+      return true;
+      // this.edit.columnIndex=-1;
     },
     delRow() {
       let rows = this.getSelected();
-      if (rows.length == 0) return this.$Message.error("请选择要删除的行!");
+      if (rows.length == 0) return this.$Message.error('请选择要删除的行!');
 
       let data = this.url ? this.rowData : this.tableData;
       let indexArr = this.getSelectedIndex();
@@ -721,10 +1043,10 @@ export default {
       }
       this.columns.forEach((x) => {
         if (!row.hasOwnProperty(x.field)) {
-          if (x.edit && x.edit.type == "switch") {
-            row[x.field] = x.type == "bool" ? false : 0;
+          if (x.edit && x.edit.type == 'switch') {
+            row[x.field] = x.type == 'bool' ? false : 0;
           } else if (!row.hidden) {
-            //2020.09.06添加行时，设置默认字段
+            // 2020.09.06添加行时，设置默认字段
             row[x.field] = undefined;
           }
         }
@@ -736,10 +1058,11 @@ export default {
       this.rowData.push(row);
     },
     viewImg(row, column, url) {
-      this.base.previewImg(url, this.http.ipAddress);
+      this.base.previewImg(url);
       // window.open(row[column.field]);
     },
-    link(row, column) {
+    link(row, column, $e) {
+      $e.stopPropagation();
       this.$props.linkView(row, column);
     },
     getSelected() {
@@ -747,16 +1070,16 @@ export default {
     },
     getSelectedIndex() {
       if (!this.index) {
-        //只有设置了属性index才有索引行
+        // 只有设置了属性index才有索引行
         return [];
       }
       let indexArr = this.$refs.table.selection.map((x) => {
         return x.elementIdex;
       });
-      return indexArr ? indexArr : [];
+      return indexArr || [];
     },
     GetTableDictionary(rows) {
-      //分页或刷新或重新绑定数据源
+      // 分页或刷新或重新绑定数据源
       if (this.remoteColumns.length == 0 || !rows || rows.length == 0) return;
       let remoteInfo = {};
       for (let index = 0; index < this.remoteColumns.length; index++) {
@@ -765,8 +1088,10 @@ export default {
         let key = column.bind.key;
         let data = [];
         rows.forEach((row) => {
-          if (data.indexOf(row[column.field]) == -1) {
-            data.push(row[column.field]);
+          if (row[column.field] || row[column.field] == '0') {
+            if (data.indexOf(row[column.field]) == -1) {
+              data.push(row[column.field]);
+            }
           }
         });
         if (data.length > 0) {
@@ -774,22 +1099,22 @@ export default {
         }
       }
       if (remoteInfo.length == 0) return;
-      //ha= Object.assign([], ha, hb)
+      // ha= Object.assign([], ha, hb)
       this.http
-        .post("/api/Sys_Dictionary/GetTableDictionary", remoteInfo)
+        .post('/api/Sys_Dictionary/GetTableDictionary', remoteInfo)
         .then((dic) => {
           dic.forEach((x) => {
             this.remoteColumns.forEach((column) => {
               if (column.bind.key == x.key) {
                 column.bind.data = Object.assign([], column.bind.data, x.data);
-                //column.bind.data.push(...x.data);
+                // column.bind.data.push(...x.data);
               }
             });
           });
         });
     },
     load(query, isResetPage) {
-      //isResetPage重置分页数据
+      // isResetPage重置分页数据
       if (!this.url) return;
       if (isResetPage) {
         this.resetPage();
@@ -799,20 +1124,20 @@ export default {
         rows: this.paginations.rows,
         sort: this.paginations.sort,
         order: this.paginations.order,
-        wheres: [], //查询条件，格式为[{ name: "字段", value: "xx" }]
+        wheres: [] // 查询条件，格式为[{ name: "字段", value: "xx" }]
       };
       let status = true;
-      //合并查询信息(包查询分页、排序、查询条件等)
+      // 合并查询信息(包查询分页、排序、查询条件等)
       if (query) {
         param = Object.assign(param, query);
       }
-      /*查询前处理(如果需要查询条件，实现组件方法loadBefore方法即可:
+      /* 查询前处理(如果需要查询条件，实现组件方法loadBefore方法即可:
         loadBefore=(param, callBack)=>{
           param.wheres = [{ name: "PhoneNo", value: "13419098211" }];
           callBack(true);
         })
       */
-      this.$emit("loadBefore", param, (result) => {
+      this.$emit('loadBefore', param, (result) => {
         status = result;
       });
       if (!status) return;
@@ -823,16 +1148,27 @@ export default {
       this.loading = true;
       this.http.post(this.url, param).then(
         (data) => {
+          //2021.06.04修复tree不刷新的问题
+          if (this.rowKey) {
+            this.randomTableKey++;
+            this.rowData.splice(0);
+          }
           this.loading = false;
-          //查询返回结果后处理
-          this.$emit("loadAfter", data.rows || [], (result) => {
-            status = result;
-          });
+          // 查询返回结果后处理
+          // 2020.10.30增加查询后返回所有的查询信息
+          this.$emit(
+            'loadAfter',
+            data.rows || [],
+            (result) => {
+              status = result;
+            },
+            data
+          );
           if (!status) return;
           this.GetTableDictionary(data.rows);
           this.rowData = data.rows || [];
           this.paginations.total = data.total;
-          //合计
+          // 合计
           this.getSummaries(data);
         },
         (error) => {
@@ -840,33 +1176,33 @@ export default {
           // this.$Message.error(error || "网络异常");
         }
       );
-    }, //获取统计
+    }, // 获取统计
     getSummaries(data) {
       if (!this.summary || !data.summary) return;
       this.summaryData.splice(0);
-      //如果有checkbox，应该算作是第一行
-      if (this.ck) {
-        this.summaryData.push(0);
+      // 开启了行号的，+1
+      if (this.columnIndex) {
+        this.summaryData.push('');
       }
+      // 如果有checkbox，应该算作是第一行
+      if (this.ck) {
+        this.summaryData.push('');
+      }
+
       this.columns.forEach((col) => {
         if (!col.hidden) {
           if (data.summary.hasOwnProperty(col.field)) {
             this.summaryData.push(data.summary[col.field]);
           } else {
-            this.summaryData.push("");
+            this.summaryData.push('');
           }
         }
       });
-      if (this.summaryData.length > 0 && this.summaryData[0] == "") {
-        this.summaryData[0] = "合计";
+      if (this.summaryData.length > 0 && this.summaryData[0] == '') {
+        this.summaryData[0] = '合计';
       }
     },
     getInputChangeSummaries() {},
-    filterColumns() {
-      return this.columns.filter((x) => {
-        return !x.hidden;
-      });
-    },
     handleSizeChange(val) {
       this.paginations.rows = val;
       this.load();
@@ -877,19 +1213,19 @@ export default {
     },
     sortChange(sort) {
       this.paginations.sort = sort.prop;
-      this.paginations.order = sort.order == "ascending" ? "asc" : "desc";
+      this.paginations.order = sort.order == 'ascending' ? 'asc' : 'desc';
       this.load();
     },
     resetPage() {
-      //重置查询分页
+      // 重置查询分页
       // this.paginations.rows = 30;
       this.paginations.page = 1;
     },
     selectionChange(selection) {
       // console.log(selection);
-      //选择行事件,只有单选才触发
+      // 选择行事件,只有单选才触发
       if (this.single && selection.length == 1) {
-        this.$emit("rowChange", selection[0]); //
+        this.$emit('rowChange', selection[0]); //
       }
       if (this.single && selection.length > 1) {
         this.$refs.table.toggleRowSelection(selection[0]);
@@ -902,13 +1238,13 @@ export default {
       // if (val == "" || val == null || val == undefined) {
       //  return "none";
       // }
-      if (column.getColor && typeof column.getColor == "function") {
+      if (column.getColor && typeof column.getColor === 'function') {
         let _color = column.getColor(row, column);
         if (_color) {
           return _color;
         }
       }
-      if (!val && val != "0") {
+      if (!val && val != '0') {
         return this.defaultColor;
       }
       if (!this.formatConfig[column.field]) {
@@ -930,64 +1266,64 @@ export default {
       return this.colors[index];
     },
     formatterDate(row, column) {
-      return (row[column.field] || "").substr(0, 10);
+      return (row[column.field] || '').substr(0, 10);
     },
     formatter(row, column, template) {
       if (!template) return row[column.property];
       let val = row[column.field];
-      //是否值
-      if (column.edit && column.edit.type == "switch") {
-        return val ? "是" : "否";
+      // 是否值
+      if (column.edit && column.edit.type == 'switch') {
+        return val ? '是' : '否';
       }
       if (!column.bind || !column.bind.data) {
         return row[column.field];
       }
       if (!val && val != 0) return val;
-      //编辑多选table显示
+      // 编辑多选table显示
       if (
-        (column.bind.type == "selectList" || column.bind.type == "checkbox") &&
-        typeof val == "string" &&
-        val.indexOf(",") != -1
+        (column.bind.type == 'selectList' || column.bind.type == 'checkbox') &&
+        typeof val === 'string' &&
+        val.indexOf(',') != -1
       ) {
         return this.getSelectFormatter(column, val);
       }
       let source = column.bind.data.filter((x) => {
         // return x.key != "" && x.key == val;
-        //2020.06.06修复单独使用table组件时,key为数字0时转换成文本失败的问题
-        return x.key !== "" && x.key !== undefined && x.key + "" === val + "";
+        // 2020.06.06修复单独使用table组件时,key为数字0时转换成文本失败的问题
+        return x.key !== '' && x.key !== undefined && x.key + '' === val + '';
       });
       if (source && source.length > 0) val = source[0].value;
       return val;
     },
     getSelectFormatter(column, val) {
-      //编辑多选table显示
-      let valArr = val.split(",");
+      // 编辑多选table显示
+      let valArr = val.split(',');
       for (let index = 0; index < valArr.length; index++) {
         column.bind.data.forEach((x) => {
-          //2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
+          // 2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
           if (
-            x.key !== "" &&
+            x.key !== '' &&
             x.key !== undefined &&
-            x.key + "" == valArr[index] + ""
+            x.key + '' == valArr[index] + ''
           ) {
             valArr[index] = x.value;
           }
         });
       }
-      return valArr.join(",");
+      return valArr.join(',');
     },
     onChange(scope, val, event, column) {
-      //2020.09.03修复onChange不触发的问题
+      // 2020.09.03修复onChange不触发的问题
       let row = scope.row;
       if (column.onChange && !column.onChange(row, val, event)) {
         return;
       }
-      //输入框求和实时计算
+      // 输入框求和实时计算
       this.getInputSummaries(scope, val, event, column);
     },
-    //input输入实时求和
+    // input输入实时求和
     getInputSummaries(scope, val, event, column) {
-      //column列设置了summary属性的才计算值
+      // column列设置了summary属性的才计算值
       if (!column.summary) return;
       let sum = 0;
       let _index = 0;
@@ -997,9 +1333,30 @@ export default {
           sum += x[column.field] * 1;
         }
       });
-      this.$set(this.summaryData, this.summaryIndex[column.field] - 1, sum);
+      this.$set(this.summaryData, this.summaryIndex[column.field], sum);
     },
-  },
+    getCellStyle(row) {
+      // 2020.12.13增加设置单元格颜色
+      if (row.column.property) {
+        return (
+          this.cellStyleColumns[row.column.property] &&
+          this.cellStyleColumns[row.column.property](
+            row.row,
+            row.rowIndex,
+            row.columnIndex
+          )
+        );
+      }
+    },
+    filterChildrenColumn(children) {
+      if (!children) {
+        return [];
+      }
+      return children.filter((x) => {
+        return !x.hidden;
+      });
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -1040,7 +1397,6 @@ export default {
 }
 </style>
 
-
 <style scoped>
 /*表头错行 .el-table th.gutter{
     display: table-cell!important;
@@ -1053,24 +1409,32 @@ export default {
   border-top: 0px;
 }
 .v-table >>> .el-table__header th {
-  padding: 1.5px !important;
-
+  padding: 0px !important;
   background-color: #f8f8f9 !important;
   font-size: 13px;
+  height: 42px;
+  color: #616161;
 }
-.v-table >>> .el-table__body .cell {
+.v-table >>> .el-table__header th.is-sortable {
+  padding: 3px !important;
+}
+.vol-table.text-inline >>> .el-table__body .cell {
   word-break: inherit !important;
   white-space: nowrap !important;
 }
 .v-table >>> .el-table__body td {
-  padding: 7px 0 !important;
+  padding: 9px 0 !important;
 }
 
 .v-table >>> .el-table__footer td {
-  padding: 5px 0 !important;
+  padding: 7px 0 !important;
 }
-.vol-table >>> .el-table th > .cell {
-  white-space: inherit !important;
+/* 2021.01.30修复火狐checkbox错位问题 */
+.vol-table >>> .el-table-column--selection .cell {
+  display: inline;
+}
+.vol-table.text-inline >>> .el-table th > .cell {
+  white-space: nowrap !important;
 }
 .vol-table >>> .el-table__body-wrapper::-webkit-scrollbar {
   width: 10px;
@@ -1094,18 +1458,31 @@ export default {
   border: none !important;
   background: none !important;
 }
-/* .spin-icon-load{
-        animation: ani-demo-spin 1s linear infinite;
-    }
-    @keyframes ani-demo-spin {
-        from { transform: rotate(0deg);}
-        50%  { transform: rotate(180deg);}
-        to   { transform: rotate(360deg);}
-    }
-    .message{
-        height: 50px;
-        position: relative;
-        border: 1px solid #eee;
-    } */
-</style>
+/* .v-table >>> .el-table__fixed-body-wrapper {
+  top: 41px !important;
+} */
+.v-table >>> .el-table__fixed:before {
+  border-color: none !important;
+}
 
+/* 2021.06.19判断谷歌内核浏览重新计算table高度 */
+.chrome >>> .el-table__fixed {
+  height: calc(100% - 11px) !important;
+  background: white;
+  /* box-shadow: 0px -11px 10px rgb(0 0 0 / 12%) !important; */
+}
+.chrome >>> .el-table__body-wrapper::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+.chrome >>> .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #ddd;
+}
+.chrome >>> .el-table__fixed:before {
+  background-color: unset;
+}
+.chrome >>> .el-table__fixed-footer-wrapper {
+  bottom: -11.5px;
+}
+</style>

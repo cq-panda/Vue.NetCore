@@ -14,10 +14,28 @@ using VOL.Core.Utilities;
 using System.Linq.Expressions;
 using {StartName}.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
+using {Namespace}.IRepositories;
 
 namespace {Namespace}.Services
 {
     public partial class {TableName}Service
     {
-    }
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly I{TableName}Repository _repository;//访问数据库
+
+        [ActivatorUtilitiesConstructor]
+        public {TableName}Service(
+            I{TableName}Repository dbRepository,
+            IHttpContextAccessor httpContextAccessor
+            )
+        : base(dbRepository)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _repository = dbRepository;
+            //多租户会用到这init代码，其他情况可以不用
+            //base.Init(dbRepository);
+        }
+  }
 }

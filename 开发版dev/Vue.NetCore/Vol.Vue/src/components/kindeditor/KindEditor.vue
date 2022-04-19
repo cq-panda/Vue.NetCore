@@ -52,6 +52,12 @@ export default {
       type: String,
       default: ""
     },
+    upload:{ //上传方法
+      type:Function,
+      default:(file)=>{
+
+      }
+    },
     uploadCount: {
       //最多可以上传(图片)的数量
       type: Number,
@@ -131,9 +137,9 @@ export default {
           "|",
           //   "image",
           //   "multiimage",
-          "flash",
-          "media",
-          "insertfile",
+          //   "flash",
+          //   "media",
+          //   "insertfile",
           "table",
           "hr",
           "emoticons",
@@ -435,7 +441,7 @@ export default {
       }
       let urls = files.map(x => {
         return (
-          `<img style="width:100%;" src="` +
+          `<img class="editor-img" src="` +
           (this.http.ipAddress + result.data + x.name) +
           `"/>`
         );
@@ -488,7 +494,7 @@ export default {
       fullscreenMode: _this.fullscreenMode,
       basePath: _this.basePath,
       themesPath: _this.cssPath,
-      pluginsPath: _this.pluginsPath,
+      pluginsPath: 'static/kindeditor/plugins/', // _this.pluginsPath,
       langPath: _this.langPath,
       minChangeSize: _this.minChangeSize,
       loadStyleMode: _this.loadStyleMode,

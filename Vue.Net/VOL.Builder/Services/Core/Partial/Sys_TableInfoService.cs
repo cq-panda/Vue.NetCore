@@ -1,4 +1,4 @@
-﻿using DairyStar.Builder.Utility;
+﻿using VOL.Builder.Utility;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
 using Newtonsoft.Json;
@@ -21,7 +21,7 @@ using VOL.Entity.DomainModels;
 using VOL.Entity.DomainModels.Sys;
 using VOL.Entity.SystemModels;
 
-namespace DairyStar.Builder.Services
+namespace VOL.Builder.Services
 {
     public partial class Sys_TableInfoService
     {
@@ -331,6 +331,10 @@ DISTINCT
             {
                 return WebResponseContent.Instance.Error($"父级id不能为自己");
             }
+            if (sysTableInfo.TableColumns != null && sysTableInfo.TableColumns.Any(x => !string.IsNullOrEmpty(x.DropNo) && x.ColumnName == sysTableInfo.ExpressField))
+            {
+                return WebResponseContent.Instance.Error($"不能将字段【{sysTableInfo.ExpressField}】设置为快捷编辑,因为已经设置了数据源");
+            }
             if (sysTableInfo.TableColumns != null)
             {
                 sysTableInfo.TableColumns.ForEach(x =>
@@ -561,23 +565,24 @@ DISTINCT
         /// <param name="vue"></param>
         /// <param name="edit"></param>
         /// <returns></returns>
-        private List<object> GetSearchData(List<List<PanelHtml>> panelHtml, List<Sys_TableColumn> sysColumnList, bool vue = false, bool edit = false)
+        private List<object> GetSearchData(List<List<PanelHtml>> panelHtml, List<Sys_TableColumn> sysColumnList, bool vue = false, bool edit = false, bool app = false)
         {
             if (edit)
             {
-                GetPanelData(sysColumnList, panelHtml, x => x.EditRowNo, c => c.EditRowNo != null && c.EditRowNo > 0, false, q => q.EditRowNo, vue);
+                GetPanelData(sysColumnList, panelHtml, x => x.EditRowNo, c => c.EditRowNo != null && c.EditRowNo > 0, false, q => q.EditRowNo, vue, app: app);
             }
             else
             {
-                GetPanelData(sysColumnList, panelHtml, x => x.SearchRowNo, c => c.SearchRowNo != null, true, q => q.SearchRowNo, vue);
+                GetPanelData(sysColumnList, panelHtml, x => x.SearchRowNo, c => c.SearchRowNo != null, true, q => q.SearchRowNo, vue, app: app);
             }
 
             List<object> list = new List<object>();
-            Func<PanelHtml, object> func = s => new { s.columnType, s.dataSource, s.displayType, s.text, s.require, s.id };
-            if (vue)
-                func = s => new { type = s.columnType, dataKey = s.displayType, title = s.text, required = s.require, field = s.id };
+
+            int index = 0;
+            bool group = panelHtml.Exists(x => x.Count > 1);
             panelHtml.ForEach(x =>
             {
+                index++;
                 List<Dictionary<string, object>> keyValuePairs = new List<Dictionary<string, object>>();
                 //List<KeyValuePair<string, object>> keyValuePairs = new List<KeyValuePair<string, object>>();
                 x.ForEach(s =>
@@ -588,7 +593,16 @@ DISTINCT
                         //  keyValues.Add("columnType", s.columnType);
                         if (!string.IsNullOrEmpty(s.dataSource) && s.dataSource != "''")
                         {
-                            keyValues.Add("dataKey", s.dataSource);
+                            if (app)
+                            {
+                                keyValues.Add("key", s.dataSource);
+                            }
+                            else
+                            {
+                                keyValues.Add("dataKey", s.dataSource);
+                            }
+                            //2020.09.11增加vue页面数据源配置默认空数据源
+                            keyValues.Add("data", new string[] { });
                         }
                         keyValues.Add("title", s.text);
                         if (s.require)
@@ -601,7 +615,7 @@ DISTINCT
                         {
                             keyValues.Add("disabled", true);
                         }
-                        if (s.colSize > 0)
+                        if (s.colSize > 0 && !app)
                         {
                             keyValues.Add("colSize", s.colSize);
                         }
@@ -624,10 +638,27 @@ DISTINCT
                         }
                         keyValues.Add("id", s.id);
                     }
-                    keyValuePairs.Add(keyValues);
+                    if (!app)
+                    {
+                        keyValuePairs.Add(keyValues);
+                    }
+                    else
+                    {
+                        list.Add(keyValues);
+                    }
                 });
-                list.Add(keyValuePairs);
-                // list.Add(x.Select(func).ToList());
+                if (!app)
+                {
+                    list.Add(keyValuePairs);
+                }
+                else
+                {
+                    //app页面添加分组
+                    if (index != panelHtml.Count() && group)
+                    {
+                        list.Add(new { type = "group" });
+                    }
+                }
             });
             return list;
         }
@@ -640,9 +671,13 @@ DISTINCT
         /// <returns></returns>
         public string CreateVuePage(Sys_TableInfo sysTableInfo, string vuePath)
         {
-            if (string.IsNullOrEmpty(vuePath)) return "请设置Vue所在Views的绝对路径!";
+            bool isApp = HttpContext.Current.Request.Query["app"].GetInt() > 0;
+            if (string.IsNullOrEmpty(vuePath))
+            {
+                return isApp ? "请设置App路径" : "请设置Vue所在Views的绝对路径!";
+            }
 
-            if (!FileHelper.DirectoryExists(vuePath)) return $"未找Vue项目路径{vuePath}!";
+            if (!FileHelper.DirectoryExists(vuePath)) return $"未找项目路径{vuePath}!";
 
             if (sysTableInfo == null
               || sysTableInfo.TableColumns == null
@@ -661,32 +696,75 @@ DISTINCT
             {
                 return $"查询类型为[{string.Join(',', eidtTye)}]时必须选择数据源";
             }
-            StringBuilder sb = GetGridColumns(sysColumnList, sysTableInfo.ExpressField, false, true);
+            if (isApp && !sysColumnList.Exists(x => x.Enable > 0))
+            {
+                return $"请设置[app列]";
+            }
+            StringBuilder sb = GetGridColumns(sysColumnList, sysTableInfo.ExpressField, false, true, app: isApp);
             if (sb.Length == 0) return "未获取到数据!";
             string columns = sb.ToString().Trim();
             columns = columns.Substring(0, columns.Length - 1);
             string key = sysColumnList.Where(c => c.IsKey == 1).Select(x => x.ColumnName).First() ?? "";
 
-            var formFileds = sysColumnList.Where(c => c.EditRowNo != null && c.EditRowNo > 0)
+            //{ key: 1, value: "显示/查询/编辑" },
+            //{ key: 2, value: "显示/编辑" },
+            //{ key: 3, value: "显示/查询" },
+            //{ key: 4, value: "显示" },
+            //{ key: 5, value: "查询/编辑" },
+            //{ key: 6, value: "查询" },
+            //{ key: 7, value: "编辑" },
+            Func<Sys_TableColumn, bool> editFunc = c => c.EditRowNo != null && c.EditRowNo > 0;
+            if (isApp)
+            {
+                editFunc = x => new int[] { 1, 2, 5, 7 }.Any(c => c == x.Enable);
+            }
+            var formFileds = sysColumnList.Where(editFunc)
                 .OrderBy(o => o.EditRowNo)
                 .ThenByDescending(t => t.OrderNo)
-                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.SearchType == "checkbox" ? new string[0] : "" as object))
+                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.EditType == "checkbox" || x.EditType == "selectList" || x.EditType == "cascader" ? new string[0] : "" as object))
                 .ToList().ToDictionary(x => x.Key, x => x.Value).Serialize();
 
             List<List<PanelHtml>> panelHtml = new List<List<PanelHtml>>();
 
-            List<object> list = GetSearchData(panelHtml, sysColumnList, true);
+            List<object> list = GetSearchData(panelHtml, sysColumnList, true, app: isApp);
 
-            string pageContent = FileHelper.ReadFile("Template\\Page\\VueSearchPage.html");
+            string pageContent = null;
+
+            if (isApp)
+            {
+                pageContent = FileHelper.ReadFile("Template\\Page\\app\\options.html");
+            }
+            else if (HttpContext.Current.Request.Query.ContainsKey("v3"))   //2021.08.01增加vue3页面模板
+            {
+                pageContent = FileHelper.ReadFile("Template\\Page\\Vue3SearchPage.html");
+            }
+            else
+            {
+                pageContent = FileHelper.ReadFile("Template\\Page\\VueSearchPage.html");
+            }
+
+
             if (string.IsNullOrEmpty(pageContent))
             {
                 return "未找到Template模板文件";
             }
-            //  AppSetting.CurrentPath
 
-            var searchFormFileds = sysColumnList
-                .Where(c => c.SearchRowNo != null && c.SearchRowNo > 0)
-                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.SearchType == "checkbox" ? new string[0] : "" as object))
+            //{ key: 1, value: "显示/查询/编辑" },
+            //{ key: 2, value: "显示/编辑" },
+            //{ key: 3, value: "显示/查询" },
+            //{ key: 4, value: "显示" },
+            //{ key: 5, value: "查询/编辑" },
+            //{ key: 6, value: "查询" },
+            //{ key: 7, value: "编辑" },
+            Func<Sys_TableColumn, bool> func = c => c.SearchRowNo != null && c.SearchRowNo > 0;
+
+            if (isApp)
+            {
+                func = x => new int[] { 1, 3, 5, 6 }.Any(c => c == x.Enable);
+            }
+            var searchFormFileds = sysColumnList.Where(func)
+                .Select(x => new KeyValuePair<string, object>(x.ColumnName, x.SearchType == "checkbox"
+                || x.SearchType == "selectList" || x.EditType == "cascader" ? new string[0] : x.SearchType == "range" ? new string[] { null, null } : "" as object))
                 .ToList().ToDictionary(x => x.Key, x => x.Value).Serialize();
 
             pageContent = pageContent.Replace("#searchFormFileds", searchFormFileds)
@@ -695,13 +773,13 @@ DISTINCT
                 .Replace("],[", "],\r\n                              [")
                 );
             panelHtml = new List<List<PanelHtml>>();
-            string formOptions = GetSearchData(panelHtml, sysColumnList, true, true).Serialize() ?? "";
+            //编辑
+            string formOptions = GetSearchData(panelHtml, sysColumnList.Where(editFunc).ToList(), true, true, app: isApp).Serialize() ?? "";
 
             string[] arr = sysTableInfo.Namespace.Split(".");
             string spaceFolder = (arr.Length > 1 ? arr[arr.Length - 1] : arr[0]).ToLower();
 
             pageContent = pageContent.Replace("#columns", columns).
-                            Replace("#TableName", sysTableInfo.TableName).
                             Replace("#SortName", string.IsNullOrEmpty(sysTableInfo.SortName) ? key : sysTableInfo.SortName).
                             Replace("#key", key).
                             Replace("#Foots", " ").
@@ -717,7 +795,7 @@ DISTINCT
 
 
             //如果有明细，加载明细的数据
-            if (!string.IsNullOrEmpty(sysTableInfo.DetailName))
+            if (!string.IsNullOrEmpty(sysTableInfo.DetailName) && !isApp)
             {
                 Sys_TableInfo detailTable = repository.FindAsIQueryable(x => x.TableName == sysTableInfo.DetailName)
                     .Include(x => x.TableColumns).FirstOrDefault();
@@ -725,6 +803,11 @@ DISTINCT
                     return $"请先生成明细表{ sysTableInfo.DetailName}的配置!";
                 if (detailTable.TableColumns == null || detailTable.TableColumns.Count == 0)
                     return $"明细表{ sysTableInfo.DetailName}没有列的信息,请确认是否有列数据或列数据是否被删除!";
+                var _name = detailTable.TableColumns.Where(x => x.IsImage < 4 && x.EditRowNo > 0).Select(s => s.ColumnName).FirstOrDefault();
+                if (!string.IsNullOrEmpty(_name))
+                {
+                    return $"明细表【{_name}】字段【table显示类型】设置为了【文件或图片】,编辑行只能设置为0或不设置";
+                }
                 //明细列数据
                 List<Sys_TableColumn> detailList = detailTable.TableColumns;
                 //替换明细列数据
@@ -733,7 +816,8 @@ DISTINCT
                 columns = sb.ToString().Trim();
                 columns = columns.Substring(0, columns.Length - 1);
                 pageContent = pageContent.Replace("#detailColumns", columns).
-                    Replace("#detailCnName", detailTable.CnName).
+                    Replace("#detailCnName", detailTable.ColumnCNName).
+                    Replace("#detailTable", detailTable.TableName).
                     Replace("#detailKey", detailTable.TableColumns.Where(c => c.IsKey == 1).Select(x => x.ColumnName).First()).
                     Replace("#detailSortName", string.IsNullOrEmpty(detailTable.SortName) ? key : detailTable.SortName);
             }
@@ -745,217 +829,92 @@ DISTINCT
             }
 
 
-
             //生成扩展逻辑页面(只创建一次)
             //获取view的上一级目录
             string srcPath = new DirectoryInfo(vuePath.MapPath()).Parent.FullName;
-            string extensionPath = $"{srcPath}\\extension\\{spaceFolder}\\";
+            string extensionPath = isApp ? $"{srcPath}\\pages\\{spaceFolder}\\" : $"{srcPath}\\extension\\{spaceFolder}\\";
             //  sysTableInfo.TableName = sysTableInfo.TableName.ToLower();
             string exFileName = sysTableInfo.TableName + ".js";
-            if (!FileHelper.FileExists(extensionPath + exFileName))
+            string tableName = sysTableInfo.TableName;
+
+            if (!isApp)
             {
+                if (!FileHelper.FileExists(extensionPath + exFileName)
+                    || FileHelper.FileExists($"{extensionPath}+\\{ sysTableInfo.FolderName.ToLower()}\\{ exFileName}"))
+                {
+                    //2021.03.06增加前端生成文件到指定文件夹(以前生成过的文件不受影响)
+                    extensionPath = $"{srcPath}\\extension\\{spaceFolder}\\{ sysTableInfo.FolderName.ToLower()}\\";
+                    spaceFolder = spaceFolder + "\\" + sysTableInfo.FolderName.ToLower();
+                    tableName = sysTableInfo.FolderName.ToLower() + "/" + tableName;
+                }
+            }
+
+
+            if (!isApp && !FileHelper.FileExists(extensionPath + exFileName))
+            {
+
                 string exContent = FileHelper.ReadFile("Template\\Page\\VueExtension.html");
                 FileHelper.WriteFile(extensionPath, exFileName, exContent);
             }
-            //生成vue页面
-            FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\", sysTableInfo.TableName + ".vue", pageContent);
 
-            //生成路由
-            string routerPath = $"{srcPath}\\router\\viewGird.js";
-            string routerContent = FileHelper.ReadFile(routerPath);
-            if (!routerContent.Contains($"path: '/{sysTableInfo.TableName}'"))
+            pageContent = pageContent.Replace("#TableName", tableName);
+
+            if (isApp)
             {
-                string routerTemplate = FileHelper.ReadFile("Template\\Page\\router.html")
-                 .Replace("#TableName", sysTableInfo.TableName)
-                 .Replace("#folder", spaceFolder);
-                routerContent = routerContent.Replace("]", routerTemplate);
-                FileHelper.WriteFile($"{srcPath}\\router\\", "viewGird.js", routerContent);
-            }
-            return "页面创建成功!";
-        }
-
-        /// <summary>
-        /// 生成前台页面(不是Vue页面)
-        /// </summary>
-        /// <param name="sysColumnList"></param>
-        /// <param name="sysTableInfo"></param>
-        /// <returns></returns>
-        public string CreatePage(Sys_TableInfo sysTableInfo)
-        {
-            List<Sys_TableColumn> sysColumnList = sysTableInfo.TableColumns;
-            List<List<PanelHtml>> panelHtml = new List<List<PanelHtml>>();
-            List<object> list = GetSearchData(panelHtml, sysColumnList);
-            string nameSpace = sysTableInfo.Namespace;
-            string foldername = sysTableInfo.FolderName;
-            string tableName = sysTableInfo.TableName;
-            string columnCNName = sysTableInfo.ColumnCNName;
-            string gridContent = FileHelper.ReadFile("Template\\Page\\gridParameters.html");
-            string pageContent = FileHelper.ReadFile("Template\\Page\\SearchPage.html");
-
-            pageContent = pageContent.Replace("{#gridParameters}", gridContent);
-            pageContent = pageContent.Replace("{#searchHtml}", JsonConvert.SerializeObject(list).Replace("\"__", "").Replace("__\"", ""));
-
-            panelHtml = new List<List<PanelHtml>>();
-
-            //IsDisplay只有显示的才生成新增或编辑列(富文本编辑的除外)
-            GetPanelData(sysColumnList, panelHtml, x => x.EditRowNo, c => c.EditRowNo != null && c.EditRowNo > 0 && (c.IsDisplay == 1 || c.ColumnName == sysTableInfo.RichText), false, q => q.EditRowNo);
-
-
-            list = new List<object>();
-            panelHtml.ForEach(x =>
-            {
-                List<Dictionary<string, object>> dicList = new List<Dictionary<string, object>>();
-                x.ForEach(c =>
+                if (!FileHelper.FileExists($"{vuePath}\\{ spaceFolder}\\{sysTableInfo.TableName}\\{sysTableInfo.TableName}Extend.js"))
                 {
-                    if (!string.IsNullOrEmpty(sysTableInfo.UploadField) && c.id == sysTableInfo.UploadField)
-                    {
-                        c.displayType = "file";
-                    }
-                    if (!string.IsNullOrEmpty(sysTableInfo.RichText) && c.id == sysTableInfo.RichText)
-                    {
-                        c.displayType = "richText";
-                    }
-                    var dic = new Dictionary<string, object>() { {
-                           "columnType",c.columnType
-                        },{
-                            "dataSource",c.dataSource
-                        },{
-                            "displayType",c.displayType
-                        },{
-                            "text",c.text
-                        },{
-                            "require",c.require
-                        },{
-                            "id",c.id
-                        } };
-                    if (c.colSize > 0)
-                    {
-                        dic.Add("colSize", c.colSize);
-                    }
-                    if (!string.IsNullOrEmpty(sysTableInfo.UploadField))
-                    {
-                        dic.Add("fileMaxCount", sysTableInfo.UploadMaxCount <= 0 ? 1 : sysTableInfo.UploadMaxCount);
-                    }
-                    if (c.disabled)
-                    {
-                        dic.Add("disabled", 1);
-                    }
-                    dicList.Add(dic);
-                });
-                list.Add(dicList);
-            });
-            pageContent = pageContent.Replace("{#editSource}", JsonConvert.SerializeObject(list).Replace("\"__", "").Replace("__\"", ""));
-            pageContent = pageContent.Replace("{#uploader}",
-                !string.IsNullOrEmpty(sysTableInfo.UploadField) ? "@{await Html.RenderPartialAsync(\"~/Views/Shared/Uploader.cshtml\");}" : "");
-
-            pageContent = pageContent.Replace("{#ueditor}", !string.IsNullOrEmpty(sysTableInfo.RichText) ? "@{await Html.RenderPartialAsync(\"~/Views/Shared/Ueditor.cshtml\");}" : "");
-
-
-            StringBuilder sb = GetGridColumns(sysColumnList, sysTableInfo.ExpressField, false);
-            // bool sort = false;
-
-            if (sb.Length == 0)
-                return "未获取到数据!";
-            //totalWidth:#totalWidth,totalShow:#totalS
-            pageContent = pageContent.Replace("{#Width}", ",totalWidth:" + totalWidth + ",totalCol:" + totalCol);
-
-            string dropValue = "";
-            List<string> dropNos = new List<string>();
-            if (sysColumnList.Exists(c => c.DropNo != null))
-            {
-                dropNos.AddRange(sysColumnList.Where(x => !string.IsNullOrEmpty(x.DropNo)).Select(x => x.DropNo).Distinct().ToList());
-            }
-
-            string key = sysColumnList.Where(c => c.IsKey == 1).Select(x => x.ColumnName).First();
-            key = key ?? "";
-            string[] splitArr = nameSpace.Split('.');
-            nameSpace = splitArr[splitArr.Length - 1];
-            string columns = sb.ToString().Trim();
-            columns = columns.Substring(0, columns.Length - 1);
-            pageContent = pageContent.Replace("{#columns}", columns).
-                Replace("#TableName", tableName).
-                Replace("#SortName", string.IsNullOrEmpty(sysTableInfo.SortName) ? key : sysTableInfo.SortName).
-                Replace("#key", key).
-                Replace("#Foots", " ").
-                Replace("#cnName", columnCNName).
-                Replace("#Url", "/" + tableName + "/GetPageData").
-                //  Replace("#Url", "/" + NameSpace + "/PageData/GetSingleData").
-                Replace("#NameSpace", panelHtml.Count == 0 ? "" : "/" + nameSpace).
-                //文件(图片/视频上传)
-                Replace("#fileLink", string.IsNullOrEmpty(sysTableInfo.UploadField) ? "false" : "true").
-                //启用富文本编辑
-                Replace("#richText", string.IsNullOrEmpty(sysTableInfo.RichText) ? "false" : "true");
-
-
-            //如果有明细，加载明细的数据
-            if (!string.IsNullOrEmpty(sysTableInfo.DetailName))
-            {
-
-                Sys_TableInfo detailTable = repository.Find(x => x.TableName == sysTableInfo.DetailName).FirstOrDefault();
-                if (detailTable == null)
-                    return $"请先生成明细表{ sysTableInfo.DetailName}的配置!";
-
-                //  repository.DbContext.Set<Sys_TableColumn>().Select();
-                //获取明细列数据
-                List<Sys_TableColumn> detailList = repository.Find<Sys_TableColumn>(x => x.TableName == sysTableInfo.DetailName);
-                if (detailList.Exists(c => !string.IsNullOrEmpty(c.DropNo)))
-                {
-                    dropNos.AddRange(detailList.Where(x => !string.IsNullOrEmpty(x.DropNo)).Select(x => x.DropNo).Distinct().ToList());
+                    //生成扩展文件
+                    string pageContentEx = FileHelper.ReadFile("Template\\Page\\app\\extension.html");
+                    FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\{sysTableInfo.TableName}\\", sysTableInfo.TableName + "Extend.js", pageContentEx);
                 }
-                //替换明细列数据
-                sb = GetGridColumns(detailList, detailTable.ExpressField, true);
-                key = detailList.Where(c => c.IsKey == 1).Select(x => x.ColumnName).First();
-                columns = sb.ToString().Trim();
-                columns = columns.Substring(0, columns.Length - 1);
-                gridContent = gridContent.Replace("{#columns}", columns)
-                       .Replace("#TableName", detailTable.TableName)
-                       .Replace("#key", key)
-                       .Replace("#SortName", string.IsNullOrEmpty(sysTableInfo.SortName) ? key : sysTableInfo.SortName)
-                       .Replace("#Foots", " ")
-                       .Replace("#Url", "")
-                       .Replace("#cnName", detailTable.ColumnCNName)
-                       .Replace("#NameSpace", detailTable.Namespace)
-                       .Replace("#fileLink", "false")
-                       .Replace("#richText", "false");
-                gridContent = gridContent.Replace("{#Width}", ",totalWidth:" + totalWidth + ",totalCol:" + totalCol);
+                //生成app配置options.js文件
+                FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\{sysTableInfo.TableName}\\", sysTableInfo.TableName + "Options.js", pageContent);
+
+                if (!FileHelper.FileExists($"{vuePath}\\{ spaceFolder}\\{sysTableInfo.TableName}\\{sysTableInfo.TableName}.vue"))
+                {
+                    //生成vue文件
+                    pageContent = FileHelper.ReadFile("Template\\Page\\app\\page.html").Replace("#TableName", sysTableInfo.TableName);
+                    FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\{sysTableInfo.TableName}\\", sysTableInfo.TableName + ".vue", pageContent);
+                }
+
+                string name = FileHelper.ReadFile(@$"{srcPath}\pages.json");
+                string appPath = $"pages/{spaceFolder}/{sysTableInfo.TableName}/{sysTableInfo.TableName}";
+                if (!name.Contains(appPath))
+                {
+                    int index = name.IndexOf("]");
+                    string fragment1 = name.Substring(0, index);
+                    string fragment2 = name.Substring(index);
+
+                    StringBuilder builder = new StringBuilder();
+                    builder.AppendLine("		,{");
+                    builder.AppendLine("			\"path\": \"" + appPath + "\",");
+                    builder.AppendLine("			\"style\": {");
+                    builder.AppendLine("				\"navigationBarTitleText\": \"" + sysTableInfo.ColumnCNName + "\"");
+                    builder.AppendLine("			}");
+                    builder.AppendLine("		}");
+
+                    string fragment = fragment1 + builder.ToString() + "	" + fragment2;
+                    FileHelper.WriteFile(srcPath, "\\pages.json", fragment);
+                }
             }
             else
             {
-                gridContent = "''";
-            }
+                //   spaceFolder = spaceFolder; //+ "\\" + sysTableInfo.FolderName.ToLower();
+                //生成vue页面
+                FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\", sysTableInfo.TableName + ".vue", pageContent);
 
-            if (dropNos.Count > 0)
-            {
-                dropValue = "\"" + string.Join(",", dropNos.Distinct().ToList()) + "\"";
-                dropValue = "@{ViewBag.dropDownIds = " + dropValue + ";}";
+                //生成路由
+                string routerPath = $"{srcPath}\\router\\viewGird.js";
+                string routerContent = FileHelper.ReadFile(routerPath);
+                if (!routerContent.Contains($"path: '/{sysTableInfo.TableName}'"))
+                {
+                    string routerTemplate = FileHelper.ReadFile("Template\\Page\\router.html")
+                     .Replace("#TableName", sysTableInfo.TableName)
+                     .Replace("#folder", spaceFolder.Replace("\\", "/"));
+                    routerContent = routerContent.Replace("]", routerTemplate);
+                    FileHelper.WriteFile($"{srcPath}\\router\\", "viewGird.js", routerContent);
+                }
             }
-            pageContent = pageContent.Replace("{#dropDownIds}", dropValue);
-
-            string currentPath = "".MapPath();
-            string publish = currentPath + "\\" + WebProject + ".dll";
-
-            string projectPath = ProjectPath.GetProjectDirectoryInfo()?.FullName;
-            if (string.IsNullOrEmpty(projectPath) && !FileHelper.FileExists(publish))
-            {
-                return "未找到" + WebProject + "文件路径";
-            }
-            string webPath = null;
-            if (!string.IsNullOrEmpty(projectPath))
-            {
-                webPath = projectPath + "\\" + WebProject + "\\Views\\" + nameSpace + "\\" + foldername + "\\";
-                pageContent = pageContent.Replace("{#gridDetailParameters}", gridContent);
-                FileHelper.WriteFile(webPath, tableName + ".cshtml", pageContent);
-            }
-            //生成发布站点的页面
-            if (FileHelper.FileExists(publish) && FileHelper.DirectoryExists(currentPath + "\\Views"))
-            {
-                webPath = currentPath + "\\Views\\" + nameSpace + "\\" + foldername + "\\";
-                pageContent = pageContent.Replace("{#gridDetailParameters}", gridContent);
-                FileHelper.WriteFile(webPath, tableName + ".cshtml", pageContent);
-            }
-            //生成api数据待完。。
-            //string apiPath = projectPath + ApiNameSpace + "\\Controllers\\" + "\\" + nameSpace + foldername + "\\";
-
             return "页面创建成功!";
         }
 
@@ -1052,7 +1011,7 @@ DISTINCT
                      WHEN ColumnType = 'float' THEN 'float'
                      ELSE 'string '
                 END ColumnType,
-                    [Maxlength],
+                CASE WHEN   ColumnType IN ('NVARCHAR','NCHAR') THEN [Maxlength]/2 ELSE [Maxlength] END  [Maxlength],
                 IsKey,
                 CASE WHEN ColumnName IN('CreateID', 'ModifyID', '')
                           OR IsKey = 1 THEN 0
@@ -1070,7 +1029,7 @@ DISTINCT
                      WHEN[Maxlength] < 200 AND[Maxlength] >= 110 THEN 180
 
                      WHEN[Maxlength] > 200 THEN 220
-                     ELSE 90
+                     ELSE 110
                    END AS ColumnWidth ,
                 0 AS OrderNo,
                 --CASE WHEN IsKey = 1 OR t.[IsNull]=0 THEN 0
@@ -1149,7 +1108,7 @@ DISTINCT
             stringBuilder.Append("			AND MM.\"Maxlength\" >= 110 THEN ");
             stringBuilder.Append("				180  ");
             stringBuilder.Append("				WHEN MM.\"Maxlength\" > 200 THEN ");
-            stringBuilder.Append("				220 ELSE 90  ");
+            stringBuilder.Append("				220 ELSE 110  ");
             stringBuilder.Append("			END AS \"ColumnWidth\", ");
             stringBuilder.Append("			MM.\"OrderNo\", ");
             stringBuilder.Append("		 case WHEN MM.\"IsKey\"=1 or \"lower\"(MM.\"IsNull\")='no' then 0 else 1 end as 	\"IsNull\" , ");
@@ -1277,7 +1236,7 @@ DISTINCT
                 }
                 else
                 {
-                    x.ColumnWidth = 90;
+                    x.ColumnWidth = 110;
                 }
             });
         }
@@ -1384,14 +1343,26 @@ DISTINCT
         /// <param name="detail"></param>
         /// <param name="vue"></param>
         /// <returns></returns>
-        private StringBuilder GetGridColumns(List<Sys_TableColumn> list, string expressField, bool detail, bool vue = false)
+        private StringBuilder GetGridColumns(List<Sys_TableColumn> list, string expressField, bool detail, bool vue = false, bool app = false)
         {
             totalCol = 0;
             totalWidth = 0;
             StringBuilder sb = new StringBuilder();
 
+            //{ key: 1, value: "显示/查询/编辑" },
+            //{ key: 2, value: "显示/编辑" },
+            //{ key: 3, value: "显示/查询" },
+            //{ key: 4, value: "显示" },
+            //{ key: 5, value: "查询/编辑" },
+            //{ key: 6, value: "查询" },
+            //{ key: 7, value: "编辑" },
+            Func<Sys_TableColumn, bool> func = x => true;
             bool sort = false;
-            foreach (Sys_TableColumn item in list.OrderByDescending(x => x.OrderNo))
+            if (app)
+            {
+                func = x => new int[] { 1, 2, 3, 4 }.Any(c => c == x.Enable) && (x.IsDisplay == null || x.IsDisplay == 1);
+            }
+            foreach (Sys_TableColumn item in list.Where(func).OrderByDescending(x => x.OrderNo))
             {
                 if (item.IsColumnData == 0) { continue; }
                 sb.Append("{field:'" + item.ColumnName + "',");
@@ -1411,6 +1382,11 @@ DISTINCT
                     {
                         colType = "file";
                     }
+                    //2021.07.27增加table列显示类型date(自动格式化)
+                    else if (item.IsImage == 4)
+                    {
+                        colType = "date";
+                    }
                     sb.Append("type:'" + colType + "',");
                     if (!string.IsNullOrEmpty(item.DropNo))
                     {
@@ -1420,13 +1396,21 @@ DISTINCT
                     {
                         sb.Append("link:true,");
                     }
+                    //2021.01.09增加代码生成器设置table排序功能
+                    if (item.Sortable == 1 && !app)
+                    {
+                        sb.Append("sort:true,");
+                    }
                 }
                 else
                 {
                     sb.Append("datatype:'" + item.ColumnType + "',");
                 }
 
-                sb.Append("width:" + (item.ColumnWidth ?? 90) + ",");
+                if (!app)
+                {
+                    sb.Append("width:" + (item.ColumnWidth ?? 90) + ",");
+                }
                 if (item.IsDisplay == 0)
                 {
                     sb.Append("hidden:true,");
@@ -1501,14 +1485,15 @@ DISTINCT
                     }
                 }
 
-                if (item.IsNull == 0)
+                if (item.IsNull == 0 && !app)
                 {
                     sb.Append("require:true,");
                 }
 
-                if (item.ColumnType.ToLower() == "datetime" || (item.IsDisplay == 1 & !sort))
+                if (!app && (item.ColumnType.ToLower() == "datetime" || (item.IsDisplay == 1 & !sort)))
                 {
-                    sb.Append("align:'left',sortable:true},");
+                    //2021.09.05修改排序名称
+                    sb.Append("align:'left',sort:true},");
                     if (item.IsDisplay == 1)
                     {
                         sort = true;
@@ -1516,8 +1501,16 @@ DISTINCT
                 }
                 else
                 {
-                    sb.Append("align:'left'},");
+                    if (!app)
+                    {
+                        sb.Append("align:'left'},");
+                    }
                 }
+                if (app)
+                {
+                    sb.Append("},").Replace(",},", "},");
+                }
+
                 sb.AppendLine();
                 sb.Append("                       ");
             }
@@ -1546,7 +1539,7 @@ DISTINCT
                 template = "ApiOutputDomainModel.html";
             }
             string domainContent = FileHelper.ReadFile("Template\\DomianModel\\" + template);
-
+            string partialContent = domainContent;
             StringBuilder AttributeBuilder = new StringBuilder();
             sysColumn = sysColumn.OrderByDescending(c => c.OrderNo).ToList();
             bool addIgnore = false;
@@ -1684,7 +1677,7 @@ DISTINCT
             }
             //获取的是本地开发代码所在目录，不是布后的目录
             string mapPath = ProjectPath.GetProjectDirectoryInfo()?.FullName; //new DirectoryInfo(("~/").MapPath()).Parent.FullName;
-                                                                              //  string folderPath= string.Format("\\DairyStar.Framework.Core.\\DomainModels\\{0}\\", foldername);
+                                                                              //  string folderPath= string.Format("\\VOL.Framework.Core.\\DomainModels\\{0}\\", foldername);
             if (string.IsNullOrEmpty(mapPath))
             {
                 return "未找到生成的目录!";
@@ -1765,14 +1758,22 @@ DISTINCT
                 folderName = "ApiEntity\\OutPut";
                 tableName = "Api" + tableInfo.TableName + "Output";
             }
-
-            FileHelper.WriteFile(
-                mapPath +
-                string.Format(
-                "\\" + modelNameSpace + "\\DomainModels\\{0}\\", folderName
-                )
-                , tableName + ".cs",
-                domainContent);
+            //mapPath +
+            //  string.Format(
+            //  "\\" + modelNameSpace + "\\DomainModels\\{0}\\", folderName
+            //  )
+            string modelPath = $"{mapPath}\\{modelNameSpace}\\DomainModels\\{folderName}\\";
+            FileHelper.WriteFile(  modelPath  , tableName + ".cs",  domainContent);
+            //partialContent
+            modelPath += "partial\\";
+            if (!FileHelper.FileExists(modelPath + tableName + ".cs"))
+            {
+                partialContent = partialContent.Replace("{AttributeManager}", "")
+                    .Replace("{AttributeList}", @"//此处配置字段(字段配置见此model的另一个partial),如果表中没有此字段请加上 [NotMapped]属性，否则会异常")
+                    .Replace(":BaseEntity", "")
+                    .Replace("{TableName}", tableInfo.TableName).Replace("{Namespace}", modelNameSpace);
+                FileHelper.WriteFile(modelPath, tableName + ".cs", partialContent);
+            }
             if (createType == 1)
             {
                 string mappingConfiguration = FileHelper.
@@ -1833,8 +1834,29 @@ DISTINCT
         /// <param name="search"></param>
         /// <param name="orderBy"></param>
         /// <param name="vue"></param>
-        private void GetPanelData(List<Sys_TableColumn> list, List<List<PanelHtml>> panelHtml, Func<Sys_TableColumn, int?> keySelector, Func<Sys_TableColumn, bool> predicate, bool search, Func<Sys_TableColumn, int?> orderBy, bool vue = false)
+        private void GetPanelData(List<Sys_TableColumn> list, List<List<PanelHtml>> panelHtml, Func<Sys_TableColumn, int?> keySelector, Func<Sys_TableColumn, bool> predicate, bool search, Func<Sys_TableColumn, int?> orderBy, bool vue = false, bool app = false)
         {
+            //{ key: 1, value: "显示/查询/编辑" },
+            //{ key: 2, value: "显示/编辑" },
+            //{ key: 3, value: "显示/查询" },
+            //{ key: 4, value: "显示" },
+            //{ key: 5, value: "查询/编辑" },
+            //{ key: 6, value: "查询" },
+            //{ key: 7, value: "编辑" },
+
+            if (app)
+            {
+                list.ForEach(x =>
+                {
+                    if (x.EditRowNo == 0)
+                    {
+                        x.EditRowNo = 99999;
+                    }
+                });
+                var arr = search ? new int[] { 1, 3, 5, 6 } : new int[] { 1, 2, 5, 7 };
+                predicate = x => arr.Any(c => c == x.Enable);
+            }
+
             var whereReslut = list.Where(predicate).OrderBy(orderBy).ThenByDescending(c => c.OrderNo).ToList();
             foreach (var item in whereReslut.GroupBy(keySelector))
             {

@@ -1,12 +1,16 @@
 <template>
   <div class="coder-container">
     <div class="left">
-      <ul v-for="(item,index) in nav" :key="index">
-        <li @click="to(index)" :class="{actived:activedIndex==index,step:index>3&&index<10}">{{item}}</li>
+      <ul v-for="(item,index) in nav"
+          :key="index">
+        <li @click="to(index)"
+            :class="{actived:activedIndex==index,step:index>3&&index<10}">{{item}}</li>
       </ul>
     </div>
     <div class="right">
-      <div id="doc-0" class="coder-doc">
+            <h1 class="big-text">如果生成代码出现问题或不能跑起来，请把此文档重新仔细看一遍!!!</h1>
+      <div id="doc-0"
+           class="coder-doc">
         <div class="title">
           <h2>使用代码生成器可实现的功能</h2>
         </div>
@@ -17,15 +21,19 @@
           <li class="coder-list">一对多暂未实现,需要自己写扩展</li>
         </ul>
       </div>
-      <div id="doc-1" class="coder-doc">
+      <div id="doc-1"
+           class="coder-doc">
         <div class="title">
           <h2>使用代码生成器前需要准备的工作</h2>
         </div>
         <ul class="coder-group">
-          <li class="coder-list" v-for="(item,index) in codeRequire" :key="index">{{item.text}}</li>
+          <li class="coder-list"
+              v-for="(item,index) in codeRequire"
+              :key="index">{{item.text}}</li>
         </ul>
       </div>
-      <div id="doc-2" class="coder-doc">
+      <div id="doc-2"
+           class="coder-doc">
         <div class="title">
           <h2>主从(明细)表生成代码需要注意</h2>
         </div>
@@ -39,27 +47,38 @@
       <br />
       <br />
 
-      <h2
-        style="color:red;font-weight: 500; margin-bottom: 20px;"
-      >创建mysql表，只有字段类型是guid时设置成char(36),其他字段的长度都不要设置成长度36，否则会替换成guid类型</h2>
-      <h2 style="color:red;font-weight: 500; margin-bottom: 20px;">数据库字段不要设置类型bit(bool)，请用int或byte替代</h2>
-      <div id="doc-3" class="coder-doc">
+      <h2 style="color:red;font-weight: 500; margin-bottom: 20px;">1、创建mysql表，只有字段类型是guid时设置成char(36),其他字段的长度都不要设置成长度36，否则会替换成guid类型</h2>
+      <h2 style="color:red;font-weight: 500; margin-bottom: 20px;">2、数据库字段不要设置类型bit(bool)，请用int或byte替代</h2>
+      <p>
+        <Alert style=" line-height: 2.5;   width: 900px;">
+          生成代码时项目启动（必看）
+          <template slot="desc">
+            <p>1、按项目启动文档启动项目即可</p>
+            <p style="color:red;">2、后台请运行 ../VOL.WebApi/builder_run.bat命令，如果不需要生成业务类运行dev_run.bat即可(第一次生成某张表代码时候才需要运行builder_run.bat)</p>
+          </template>
+        </Alert>
+
+      </p>
+
+      <h2 style="color:red;font-weight: 500; margin-bottom: 15px;">生成代码后，查询框或弹出编辑框是空的，请看代码生成第3步说明</h2>
+      <h2 style="color:red;font-weight: 500; margin-bottom: 15px;">生成代码后，打开页面异常，请看代码生成第6步说明</h2>
+      <div id="doc-3"
+           class="coder-doc">
         <h1 style="    margin-bottom: 20px;">生成代码</h1>
         <div class="title">
           <h2>1、选择菜单：在线代生成器->Vue+后台代码生成</h2>
         </div>
         <ul class="coder-group">
           <li class="coder-list">点击新建,弹出选择框，如果只是做修改跳过此步，直接修改页面配置后点保存，再点各种生成操作</li>
-          <li
-            class="coder-img"
-            @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step1.png')"
-          >
+          <li class="coder-img"
+              @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step1.png')">
             <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step1.png" />
           </li>
         </ul>
       </div>
 
-      <div id="doc-4" class="coder-doc">
+      <div id="doc-4"
+           class="coder-doc">
         <div class="title">
           <h2>2、填写需要生成表或视图的信息</h2>
         </div>
@@ -69,35 +88,32 @@
           <li class="coder-list">项目文件夹：生成的文件放在文件夹,此文件夹由代码生成器创建,不需要手动创建</li>
           <li class="coder-list">表名:可以是视图或表,名字必须和数据库一样</li>
           <li class="coder-list">如果只想创建一个空菜单，上面表名随便填写</li>
-          <li
-            class="coder-img"
-            @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step2.png')"
-          >
+          <li class="coder-img"
+              @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step2.png')">
             <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/step2.png" />
           </li>
         </ul>
       </div>
-      <div id="doc-5" class="coder-doc">
+      <div id="doc-5"
+           class="coder-doc">
         <div class="title">
           <h2>3、配置表结构信息</h2>
         </div>
         <ul class="coder-group">
-          <li class="coder-list">根据需要配置下面表格中的查询与新建、编辑信息 (不设置编辑、新建行，编辑或查询时，弹出框是空白的)</li>
+          <li class="coder-list"
+              style="color:red;">根据需要配置下面表格中的查询与新建、编辑信息 (不设置编辑、新建行，编辑或查询时，弹出框是空白的)</li>
           <li class="coder-list">表别名：别名将替代原表名生成的Model与业务类。一个表只能有一个别名，默认表名与别名相同。若用别名,必须将已经生成文件删除</li>
           <li class="coder-list">点击保存、生成Vue页面、生成Model、生成业务类即可(每次修改信息后都需要点击保存)。</li>
-          <li
-            class="coder-list"
-            style="color:#0b906d;"
-          >Vue视图绝对路径：生成Vue页面必须指定此路径，路径为当前Vue项目的views文件夹，如E:/VOL.Vue/src/views</li>
-          <li
-            class="coder-img"
-            @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep3.png')"
-          >
+          <li class="coder-list"
+              style="color:#0b906d;">Vue视图绝对路径：生成Vue页面必须指定此路径，路径为当前Vue项目的views文件夹，如E:/VOL.Vue/src/views</li>
+          <li class="coder-img"
+              @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep3.png')">
             <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep3.png" />
           </li>
         </ul>
       </div>
-      <div id="doc-6" class="coder-doc">
+      <div id="doc-6"
+           class="coder-doc">
         <div class="title">
           <h2>4、查看生成完的代码</h2>
         </div>
@@ -105,47 +121,40 @@
           <li class="coder-list">生成完成后在vs中搜索当前表就能看到生成的代码了</li>
           <li class="coder-list">vue代码也同时生成了,可在vscode中搜索当前文件(文件名都是以当前表名开头)</li>
           <li class="coder-img">
-            <img
-              style=" width: 300px;"
-              src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep4.png"
-            />
-            <img
-              style=" width: 300px;"
-              src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep4x.png"
-            />
+            <img style=" width: 300px;"
+                 src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep4.png" />
+            <img style=" width: 300px;"
+                 src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep4x.png" />
           </li>
         </ul>
       </div>
 
-      <div id="doc-7" class="coder-doc">
+      <div id="doc-7"
+           class="coder-doc">
         <div class="title">
           <h2>5、菜单配置</h2>
         </div>
         <ul class="coder-group">
-          <li
-            class="coder-list"
-          >Url:通过VsCode打开vue项目,找到router文件夹下viewGird.js找当前生成表的path属性/SellOrder就是配置菜单需要配置的url,直接复制过来即可</li>
+          <li class="coder-list">Url:通过VsCode打开vue项目,找到router文件夹下viewGird.js找当前生成表的path属性/SellOrder就是配置菜单需要配置的url,直接复制过来即可</li>
           <li class="coder-list">表名:在生成代码时填写的表名或视图名，必须一致，否则权限验证通不过</li>
-          <li
-            class="coder-img"
-            @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep5.png')"
-          >
+          <li class="coder-img"
+              @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep5.png')">
             <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep5.png" />
           </li>
         </ul>
       </div>
 
-      <div id="doc-8" class="coder-doc">
+      <div id="doc-8"
+           class="coder-doc">
         <div class="title">
           <h2>6、查看生成的页面</h2>
         </div>
         <ul class="coder-group">
-          <li class="coder-list" style="color:red;">确认后台项目运行的是路径 …/VOL.WebApi/dev_run.bat 文件,</li>
+          <li class="coder-list"
+              style="color:red;">如果后台启动的是builder_run.bat请关掉后台(否则打开菜单后会提示未找到路径),点击目录 …/VOL.WebApi/dev_run.bat文件启动后台,</li>
           <li class="coder-list">输入http://localhost:8080/sellOrder</li>
-          <li
-            class="coder-img"
-            @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep6.png')"
-          >
+          <li class="coder-img"
+              @click="preview('https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep6.png')">
             <img src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/sep6.png" />
           </li>
         </ul>
@@ -200,11 +209,9 @@
             <td>快捷编辑字段</td>
             <td>
               设置[快捷编辑字段]后，前台界面表格点击此链接可快速查看详细信息&nbsp;
-              <img
-                height="110"
-                src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/link.png"
-                style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;border-style:none;width:350px !important;margin-bottom:30px;margin-top:10px;"
-              />
+              <img height="110"
+                   src="https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/doc/link.png"
+                   style="box-sizing:border-box;-webkit-tap-highlight-color:transparent;border-style:none;width:350px !important;margin-bottom:30px;margin-top:10px;" />
             </td>
           </tr>
           <tr>
@@ -301,21 +308,25 @@
       <br />
     </div>
 
-    <Drawer :width="800" class="q-drawer" title="代码生成器使用常见问题" :closable="false" v-model="q_moel">
-      <Alert type="success" show-icon>
+    <Drawer :width="800"
+            class="q-drawer"
+            title="代码生成器使用常见问题"
+            :closable="false"
+            v-model="q_moel">
+      <Alert type="success"
+             show-icon>
         关于生成model
         <template slot="desc">
           <p>如果修改了编辑行或者编辑列，必须点生成model；如果只允许编辑，但不想显示出来，编辑行设置为0，再点生成model</p>
           <p>框架不支持多主键，如果有多个主键，在生成页面，主键列只勾选一个即可</p>
         </template>
       </Alert>
-      <el-collapse v-model="activeName" accordion>
-        <el-collapse-item
-          v-for="(item,index) in q_items"
-          :key="index"
-          :title="item.title"
-          :name="index+1"
-        >
+      <el-collapse v-model="activeName"
+                   accordion>
+        <el-collapse-item v-for="(item,index) in q_items"
+                          :key="index"
+                          :title="item.title"
+                          :name="index+1">
           <div>{{item.desc}}</div>
         </el-collapse-item>
       </el-collapse>
@@ -323,8 +334,9 @@
   </div>
 </template>
 <script>
+import "./doc.less";
 export default {
-  data() {
+  data () {
     return {
       activedIndex: 0,
       q_moel: false,
@@ -387,10 +399,10 @@ export default {
     };
   },
   methods: {
-    preview(img) {
+    preview (img) {
       window.open(img);
     },
-    to(index) {
+    to (index) {
       this.activedIndex = index;
       if (index == 1) {
         this.q_moel = true;
@@ -405,11 +417,11 @@ export default {
       window.scrollTo(0, top);
     }
   },
-  created() {}
+  created () {
+  }
 };
 </script>
 <style lang="less" scoped>
-
 .coder-container {
   display: flex;
   .left {
@@ -480,9 +492,9 @@ export default {
 }
 
 .step {
-    // padding-left: 20px !important;
-    color: #797878;
-    font-size: 12px !important;
+  // padding-left: 20px !important;
+  color: #797878;
+  font-size: 12px !important;
 }
 //   .step:first {
 //     margin-top: 15px;
@@ -490,6 +502,44 @@ export default {
 //   .step:last-child {
 //     margin-bottom: 15px;
 //   }
+@-webkit-keyframes shake {
+    0% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes shake {
+    0% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 0.8;
+    }
+}
+.big-text{
+      background: #ffff29;
+ width: 940px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid;
+    margin-bottom: 19px;
+    font-size: 28px;
+    margin-top: 18px;
+  color: red;
+    -webkit-animation: shake 0.5s infinite;
+    animation: shake 0.5s infinite;
+}
+
 </style>
 <style lang="less" scoped>
 table {

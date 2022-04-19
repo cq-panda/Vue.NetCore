@@ -18,7 +18,7 @@ else if (process.env.NODE_ENV == 'debug') {
   axios.defaults.baseURL = 'http://127.0.0.1:9991/';
 }
 else if (process.env.NODE_ENV == 'production') {
-  axios.defaults.baseURL = 'http://132.232.2.109:9991/';
+  axios.defaults.baseURL = 'http://120.53.251.208:9991/';
 }
 let ipAddress = axios.defaults.baseURL;
 axios.interceptors.request.use((config) => {
@@ -39,7 +39,7 @@ axios.interceptors.request.use((config) => {
 //返回状态判断(添加响应拦截器)
 axios.interceptors.response.use((res) => {
   _showLoading && loading.close();
-  //对响应数据做些事
+  checkResponse(res);
   if (res.data.success) {
     return res;
   }
@@ -62,12 +62,24 @@ axios.interceptors.response.use((res) => {
 let $httpVue,
   currentToken = '';
 const _authkey = 'Authorization', _Bearer = '';
-function init(vue) {
+function init (vue) {
   $httpVue = vue;
+}
+
+function checkResponse (res) {
+  //刷新token
+  if (!res.headers) {
+      if (res.getResponseHeader("vol_exp") == "1") {
+          replaceToken();
+      }
+  }
+  else if (res.headers.vol_exp == "1") {
+      replaceToken();
+  }
 }
 // let $loading;
 let loading = {
-  show(obj) {  //可选值为true,string="当前提示的文本"
+  show (obj) {  //可选值为true,string="当前提示的文本"
     try {
       let text = '正在处理中.....';
       if (typeof obj == 'string') {
@@ -78,7 +90,7 @@ let loading = {
       console.log(error)
     }
   },
-  close() {
+  close () {
     try {
       $httpVue.$loading.hide();
       //   $httpVue.$toast.clear();
@@ -87,7 +99,7 @@ let loading = {
     }
   }
 }
-function getToken() {
+function getToken () {
   if (currentToken) {
     return _Bearer + currentToken;
   }
@@ -100,17 +112,18 @@ function getToken() {
 }
 let _showLoading;
 //_showLoading=true异步请求时会显示遮罩层,_showLoading=字符串，异步请求时遮罩层显示当前字符串
-function post(url, params, showLoading) {
+function post (url, params, showLoading) {
   _showLoading = showLoading;
   axios.defaults.headers[_authkey] = getToken();
   return new Promise((resolve, reject) => {
     //  axios.post(url, qs.stringify(params))   //
     axios.post(url, params)
       .then(response => {
+    
         resolve(response.data);
       }, err => {
-        if (err.status == 403) {
-          return toLogin();
+        if (err.status == 403 || err.status == 401) {
+          return redirect(err);
         }
         if (err.status == 404) {
           $httpVue.$toast("未找到请求地址,404!");
@@ -125,7 +138,7 @@ function post(url, params, showLoading) {
 }
 
 //_showLoading=true异步请求时会显示遮罩层,_showLoading=字符串，异步请求时遮罩层显示当前字符串
-function get(url, param, showLoading) {
+function get (url, param, showLoading) {
   _showLoading = showLoading;
   axios.defaults.headers[_authkey] = getToken();
   return new Promise((resolve, reject) => {
@@ -134,8 +147,12 @@ function get(url, param, showLoading) {
 
         resolve(response.data)
       }, err => {
-        if (err.status == 403) {
-          return toLogin();
+        // if (err.status == 401) {
+        //  // $httpVue.$toast("没有权限操作");
+
+        // }
+        if (err.status == 403 || err.status == 401) {
+          return redirect(err);
         }
         if (err.status == 404) {
           $httpVue.$toast("未找到请求地址,404!");
@@ -153,7 +170,7 @@ function get(url, param, showLoading) {
 
 
 
-function createXHR() {
+function createXHR () {
   if (XMLHttpRequest) {
     return new XMLHttpRequest();
   }
@@ -178,7 +195,7 @@ function createXHR() {
   }
 }
 
-function redirect(responseText, message) {
+function redirect (responseText, message) {
   try {
     let responseData = typeof responseText == 'string' ? JSON.parse(responseText) : responseText;
     //  $httpVue.$message.error(responseData.message || '~服务器好像出了点问题...')
@@ -186,21 +203,21 @@ function redirect(responseText, message) {
       || (responseData.data && responseData.data.code == 401)) {
       toLogin();
     } else {
-      //  $httpVue.$message.error(message);
+      $httpVue.$toast(message || (responseData.data.message));
     }
   } catch (error) {
     console.log(error);
     // $httpVue.$message.error(responseText)
   }
 }
-function toLogin() {
+function toLogin () {
   currentToken = "";
   $httpVue.$router.push({ path: '/login', params: { r: Math.random() } });
 }
 //当前token快要过期时，用现有的token换成一个新的token
-function getNewToken(callBack) {
+function replaceToken (callBack) {
   ajax({
-    url: "/app/User/replaceToken",
+    url: "/api/User/replaceToken",
     param: {},
     json: true,
     success: function (x) {
@@ -226,7 +243,7 @@ function getNewToken(callBack) {
 
 }
 
-function ajax(param) {
+function ajax (param) {
   let httpParam =
     Object.assign({
       url: '', headers: {},
@@ -244,10 +261,6 @@ function ajax(param) {
     if (xhr.status == 403 || xhr.status == 401) {
       redirect(xhr.responseText);
       return;
-    }
-    if (xhr.status == 403) {
-
-      return toLogin();
     }
     if (xhr.readyState == 4 && xhr.status == 200) {
       httpParam.success(httpParam.json ? JSON.parse(xhr.responseText) : xhr.responseText);
@@ -283,6 +296,6 @@ ajax.post = function (url, param, success, errror) {
   ajax({ url: url, param: param, success: success, error: errror, type: 'post' })
 }
 ajax.get = function (url, param, success, errror) {
-  ajax({ url: url, param: param, success: success, error: errror, type: 'post' })
+  ajax({ url: url, param: param, success: success, error: errror, type: 'get' })
 }
 export default { post, get, ajax, init, ipAddress }

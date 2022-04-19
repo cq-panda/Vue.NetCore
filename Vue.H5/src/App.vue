@@ -1,5 +1,6 @@
 <template>
-  <div id="app" :class="{'u-app':uapp}">
+  <div id="app"
+       :class="{'u-app':uapp}">
     <!-- <keep-alive> -->
     <!-- <router-view v-if="$route.meta&&$route.meta.keepAlive" /> -->
     <router-view />
@@ -17,12 +18,12 @@ export default {
     loading,
   },
   name: "app",
-  data() {
+  data () {
     return {
       uapp: false,
     };
   },
-  created() {
+  created () {
     this.uapp = window.location.hash.indexOf("?uapp=1") != -1;
     document.getElementById("vue-loading").style.display = "none";
   },
@@ -40,14 +41,18 @@ export default {
 }
 .u-app .van-nav-bar,
 .u-app .vol-index-title {
-  background: #2b5defee;
+  background: #11b5ff;
   padding-top: 20px;
 }
 .u-app .van-nav-bar > div {
-  color: white;
+  color: white !important;
 }
 .u-app .van-icon-arrow-left {
-  color: white;
+  color: white !important;
+  margin-top: 20px;
+}
+.u-app .van-nav-bar__right .van-icon {
+  color: white !important;
   margin-top: 20px;
 }
 .u-app .vol-index-title {

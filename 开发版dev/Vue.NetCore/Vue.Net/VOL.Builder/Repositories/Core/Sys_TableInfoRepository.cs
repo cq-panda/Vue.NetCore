@@ -1,10 +1,10 @@
-﻿using DairyStar.Builder.IRepositories;
+﻿using VOL.Builder.IRepositories;
 using VOL.Core.BaseProvider;
 using VOL.Core.EFDbContext;
 using VOL.Core.Extensions.AutofacManager;
 using VOL.Entity.DomainModels;
 
-namespace DairyStar.Builder.Repositories
+namespace VOL.Builder.Repositories
 {
     public partial class Sys_TableInfoRepository : RepositoryBase<Sys_TableInfo>, ISys_TableInfoRepository
     {

@@ -12,9 +12,9 @@ namespace VOL.System.Controllers
     {
         [HttpPost, Route("GetVueDictionary")]
         [ApiActionPermission()]
-        public async Task<IActionResult> GetVueDictionary([FromBody]string[] dicNos)
+        public IActionResult GetVueDictionary([FromBody] string[] dicNos)
         {
-            return Content((await Service.GetVueDictionary(dicNos)).Serialize());
+            return Content(Service.GetVueDictionary(dicNos).Serialize());
         }
         /// <summary>
         /// table加载数据后刷新当前table数据的字典项(适用字典数据量比较大的情况)
@@ -32,9 +32,9 @@ namespace VOL.System.Controllers
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost, Route("getSearchDictionary")]
-        public async Task<IActionResult> GetSearchDictionary(string dicNo, string value)
+        public IActionResult GetSearchDictionary(string dicNo, string value)
         {
-            return Json(await Service.GetSearchDictionary(dicNo, value));
+            return Json(Service.GetSearchDictionary(dicNo, value));
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace VOL.System.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost, Route("GetBuilderDictionary")]
-        [ApiActionPermission(ActionRolePermission.SuperAdmin)]
+        // [ApiActionPermission(ActionRolePermission.SuperAdmin)]
         public async Task<IActionResult> GetBuilderDictionary()
         {
             return Json(await Service.GetBuilderDictionary());

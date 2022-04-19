@@ -4,7 +4,8 @@
       <h2>关于ViewGird组件</h2>
     </div>
     <Alert type="warning">
-      <template slot="desc" style="line-height: 30px;">
+      <template slot="desc"
+                style="line-height: 30px;">
         <p>1、ViewGird组件也是前端框架的核心，所有由代码生成的页面的基础功能全部依赖此组件，也可以单独使用此组件。</p>
         <p>2、组件默认包括(单表、主从表)：查询、添加、修改、删除、导入、导出、审核功能</p>
         <p>3、组件支持方法与属性扩展,如：动态按钮、动态控制table列显示、表单动态显示、弹出框动态控制、现有事件进行拦截等，更支持对此组件进行其他组件扩展，组件扩展可实现任何自己想写的代码，具体用法与扩展操作与代码生成后的页面操作相同。</p>
@@ -24,9 +25,11 @@
     <br />
     <br />
     <div>
-      <Button type="info" @click="viewCode=true">查看代码</Button>
+      <Button type="info"
+              @click="viewCode=true">查看代码</Button>
     </div>
-    <docParamTable name="viewGrid" :show-code="true">
+    <docParamTable name="viewGrid"
+                   :show-code="true">
       <div style="padding: 10px;background: #cfeaff;">
         <div>代码一共有4个文件(都在./doc_viewGrid/文件夹中):</div>
         <div>1、doc_viewGird.vue组件基础配置，doc_viewGirdExtension.js组件扩展(扩展全靠这个文件)，这两个文件必需有,并且都可以由代码生成器完成，不需要写任何代码。</div>
@@ -34,20 +37,30 @@
         <div>3、此处api提共的文件代码量较多，因为里面写了大量扩展方法与属性，如果想看主从表没有扩展过的代码，可参照:Sys_Dictionary.vue与Sys_Dictionary.js</div>
       </div>
     </docParamTable>
-    <VolBox
-      icon="ios-chatbubbles"
-      :model.sync="viewCode"
-      title="viewgrid代码"
-      :height="550"
-      :width="1000"
-      :padding="15"
-    >
+    <VolBox icon="ios-chatbubbles"
+            :model.sync="viewCode"
+            title="viewgrid代码"
+            :height="550"
+            :width="1000"
+            :padding="15">
       <div>
         <Tabs value="name1">
-          <TabPane label="doc_viewGird.vue" name="name1"><div v-html="sourceCode[0]"></div></TabPane>
-          <TabPane label="doc_viewGirdExtension.js" name="name2"><div v-html="sourceCode[1]"></div></TabPane>
-           <TabPane label="doc_viewGirdHeader.vue" name="name3"><div v-html="sourceCode[2]"></div></TabPane>
-          <TabPane label="doc_viewGirdModelBody.vue" name="name4"><div v-html="sourceCode[3]"></div></TabPane>
+          <TabPane label="doc_viewGird.vue"
+                   name="name1">
+            <div v-html="sourceCode[0]"></div>
+          </TabPane>
+          <TabPane label="doc_viewGirdExtension.js"
+                   name="name2">
+            <div v-html="sourceCode[1]"></div>
+          </TabPane>
+          <TabPane label="doc_viewGirdHeader.vue"
+                   name="name3">
+            <div v-html="sourceCode[2]"></div>
+          </TabPane>
+          <TabPane label="doc_viewGirdModelBody.vue"
+                   name="name4">
+            <div v-html="sourceCode[3]"></div>
+          </TabPane>
         </Tabs>
       </div>
       <!-- footer 这里不写，默认有一个关闭按钮 -->
@@ -61,10 +74,10 @@ import docParamTable from "./doc_ParamTable.vue";
 import VolBox from "@/components/basic/VolBox.vue";
 export default {
   components: { DocViewGird, docParamTable, VolBox },
-  data() {
+  data () {
     return {
       viewCode: false,
-      sourceCode:[`<div class="cnblogs_code">
+      sourceCode: [`<div class="cnblogs_code">
 <pre>&lt;template&gt;
     &lt;div&gt;
         &lt;view-grid :columns="columns"<span style="color: #000000;">
@@ -171,7 +184,7 @@ export default {
     export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> vueParam;
 </span>&lt;/script&gt;</pre>
 </div>
-<p>&nbsp;</p>`,`<div class="cnblogs_code">
+<p>&nbsp;</p>`, `<div class="cnblogs_code">
 <pre>import extendHeader from "./doc_viewGirdHeader.vue"<span style="color: #000000;">
 
 import extendModelBodyHeader from </span>"./doc_viewGirdModelBody.vue"<span style="color: #000000;">
@@ -341,7 +354,7 @@ let extension </span>=<span style="color: #000000;"> {
 };
 export </span><span style="color: #0000ff;">default</span> extension;</pre>
 </div>
-<p>&nbsp;</p>`,`<div class="cnblogs_code">
+<p>&nbsp;</p>`, `<div class="cnblogs_code">
 <pre>&lt;template&gt;
   &lt;div&gt;
     &lt;Alert type="info"&gt;此处是对ViewGird组件Header扩展的doc_viewGirdHeader.vue组件，你可以在此处写任何你想写的代码&lt;/Alert&gt;
@@ -383,7 +396,7 @@ export </span><span style="color: #0000ff;">default</span><span style="color: #0
 };
 </span>&lt;/script&gt;</pre>
 </div>
-<p>&nbsp;</p>`,`<div class="cnblogs_code">
+<p>&nbsp;</p>`, `<div class="cnblogs_code">
 <pre>&lt;template&gt;
   &lt;div&gt;
     &lt;Alert type="error"&gt;
