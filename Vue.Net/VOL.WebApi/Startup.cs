@@ -29,6 +29,7 @@ using VOL.Core.KafkaManager.IService;
 using VOL.Core.KafkaManager.Service;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
+using VOL.WebApi.Controllers.Hubs;
 
 namespace VOL.WebApi
 {
@@ -161,6 +162,7 @@ namespace VOL.WebApi
                 options.ClientErrorMapping[404].Link =
                     "https://*/404";
             });
+            services.AddSignalR();
             //ApiBehaviorOptions
             //◊¢»Îkafka
             services.AddSingleton<IKafkaConsumer<string, string>, KafkaConsumer<string, string>>();
@@ -225,6 +227,18 @@ namespace VOL.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //≈‰÷√SignalR
+                if (AppSetting.UseSignalR)
+                {
+                    string corsUrls = Configuration["CorsUrls"];
+                    endpoints.MapHub<HomePageMessageHub>("/myTestHub").RequireCors(t =>
+                    //t.WithOrigins(new string[] { "http://localhost:9990" }).
+                    t.WithOrigins(corsUrls.Split(',')).
+                    AllowAnyMethod().
+                    AllowAnyHeader().
+                    AllowCredentials());
+                }
+
             });
         }
     }
