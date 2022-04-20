@@ -55,7 +55,7 @@
 			</template>
 
 			<view class="f-form-content f-form-content-select" @click="showActionSheet(item)"
-				v-else-if="['select','selectList','checkbox','radio'].indexOf(item.type)!=-1">
+				v-else-if="['select','selectList','checkbox','radio','cascader'].indexOf(item.type)!=-1">
 				<view style="flex:1;">
 					<view style="color:rgb(192 196 204);font-size:15px;"
 						v-show="base.isEmpty(inFormFields[item.field],true)">
