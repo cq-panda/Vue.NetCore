@@ -357,7 +357,7 @@
 		font-weight: bold;
 
 		.vol-table-head-cell {
-			padding: 30rpx 10rpx;
+			padding: 30rpx 6rpx;
 			flex: 1;
 			width: 0;
 			font-size: 26rpx;

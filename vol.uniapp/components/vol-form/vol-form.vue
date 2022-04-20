@@ -73,11 +73,13 @@
 
 			<view class="f-form-content" v-else-if="item.type=='number'">
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
-					v-model="formFields[item.field]" border="none" :placeholder="item.placeholder||('请输入'+item.title)"></input>
+					v-model="formFields[item.field]" border="none"
+					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='decimal'">
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
-					v-model="formFields[item.field]" border="none" :placeholder="item.placeholder||('请输入'+item.title)"></input>
+					v-model="formFields[item.field]" border="none"
+					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='switch'">
 				<u-radio-group v-model="formFields[item.field]" placement="row">
@@ -97,11 +99,13 @@
 				:multiple="item.multiple" :maxCount="item.maxCount||1" :previewFullImage="true"></u-upload>
 			<view class="f-form-content" v-else-if="item.type=='password'">
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="password"
-					v-model="inFormFields[item.field]" border="none" :placeholder="item.placeholder||('请输入'+item.title)"></input>
+					v-model="inFormFields[item.field]" border="none"
+					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else>
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
-					v-model="inFormFields[item.field]" border="none" :placeholder="item.placeholder||('请输入'+item.title)"></input>
+					v-model="inFormFields[item.field]" border="none"
+					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 		</view>
 		<slot></slot>
@@ -118,8 +122,8 @@
 				</view>
 				<view class="vol-action-sheet-select-content">
 					<view :class="{'vol-action-sheet-select-actived':actionSheetModel&&isActionSelected(item)}"
-						@click="actionClick(item)" v-show="!item.hidden" :key="index" v-for="(item,index) in actionSheetCurrentItem.data"
-						class="vol-action-sheet-select-item">
+						@click="actionClick(item)" v-show="!item.hidden" :key="index"
+						v-for="(item,index) in actionSheetCurrentItem.data" class="vol-action-sheet-select-item">
 						{{item.value}}
 					</view>
 				</view>
@@ -422,13 +426,16 @@
 				}
 			},
 			validate() {
-				let _option = this.inFormOptions.find(x => {
+				let _option = this.inFormOptions.filter(c => {
+					return c.require || c.required
+				}).find(x => {
 					let val = this.inFormFields[x.field];
 					if (Array.isArray(val)) {
 						return !val.length
 					} else {
-						return ((x.require || x.required) && (this.base.isEmpty(val)))
+						return (this.base.isEmpty(val))
 					}
+					return;
 				});
 				if (_option) {
 					if (['date', 'datetime', 'checkbox', 'select', 'selectList', 'radio', 'switch'].indexOf(_option
@@ -479,7 +486,7 @@
 				if (!imgs) {
 					return []
 				}
-				if(Array.isArray(imgs)){
+				if (Array.isArray(imgs)) {
 					return imgs;
 				}
 				let imgArr = imgs.split(',');
@@ -492,8 +499,8 @@
 				//this.http.ipAddress
 			},
 			async afterRead(option, event) {
-				if(!option.url){
-					return 	this.$toast('未配置好url')
+				if (!option.url) {
+					return this.$toast('未配置好url')
 				}
 				// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
 				let lists = [];
@@ -511,18 +518,24 @@
 					})
 				})
 				for (let i = 0; i < lists.length; i++) {
-					const result = await this.uploadFilePromise(lists[i].url,option.url)
-					let item = this.inFormFields[option.field][fileListLen]
+					const result = await this.uploadFilePromise(lists[i].url, option.url)
+					let item = this.inFormFields[option.field][fileListLen];
+					let fileName=lists[i].name;
+					if(!fileName&& lists[i].thumb){
+						let arr= lists[i].thumb.split('.');
+						let _obj= arr[0].split('/');
+						fileName=_obj[_obj.length-1]+'.'+arr[1];
+					}
 					this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
 						status: 'success',
 						message: '',
-						url: this.http.ipAddress + result + lists[i].name,
-						orginUrl: result + lists[i].name
+						url: this.http.ipAddress + result + fileName,
+						orginUrl: result + fileName
 					}))
 					fileListLen++
 				}
 			},
-			uploadFilePromise(url,apiUrl) {
+			uploadFilePromise(url, apiUrl) {
 				return new Promise((resolve, reject) => {
 					let a = uni.uploadFile({
 						url: this.http.ipAddress + apiUrl, // 仅为示例，非真实的接口地址
@@ -536,9 +549,10 @@
 							setTimeout(() => {
 								resolve(JSON.parse(res.data).data)
 							}, 500)
-						},fail(res){
-							  	this.$toast('上传失败')
-								//console.log(res)
+						},
+						fail(res) {
+							this.$toast('上传失败')
+							//console.log(res)
 						}
 					});
 				})
@@ -612,6 +626,7 @@
 		// }
 
 		.vol-action-sheet-select-content {
+
 			// flex: 1;
 			// height: 0;
 			// overflow: scroll;
