@@ -118,7 +118,7 @@
 				</view>
 				<view class="vol-action-sheet-select-content">
 					<view :class="{'vol-action-sheet-select-actived':actionSheetModel&&isActionSelected(item)}"
-						@click="actionClick(item)" :key="index" v-for="(item,index) in actionSheetCurrentItem.data"
+						@click="actionClick(item)" v-show="!item.hidden" :key="index" v-for="(item,index) in actionSheetCurrentItem.data"
 						class="vol-action-sheet-select-item">
 						{{item.value}}
 					</view>
