@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -114,6 +115,14 @@ namespace VOL.WebApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VOL.Core后台Api", Version = "v1" });
+                // 新增 swagger Knife4jUI 导航通过方法注释获取
+                c.CustomOperationIds(apiDesc =>
+                {
+                    var controllerAction = apiDesc.ActionDescriptor as ControllerActionDescriptor;
+                    return controllerAction?.ControllerName + "-" + controllerAction?.ActionName;
+                });
+                var filePath = Path.Combine(AppContext.BaseDirectory, "VOL.WebApi.xml");
+                
                 var security = new Dictionary<string, IEnumerable<string>>
                 { { AppSetting.Secret.Issuer, new string[] { } }};
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -196,7 +205,7 @@ namespace VOL.WebApi
             app.UseStaticHttpContext();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            app.UseKnife4UI(c =>
             {
                 //2个下拉框选项  选择对应的文档
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "VOL.Core后台Api");
