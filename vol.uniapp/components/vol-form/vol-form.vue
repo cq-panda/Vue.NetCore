@@ -110,7 +110,7 @@
 		</view>
 		<slot></slot>
 		<!--日期 -->
-		<u-datetime-picker class="form-popup" :zIndex="9999999" :closeOnClickOverlay="true" :show="pickerModel"
+		<u-datetime-picker class="form-popup" :minDate="pickerCurrentItem.min" :maxDate="pickerCurrentItem.max"  :zIndex="9999999" :closeOnClickOverlay="true" :show="pickerModel"
 			:value="pickerValue" :mode="pickerCurrentItem.type||'date'" closeOnClickOverlay @confirm="pickerConfirm"
 			@cancel="pickerClose" @close="pickerClose"></u-datetime-picker>
 		<!--  下拉框 -->
@@ -189,6 +189,21 @@
 			};
 		},
 		created() {
+			//日期最小最大值转换
+			this.formOptions.forEach(option => {
+				if ((option.type == 'date' || option.type == 'datetime')) {
+					if (!option.min) {
+						option.min = Number(new Date('1990/01/01 00:00:00')) //
+					} else if (typeof option.min == 'string') {
+						option.min = Number(new Date(option.min.replace(/-/g, "/")))
+					}
+					if (!option.max) {
+						option.max = Number(new Date(new Date().getFullYear() + 10 + '/01/01 00:00:00')) //
+					} else if (option.max && typeof option.max == 'string') {
+						option.max = Number(new Date(option.max.replace(/-/g, "/")))
+					}
+				}
+			})
 			this.inFormOptions = this.formOptions;
 			this.inFormFields = this.formFields;
 			this.imgFields = this.inFormOptions.filter(x => {
@@ -376,8 +391,9 @@
 					}
 					val = val[index];
 				}
-				this.pickerValue = val || (item.type == 'date' ? this.base.getDate() : this.base.getDateTime().substring(0,
+				val = val || (item.type == 'date' ? this.base.getDate() : this.base.getDateTime().substring(0,
 					16))
+				this.pickerValue = Number(new Date(val.replace(/-/g, "/")))
 				this.pickerModel = true;
 				this.hideKeyboard();
 			},
@@ -520,11 +536,11 @@
 				for (let i = 0; i < lists.length; i++) {
 					const result = await this.uploadFilePromise(lists[i].url, option.url)
 					let item = this.inFormFields[option.field][fileListLen];
-					let fileName=lists[i].name;
-					if(!fileName&& lists[i].thumb){
-						let arr= lists[i].thumb.split('.');
-						let _obj= arr[0].split('/');
-						fileName=_obj[_obj.length-1]+'.'+arr[1];
+					let fileName = lists[i].name;
+					if (!fileName && lists[i].thumb) {
+						let arr = lists[i].thumb.split('.');
+						let _obj = arr[0].split('/');
+						fileName = _obj[_obj.length - 1] + '.' + arr[1];
 					}
 					this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
 						status: 'success',
