@@ -165,6 +165,14 @@
                 "navigationBarTitleText": "完整扩展页面",
                 "enablePullDownRefresh": false
             }
+        },{
+            "path" : "pages/message/detail/detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
 	"tabBar": { //设置要与第一个pages的path相同
