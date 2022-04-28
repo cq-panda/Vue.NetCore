@@ -16,28 +16,6 @@
               >vue3.x</span
             >
           </div>
-          <p>后台</p>
-          <p>.NetCore、EntityFrameWorkCore、Dapper、Redis</p>
-          <p>Vue、Promise、Vuex、IView、Element-UI</p>
-          <p>演示账号：admin666 密码:123456</p>
-          <p>本地账号：admin &nbsp; &nbsp; &nbsp; 密码:123456</p>
-          <div style="margin-top: 30px" class="link">
-            <a href="https://github.com/cq-panda/Vue.NetCore" target="_blank">
-              <span>GitHub</span></a
-            >
-            <a
-              href="https://gitee.com/x_discoverer/Vue.NetCore"
-              target="_blank"
-            >
-              <span>Gitee</span></a
-            >
-            <a href="http://v2.volcore.xyz/" target="_blank">
-              <span>Vue2版本</span></a
-            >
-            <a href="http://v2.volcore.xyz/document/guide" target="_blank">
-              <span>框架文档</span></a
-            >
-          </div>
         </div>
       </div>
       <div class="login">
@@ -101,30 +79,6 @@
                 <span v-else>正在登录...</span>
               </el-button>
             </div>
-            <div class="app-link">
-              <a
-                href="#"
-                style="text-decoration: none"
-                >扫描二维码</a
-              >
-              <a>
-                <i class="el-icon-chat-dot-round"></i> 小程序
-                <img
-                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg"
-              /></a>
-              <a>
-                <i class="el-icon-apple"></i>
-                Android
-                <img
-                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png"
-              /></a>
-              <a>
-                <i class="el-icon-document"></i>
-                H5
-                <img
-                  src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png"
-              /></a>
-            </div>
           </div>
         </div>
       </div>
@@ -133,34 +87,6 @@
     <div class="r-bg"></div>
 
     <div class="login-footer">
-      <a @click="openUrl('https://github.com/cq-panda/Vue.NetCore')">
-        GitHub
-      </a>
-      <a @click="openUrl('https://gitee.com/x_discoverer/Vue.NetCore')">
-        Gitee
-      </a>
-      <a
-        style="text-decoration: none"
-        href="https://beian.miit.gov.cn/"
-        target="_blank"
-        >京ICP备19056538号-1</a
-      >
-      <a @click="openUrl('http://v2.volcore.xyz/')"> Vue2版本 </a>
-      <a>QQ1群：45221949(已满)</a>
-      <a>QQ2群：913189178</a>
-     
-          <a
-        href="https://space.bilibili.com/525836469"
-        style="text-decoration: none"
-        target="blank"
-        >NET视频教程(微软MVP-ACE录制)</a
-      >
-      <a
-        href="https://www.cctalk.com/m/group/90268531"
-        style="text-decoration: none"
-        target="blank"
-        >VOL框架视频</a
-      >
     </div>
   </div>
 </template>

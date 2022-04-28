@@ -1,4 +1,3 @@
-//author:jxx
 //此处是对表单的方法，组件，权限操作按钮等进行任意扩展(方法扩展可参照SellOrder.js)
 let extension = {
     components: {//动态扩充组件或组件路径
