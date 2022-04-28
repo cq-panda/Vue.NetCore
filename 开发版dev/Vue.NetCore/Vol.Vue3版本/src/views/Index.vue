@@ -152,6 +152,7 @@ export default defineComponent({
       { name: 'white', color: '#fff' }
     ]);
     const links = ref([
+      { text: '框架视频', path: 'https://www.cctalk.com/m/group/90268531', id: -3 },
       { text: '大屏数据', path: '/bigdata', id: -3 },
       { text: '个人中心', path: '/UserInfo', id: -1 },
       { text: '安全退出', path: '/login', id: -4 }
