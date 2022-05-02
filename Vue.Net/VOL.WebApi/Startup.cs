@@ -31,6 +31,11 @@ using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
 using VOL.Core.Utilities.PDFHelper;
 using VOL.WebApi.Controllers.Hubs;
+<<<<<<< HEAD
+=======
+using WkHtmlToPdfDotNet;
+using WkHtmlToPdfDotNet.Contracts;
+>>>>>>> 1b423a02f154a9766cd3c9a61d7e8a628c0750ee
 
 namespace VOL.WebApi
 {
@@ -166,8 +171,13 @@ namespace VOL.WebApi
             services.AddSignalR();
             //ApiBehaviorOptions
             //Pdf×¢Èë
+<<<<<<< HEAD
             //services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             //services.AddTransient<IPDFService, PDFService>();
+=======
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddTransient<IPDFService, PDFService>();
+>>>>>>> 1b423a02f154a9766cd3c9a61d7e8a628c0750ee
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
@@ -231,7 +241,12 @@ namespace VOL.WebApi
                 if (AppSetting.UseSignalR)
                 {
                     string corsUrls = Configuration["CorsUrls"];
+<<<<<<< HEAD
                     endpoints.MapHub<HomePageMessageHub>("/message").RequireCors(t =>
+=======
+                    endpoints.MapHub<HomePageMessageHub>("/myTestHub").RequireCors(t =>
+                    //t.WithOrigins(new string[] { "http://localhost:9990" }).
+>>>>>>> 1b423a02f154a9766cd3c9a61d7e8a628c0750ee
                     t.WithOrigins(corsUrls.Split(',')).
                     AllowAnyMethod().
                     AllowAnyHeader().

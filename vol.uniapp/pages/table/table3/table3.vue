@@ -25,7 +25,7 @@
 					"ExpertName": "测试数据1",
 					"HeadImageUrl": "Upload/Tables/App_Expert/202103061753415708/060222.jpg",
 					"UserName": "这是手动绑定的table数据",
-					AuditStatus:1,
+					AuditStatus:null,
 					"Creator": "admin",
 					"CreateDate": "2018-09-04 15:49:44"
 				},{

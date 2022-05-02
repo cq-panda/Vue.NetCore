@@ -2,7 +2,7 @@ import store from '../store/index.js'
 
 var ipAddress;
 if (process.env.NODE_ENV === 'development') {
-	ipAddress = "http://localhost:9991/"
+	ipAddress = "https://api.volcore.xyz/"
 } else {
 	ipAddress = "https://api.volcore.xyz/"
 }
