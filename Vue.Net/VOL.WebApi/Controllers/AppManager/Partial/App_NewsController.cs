@@ -5,16 +5,17 @@
  */
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 using System.Threading.Tasks;
-using VOL.Core.DBManager;
+using VOL.AppManager.IRepositories;
+using VOL.AppManager.IServices;
 using VOL.Core.Enums;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
-using VOL.Core.Utilities.PDFHelper;
+using VOL.Core.Infrastructure;
 using VOL.Entity.DomainModels;
-using Microsoft.AspNetCore.Authorization;
-using System.Linq;
 
 namespace VOL.AppManager.Controllers
 {
@@ -64,21 +65,6 @@ namespace VOL.AppManager.Controllers
         {
             return Json(await Service.GetDemoPageList());
         }
-
-
-        /// <summary>
-        /// 导出PDF
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost, Route("ExportPDF")]
-        public ActionResult ExportPDF()
-        {
-            var content = DBServerProvider.DbContext.Set<App_News>().FirstOrDefault()?.Content;
-            var pdf = HttpContext.GetService<IPDFService>();
-            var result = pdf.CreatePDF(content);
-            return File(result, "application/pdf", $"导出新闻PDF{DateTime.Now:yyyyMMddHHmmsss}.pdf");
-        }
-
 
 
         [HttpGet, Route("getNav"), AllowAnonymous]
