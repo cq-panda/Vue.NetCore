@@ -25,7 +25,7 @@
 					搜索
 					<view class="f-icon" @click="searchModel=false">取消</view>
 				</view>
-				<slot name="search"></slot>
+				<slot name="searchHeader"></slot>
 				<view class="vol-action-sheet-select-content">
 					<view class="search-item" @click="sortSelectModel=true">
 						<view class="f-form-label">排序字段</view>
@@ -92,12 +92,13 @@
 					{{buttons.length?(currentAction=='Add'?'新增':'编辑'):'基本信息'}}
 					<view class="f-icon" @click="model=false">取消</view>
 				</view>
-				<slot name="edit"></slot>
+				<slot name="modelHeader"></slot>
 				<view class="vol-action-sheet-select-content">
 					<vol-form :load-key="false" @onChange="editGirdFormOnChange" ref="form"
 						:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
 					</vol-form>
 				</view>
+				<slot name="modelBody"></slot>
 				<view class="btns" :class="{'l-btn':buttons.length>4}">
 					<view v-show="!btn.hidden" class="btn" v-for="(btn,index) in buttons" :key="index">
 						<u-button @click="btnClick(btn)" :customStyle="{'border-radius': '6px'}" :type="btn.type"
@@ -108,7 +109,7 @@
 							text="关 闭"></u-button>
 					</view>
 				</view>
-
+				<slot name="modelFooter"></slot>
 			</view>
 		</u-popup>
 		<!-- 	↑↓ 表格排序，查询最后面增加一个排序字段选择-->
@@ -119,7 +120,7 @@
 				<u-icon :color="btn.color" @click="griFabBtnClick(btn)" :name="btn.icon" size="20"></u-icon>
 			</view>
 			<!-- 		浮动控制按钮 -->
-			<view class="switch-btn" @click="showFabButons=!showFabButons">
+			<view class="switch-btn" v-show="showButtons" @click="showFabButons=!showFabButons">
 				<u-icon color="#1890FF" name="list-dot" size="20"></u-icon>
 			</view>
 		</view>
@@ -163,8 +164,8 @@
 			return {
 				rowIndex: false, //是否显示table的行号
 				load: true, //是否默认加载table表格数据
-				height: 0,
-				direction: "list", //"horizontal"//list
+				height: 0, //当前table/列表高度
+				direction: "list", //页面显示方向"horizontal"//list
 				titleField: "", //如果table表格属性direction是以list显示，可以指定第一个标题
 				fabButtons: [], //浮动按钮、查询、刷新、添加
 				currentAction: 'Add', //当前操作状态
@@ -172,14 +173,15 @@
 				maxHeight: 0,
 				model: false, //新建编辑弹出框
 				showFabButons: false,
-				textInline: true, //超出是否
+				showButtons: true, //是否显示浮动按钮
+				textInline: true, //超出是否换行显示
 				columns: this.options.columns,
 				editFormFields: JSON.parse(JSON.stringify(this.options.editFormFields)),
 				searchFormOptions: this.options.searchFormOptions,
 				searchFormFields: JSON.parse(JSON.stringify(this.options.searchFormFields)),
 				editFormOptions: this.options.editFormOptions,
 				permission: [],
-				buttons: [], //弹出框中的按钮
+				buttons: [], //新建编辑弹出框中的按钮
 				hasEditpermission: false, //是否有编辑、新建权限
 				searchModel: false, //搜索弹出框
 				sortField: '',
@@ -219,7 +221,9 @@
 				if (_$this.rowClick && !_$this.rowClick(index, row, columns)) {
 					return;
 				};
-				this.model = true;
+				if (this.modelOpenBefore(row) && this.modelOpenAfter(row)) {
+					this.model = true;
+				}
 			},
 			hiddenDelButton(hidden) {
 				let delButton = this.buttons.find(x => {
@@ -233,7 +237,9 @@
 				this.currentAction = 'Add';
 				this.hiddenDelButton(true);
 				this.resetEditForm();
-				this.model = true;
+				if (this.modelOpenBefore(null) && this.modelOpenAfter(null)) {
+					this.model = true;
+				}
 			},
 			resetEditForm(source) {
 				if (this.$refs.form) {
@@ -247,6 +253,12 @@
 			btnClick(btn) {
 				//console.log(btn.onClick)
 				btn.onClick.call(this)
+			},
+			modelOpenBefore(row) {
+				return true
+			},
+			modelOpenAfter(row) {
+				return true
 			},
 			showSearch() {
 				this.searchModel = true;
@@ -363,7 +375,7 @@
 				callback(true)
 			},
 			loadGridTableAfter(data, callback) { //查询后
-				if (this.searchAfter && !this.searchAfter(data.rows,data)) {
+				if (this.searchAfter && !this.searchAfter(data.rows, data)) {
 					return callback(false);
 				}
 				callback(true)
@@ -554,8 +566,8 @@
 					return x.key || x.dataKey
 				}))
 				keys.push(...this.editFormOptions.filter(x => {
-					if(x.type=='img'||x.type=="file"||x.type=='excel'){
-						x.url="api/"+this.options.table.name+'/upload'
+					if (x.type == 'img' || x.type == "file" || x.type == 'excel') {
+						x.url = "api/" + this.options.table.name + '/upload'
 					}
 					return x.key || x.dataKey && !x.data.length
 				}).map(x => {
@@ -592,6 +604,16 @@
 							this.searchFormFields[option.field] = ['', ''];
 						}
 						option.range = true;
+					}
+				})
+			},
+			initFormAttr() {
+				this.editFormOptions.forEach(x => {
+					if (!x.hasOwnProperty('readonly')) {
+						x.readonly = false;
+					}
+					if (!x.hasOwnProperty('required')) {
+						x.required = false;
 					}
 				})
 			},
