@@ -8,6 +8,7 @@ using VOL.System.IServices;
 namespace VOL.System.Controllers
 {
     [Route("api/Sys_Dictionary")]
+    [ApiExplorerSettings(GroupName = "字典管理_SysDictionary")]
     public partial class Sys_DictionaryController : ApiBaseController<ISys_DictionaryService>
     {
         public Sys_DictionaryController(ISys_DictionaryService service)
