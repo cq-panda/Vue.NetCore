@@ -49,6 +49,14 @@ const routes = [
         meta:{
           keepAlive:false
         }
+      },
+      {
+        path: '/signalR',  //消息推送
+        name: 'signalR',
+        component: () => import('@/views/signalR/Index.vue'),
+        meta:{
+          keepAlive:false
+        }
       }
     ]
   },

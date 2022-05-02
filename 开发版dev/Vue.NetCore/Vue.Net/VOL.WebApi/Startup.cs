@@ -28,6 +28,7 @@ using VOL.Core.Extensions;
 using VOL.Core.Filters;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
+using VOL.WebApi.Controllers.Hubs;
 
 namespace VOL.WebApi
 {
@@ -177,7 +178,7 @@ namespace VOL.WebApi
                 options.ClientErrorMapping[404].Link =
                     "https://*/404";
             });
-            //ApiBehaviorOptions
+            services.AddSignalR();
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
@@ -249,6 +250,17 @@ namespace VOL.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //≈‰÷√SignalR
+                if (AppSetting.UseSignalR)
+                {
+                    string corsUrls = Configuration["CorsUrls"];
+                    endpoints.MapHub<HomePageMessageHub>("/message").RequireCors(t =>
+                    t.WithOrigins(corsUrls.Split(',')).
+                    AllowAnyMethod().
+                    AllowAnyHeader().
+                    AllowCredentials());
+                }
+
             });
         }
 

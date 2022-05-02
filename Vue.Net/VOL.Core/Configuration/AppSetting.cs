@@ -26,6 +26,10 @@ namespace VOL.Core.Configuration
         {
             get { return _connection.UseRedis; }
         }
+        public static bool UseSignalR
+        {
+            get { return _connection.UseSignalR; }
+        }
         public static Secret Secret { get; private set; }
 
         public static CreateMember CreateMember { get; private set; }
@@ -123,6 +127,7 @@ namespace VOL.Core.Configuration
         public string DbConnectionString { get; set; }
         public string RedisConnectionString { get; set; }
         public bool UseRedis { get; set; }
+        public bool UseSignalR { get; set; }
     }
 
     public class CreateMember: TableDefaultColumns

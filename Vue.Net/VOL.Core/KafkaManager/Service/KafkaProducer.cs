@@ -10,7 +10,8 @@ using VOL.Core.Services;
 namespace VOL.Core.KafkaManager.Service
 {
     /// <summary>
-    /// 生产者 Message.Key的数据类型为string、Message.Value的数据类型为string
+    /// 生产者 控制器或Service里面构造函数注入即可调用
+    /// Message.Key的数据类型为string、Message.Value的数据类型为string
     /// </summary>
     /// <typeparam name="TKey">Message.Key 的数据类型</typeparam>
     /// <typeparam name="TValue">Message.Value 的数据类型</typeparam>
@@ -19,7 +20,7 @@ namespace VOL.Core.KafkaManager.Service
         /// <summary>
         /// 构造生产者
         /// </summary>
-        protected KafkaProducer()
+        public KafkaProducer()
         {
 
         }

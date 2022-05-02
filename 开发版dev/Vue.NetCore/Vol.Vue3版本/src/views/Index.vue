@@ -19,19 +19,39 @@
     </div>
     <div class="vol-container" :style="{ left: menuWidth - 1 + 'px' }">
       <div class="vol-header">
-        <span class="header-text"
-          >支持业务代码扩展的快速开发框架(vue3.x版本)</span
-        >
+        <div class="project-name">VOL开发框架Vue3.x版本</div>
+        <div class="header-text">
+          <div class="h-link">
+            <a
+              href="javascript:void(0)"
+              @click="to(item)"
+              v-for="(item, index) in links.filter((c) => {
+                return !c.icon;
+              })"
+              :key="index"
+            >
+              <span v-if="!item.icon"> {{ item.text }}</span>
+              <i v-else :class="item.icon"></i>
+            </a>
+          </div>
+        </div>
         <div class="header-info">
           <div class="h-link">
             <a
               href="javascript:void(0)"
               @click="to(item)"
-              v-for="(item, index) in links"
+              v-for="(item, index) in links.filter((c) => {
+                return c.icon;
+              })"
               :key="index"
-              v-bind:class="{ actived: selectId == item.id }"
-              >{{ item.text }}
+            >
+              <span v-if="!item.icon"> {{ item.text }}</span>
+              <i v-else :class="item.icon"></i>
             </a>
+          </div>
+          <!--消息管理-->
+          <div class="h-link" @click="messageModel = true">
+            <a><i class="el-icon-message-solid"></i></a>
           </div>
           <div>
             <img class="user-header" :src="userImg" :onerror="errorImg" />
@@ -114,6 +134,15 @@
         </div>
       </div>
     </el-drawer>
+
+    <el-drawer
+      title="消息列表"
+      v-model="messageModel"
+      direction="rtl"
+      destroy-on-close
+    >
+      <Message :list="messageList"></Message>
+    </el-drawer>
   </div>
 </template>
 <style lang="less" scoped>
@@ -122,23 +151,34 @@
 <script>
 import loading from '@/components/basic/RouterLoading';
 import VolMenu from '@/components/basic/VolElementMenu.vue';
+import Message from './index/Message.vue';
+import MessageConfig from './index/MessageConfig.js';
 var imgUrl = require('@/assets/imgs/logo.png');
 var $this;
 var $interval;
 var $indexDate;
-import { defineComponent, ref, onMounted, getCurrentInstance } from 'vue';
+import VolBox from '@/components/basic/VolBox.vue';
+import {
+  defineComponent,
+  reactive,
+  ref,
+  onMounted,
+  getCurrentInstance
+} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import store from '../store/index';
 import http from '@/../src/api/http.js';
 export default defineComponent({
   components: {
     VolMenu,
-    loading
+    loading,
+    Message
   },
   setup(props, context) {
     const menuWidth = ref(200);
     const isCollapse = ref(false);
     const drawer_model = ref(false);
+    const messageModel = ref(false);
     const theme_color = ref([
       { name: 'blue', color: 'rgb(45, 140, 240)' },
       { name: 'blue2', color: 'rgb(45, 140, 240)', leftColor: '#0068d6' },
@@ -152,15 +192,24 @@ export default defineComponent({
       { name: 'white', color: '#fff' }
     ]);
     const links = ref([
+      {
+        text: '框架视频',
+        path: 'https://www.cctalk.com/m/group/90268531',
+        id: -3
+      },
       { text: '大屏数据', path: '/bigdata', id: -3 },
       {
         text: '框架文档',
         path: 'http://v2.volcore.xyz/document/guide',
         id: -2
       },
-      { text: 'GitHub', path: '#', id: -3 },
-      { text: '个人中心', path: '/UserInfo', id: -1 },
-      { text: '安全退出', path: '/login', id: -4 }
+      { text: '个人中心', path: '/UserInfo', id: -1, icon: 'el-icon-s-custom' },
+      {
+        text: '安全退出',
+        path: '/login',
+        id: -4,
+        icon: 'el-icon-switch-button'
+      }
     ]);
     const errorImg = ref(
       'this.src="' + require('@/assets/imgs/error-img.png') + '"'
@@ -174,7 +223,7 @@ export default defineComponent({
     const theme = ref('blue2');
     const menuOptions = ref([]);
     const permissionInited = ref(false);
-
+    const messageList = reactive([]);
     let _config = getCurrentInstance().appContext.config.globalProperties;
     let router = useRouter();
     const toggleLeft = () => {
@@ -327,7 +376,10 @@ export default defineComponent({
         store.dispatch('setPermission', data);
         menuOptions.value = data;
         permissionInited.value = true;
-
+        MessageConfig(http, (result) => {
+          messageList.unshift(result);
+          //    console.log(result)
+        });
         //当前刷新是不是首页
         if (router.currentRoute.value.path != navigation.value[0].path) {
           //查找系统菜单
@@ -372,7 +424,9 @@ export default defineComponent({
       permissionInited,
       changeTheme,
       to,
-      toggleLeft
+      toggleLeft,
+      messageModel,
+      messageList
     };
   },
   mounted() {

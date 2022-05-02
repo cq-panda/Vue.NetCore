@@ -29,6 +29,8 @@ using VOL.Core.KafkaManager.IService;
 using VOL.Core.KafkaManager.Service;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
+using VOL.Core.Utilities.PDFHelper;
+using VOL.WebApi.Controllers.Hubs;
 
 namespace VOL.WebApi
 {
@@ -161,10 +163,11 @@ namespace VOL.WebApi
                 options.ClientErrorMapping[404].Link =
                     "https://*/404";
             });
+            services.AddSignalR();
             //ApiBehaviorOptions
-            //注入kafka
-            services.AddSingleton<IKafkaConsumer<string, string>, KafkaConsumer<string, string>>();
-            services.AddSingleton<IKafkaProducer<string, string>, KafkaProducer<string, string>>();
+            //Pdf注入
+            //services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            //services.AddTransient<IPDFService, PDFService>();
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
@@ -218,13 +221,23 @@ namespace VOL.WebApi
                 c.RoutePrefix = "";
             });
             app.UseRouting();
-            //UseCors,UseAuthenticationg两个位置的顺序很重要 
             app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //配置SignalR
+                if (AppSetting.UseSignalR)
+                {
+                    string corsUrls = Configuration["CorsUrls"];
+                    endpoints.MapHub<HomePageMessageHub>("/message").RequireCors(t =>
+                    t.WithOrigins(corsUrls.Split(',')).
+                    AllowAnyMethod().
+                    AllowAnyHeader().
+                    AllowCredentials());
+                }
+
             });
         }
     }

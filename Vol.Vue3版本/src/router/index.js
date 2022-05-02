@@ -57,6 +57,14 @@ const routes = [
         meta:{
           keepAlive:false
         }
+      },
+      {
+        path: '/signalR', 
+        name: 'signalR',
+        component: () => import('@/views/signalR/Index.vue'),
+        meta:{
+          keepAlive:false
+        }
       }
     ]
   },

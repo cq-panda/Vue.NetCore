@@ -5,6 +5,7 @@
  */
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
@@ -12,25 +13,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using VOL.Core.CacheManager;
 using VOL.Core.Enums;
 using VOL.Core.Filters;
+using VOL.Core.ManageUser;
 using VOL.Entity.DomainModels;
 using VOL.Order.IRepositories;
 using VOL.Order.IServices;
 using VOL.Order.Repositories;
+using VOL.WebApi.Controllers.Hubs;
 
 namespace VOL.Order.Controllers
 {
     public partial class SellOrderController
     {
+        private readonly ICacheService _cacheService;
+        private readonly IHubContext<HomePageMessageHub> _hubContext;
+
         private readonly ISellOrderRepository _orderRepository;
         [ActivatorUtilitiesConstructor]
 
-        public SellOrderController(ISellOrderRepository orderRepository, ISellOrderService service):base(service)
+        public SellOrderController(ISellOrderRepository orderRepository, IHubContext<HomePageMessageHub> hubContext, ICacheService cacheService, ISellOrderService service) : base(service)
         {
             //数据库访问，更多操作见后台开发：数据库访问
             _orderRepository = orderRepository;
-            
+            _hubContext = hubContext;
+            _cacheService = cacheService;
             //http://localhost:8081/document/netCoreDev
         }
 
@@ -56,6 +64,13 @@ namespace VOL.Order.Controllers
         [HttpPost, Route("GetPageData")]
         public override ActionResult GetPageData([FromBody] PageDataOptions loadData)
         {
+            var list = Service.GetPageData(loadData).rows;
+            //获取ConnectionId
+            var key = "SignalR" + UserContext.Current.UserId;
+            var cid = _cacheService.Get(key);
+            //测试SignalR推送业务数据
+            if (!string.IsNullOrEmpty(cid))
+                _hubContext.Clients.Client(cid).SendAsync("SellOrderData", list);
 
             return base.GetPageData(loadData);
         }

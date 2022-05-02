@@ -91,9 +91,9 @@ export default {
         },
 
         {
-          title: "框架文档",
+          title: "框架视频",
           icon: "el-icon-document",
-          url: "http://v2.volcore.xyz/document/guide",
+          url: "https://www.cctalk.com/m/group/90268531"
         },
 
         {

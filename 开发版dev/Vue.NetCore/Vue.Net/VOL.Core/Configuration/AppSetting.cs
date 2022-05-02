@@ -26,6 +26,10 @@ namespace VOL.Core.Configuration
         {
             get { return _connection.UseRedis; }
         }
+        public static bool UseSignalR
+        {
+            get { return _connection.UseSignalR; }
+        }
         public static Secret Secret { get; private set; }
 
         public static CreateMember CreateMember { get; private set; }
@@ -40,6 +44,11 @@ namespace VOL.Core.Configuration
         /// Actions权限过滤
         /// </summary>
         public static GlobalFilter GlobalFilter { get; set; }
+
+        /// <summary>
+        /// kafka配置
+        /// </summary>
+        public static Kafka Kafka { get; set; }
 
 
         /// <summary>
@@ -57,7 +66,7 @@ namespace VOL.Core.Configuration
             services.Configure<CreateMember>(configuration.GetSection("CreateMember"));
             services.Configure<ModifyMember>(configuration.GetSection("ModifyMember"));
             services.Configure<GlobalFilter>(configuration.GetSection("GlobalFilter"));
-
+            services.Configure<Kafka>(configuration.GetSection("Kafka"));
 
             var provider = services.BuildServiceProvider();
             IWebHostEnvironment environment = provider.GetRequiredService<IWebHostEnvironment>();
@@ -72,10 +81,11 @@ namespace VOL.Core.Configuration
             GlobalFilter = provider.GetRequiredService<IOptions<GlobalFilter>>().Value ?? new GlobalFilter();
 
             GlobalFilter.Actions = GlobalFilter.Actions ?? new string[0];
+            Kafka = provider.GetRequiredService<IOptions<Kafka>>().Value ?? new Kafka();
 
             _connection = provider.GetRequiredService<IOptions<Connection>>().Value;
 
-    
+
 
             ExpMinutes = (configuration["ExpMinutes"] ?? "120").GetInt();
 
@@ -117,12 +127,13 @@ namespace VOL.Core.Configuration
         public string DbConnectionString { get; set; }
         public string RedisConnectionString { get; set; }
         public bool UseRedis { get; set; }
+        public bool UseSignalR { get; set; }
     }
 
-    public class CreateMember: TableDefaultColumns
+    public class CreateMember : TableDefaultColumns
     {
     }
-    public class ModifyMember: TableDefaultColumns
+    public class ModifyMember : TableDefaultColumns
     {
     }
 
@@ -137,5 +148,36 @@ namespace VOL.Core.Configuration
         public string Message { get; set; }
         public bool Enable { get; set; }
         public string[] Actions { get; set; }
+    }
+
+    public class Kafka
+    {
+        public bool UseProducer { get; set; }
+        public ProducerSettings ProducerSettings { get; set; }
+        public bool UseConsumer { get; set; }
+        public bool IsConsumerSubscribe { get; set; }
+        public ConsumerSettings ConsumerSettings { get; set; }
+        public Topics Topics { get; set; }
+    }
+    public class ProducerSettings
+    {
+        public string BootstrapServers { get; set; }
+        public string SaslMechanism { get; set; }
+        public string SecurityProtocol { get; set; }
+        public string SaslUsername { get; set; }
+        public string SaslPassword { get; set; }
+    }
+    public class ConsumerSettings
+    {
+        public string BootstrapServers { get; set; }
+        public string SaslMechanism { get; set; }
+        public string SecurityProtocol { get; set; }
+        public string SaslUsername { get; set; }
+        public string SaslPassword { get; set; }
+        public string GroupId { get; set; }
+    }
+    public class Topics
+    {
+        public string TestTopic { get; set; }
     }
 }
