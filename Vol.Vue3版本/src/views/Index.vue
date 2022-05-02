@@ -376,6 +376,8 @@ export default defineComponent({
         store.dispatch('setPermission', data);
         menuOptions.value = data;
         permissionInited.value = true;
+
+        //如果不需要消息推送，请注释掉MessageConfig方法
         MessageConfig(http, (result) => {
           messageList.unshift(result);
           //    console.log(result)

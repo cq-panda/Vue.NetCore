@@ -192,22 +192,17 @@ export default defineComponent({
       { name: 'white', color: '#fff' }
     ]);
     const links = ref([
-<<<<<<< HEAD
       {
         text: '框架视频',
         path: 'https://www.cctalk.com/m/group/90268531',
         id: -3
       },
-=======
-      { text: '框架视频', path: 'https://www.cctalk.com/m/group/90268531', id: -3 },
->>>>>>> 1b423a02f154a9766cd3c9a61d7e8a628c0750ee
       { text: '大屏数据', path: '/bigdata', id: -3 },
       {
         text: '框架文档',
         path: 'http://v2.volcore.xyz/document/guide',
         id: -2
       },
-<<<<<<< HEAD
       { text: '个人中心', path: '/UserInfo', id: -1, icon: 'el-icon-s-custom' },
       {
         text: '安全退出',
@@ -215,10 +210,6 @@ export default defineComponent({
         id: -4,
         icon: 'el-icon-switch-button'
       }
-=======
-      { text: '个人中心', path: '/UserInfo', id: -1 },
-      { text: '安全退出', path: '/login', id: -4 }
->>>>>>> 1b423a02f154a9766cd3c9a61d7e8a628c0750ee
     ]);
     const errorImg = ref(
       'this.src="' + require('@/assets/imgs/error-img.png') + '"'
@@ -385,6 +376,8 @@ export default defineComponent({
         store.dispatch('setPermission', data);
         menuOptions.value = data;
         permissionInited.value = true;
+
+        //如果不需要消息推送，请注释掉MessageConfig方法
         MessageConfig(http, (result) => {
           messageList.unshift(result);
           //    console.log(result)
