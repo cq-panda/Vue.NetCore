@@ -72,17 +72,17 @@
 			</view>
 
 			<view class="f-form-content" v-else-if="item.type=='number'">
-				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
+				<input :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
 					v-model="formFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='decimal'">
-				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
+				<input :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
 					v-model="formFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='switch'">
-				<u-radio-group v-model="formFields[item.field]" placement="row">
+				<u-radio-group  v-model="formFields[item.field]" placement="row">
 					<u-radio :customStyle="{'margin-right': '40rpx'}" label="是" :name="1">
 					</u-radio>
 					<u-radio label="否" :name="0">
@@ -90,21 +90,23 @@
 				</u-radio-group>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='textarea'">
-				<textarea auto-height style="width: 100%;padding-right: 8rpx;" v-model="inFormFields[item.field]"
+				<textarea :ref="item.field" auto-height style="width: 100%;padding-right: 8rpx;" v-model="inFormFields[item.field]"
 					border="none" :placeholder="item.placeholder||('请输入'+item.title)"></textarea>
 			</view>
 			<!-- 	 -->
-			<u-upload :sizeType="['compressed']" v-else-if="item.type=='img'" :fileList="inFormFields[item.field]"
+			<u-upload :ref="item.field" :sizeType="['compressed']" v-else-if="item.type=='img'" :fileList="inFormFields[item.field]"
 				@afterRead="(event)=>{afterRead(item,event)}" @delete="(event)=>{deletePic(item,event)}" name="3"
 				:multiple="item.multiple" :maxCount="item.maxCount||1" :previewFullImage="true"></u-upload>
 			<view class="f-form-content" v-else-if="item.type=='password'">
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="password"
 					v-model="inFormFields[item.field]" border="none"
+					:ref="item.field"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else>
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
 					v-model="inFormFields[item.field]" border="none"
+					:ref="item.field"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 		</view>
