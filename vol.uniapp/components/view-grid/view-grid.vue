@@ -408,15 +408,6 @@
 				if (!this.$refs.form.validate()) {
 					return;
 				}
-				if (this.currentAction == 'Add') {
-					if (this.addBefore && !this.addBefore(this.editFormFields)) {
-						return;
-					}
-				} else {
-					if (this.updateBefore && !this.updateBefore(this.editFormFields)) {
-						return;
-					}
-				}
 				let editFormFields = {};
 				editFormFields[this.options.table.key] = this.currentRow[this.options.table.key]
 				//将数组转换成string
@@ -447,6 +438,15 @@
 					detailData: null,
 					delKeys: null
 				};
+				if (this.currentAction == 'Add') {
+					if (this.addBefore && !this.addBefore(formData)) {
+						return;
+					}
+				} else {
+					if (this.updateBefore && !this.updateBefore(formData)) {
+						return;
+					}
+				}
 				let url = 'api' + this.options.table.url + (this.currentAction);
 				this.http.post(url, formData, true).then(result => {
 					this.$toast(result.message);
@@ -492,6 +492,7 @@
 						name: "重置",
 						icon: 'reload',
 						value: 'reset',
+						hidden:false,
 						type: 'success',
 						onClick: () => {
 							this.resetEditForm();
@@ -500,6 +501,7 @@
 						name: "提交",
 						icon: 'checkbox-mark',
 						value: 'add',
+						hidden:false,
 						type: 'primary',
 						onClick: () => {
 							this.gridSave();
@@ -517,6 +519,7 @@
 				let fabButtons = [{
 					icon: "search",
 					value: "search",
+				    hidden:false,
 					color: 'rgb(7 185 14)',
 					onClick: () => {
 						this.showSearch();
@@ -524,6 +527,7 @@
 				}, {
 					icon: "reload", //刷新
 					value: "search",
+					hidden:false,
 					color: '#009688',
 					onClick: () => {
 						this.refresh();
@@ -532,6 +536,7 @@
 				if (_permission.indexOf("Add") != -1) {
 					fabButtons.push({
 						icon: "plus", //添加
+					    hidden:false,
 						color: 'rgb(2, 171, 255)',
 						onClick: () => {
 							this.gridAdd();
