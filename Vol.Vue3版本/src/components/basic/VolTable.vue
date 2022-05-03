@@ -187,6 +187,13 @@
                   </el-option>
                 </el-select>
                 <el-input
+                  v-else-if="column.edit.type == 'textarea'"
+                  type="textarea"
+                  :placeholder="column.placeholder || column.title"
+                  v-model="scope.row[column.field]"
+                >
+                </el-input>
+                <el-input
                   v-else
                   @change="inputKeyPress(scope.row, column, $event)"
                   @input="inputKeyPress(scope.row, column, $event)"
@@ -526,7 +533,7 @@ export default defineComponent({
     //2021.09.21移除强制固定行号与checkbox列
     if (
       this.columns.some((x) => {
-        return x.fixed&&x.fixed != 'right';
+        return x.fixed && x.fixed != 'right';
       })
     ) {
       this.fixed = true;
@@ -871,9 +878,11 @@ export default defineComponent({
       if (!this.doubleEdit && event) {
         return true;
       }
+      let _row = this.url
+        ? this.rowData[this.edit.rowIndex]
+        : this.tableData[this.edit.rowIndex];
       // 结束编辑前
-      if (!this.endEditBefore(row, column, this.edit.rowIndex)) return false;
-
+      if (!this.endEditBefore(_row, column, this.edit.rowIndex)) return false;
       if (this.edit.rowIndex != -1) {
         let row = (this.url ? this.rowData : this.tableData)[
           this.edit.rowIndex
@@ -887,7 +896,7 @@ export default defineComponent({
           }
         }
       }
-      if (!this.endEditAfter(row, column, this.edit.rowIndex)) return false;
+      if (!this.endEditAfter(_row, column, this.edit.rowIndex)) return false;
       this.edit.rowIndex = -1;
       return true;
     },
@@ -1136,9 +1145,9 @@ export default defineComponent({
           this.paginations.total = data.total;
           // 合计
           this.getSummaries(data);
-          this.$nextTick(()=>{
-              this.$refs.table.doLayout();
-          })
+          this.$nextTick(() => {
+            this.$refs.table.doLayout();
+          });
         },
         (error) => {
           this.loading = false;
@@ -1518,11 +1527,9 @@ export default defineComponent({
   background-color: unset;
 }
 .vol-table.chrome ::v-deep(.el-table__fixed-right) {
-     right: 8px !important;
+  right: 8px !important;
 }
 .vol-table.chrome ::v-deep(.el-table__fixed-right:before) {
-    height: 0 !important;
+  height: 0 !important;
 }
-
-
 </style>
