@@ -60,7 +60,7 @@
 
           <div v-else :class="{ 'form-item-extra': item.extra }">
             <!-- 只读属性 -->
-            <label v-if="item.type == 'label'" class="readonly-input">{{
+            <label :style="item.inputStyle" v-if="item.type == 'label'" class="readonly-input">{{
               getText(formFields, item)
             }}</label>
             <el-select
@@ -284,6 +284,7 @@
             </div>
             <el-input
               clearable
+              :input-style="item.inputStyle"
               :disabled="item.readonly || item.disabled"
               v-else-if="item.type == 'textarea'"
               v-model="formFields[item.field]"
@@ -299,6 +300,7 @@
             />
             <el-input-number
               style="width: 100%"
+              :input-style="item.inputStyle"
               v-else-if="item.type == 'number'"
               v-model="formFields[item.field]"
               :min="item.min"
@@ -308,6 +310,7 @@
             />
             <el-input
               clearable
+              :input-style="item.inputStyle"
               v-else-if="item.type == 'password'"
               type="password"
               v-model.number="formFields[item.field]"
@@ -321,6 +324,7 @@
             <!-- 2021.11.18修复el-input没有默认enter事件时回车异常 -->
             <el-input
               clearable
+              :input-style="item.inputStyle"
               v-else-if="item.onKeyPress"
               size="medium"
               :placeholder="
@@ -341,6 +345,7 @@
               clearable
               v-else
               size="medium"
+              :input-style="item.inputStyle"
               :placeholder="
                 item.placeholder ? item.placeholder : '请输入' + item.title
               "
