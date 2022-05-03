@@ -26,7 +26,7 @@
               class="action-text"
               :style="{ width: (4 - data.lv) * 18 + 150 + 'px' }"
             >
-              {{ data.text }}
+              {{ data.text + (data.isApp ? '(app)' : '') }}
             </div>
             <div class="action-item">
               <el-checkbox
@@ -46,10 +46,10 @@
 <script>
 let id = 1000;
 
-import RoleTree from "./Permission/RoleTree";
+import RoleTree from './Permission/RoleTree';
 export default {
   components: {
-    RoleTree,
+    RoleTree
   },
   data() {
     return {
@@ -57,7 +57,7 @@ export default {
       checked: false,
       roles: [],
       data: [],
-      tree: [],
+      tree: []
     };
   },
   created() {
@@ -66,7 +66,7 @@ export default {
   methods: {
     load() {
       this.http
-        .post("/api/role/getCurrentTreePermission", {}, true)
+        .post('/api/role/getCurrentTreePermission', {}, true)
         .then((result) => {
           if (!result.status) return this.$message.error(result.message);
           this.data.splice(0);
@@ -87,11 +87,11 @@ export default {
       this.selectIndex = item.id;
       this.data.forEach((x) => {
         x.actions.forEach((a) => {
-          this.$set(a, "checked", false);
+          this.$set(a, 'checked', false);
         });
       });
       this.http
-        .post("/api/role/getUserTreePermission?roleId=" + item.id, {}, true)
+        .post('/api/role/getUserTreePermission?roleId=' + item.id, {}, true)
         .then((result) => {
           if (!result.status) return this.$message.error(result.message);
           result.data.forEach((item) => {
@@ -101,7 +101,7 @@ export default {
             item.actions.forEach((actions) => {
               sourceItem.actions.forEach((soure) => {
                 if (soure.value == actions.value) {
-                  this.$set(soure, "checked", true);
+                  this.$set(soure, 'checked', true);
                 }
               });
             });
@@ -110,7 +110,7 @@ export default {
     },
     save() {
       if (this.selectIndex == -1) {
-        return this.$message.error("请选择角色!");
+        return this.$message.error('请选择角色!');
       }
       let userPermissions = [];
       this.data.forEach((x) => {
@@ -123,19 +123,19 @@ export default {
           });
           userPermissions.push({
             id: x.id,
-            actions: actions,
+            actions: actions
           });
         }
       });
       //  let roleId = this.roles[this.selectIndex].id;
       this.http
         .post(
-          "/api/role/SavePermission?roleId=" + this.selectIndex, //roleId,
+          '/api/role/SavePermission?roleId=' + this.selectIndex, //roleId,
           userPermissions,
           true
         )
         .then((result) => {
-          this.$Message[result.status ? "info" : "error"](result.message);
+          this.$Message[result.status ? 'info' : 'error'](result.message);
         });
     },
     getTree(id, data) {
@@ -150,10 +150,10 @@ export default {
     },
     leftCheckChange(node, selected) {
       node.actions.forEach((x, index) => {
-        this.$set(x, "checked", selected);
+        this.$set(x, 'checked', selected);
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
