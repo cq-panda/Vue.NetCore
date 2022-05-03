@@ -469,7 +469,7 @@
 			},
 			initPermissionButtons() { //初始化按钮权限
 				let _permission = (this.permission.find(x => {
-					return (this.tableAction || this.options.table.name) == x.tableName
+					return (this.tableAction || this.options.table.name).toUpperCase() == x.tableName.toUpperCase()
 				}) || {}).permission;
 				if (!_permission) {
 					return;
