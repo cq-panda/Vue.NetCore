@@ -20,11 +20,12 @@ const param = {
     { name: "title", desc: "标签名称", type: "string", default: "" },
     //
     { name: "disabled/readonly", desc: "是否只读", type: "bool", default: "false" },
+    { name: "inputStyle", desc: "<span style='color:red;'>输入框或者只读的自定义样式(只有vue3生效)</span>", type: "bool", default: "false" },
     { name: "hidden", desc: "<span style='color:red;'>字段(标签)是否显示2020.11.21</span>", type: "bool", default: "" },
     { name: "required", desc: "是否必填", type: "bool", default: "false" },
     { name: "field", desc: "字段，与表单字段必须相同", type: "string", default: "" },
     { name: "filter", desc: "启用搜索,只对select/selectList生效,默认下拉框数据源超出10个开启搜索", type: "bool", default: "false" },
-    { name: "type", desc: "渲染的标签类型,可选值,mail、text、textarea、img、checkbox、number、decimal、date、datetime、phone、switch、select、selectList(多选下拉框)、cascader(Iview级联组件,具体配置见上面[查看代码],2020.05.31)", type: "string", default: "text" },
+    { name: "type", desc: "渲染的标签类型,可选值,mail、text、textarea、img、checkbox、number、decimal、date、datetime、phone、switch、select、selectList(多选下拉框)、label(纯文本显示,vue3版本有效)、cascader(Iview级联组件,具体配置见上面[查看代码],2020.05.31)", type: "string", default: "text" },
     { name: "range", desc: "如果type是日期，需要选开始与结束日期,(2021.05.02增加区间文本)", type: "bool", default: "false" },
     { name: "min", desc: `字段如果是数字，会自动验证数字最大、小值；如果是字符串,
     会验证字符长度，如果日期，会限制日期可选范围<span style='color:red'>(日期范围选择2021.07.17更新volform.vue/voltable.vue组件后才能使用)</span>`, type: "number", default: "" },
