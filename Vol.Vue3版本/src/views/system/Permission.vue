@@ -28,7 +28,7 @@
                 class="action-text"
                 :style="{ width: (4 - data.lv) * 18 + 150 + 'px' }"
               >
-                {{ data.text }}
+                {{ data.text+(data.isApp?'(app)':'') }}
               </div>
               <div class="action-item">
                 <el-checkbox

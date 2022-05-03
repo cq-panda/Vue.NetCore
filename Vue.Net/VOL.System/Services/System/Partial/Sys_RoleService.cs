@@ -59,11 +59,12 @@ namespace VOL.System.Services
             //权限用户权限查询所有的菜单信息
             List<Sys_Menu> menus = await Task.Run(() => Sys_MenuService.Instance.GetUserMenuList(roleId));
             //获取当前用户权限如:(Add,Search)对应的显示文本信息如:Add：添加，Search:查询
-            var data = menus.Select(x => new UserPermissions
+            var data = menus.Select(x => new
             {
                 Id = x.Menu_Id,
                 Pid = x.ParentId,
                 Text = x.MenuName,
+                IsApp = x.MenuType == 1,
                 Actions = GetActions(x.Menu_Id, x.Actions, permissions, roleId)
             });
             return _responseContent.OK(null, data);
@@ -377,6 +378,7 @@ namespace VOL.System.Services
         public int Id { get; set; }
         public int Pid { get; set; }
         public string Text { get; set; }
+        public bool IsApp { get; set; }
         public List<Sys_Actions> Actions { get; set; }
     }
 }
