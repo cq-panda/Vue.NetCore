@@ -741,10 +741,10 @@ namespace VOL.Core.BaseProvider
             repository.Update(mainEnity, typeof(T).GetEditField()
                 .Where(c => saveModel.MainData.Keys.Contains(c) && !CreateFields.Contains(c))
                 .ToArray());
-            foreach (var item in saveModel.DetailData)
-            {
-                item.SetModifyDefaultVal();
-            }
+            //foreach (var item in saveModel.DetailData)
+            //{
+            //    item.SetModifyDefaultVal();
+            //}
             //明细修改
             editList.ForEach(x =>
             {
