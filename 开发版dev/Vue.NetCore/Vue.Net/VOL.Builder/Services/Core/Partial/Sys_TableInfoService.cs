@@ -306,14 +306,14 @@ DISTINCT
             string msg = CreateEntityModel(list, sysTableInfo, tableColumnInfoList, 1);
             if (msg != "")
                 return msg;
-            if (list.Any(c => c.ApiInPut > 0))
-            {
-                CreateEntityModel(list.Where(c => c.ApiInPut > 0).ToList(), sysTableInfo, tableColumnInfoList, 2);
-            }
-            if (list.Any(c => c.ApiOutPut > 0))
-            {
-                CreateEntityModel(list.Where(c => c.ApiOutPut > 0).ToList(), sysTableInfo, tableColumnInfoList, 3);
-            }
+            //if (list.Any(c => c.ApiInPut > 0))
+            //{
+            //    CreateEntityModel(list.Where(c => c.ApiInPut > 0).ToList(), sysTableInfo, tableColumnInfoList, 2);
+            //}
+            //if (list.Any(c => c.ApiOutPut > 0))
+            //{
+            //    CreateEntityModel(list.Where(c => c.ApiOutPut > 0).ToList(), sysTableInfo, tableColumnInfoList, 3);
+            //}
             return "Model创建成功!";
         }
 

@@ -44,14 +44,14 @@
       <div id="h-chart2"></div>
       <div id="h-chart3"></div>
     </div>
-    <div style="display: flex">
+    <div style="display: flex;">
       <div
         id="h-chart4"
-        style="height: 350px; background: white; flex: 1; padding-top: 15px"
+        style="height: 350px; background: white; flex: 1;padding-top:15px;"
       ></div>
       <div
         id="h-chart5"
-        style="height: 350px; background: white; flex: 1; padding-top: 15px"
+        style="height: 350px; background: white; flex: 1;padding-top:15px;"
       ></div>
     </div>
   </div>
@@ -65,23 +65,6 @@ import "echarts/lib/chart/pie";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import "echarts/lib/component/grid";
-import { getCurrentInstance } from "vue";
-
-import * as signalR from "@microsoft/signalr";
-//******signalr******start*****************************
-let hubUrl = "http://localhost:9991/myTestHub";
-//默认不会自动重连，需手动调用withAutomaticReconnect
-const connection = new signalR.HubConnectionBuilder()
-  .withAutomaticReconnect()
-  .withUrl(hubUrl)
-  .build();
-connection.start().catch((err) => alert(err.message));
-//自动重连成功后的处理
-connection.onreconnected((connectionId) => {
-  console.log(connectionId);
-});
-//******signalr******end********************************
-
 let echarts = require("echarts/lib/echarts");
 import { chart1, chart2, chart3, chart4 } from "./home/home-chart-options";
 import { ref, onMounted, onUnmounted } from "vue";
@@ -110,7 +93,7 @@ export default {
         {
           title: "框架视频",
           icon: "el-icon-document",
-          url: "https://www.cctalk.com/m/group/90268531",
+          url: "https://www.cctalk.com/m/group/90268531"
         },
 
         {
@@ -183,34 +166,6 @@ export default {
         },
       ],
     };
-  },
-  mounted() {
-    let _this = this;
-    let appContext = getCurrentInstance().appContext;
-    let $message = appContext.config.globalProperties.$message;
-    //实现ReceiveHomePageMessage方法
-    connection.on("ReceiveHomePageMessage", function (arg1, arg2) {
-      if (arg1 == 200) {
-        console.log("signalr推送当前用户信息：" + JSON.stringify(arg2));
-        $message.success("signalr推送当前用户信息：" + JSON.stringify(arg2));
-      } else {
-        console.log("ReceiveHomePageMessage:" + arg1 + JSON.stringify(arg2));
-      }
-    });
-    //实现IsExistMsg方法
-    connection.on("IsExistMsg", function (arg1) {
-      console.log("IsExistMsg:" + arg1);
-    });
-    //5秒钟后调用后端方法
-    setTimeout(function () {
-      _this.testSignalr();
-    }, 5000);
-  },
-  methods: {
-    testSignalr: function () {
-      //调用后端方法 GetCurrentUserInfo 传入参数
-      connection.invoke("GetCurrentUserInfo", "刘德华");
-    },
   },
   setup() {
     let open = (item) => {
