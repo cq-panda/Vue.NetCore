@@ -2,6 +2,7 @@ import * as signalR from '@microsoft/signalr';
 import { ElNotification } from 'element-plus';
 
 export default function (http, receive) {
+  return;
   let connection;
   http.post('api/user/GetCurrentUserInfo').then((result) => {
     connection = new signalR.HubConnectionBuilder()
@@ -10,7 +11,7 @@ export default function (http, receive) {
      //.withUrl(`${http.ipAddress}message`)
       .build();
 
-    connection.start().catch((err) => alert(err.message));
+    connection.start().catch((err) => console.log(ex.message));
     //自动重连成功后的处理
     connection.onreconnected((connectionId) => {
       console.log(connectionId);
