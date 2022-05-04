@@ -12,7 +12,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "echarts": "^4.7.0",
     "less-loader": "^4.1.0",
     "moment": "^2.25.3",
