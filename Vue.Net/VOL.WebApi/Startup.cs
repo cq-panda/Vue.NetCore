@@ -46,7 +46,7 @@ namespace VOL.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //³õÊ¼»¯Ä£ĞÍÑéÖ¤ÅäÖÃ
+            //åˆå§‹åŒ–æ¨¡å‹éªŒè¯é…ç½®
             services.UseMethodsModelParameters().UseMethodsGeneralParameters();
             services.AddSingleton<IObjectModelValidator>(new NullObjectModelValidator());
             Services = services;
@@ -76,13 +76,13 @@ namespace VOL.WebApi
              {
                  options.TokenValidationParameters = new TokenValidationParameters
                  {
-                     SaveSigninToken = true,//±£´ætoken,ºóÌ¨ÑéÖ¤tokenÊÇ·ñÉúĞ§(ÖØÒª)
-                     ValidateIssuer = true,//ÊÇ·ñÑéÖ¤Issuer
-                     ValidateAudience = true,//ÊÇ·ñÑéÖ¤Audience
-                     ValidateLifetime = true,//ÊÇ·ñÑéÖ¤Ê§Ğ§Ê±¼ä
-                     ValidateIssuerSigningKey = true,//ÊÇ·ñÑéÖ¤SecurityKey
+                     SaveSigninToken = true,//ä¿å­˜token,åå°éªŒè¯tokenæ˜¯å¦ç”Ÿæ•ˆ(é‡è¦)
+                     ValidateIssuer = true,//æ˜¯å¦éªŒè¯Issuer
+                     ValidateAudience = true,//æ˜¯å¦éªŒè¯Audience
+                     ValidateLifetime = true,//æ˜¯å¦éªŒè¯å¤±æ•ˆæ—¶é—´
+                     ValidateIssuerSigningKey = true,//æ˜¯å¦éªŒè¯SecurityKey
                      ValidAudience = AppSetting.Secret.Audience,//Audience
-                     ValidIssuer = AppSetting.Secret.Issuer,//Issuer£¬ÕâÁ½ÏîºÍÇ°ÃæÇ©·¢jwtµÄÉèÖÃÒ»ÖÂ
+                     ValidIssuer = AppSetting.Secret.Issuer,//Issuerï¼Œè¿™ä¸¤é¡¹å’Œå‰é¢ç­¾å‘jwtçš„è®¾ç½®ä¸€è‡´
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSetting.Secret.JWT))
                  };
                  options.Events = new JwtBearerEvents()
@@ -93,16 +93,16 @@ namespace VOL.WebApi
                          context.Response.Clear();
                          context.Response.ContentType = "application/json";
                          context.Response.StatusCode = 401;
-                         context.Response.WriteAsync(new { message = "ÊÚÈ¨Î´Í¨¹ı", status = false, code = 401 }.Serialize());
+                         context.Response.WriteAsync(new { message = "æˆæƒæœªé€šè¿‡", status = false, code = 401 }.Serialize());
                          return Task.CompletedTask;
                      }
                  };
              });
-            //±ØĞëappsettings.jsonÖĞÅäÖÃ
+            //å¿…é¡»appsettings.jsonä¸­é…ç½®
             string corsUrls = Configuration["CorsUrls"];
             if (string.IsNullOrEmpty(corsUrls))
             {
-                throw new Exception("ÇëÅäÖÃ¿çÇëÇóµÄÇ°¶ËUrl");
+                throw new Exception("è¯·é…ç½®è·¨è¯·æ±‚çš„å‰ç«¯Url");
             }
             services.AddCors(options =>
             {
@@ -118,20 +118,20 @@ namespace VOL.WebApi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                //·ÖÎª2·İ½Ó¿ÚÎÄµµ
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VOL.CoreºóÌ¨Api", Version = "v1", Description = "ÕâÊÇ¶ÔÎÄµµµÄÃèÊö¡£¡£" });
-                c.SwaggerDoc("v2", new OpenApiInfo { Title = "VOL.Core¶ÔÍâÈı·½Api", Version = "v2", Description = "xxx½Ó¿ÚÎÄµµ" });  //¿ØÖÆÆ÷ÀïÊ¹ÓÃ[ApiExplorerSettings(GroupName = "v2")]              
-                //ÆôÓÃÖĞÎÄ×¢ÊÍ¹¦ÄÜ
-                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var xmlPath = Path.Combine(basePath, "VOL.WebApi.xml");
-                c.IncludeXmlComments(xmlPath, true);//ÏÔÊ¾¿ØÖÆÆ÷xml×¢ÊÍÄÚÈİ
-                //Ìí¼Ó¹ıÂËÆ÷ ¿É×Ô¶¨ÒåÌí¼Ó¶Ô¿ØÖÆÆ÷µÄ×¢ÊÍÃèÊö
+                //åˆ†ä¸º2ä»½æ¥å£æ–‡æ¡£
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VOL.Coreåå°Api", Version = "v1", Description = "è¿™æ˜¯å¯¹æ–‡æ¡£çš„æè¿°ã€‚ã€‚" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "VOL.Coreå¯¹å¤–ä¸‰æ–¹Api", Version = "v2", Description = "xxxæ¥å£æ–‡æ¡£" });  //æ§åˆ¶å™¨é‡Œä½¿ç”¨[ApiExplorerSettings(GroupName = "v2")]              
+                //å¯ç”¨ä¸­æ–‡æ³¨é‡ŠåŠŸèƒ½
+               // var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+              //  var xmlPath = Path.Combine(basePath, "VOL.WebApi.xml");
+             //   c.IncludeXmlComments(xmlPath, true);//æ˜¾ç¤ºæ§åˆ¶å™¨xmlæ³¨é‡Šå†…å®¹
+                //æ·»åŠ è¿‡æ»¤å™¨ å¯è‡ªå®šä¹‰æ·»åŠ å¯¹æ§åˆ¶å™¨çš„æ³¨é‡Šæè¿°
                 //c.DocumentFilter<SwaggerDocTag>();
 
                 var security = new Dictionary<string, IEnumerable<string>> { { AppSetting.Secret.Issuer, new string[] { } } };
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
-                    Description = "JWTÊÚÈ¨tokenÇ°ÃæĞèÒª¼ÓÉÏ×Ö¶ÎBearerÓëÒ»¸ö¿Õ¸ñ,ÈçBearer token",
+                    Description = "JWTæˆæƒtokenå‰é¢éœ€è¦åŠ ä¸Šå­—æ®µBearerä¸ä¸€ä¸ªç©ºæ ¼,å¦‚Bearer token",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
@@ -186,7 +186,7 @@ namespace VOL.WebApi
             app.UseDefaultFiles();
             app.Use(HttpRequestMiddleware.Context);
 
-            //2021.06.27Ôö¼Ó´´½¨Ä¬ÈÏuploadÎÄ¼ş¼Ğ
+            //2021.06.27å¢åŠ åˆ›å»ºé»˜è®¤uploadæ–‡ä»¶å¤¹
             string _uploadPath = (env.ContentRootPath + "/Upload").ReplacePath();
 
             if (!Directory.Exists(_uploadPath))
@@ -198,24 +198,24 @@ namespace VOL.WebApi
             {
                 FileProvider = new PhysicalFileProvider(
                 Path.Combine(Directory.GetCurrentDirectory(), @"Upload")),
-                //ÅäÖÃ·ÃÎÊĞéÄâÄ¿Â¼Ê±ÎÄ¼ş¼Ğ±ğÃû
+                //é…ç½®è®¿é—®è™šæ‹Ÿç›®å½•æ—¶æ–‡ä»¶å¤¹åˆ«å
                 RequestPath = "/Upload",
                 OnPrepareResponse = (Microsoft.AspNetCore.StaticFiles.StaticFileResponseContext staticFile) =>
                 {
-                    //¿ÉÒÔÔÚ´Ë´¦¶ÁÈ¡ÇëÇóµÄĞÅÏ¢½øĞĞÈ¨ÏŞÈÏÖ¤
+                    //å¯ä»¥åœ¨æ­¤å¤„è¯»å–è¯·æ±‚çš„ä¿¡æ¯è¿›è¡Œæƒé™è®¤è¯
                     //  staticFile.File
                     //  staticFile.Context.Response.StatusCode;
                 }
             });
-            //ÅäÖÃHttpContext
+            //é…ç½®HttpContext
             app.UseStaticHttpContext();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                //2¸öÏÂÀ­¿òÑ¡Ïî  Ñ¡Ôñ¶ÔÓ¦µÄÎÄµµ
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "VOL.CoreºóÌ¨Api");
-                c.SwaggerEndpoint("/swagger/v2/swagger.json", "²âÊÔµÚÈı·½Api");
+                //2ä¸ªä¸‹æ‹‰æ¡†é€‰é¡¹  é€‰æ‹©å¯¹åº”çš„æ–‡æ¡£
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "VOL.Coreåå°Api");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "æµ‹è¯•ç¬¬ä¸‰æ–¹Api");
                 c.RoutePrefix = "";
             });
             app.UseRouting();
@@ -225,7 +225,7 @@ namespace VOL.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //ÅäÖÃSignalR
+                //é…ç½®SignalR
                 if (AppSetting.UseSignalR)
                 {
                     string corsUrls = Configuration["CorsUrls"];
@@ -242,22 +242,22 @@ namespace VOL.WebApi
     }
 
     /// <summary>
-    /// Swagger×¢ÊÍ°ïÖúÀà
+    /// Swaggeræ³¨é‡Šå¸®åŠ©ç±»
     /// </summary>
     public class SwaggerDocTag : IDocumentFilter
     {
         /// <summary>
-        /// Ìí¼Ó¸½¼Ó×¢ÊÍ
+        /// æ·»åŠ é™„åŠ æ³¨é‡Š
         /// </summary>
         /// <param name="swaggerDoc"></param>
         /// <param name="context"></param>
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
-            //Ìí¼Ó¶ÔÓ¦µÄ¿ØÖÆÆ÷ÃèÊö
+            //æ·»åŠ å¯¹åº”çš„æ§åˆ¶å™¨æè¿°
             swaggerDoc.Tags = new List<OpenApiTag>
             {
-                new OpenApiTag { Name = "Test", Description = "ÕâÊÇÃèÊö" },
-                //new OpenApiTag { Name = "ÄãµÄ¿ØÖÆÆ÷Ãû×Ö£¬²»´øController", Description = "¿ØÖÆÆ÷ÃèÊö" },
+                new OpenApiTag { Name = "Test", Description = "è¿™æ˜¯æè¿°" },
+                //new OpenApiTag { Name = "ä½ çš„æ§åˆ¶å™¨åå­—ï¼Œä¸å¸¦Controller", Description = "æ§åˆ¶å™¨æè¿°" },
             };
         }
     }
