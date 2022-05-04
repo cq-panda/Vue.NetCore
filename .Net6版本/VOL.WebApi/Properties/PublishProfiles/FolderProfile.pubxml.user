@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+此文件由 Web 项目的发布/打包过程使用。可以通过编辑此 MSBuild 文件
+自定义此过程的行为。为了解与此相关的更多内容，请访问 https://go.microsoft.com/fwlink/?LinkID=208121。 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>E:\jxx\Vue.NetCore\Vue.Net\VOL.WebApi\bin\Release\netcoreapp3.1\publish\</_PublishTargetUrl>
+    <History>True|2022-05-04T06:22:09.8601614Z;True|2022-05-04T14:17:58.5839043+08:00;True|2022-05-04T14:04:46.6624577+08:00;True|2022-05-04T14:01:00.7514191+08:00;True|2022-05-04T13:38:17.6611755+08:00;True|2022-05-04T12:49:24.8764268+08:00;True|2022-05-04T12:46:59.8927233+08:00;False|2022-05-04T12:46:29.9426973+08:00;True|2022-05-04T12:45:13.9857344+08:00;True|2022-05-04T12:43:20.8195741+08:00;True|2022-05-04T12:37:57.5020415+08:00;</History>
+  </PropertyGroup>
+</Project>
