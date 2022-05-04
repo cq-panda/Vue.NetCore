@@ -17,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
+//using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -230,7 +230,8 @@ namespace VOL.WebApi
                 {
                     string corsUrls = Configuration["CorsUrls"];
 
-                    endpoints.MapHub<HomePageMessageHub>("/message").RequireCors(t =>
+                    endpoints.MapHub<HomePageMessageHub>("/message")
+                    .RequireCors(t =>
                     t.WithOrigins(corsUrls.Split(',')).
                     AllowAnyMethod().
                     AllowAnyHeader().
