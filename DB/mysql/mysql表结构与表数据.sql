@@ -1666,3 +1666,7 @@ INSERT INTO `Sys_User` VALUES (3362, '北京市还没注册', NULL, '2019-08-18 
 INSERT INTO `Sys_User` VALUES (3378, NULL, NULL, NULL, NULL, NULL, '2021-09-27 15:50:22', 1, '超级管理员', NULL, NULL, NULL, 0, 0, 'Upload/Tables/Sys_User/202109271550212214/12313.jpg', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, '小编', NULL, NULL, NULL, 'Admin888', 'N4GbASgPLeXypdPhgxiVcQ==', 'Admin888', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
+INSERT Sys_Menu (MenuName, Auth, Icon, Description, Enable, OrderNo, TableName,
+ ParentId, Url, CreateDate, Creator, ModifyDate, Modifier, MenuType)
+  VALUES ( '消息推送', '{"text":"查询","value":"Search"}', N'el-icon-chat-line-round', NULL, 1, 1700, '.', 0, '/signalR',
+   '2022-05-04 12:00', N'超级管理员', null, '超级管理员', 0)

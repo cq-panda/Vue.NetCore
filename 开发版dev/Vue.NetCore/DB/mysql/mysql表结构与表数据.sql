@@ -936,4 +936,9 @@ INSERT INTO `Sys_User` VALUES (3371, NULL, NULL, NULL, NULL, NULL, '2020-04-29 1
 
 SET FOREIGN_KEY_CHECKS = 1;
 
-ALTER TABLE Sys_Menu ADD MenuType INT
+ALTER TABLE Sys_Menu ADD MenuType INT；
+
+INSERT Sys_Menu (MenuName, Auth, Icon, Description, Enable, OrderNo, TableName,
+ ParentId, Url, CreateDate, Creator, ModifyDate, Modifier, MenuType)
+  VALUES ( '消息推送', '{"text":"查询","value":"Search"}', N'el-icon-chat-line-round', NULL, 1, 1700, '.', 0, '/signalR',
+   '2022-05-04 12:00', N'超级管理员', null, '超级管理员', 0)
