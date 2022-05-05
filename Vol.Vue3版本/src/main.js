@@ -17,7 +17,7 @@ app.config.globalProperties.http = http;
 app.config.globalProperties.$tabs = {};
 app.config.globalProperties.permission = permission;
 app.config.globalProperties.$global = { 
-    signalR: true //是否开启signalR
+    signalR: false //是否开启signalR
 }
 app.use(store)
     .use(ElementPlus, { size: 'medium' })
