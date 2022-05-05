@@ -172,6 +172,7 @@ let methods = {
           name: '保 存',
           icon: 'el-icon-check',
           type: 'danger',
+          disabled:false,
           value: 'save',
           onClick() {
             this.save();
@@ -181,6 +182,7 @@ let methods = {
           name: '重 置',
           icon: 'el-icon-refresh-right',
           type: 'primary',
+          disabled:false,
           onClick() {
             this.resetEdit();
           }
