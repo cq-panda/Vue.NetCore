@@ -119,7 +119,16 @@ namespace VOL.WebApi
                 foreach (var controller in GetControllers())
                 {
                     var apiSetting = controller.GetCustomAttribute(typeof(ApiExplorerSettingsAttribute));
-                    if (!(((ApiExplorerSettingsAttribute) apiSetting)!).IgnoreApi)
+                    if (apiSetting==null)
+                    {
+                        c.SwaggerDoc(controller.Name, new OpenApiInfo
+                        {
+                            Version = "v1",
+                            Title = controller.Name,
+                            Description = "VOL.CoreºóÌ¨Api"
+                        });
+                    }
+                   else if (!(((ApiExplorerSettingsAttribute) apiSetting)!).IgnoreApi)
                     {
                         var groupName = GetSwaggerGroupName(controller);
 
@@ -138,7 +147,7 @@ namespace VOL.WebApi
                 }
 
                 c.CustomOperationIds(apiDesc =>
-                {
+                {  
                     var controllerAction = apiDesc.ActionDescriptor as ControllerActionDescriptor;
                     return controllerAction?.ControllerName + "-" + controllerAction?.ActionName;
                 });
@@ -228,10 +237,16 @@ namespace VOL.WebApi
             {
                 foreach (var controller in GetControllers())
                 {
+                    Console.WriteLine(controller.Name);
                     var apiSetting = controller.GetCustomAttribute(typeof(ApiExplorerSettingsAttribute));
-                    if (!(((ApiExplorerSettingsAttribute) apiSetting)!).IgnoreApi)
+                    if (apiSetting==null)
+                    {
+                        c.SwaggerEndpoint($"/swagger/{controller.Name}/swagger.json", controller.Name);
+                    }
+                    else  if (!(((ApiExplorerSettingsAttribute) apiSetting)!).IgnoreApi)
                     {
                         var groupName = GetSwaggerGroupName(controller);
+                        Console.WriteLine(groupName);
                         c.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName);
                     }
                 }
