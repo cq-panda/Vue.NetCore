@@ -182,7 +182,7 @@
 				if (!status) return;
 				param.wheres = JSON.stringify(param.wheres);
 				this.http.post(this.url, param, true).then(data => {
-					this.$emit("loadAfter", data.rows, (result) => {
+					this.$emit("loadAfter", data, (result) => {
 						status = result;
 					});
 					if (!status) return;
@@ -203,6 +203,7 @@
 				return _val;
 			},
 			rowFormatterValueList(val, column) {
+
 				let valArr = val.split(",").filter((x) => {
 					return x !== "" && x !== undefined;
 				});
@@ -216,10 +217,11 @@
 				return valArr.join(",");
 			},
 			rowFormatterValue(row, column) {
-				if(this.base.isEmpty(row[column.field])){
+				if (this.base.isEmpty(row[column.field])) {
 					return '';
 				}
 				let _val = row[column.field] + '';
+
 				if (!column.bind.data.length) {
 					return _val;
 				}
@@ -353,6 +355,7 @@
 
 <style lang="less" scoped>
 	.vol-table-head {
+		padding: 0 8rpx;
 		display: flex;
 		background: #f3f3f3;
 
@@ -360,7 +363,7 @@
 		font-weight: bold;
 
 		.vol-table-head-cell {
-			padding: 30rpx 10rpx;
+			padding: 30rpx 6rpx;
 			flex: 1;
 			width: 0;
 			font-size: 26rpx;
@@ -375,9 +378,11 @@
 		}
 	}
 
+
+
 	.vol-table-body-rows {
 		display: flex;
-
+padding: 0 8rpx;
 		.vol-table-body-cell {
 			word-break: break-all;
 			padding: 30rpx 6rpx;
