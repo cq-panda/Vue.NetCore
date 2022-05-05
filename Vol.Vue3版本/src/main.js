@@ -10,15 +10,17 @@ import 'dayjs/locale/zh-cn'
 // import locale from 'element-plus/lib/locale/lang/zh-cn'
 
 import permission from './api/permission'
-import viewgird  from './components/basic/ViewGrid';
+import viewgird from './components/basic/ViewGrid';
 const app = createApp(App);
 app.config.globalProperties.base = base;
 app.config.globalProperties.http = http;
 app.config.globalProperties.$tabs = {};
 app.config.globalProperties.permission = permission;
-
+app.config.globalProperties.$global = { 
+    signalR: true //是否开启signalR
+}
 app.use(store)
-    .use(ElementPlus, {size: 'medium' })
+    .use(ElementPlus, { size: 'medium' })
     .use(router)
     .use(viewgird)
     .mount('#app');

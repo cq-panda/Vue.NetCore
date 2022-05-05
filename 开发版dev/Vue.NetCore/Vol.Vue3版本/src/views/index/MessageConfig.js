@@ -2,7 +2,6 @@ import * as signalR from '@microsoft/signalr';
 import { ElNotification } from 'element-plus';
 
 export default function (http, receive) {
-  return;
   let connection;
   http.post('api/user/GetCurrentUserInfo').then((result) => {
     connection = new signalR.HubConnectionBuilder()

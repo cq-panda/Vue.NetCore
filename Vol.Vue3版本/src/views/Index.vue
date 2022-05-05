@@ -146,33 +146,33 @@
   </div>
 </template>
 <style lang="less" scoped>
-@import './index/index.less';
+@import "./index/index.less";
 </style>
 <script>
-import loading from '@/components/basic/RouterLoading';
-import VolMenu from '@/components/basic/VolElementMenu.vue';
-import Message from './index/Message.vue';
-import MessageConfig from './index/MessageConfig.js';
-var imgUrl = require('@/assets/imgs/logo.png');
+import loading from "@/components/basic/RouterLoading";
+import VolMenu from "@/components/basic/VolElementMenu.vue";
+import Message from "./index/Message.vue";
+import MessageConfig from "./index/MessageConfig.js";
+var imgUrl = require("@/assets/imgs/logo.png");
 var $this;
 var $interval;
 var $indexDate;
-import VolBox from '@/components/basic/VolBox.vue';
+import VolBox from "@/components/basic/VolBox.vue";
 import {
   defineComponent,
   reactive,
   ref,
   onMounted,
-  getCurrentInstance
-} from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import store from '../store/index';
-import http from '@/../src/api/http.js';
+  getCurrentInstance,
+} from "vue";
+import { useRouter, useRoute } from "vue-router";
+import store from "../store/index";
+import http from "@/../src/api/http.js";
 export default defineComponent({
   components: {
     VolMenu,
     loading,
-    Message
+    Message,
   },
   setup(props, context) {
     const menuWidth = ref(200);
@@ -180,47 +180,47 @@ export default defineComponent({
     const drawer_model = ref(false);
     const messageModel = ref(false);
     const theme_color = ref([
-      { name: 'blue', color: 'rgb(45, 140, 240)' },
-      { name: 'blue2', color: 'rgb(45, 140, 240)', leftColor: '#0068d6' },
-      { name: 'red', color: 'rgb(237, 64, 20)' },
-      { name: 'red2', color: 'rgb(237, 64, 20)', leftColor: '#a90000' },
-      { name: 'dark', color: '#272929' },
-      { name: 'orange', color: '#ff9900' },
-      { name: 'orange2', color: '#ff9900', leftColor: 'rgb(232 141 5)' },
-      { name: 'green', color: 'rgb(25, 190, 107)' },
-      { name: 'green2', color: 'rgb(25, 190, 107)', leftColor: '#019e4f' },
-      { name: 'white', color: '#fff' }
+      { name: "blue", color: "rgb(45, 140, 240)" },
+      { name: "blue2", color: "rgb(45, 140, 240)", leftColor: "#0068d6" },
+      { name: "red", color: "rgb(237, 64, 20)" },
+      { name: "red2", color: "rgb(237, 64, 20)", leftColor: "#a90000" },
+      { name: "dark", color: "#272929" },
+      { name: "orange", color: "#ff9900" },
+      { name: "orange2", color: "#ff9900", leftColor: "rgb(232 141 5)" },
+      { name: "green", color: "rgb(25, 190, 107)" },
+      { name: "green2", color: "rgb(25, 190, 107)", leftColor: "#019e4f" },
+      { name: "white", color: "#fff" },
     ]);
     const links = ref([
       {
-        text: '框架视频',
-        path: 'https://www.cctalk.com/m/group/90268531',
-        id: -3
+        text: "框架视频",
+        path: "https://www.cctalk.com/m/group/90268531",
+        id: -3,
       },
-      { text: '大屏数据', path: '/bigdata', id: -3 },
+      { text: "大屏数据", path: "/bigdata", id: -3 },
       {
-        text: '框架文档',
-        path: 'http://v2.volcore.xyz/document/guide',
-        id: -2
+        text: "框架文档",
+        path: "http://v2.volcore.xyz/document/guide",
+        id: -2,
       },
-      { text: '个人中心', path: '/UserInfo', id: -1, icon: 'el-icon-s-custom' },
+      { text: "个人中心", path: "/UserInfo", id: -1, icon: "el-icon-s-custom" },
       {
-        text: '安全退出',
-        path: '/login',
+        text: "安全退出",
+        path: "/login",
         id: -4,
-        icon: 'el-icon-switch-button'
-      }
+        icon: "el-icon-switch-button",
+      },
     ]);
     const errorImg = ref(
-      'this.src="' + require('@/assets/imgs/error-img.png') + '"'
+      'this.src="' + require("@/assets/imgs/error-img.png") + '"'
     );
-    const selectId = ref('0');
-    const userName = ref('--');
+    const selectId = ref("0");
+    const userName = ref("--");
     const userInfo = ref({});
-    const userImg = ref('');
-    const navigation = ref([{ name: '首页', id: 0, path: '/home' }]);
+    const userImg = ref("");
+    const navigation = ref([{ name: "首页", id: 0, path: "/home" }]);
     const logo = ref(imgUrl);
-    const theme = ref('blue2');
+    const theme = ref("blue2");
     const menuOptions = ref([]);
     const permissionInited = ref(false);
     const messageList = reactive([]);
@@ -237,34 +237,34 @@ export default defineComponent({
       },
       hide() {
         toggleLeft();
-      }
+      },
     };
     const changeTheme = (name) => {
       if (theme.value != name) {
         theme.value = name;
       }
-      localStorage.setItem('vol3_theme', name);
+      localStorage.setItem("vol3_theme", name);
     };
     const to = (item) => {
       /* 2020.07.31增加手动打开tabs*/
-      if (item.path == '#') {
-        window.open('https://github.com/cq-panda/Vue.NetCore');
+      if (item.path == "#") {
+        window.open("https://github.com/cq-panda/Vue.NetCore");
         return;
       }
-      if (item.path.indexOf('http') != -1) {
+      if (item.path.indexOf("http") != -1) {
         window.open(item.path);
         return;
       }
-      if (typeof item == 'string' || item.path == '/login') {
-        if (item == '/login' || item.path == '/login') {
-          store.commit('clearUserInfo', '');
-          window.location.href = '/';
+      if (typeof item == "string" || item.path == "/login") {
+        if (item == "/login" || item.path == "/login") {
+          store.commit("clearUserInfo", "");
+          window.location.href = "/";
           return;
         }
         router.push({ path: item });
         return;
       }
-      if (item.path == '#') return;
+      if (item.path == "#") return;
       open(item);
     };
     const open = (item, useRoute) => {
@@ -274,15 +274,15 @@ export default defineComponent({
       });
       if (_index == -1) {
         navigation.value.push({
-          name: item.name || item.text || '无标题',
+          name: item.name || item.text || "无标题",
           path: item.path,
-          query: item.query //2021.03.20修复自定义二次打开$tabs时参数丢失的问题
+          query: item.query, //2021.03.20修复自定义二次打开$tabs时参数丢失的问题
         });
         //新打开的tab移至最后一个选项
-        selectId.value = navigation.value.length - 1 + '';
+        selectId.value = navigation.value.length - 1 + "";
         //return;
       } else {
-        selectId.value = _index + '';
+        selectId.value = _index + "";
       }
       if (useRoute === undefined) {
         //非标准菜单，记录最后一次跳转的页面，用于刷新
@@ -297,43 +297,43 @@ export default defineComponent({
         return x.path == path;
       });
       if (index == -1) {
-        return _config.$Message.error('未找到菜单');
+        return _config.$Message.error("未找到菜单");
       }
       removeNav(index);
     };
     const setItem = (item) => {
       /* 2020.07.31增加手动打开tabs*/
       localStorage.setItem(
-        window.location.origin + '_tabs',
+        window.location.origin + "_tabs",
         JSON.stringify(item)
       );
     };
     const getItem = () => {
       /* 2020.07.31增加手动打开tabs*/
-      let nav = localStorage.getItem(window.location.origin + '_tabs');
+      let nav = localStorage.getItem(window.location.origin + "_tabs");
       return nav ? JSON.parse(nav) : null;
     };
     const selectNav = (item) => {
-      selectId.value = item.instance.props.name + '';
+      selectId.value = item.instance.props.name + "";
       router.push({
         path: navigation.value[item.index].path,
-        query: navigation.value[item.index].query
+        query: navigation.value[item.index].query,
       });
     };
     const removeNav = (_index) => {
       return new Promise(() => {
         //关闭的当前项,跳转到前一个页面
-        if (selectId.value == _index + '') {
+        if (selectId.value == _index + "") {
           setItem(navigation.value[_index - 1]);
           router.push({
-            path: navigation.value[_index - 1].path
+            path: navigation.value[_index - 1].path,
           });
           navigation.value.splice(_index, 1);
-          selectId.value = selectId.value - 1 + '';
+          selectId.value = selectId.value - 1 + "";
           return;
         }
         if (_index < selectId.value) {
-          selectId.value = selectId.value - 1 + '';
+          selectId.value = selectId.value - 1 + "";
         }
         navigation.value.splice(_index, 1);
       });
@@ -351,7 +351,7 @@ export default defineComponent({
     };
 
     const created = () => {
-      let _theme = localStorage.getItem('vol3_theme');
+      let _theme = localStorage.getItem("vol3_theme");
       if (_theme) {
         theme.value = _theme;
       }
@@ -365,23 +365,26 @@ export default defineComponent({
       }
       Object.assign(_config.$tabs, { open: open, close: close });
 
-      http.get('api/menu/getTreeMenu', {}, true).then((data) => {
+      http.get("api/menu/getTreeMenu", {}, true).then((data) => {
         data.forEach((d) => {
-          d.path = (d.url || '').replace('/Manager', '');
-          d.to = (d.url || '').replace('/Manager', '');
-          if (!d.icon || d.icon.substring(0, 3) != 'el-') {
-            d.icon = 'el-icon-menu';
+          d.path = (d.url || "").replace("/Manager", "");
+          d.to = (d.url || "").replace("/Manager", "");
+          if (!d.icon || d.icon.substring(0, 3) != "el-") {
+            d.icon = "el-icon-menu";
           }
         });
-        store.dispatch('setPermission', data);
+        store.dispatch("setPermission", data);
         menuOptions.value = data;
         permissionInited.value = true;
 
-        //如果不需要消息推送，请注释掉MessageConfig方法
-        MessageConfig(http, (result) => {
-          messageList.unshift(result);
-          //    console.log(result)
-        });
+        //开启消息推送（main.js中设置是否开启signalR）2022.05.05
+        if (_config.$global.signalR) {
+          MessageConfig(http, (result) => {
+            messageList.unshift(result);
+            //    console.log(result)
+          });
+        }
+
         //当前刷新是不是首页
         if (router.currentRoute.value.path != navigation.value[0].path) {
           //查找系统菜单
@@ -401,7 +404,7 @@ export default defineComponent({
             return open(item, false);
           }
         }
-        selectId.value = '0';
+        selectId.value = "0";
       });
     };
     created();
@@ -428,12 +431,12 @@ export default defineComponent({
       to,
       toggleLeft,
       messageModel,
-      messageList
+      messageList,
     };
   },
   mounted() {
     let _date = showTime();
-    $indexDate = document.getElementById('index-date');
+    $indexDate = document.getElementById("index-date");
     $indexDate.innerText = _date;
     $interval = setInterval(function () {
       $indexDate.innerText = showTime();
@@ -442,16 +445,16 @@ export default defineComponent({
   destroyed() {
     $this = null;
     clearInterval($interval);
-  }
+  },
 });
 const week = new Array(
-  '星期一',
-  '星期二',
-  '星期三',
-  '星期四',
-  '星期五',
-  '星期六',
-  '星期日'
+  "星期一",
+  "星期二",
+  "星期三",
+  "星期四",
+  "星期五",
+  "星期六",
+  "星期日"
 );
 function showTime() {
   let date = new Date();
@@ -464,18 +467,18 @@ function showTime() {
 
   return (
     year +
-    '.' +
-    (month < 10 ? '0' + month : month) +
-    '.' +
-    (day < 10 ? '0' + day : day) + //202.08.08修复日期天数小于10时添加0
-    '' +
-    ' ' +
-    (hour < 10 ? '0' + hour : hour) +
-    ':' +
-    (minutes < 10 ? '0' + minutes : minutes) +
-    ':' +
-    (second < 10 ? '0' + second : second) +
-    ' ' + //2020.08.30修复首页日期星期天不显示的问题
+    "." +
+    (month < 10 ? "0" + month : month) +
+    "." +
+    (day < 10 ? "0" + day : day) + //202.08.08修复日期天数小于10时添加0
+    "" +
+    " " +
+    (hour < 10 ? "0" + hour : hour) +
+    ":" +
+    (minutes < 10 ? "0" + minutes : minutes) +
+    ":" +
+    (second < 10 ? "0" + second : second) +
+    " " + //2020.08.30修复首页日期星期天不显示的问题
     (week[date.getDay() - 1] || week[6])
   );
 }
