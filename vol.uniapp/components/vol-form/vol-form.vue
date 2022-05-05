@@ -72,17 +72,15 @@
 			</view>
 
 			<view class="f-form-content" v-else-if="item.type=='number'">
-				<input :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
-					v-model="formFields[item.field]" border="none"
-					:placeholder="item.placeholder||('请输入'+item.title)"></input>
+				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
+					v-model="formFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='decimal'">
-				<input :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
-					v-model="formFields[item.field]" border="none"
-					:placeholder="item.placeholder||('请输入'+item.title)"></input>
+				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
+					v-model="formFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='switch'">
-				<u-radio-group  v-model="formFields[item.field]" placement="row">
+				<u-radio-group v-model="formFields[item.field]" placement="row">
 					<u-radio :customStyle="{'margin-right': '40rpx'}" label="是" :name="1">
 					</u-radio>
 					<u-radio label="否" :name="0">
@@ -90,29 +88,25 @@
 				</u-radio-group>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='textarea'">
-				<textarea :ref="item.field" auto-height style="width: 100%;padding-right: 8rpx;" v-model="inFormFields[item.field]"
-					border="none" :placeholder="item.placeholder||('请输入'+item.title)"></textarea>
+				<textarea auto-height style="width: 100%;padding-right: 8rpx;" v-model="inFormFields[item.field]"
+					border="none" :placeholder="'请输入'+item.title"></textarea>
 			</view>
 			<!-- 	 -->
-			<u-upload :ref="item.field" :sizeType="['compressed']" v-else-if="item.type=='img'" :fileList="inFormFields[item.field]"
+			<u-upload :sizeType="['compressed']" v-else-if="item.type=='img'" :fileList="inFormFields[item.field]"
 				@afterRead="(event)=>{afterRead(item,event)}" @delete="(event)=>{deletePic(item,event)}" name="3"
 				:multiple="item.multiple" :maxCount="item.maxCount||1" :previewFullImage="true"></u-upload>
 			<view class="f-form-content" v-else-if="item.type=='password'">
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="password"
-					v-model="inFormFields[item.field]" border="none"
-					:ref="item.field"
-					:placeholder="item.placeholder||('请输入'+item.title)"></input>
+					v-model="inFormFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
 			</view>
 			<view class="f-form-content" v-else>
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
-					v-model="inFormFields[item.field]" border="none"
-					:ref="item.field"
-					:placeholder="item.placeholder||('请输入'+item.title)"></input>
+					v-model="inFormFields[item.field]" border="none" :placeholder="'请输入'+item.title"></input>
 			</view>
 		</view>
 		<slot></slot>
 		<!--日期 -->
-		<u-datetime-picker class="form-popup" :minDate="pickerCurrentItem.min" :maxDate="pickerCurrentItem.max"  :zIndex="9999999" :closeOnClickOverlay="true" :show="pickerModel"
+		<u-datetime-picker class="form-popup" :zIndex="9999999" :closeOnClickOverlay="true" :show="pickerModel"
 			:value="pickerValue" :mode="pickerCurrentItem.type||'date'" closeOnClickOverlay @confirm="pickerConfirm"
 			@cancel="pickerClose" @close="pickerClose"></u-datetime-picker>
 		<!--  下拉框 -->
@@ -124,8 +118,8 @@
 				</view>
 				<view class="vol-action-sheet-select-content">
 					<view :class="{'vol-action-sheet-select-actived':actionSheetModel&&isActionSelected(item)}"
-						@click="actionClick(item)" v-show="!item.hidden" :key="index"
-						v-for="(item,index) in actionSheetCurrentItem.data" class="vol-action-sheet-select-item">
+						@click="actionClick(item)" :key="index" v-for="(item,index) in actionSheetCurrentItem.data"
+						class="vol-action-sheet-select-item">
 						{{item.value}}
 					</view>
 				</view>
@@ -191,21 +185,6 @@
 			};
 		},
 		created() {
-			//日期最小最大值转换
-			this.formOptions.forEach(option => {
-				if ((option.type == 'date' || option.type == 'datetime')) {
-					if (!option.min) {
-						option.min = Number(new Date('1990/01/01 00:00:00')) //
-					} else if (typeof option.min == 'string') {
-						option.min = Number(new Date(option.min.replace(/-/g, "/")))
-					}
-					if (!option.max) {
-						option.max = Number(new Date(new Date().getFullYear() + 10 + '/01/01 00:00:00')) //
-					} else if (option.max && typeof option.max == 'string') {
-						option.max = Number(new Date(option.max.replace(/-/g, "/")))
-					}
-				}
-			})
 			this.inFormOptions = this.formOptions;
 			this.inFormFields = this.formFields;
 			this.imgFields = this.inFormOptions.filter(x => {
@@ -393,9 +372,8 @@
 					}
 					val = val[index];
 				}
-				val = val || (item.type == 'date' ? this.base.getDate() : this.base.getDateTime().substring(0,
+				this.pickerValue = val || (item.type == 'date' ? this.base.getDate() : this.base.getDateTime().substring(0,
 					16))
-				this.pickerValue = Number(new Date(val.replace(/-/g, "/")))
 				this.pickerModel = true;
 				this.hideKeyboard();
 			},
@@ -443,17 +421,14 @@
 					}
 				}
 			},
-			validate() {
-				let _option = this.inFormOptions.filter(c => {
-					return c.require || c.required
-				}).find(x => {
+			validata() {
+				let _option = this.inFormOptions.find(x => {
 					let val = this.inFormFields[x.field];
 					if (Array.isArray(val)) {
 						return !val.length
 					} else {
-						return (this.base.isEmpty(val))
+						return ((x.require || x.required) && (this.base.isEmpty(val)))
 					}
-					return;
 				});
 				if (_option) {
 					if (['date', 'datetime', 'checkbox', 'select', 'selectList', 'radio', 'switch'].indexOf(_option
@@ -504,9 +479,6 @@
 				if (!imgs) {
 					return []
 				}
-				if (Array.isArray(imgs)) {
-					return imgs;
-				}
 				let imgArr = imgs.split(',');
 				return imgArr.filter(x => {
 					return x
@@ -517,9 +489,6 @@
 				//this.http.ipAddress
 			},
 			async afterRead(option, event) {
-				if (!option.url) {
-					return this.$toast('未配置好url')
-				}
 				// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
 				let lists = [];
 				if (option.mutiple) {
@@ -536,27 +505,21 @@
 					})
 				})
 				for (let i = 0; i < lists.length; i++) {
-					const result = await this.uploadFilePromise(lists[i].url, option.url)
-					let item = this.inFormFields[option.field][fileListLen];
-					let fileName = lists[i].name;
-					if (!fileName && lists[i].thumb) {
-						let arr = lists[i].thumb.split('.');
-						let _obj = arr[0].split('/');
-						fileName = _obj[_obj.length - 1] + '.' + arr[1];
-					}
+					const result = await this.uploadFilePromise(lists[i].url)
+					let item = this.inFormFields[option.field][fileListLen]
 					this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
 						status: 'success',
 						message: '',
-						url: this.http.ipAddress + result + fileName,
-						orginUrl: result + fileName
+						url: this.http.ipAddress + result + lists[i].name,
+						orginUrl: result + lists[i].name
 					}))
 					fileListLen++
 				}
 			},
-			uploadFilePromise(url, apiUrl) {
+			uploadFilePromise(url) {
 				return new Promise((resolve, reject) => {
 					let a = uni.uploadFile({
-						url: this.http.ipAddress + apiUrl, // 仅为示例，非真实的接口地址
+						url: this.http.ipAddress + 'api/user/upload', // 仅为示例，非真实的接口地址
 						filePath: url,
 						name: 'fileInput',
 						header: {
@@ -567,10 +530,6 @@
 							setTimeout(() => {
 								resolve(JSON.parse(res.data).data)
 							}, 500)
-						},
-						fail(res) {
-							this.$toast('上传失败')
-							//console.log(res)
 						}
 					});
 				})
@@ -644,7 +603,6 @@
 		// }
 
 		.vol-action-sheet-select-content {
-
 			// flex: 1;
 			// height: 0;
 			// overflow: scroll;
