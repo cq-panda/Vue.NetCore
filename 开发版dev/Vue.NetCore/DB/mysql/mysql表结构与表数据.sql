@@ -936,7 +936,7 @@ INSERT INTO `Sys_User` VALUES (3371, NULL, NULL, NULL, NULL, NULL, '2020-04-29 1
 
 SET FOREIGN_KEY_CHECKS = 1;
 
-ALTER TABLE Sys_Menu ADD MenuType INT；
+ALTER TABLE Sys_Menu ADD MenuType INT;
 
 INSERT Sys_Menu (MenuName, Auth, Icon, Description, Enable, OrderNo, TableName,
  ParentId, Url, CreateDate, Creator, ModifyDate, Modifier, MenuType)
