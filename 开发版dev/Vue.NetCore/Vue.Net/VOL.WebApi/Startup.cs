@@ -237,7 +237,6 @@ namespace VOL.WebApi
             {
                 foreach (var controller in GetControllers())
                 {
-                    Console.WriteLine(controller.Name);
                     var apiSetting = controller.GetCustomAttribute(typeof(ApiExplorerSettingsAttribute));
                     if (apiSetting==null)
                     {
@@ -246,7 +245,6 @@ namespace VOL.WebApi
                     else  if (!(((ApiExplorerSettingsAttribute) apiSetting)!).IgnoreApi)
                     {
                         var groupName = GetSwaggerGroupName(controller);
-                        Console.WriteLine(groupName);
                         c.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName);
                     }
                 }
