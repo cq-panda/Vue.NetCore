@@ -82,7 +82,7 @@
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='switch'">
-				<u-radio-group  v-model="formFields[item.field]" placement="row">
+				<u-radio-group v-model="formFields[item.field]" placement="row">
 					<u-radio :customStyle="{'margin-right': '40rpx'}" label="是" :name="1">
 					</u-radio>
 					<u-radio label="否" :name="0">
@@ -90,31 +90,32 @@
 				</u-radio-group>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='textarea'">
-				<textarea :ref="item.field" auto-height style="width: 100%;padding-right: 8rpx;" v-model="inFormFields[item.field]"
-					border="none" :placeholder="item.placeholder||('请输入'+item.title)"></textarea>
+				<textarea :ref="item.field" auto-height style="width: 100%;padding-right: 8rpx;"
+					v-model="inFormFields[item.field]" border="none"
+					:placeholder="item.placeholder||('请输入'+item.title)"></textarea>
 			</view>
 			<!-- 	 -->
-			<u-upload :ref="item.field" :sizeType="['compressed']" v-else-if="item.type=='img'" :fileList="inFormFields[item.field]"
-				@afterRead="(event)=>{afterRead(item,event)}" @delete="(event)=>{deletePic(item,event)}" name="3"
-				:multiple="item.multiple" :maxCount="item.maxCount||1" :previewFullImage="true"></u-upload>
+			<u-upload :ref="item.field" :sizeType="['compressed']" v-else-if="item.type=='img'"
+				:fileList="inFormFields[item.field]" @afterRead="(event)=>{afterRead(item,event)}"
+				@delete="(event)=>{deletePic(item,event)}" name="3" :multiple="item.multiple"
+				:maxCount="item.maxCount||1" :previewFullImage="true"></u-upload>
 			<view class="f-form-content" v-else-if="item.type=='password'">
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="password"
-					v-model="inFormFields[item.field]" border="none"
-					:ref="item.field"
+					v-model="inFormFields[item.field]" border="none" :ref="item.field"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else>
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
-					v-model="inFormFields[item.field]" border="none"
-					:ref="item.field"
+					v-model="inFormFields[item.field]" border="none" :ref="item.field"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 		</view>
 		<slot></slot>
 		<!--日期 -->
-		<u-datetime-picker class="form-popup" :minDate="pickerCurrentItem.min" :maxDate="pickerCurrentItem.max"  :zIndex="9999999" :closeOnClickOverlay="true" :show="pickerModel"
-			:value="pickerValue" :mode="pickerCurrentItem.type||'date'" closeOnClickOverlay @confirm="pickerConfirm"
-			@cancel="pickerClose" @close="pickerClose"></u-datetime-picker>
+		<u-datetime-picker class="form-popup" :minDate="pickerCurrentItem.min" :maxDate="pickerCurrentItem.max"
+			:zIndex="9999999" :closeOnClickOverlay="true" :show="pickerModel" :value="pickerValue"
+			:mode="pickerCurrentItem.type||'date'" closeOnClickOverlay @confirm="pickerConfirm" @cancel="pickerClose"
+			@close="pickerClose"></u-datetime-picker>
 		<!--  下拉框 -->
 		<u-popup @touchmove.prevent class="form-popup" :zIndex="999999" :show="actionSheetModel"
 			@close="actionSheetModel=false;">
@@ -122,9 +123,22 @@
 				<view class="vol-action-sheet-select-title">请选择{{actionSheetCurrentItem.title}}
 					<text class="vol-action-sheet-select-confirm" @click="actionConfirmClick">确定</text>
 				</view>
+			<!-- 	超过10个下拉框选项默认开启搜索 -->
+				<view class="vol-action-sheet-select-filter" v-show="actionSheetCurrentItem.data&&actionSheetCurrentItem.data.length>=10">
+					<view
+						style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
+						<u--input placeholder="请输入关键字搜索" v-model="searchText">
+						</u--input>
+					</view>
+					<view class="search-btn">
+						<u-button type="primary" icon="search" @click="searchText=''"
+							size="small">清除</u-button>
+					</view>
+				</view>
 				<view class="vol-action-sheet-select-content">
 					<view :class="{'vol-action-sheet-select-actived':actionSheetModel&&isActionSelected(item)}"
-						@click="actionClick(item)" v-show="!item.hidden" :key="index"
+						@click="actionClick(item)"
+						v-show="!item.hidden&&(!searchText||item.value.indexOf(searchText)!=-1)" :key="index"
 						v-for="(item,index) in actionSheetCurrentItem.data" class="vol-action-sheet-select-item">
 						{{item.value}}
 					</view>
@@ -174,6 +188,7 @@
 		name: "vol-form",
 		data() {
 			return {
+				searchText: '', //搜索的内容
 				inFormFields: {},
 				inFormOptions: [],
 				maxHeight: 400,
@@ -273,6 +288,7 @@
 				this.$emit('dicInited', result);
 			},
 			showActionSheet(item) {
+				this.searchText='';
 				this.actionSheetSelectValues = [];
 				this.actionSheetCurrentItem = item;
 				var value = this.inFormFields[item.field];
@@ -642,6 +658,19 @@
 		// 		font-weight: 500;
 		// 	}
 		// }
+		.vol-action-sheet-select-filter {
+		    display: flex;
+		    background: #ffff;
+		    padding: 10rpx;
+		    border-bottom: 1px solid #eeee;
+			.search-btn {
+				    position: relative;
+				    top: 3px;
+				// margin-left: 20rpx;
+				// padding-right: 20rpx;
+				// width: 100rpx;
+			}
+		}
 
 		.vol-action-sheet-select-content {
 
