@@ -60,9 +60,12 @@
 
           <div v-else :class="{ 'form-item-extra': item.extra }">
             <!-- 只读属性 -->
-            <label :style="item.inputStyle" v-if="item.type == 'label'" class="readonly-input">{{
-              getText(formFields, item)
-            }}</label>
+            <label
+              :style="item.inputStyle"
+              v-if="item.type == 'label'"
+              class="readonly-input"
+              >{{ getText(formFields, item) }}</label
+            >
             <el-select
               :disabled="item.readonly || item.disabled"
               v-show="!item.hidden"
@@ -691,10 +694,14 @@ export default defineComponent({
   },
   methods: {
     getColWidth(item) {
-      //2021.08.30增加动态计算表单宽度
+      //2021.08.30 增加动态计算表单宽度
       let _span = 0;
       this.formRules.forEach((row, xIndex) => {
-        if (row.length > _span) _span = row.length;
+        //2022.05.06 追加表单中隐藏的元素不参与动态计算表单宽度
+        let rowLength = row.filter((item) => {
+          return !item.hidden;
+        }).length;
+        if (rowLength > _span) _span = rowLength;
       });
       let rete =
         Math.round(((item.colSize || 12 / _span) / 0.12) * colPow, 10.0) /
@@ -1267,6 +1274,7 @@ export default defineComponent({
   padding-left: 5px;
 }
 .el-form-item ::v-deep(textarea) {
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif !important;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif !important;
 }
 </style>
