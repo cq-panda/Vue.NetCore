@@ -1,52 +1,40 @@
 let options= {
-    bar: {
-      color: ["#3398DB"],
+    bar:{
+      // title: {
+      //   text: 'World Population'
+      // },
       tooltip: {
-        trigger: "axis",
+        trigger: 'axis',
         axisPointer: {
-          // 坐标轴指示器，坐标轴触发有效
-          type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          type: 'shadow'
         }
       },
+      // legend: {},
       grid: {
-        left: "3%",
-        right: "4%",
-        bottom: "3%",
+        top:10,
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
         containLabel: true
       },
-      xAxis: [
-        {
-          type: "category",
-          data: [
-            "1月",
-            "2月",
-            "3月",
-            "4月",
-            "5月",
-            "6月",
-            "7月",
-            "8月",
-            "9月",
-            "10月",
-            "11月",
-            "12月"
-          ],
-          axisTick: {
-            alignWithLabel: true
-          }
-        }
-      ],
-      yAxis: [
-        {
-          type: "value"
-        }
-      ],
+      xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+      },
+      yAxis: {
+        type: 'category',
+        data: ['Brazil', 'Indonesia', 'USA', 'India', 'China', 'World']
+      },
       series: [
         {
-          name: "直接访问",
-          type: "bar",
-          barWidth: "60%",
-          data: [120, 80, 210, 110, 160, 200, 334, 390, 290, 220, 280, 140]
+          name: '2011',
+          type: 'bar',
+          data: [18203, 23489, 29034, 14970, 31744, 60230]
+        },
+        {
+          name: '2012',
+          type: 'bar',
+          data: [19325, 23438, 31000, 11594, 24141, 6807]
         }
       ]
     },
@@ -75,8 +63,13 @@ let options= {
         {
           name: "图例1",
           type: "pie",
-          radius: "60%",
+          radius: ['40%', '70%'],
           selectedMode: "single",
+          itemStyle: {
+            borderRadius: 6,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
           data: [
             {
               value: 2563,

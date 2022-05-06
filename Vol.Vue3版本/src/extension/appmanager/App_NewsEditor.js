@@ -26,7 +26,7 @@ let extension = {
   methods: { //事件扩展
     onInit() {
       //设置表的最大高度
-      this.tableMaxHeight = 400;
+      // this.tableMaxHeight = 400;
       //table内容超出后自动换行
       this.textInline = false;
       //添加预览操作
@@ -43,8 +43,10 @@ let extension = {
           }
         }
       })
+    },
+    onInited(){
+      this.tableMaxHeight=this.height-50;
     }
-
   }
 };
 export default extension;
