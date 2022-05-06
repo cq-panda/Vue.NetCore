@@ -903,8 +903,8 @@ export default defineComponent({
     validateRow(row, option1) {
       if (!this.validateColum(option1, row)) {
         this.errorFiled = option1.field;
-        _errMsg = option1.title + _errMsg;
-        this.$message.error(_errMsg);
+        // 2022.05.06 修改错误信息重复的问题
+        this.$message.error(option1.title + _errMsg);
         return false;
       }
       this.errorFiled = '';
@@ -1016,6 +1016,8 @@ export default defineComponent({
         row = {};
       }
       this.columns.forEach((x) => {
+        // 2022.05.06 添加行时，如果列有编辑属性，设置开启编辑(避免关闭编辑后，无法再次启用编辑)??
+        //x.readonly = false;
         if (!row.hasOwnProperty(x.field)) {
           if (x.edit && x.edit.type == 'switch') {
             row[x.field] = x.type == 'bool' ? false : 0;
