@@ -125,7 +125,7 @@ namespace VOL.Core.BaseProvider
             //例如sql，只能(编辑)自己创建的数据:判断数据是不是当前用户创建的
             //sql = $" {sql} and createid!={UserContext.Current.UserId}";
             object obj = repository.DapperContext.ExecuteScalar(sql, null);
-            if (obj == null || obj.GetInt() > 0)
+            if (obj == null || obj.GetInt()== 0)
             {
                 Response.Error("不能编辑此数据");
             }
@@ -143,7 +143,8 @@ namespace VOL.Core.BaseProvider
             //例如sql，只能(删除)自己创建的数据:找出不是自己创建的数据
             //sql = $" {sql} and createid!={UserContext.Current.UserId}";
             object obj = repository.DapperContext.ExecuteScalar(sql, null);
-            if (obj == null || obj.GetInt() > 0)
+            int idsCount=  ids.Split(",").Distinct().Count();
+            if (obj == null || obj.GetInt()!= idsCount)
             {
                 Response.Error("不能删除此数据");
             }
