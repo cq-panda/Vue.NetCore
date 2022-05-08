@@ -89,6 +89,8 @@
               "
             >
               <el-option
+                v-show="!item.hidden"
+                :disabled="item.disabled"
                 v-for="item in item.data"
                 :key="item.key"
                 :label="item.value"
