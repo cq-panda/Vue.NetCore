@@ -20,7 +20,7 @@
 				<u-empty mode="list" v-if="!rowsData.length" text="无数据"
 					icon="http://cdn.uviewui.com/uview/empty/list.png"></u-empty>
 				<u-list :upperThreshold="-999" v-if="tableHeight" :height="tableHeight" @scrolltolower="scrolltolower">
-					<view @click="rowClick(rowindex,columns)" :key="rowindex" class="vol-table-body-rows"
+					<view @click="tableRowClick(rowindex,columns)" :key="rowindex" class="vol-table-body-rows"
 						v-for="(row,rowindex) in rowsData">
 						<view class="cell-index" v-if="index">
 							{{rowindex+1}}
@@ -54,7 +54,7 @@
 				<u-empty mode="list" v-if="!rowsData.length" text="无数据"
 					icon="http://cdn.uviewui.com/uview/empty/list.png">
 				</u-empty>
-				<view @click="rowClick(rowindex,columns)" :key="rowindex" v-for="(row,rowindex) in rowsData">
+				<view @click="tableRowClick(rowindex,columns)" :key="rowindex" v-for="(row,rowindex) in rowsData">
 					<view v-if="titleField" class="vol-table-list-item-title">
 						<view class="vol-table-list-item-title-left">{{getListTitleValue(row)}}</view>
 						<slot :data="row" name="title"></slot>
@@ -91,7 +91,7 @@
 <script>
 	let _this;
 	export default {
-		name: "vol-table",
+		// name: "vol-table",
 		props: {
 			loadKey: {
 				type: Boolean,
@@ -137,7 +137,8 @@
 				default: () => {
 					return []
 				}
-			}
+			},
+			rowClick:null
 		},
 		data() {
 			return {
@@ -192,7 +193,11 @@
 					this.rowsData.push(...data.rows);
 				})
 			},
-			rowClick(index, columns) {
+			tableRowClick(index, columns) {
+				if (this.rowClick) {
+					this.rowClick(index, this.rowsData[index], columns);
+					return;
+				}
 				_this.$emit('rowClick', index, this.rowsData[index], columns);
 			},
 			rowFormatter(row, column, index) {
@@ -323,7 +328,6 @@
 				});
 			}
 		},
-
 		watch: {
 			// #ifdef MP-WEIXIN
 			inColumns: {
@@ -382,7 +386,8 @@
 
 	.vol-table-body-rows {
 		display: flex;
-padding: 0 8rpx;
+		padding: 0 8rpx;
+
 		.vol-table-body-cell {
 			word-break: break-all;
 			padding: 30rpx 6rpx;

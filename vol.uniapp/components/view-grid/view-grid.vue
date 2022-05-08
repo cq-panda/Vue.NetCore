@@ -2,7 +2,7 @@
 	<view class="view-grid">
 		<slot name="gridHeader"></slot>
 		<!-- 	表格数据 -->
-		<vol-table :url="tableUrl" @rowClick="gridRowClick" :defaultLoadPage="load" @loadBefore="loadGridTableBefore"
+		<vol-table :url="tableUrl" :rowClick="gridRowClick" :defaultLoadPage="load" @loadBefore="loadGridTableBefore"
 			:index="rowIndex" @loadAfter="loadGridTableAfter" ref="table" :direction="direction"
 			:titleField="titleField" :height="height" @formatter="cellFormatter" :columns.sync="columns"
 			:textInline="textInline">
@@ -207,22 +207,22 @@
 				return callback(row[column.field]);
 			},
 			gridRowClick(index, row, columns) {
-				this.currentRow = row;
-				this.currentAction = 'Update';
-				this.hiddenDelButton(false)
+				_$this.currentRow = row;
+				_$this.currentAction = 'Update';
+				_$this.hiddenDelButton(false)
 				//this.editFormFields.Name=Math.random();
-				if (this.$refs.form) {
-					this.$refs.form.reset(row);
+				if (_$this.$refs.form) {
+					_$this.$refs.form.reset(row);
 				} else {
-					this.resetEditForm(row)
+					_$this.resetEditForm(row)
 				}
 
 				// Object.assign(this.editFormFields, row);
 				if (_$this.rowClick && !_$this.rowClick(index, row, columns)) {
 					return;
 				};
-				if (this.modelOpenBefore(row) && this.modelOpenAfter(row)) {
-					this.model = true;
+				if (_$this.modelOpenBefore(row) && _$this.modelOpenAfter(row)) {
+					_$this.model = true;
 				}
 			},
 			hiddenDelButton(hidden) {
