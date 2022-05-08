@@ -28,13 +28,20 @@
 						<view :style="{width:column.width+'px',flex:column.width?'unset':1}"
 							:class="{'text-inline':textInline}" :key="cindex" class="vol-table-body-cell"
 							v-if="!column.hidden" v-for="(column,cindex) in columns">
-							<view class="vol-cell" v-if="column.formatter" v-html="rowFormatter(row,column,rowindex)">
+							<view :style="column.style" class="vol-cell" @click.stop="cellClick(rowindex,row,column)"
+								v-if="column.click">
+								<view v-if="column.formatter" v-html="rowFormatter(row,column,rowindex)"></view>
+								<view v-else="column.formatter">{{row[column.field]}}</view>
+							</view>
+							<view class="vol-cell" v-else-if="column.formatter"
+								v-html="rowFormatter(row,column,rowindex)">
 							</view>
 							<view class="vol-cell" v-else-if="column.type=='img'">
 								<u--image style="float:left;margin-left:5px;" width="40px" height="40px" radius="4px"
 									:src="src" v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
 								</u--image>
 							</view>
+
 							<view class="vol-cell" v-else-if="column.bind">
 								{{rowFormatterValue(row,column)}}
 							</view>
@@ -64,7 +71,10 @@
 							v-if="!column.hidden&&column.field!=titleField" v-for="(column,cindex) in columns">
 							<view class="cell-left"> {{column.title}}</view>
 							<view class="cell-right">
-								<view v-if="column.formatter" v-html="rowFormatter(row,column)"></view>
+								<view @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
+									{{row[column.field]}}
+								</view>
+								<view v-else-if="column.formatter" v-html="rowFormatter(row,column)"></view>
 								<view v-else-if="column.bind">
 									{{rowFormatterValue(row,column)}}
 								</view>
@@ -138,7 +148,7 @@
 					return []
 				}
 			},
-			rowClick:null
+			rowClick: null
 		},
 		data() {
 			return {
@@ -301,6 +311,9 @@
 					})
 
 				})
+			},
+			cellClick(rowIndex, row, column) {
+				this.$emit('cellClick', rowIndex, row, column)
 			}
 		},
 		created() {
@@ -390,12 +403,16 @@
 
 		.vol-table-body-cell {
 			word-break: break-all;
-			padding: 30rpx 6rpx;
+			padding: 0 6rpx;
 			text-align: center;
 			flex: 1;
 			width: 0;
 			font-size: 24rpx;
 			color: #484848;
+
+			.vol-cell {
+				padding: 30rpx 0rpx;
+			}
 		}
 
 		.text-inline {

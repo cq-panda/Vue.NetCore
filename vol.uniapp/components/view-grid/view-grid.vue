@@ -2,7 +2,7 @@
 	<view class="view-grid">
 		<slot name="gridHeader"></slot>
 		<!-- 	表格数据 -->
-		<vol-table :url="tableUrl" :rowClick="gridRowClick" :defaultLoadPage="load" @loadBefore="loadGridTableBefore"
+		<vol-table :url="tableUrl" @cellClick="gridCellClick" :rowClick="gridRowClick" :defaultLoadPage="load" @loadBefore="loadGridTableBefore"
 			:index="rowIndex" @loadAfter="loadGridTableAfter" ref="table" :direction="direction"
 			:titleField="titleField" :height="height" @formatter="cellFormatter" :columns.sync="columns"
 			:textInline="textInline">
@@ -224,6 +224,11 @@
 				if (_$this.modelOpenBefore(row) && _$this.modelOpenAfter(row)) {
 					_$this.model = true;
 				}
+			},
+			gridCellClick(index,row,column){
+				if (_$this.cellClick && !_$this.cellClick(index, row, column)) {
+					return;
+				};
 			},
 			hiddenDelButton(hidden) {
 				let delButton = this.buttons.find(x => {
