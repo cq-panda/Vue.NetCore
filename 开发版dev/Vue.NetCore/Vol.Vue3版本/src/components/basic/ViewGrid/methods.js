@@ -159,6 +159,11 @@ let methods = {
       //弹出弹框按钮(2020.04.21),没有编辑或新建权限时，也可以通过buttons属性添加自定义弹出框按钮
       this.boxButtons.push(...boxButtons);
       this.detailOptions.buttons.push(detailGridButtons);
+      this.detailOptions.buttons.forEach((button) => {
+        if (!button.hasOwnProperty('hidden')) {
+          button.hidden = false;
+        }
+      });
       //弹出框扩展明细表按钮
       this.extendBtn(this.detailOptions.buttons, this.extend.buttons.detail);
 
@@ -172,7 +177,7 @@ let methods = {
           name: '保 存',
           icon: 'el-icon-check',
           type: 'danger',
-          disabled:false,
+          disabled: false,
           value: 'save',
           onClick() {
             this.save();
@@ -182,7 +187,7 @@ let methods = {
           name: '重 置',
           icon: 'el-icon-refresh-right',
           type: 'primary',
-          disabled:false,
+          disabled: false,
           onClick() {
             this.resetEdit();
           }
@@ -242,7 +247,11 @@ let methods = {
         }
       ]
     );
-
+    this.detailOptions.buttons.forEach((button) => {
+      if (button.hasOwnProperty('hidden')) {
+        button.hidden = false;
+      }
+    });
     //弹出框扩展按钮
     this.extendBtn(boxButtons, this.extend.buttons.box);
 
@@ -1152,7 +1161,7 @@ let methods = {
       }
       //2020.11.01增加级联处理
       if (dic[0].type == 'cascader') {
-        item.bind = { data: dic[0].orginData, type: 'select',key:key };
+        item.bind = { data: dic[0].orginData, type: 'select', key: key };
       } else {
         item.bind = dic[0];
       }
@@ -1172,11 +1181,11 @@ let methods = {
           //生成tree结构
           let _data = JSON.parse(JSON.stringify(d.data));
           //2022.04.04增加级联字典数据源刷新后table没有变化的问题
-          this.columns.forEach(column=>{
-             if (column.bind&&column.bind.key==d.dicNo) {
-                 column.bind.data=d.data;
-             }
-          })
+          this.columns.forEach((column) => {
+            if (column.bind && column.bind.key == d.dicNo) {
+              column.bind.data = d.data;
+            }
+          });
           let arr = this.base.convertTree(_data, (node, data, isRoot) => {
             if (!node.inited) {
               node.inited = true;
@@ -1247,10 +1256,10 @@ let methods = {
     //初始化字典数据
     let keys = [];
     //2022.04.17优化重新加载数据源
-    this.dicKeys.forEach(item=>{
-       item.data.splice(0);
-       item.orginData&&item.orginData.splice(0);
-    })
+    this.dicKeys.forEach((item) => {
+      item.data.splice(0);
+      item.orginData && item.orginData.splice(0);
+    });
     //this.dicKeys.splice(0);
     //初始化编辑数据源,默认为一个空数组，如果要求必填设置type=number/decimal的最小值
     this.initFormOptions(this.editFormOptions, keys, this.editFormFields, true);
@@ -1294,7 +1303,7 @@ let methods = {
     this.http.post('/api/Sys_Dictionary/GetVueDictionary', keys).then((dic) => {
       $this.bindOptions(dic);
       //2022.04.04增加字典加载完成方法
-      $this.dicInited&&$this.dicInited(dic)
+      $this.dicInited && $this.dicInited(dic);
     });
   },
   setFiexdColumn(columns, containerWidth) {
