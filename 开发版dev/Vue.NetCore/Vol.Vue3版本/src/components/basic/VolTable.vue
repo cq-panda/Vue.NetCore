@@ -181,6 +181,8 @@
                   <el-option
                     v-for="item in column.bind.data"
                     :key="item.key"
+                    v-show="!item.hidden"
+                    :disabled="item.disabled"
                     :label="item.value"
                     :value="item.key"
                     >{{ item.value }}
