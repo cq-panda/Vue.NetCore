@@ -131,7 +131,7 @@
 						</u--input>
 					</view>
 					<view class="search-btn">
-						<u-button type="primary" icon="search" @click="searchText=''"
+						<u-button type="primary" icon="trash" @click="searchText=''"
 							size="small">清除</u-button>
 					</view>
 				</view>
