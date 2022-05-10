@@ -18,22 +18,25 @@
       >
       </el-option>
     </el-select>
-    <span
-      v-else-if="['date', 'datetime'].indexOf(singleSearch.type) != -1"
-    ></span>
-    <!--<el-date-picker
+    <el-date-picker
       clearable
-      style="width: 100%"
       size="small"
       v-else-if="['date', 'datetime'].indexOf(singleSearch.type) != -1"
-      v-model="formFields[singleSearch.field]"
-      :type="item.type"
+      v-model="searchFormFields[singleSearch.field]"
+      type="daterange"
+       :value-format="getDateFormat(singleSearch)"
       :placeholder="singleSearch.title"
-      :disabledDate="(val) => getDateOptions(val, singleSearch.item)"
-      :value-format="getDateFormat(singleSearch.item)"
     >
-    </el-date-picker> -->
-
+    </el-date-picker>
+    <el-cascader
+          clearable
+          size="small"
+          v-model="searchFormFields[singleSearch.field]"
+          v-else-if="singleSearch.type == 'cascader'"
+          :options="singleSearch.data"
+          :props="{ checkStrictly: true}"
+        >
+    </el-cascader>
     <el-input
       clearable
       v-else
@@ -71,6 +74,10 @@ export default {
         date1.valueOf() <
         (typeof date2 == "number" ? date2 : new Date(date2).valueOf())
       );
+    },
+    getDateFormat(item) {
+      //见https://day.js.org/docs/zh-CN/display/format
+      return item.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
     },
     getDateOptions(date, item) {
       if ((!item.min && !item.max) || !date) {

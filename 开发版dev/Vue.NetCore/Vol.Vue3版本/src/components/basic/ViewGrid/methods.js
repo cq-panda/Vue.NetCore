@@ -30,8 +30,8 @@ let methods = {
       return x.value == 'Search';
     });
     //添加高级查询
-
-    if (searchIndex != -1) {
+    let hasOneFormItem = this.searchFormOptions.length==1&&this.searchFormOptions[0].length==1;
+    if (searchIndex != -1&&!hasOneFormItem) {
       this.buttons.splice(searchIndex + 1, 0, {
         icon: this.fiexdSearchForm ? 'el-icon-refresh-left' : 'el-icon-search',
         name: this.fiexdSearchForm ? '重置' : '高级查询',
@@ -44,6 +44,9 @@ let methods = {
           this.searchBoxShow = !this.searchBoxShow;
         }
       });
+    }
+    if (hasOneFormItem) {
+      this.fiexdSearchForm=false;
     }
     this.maxBtnLength += searchIndex == -1 ? 0 : 1;
     if (this.buttons.length <= this.maxBtnLength) return this.buttons;
