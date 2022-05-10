@@ -24,9 +24,11 @@ export default function() {
                 //      //自定义格式化显示,在下面的formatter实现具体逻辑
 				// 		//column.formatter=true;
 
+                //      //开启table单元格点击事件(仅设置this.direction = 'horizontal属性后生效)
+                //      column.click=true;
+
                 //      //指定字段为date类型不显示时分秒
                 //      //column.type="date";
-
                 //      //设置列宽度
 				//      //column.width = 70;
 				// 	}
@@ -45,6 +47,34 @@ export default function() {
 			},
 			rowClick(index, row, column) { //行点击事件(默认触发编辑)
 				return true;
+			},
+            cellClick(index, row, column) { //单元格击事件(默认触发编辑)
+			    //仅onInited中设置：this.direction = "horizontal", this.columns的字段设置为click=true后生效
+				return true;
+			},
+			rowButtons(index, row) { //列表显示的按钮
+				//自定义按钮,仅onInited中设置：this.direction = "list"后生效
+				// return [{
+				// 	text: "测试",
+				// 	icon: "edit-pen",
+				// 	type: "primary",
+				// 	plain:true,
+				// 	shape:"circle",
+				// 	disabled: false
+				// },{
+				// 	text: "删除",
+				// 	icon: "trash",
+				// 	type: "error",
+				// 	plain:true,
+				// 	shape:"circle",
+				// 	//shape:"",//square、circle
+				// 	disabled: false
+				// }];
+			},
+			rowButtonClick(btn,index, row){ //列表显示的按钮点击事件
+			 //    if(btn.text=='删除'){
+				// 	this.$toast('删除')
+				// }
 			},
 			searchBefore(params){ //查询前
 				return true;
