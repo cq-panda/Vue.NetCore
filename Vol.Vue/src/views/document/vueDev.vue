@@ -4812,6 +4812,127 @@ export default {
           tips: `select选择后给字段设置值或数据源，实现手动级联操作`,
           img: "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/15.png?imageMogr2/thumbnail/!35p",
         },
+  {
+          title: "编辑select下拉框选项禁用或隐藏显示",
+          content: [`<p>
+	<br />
+</p>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+			<div>
+				&nbsp;<span style="color:#6a9955;">//2022.05.08更新vue3组件volform.vue、voltable.vue文件后才能使用</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#dcdcaa;">modelOpenAfter</span>() { <span style="color:#6a9955;">//在弹出框打开时动态设置下拉框选项的禁用或者隐藏</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//编辑还是新建状态</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// let isAdd = this.currentAction == 'Add';</span>
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.editFormFields;当前表单的字段</span>
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//编辑表单，动态设置下拉框选项禁用状态或者隐藏显示</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">options</span>) <span style="color:#569cd6;">=&gt;</span> {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">options</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">item</span>) <span style="color:#569cd6;">=&gt;</span> {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span> == <span style="color:#ce9178;">'字段'</span>) {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">data</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">kv</span>) <span style="color:#569cd6;">=&gt;</span> {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//根据字典的值判断</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">kv</span>.<span style="color:#9cdcfe;">key</span> == <span style="color:#ce9178;">'字典选项的值'</span>) {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//或者根据名称判断kv.value=='字典选项名称'</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// kv.disabled = true; //设置选项禁用</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// kv.hidden = true; //设置选项隐藏</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; });
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; });
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; });
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//明细表下拉框</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">column</span>) <span style="color:#569cd6;">=&gt;</span> {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">field</span> == <span style="color:#ce9178;">'ProductName'</span>) {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">bind</span>.<span style="color:#9cdcfe;">data</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">kv</span>) <span style="color:#569cd6;">=&gt;</span> {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//根据字典的值判断</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">kv</span>.<span style="color:#9cdcfe;">key</span> == <span style="color:#ce9178;">'字典选项的值'</span>) {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//或者根据名称判断kv.value=='字典选项名称'</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// kv.disabled = true; //设置选项禁用</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// kv.hidden = true; //设置选项隐藏</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; });
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; }
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; });
+			</div>
+			<div>
+				&nbsp; &nbsp; }
+			</div>
+		</div>
+<br />
+	</div>
+</div>`],
+          tips: ``,
+          img: [],
+        },
+
         {
           title: "编辑框(明细)从表select下拉框选择事件",
           content: [
