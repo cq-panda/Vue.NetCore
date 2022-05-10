@@ -2,10 +2,11 @@
 	<view class="view-grid">
 		<slot name="gridHeader"></slot>
 		<!-- 	表格数据 -->
-		<vol-table :url="tableUrl" @cellClick="gridCellClick" :rowClick="gridRowClick" :defaultLoadPage="load" @loadBefore="loadGridTableBefore"
-			:index="rowIndex" @loadAfter="loadGridTableAfter" ref="table" :direction="direction"
-			:titleField="titleField" :height="height" @formatter="cellFormatter" :columns.sync="columns"
-			:textInline="textInline">
+		<vol-table :url="tableUrl" @cellClick="gridCellClick" @rowButtons="getRowButtons"
+			@rowButtonClick="gridRowButtonClick" :rowClick="gridRowClick" :defaultLoadPage="load"
+			@loadBefore="loadGridTableBefore" :index="rowIndex" @loadAfter="loadGridTableAfter" ref="table"
+			:direction="direction" :titleField="titleField" :height="height" @formatter="cellFormatter"
+			:columns.sync="columns" :textInline="textInline">
 			<!-- 			<view style="height: 50rpx;"></view> -->
 			<!-- 		<view class="vol-table-title-buttons" slot="title">
 				<view @click.native.stop="gridRowClick()"  class="vol-table-title-buttons-del">
@@ -95,6 +96,7 @@
 				<slot name="modelHeader"></slot>
 				<view class="vol-action-sheet-select-content">
 					<vol-form :load-key="false" @onChange="editGirdFormOnChange" ref="form"
+					@extraClick="gridExtraClick"
 						:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
 					</vol-form>
 				</view>
@@ -225,7 +227,7 @@
 					_$this.model = true;
 				}
 			},
-			gridCellClick(index,row,column){
+			gridCellClick(index, row, column) {
 				if (_$this.cellClick && !_$this.cellClick(index, row, column)) {
 					return;
 				};
@@ -474,7 +476,8 @@
 			},
 			initPermissionButtons() { //初始化按钮权限
 				let _permission = (this.permission.find(x => {
-					return (this.tableAction || this.options.table.name).toUpperCase() == x.tableName.toUpperCase()
+					return (this.tableAction || this.options.table.name).toUpperCase() == x.tableName
+						.toUpperCase()
 				}) || {}).permission;
 				if (!_permission) {
 					return;
@@ -497,7 +500,7 @@
 						name: "重置",
 						icon: 'reload',
 						value: 'reset',
-						hidden:false,
+						hidden: false,
 						type: 'success',
 						onClick: () => {
 							this.resetEditForm();
@@ -506,7 +509,7 @@
 						name: "提交",
 						icon: 'checkbox-mark',
 						value: 'add',
-						hidden:false,
+						hidden: false,
 						type: 'primary',
 						onClick: () => {
 							this.gridSave();
@@ -524,7 +527,7 @@
 				let fabButtons = [{
 					icon: "search",
 					value: "search",
-				    hidden:false,
+					hidden: false,
 					color: 'rgb(7 185 14)',
 					onClick: () => {
 						this.showSearch();
@@ -532,7 +535,7 @@
 				}, {
 					icon: "reload", //刷新
 					value: "search",
-					hidden:false,
+					hidden: false,
 					color: '#009688',
 					onClick: () => {
 						this.refresh();
@@ -541,7 +544,7 @@
 				if (_permission.indexOf("Add") != -1) {
 					fabButtons.push({
 						icon: "plus", //添加
-					    hidden:false,
+						hidden: false,
 						color: 'rgb(2, 171, 255)',
 						onClick: () => {
 							this.gridAdd();
@@ -629,6 +632,19 @@
 			},
 			griFabBtnClick(btn) { //浮动按钮点击事件
 				btn.onClick();
+			},
+			getRowButtons(index, row, callback) {
+				if (this.rowButtons) {
+					callback(this.rowButtons(index, row))
+					return;
+				}
+				return [];
+			},
+			gridRowButtonClick(btn, index, row) {
+				this.rowButtonClick && this.rowButtonClick(btn, index, row);
+			},
+			gridExtraClick(option,fields){
+				this.extraClick&&this.extraClick(option,fields);
 			}
 		},
 		created() {

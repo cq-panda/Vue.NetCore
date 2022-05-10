@@ -28,10 +28,10 @@
 						<view :style="{width:column.width+'px',flex:column.width?'unset':1}"
 							:class="{'text-inline':textInline}" :key="cindex" class="vol-table-body-cell"
 							v-if="!column.hidden" v-for="(column,cindex) in columns">
-							<view :style="column.style" class="vol-cell" @click.stop="cellClick(rowindex,row,column)"
-								v-if="column.click">
-								<view v-if="column.formatter" v-html="rowFormatter(row,column,rowindex)"></view>
-								<view v-else="column.formatter">{{row[column.field]}}</view>
+							<view class="vol-cell" @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
+								<view :style="column.style" v-if="column.formatter"
+									v-html="rowFormatter(row,column,rowindex)"></view>
+								<view :style="column.style" v-else>{{row[column.field]}}</view>
 							</view>
 							<view class="vol-cell" v-else-if="column.formatter"
 								v-html="rowFormatter(row,column,rowindex)">
@@ -61,12 +61,12 @@
 				<u-empty mode="list" v-if="!rowsData.length" text="无数据"
 					icon="http://cdn.uviewui.com/uview/empty/list.png">
 				</u-empty>
-				<view @click="tableRowClick(rowindex,columns)" :key="rowindex" v-for="(row,rowindex) in rowsData">
+				<view :key="rowindex" v-for="(row,rowindex) in rowsData">
 					<view v-if="titleField" class="vol-table-list-item-title">
 						<view class="vol-table-list-item-title-left">{{getListTitleValue(row)}}</view>
 						<slot :data="row" name="title"></slot>
 					</view>
-					<view class="vol-table-list-item">
+					<view @click="tableRowClick(rowindex,columns)" class="vol-table-list-item">
 						<view :key="cindex" class="vol-table-list-item-cell"
 							v-if="!column.hidden&&column.field!=titleField" v-for="(column,cindex) in columns">
 							<view class="cell-left"> {{column.title}}</view>
@@ -79,15 +79,25 @@
 									{{rowFormatterValue(row,column)}}
 								</view>
 								<view v-else-if="column.type=='img'">
-									<u--image style="float: right;margin-left:10px;" width="50px" height="50px"
-										radius="4px" :src="src" v-for="(src,index) in getImgSrc(row[column.field])"
-										:key="index"></u--image>
+									  <view  style="float: right;margin-left:10px;" width="50px" height="50px" v-for="(src,index) in getImgSrc(row[column.field])">
+										  <u--image
+										  width="50px" height="50px" 
+										  	radius="4px" :src="src"
+										  	:key="index"></u--image>
+									  </view>
 								</view>
 								<view v-else-if="column.type=='date'">
 									{{(row[column.field]||'').substr(0,10)}}
 								</view>
 								<view v-else> {{row[column.field]==null?'':row[column.field]}}</view>
 							</view>
+						</view>
+					</view>
+					<view style="margin:20rpx 0 40rpx 20rpx" @click.stop>
+						<view :key="btnIndex" class="extent-button" v-for="(btn,btnIndex) in rowButtons(rowindex,row)">
+							<u-button :icon="btn.icon" :hairline="true" :shape="btn.shape" :disabled="btn.disabled" :plain="btn.plain" :type="btn.type"
+								style="height:60rpx;" @click="rowBtnClick(btn,rowindex,row)" :text="btn.text">
+							</u-button>
 						</view>
 					</view>
 				</view>
@@ -314,6 +324,17 @@
 			},
 			cellClick(rowIndex, row, column) {
 				this.$emit('cellClick', rowIndex, row, column)
+			},
+			rowButtons(index, row) {
+				let _buttons = [];
+				this.$emit('rowButtons',index, row, (buttons) => {
+					_buttons = buttons;
+				})
+				console.log(_buttons)
+				return (_buttons || [])//.reverse();
+			},
+			rowBtnClick(btn, rowindex, row) {
+				this.$emit('rowButtonClick', btn, rowindex, row);
 			}
 		},
 		created() {
@@ -484,5 +505,13 @@
 				text-align: right;
 			}
 		}
+	}
+
+	.extent-button {
+		display: inline-block;
+		float: right;
+		min-width: 20%;
+		margin-right: 20rpx;
+		margin-bottom: 20rpx;
 	}
 </style>

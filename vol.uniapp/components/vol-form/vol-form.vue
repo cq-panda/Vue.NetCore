@@ -109,6 +109,10 @@
 					v-model="inFormFields[item.field]" border="none" :ref="item.field"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
+			<view v-if="item.extra" @click="extraClick(item,inFormFields)">
+				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.clor||'#ffff'" size="20"></u-icon>
+				<text :style="item.extra.style">{{item.extra.text}}</text>
+			</view>
 		</view>
 		<slot></slot>
 		<!--日期 -->
@@ -594,6 +598,9 @@
 			// 删除图片
 			deletePic(item, event) {
 				this.inFormFields[item.field].splice(event.index, 1)
+			},
+			extraClick(item,inFormFields){
+				this.$emit('extraClick',item,inFormFields)
 			}
 		},
 		// #ifdef MP-WEIXIN
