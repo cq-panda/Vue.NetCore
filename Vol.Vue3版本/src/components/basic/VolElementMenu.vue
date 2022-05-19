@@ -8,6 +8,7 @@
      :active-text-color="!isCollapse?'#ffff':''"
       @open="handleOpen"
       @close="handleClose"
+      @contextmenu.prevent="bindRightClickMenu"
     >
       <template v-for="item in convertTree(list)">
         <el-submenu
@@ -143,6 +144,16 @@ export default defineComponent({
       }
     };
     const handleClose = () => {};
+
+    /**
+     * 菜单导航右键事件
+     * @param {*} enable 是否启用右键事件[true:启用;false:禁用;]
+     */
+    const bindRightClickMenu = (enable) => {
+      if(!enable)
+        return;
+    };
+
     return {
       // treeList,
       // list,
@@ -150,6 +161,7 @@ export default defineComponent({
       convertTree,
       handleOpen,
       handleClose,
+      bindRightClickMenu
     };
   },
 });

@@ -74,21 +74,31 @@
         <el-tabs
           @tab-click="selectNav"
           @tab-remove="removeNav"
+          @contextmenu.prevent="bindRightClickMenu(false)"
           type="border-card"
           class="header-navigation"
           v-model="selectId"
+          :strtch="false"
         >
           <el-tab-pane
-            v-model="selectId"
             v-for="(item, navIndex) in navigation"
             type="card"
-            :name="navIndex + ''"
+            :name="item.id"
             :closable="navIndex > 0"
             :key="navIndex"
             class="header-nav-item"
             :label="item.name"
           ></el-tab-pane>
         </el-tabs>
+	<!-- 右键菜单 -->
+        <div v-show="contextMenuVisible">
+          <ul :style="{ left: menuLeft + 'px', top: menuTop + 'px' }" class="contextMenu">
+            <li v-if="allTabs"><el-button type="text" @click="closeAllTabs()" size="mini">关闭所有</el-button></li>
+            <li v-if="leftTabs"><el-button type="text" @click="closeOtherTabs('left')" size="mini">关闭左边</el-button></li>
+            <li v-if="rightTabs"><el-button type="text" @click="closeOtherTabs('right')" size="mini">关闭右边</el-button></li>
+            <li v-if="otherTabs"><el-button type="text" @click="closeOtherTabs('other')" size="mini">关闭其他</el-button></li>
+          </ul>
+        </div>
       </div>
       <div class="vol-main" id="vol-main">
         <el-scrollbar style="height: 100%" v-if="permissionInited">
@@ -174,7 +184,23 @@ export default defineComponent({
     loading,
     Message,
   },
+  
+  data() {
+    return {
+      allTabs:true,
+      leftTabs:true,
+      rightTabs:true,
+      otherTabs:true,
+      menuLeft: 0,
+      menuTop: 0,
+      contextMenuVisible: false, // 右键关闭显/隐
+    };
+  },
   setup(props, context) {
+    // 获取全局属性和方法
+    const {proxy} = getCurrentInstance();
+
+    // 菜单导航默认宽度
     const menuWidth = ref(200);
     const isCollapse = ref(false);
     const drawer_model = ref(false);
@@ -214,11 +240,13 @@ export default defineComponent({
     const errorImg = ref(
       'this.src="' + require("@/assets/imgs/error-img.png") + '"'
     );
-    const selectId = ref("0");
+    const selectId = ref('1');
+    // 【首页】标签序号
+    const selectOrderNo = ref('0');
     const userName = ref("--");
     const userInfo = ref({});
     const userImg = ref("");
-    const navigation = ref([{ name: "首页", id: 0, path: "/home" }]);
+    const navigation = ref([{ orderNo:'0', id: '1', name: "首页", path: "/home" }]);
     const logo = ref(imgUrl);
     const theme = ref("blue2");
     const menuOptions = ref([]);
@@ -273,16 +301,20 @@ export default defineComponent({
         return x.path == item.path;
       });
       if (_index == -1) {
-        navigation.value.push({
+        navigation.value.push(
+		{
+		  orderNo:String(navigation.value.length),// 序号
+		  id: item.id,
           name: item.name || item.text || "无标题",
           path: item.path,
           query: item.query, //2021.03.20修复自定义二次打开$tabs时参数丢失的问题
         });
         //新打开的tab移至最后一个选项
-        selectId.value = navigation.value.length - 1 + "";
-        //return;
+        selectId.value = navigation.value[navigation.value.length - 1].id;// tab标签id
+        selectOrderNo.value = navigation.value[navigation.value.length - 1].orderNo; // tab标签序号
       } else {
-        selectId.value = _index + "";
+        selectId.value = navigation.value[_index].id;
+        selectOrderNo.value = _index;
       }
       if (useRoute === undefined) {
         //非标准菜单，记录最后一次跳转的页面，用于刷新
@@ -290,6 +322,11 @@ export default defineComponent({
         router.push(item);
         // this.$router.push(item);
       }
+
+      // tab菜单绑定右键事件
+      proxy.$nextTick(function(e){
+        proxy.bindRightClickMenu(true);
+     });
     };
     const close = (path) => {
       /* 2020.07.31增加手动打开tabs*/
@@ -314,28 +351,50 @@ export default defineComponent({
       return nav ? JSON.parse(nav) : null;
     };
     const selectNav = (item) => {
-      selectId.value = item.instance.props.name + "";
+      selectId.value = item.instance.props.name;
+      selectOrderNo.value = item.index;
       router.push({
         path: navigation.value[item.index].path,
         query: navigation.value[item.index].query,
       });
     };
-    const removeNav = (_index) => {
+    const removeNav = (tabId) => {
       return new Promise(() => {
-        //关闭的当前项,跳转到前一个页面
-        if (selectId.value == _index + "") {
-          setItem(navigation.value[_index - 1]);
+        // 关闭的当前项,跳转到前一个页面
+        let currentOrderNo = parseInt(navigation.value.find((item)=> item.id == (tabId==""?undefined:tabId)).orderNo);
+        if (selectId.value == String(tabId)) {
+          setItem(navigation.value[currentOrderNo - 1]);
           router.push({
-            path: navigation.value[_index - 1].path,
+            path: navigation.value[currentOrderNo - 1].path,
           });
-          navigation.value.splice(_index, 1);
-          selectId.value = selectId.value - 1 + "";
-          return;
+          
+          selectOrderNo.value = String(selectOrderNo.value - 1);
+          selectId.value = navigation.value[currentOrderNo - 1].id;
         }
-        if (_index < selectId.value) {
-          selectId.value = selectId.value - 1 + "";
+
+        navigation.value.splice(currentOrderNo, 1);// 这里删除顺序很重要，不允许随意调换
+
+        // 关闭当前选中tab左边指定的tab
+        if(currentOrderNo < parseInt(selectOrderNo.value)) {
+          selectId.value = navigation.value[parseInt(selectOrderNo.value) - 1].id;
+          selectOrderNo.value = String(parseInt(selectOrderNo.value) - 1);
+        }       
+
+        // 重置序号
+        resetMenuTabsOrderNo();
+        return;
+      });
+    };
+
+    /**
+     * 重置菜单tab标签序号
+     */
+    const resetMenuTabsOrderNo = function(){
+      navigation.value.forEach((item,index) => {
+        item.orderNo = index;
+        if(selectId.value == item.id){ // 更新选中标签的序号
+          selectOrderNo.value = index;
         }
-        navigation.value.splice(_index, 1);
       });
     };
 
@@ -350,6 +409,55 @@ export default defineComponent({
       open(item, false);
     };
 
+    /**
+     * 显示右键菜单
+     * @param {*} e 事件对象
+     */
+    const openTabsMenu = function(e) {
+      let that = this;
+      e.preventDefault(); // 防止默认菜单弹出
+      let leftIndexLength = 0;// 左侧tab的个数
+      let rightIndexLength = 0;// 右侧tab的个数
+
+      navigation.value.find((value,index,array) => {
+        if(index < parseInt(selectOrderNo.value) && index > 0){
+          leftIndexLength++;
+        }
+        if(index > parseInt(selectOrderNo.value)){
+          rightIndexLength++;
+        }
+      });
+
+      //#region 显示全部右键菜单
+      proxy.allTabs = true;
+      proxy.leftTabs = true;
+      proxy.rightTabs = true;
+      proxy.otherTabs = true;
+      //#endregion
+      
+      proxy.contextMenuVisible = true;
+      // 设置不必要的右键菜单隐藏
+      if(leftIndexLength < 1){
+        proxy.leftTabs = false;
+      }
+      if(rightIndexLength < 1){
+        proxy.rightTabs = false;
+      }
+      if(leftIndexLength < 1 && rightIndexLength < 1){
+        proxy.otherTabs = false;
+      }
+      if(rightIndexLength < 1 && (selectOrderNo.value == 0)){ // 首页
+        proxy.allTabs = false;
+      }
+     
+      // 设置右键菜单显示的位置
+      proxy.menuLeft = event.clientX - Number(document.getElementsByClassName("vol-container")[0].style.left.replace("px",""));
+      proxy.menuTop = event.clientY-61;
+    };
+
+    /**
+     * 系统创建开始
+     */
     const created = () => {
       let _theme = localStorage.getItem("vol3_theme");
       if (_theme) {
@@ -366,6 +474,7 @@ export default defineComponent({
       Object.assign(_config.$tabs, { open: open, close: close });
 
       http.get("api/menu/getTreeMenu", {}, true).then((data) => {
+        data.push({ id: '1', name: "首页", url: "/home" });// 为了获取选中id使用
         data.forEach((d) => {
           d.path = (d.url || "").replace("/Manager", "");
           d.to = (d.url || "").replace("/Manager", "");
@@ -404,7 +513,8 @@ export default defineComponent({
             return open(item, false);
           }
         }
-        selectId.value = "0";
+        selectId.value = "1";
+	selectOrderNo.value = "0";
       });
     };
     created();
@@ -418,10 +528,14 @@ export default defineComponent({
       userName,
       userImg,
       selectId,
+      selectOrderNo,
       navigation,
       links,
       onSelect,
+      openTabsMenu,
       selectNav,
+      getSelectMenuName,
+      resetMenuTabsOrderNo,
       removeNav,
       logo,
       theme,
@@ -434,6 +548,24 @@ export default defineComponent({
       messageList,
     };
   },
+  
+  /**
+   * 监听属性
+   */
+  watch: {
+    contextMenuVisible() {
+      // 监视
+      if (this.contextMenuVisible) {
+        document.body.addEventListener("click", this.closeTabsMenu);
+      } else {
+        document.body.removeEventListener("click", this.closeTabsMenu);
+      }
+    },
+  },
+
+  /**
+   * 挂载钩子函数
+   */
   mounted() {
     let _date = showTime();
     $indexDate = document.getElementById("index-date");
@@ -441,7 +573,81 @@ export default defineComponent({
     $interval = setInterval(function () {
       $indexDate.innerText = showTime();
     }, 1000);
+
+    this.bindRightClickMenu(true);
   },
+  
+  methods: {
+    /**
+     * 绑定右键事件
+     * @param {*} enable 是否启用右键事件[true:启用;false:禁用;]
+     * @param {*} $event 事件
+     */
+    bindRightClickMenu(enable){
+        if(!enable) 
+          return;
+        let that = this;
+        // 使用原生js 为单个dom绑定鼠标右击事件
+        that.$nextTick(() => {
+          let tab_top_dom = document.getElementsByClassName("el-tabs__item is-top");          
+          tab_top_dom.forEach((item,index) => {
+            item.oncontextmenu = that.openTabsMenu;
+          });
+      });
+    },
+
+    /**
+     * 关闭右键菜单
+     */
+    closeTabsMenu() {
+      this.contextMenuVisible = false;
+    },
+
+    
+
+    /**
+     * 关闭所有的tabs
+     */
+    closeAllTabs() {
+      let that=this;
+      that.closeTabsMenu();
+      that.navigation.splice(1, that.navigation.length-1); // 下标除了0的元素全部删除
+      // 设定首页打开
+      var item = that.getSelectMenuName("1");
+      that._config.$tabs.open(item);
+    },
+
+    /**
+     * 关闭其它标签页
+     * @param {*} par 关闭类型(left,right,other)
+     */
+    closeOtherTabs(par) {
+      let currTabIndex = parseInt(this.selectOrderNo);// 当前选中的tab序号
+      
+      switch (par) {
+        case "left": { // 删除左侧tab标签
+          this.navigation.splice(1, currTabIndex-1);// 删除左侧tab标签
+          break;
+        }
+        case "right": { // 删除右侧tab标签        
+          this.navigation.splice(currTabIndex + 1);// 删除右侧tab标签
+          break;
+        }
+        case "other": { // 删除其他所有tab标签
+          this.navigation.splice(currTabIndex + 1);// 删除右侧tab标签(这里必须按照右→左顺序删除)
+          this.navigation.splice(1, currTabIndex-1);// 删除左侧tab标签          
+          break;
+        }
+      }
+      
+      this.resetMenuTabsOrderNo();
+      this.closeTabsMenu();
+    },
+  },
+
+  /**
+   * 销毁钩子函数
+   */
   destroyed() {
     $this = null;
     clearInterval($interval);
@@ -487,6 +693,44 @@ function showTime() {
 <style lang="less" scoped>
 .vol-container .vol-path ::v-deep(.el-tabs__content) {
   padding: 0;
+}
+
+.contextMenu {
+  width: 100px;
+  margin: 0;
+  border: 1px solid #ccc;
+  background: #fff;
+  z-index: 30000;
+  position: absolute;
+  list-style-type: none;
+  padding: 5px 0;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.contextMenu li {
+  margin: 0;
+  padding: 0px 22px;
+}
+
+.contextMenu li:hover {
+  background: #f2f2f2;
+  cursor: pointer;
+}
+
+.contextMenu li button {
+  color: #2c3e50;
+}
+
+.el-tabs.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:last-child,
+.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:nth-child(2){
+  padding: 0;
+}
+
+.header-navigation ::v-deep(.el-tabs__item.is-top){
+  padding: 0 15px;
 }
 </style>
 <style>
