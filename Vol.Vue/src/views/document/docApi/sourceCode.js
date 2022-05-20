@@ -33,6 +33,105 @@ var codeString = {
       }
     };
 	// ]]></script>`,
+  header3:`
+  <p>
+	<br />
+</p>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		<span style="color:#808080;">
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+			<div>
+				<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">VolHeader</span> <span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"margin: 30px 0"</span> :<span style="color:#9cdcfe;">text</span>="<span style="color:#9cdcfe;">text</span>"<span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span> #<span style="color:#9cdcfe;">content</span><span style="color:#808080;">&gt;</span>VolHeader这里可以定义显示内容<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"text-align: right; padding-top: 4px"</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"primary"</span> <span style="color:#9cdcfe;">plain</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"mini"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">click</span>"
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;&lt;</span><span style="color:#569cd6;">i</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"el-icon-search"</span><span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">i</span><span style="color:#808080;">&gt;</span>按钮<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">VolHeader</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				&nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+			</div>
+			<div>
+				<span style="color:#c586c0;">import</span> <span style="color:#9cdcfe;">VolHeader</span> <span style="color:#c586c0;">from</span> <span style="color:#ce9178;">"@/components/basic/VolHeader.vue"</span>;
+			</div>
+			<div>
+				<span style="color:#c586c0;">export</span> <span style="color:#c586c0;">default</span> {
+			</div>
+			<div>
+				&nbsp; <span style="color:#dcdcaa;">data</span>() {
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#c586c0;">return</span> {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">text</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"主题名称"</span>,
+			</div>
+			<div>
+				&nbsp; &nbsp; };
+			</div>
+			<div>
+				&nbsp; },
+			</div>
+			<div>
+				&nbsp; <span style="color:#9cdcfe;">components</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">VolHeader</span> },
+			</div>
+			<div>
+				&nbsp; <span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span> {
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#dcdcaa;">click</span>() {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"click"</span>);
+			</div>
+			<div>
+				&nbsp; &nbsp; },
+			</div>
+			<div>
+				&nbsp; },
+			</div>
+			<div>
+				};
+			</div>
+			<div>
+				<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+			</div>
+		</div>
+</span>
+	</div>
+</div>
+<p>
+	<br />
+</p>`,
   header: `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
 		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
@@ -356,6 +455,1022 @@ var codeString = {
 <p>
 	<br />
 </p>`,
+form3:`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+<div>
+  <span style="color:#808080;"> 
+  <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+    <div>
+      <span style="color:#808080;"> 
+      <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+        <div>
+          <span style="color:#808080;">
+          <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+            <div>
+              <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"container"</span> <span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"padding: 15px 30px 20px 0px"</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">VolHeader</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">icon</span>=<span style="color:#ce9178;">"el-icon-warning-outline"</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">text</span>=<span style="color:#ce9178;">"表单配置"</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"margin: 0 0 20px 50px"</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span> #<span style="color:#9cdcfe;">content</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"color: #909090; font-size: 13px"</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 表单集成了element多种组件,只需要简单配置,功能包括：表单只读、自定义验证、非空验证、下拉框自动绑定、render动态渲染等.<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">a</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">href</span>=<span style="color:#ce9178;">"http://www.volcore.xyz/document/api"</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">target</span>=<span style="color:#ce9178;">"_blank"</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>查看文档
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">a</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">VolHeader</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">VolForm</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ref</span>=<span style="color:#ce9178;">"myform"</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">loadKey</span>="<span style="color:#9cdcfe;">loadKey</span>"
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">formFields</span>="<span style="color:#9cdcfe;">formFields</span>"
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">formRules</span>="<span style="color:#9cdcfe;">formRules</span>"
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"text-align: center; margin-top: -30px"</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"primary"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"small"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">getForm</span>"
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>获取表单<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"success"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"small"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">reset</span>"
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>重置表单<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"small"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#dcdcaa;">setReadonlyStaus</span>(<span style="color:#569cd6;">true</span>)"
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>全部只读<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"waring"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"small"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#dcdcaa;">setReadonlyStaus</span>(<span style="color:#569cd6;">false</span>)"
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>取消只读<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">VolForm</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+            </div>
+            <div>
+              <span style="color:#c586c0;">import</span> <span style="color:#9cdcfe;">VolForm</span> <span style="color:#c586c0;">from</span> <span style="color:#ce9178;">'@/components/basic/VolForm.vue'</span>;
+            </div>
+            <div>
+              <span style="color:#c586c0;">import</span> <span style="color:#9cdcfe;">VolHeader</span> <span style="color:#c586c0;">from</span> <span style="color:#ce9178;">'@/components/basic/VolHeader.vue'</span>;
+            </div>
+            <div>
+              <span style="color:#c586c0;">export</span> <span style="color:#c586c0;">default</span> {
+            </div>
+            <div>
+              &nbsp; <span style="color:#9cdcfe;">props</span><span style="color:#9cdcfe;">:</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#9cdcfe;">showBtn</span><span style="color:#9cdcfe;">:</span> { <span style="color:#4ec9b0;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#4ec9b0;">Boolean</span>, <span style="color:#9cdcfe;">default</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span> }
+            </div>
+            <div>
+              &nbsp; },
+            </div>
+            <div>
+              &nbsp; <span style="color:#9cdcfe;">components</span><span style="color:#9cdcfe;">:</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#9cdcfe;">VolForm</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#9cdcfe;">VolHeader</span>
+            </div>
+            <div>
+              &nbsp; },
+            </div>
+            <div>
+              &nbsp; <span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#dcdcaa;">setReadonlyStaus</span>(<span style="color:#9cdcfe;">status</span>) {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">formRules</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">rules</span>) <span style="color:#569cd6;">=&gt;</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">rules</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">option</span>) <span style="color:#569cd6;">=&gt;</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">option</span>.<span style="color:#9cdcfe;">readonly</span> = <span style="color:#9cdcfe;">status</span>;
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; });
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; });
+            </div>
+            <div>
+              &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#dcdcaa;">getForm</span>() {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (!<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">myform</span>.<span style="color:#dcdcaa;">validate</span>()) {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span>;
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">formFields</span>));
+            </div>
+            <div>
+              &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#dcdcaa;">reset</span>() {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//重置表单，重置时可指定重置的值，如果没有指定重置的值，默认全部清空</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">data</span> = { <span style="color:#9cdcfe;">Variety</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'1'</span>, <span style="color:#9cdcfe;">AvgPrice</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">888</span> };
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">myform</span>.<span style="color:#dcdcaa;">reset</span>(<span style="color:#9cdcfe;">data</span>);
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'表单已重置'</span>);
+            </div>
+            <div>
+              &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; },
+            </div>
+            <div>
+              &nbsp; <span style="color:#dcdcaa;">data</span>() {
+            </div>
+            <div>
+              &nbsp; &nbsp; <span style="color:#c586c0;">return</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">model</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">false</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">loadKey</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">formFields</span><span style="color:#9cdcfe;">:</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Variety</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">''</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">AgeRange</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">''</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">DateRange</span><span style="color:#9cdcfe;">:</span> [<span style="color:#ce9178;">''</span>, <span style="color:#ce9178;">''</span>],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">City</span><span style="color:#9cdcfe;">:</span> [],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">AvgPrice</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">8.88</span>, <span style="color:#6a9955;">//input标签如果是数字，此处注意区分不要写成字符串了</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Date</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">''</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">IsTop</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">0</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Address</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'北京市海淀区'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Source</span><span style="color:#9cdcfe;">:</span> [],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Source1</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'5'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Remark</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">''</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">phone</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">''</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">email</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">''</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">extra2</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">''</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">userVali</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">''</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">uploadFile</span><span style="color:#9cdcfe;">:</span> [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'exceltest.xlsx'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">path</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/exceltest.xlsx'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// {</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; name: "wordtest.docx",</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; path: "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx",</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// },</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; ],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">img</span><span style="color:#9cdcfe;">:</span> [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'060222.jpg'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">path</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'http://api.volcore.xyz/Upload/Tables/App_Expert/202103061753415708/060222.jpg'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; ]
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">formRules</span><span style="color:#9cdcfe;">:</span> [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//两列的表单，formRules数据格式为:[[{},{}]]</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">dataKey</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'age'</span>, <span style="color:#6a9955;">//后台下拉框对应的数据字典编号</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [], <span style="color:#6a9955;">//loadKey设置为true,会根据dataKey从后台的下拉框数据源中自动加载数据</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'下拉框'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">filter</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>, <span style="color:#6a9955;">//设置为必选项</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'AgeRange'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'select'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'自动完成'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">autocomplete</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>, <span style="color:#6a9955;">//设置为自动完成</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">dataKey</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'pz'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">placeholder</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'不存的数据自动填充'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果这里绑定了data数据，后台不会加载此数据源</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; { <span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'北京市'</span>, <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'北京市'</span> },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; { <span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'上海市'</span>, <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'上海市'</span> }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">false</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'Variety'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'select'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">dataKey</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'city'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'多选'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'City'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'selectList'</span> <span style="color:#6a9955;">//selectList属性为多选</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'decimal'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'价格'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">placeholder</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'你可以自己定义placeholder显示的文字'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'AvgPrice'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; ],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'日期'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">placeholder</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'限制时间范围'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'Date'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'datetime'</span>, <span style="color:#6a9955;">//设置日期选择范围</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">min</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'2021-07-01'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">max</span><span style="color:#9cdcfe;">:</span> <span style="color:#4ec9b0;">Date</span>.<span style="color:#dcdcaa;">now</span>(),
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onChange</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">val</span>) <span style="color:#569cd6;">=&gt;</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">'选择日期:'</span> + <span style="color:#9cdcfe;">val</span>);
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'日期2'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">range</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>, <span style="color:#6a9955;">//设置为true可以选择开始与结束日期</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">placeholder</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'日期'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'DateRange'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'date'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp;colSize:6,//如果宽度不够，可以指定colSize,可选值,4,6,8,12</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onChange</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">val</span>) <span style="color:#569cd6;">=&gt;</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">'日期:'</span> + <span style="color:#9cdcfe;">val</span>);
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'text'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'地址'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">false</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'Address'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'额外标签'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'extra2'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'text'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">extra</span><span style="color:#9cdcfe;">:</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'color:red;cursor: pointer;'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'el-icon-edit'</span>, <span style="color:#6a9955;">//显示图标</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">text</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'点击'</span>, <span style="color:#6a9955;">//显示文本</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//触发事件</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">click</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">item</span>) <span style="color:#569cd6;">=&gt;</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'点击标签触发的事件'</span>);
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; ],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'手机'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'phoneNo'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'phone'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'邮箱'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'email'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'mail'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'自定义验证'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'userVali'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">placeholder</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'只能输入值：123'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'text'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">validator</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">rule</span>, <span style="color:#9cdcfe;">val</span>) <span style="color:#569cd6;">=&gt;</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">val</span> != <span style="color:#ce9178;">'123'</span>) {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#ce9178;">'自定设置必须输入123'</span>;
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#ce9178;">''</span>;
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">dataKey</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'top'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'是否'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'IsTop'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'switch'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; ],
+            </div>
+<br />
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'备注'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'Remark'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">placeholder</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'你可以设置colSize属性决定标签的长度，可选值12/8/6/4'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">min</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">1</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">max</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">3</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'textarea'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">colSize</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">12</span> <span style="color:#6a9955;">//设置宽度100%</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; ],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">colSize</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">12</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">render</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">h</span>) <span style="color:#569cd6;">=&gt;</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#dcdcaa;">h</span>(<span style="color:#ce9178;">'div'</span>, { <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> { <span style="color:#ce9178;">'padding-left'</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'48px'</span>,<span style="color:#ce9178;">'margin-bottom'</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'-14px'</span> } }, [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">h</span>(
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">'div'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">'border-left'</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'10px solid #3095ff'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">'line-height'</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'17px'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">'padding-left'</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'4px'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">'font-weight'</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'bold'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">'font-size'</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'15px'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">'其他基础信息(通过render方法数据分栏)'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; )
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]);
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; ],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">dataKey</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'pz'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'多选'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">min</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">1</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">max</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">4</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'Source'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'checkbox'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">colSize</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">12</span> <span style="color:#6a9955;">//设置宽度100%</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; ],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">dataKey</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'pz'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'Radio'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">min</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">2</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">max</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">4</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'Source1'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'radio'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">colSize</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">12</span> <span style="color:#6a9955;">//设置宽度100%</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; ],
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; [
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'只读'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'Address'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">readonly</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'只读文本'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'Address'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'label'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">inputStyle</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">color</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'red'</span> } <span style="color:#6a9955;">//自定义样式,其他的input也生效</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'图片'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'img'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'img'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">multiple</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">maxFile</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">2</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">maxSize</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">5</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">url</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'api/App_Appointment/Upload'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp;colSize: 6, //设置宽度50%</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'上传'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">required</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'uploadFile'</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'excel'</span>, <span style="color:#6a9955;">//指定上传类型excel/img/file</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">multiple</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">maxFile</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">5</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">maxSize</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">3</span>,
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">url</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'api/App_Appointment/Upload'</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// colSize: 6, //设置宽度50%</span>
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp; ]
+            </div>
+            <div>
+              &nbsp; &nbsp; &nbsp; ]
+            </div>
+            <div>
+              &nbsp; &nbsp; };
+            </div>
+            <div>
+              &nbsp; }
+            </div>
+            <div>
+              };
+            </div>
+            <div>
+              <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+            </div>
+<br />
+          </div>
+</span>
+        </div>
+      </div>
+</span>
+    </div>
+  </div>
+</span>
+</div>
+<br />
+</div>`,
   form: `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
   <div>
 	  <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
@@ -2256,7 +3371,1003 @@ var codeString = {
   export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> doc_options;
   </span>&lt;/script&gt;</pre>
   </div>
-  <p>&nbsp;</p>`, btnedittable: `<div class="cnblogs_code">
+  <p>&nbsp;</p>`,
+  btnedittable3:`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		&nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"example-tb"</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"tb"</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"btns"</span> <span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"margin-bottom: 10px;"</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"success"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"small"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">getSelect</span>"<span style="color:#808080;">&gt;&lt;</span><span style="color:#569cd6;">i</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"el-icon-check"</span><span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">i</span><span style="color:#808080;">&gt;</span>获取选中行<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"primary"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"small"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">addRow</span>"<span style="color:#808080;">&gt;&lt;</span><span style="color:#569cd6;">i</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"el-icon-plus"</span><span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">i</span><span style="color:#808080;">&gt;</span>添加行<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">&lt;!-- :single="true"设置为单选 &nbsp;--&gt;</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-table</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ref</span>=<span style="color:#ce9178;">"table"</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">columns</span>="<span style="color:#9cdcfe;">columns</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">max-height</span>="<span style="color:#b5cea8;">500</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">index</span>="<span style="color:#569cd6;">true</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; @<span style="color:#9cdcfe;">rowClick</span>="<span style="color:#9cdcfe;">rowClick</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">tableData</span>="<span style="color:#9cdcfe;">tableData</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">paginationHide</span>="<span style="color:#569cd6;">true</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">endEditBefore</span>="<span style="color:#9cdcfe;">endEditBefore</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">endEditAfter</span>="<span style="color:#9cdcfe;">endEditAfter</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; @<span style="color:#9cdcfe;">rowChange</span>="<span style="color:#9cdcfe;">rowChange</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">single</span>="<span style="color:#569cd6;">true</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">beginEdit</span>="<span style="color:#9cdcfe;">beginEdit</span>"
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">vol-table</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		&nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		<span style="color:#6a9955;">/*********************此示例采用的vue2语法，也可以使用vue3语法***************************/</span>
+	</div>
+<br />
+	<div>
+		<span style="color:#c586c0;">import</span> <span style="color:#9cdcfe;">VolTable</span> <span style="color:#c586c0;">from</span> <span style="color:#ce9178;">"@/components/basic/VolTable.vue"</span>;
+	</div>
+	<div>
+		<span style="color:#c586c0;">import</span> <span style="color:#9cdcfe;">VolHeader</span> <span style="color:#c586c0;">from</span> <span style="color:#ce9178;">"@/components/basic/VolHeader.vue"</span>;
+	</div>
+	<div>
+		<span style="color:#6a9955;">// import VolBox from "@/components/basic/VolBox.vue";</span>
+	</div>
+	<div>
+		<span style="color:#c586c0;">import</span> { <span style="color:#9cdcfe;">ref</span>, <span style="color:#9cdcfe;">getCurrentInstance</span> } <span style="color:#c586c0;">from</span> <span style="color:#ce9178;">"vue"</span>;
+	</div>
+	<div>
+		<span style="color:#c586c0;">import</span> <span style="color:#9cdcfe;">VolUpload</span> <span style="color:#c586c0;">from</span> <span style="color:#ce9178;">"@/components/basic/VolUpload.vue"</span>;
+	</div>
+	<div>
+		<span style="color:#c586c0;">export</span> <span style="color:#c586c0;">default</span> {
+	</div>
+	<div>
+		&nbsp; <span style="color:#9cdcfe;">components</span><span style="color:#9cdcfe;">:</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#9cdcfe;">VolTable</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#6a9955;">//VolBox,</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#9cdcfe;">VolHeader</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#9cdcfe;">VolUpload</span>,
+	</div>
+	<div>
+		&nbsp; },
+	</div>
+	<div>
+		&nbsp; <span style="color:#dcdcaa;">setup</span>() {},
+	</div>
+	<div>
+		&nbsp; <span style="color:#dcdcaa;">data</span>() {
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#c586c0;">return</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">url</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"/api/app_news/upload"</span>, <span style="color:#6a9955;">//使用后台自带的上传文件方法，也可以自定义方法上传</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">text</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">""</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">tableData</span><span style="color:#9cdcfe;">:</span> [
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//表数据</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ExpertId</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">276</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ExpertName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"时间管理大湿"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">HeadImageUrl</span><span style="color:#9cdcfe;">:</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x3.jpg"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">UserName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"12345"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">UserTrueName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"孤独比夜还长 "</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">AuditStatus</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">0</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Enable</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">1</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ReallyName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"45678"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">CreateDate</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"2018-09-18 17:45:54"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Creator</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">38.88</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ExpertId</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">276</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ExpertName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"小短腿-鲁班"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">HeadImageUrl</span><span style="color:#9cdcfe;">:</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x1.jpg"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">UserName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"56789"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">UserTrueName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"七秒钟的记忆"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">AuditStatus</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">1</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Enable</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">1</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ReallyName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"七秒钟的记忆1"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">CreateDate</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"2018-09-18 17:45:54"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Creator</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">19.2</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ExpertId</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">276</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ExpertName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"行走在冷风中"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">HeadImageUrl</span><span style="color:#9cdcfe;">:</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">UserName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"13883"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">UserTrueName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"不午休的、猫 "</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">AuditStatus</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">2</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Enable</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">0</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ReallyName</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"月穿潭底水無痕 "</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">CreateDate</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"2018-09-18 17:45:54"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Creator</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">2.2</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; ],
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">columns</span><span style="color:#9cdcfe;">:</span> [
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//表配置</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"ExpertId"</span>, <span style="color:#6a9955;">//数据库表字段,必须和数据库一样，并且大小写一样</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"主键ID"</span>, <span style="color:#6a9955;">//表头显示的名称</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"int"</span>, <span style="color:#6a9955;">//数据类型</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">isKey</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>, <span style="color:#6a9955;">//是否为主键字段</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">80</span>, <span style="color:#6a9955;">//表格宽度</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">hidden</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>, <span style="color:#6a9955;">//是否显示</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">readonly</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">require</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">align</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"left"</span><span style="color:#6a9955;">//文字显示位置left、center</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"ExpertName"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"render动态渲染"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"string"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">100</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">require</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">align</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"left"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">render</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">h</span>, { <span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">index</span> }) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#dcdcaa;">h</span>(<span style="color:#ce9178;">"div"</span>, { <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> {} }, [
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">h</span>(<span style="color:#ce9178;">"div"</span>, {}, [
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">h</span>(<span style="color:#ce9178;">"i"</span>, {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">class</span><span style="color:#9cdcfe;">:</span> [<span style="color:#ce9178;">"el-icon-zoom-out"</span>],
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">cursor</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"pointer"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"margin-right"</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"8px"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">color</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"#b1b1b1"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">e</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">e</span>.<span style="color:#dcdcaa;">stopPropagation</span>();
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">success</span>(<span style="color:#ce9178;">"搜索按钮"</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }),
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">h</span>(
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"a"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">class</span><span style="color:#9cdcfe;">:</span> [],
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">cursor</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"pointer"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">color</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"#3a8ee6"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">e</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">e</span>.<span style="color:#dcdcaa;">stopPropagation</span>();
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//弹出框编辑</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">success</span>(<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">ExpertName</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">ExpertName</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ),
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]),
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"HeadImageUrl"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"头像"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"img"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">80</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">align</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"left"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"UserName"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"长度限制"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"string"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp;link: true, //设置link=true后此单元格可以点击获取当前行的数据进行其他操作</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">70</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">require</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">edit</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"text"</span>, <span style="color:#9cdcfe;">min</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">3</span>, <span style="color:#9cdcfe;">max</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">5</span> },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">align</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"left"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"UserTrueName"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"不可编辑"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"string"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">100</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">align</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"left"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">require</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// edit: { type: "text", min: 4, max: 7 },</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">click</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//单元格点击事亻</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"此单元格没有设置为可以编辑"</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">formatter</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">row</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//对单元格的数据格式化处理</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">UserTrueName</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"AuditStatus"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"下拉框"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"int"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">bind</span><span style="color:#9cdcfe;">:</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"audit"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; { <span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">0</span>, <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"审核中"</span> },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; { <span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">1</span>, <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"审核通过"</span> },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; { <span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">2</span>, <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"审核未通过"</span> },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ],
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">edit</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"select"</span> },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">100</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">align</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"left"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onChange</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">success</span>(<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">AuditStatus</span> + <span style="color:#ce9178;">""</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"Enable"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"Switch"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"byte"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">bind</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"enable"</span>, <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [] }, <span style="color:#6a9955;">//会自动从后台字典数据源加载</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">70</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">require</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">align</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"left"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">edit</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"switch"</span>, <span style="color:#9cdcfe;">keep</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span> }, <span style="color:#6a9955;">//keep始终开启编辑状态</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onChange</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">val</span>, <span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#ce9178;">"switch点击事件"</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"CreateDate"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"日期"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"date"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">140</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">align</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"left"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">edit</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"date"</span> }
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"Creator"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"数字验证"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"string"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">90</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onKeyPress</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">$event</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#9cdcfe;">row</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">edit</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"decimal"</span>, <span style="color:#9cdcfe;">min</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">2.2</span>, <span style="color:#9cdcfe;">max</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">40</span> },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"操作"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"操作"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">120</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// fixed: "right",</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">align</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"center"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">render</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">h</span>, { <span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">index</span> }) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#dcdcaa;">h</span>(<span style="color:#ce9178;">"div"</span>, { <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> {} }, [
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">h</span>(<span style="color:#ce9178;">"div"</span>, {}, [
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">h</span>(
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"span"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">class</span><span style="color:#9cdcfe;">:</span> [
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"el-icon-edit el-tag el-tag--success el-tag--light"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ],
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">cursor</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"pointer"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"margin-right"</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"8px"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">e</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">e</span>.<span style="color:#dcdcaa;">stopPropagation</span>();
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//开启编辑</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">_index</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">edit</span>.<span style="color:#9cdcfe;">rowIndex</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">_index</span> != -<span style="color:#b5cea8;">1</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"请先完成第"</span> +
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (<span style="color:#9cdcfe;">_index</span> + <span style="color:#b5cea8;">1</span>) +
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"行的编辑,点击表头可完成编辑"</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; );
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">rowBeginEdit</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"编辑"</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ),
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">h</span>(
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"span"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">class</span><span style="color:#9cdcfe;">:</span> [
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"el-icon-delete el-tag el-tag--danger el-tag--light"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ],
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">cursor</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"pointer"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">e</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">e</span>.<span style="color:#dcdcaa;">stopPropagation</span>();
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//删除行</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">tableData</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#9cdcfe;">index</span>, <span style="color:#b5cea8;">1</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">success</span>(<span style="color:#ce9178;">"删除成功"</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"删除"</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ),
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]),
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; ],
+	</div>
+	<div>
+		&nbsp; &nbsp; };
+	</div>
+	<div>
+		&nbsp; },
+	</div>
+	<div>
+		&nbsp; <span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">rowChange</span>(<span style="color:#9cdcfe;">row</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//选中checkbox事件</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">success</span>(<span style="color:#ce9178;">"点击checkbox,第"</span> + <span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">elementIndex</span> + <span style="color:#ce9178;">"行"</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">rowClick</span>({ <span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">$event</span> }) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//点击行事件</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">success</span>(<span style="color:#ce9178;">"点击的行："</span> + <span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">elementIndex</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">beginEdit</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">index</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"编辑开始前"</span> + <span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">row</span>));
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">endEditBefore</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">index</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"结束编辑前"</span> + <span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">row</span>));
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">endEditAfter</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">index</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"结束编辑后"</span> + <span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">row</span>));
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">del</span>() {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">rows</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">getSelected</span>();
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">rows</span>.<span style="color:#9cdcfe;">length</span> == <span style="color:#b5cea8;">0</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"请先选中行"</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; }
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">delRow</span>();
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">clear</span>() {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">tableData</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#b5cea8;">0</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">addRow</span>() { <span style="color:#6a9955;">//添加行</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">tableData</span>.<span style="color:#dcdcaa;">push</span>({});
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">getSelect</span>() { <span style="color:#6a9955;">//获取选中的行</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">rows</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">getSelected</span>();
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"请先选中行:"</span> + <span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">rows</span>));
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; },
+	</div>
+	<div>
+		};
+	</div>
+	<div>
+		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+	</div>
+	<div>
+		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">style</span> <span style="color:#9cdcfe;">lang</span>=<span style="color:#ce9178;">"less"</span> <span style="color:#9cdcfe;">scoped</span><span style="color:#808080;">&gt;</span>
+	</div>
+<br />
+	<div>
+		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">style</span><span style="color:#808080;">&gt;</span>
+	</div>
+<br />
+</div>`, btnedittable: `<div class="cnblogs_code">
   <pre>&lt;template&gt;
     &lt;div&gt;
       &lt;VolHeader icon="md-apps" text="使用button编辑"&gt;
@@ -2356,7 +4467,1822 @@ var codeString = {
   </span>&lt;/script&gt;</pre>
   </div>
   <p>&nbsp;</p>`,
-  voltable: `<<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+  searchTable:`<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+  <div>
+	  <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"container"</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Alert</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"success"</span>&nbsp;<span style="color:#9cdcfe;">show-icon</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table从api加载数据
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">slot</span>=<span style="color:#ce9178;">"desc"</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据组件api文档中voltable配置table显示与数据加载，更多功能参数配置见组件api-&gt;voltable
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Alert</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;查询配置&nbsp;--&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"padding:&nbsp;0px&nbsp;20px"</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">VolHeader</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon</span>=<span style="color:#ce9178;">"md-apps"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">text</span>=<span style="color:#ce9178;">"从api加载数据"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"margin-bottom:&nbsp;10px;&nbsp;border:&nbsp;0px;&nbsp;margin-top:&nbsp;15px"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">slot</span>=<span style="color:#ce9178;">"content"</span><span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">slot</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span>&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"text-align:&nbsp;right"</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Input</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"width:&nbsp;200px;&nbsp;margin-right:&nbsp;10px"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">v-model</span>.<span style="color:#9cdcfe;">number</span>="<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">Name</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">placeholder</span>=<span style="color:#ce9178;">"姓名"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/<span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">DatePicker</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"width:&nbsp;200px"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"datetime"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">placeholder</span>=<span style="color:#ce9178;">"提交时间"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">v-model</span>="<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">CreateDate1</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;&lt;/</span><span style="color:#4ec9b0;">DatePicker</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">DatePicker</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"width:&nbsp;200px"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"datetime"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">placeholder</span>=<span style="color:#ce9178;">"提交时间"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">v-model</span>="<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">CreateDate2</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;&lt;/</span><span style="color:#4ec9b0;">DatePicker</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;<span style="color:#9cdcfe;">ghost</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">load</span>"&nbsp;<span style="color:#9cdcfe;">style</span>=<span style="color:#ce9178;">"margin-left:&nbsp;20px"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;</span>查询<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;<span style="color:#9cdcfe;">ghost</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">del</span>"<span style="color:#808080;">&gt;</span>删除行<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">Button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"info"</span>&nbsp;<span style="color:#9cdcfe;">ghost</span>&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">getRows</span>"<span style="color:#808080;">&gt;</span>获取选中的行<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">Button</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">slot</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">VolHeader</span><span style="color:#808080;">&gt;</span>
+  </div>
+<br />
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;table数据&nbsp;--&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">&lt;!--&nbsp;:max-height="450"&nbsp;--&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-table</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">ref</span>=<span style="color:#ce9178;">"table"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">loadKey</span>="<span style="color:#569cd6;">true</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">columns</span>="<span style="color:#9cdcfe;">columns</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">pagination-hide</span>="<span style="color:#569cd6;">false</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">height</span>="<span style="color:#b5cea8;">200</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">url</span>="<span style="color:#9cdcfe;">url</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">index</span>="<span style="color:#569cd6;">true</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">click-edit</span>="<span style="color:#569cd6;">true</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">endEditBefore</span>="<span style="color:#9cdcfe;">endEditBefore</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">beginEdit</span>="<span style="color:#9cdcfe;">beginEdit</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">loadBefore</span>="<span style="color:#9cdcfe;">loadTableBefore</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">loadAfter</span>="<span style="color:#9cdcfe;">loadTableAfter</span>"
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">vol-table</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+  </div>
+  <div>
+	  <span style="color:#c586c0;">import</span>&nbsp;<span style="color:#9cdcfe;">VolTable</span>&nbsp;<span style="color:#c586c0;">from</span>&nbsp;<span style="color:#ce9178;">"@/components/basic/VolTable.vue"</span>;
+  </div>
+  <div>
+	  <span style="color:#c586c0;">import</span>&nbsp;<span style="color:#9cdcfe;">VolHeader</span>&nbsp;<span style="color:#c586c0;">from</span>&nbsp;<span style="color:#ce9178;">"@/components/basic/VolHeader.vue"</span>;
+  </div>
+  <div>
+	  <span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#9cdcfe;">components:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">VolTable</span>,&nbsp;<span style="color:#9cdcfe;">VolHeader</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#dcdcaa;">created</span>()&nbsp;{},
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#dcdcaa;">data</span>()&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询条件字段</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">searchFields:</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">CreateDate1:</span>&nbsp;<span style="color:#ce9178;">""</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">CreateDate2:</span>&nbsp;<span style="color:#ce9178;">""</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">UserName:</span>&nbsp;<span style="color:#ce9178;">""</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">url:</span>&nbsp;<span style="color:#ce9178;">"api/App_Transaction/getPageData"</span>,&nbsp;<span style="color:#6a9955;">//后从加载数据的url</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">columns:</span>&nbsp;[
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"Id"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"主键ID"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"int"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">90</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">hidden:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">readonly:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">require:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"Name"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"姓名"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"string"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">90</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">require:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">edit:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"text"</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"PhoneNo"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"电话"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"string"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">link:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">100</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">require:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"Quantity"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"数量"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"int"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">80</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">require:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">edit:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"text"</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"TransactionType"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"是否买入"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"int"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">bind:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">key:</span>&nbsp;<span style="color:#ce9178;">"cq"</span>,&nbsp;<span style="color:#9cdcfe;">data:</span>&nbsp;[]&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">80</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">edit:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"switch"</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"CowType"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"购买类型"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"string"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">bind:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">key:</span>&nbsp;<span style="color:#ce9178;">"nav"</span>,&nbsp;<span style="color:#9cdcfe;">data:</span>&nbsp;[]&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">130</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">edit:</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"select"</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"Describe"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"描述"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"string"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">120</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">require:</span>&nbsp;<span style="color:#569cd6;">true</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"CreateDate"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"提交时间"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type:</span>&nbsp;<span style="color:#ce9178;">"datetime"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">130</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">field:</span>&nbsp;<span style="color:#ce9178;">"操作"</span>,&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"操作"</span>,&nbsp;<span style="color:#9cdcfe;">width:</span>&nbsp;<span style="color:#b5cea8;">120</span>,&nbsp;<span style="color:#9cdcfe;">render:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getRender</span>()&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;};
+  </div>
+  <div>
+	  &nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;<span style="color:#9cdcfe;">methods:</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//点击查询时生成查询条件</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">loadTableBefore</span>(<span style="color:#9cdcfe;">param</span>,&nbsp;<span style="color:#9cdcfe;">callBack</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处是从后台加数据前的处理，自己在此处自定义查询条件,查询数据格式自己定义或参考代码生成器查询页面请求的数据格式</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"加载数据前"</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">param</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//生成查询条件</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">param</span>.<span style="color:#9cdcfe;">wheres</span>&nbsp;=&nbsp;[
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置为like模糊查询</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">name:</span>&nbsp;<span style="color:#ce9178;">"Name"</span>,&nbsp;<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">Name</span>,&nbsp;<span style="color:#9cdcfe;">displayType:</span>&nbsp;<span style="color:#ce9178;">"like"</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置日期查询&gt;=、&lt;=</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name:</span>&nbsp;<span style="color:#ce9178;">"CreateDate"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">CreateDate1</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">displayType:</span>&nbsp;<span style="color:#ce9178;">"thanorequal"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name:</span>&nbsp;<span style="color:#ce9178;">"CreateDate"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value:</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">CreateDate2</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">displayType:</span>&nbsp;<span style="color:#ce9178;">"lessorequal"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">callBack</span>(<span style="color:#569cd6;">true</span>);&nbsp;<span style="color:#6a9955;">//此处必须进行回调，返回处理结果，如果是false，则不会执行后台查询</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">loadTableAfter</span>(<span style="color:#9cdcfe;">data</span>,&nbsp;<span style="color:#9cdcfe;">callBack</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处是从后台加数据后，你可以在渲染表格前，预先处理返回的数据</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"加载数据后"</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">data</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">callBack</span>(<span style="color:#569cd6;">true</span>);&nbsp;<span style="color:#6a9955;">//同上</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">load</span>()&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处可以自定义查询条件,如果不调用的框架的查询，格式需要自己定义，</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果查询的是框架getPageData方法,需要指定格式,如:</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;let&nbsp;where={wheres:[{"name":"UserTrueName","value":"教兽",displayType:"text"}]};</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">where</span>&nbsp;=&nbsp;{};
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">load</span>(<span style="color:#9cdcfe;">where</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">del</span>()&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">rows</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">getSelected</span>();
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">rows</span>.<span style="color:#9cdcfe;">length</span>&nbsp;==&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"请先选中行"</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">delClick</span>();
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;this.$refs.table.delRow();</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处可以接着写删除后台的代码</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">getRows</span>()&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">rows</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">getSelected</span>();
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">rows</span>.<span style="color:#9cdcfe;">length</span>&nbsp;==&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"请先选中行1"</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">text</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"当前选中的行数据："</span>&nbsp;+&nbsp;<span style="color:#4ec9b0;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">rows</span>);
+  </div>
+<br />
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#9cdcfe;">text</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">endEditBefore</span>(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">index</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//可以自动结束编辑时，自动执行保存，下面getRender的保存按钮去掉</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;this.editSave();</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">beginEdit</span>(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">index</span>){
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//编辑前将购买类型转换成数字，否则与字典的类型对应不上绑定不了默认值</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">CowType</span>=&nbsp;<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">CowType</span>*<span style="color:#b5cea8;">1</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},&nbsp;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">editSave</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//调用框架的默认保存方法</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span style="color:#dcdcaa;">post</span>(<span style="color:#ce9178;">"/api/App_Transaction/update"</span>,&nbsp;{&nbsp;<span style="color:#9cdcfe;">mainData:</span>&nbsp;<span style="color:#9cdcfe;">row</span>&nbsp;},&nbsp;<span style="color:#569cd6;">true</span>)
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span style="color:#dcdcaa;">then</span>((<span style="color:#9cdcfe;">x</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#ce9178;">"保存成功"</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"保存结果："</span>&nbsp;+&nbsp;<span style="color:#4ec9b0;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">x</span>));
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">delClick</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//删除</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">tigger</span>&nbsp;=&nbsp;<span style="color:#569cd6;">false</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Modal</span>.<span style="color:#dcdcaa;">confirm</span>({
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title:</span>&nbsp;<span style="color:#ce9178;">"删除警告!"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">content:</span>&nbsp;<span style="color:#ce9178;">"确认要删除选择的数据吗?"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onOk</span><span style="color:#9cdcfe;">:</span>&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">tigger</span>)&nbsp;<span style="color:#c586c0;">return</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">tigger</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">url</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getUrl</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">const</span>.<span style="color:#4fc1ff;">DEL</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,&nbsp;[<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">Id</span>],&nbsp;<span style="color:#ce9178;">"正在删除数据...."</span>).<span style="color:#dcdcaa;">then</span>((<span style="color:#9cdcfe;">x</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(!<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">status</span>)&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$error</span>(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">message</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$success</span>(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">message</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">refresh</span>();
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},&nbsp;<span style="color:#6a9955;">//,&nbsp;onCancel:&nbsp;()&nbsp;=&gt;&nbsp;{}</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">getRender</span>()&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;(<span style="color:#9cdcfe;">h</span>,&nbsp;{&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">index</span>&nbsp;})&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#dcdcaa;">h</span>(<span style="color:#ce9178;">"div"</span>,&nbsp;{&nbsp;<span style="color:#9cdcfe;">style:</span>&nbsp;{}&nbsp;},&nbsp;[
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">h</span>(
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">"a"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">props:</span>&nbsp;{},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style:</span>&nbsp;{&nbsp;<span style="color:#ce9178;">"border-bottom"</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"1px&nbsp;solid"</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">on:</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">click</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">e</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">e</span>.<span style="color:#dcdcaa;">stopPropagation</span>();
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">delClick</span>(<span style="color:#9cdcfe;">row</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">"删除"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">h</span>(
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">"a"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">props:</span>&nbsp;{},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style:</span>&nbsp;{&nbsp;<span style="color:#ce9178;">"margin-left"</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"9px"</span>,&nbsp;<span style="color:#ce9178;">"border-bottom"</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"1px&nbsp;solid"</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">on:</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">click</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">e</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">e</span>.<span style="color:#dcdcaa;">stopPropagation</span>();
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//将当前行设置为编辑行</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">edit</span>.<span style="color:#9cdcfe;">rowIndex</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">index</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">"编辑"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">h</span>(
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">"a"</span>,
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">props:</span>&nbsp;{},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">style:</span>&nbsp;{&nbsp;<span style="color:#ce9178;">"margin-left"</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"9px"</span>,&nbsp;<span style="color:#ce9178;">"border-bottom"</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"1px&nbsp;solid"</span>&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">on:</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">click</span><span style="color:#9cdcfe;">:</span>&nbsp;(<span style="color:#9cdcfe;">e</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">e</span>.<span style="color:#dcdcaa;">stopPropagation</span>();
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//强制结束编辑</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">edit</span>.<span style="color:#9cdcfe;">rowIndex</span>&nbsp;=&nbsp;-<span style="color:#b5cea8;">1</span>;
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//执行保存方法</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">editSave</span>(<span style="color:#9cdcfe;">row</span>);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">"保存"</span>
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]);
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+  </div>
+  <div>
+	  &nbsp;&nbsp;&nbsp;&nbsp;},
+  </div>
+  <div>
+	  &nbsp;&nbsp;},
+  </div>
+  <div>
+	  };
+  </div>
+  <div>
+	  <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+  </div>
+</div>`,
+  volupload: `<div class="cnblogs_code">
+  <pre>&lt;template&gt;
+    &lt;div&gt;
+      &lt;div class="upload-container"&gt;
+        &lt;div class="upload-item"&gt;
+          &lt;<span style="color: #000000;">VolUpload
+            :url</span>="url"<span style="color: #000000;">
+            :upload</span>-before="uploadBefore"<span style="color: #000000;">
+            :upload</span>-after="uploadAfter"<span style="color: #000000;">
+            :on</span>-change="onChange"
+          &gt;
+            &lt;div&gt;单文件自动上传&lt;/div&gt;
+          &lt;/VolUpload&gt;
+        &lt;/div&gt;
+        &lt;div class="upload-item"&gt;
+          &lt;<span style="color: #000000;">VolUpload
+            :autoUpload</span>="false"<span style="color: #000000;">
+            :multiple</span>="true"<span style="color: #000000;">
+            :max</span>-file="2"<span style="color: #000000;">
+            :excel</span>="true"<span style="color: #000000;">
+            :url</span>="url"<span style="color: #000000;">
+            :upload</span>-before="uploadBefore"<span style="color: #000000;">
+            :upload</span>-after="uploadAfter"<span style="color: #000000;">
+            :on</span>-change="onChange"
+          &gt;
+            &lt;div&gt;多文件手动上传,最多2个excel文件&lt;/div&gt;
+          &lt;/VolUpload&gt;
+        &lt;/div&gt;
+        &lt;div class="upload-item"&gt;
+          &lt;a ref="downFile"&gt;&lt;/a&gt;
+          &lt;<span style="color: #000000;">VolUpload
+            :multiple</span>="true"<span style="color: #000000;">
+            :url</span>="url"<span style="color: #000000;">
+            :upload</span>-before="uploadBefore1"<span style="color: #000000;">
+            :upload</span>-after="uploadAfter1"<span style="color: #000000;">
+            :on</span>-change="onChange"<span style="color: #000000;">
+            :fileInfo</span>="fileInfo"
+          &gt;
+            &lt;div&gt;下载已经上传过的文件&lt;/div&gt;
+          &lt;/VolUpload&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class="upload-container"&gt;
+        &lt;div class="upload-item"&gt;
+          &lt;<span style="color: #000000;">VolUpload
+            :url</span>="url"<span style="color: #000000;">
+            :img</span>="true"<span style="color: #000000;">
+            :multiple</span>="true"<span style="color: #000000;">
+            :max</span>-size="null"<span style="color: #000000;">
+            :upload</span>-before="uploadBefore"<span style="color: #000000;">
+            :upload</span>-after="uploadAfter"<span style="color: #000000;">
+            :on</span>-change="onChange"
+          &gt;
+            &lt;div&gt;多图片自动上传,图片最大1M&lt;/div&gt;
+          &lt;/VolUpload&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="upload-container"&gt;
+        &lt;div class="upload-item"&gt;
+          &lt;<span style="color: #000000;">VolUpload
+            :autoUpload</span>="false"<span style="color: #000000;">
+            :url</span>="url"<span style="color: #000000;">
+            :img</span>="true"<span style="color: #000000;">
+            :upload</span>-before="uploadBefore"<span style="color: #000000;">
+            :upload</span>-after="uploadAfter"<span style="color: #000000;">
+            :on</span>-change="onChange"
+          &gt;
+            &lt;div&gt;单文件手动上传,只能上传图片&lt;/div&gt;
+          &lt;/VolUpload&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+  &lt;script&gt;<span style="color: #000000;">
+  import docParamTable from </span>"./doc_ParamTable.vue"<span style="color: #000000;">;
+  import VolUpload from </span>"@/components/basic/VolUpload.vue"<span style="color: #000000;">;
+  export </span><span style="color: #0000ff;">default</span><span style="color: #000000;"> {
+    components: { VolUpload, docParamTable },
+    data() {
+      </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {
+        url: </span>"/api/App_Appointment/Upload"<span style="color: #000000;">,
+        model: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+        fileInfo: [
+          {
+            name: </span>"exceltest.xlsx"<span style="color: #000000;">,
+            path:
+              </span>"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/exceltest.xlsx"<span style="color: #000000;">
+          },
+          {
+            name: </span>"wordtest.docx"<span style="color: #000000;">,
+            path:
+              </span>"https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx"<span style="color: #000000;">
+          }
+        ],
+        loadingStatus: </span><span style="color: #0000ff;">false</span><span style="color: #000000;">
+      };
+    },
+    methods: {
+      removeFile(index) {
+        </span><span style="color: #0000ff;">this</span>.fileInfo.splice(index, 1<span style="color: #000000;">);
+      },
+      uploadBefore1(files) {
+        </span><span style="color: #0000ff;">this</span>.fileInfo.splice(0<span style="color: #000000;">);
+        </span><span style="color: #0000ff;">for</span> (let index = 0; index &lt; files.length; index++<span style="color: #000000;">) {
+          const element </span>=<span style="color: #000000;"> files[index];
+          </span><span style="color: #0000ff;">this</span><span style="color: #000000;">.fileInfo.push({ name: element.name });
+        }
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+      },
+      uploadAfter1(result, files) {
+        </span><span style="color: #0000ff;">if</span> (!result.status) <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">this</span>.fileInfo.forEach(x =&gt;<span style="color: #000000;"> {
+          x.path </span>=<span style="color: #000000;"> result.data;
+        });
+      },
+      getFileNames(files) {
+        let arr </span>=<span style="color: #000000;"> [];
+        </span><span style="color: #0000ff;">for</span> (let index = 0; index &lt; files.length; index++<span style="color: #000000;">) {
+          const element </span>=<span style="color: #000000;"> files[index];
+          arr.push(element.name);
+        }
+        </span><span style="color: #0000ff;">return</span> arr.join(","<span style="color: #000000;">);
+      },
+      uploadBefore(files) {
+        console.log(</span>"上传前的文件:" + <span style="color: #0000ff;">this</span><span style="color: #000000;">.getFileNames(files));
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+      },
+      uploadAfter(result, files) {
+        console.log(
+          </span>"上传结果" +<span style="color: #000000;">
+            JSON.stringify(result) </span>+
+            "上传前的文件:" +
+            <span style="color: #0000ff;">this</span><span style="color: #000000;">.getFileNames(files)
+        );
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+      },
+      onChange(files) {
+        console.log(</span>"选择的文件:" + +<span style="color: #0000ff;">this</span><span style="color: #000000;">.getFileNames(files));
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+      }
+    }
+  };
+  </span>&lt;/script&gt;
+  &lt;style lang="less" scoped&gt;<span style="color: #000000;">
+  .upload</span>-<span style="color: #000000;">container {
+    max</span>-<span style="color: #000000;">height: 160px;
+    display: flex;
+    .upload</span>-<span style="color: #000000;">item {
+      flex: </span>1<span style="color: #000000;">;
+      padding: 20px;
+    }
+  }
+  </span>&lt;/style&gt;</pre>
+  </div>
+  <p>&nbsp;</p>`,
+  searchTable3:`
+  <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		<span style="color:#808080;">
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+			<div>
+				<span style="color:#808080;">
+				<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+					<div>
+						<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"example-tb"</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"tb"</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"search-info"</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-form</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">label-width</span>="<span style="color:#b5cea8;">80</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ref</span>=<span style="color:#ce9178;">"myform"</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"my-form"</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">formFields</span>="<span style="color:#9cdcfe;">searchFields</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">formRules</span>="<span style="color:#9cdcfe;">formOptions</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">vol-form</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"btns"</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"danger"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"small"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">getSelectRows</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>获取选中行<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"primary"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"small"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">search</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;&lt;</span><span style="color:#569cd6;">i</span> <span style="color:#9cdcfe;">class</span>=<span style="color:#ce9178;">"el-icon-search"</span><span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">i</span><span style="color:#808080;">&gt;</span>搜索<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-table</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">ref</span>=<span style="color:#ce9178;">"table"</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">columns</span>="<span style="color:#9cdcfe;">columns</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">pagination-hide</span>="<span style="color:#569cd6;">false</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">max-height</span>="<span style="color:#b5cea8;">400</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">url</span>="<span style="color:#9cdcfe;">url</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; :<span style="color:#9cdcfe;">index</span>="<span style="color:#569cd6;">true</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; @<span style="color:#9cdcfe;">loadBefore</span>="<span style="color:#9cdcfe;">loadTableBefore</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; @<span style="color:#9cdcfe;">loadAfter</span>="<span style="color:#9cdcfe;">loadTableAfter</span>"
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">vol-table</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						&nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						<span style="color:#c586c0;">import</span> <span style="color:#9cdcfe;">VolTable</span> <span style="color:#c586c0;">from</span> <span style="color:#ce9178;">"@/components/basic/VolTable.vue"</span>;
+					</div>
+					<div>
+						<span style="color:#c586c0;">import</span> <span style="color:#9cdcfe;">VolForm</span> <span style="color:#c586c0;">from</span> <span style="color:#ce9178;">"@/components/basic/VolForm.vue"</span>;
+					</div>
+					<div>
+						<span style="color:#c586c0;">export</span> <span style="color:#c586c0;">default</span> {
+					</div>
+					<div>
+						&nbsp; <span style="color:#9cdcfe;">components</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">VolTable</span>, <span style="color:#9cdcfe;">VolForm</span> },
+					</div>
+					<div>
+						&nbsp; <span style="color:#dcdcaa;">created</span>() {},
+					</div>
+					<div>
+						&nbsp; <span style="color:#dcdcaa;">data</span>() {
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#c586c0;">return</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//查询条件字段</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">searchFields</span><span style="color:#9cdcfe;">:</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">TranNo</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">""</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">CreateDate</span><span style="color:#9cdcfe;">:</span> [],
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">OrderType</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">null</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">formOptions</span><span style="color:#9cdcfe;">:</span> [
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//表单配置见表单组件文档</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; [
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"运单号"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"TranNo"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">placeholder</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"模糊查询"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"订单类型"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"OrderType"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">dataKey</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"ordertype"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">placeholder</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"订单类型"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [],
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"select"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"创建时间"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">range</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">colSize</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">6</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"CreateDate"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"date"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onChange</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">val</span>) <span style="color:#569cd6;">=&gt;</span> {},
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; ],
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; ],
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">viewModel</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">false</span>, <span style="color:#6a9955;">//点击单元格时弹出框</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">url</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"api/SellOrder/getPageData"</span>, <span style="color:#6a9955;">//后从加载数据的url</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">columns</span><span style="color:#9cdcfe;">:</span> [
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; { <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"Order_Id"</span>, <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"Order_Id"</span>, <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">90</span>, <span style="color:#9cdcfe;">hidden</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span> },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"TranNo"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"运单号"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"string"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">edit</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"string"</span> },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">130</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">sort</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"OrderType"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"订单类型"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"int"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">bind</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"ordertype"</span>, <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [] },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">edit</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"select"</span> },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">90</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">sort</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"Qty"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"销售数量"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"int"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">edit</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"number"</span> },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">90</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">sort</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">summary</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>, <span style="color:#6a9955;">//前端只设置summary: true 即可求后，后台见SellOrderService.cs中查询方法说明</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"Remark"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"备注"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"string"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">edit</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"string"</span> },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">100</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">sort</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"Creator"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"创建人"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"string"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">100</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">sort</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"CreateDate"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"创建时间"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"datetime"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">edit</span><span style="color:#9cdcfe;">:</span> { <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"date"</span> },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">90</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">sort</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">field</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"操作"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"操作"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">width</span><span style="color:#9cdcfe;">:</span> <span style="color:#b5cea8;">120</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// fixed: "right",</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">align</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"center"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">render</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">h</span>, { <span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">index</span> }) <span style="color:#569cd6;">=&gt;</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#dcdcaa;">h</span>(<span style="color:#ce9178;">"div"</span>, { <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> {} }, [
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">h</span>(<span style="color:#ce9178;">"div"</span>, {}, [
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">h</span>(
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"span"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">class</span><span style="color:#9cdcfe;">:</span> [
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"el-icon-edit el-tag el-tag--success el-tag--light"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ],
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">cursor</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"pointer"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"margin-right"</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"8px"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">e</span>) <span style="color:#569cd6;">=&gt;</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">e</span>.<span style="color:#dcdcaa;">stopPropagation</span>();
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">edit</span>.<span style="color:#9cdcfe;">rowIndex</span> = <span style="color:#9cdcfe;">index</span>;
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"编辑"</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ),
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">h</span>(
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"span"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">class</span><span style="color:#9cdcfe;">:</span> [
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"el-icon-delete el-tag el-tag--danger el-tag--light"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ],
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">style</span><span style="color:#9cdcfe;">:</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">cursor</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"pointer"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span> (<span style="color:#9cdcfe;">e</span>) <span style="color:#569cd6;">=&gt;</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">e</span>.<span style="color:#dcdcaa;">stopPropagation</span>();
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//删除行</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">delClick</span>(<span style="color:#9cdcfe;">row</span>);
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ce9178;">"删除"</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ),
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]),
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]);
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; ],
+					</div>
+					<div>
+						&nbsp; &nbsp; };
+					</div>
+					<div>
+						&nbsp; },
+					</div>
+					<div>
+						&nbsp; <span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#6a9955;">//点击查询时生成查询条件</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#dcdcaa;">loadTableBefore</span>(<span style="color:#9cdcfe;">param</span>, <span style="color:#9cdcfe;">callBack</span>) {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"加载数据前"</span> + <span style="color:#9cdcfe;">param</span>);
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//生成查询条件</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">param</span>.<span style="color:#9cdcfe;">wheres</span> = [
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置为like模糊查询</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"TranNo"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">TranNo</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">displayType</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"like"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"OrderType"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">OrderType</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"CreateDate"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">CreateDate</span>[<span style="color:#b5cea8;">0</span>],
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">displayType</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"thanorequal"</span>, <span style="color:#6a9955;">//&gt;=</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"CreateDate"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFields</span>.<span style="color:#9cdcfe;">CreateDate</span>[<span style="color:#b5cea8;">1</span>],
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">displayType</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"lessorequal"</span>, <span style="color:#6a9955;">//&lt;=</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; ];
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">callBack</span>(<span style="color:#569cd6;">true</span>); <span style="color:#6a9955;">//此处必须进行回调，返回处理结果，如果是false，则不会执行后台查询</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#dcdcaa;">loadTableAfter</span>(<span style="color:#9cdcfe;">data</span>, <span style="color:#9cdcfe;">callBack</span>) {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//此处是从后台加数据后，你可以在渲染表格前，预先处理返回的数据</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"加载数据后"</span> + <span style="color:#9cdcfe;">data</span>);
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">callBack</span>(<span style="color:#569cd6;">true</span>); <span style="color:#6a9955;">//同上</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#dcdcaa;">search</span>() {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//搜索</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">load</span>(<span style="color:#569cd6;">null</span>, <span style="color:#569cd6;">true</span>);
+					</div>
+					<div>
+						&nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#dcdcaa;">delClick</span>(<span style="color:#9cdcfe;">row</span>) {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//删除</span>
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">tigger</span> = <span style="color:#569cd6;">false</span>;
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$confirm</span>(<span style="color:#ce9178;">"确认要删除选择的数据吗?"</span>, <span style="color:#ce9178;">"警告"</span>, {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">confirmButtonText</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"确定"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">cancelButtonText</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"取消"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"warning"</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">center</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; }).<span style="color:#dcdcaa;">then</span>(() <span style="color:#569cd6;">=&gt;</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">tigger</span>) <span style="color:#c586c0;">return</span>;
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">tigger</span> = <span style="color:#569cd6;">true</span>;
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">url</span> = <span style="color:#ce9178;">"api/SellOrder/del"</span>;
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>, [<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">Order_Id</span>], <span style="color:#ce9178;">"正在删除数据...."</span>).<span style="color:#dcdcaa;">then</span>((<span style="color:#9cdcfe;">x</span>) <span style="color:#569cd6;">=&gt;</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (!<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">status</span>) {
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">message</span>);
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">success</span>(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">message</span>);
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">search</span>();
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; &nbsp; });
+					</div>
+					<div>
+						&nbsp; &nbsp; &nbsp; });
+					</div>
+					<div>
+						&nbsp; &nbsp; },
+					</div>
+					<div>
+						&nbsp; },
+					</div>
+					<div>
+						};
+					</div>
+					<div>
+						<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">style</span> <span style="color:#9cdcfe;">lang</span>=<span style="color:#ce9178;">"less"</span> <span style="color:#9cdcfe;">scoped</span><span style="color:#808080;">&gt;</span>
+					</div>
+					<div>
+						<span style="color:#d7ba7d;">.v-header</span> {
+					</div>
+					<div>
+						&nbsp; <span style="color:#9cdcfe;">background</span>: <span style="color:#ce9178;">white</span>;
+					</div>
+					<div>
+						&nbsp; <span style="color:#9cdcfe;">padding</span>: <span style="color:#b5cea8;">10px</span>;
+					</div>
+					<div>
+						}
+					</div>
+					<div>
+						<span style="color:#d7ba7d;">.search-info</span> {
+					</div>
+					<div>
+						&nbsp; <span style="color:#9cdcfe;">display</span>: <span style="color:#ce9178;">flex</span>;
+					</div>
+					<div>
+						&nbsp; <span style="color:#d7ba7d;">.my-form</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#9cdcfe;">width</span>: <span style="color:#b5cea8;">840px</span> <span style="color:#569cd6;">!important</span>;
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#9cdcfe;">margin-bottom</span>: <span style="color:#b5cea8;">-15px</span>;
+					</div>
+					<div>
+						&nbsp; }
+					</div>
+					<div>
+						&nbsp; <span style="color:#d7ba7d;">.btns</span> {
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#9cdcfe;">margin-left</span>: <span style="color:#b5cea8;">15px</span>;
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#9cdcfe;">position</span>: <span style="color:#ce9178;">relative</span>;
+					</div>
+					<div>
+						&nbsp; &nbsp; <span style="color:#9cdcfe;">margin-top</span>: <span style="color:#b5cea8;">2px</span>;
+					</div>
+					<div>
+						&nbsp; }
+					</div>
+					<div>
+						}
+					</div>
+					<div>
+						<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">style</span><span style="color:#808080;">&gt;</span>
+					</div>
+<br />
+				</div>
+</span>
+			</div>
+		</div>
+</span>
+	</div>
+<br />
+</div>`,
+  voltable: `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
   <div>
 	  <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
   </div>

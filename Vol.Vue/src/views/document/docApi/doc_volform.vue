@@ -23,7 +23,7 @@
         <Button type="info" @click="validate">验证表单 </Button>
     </div>
     <div>
-      <docParamTable name="form"></docParamTable>
+      <docParamTable name="form" :v3="true"></docParamTable>
     </div>
   </div>
 </template>

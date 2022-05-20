@@ -170,6 +170,16 @@
           "
           >查看代码</Button
         >
+        <Button
+          type="info"
+          @click="
+            () => {
+              this.viewCode = true;
+              this.code = this.sourceCode.btnedittable3;
+            }
+          "
+          >查看vue3代码</Button
+        >
       </div>
     </div>
     <br />
@@ -178,8 +188,28 @@
       <table3></table3>
     </div>
     <div>
-      <docParamTable name="voltable"></docParamTable>
-    </div>
+        <Button
+          type="info"
+          @click="
+            () => {
+              this.viewCode = true;
+              this.code = this.sourceCode.searchTable;
+            }
+          "
+          >查看代码</Button
+        >
+        <Button
+          type="info"
+          @click="
+            () => {
+              this.viewCode = true;
+              this.code = this.sourceCode.searchTable3;
+            }
+          "
+          >查看vue3代码</Button
+        >
+      </div>
+      <!-- <docParamTable name="voltable"></docParamTable> -->
     <br />
     <br />
     <VolBox
@@ -474,7 +504,7 @@ let doc_options = {
                 this.$Message.error("点击标签触发的事件");
               },
             },
-            width: 250,
+            width: 80,
           },
           {
             field: "test2",
@@ -501,13 +531,13 @@ let doc_options = {
           },
           {
             title: "render动态生成组件",
-            width: 165,
+            width: 220,
             render: (h, { row, column, index }) => {
               return h("div", { style: {} }, [
                 h(
-                  "Button",
+                  "a",
                   {
-                    props: { type: "success", size: "small" },
+                    props: { },
                     style: {},
                     on: {
                       click: (e) => {
@@ -523,9 +553,9 @@ let doc_options = {
                   "render按钮"
                 ),
                 h(
-                  "Button",
+                  "a",
                   {
-                    props: { type: "info", size: "small" },
+                    props: { },
                     style: { "margin-left": "10px" },
                     on: {
                       click: (e) => {
@@ -576,7 +606,7 @@ let doc_options = {
           {
             field: "test5",
             title: "测试5",
-            width: 150,
+            width: 300,
           },
         ],
       },

@@ -1735,7 +1735,7 @@
                 border: 1px solid #d4d1d1;
               "
             >
-              <span style="color: #666666; font-size: 14px">消息推送</span>
+              <span style="color: #666666; font-size: 14px">消息推送(signalR)</span>
             </td>
             <td
               style="
@@ -1763,7 +1763,7 @@
                 border: 1px solid #d4d1d1;
               "
             >
-              <span style="color: #666666; font-size: 14px">x</span>
+              <span style="color: #666666; font-size: 14px">√</span>
               <span style="display: none"></span>
             </td>
           </tr>

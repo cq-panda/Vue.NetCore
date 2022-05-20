@@ -137,6 +137,7 @@ export default {
         },
         {
           text: '移动端(uni-app)',
+             path: '/app/home',
           actived: false
         },
         {

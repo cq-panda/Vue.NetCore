@@ -8,7 +8,7 @@
         import VolHeader from "@/components/basic/VolHeader.vue";
         </code>
     </pre>
-    <VolHeader style="margin: 30px 0;" :icon="icon" :text="text">
+    <VolHeader style="margin: 30px 0;" icon="ios-apps" :text="text">
       <div slot="content">VolHeader这里可以定义显示内容</div>
       <div style="text-align: right;padding-top: 4px;">
         <Button type="text" icon="ios-search" size="small" @click="()=>{this.$Message.error('1')}">buttons1</Button>
@@ -16,7 +16,8 @@
       </div>
     </VolHeader>
     <div>
-      <docParamTable name="header"></docParamTable>
+      <docParamTable name="header" :v3="true"></docParamTable>
+ 
     </div>
   </div>
 </template>
