@@ -7,13 +7,8 @@
       </div>
       <div class="vol-menu">
         <el-scrollbar style="height: 100%">
-          <VolMenu
-            :on-select="onSelect"
-            :enable="true"
-            :open-select="false"
-            :isCollapse="isCollapse"
-            :list="menuOptions"
-          ></VolMenu>
+          <VolMenu :on-select="onSelect" :enable="true" :open-select="false" :isCollapse="isCollapse"
+            :list="menuOptions"></VolMenu>
         </el-scrollbar>
       </div>
     </div>
@@ -22,14 +17,9 @@
         <div class="project-name">VOL开发框架Vue3.x版本</div>
         <div class="header-text">
           <div class="h-link">
-            <a
-              href="javascript:void(0)"
-              @click="to(item)"
-              v-for="(item, index) in links.filter((c) => {
-                return !c.icon;
-              })"
-              :key="index"
-            >
+            <a href="javascript:void(0)" @click="to(item)" v-for="(item, index) in links.filter((c) => {
+              return !c.icon;
+            })" :key="index">
               <span v-if="!item.icon"> {{ item.text }}</span>
               <i v-else :class="item.icon"></i>
             </a>
@@ -37,14 +27,9 @@
         </div>
         <div class="header-info">
           <div class="h-link">
-            <a
-              href="javascript:void(0)"
-              @click="to(item)"
-              v-for="(item, index) in links.filter((c) => {
-                return c.icon;
-              })"
-              :key="index"
-            >
+            <a href="javascript:void(0)" @click="to(item)" v-for="(item, index) in links.filter((c) => {
+              return c.icon;
+            })" :key="index">
               <span v-if="!item.icon"> {{ item.text }}</span>
               <i v-else :class="item.icon"></i>
             </a>
@@ -62,95 +47,65 @@
             <span id="index-date"></span>
           </div>
           <div class="settings">
-            <i
-              style="font-size: 20px"
-              class="el-icon-s-tools"
-              @click="drawer_model = true"
-            />
+            <i style="font-size: 20px" class="el-icon-s-tools" @click="drawer_model = true" />
           </div>
         </div>
       </div>
       <div class="vol-path">
-        <el-tabs
-          @tab-click="selectNav"
-          @tab-remove="removeNav"
-          @contextmenu.prevent="bindRightClickMenu(false)"
-          type="border-card"
-          class="header-navigation"
-          v-model="selectId"
-          :strtch="false"
-        >
-          <el-tab-pane
-            v-for="(item, navIndex) in navigation"
-            type="card"
-            :name="item.id"
-            :closable="navIndex > 0"
-            :key="navIndex"
-            class="header-nav-item"
-            :label="item.name"
-          ></el-tab-pane>
+        <el-tabs @tab-click="selectNav" @tab-remove="removeNav" @contextmenu.prevent="bindRightClickMenu(false)"
+          type="border-card" class="header-navigation" v-model="selectId" :strtch="false">
+          <el-tab-pane v-for="(item, navIndex) in navigation" type="card" :name="item.id" :closable="navIndex > 0"
+            :key="navIndex" :label="item.name">
+            <span style="display:none;">{{ navIndex }}</span>
+          </el-tab-pane>
         </el-tabs>
-	<!-- 右键菜单 -->
+        <!-- 右键菜单 -->
         <div v-show="contextMenuVisible">
           <ul :style="{ left: menuLeft + 'px', top: menuTop + 'px' }" class="contextMenu">
-            <li v-if="allTabs"><el-button type="text" @click="closeAllTabs()" size="mini">关闭所有</el-button></li>
-            <li v-if="leftTabs"><el-button type="text" @click="closeOtherTabs('left')" size="mini">关闭左边</el-button></li>
-            <li v-if="rightTabs"><el-button type="text" @click="closeOtherTabs('right')" size="mini">关闭右边</el-button></li>
-            <li v-if="otherTabs"><el-button type="text" @click="closeOtherTabs('other')" size="mini">关闭其他</el-button></li>
+            <li v-show="visibleItem.all">
+              <el-button type="text" icon="el-icon-close" @click="closeTabs()" size="mini">
+                {{ navigation.length == 2 ? '关闭菜单' : '关闭所有' }}</el-button>
+            </li>
+            <li v-show="visibleItem.left">
+              <el-button type="text" icon="el-icon-back" @click="closeTabs('left')" size="mini">关闭左边</el-button>
+            </li>
+            <li v-show="visibleItem.right">
+              <el-button type="text" icon="el-icon-right" @click="closeTabs('right')" size="mini">关闭右边</el-button>
+            </li>
+            <li v-show="visibleItem.other">
+              <el-button type="text" icon="el-icon-bottom-right" @click="closeTabs('other')" size="mini">关闭其他
+              </el-button>
+            </li>
           </ul>
         </div>
       </div>
       <div class="vol-main" id="vol-main">
         <el-scrollbar style="height: 100%" v-if="permissionInited">
           <loading v-show="$store.getters.isLoading()"></loading>
-          <router-view
-            v-if="
-              !$route.meta ||
-              ($route.meta && !$route.meta.hasOwnProperty('keepAlive'))
-            "
-            v-slot="{ Component }"
-          >
+          <router-view v-if="
+            !$route.meta ||
+            ($route.meta && !$route.meta.hasOwnProperty('keepAlive'))
+          " v-slot="{ Component }">
             <keep-alive>
               <component :is="Component" />
             </keep-alive>
           </router-view>
-          <router-view
-            v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"
-          ></router-view>
+          <router-view v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"></router-view>
         </el-scrollbar>
       </div>
     </div>
-    <el-drawer
-      title="选择主题"
-      v-model="drawer_model"
-      direction="rtl"
-      destroy-on-close
-    >
+    <el-drawer title="选择主题" v-model="drawer_model" direction="rtl" destroy-on-close>
       <div class="theme-selector">
-        <div
-          @click="changeTheme(item.name)"
-          class="item"
-          v-for="(item, index) in theme_color"
-          :key="index"
-          :style="{ background: item.color }"
-        >
-          <div
-            v-show="item.leftColor"
-            :style="{ background: item.leftColor }"
-            style="height: 100%; width: 20px"
-            class="t-left"
-          ></div>
+        <div @click="changeTheme(item.name)" class="item" v-for="(item, index) in theme_color" :key="index"
+          :style="{ background: item.color }">
+          <div v-show="item.leftColor" :style="{ background: item.leftColor }" style="height: 100%; width: 20px"
+            class="t-left"></div>
           <div class="t-right"></div>
         </div>
       </div>
     </el-drawer>
 
-    <el-drawer
-      title="消息列表"
-      v-model="messageModel"
-      direction="rtl"
-      destroy-on-close
-    >
+    <el-drawer title="消息列表" v-model="messageModel" direction="rtl" destroy-on-close>
       <Message :list="messageList"></Message>
     </el-drawer>
   </div>
@@ -167,11 +122,11 @@ var imgUrl = require("@/assets/imgs/logo.png");
 var $this;
 var $interval;
 var $indexDate;
-import VolBox from "@/components/basic/VolBox.vue";
 import {
   defineComponent,
   reactive,
   ref,
+  watch,
   onMounted,
   getCurrentInstance,
 } from "vue";
@@ -184,24 +139,25 @@ export default defineComponent({
     loading,
     Message,
   },
-  
+
   data() {
     return {
-      allTabs:true,
-      leftTabs:true,
-      rightTabs:true,
-      otherTabs:true,
+      allTabs: true,
+      leftTabs: true,
+      rightTabs: true,
+      otherTabs: true,
       menuLeft: 0,
       menuTop: 0,
-      contextMenuVisible: false, // 右键关闭显/隐
+      //  contextMenuVisible: false, // 右键关闭显/隐
     };
   },
   setup(props, context) {
     // 获取全局属性和方法
-    const {proxy} = getCurrentInstance();
+    const { proxy } = getCurrentInstance();
 
     // 菜单导航默认宽度
     const menuWidth = ref(200);
+    const contextMenuVisible = ref(false);
     const isCollapse = ref(false);
     const drawer_model = ref(false);
     const messageModel = ref(false);
@@ -241,12 +197,13 @@ export default defineComponent({
       'this.src="' + require("@/assets/imgs/error-img.png") + '"'
     );
     const selectId = ref('1');
-    // 【首页】标签序号
-    const selectOrderNo = ref('0');
+    // 【首页】标签序号(当前右键选中的菜单)
+    const selectMenuIndex = ref('0');
     const userName = ref("--");
     const userInfo = ref({});
+    const visibleItem = reactive({ left: false, right: false, all: false, other: false });
     const userImg = ref("");
-    const navigation = ref([{ orderNo:'0', id: '1', name: "首页", path: "/home" }]);
+    const navigation = reactive([{ orderNo: '0', id: '1', name: "首页", path: "/home" }]);
     const logo = ref(imgUrl);
     const theme = ref("blue2");
     const menuOptions = ref([]);
@@ -297,24 +254,22 @@ export default defineComponent({
     };
     const open = (item, useRoute) => {
       /* 2020.07.31增加手动打开tabs*/
-      let _index = navigation.value.findIndex((x) => {
+      let _index = navigation.findIndex((x) => {
         return x.path == item.path;
       });
       if (_index == -1) {
-        navigation.value.push(
-		{
-		  orderNo:String(navigation.value.length),// 序号
-		  id: item.id,
-          name: item.name || item.text || "无标题",
-          path: item.path,
-          query: item.query, //2021.03.20修复自定义二次打开$tabs时参数丢失的问题
-        });
+        navigation.push(
+          {
+            orderNo: String(navigation.length),// 序号
+            id: item.id,
+            name: item.name || item.text || "无标题",
+            path: item.path,
+            query: item.query, //2021.03.20修复自定义二次打开$tabs时参数丢失的问题
+          });
         //新打开的tab移至最后一个选项
-        selectId.value = navigation.value[navigation.value.length - 1].id;// tab标签id
-        selectOrderNo.value = navigation.value[navigation.value.length - 1].orderNo; // tab标签序号
+        selectId.value = navigation[navigation.length - 1].id;// tab标签id
       } else {
-        selectId.value = navigation.value[_index].id;
-        selectOrderNo.value = _index;
+        selectId.value = navigation[_index].id;
       }
       if (useRoute === undefined) {
         //非标准菜单，记录最后一次跳转的页面，用于刷新
@@ -324,13 +279,13 @@ export default defineComponent({
       }
 
       // tab菜单绑定右键事件
-      proxy.$nextTick(function(e){
+      proxy.$nextTick(function (e) {
         proxy.bindRightClickMenu(true);
-     });
+      });
     };
     const close = (path) => {
       /* 2020.07.31增加手动打开tabs*/
-      let index = navigation.value.findIndex((x) => {
+      let index = navigation.findIndex((x) => {
         return x.path == path;
       });
       if (index == -1) {
@@ -352,49 +307,28 @@ export default defineComponent({
     };
     const selectNav = (item) => {
       selectId.value = item.instance.props.name;
-      selectOrderNo.value = item.index;
       router.push({
-        path: navigation.value[item.index].path,
-        query: navigation.value[item.index].query,
+        path: navigation[item.index].path,
+        query: navigation[item.index].query,
       });
     };
-    const removeNav = (tabId) => {
+
+    const removeNav = (_index) => {
       return new Promise(() => {
-        // 关闭的当前项,跳转到前一个页面
-        let currentOrderNo = parseInt(navigation.value.find((item)=> item.id == (tabId==""?undefined:tabId)).orderNo);
-        if (selectId.value == String(tabId)) {
-          setItem(navigation.value[currentOrderNo - 1]);
+        //关闭的当前项,跳转到前一个页面
+        if (selectId.value == _index + "") {
+          setItem(navigation.value[_index - 1]);
           router.push({
-            path: navigation.value[currentOrderNo - 1].path,
+            path: navigation.value[_index - 1].path,
           });
-          
-          selectOrderNo.value = String(selectOrderNo.value - 1);
-          selectId.value = navigation.value[currentOrderNo - 1].id;
+          navigation.value.splice(_index, 1);
+          selectId.value = selectId.value - 1 + "";
+          return;
         }
-
-        navigation.value.splice(currentOrderNo, 1);// 这里删除顺序很重要，不允许随意调换
-
-        // 关闭当前选中tab左边指定的tab
-        if(currentOrderNo < parseInt(selectOrderNo.value)) {
-          selectId.value = navigation.value[parseInt(selectOrderNo.value) - 1].id;
-          selectOrderNo.value = String(parseInt(selectOrderNo.value) - 1);
-        }       
-
-        // 重置序号
-        resetMenuTabsOrderNo();
-        return;
-      });
-    };
-
-    /**
-     * 重置菜单tab标签序号
-     */
-    const resetMenuTabsOrderNo = function(){
-      navigation.value.forEach((item,index) => {
-        item.orderNo = index;
-        if(selectId.value == item.id){ // 更新选中标签的序号
-          selectOrderNo.value = index;
+        if (_index < selectId.value) {
+          selectId.value = selectId.value - 1 + "";
         }
+        navigation.value.splice(_index, 1);
       });
     };
 
@@ -413,47 +347,100 @@ export default defineComponent({
      * 显示右键菜单
      * @param {*} e 事件对象
      */
-    const openTabsMenu = function(e) {
-      let that = this;
+    const openTabsMenu = function (e) {
+
       e.preventDefault(); // 防止默认菜单弹出
-      let leftIndexLength = 0;// 左侧tab的个数
-      let rightIndexLength = 0;// 右侧tab的个数
+      let tabId = e.target.id.split('-')[1] * 1;
 
-      navigation.value.find((value,index,array) => {
-        if(index < parseInt(selectOrderNo.value) && index > 0){
-          leftIndexLength++;
-        }
-        if(index > parseInt(selectOrderNo.value)){
-          rightIndexLength++;
-        }
-      });
 
-      //#region 显示全部右键菜单
-      proxy.allTabs = true;
-      proxy.leftTabs = true;
-      proxy.rightTabs = true;
-      proxy.otherTabs = true;
-      //#endregion
-      
-      proxy.contextMenuVisible = true;
-      // 设置不必要的右键菜单隐藏
-      if(leftIndexLength < 1){
-        proxy.leftTabs = false;
+      //记录当前选中的菜单index
+      selectMenuIndex.value = document.getElementById('pane-' + tabId).children[0].textContent * 1;
+      //只有首页时不显示
+      if (navigation.length == 1) {
+        return;
       }
-      if(rightIndexLength < 1){
-        proxy.rightTabs = false;
+
+      //首页设置显示关闭右边菜单
+      if (!selectMenuIndex.value) {
+        visibleItem.all = false;
+        visibleItem.right = true;
+        visibleItem.left = false;
+        visibleItem.other = false;
+      } else {
+        visibleItem.all = true;
+        //不是最后一个显示关闭右边菜单
+        visibleItem.right = selectMenuIndex.value != navigation.length - 1;
+        //只有两个菜单时不显示关闭左边
+        visibleItem.left = navigation.length != 2;
+        //只有两个菜单时不显示关闭其他
+        visibleItem.other = navigation.length != 2;
       }
-      if(leftIndexLength < 1 && rightIndexLength < 1){
-        proxy.otherTabs = false;
-      }
-      if(rightIndexLength < 1 && (selectOrderNo.value == 0)){ // 首页
-        proxy.allTabs = false;
-      }
-     
+      contextMenuVisible.value = true;
       // 设置右键菜单显示的位置
-      proxy.menuLeft = event.clientX - Number(document.getElementsByClassName("vol-container")[0].style.left.replace("px",""));
-      proxy.menuTop = event.clientY-61;
+      proxy.menuLeft = e.target.getBoundingClientRect().left - (isCollapse.value ? 63 : 198);//-e.target.clientWidth
+      proxy.menuTop = 36;
     };
+
+    /**
+        * 关闭右键菜单
+        */
+    const closeTabsMenu = () => {
+      contextMenuVisible.value = false;
+    };
+    const toHome = () => {
+      open({
+        text: navigation[0].name,
+        path: navigation[0].path
+      })
+    }
+    /**
+     * 关闭其它标签页
+     * @param {*} par 关闭类型(left,right,other)
+     */
+    const closeTabs = (value) => {
+      let currnetIndex = navigation.findIndex(c => { return c.id == selectId.value });
+      switch (value) {
+        case "left": { // 删除左侧tab标签
+          navigation.splice(1, currnetIndex - 1);// 删除左侧tab标签
+          break;
+        }
+        case "right": { // 删除右侧tab标签        
+          if (selectMenuIndex.value == 0) {
+            navigation.splice(currnetIndex);// 删除右侧tab标签
+            toHome();
+          } else {
+            navigation.splice(currnetIndex + 1);// 删除右侧tab标签
+            if (selectMenuIndex.value < currnetIndex) {
+              navigation.splice(selectMenuIndex.value, currnetIndex-selectMenuIndex.value);
+            }
+          }
+          break;
+        }
+        case "other": { // 删除其他所有tab标签
+          navigation.splice(currnetIndex + 1);// 删除右侧tab标签(这里必须按照右→左顺序删除)
+          navigation.splice(1, currnetIndex - 1);// 删除左侧tab标签          
+          break;
+        }
+        default: { //关闭所有
+          navigation.splice(1, navigation.length);
+          toHome();
+          break;
+        }
+      }
+      closeTabsMenu();
+    };
+
+    watch(
+      () => contextMenuVisible.value,
+      (newVal, oldVal) => {
+        // 监视
+        if (newVal) {
+          document.body.addEventListener("click", closeTabsMenu);
+        } else {
+          document.body.removeEventListener("click", closeTabsMenu);
+        }
+      }
+    );
 
     /**
      * 系统创建开始
@@ -495,7 +482,7 @@ export default defineComponent({
         }
 
         //当前刷新是不是首页
-        if (router.currentRoute.value.path != navigation.value[0].path) {
+        if (router.currentRoute.value.path != navigation[0].path) {
           //查找系统菜单
           let item = menuOptions.value.find((x) => {
             return x.path == router.currentRoute.value.path; //this.$route.path;
@@ -514,7 +501,6 @@ export default defineComponent({
           }
         }
         selectId.value = "1";
-	selectOrderNo.value = "0";
       });
     };
     created();
@@ -528,14 +514,13 @@ export default defineComponent({
       userName,
       userImg,
       selectId,
-      selectOrderNo,
+      selectMenuIndex,
       navigation,
       links,
       onSelect,
       openTabsMenu,
       selectNav,
       getSelectMenuName,
-      resetMenuTabsOrderNo,
       removeNav,
       logo,
       theme,
@@ -546,23 +531,12 @@ export default defineComponent({
       toggleLeft,
       messageModel,
       messageList,
+      contextMenuVisible,
+      visibleItem,
+      closeTabsMenu,
+      closeTabs
     };
   },
-  
-  /**
-   * 监听属性
-   */
-  watch: {
-    contextMenuVisible() {
-      // 监视
-      if (this.contextMenuVisible) {
-        document.body.addEventListener("click", this.closeTabsMenu);
-      } else {
-        document.body.removeEventListener("click", this.closeTabsMenu);
-      }
-    },
-  },
-
   /**
    * 挂载钩子函数
    */
@@ -576,73 +550,25 @@ export default defineComponent({
 
     this.bindRightClickMenu(true);
   },
-  
+
   methods: {
     /**
      * 绑定右键事件
      * @param {*} enable 是否启用右键事件[true:启用;false:禁用;]
      * @param {*} $event 事件
      */
-    bindRightClickMenu(enable){
-        if(!enable) 
-          return;
-        let that = this;
-        // 使用原生js 为单个dom绑定鼠标右击事件
-        that.$nextTick(() => {
-          let tab_top_dom = document.getElementsByClassName("el-tabs__item is-top");          
-          tab_top_dom.forEach((item,index) => {
-            item.oncontextmenu = that.openTabsMenu;
-          });
+    bindRightClickMenu(enable) {
+      if (!enable)
+        return;
+      let that = this;
+      // 使用原生js 为单个dom绑定鼠标右击事件
+      that.$nextTick(() => {
+        let tab_top_dom = document.getElementsByClassName("el-tabs__item is-top");
+        tab_top_dom.forEach((item, index) => {
+          item.oncontextmenu = that.openTabsMenu;
+        });
       });
-    },
-
-    /**
-     * 关闭右键菜单
-     */
-    closeTabsMenu() {
-      this.contextMenuVisible = false;
-    },
-
-    
-
-    /**
-     * 关闭所有的tabs
-     */
-    closeAllTabs() {
-      let that=this;
-      that.closeTabsMenu();
-      that.navigation.splice(1, that.navigation.length-1); // 下标除了0的元素全部删除
-      // 设定首页打开
-      var item = that.getSelectMenuName("1");
-      that._config.$tabs.open(item);
-    },
-
-    /**
-     * 关闭其它标签页
-     * @param {*} par 关闭类型(left,right,other)
-     */
-    closeOtherTabs(par) {
-      let currTabIndex = parseInt(this.selectOrderNo);// 当前选中的tab序号
-      
-      switch (par) {
-        case "left": { // 删除左侧tab标签
-          this.navigation.splice(1, currTabIndex-1);// 删除左侧tab标签
-          break;
-        }
-        case "right": { // 删除右侧tab标签        
-          this.navigation.splice(currTabIndex + 1);// 删除右侧tab标签
-          break;
-        }
-        case "other": { // 删除其他所有tab标签
-          this.navigation.splice(currTabIndex + 1);// 删除右侧tab标签(这里必须按照右→左顺序删除)
-          this.navigation.splice(1, currTabIndex-1);// 删除左侧tab标签          
-          break;
-        }
-      }
-      
-      this.resetMenuTabsOrderNo();
-      this.closeTabsMenu();
-    },
+    }
   },
 
   /**
@@ -696,9 +622,9 @@ function showTime() {
 }
 
 .contextMenu {
-  width: 100px;
+  width: 120px;
   margin: 0;
-  border: 1px solid #ccc;
+  border: 1px solid #eaeaea;
   background: #fff;
   z-index: 30000;
   position: absolute;
@@ -707,29 +633,31 @@ function showTime() {
   border-radius: 4px;
   font-size: 14px;
   color: #333;
-  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 3px 0 rgb(182 182 182 / 20%);
 }
 
 .contextMenu li {
   margin: 0;
-  padding: 0px 22px;
+  padding: 0px 17px;
 }
 
 .contextMenu li:hover {
-  background: #f2f2f2;
+  background: #fafafa;
   cursor: pointer;
 }
 
 .contextMenu li button {
-  color: #2c3e50;
+  color: #626060;
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 
 .el-tabs.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:last-child,
-.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:nth-child(2){
+.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:nth-child(2) {
   padding: 0;
 }
 
-.header-navigation ::v-deep(.el-tabs__item.is-top){
+.header-navigation ::v-deep(.el-tabs__item.is-top) {
   padding: 0 15px;
 }
 </style>

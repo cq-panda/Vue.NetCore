@@ -5,7 +5,6 @@
       :unique-opened="true"
       @select="select"
       :collapse="isCollapse"
-     :active-text-color="!isCollapse?'#ffff':''"
       @open="handleOpen"
       @close="handleClose"
       @contextmenu.prevent="bindRightClickMenu"
