@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-select
+      style="width: 150px"
       size="small"
       v-if="['select', 'selectList'].indexOf(singleSearch.type) != -1"
       v-model="searchFormFields[singleSearch.field]"
@@ -19,27 +20,31 @@
       </el-option>
     </el-select>
     <el-date-picker
+      style="width: 210px"
       clearable
       size="small"
+      unlink-panels
       v-else-if="['date', 'datetime'].indexOf(singleSearch.type) != -1"
       v-model="searchFormFields[singleSearch.field]"
       type="daterange"
-       :value-format="getDateFormat(singleSearch)"
+      :value-format="getDateFormat(singleSearch)"
       :placeholder="singleSearch.title"
     >
     </el-date-picker>
     <el-cascader
-          clearable
-          size="small"
-          v-model="searchFormFields[singleSearch.field]"
-          v-else-if="singleSearch.type == 'cascader'"
-          :options="singleSearch.data"
-          :props="{ checkStrictly: true}"
-        >
+      style="width: 210px"
+      clearable
+      size="small"
+      v-model="searchFormFields[singleSearch.field]"
+      v-else-if="singleSearch.type == 'cascader'"
+      :options="singleSearch.data"
+      :props="{ checkStrictly: true }"
+    >
     </el-cascader>
     <el-input
       clearable
       v-else
+      style="width: 150px"
       size="small"
       v-model="searchFormFields[singleSearch.field]"
       :placeholder="singleSearch.title"
@@ -77,7 +82,7 @@ export default {
     },
     getDateFormat(item) {
       //见https://day.js.org/docs/zh-CN/display/format
-      return item.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
+      return item.type == "date" ? "YYYY-MM-DD" : "YYYY-MM-DD HH:mm:ss";
     },
     getDateOptions(date, item) {
       if ((!item.min && !item.max) || !date) {
