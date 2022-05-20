@@ -225,7 +225,7 @@
 				this.detailModel = true;
 			},
 			addRow() { //弹出框点击的确定
-				if (!this.$refs.detail.validata()) {
+				if (!this.$refs.detail.validate()) {
 					return false
 				}
 				//编辑操作
