@@ -54,7 +54,7 @@
       <div class="vol-path">
         <el-tabs @tab-click="selectNav" @tab-remove="removeNav" @contextmenu.prevent="bindRightClickMenu(false)"
           type="border-card" class="header-navigation" v-model="selectId" :strtch="false">
-          <el-tab-pane v-for="(item, navIndex) in navigation" type="card" :name="item.id" :closable="navIndex > 0"
+          <el-tab-pane v-for="(item, navIndex) in navigation" type="card" :name="navIndex+''" :closable="navIndex > 0"
             :key="navIndex" :label="item.name">
             <span style="display:none;">{{ navIndex }}</span>
           </el-tab-pane>
@@ -260,16 +260,16 @@ export default defineComponent({
       if (_index == -1) {
         navigation.push(
           {
-            orderNo: String(navigation.length),// 序号
-            id: item.id,
+          //  orderNo: String(navigation.length),// 序号
+            id: item.id+'',
             name: item.name || item.text || "无标题",
             path: item.path,
             query: item.query, //2021.03.20修复自定义二次打开$tabs时参数丢失的问题
           });
         //新打开的tab移至最后一个选项
-        selectId.value = navigation[navigation.length - 1].id;// tab标签id
+          selectId.value = navigation.length - 1 + '';
       } else {
-        selectId.value = navigation[_index].id;
+         selectId.value = _index + '';
       }
       if (useRoute === undefined) {
         //非标准菜单，记录最后一次跳转的页面，用于刷新
@@ -317,18 +317,19 @@ export default defineComponent({
       return new Promise(() => {
         //关闭的当前项,跳转到前一个页面
         if (selectId.value == _index + "") {
-          setItem(navigation.value[_index - 1]);
+         console.log( navigation[_index - 1])
+          setItem(navigation[_index - 1]);
           router.push({
-            path: navigation.value[_index - 1].path,
+            path: navigation[_index - 1].path,
           });
-          navigation.value.splice(_index, 1);
+          navigation.splice(_index, 1);
           selectId.value = selectId.value - 1 + "";
           return;
         }
         if (_index < selectId.value) {
           selectId.value = selectId.value - 1 + "";
         }
-        navigation.value.splice(_index, 1);
+        navigation.splice(_index, 1);
       });
     };
 
@@ -398,7 +399,8 @@ export default defineComponent({
      * @param {*} par 关闭类型(left,right,other)
      */
     const closeTabs = (value) => {
-      let currnetIndex = navigation.findIndex(c => { return c.id == selectId.value });
+      let _menuId= navigation[selectId.value *1].id;
+      let currnetIndex =selectId.value *1;// navigation.findIndex(c => { return c.id == selectId.value });
       switch (value) {
         case "left": { // 删除左侧tab标签
           navigation.splice(1, currnetIndex - 1);// 删除左侧tab标签
@@ -427,6 +429,7 @@ export default defineComponent({
           break;
         }
       }
+      selectId.value=navigation.findIndex(c=>{return c.id==_menuId})+'';
       closeTabsMenu();
     };
 

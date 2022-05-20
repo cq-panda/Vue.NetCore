@@ -80,6 +80,7 @@ namespace VOL.Core.Extensions
             {
                 services.AddDbContextPool<VOLContext>(optionsBuilder => { optionsBuilder.UseNpgsql(connectionString); }, 64);
             }
+            else
             {
                 services.AddDbContextPool<VOLContext>(optionsBuilder => { optionsBuilder.UseSqlServer(connectionString); }, 64);
             }
