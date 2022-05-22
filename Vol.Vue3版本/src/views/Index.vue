@@ -63,8 +63,7 @@
         <div v-show="contextMenuVisible">
           <ul :style="{ left: menuLeft + 'px', top: menuTop + 'px' }" class="contextMenu">
             <li v-show="visibleItem.all">
-              <el-button type="text" icon="el-icon-close" @click="closeTabs()" size="mini">
-                {{ navigation.length == 2 ? '关闭菜单' : '关闭所有' }}</el-button>
+              <el-button type="text" icon="el-icon-close" @click="closeTabs()" size="mini">关闭所有</el-button>
             </li>
             <li v-show="visibleItem.left">
               <el-button type="text" icon="el-icon-back" @click="closeTabs('left')" size="mini">关闭左边</el-button>
@@ -73,8 +72,7 @@
               <el-button type="text" icon="el-icon-right" @click="closeTabs('right')" size="mini">关闭右边</el-button>
             </li>
             <li v-show="visibleItem.other">
-              <el-button type="text" icon="el-icon-bottom-right" @click="closeTabs('other')" size="mini">关闭其他
-              </el-button>
+              <el-button type="text" icon="el-icon-bottom-right" @click="closeTabs('other')" size="mini">关闭其他</el-button>
             </li>
           </ul>
         </div>
@@ -147,8 +145,7 @@ export default defineComponent({
       rightTabs: true,
       otherTabs: true,
       menuLeft: 0,
-      menuTop: 0,
-      //  contextMenuVisible: false, // 右键关闭显/隐
+      menuTop: 0
     };
   },
   setup(props, context) {
@@ -196,6 +193,7 @@ export default defineComponent({
     const errorImg = ref(
       'this.src="' + require("@/assets/imgs/error-img.png") + '"'
     );
+    // 【首页】选中标签序号
     const selectId = ref('1');
     // 【首页】标签序号(当前右键选中的菜单)
     const selectMenuIndex = ref('0');
@@ -203,7 +201,7 @@ export default defineComponent({
     const userInfo = ref({});
     const visibleItem = reactive({ left: false, right: false, all: false, other: false });
     const userImg = ref("");
-    const navigation = reactive([{ orderNo: '0', id: '1', name: "首页", path: "/home" }]);
+    const navigation = reactive([{ name: "首页", path: "/home" }]);
     const logo = ref(imgUrl);
     const theme = ref("blue2");
     const menuOptions = ref([]);
@@ -317,13 +315,22 @@ export default defineComponent({
       return new Promise(() => {
         //关闭的当前项,跳转到前一个页面
         if (selectId.value == _index + "") {
-         console.log( navigation[_index - 1])
-          setItem(navigation[_index - 1]);
-          router.push({
-            path: navigation[_index - 1].path,
-          });
-          navigation.splice(_index, 1);
-          selectId.value = selectId.value - 1 + "";
+          if(navigation[_index*1 + 1]){ // 下一个页面
+            setItem(navigation[_index*1 + 1]);
+            router.push({
+              path: navigation[_index*1 + 1].path,
+            });
+            navigation.splice(_index, 1);
+            selectId.value = selectId.value + "";
+          }else{// 上一个页面
+            setItem(navigation[_index - 1]);
+            router.push({
+              path: navigation[_index - 1].path,
+            });
+            navigation.splice(_index, 1);
+            selectId.value = selectId.value - 1 + "";
+          }          
+          
           return;
         }
         if (_index < selectId.value) {
@@ -361,12 +368,12 @@ export default defineComponent({
         return;
       }
 
-      //首页设置显示关闭右边菜单
+      //首页设置显示关闭其它菜单
       if (!selectMenuIndex.value) {
         visibleItem.all = false;
-        visibleItem.right = true;
+        visibleItem.right = false;
         visibleItem.left = false;
-        visibleItem.other = false;
+        visibleItem.other = true;
       } else {
         visibleItem.all = true;
         //不是最后一个显示关闭右边菜单
@@ -396,26 +403,23 @@ export default defineComponent({
     }
     /**
      * 关闭其它标签页
-     * @param {*} par 关闭类型(left,right,other)
+     * @param {*} value 关闭类型(left,right,other)
      */
     const closeTabs = (value) => {
-      let _menuId= navigation[selectId.value *1].id;
-      let currnetIndex =selectId.value *1;// navigation.findIndex(c => { return c.id == selectId.value });
+      let selectMenuId = navigation[selectId.value *1].id;// 当前选中tab的id
+      //let _menuId= navigation[selectMenuIndex.value *1].id;// 当前右键tab的id
+      let currnetIndex =selectMenuIndex.value *1;// 当前右键tab的序号值
       switch (value) {
         case "left": { // 删除左侧tab标签
-          navigation.splice(1, currnetIndex - 1);// 删除左侧tab标签
+          navigation.splice(1, currnetIndex - 1);
+          currnetIndex = "1";
           break;
         }
-        case "right": { // 删除右侧tab标签        
-          if (selectMenuIndex.value == 0) {
-            navigation.splice(currnetIndex);// 删除右侧tab标签
-            toHome();
-          } else {
-            navigation.splice(currnetIndex + 1);// 删除右侧tab标签
-            if (selectMenuIndex.value < currnetIndex) {
-              navigation.splice(selectMenuIndex.value, currnetIndex-selectMenuIndex.value);
-            }
-          }
+        case "right": { // 删除右侧tab标签
+          navigation.splice(currnetIndex + 1);
+          if (selectMenuIndex.value < currnetIndex) {
+            navigation.splice(selectMenuIndex.value, currnetIndex-selectMenuIndex.value);
+          }         
           break;
         }
         case "other": { // 删除其他所有tab标签
@@ -429,13 +433,13 @@ export default defineComponent({
           break;
         }
       }
-      selectId.value=navigation.findIndex(c=>{return c.id==_menuId})+'';
+      
+      let selectTabNo = navigation.findIndex(c=>{return c.id==selectMenuId})+"";
+      selectId.value = selectTabNo=="-1" ? currnetIndex + "":selectTabNo;
       closeTabsMenu();
     };
 
-    watch(
-      () => contextMenuVisible.value,
-      (newVal, oldVal) => {
+    watch(() => contextMenuVisible.value,(newVal, oldVal) => {
         // 监视
         if (newVal) {
           document.body.addEventListener("click", closeTabsMenu);
@@ -464,7 +468,6 @@ export default defineComponent({
       Object.assign(_config.$tabs, { open: open, close: close });
 
       http.get("api/menu/getTreeMenu", {}, true).then((data) => {
-        data.push({ id: '1', name: "首页", url: "/home" });// 为了获取选中id使用
         data.forEach((d) => {
           d.path = (d.url || "").replace("/Manager", "");
           d.to = (d.url || "").replace("/Manager", "");
@@ -503,7 +506,7 @@ export default defineComponent({
             return open(item, false);
           }
         }
-        selectId.value = "1";
+        selectId.value = "0";
       });
     };
     created();
