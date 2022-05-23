@@ -209,7 +209,7 @@
           >查看vue3代码</Button
         >
       </div>
-      <!-- <docParamTable name="voltable"></docParamTable> -->
+      <docParamTable name="voltable"></docParamTable>
     <br />
     <br />
     <VolBox

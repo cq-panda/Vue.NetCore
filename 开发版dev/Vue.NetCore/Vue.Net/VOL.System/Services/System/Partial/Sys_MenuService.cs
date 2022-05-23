@@ -53,13 +53,14 @@ namespace VOL.System.Services
         private List<Sys_Menu> GetAllMenu()
         {
             //每次比较缓存是否更新过，如果更新则重新获取数据
-            if (_menuVersionn != "" && _menuVersionn == CacheContext.Get(_menuCacheKey))
+            string _cacheVersion = CacheContext.Get(_menuCacheKey);
+            if (_menuVersionn != "" && _menuVersionn == _cacheVersion)
             {
                 return _menus ?? new List<Sys_Menu>();
             }
             lock (_menuObj)
             {
-                if (_menuVersionn != "" && _menus != null) return _menus;
+                if (_menuVersionn != "" && _menus != null && _menuVersionn == _cacheVersion) return _menus;
                 //2020.12.27增加菜单界面上不显示，但可以分配权限
                 _menus = repository.FindAsIQueryable(x => x.Enable == 1 || x.Enable == 2)
                     .OrderByDescending(a => a.OrderNo)
@@ -199,7 +200,7 @@ namespace VOL.System.Services
                         }
                     }
                 }
-
+                bool _changed = false;
                 if (menu.Menu_Id <= 0)
                 {
                     repository.Add(menu.SetCreateDefaultVal());
@@ -215,6 +216,9 @@ namespace VOL.System.Services
                     {
                         return webResponse.Error($"不能选择此父级id，选择的父级id与当前菜单形成依赖关系");
                     }
+
+                    _changed = repository.FindAsIQueryable(c => c.Menu_Id == menu.Menu_Id).Select(s => s.Auth).FirstOrDefault() != menu.Auth;
+
                     repository.Update(menu.SetModifyDefaultVal(), p => new
                     {
                         p.ParentId,
@@ -231,7 +235,12 @@ namespace VOL.System.Services
                     });
                 }
                 await repository.SaveChangesAsync();
-                _menuVersionn = DateTime.Now.ToString("yyyyMMddHHMMssfff");
+
+                CacheContext.Add(_menuCacheKey, DateTime.Now.ToString("yyyyMMddHHMMssfff"));
+                if (_changed)
+                {
+                    UserContext.Current.RefreshWithMenuActionChange(menu.Menu_Id);
+                }
                 _menus = null;
                 webResponse.OK("保存成功", menu);
             }
@@ -247,6 +256,21 @@ namespace VOL.System.Services
 
         }
 
+        public async Task<WebResponseContent> DelMenu(int menuId)
+        {
+            WebResponseContent webResponse = new WebResponseContent();
+
+            if (await repository.ExistsAsync(x => x.ParentId == menuId))
+            {
+                return webResponse.Error("当前菜单存在子菜单,请先删除子菜单!");
+            }
+            repository.Delete(new Sys_Menu()
+            {
+                Menu_Id = menuId
+            }, true);
+            CacheContext.Add(_menuCacheKey, DateTime.Now.ToString("yyyyMMddHHMMssfff"));
+            return webResponse.OK("删除成功");
+        }
         /// <summary>
         /// 编辑菜单时，获取菜单信息
         /// </summary>

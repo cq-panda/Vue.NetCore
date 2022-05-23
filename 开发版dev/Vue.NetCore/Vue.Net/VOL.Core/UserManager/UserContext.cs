@@ -124,6 +124,7 @@ namespace VOL.Core.ManageUser
         private static readonly Dictionary<int, List<Permissions>> rolePermissions = new Dictionary<int, List<Permissions>>();
 
 
+
         /// <summary>
         /// 获取用户所有的菜单权限
         /// </summary>
@@ -134,6 +135,22 @@ namespace VOL.Core.ManageUser
             {
                 return GetPermissions(RoleId);
             }
+        }
+
+        /// <summary>
+        /// 菜单按钮变更时，同时刷新权限缓存2022.05.23
+        /// </summary>
+        /// <param name="menuId"></param>
+        public void RefreshWithMenuActionChange(int menuId)
+        {
+            foreach (var roleId in rolePermissions.Where(c => c.Value.Any(x => x.Menu_Id == menuId)).Select(s => s.Key))
+            {
+                if (rolePermissionsVersion.ContainsKey(roleId))
+                {
+                    CacheService.Add(roleId.GetRoleIdKey(), DateTime.Now.ToString("yyyyMMddHHMMssfff"));
+                }
+            }
+
         }
 
         /// <summary>
@@ -173,9 +190,11 @@ namespace VOL.Core.ManageUser
             {
                 try
                 {
+                    var menuAuthArr = x.MenuAuth.DeserializeObject<List<Sys_Actions>>();
                     x.UserAuthArr = string.IsNullOrEmpty(x.UserAuth)
                     ? new string[0]
-                    : x.UserAuth.Split(",");
+                    : x.UserAuth.Split(",").Where(c => menuAuthArr.Any(m => m.Value == c)).ToArray();
+
                 }
                 catch { }
                 finally
