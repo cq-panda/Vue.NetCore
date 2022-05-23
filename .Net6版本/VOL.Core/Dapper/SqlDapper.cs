@@ -616,7 +616,7 @@ namespace VOL.Core.Dapper
         /// <param name="updateFileds">指定更新的字段x=new {x.a,x.b}</param>
         /// <param name="beginTransaction">是否开启事务</param>
         /// <returns></returns>
-        public int Update<T>(T entity, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = true)
+        public int Update<T>(T entity, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false)
         {
             return UpdateRange<T>(new T[] { entity }, updateFileds, beginTransaction);
         }
@@ -629,7 +629,7 @@ namespace VOL.Core.Dapper
         /// <param name="updateFileds">批定更新字段</param>
         /// <param name="beginTransaction"></param>
         /// <returns></returns>
-        public int UpdateRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = true)
+        public int UpdateRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false)
         {
             Type entityType = typeof(T);
             var key = entityType.GetKeyProperty();
@@ -654,13 +654,13 @@ namespace VOL.Core.Dapper
                 }
                 string sqltext = $@"UPDATE { entityType.GetEntityTableName()} SET {string.Join(",", paramsList)} WHERE {entityType.GetKeyName()} = @{entityType.GetKeyName()} ;";
 
-                return ExcuteNonQuery(sqltext, entities, CommandType.Text, true);
+                return ExcuteNonQuery(sqltext, entities, CommandType.Text, beginTransaction);
                 // throw new Exception("mysql批量更新未实现");
             }
             string fileds = string.Join(",", properties.Select(x => $" a.{x.Name}=b.{x.Name}").ToArray());
             string sql = $"update  a  set {fileds} from  {entityType.GetEntityTableName()} as a inner join {EntityToSqlTempName.TempInsert.ToString()} as b on a.{key.Name}=b.{key.Name}";
             sql = entities.ToList().GetEntitySql(true, sql, null, updateFileds, null);
-            return ExcuteNonQuery(sql, null, CommandType.Text, true);
+            return ExcuteNonQuery(sql, null, CommandType.Text, beginTransaction);
         }
 
         public int DelWithKey<T>(bool beginTransaction = false, params object[] keys)
