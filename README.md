@@ -16,10 +16,10 @@
  - 编写各种后台restful api接口。后台基础代码由代码生成器完成,在生成的代码上继续编写业务即可
  - 前端表单开发(直接上手看demo即可)
  - 配合app做H5或全h5开发
- - 发布静态(h5)页面,框架已经提供了demo
+ - 移动端开发、app、微信小程序(uniapp)，见下面介绍
  - 在现有的代码生成器功能上，继续定制开发代码生成器功能,解决重复性工作
 ## 框架开发依赖环境
- - 后台：VS2019 、.NetCore3.1 、EFCore3.1、JWT、Dapper、Autofac、SqlServer/MySql、Redis(可选,默认使用内置IMemory)
+ - 后台：VS2019、vs2022 、.NetCore3.1 、.Net6、EFCore3.1/6.0、JWT、Dapper、signalR、Autofac、SqlServer/MySql/PGSql/Oracle、Redis(可选,默认使用内置IMemory)
  - 前端：VsCode、Vue2/vue3（webpack、node.js,如果没有此环境自行搜索:vue webpack npm)、vuex、axios、promise、iview、element-ui
  
 ## [vol框架视频](https://www.cctalk.com/m/group/90268531)
