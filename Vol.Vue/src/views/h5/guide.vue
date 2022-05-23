@@ -6,18 +6,18 @@
       <div>
         <h3>微信小程序</h3>
         <img
-          src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg"
+          style="width:100%;" src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg"
         />
       </div>
       <div>
         <h3>安卓扫描下载</h3>
         <img
-          src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png"
+          style="width:100%;" src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png"
         />
       </div>
       <div style="margin-left: 30px">
         <h3>手机浏览器访问</h3>
-        <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png" />
+        <img style="width:100%;" src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png" />
       </div>
     </div>
     <br />
