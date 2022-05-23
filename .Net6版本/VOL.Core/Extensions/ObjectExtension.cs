@@ -1171,7 +1171,7 @@ namespace VOL.Core.Extensions
             return timeStamp.Substring(0, timeStamp.Length - 7);
         }
 
-        private static readonly Regex MobileRegex = new Regex("^1[3|4|5|7|8][0-9]\\d{4,8}$");
+        private static readonly Regex MobileRegex = new Regex("^1[3-9][0-9]\\d{4,8}$");
         private static readonly Regex EmailRegex = new Regex("^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\\.[a-zA-Z0-9_-]{2,3}){1,2})$");
 
         /// <summary>
@@ -1183,7 +1183,7 @@ namespace VOL.Core.Extensions
         {
             return MobileRegex.IsMatch(mobile);
         }
- 
+
         /// <summary>
         /// 判断当前字符串是否为邮箱
         /// </summary>

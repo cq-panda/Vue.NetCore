@@ -91,6 +91,7 @@ namespace VOL.Core.Extensions
             {
                 builder.RegisterType<MemoryCacheService>().As<ICacheService>().SingleInstance();
             }
+         
             return services;
         }
 
