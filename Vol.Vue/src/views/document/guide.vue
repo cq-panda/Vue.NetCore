@@ -13,31 +13,20 @@
       </ul>
     </div>
 
-    <a class="avd1" href="https://curl.qcloud.com/6OoRDPjn" target="_blank">
-      <img
-        src="https://txspread-1256993465.cos.ap-beijing.myqcloud.com/server345_200%20.jpg"
-    /></a>
-    <a class="avd2" href="https://curl.qcloud.com/qndt9pnm" target="_blank">
-      <img
-        src="https://txspread-1256993465.cos.ap-beijing.myqcloud.com/560x300.jpg"
-    /></a>
     <div class="g-right" style="margin-left: 190px">
       <div class="h-box">
-       <a
-          target="_blank"
-          href="https://www.cctalk.com/m/group/90268531"
-        >
+        <a target="_blank" href="https://www.cctalk.com/m/group/90268531">
           <Icon type="ios-ionic" /><br />框架视频</a
         >
-        <a>QQ1群:45221949 <br />QQ2群:913189178</a>
+        <a style="padding-top: 25px;">QQ1群:45221949 <br />QQ2群:913189178</a>
         <a target="_blank" href="https://github.com/cq-panda/Vue.NetCore">
           <Icon type="logo-github" /><br />GitHub</a
         >
         <a target="_blank" href="https://gitee.com/x_discoverer/Vue.NetCore">
           <Icon type="logo-github" /><br />Gitee</a
         >
-   
-      <a target="_blank" href="http://donate.volcore.xyz">
+
+        <a target="_blank" href="http://donate.volcore.xyz">
           <Icon type="ios-color-filter" /><br />
           项目赞助</a
         >
@@ -97,21 +86,16 @@
         >
           <Icon type="ios-help-circle-outline" /><br />常见问题</a
         >
+    
       </div>
-      <!-- <div style="margin-bottom:20px;">     <a target="_blank"
-           style="    border-bottom: 1px solid;
-    font-size: 20px;
-    padding: 20p;
-    margin: 25px"
-           @click="()=>{ this.$router.push({ path: '/document/netCoreDev' });}">多租户、多角色、分库多数据库、Oracle数据库、国际化</a></div>
-      <div class="g-p">  <a target="_blank"
-         style="    border-bottom: 1px solid;
-    margin: 0px 26px;
-    font-size: 26px;"
-         href="http://donate.volcore.xyz">项目赞助</a>
-      <a style="    border-bottom: 1px solid;
-    margin: 0px 26px;
-    font-size: 26px;">QQ群:45221949</a></div> -->
+      <div style="    font-size: 25px;font-weight: bold;  margin-bottom: 20px;">
+       <a
+          target="_blank"
+          href="https://github.com/sxy407249209/SignalRWebRtcDemo"
+        >
+          <Icon type="ios-mic-outline" />SignalR+WebRtc实时视频通话</a
+        >
+        </div>
       <div
         style="
           font-size: 15px;
@@ -151,6 +135,13 @@
           <span style="display: none"></span>
         </span>
       </p>
+      <div>
+        <a class="avd1" href="https://curl.qcloud.com/6OoRDPjn" target="_blank">
+          <img
+            style="right: 10px; bottom: 10px; position: fixed"
+            src="https://txspread-1256993465.cos.ap-beijing.myqcloud.com/server345_200%20.jpg"
+        /></a>
+      </div>
       <p>
         <span style="color: #666666"></span>
       </p>
@@ -164,8 +155,8 @@
       >
         <li>
           <span style="line-height: 3; font-size: 16px"
-            >后台：VS2019、.NetCore3.1
-            、EFCore3.1、JWT、Dapper、Autofac、SqlServer/MySql/PGSql/Oracle、Redis(可选)</span
+            >后台：VS2019、VS2022、.NetCore3.1、.Net6
+            、EFCore3.1/6、JWT、Dapper、Autofac、SqlServer/MySql/PGSql/Oracle、Redis(可选)</span
           >
         </li>
         <li>
@@ -395,9 +386,11 @@
             >
           </span>
 
-                <div style="line-height:1.2;  color: red">
+          <div style="line-height: 1.2; color: red">
             <span style="font-size: 20px"
-              >7、如果能看到验证码但点击登陆提示服务器异常，原因就是数据库没连上，请检查配置文件的链接，或者将后台错误信息返回(ExceptionHandlerMiddleWare.cs文件中将new { message = "~服务器没有正确处理请求,请稍等再试!", status = false }改为new { message = message, status = false })</span
+              >7、如果能看到验证码但点击登陆提示服务器异常，原因就是数据库没连上，请检查配置文件的链接，或者将后台错误信息返回(ExceptionHandlerMiddleWare.cs文件中将new
+              { message = "~服务器没有正确处理请求,请稍等再试!", status = false
+              }改为new { message = message, status = false })</span
             >
           </div>
         </li>
@@ -590,7 +583,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             4、如果logs文件夹下没有日志，查数据库sys_log表或Logger\Queue\路径下日志
           </p>
-                <p style="font-size: 16px; line-height: 3">
+          <p style="font-size: 16px; line-height: 3">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             5、linux下发布.netcore需要安装libgdiplus插件
           </p>
@@ -1735,7 +1728,9 @@
                 border: 1px solid #d4d1d1;
               "
             >
-              <span style="color: #666666; font-size: 14px">消息推送(signalR)</span>
+              <span style="color: #666666; font-size: 14px"
+                >消息推送(signalR)</span
+              >
             </td>
             <td
               style="
@@ -1891,20 +1886,22 @@ table {
   top: 250px;
 }
 .h-box {
-  line-height: 50px;
+  display: inline-block;
+
   text-align: center;
   font-size: 20px;
   border-radius: 5px;
   margin-bottom: 20px;
-  width: 900px;
+  width: 1100px;
   a {
     cursor: pointer;
     display: inline-block;
-    padding: 25px 10px;
-    height: 150px;
-    width: 24%;
-    border: 1px solid #eee;
-    font-size: 16px;
+    padding: 15px 10px;
+    //  height: 150px;
+    width: 17%;
+    float: left;
+    // border: 1px solid #eee;
+    font-size: 13px;
     margin: 0px;
     color: #676767;
     margin-right: -6px;
@@ -1915,10 +1912,11 @@ table {
     font-size: 40px;
   }
   a:hover {
-    background: #e8e8e8;
+    color:#b2b2b2 !important;
+    // background: #e8e8e8;
     i {
-      transform: scale(1.2);
-      font-size: 50px !important;
+      // transform: scale(1.2);
+      // font-size: 50px !important;
     }
   }
 }
