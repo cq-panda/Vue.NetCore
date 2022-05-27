@@ -2,17 +2,31 @@
   <div class="layout-container">
     <a :href="exportHref" ref="export"></a>
     <!--开启懒加载2020.12.06 -->
-    <!-- <vol-box
-      :model.sync="viewModel"
-      :height="450"
-      :width="width"
+    <vol-box
+      :on-model-close="closeCustomModel"
+      v-model="viewModel"
+      :height="520"
+      :width="500"
       :lazy="true"
-      :title="table.cnName + '数据结构'"
+      title="设置"
     >
-     <template #content>
-        <Table :columns="viewColumns" :data="viewData"></Table>
+      <template #content>
+        <custom-column :view-columns="viewColumns"></custom-column>
       </template>
-    </vol-box> -->
+      <template #footer>
+        <div style="text-align: center">
+          <el-button type="default" size="mini" @click="closeCustomModel"
+            ><i class="el-icon-close"></i>取消</el-button
+          >
+          <el-button type="success" size="mini" @click="initViewColumns(true)"
+            ><i class="el-icon-refresh"></i>重置</el-button
+          >
+          <el-button type="primary" size="mini" @click="saveColumnConfig"
+            ><i class="el-icon-check"></i>确定</el-button
+          >
+        </div>
+      </template>
+    </vol-box>
     <!--开启懒加载2020.12.06 -->
     <!--审核(异步点击按钮时才加载待完)-->
     <vol-box
@@ -130,7 +144,7 @@
 
           <div class="btn-group">
             <el-button
-              v-for="(btn, bIndex) in splitButtons"
+              v-for="(btn, bIndex) in buttons.slice(0, maxBtnLength)"
               :key="bIndex"
               :type="btn.type"
               size="small"
@@ -141,7 +155,16 @@
             >
               <i :class="btn.icon"></i> {{ btn.name }}
             </el-button>
-
+            <el-button
+              type="default"
+              style="padding: 0px 10px"
+              size="small"
+              :plain="true"
+              v-if="showCustom"
+              @click="showCustomModel"
+            >
+              <i class="el-icon-s-grid"></i>
+            </el-button>
             <el-dropdown
               size="small"
               @click="changeDropdown"
@@ -345,41 +368,44 @@
 
 <script>
 const _const = {
-  EDIT: "update",
-  ADD: "Add",
-  VIEW: "view",
-  PAGE: "getPageData",
-  AUDIT: "audit",
-  DEL: "del",
-  EXPORT: "Export", //导出操作返回加密后的路径
-  DOWNLOAD: "DownLoadFile", //导出文件
-  DOWNLOADTEMPLATE: "DownLoadTemplate", //下载导入模板
-  IMPORT: "Import", //导入(导入表的Excel功能)
-  UPLOAD: "Upload", //上传文件
+  EDIT: 'update',
+  ADD: 'Add',
+  VIEW: 'view',
+  PAGE: 'getPageData',
+  AUDIT: 'audit',
+  DEL: 'del',
+  EXPORT: 'Export', //导出操作返回加密后的路径
+  DOWNLOAD: 'DownLoadFile', //导出文件
+  DOWNLOADTEMPLATE: 'DownLoadTemplate', //下载导入模板
+  IMPORT: 'Import', //导入(导入表的Excel功能)
+  UPLOAD: 'Upload' //上传文件
 };
-import Empty from "@/components/basic/Empty.vue";
+import Empty from '@/components/basic/Empty.vue';
 
-import VolTable from "@/components/basic/VolTable.vue";
-import VolForm from "@/components/basic/VolForm.vue";
+import VolTable from '@/components/basic/VolTable.vue';
+import VolForm from '@/components/basic/VolForm.vue';
 import {
   defineAsyncComponent,
   defineComponent,
   ref,
   shallowRef,
-  toRaw,
-} from "vue";
+  toRaw
+} from 'vue';
 var vueParam = {
   components: {
-    "vol-form": VolForm,
-    "vol-table": VolTable,
-    VolBox: defineAsyncComponent(() => import("@/components/basic/VolBox.vue")),
+    'vol-form': VolForm,
+    'vol-table': VolTable,
+    VolBox: defineAsyncComponent(() => import('@/components/basic/VolBox.vue')),
     QuickSearch: defineAsyncComponent(() =>
-      import("@/components/basic/QuickSearch.vue")
+      import('@/components/basic/QuickSearch.vue')
     ),
-    Audit: defineAsyncComponent(() => import("@/components/basic/Audit.vue")),
+    Audit: defineAsyncComponent(() => import('@/components/basic/Audit.vue')),
     UploadExcel: defineAsyncComponent(() =>
-      import("@/components/basic/UploadExcel.vue")
+      import('@/components/basic/UploadExcel.vue')
     ),
+    'custom-column': defineAsyncComponent(() =>
+      import('./ViewGridCustomColumn.vue')
+    )
   },
   props: {},
   setup(props) {
@@ -390,7 +416,7 @@ var vueParam = {
       gridFooter: Empty,
       modelHeader: Empty,
       modelBody: Empty,
-      modelFooter: Empty,
+      modelFooter: Empty
     };
     //合并扩展组件
     if (props.extend.components) {
@@ -415,7 +441,7 @@ var vueParam = {
       boxInit: false, //新建或编辑的弹出框初化状态，默认不做初始化，点击新建或编辑才初始化弹出框
       searchBoxShow: false, //高级查询(界面查询后的下拉框点击触发)
       singleSearch: {}, //快速查询字段
-      exportHref: "",
+      exportHref: '',
       currentAction: _const.ADD, //当新建或编辑时，记录当前的状态:如当前操作是新建
       currentRow: {}, //当前编辑或查看数据的行
       closable: false,
@@ -423,7 +449,9 @@ var vueParam = {
       width: 700, //弹出框查看表数据结构
       labelWidth: 100, //高级查询的标签宽度
       viewModel: false, //查看表结构的弹出框
-      // viewColumns: [], //查看表结构的列数据
+      viewColumns: [], //查看表结构的列数据
+      viewColumnsClone: [],
+      showCustom: true, //是否显示自定义配置列按钮2022.05.27
       // viewData: [], //查看表结构信息
       maxBtnLength: 5, //界面按钮最多显示的个数，超过的数量都显示在更多中
       buttons: [], //查询界面按钮  如需要其他操作按钮，可在表对应的.js中添加(如:Sys_User.js中buttons添加其他按钮)
@@ -433,7 +461,7 @@ var vueParam = {
       dicKeys: [], //当前界面所有的下拉框字典编号及数据源
       hasKeyField: [], //有字典数据源的字段
       keyValueType: { _dinit: false },
-      url: "", //界面表查询的数据源的url
+      url: '', //界面表查询的数据源的url
       hasDetail: false, //是否有从表(明细)表格数据
       initActivated: false,
       load: true, //是否默认加载表数据
@@ -445,22 +473,22 @@ var vueParam = {
       columnIndex: false, //2020.11.01是否显示行号
       ck: true, //2020.11.01是否显示checkbox
       continueAdd: false, //2021.04.11新建时是否可以连续新建操作
-      continueAddName: "保存后继续添加", //2021.04.11按钮名称
+      continueAddName: '保存后继续添加', //2021.04.11按钮名称
       // detailUrl: "",
       detailOptions: {
         //弹出框从表(明细)对象
         //从表配置
         buttons: [], //弹出框从表表格操作按钮,目前有删除行，添加行，刷新操作，如需要其他操作按钮，可在表对应的.js中添加
-        cnName: "", //从表名称
-        key: "", //从表主键名
+        cnName: '', //从表名称
+        key: '', //从表主键名
         data: [], //数据源
         columns: [], //从表列信息
         edit: true, //明细是否可以编辑
         single: false, //明细表是否单选
         load: true,
         delKeys: [], //当编辑时删除当前明细的行主键值
-        url: "", //从表加载数据的url
-        pagination: { total: 0, size: 100, sortName: "" }, //从表分页配置数据
+        url: '', //从表加载数据的url
+        pagination: { total: 0, size: 100, sortName: '' }, //从表分页配置数据
         height: 0, //默认从表高度
         doubleEdit: true, //使用双击编辑
         clickEdit: false, //是否开启点击单元格编辑，点击其他行时结束编辑
@@ -478,48 +506,48 @@ var vueParam = {
           return true;
         },
         columnIndex: false, //2020.11.01明细是否显示行号
-        ck: true, //2020.11.01明细是否显示checkbox
+        ck: true //2020.11.01明细是否显示checkbox
       },
       auditParam: {
         //审核对象
         rows: 0, //当前选中审核的行数
         model: false, //审核弹出框
         status: -1, //审核结果
-        reason: "", //审核原因
+        reason: '', //审核原因
         //审核选项(可自行再添加)
         data: [
-          { text: "通过", status: 1 },
-          { text: "拒绝", status: 2 },
-        ],
+          { text: '通过', status: 1 },
+          { text: '拒绝', status: 2 }
+        ]
       },
       upload: {
         //导入上传excel对象
         excel: false, //导入的弹出框是否显示
-        url: "", //导入的路径,如果没有值，则不渲染导入功能
+        url: '', //导入的路径,如果没有值，则不渲染导入功能
         template: {
           //下载模板对象
-          url: "", //下载模板路径
-          fileName: "", //模板下载的中文名
+          url: '', //下载模板路径
+          fileName: '' //模板下载的中文名
         },
-        init: false, //是否有导入权限，有才渲染导入组件
+        init: false //是否有导入权限，有才渲染导入组件
       },
       height: 0, //表高度
       tableHeight: 0, //查询页面table的高度
       tableMaxHeight: 0, //查询页面table的最大高度
       textInline: true, //table内容超出后是否不换行2020.01.16
-      pagination: { total: 0, size: 30, sortName: "" }, //从分页配置数据
+      pagination: { total: 0, size: 30, sortName: '' }, //从分页配置数据
       boxOptions: {
         saveClose: true,
         labelWidth: 100,
         height: 0,
         width: 0,
-        summary: false, //弹出框明细table是否显示合计
+        summary: false //弹出框明细table是否显示合计
       }, //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
       editor: {
-        uploadImgUrl: "", //上传路径
-        upload: null, //上传方法
+        uploadImgUrl: '', //上传路径
+        upload: null //上传方法
       },
-      numberFields:[]
+      numberFields: []
     };
   },
   methods: {},
@@ -549,19 +577,20 @@ var vueParam = {
     this.pagination.sortName = this.table.sortName || this.table.key;
     this.initBoxButtons(); //初始化弹出框与明细表格按钮
     this.onInit(); //初始化前，如果需要做其他处理在扩展方法中覆盖此方法
+    this.getButtons();
+    //初始化自定义表格列
+    this.initViewColumns();
     //初始编辑框等数据
     this.initBoxHeightWidth();
     this.initDicKeys(); //初始下框数据源
-
     this.onInited(); //初始化后，如果需要做其他处理在扩展方法中覆盖此方法
-    this.splitButtons = this.getButtons();
   },
   beforeUpdate: function () {},
-  updated: function () {},
+  updated: function () {}
 };
 
-import props from "./props.js";
-import methods from "./methods.js";
+import props from './props.js';
+import methods from './methods.js';
 
 //合并属性
 vueParam.props = Object.assign(vueParam.props, props);
@@ -574,13 +603,14 @@ vueParam.methods = Object.assign(
 export default defineComponent(vueParam);
 </script>
 <style lang="less" scoped>
-@import "./ViewGrid.less";
+@import './ViewGrid.less';
 </style>
 <style lang="less" scoped>
 .btn-group ::v-deep(.ivu-select-dropdown) {
   padding: 0px !important;
   right: 3px;
 }
+
 .btn-group ::v-deep(.ivu-select-dropdown .ivu-dropdown-menu) {
   min-width: 100px;
   right: -2px;
@@ -590,12 +620,15 @@ export default defineComponent(vueParam);
   border-radius: 5px;
   border: 1px solid #e7e5e5;
 }
+
 .vertical-center-modal ::v-deep(.srcoll-content) {
   padding: 0;
 }
+
 .view-model-content {
   background: #eee;
 }
+
 .grid-detail ::v-deep(.v-table .el-table__header th) {
   height: 44px;
 }
@@ -603,6 +636,7 @@ export default defineComponent(vueParam);
 <style lang="less" scoped>
 .grid-search {
   position: relative;
+
   .search-box {
     background: #fefefe;
     margin-top: 33px;
