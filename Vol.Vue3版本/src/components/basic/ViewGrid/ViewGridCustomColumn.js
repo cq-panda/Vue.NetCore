@@ -21,9 +21,12 @@ export default {
     }
     this.getCacheViewColumn();
   },
+  getViewCacheKey(){
+    return 'custom:column'+this.table.name;
+  },
   getCacheViewColumn() {
     try {
-      let columns = localStorage.getItem('custom:column');
+      let columns = localStorage.getItem(this.getViewCacheKey());
       if (!columns) return;
       columns = JSON.parse(columns);
       let sortTableColumns = [];
@@ -133,7 +136,7 @@ export default {
       this.sortViewColumns(sortColumns);
     }
     try {
-      localStorage.setItem('custom:column', JSON.stringify(this.viewColumns));
+      localStorage.setItem(this.getViewCacheKey(), JSON.stringify(this.viewColumns));
     } catch (error) {
       console.log('获取自定义列异常:' + error.message);
     }
