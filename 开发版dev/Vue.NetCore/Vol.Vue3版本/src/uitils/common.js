@@ -146,7 +146,7 @@ let base = {
       // $img.src = src;
       $img.setAttribute('src', src);
       $div.appendChild($img);
-      $div.addEventListener('click', function () {
+      $div.addEventListener('click', function() {
         this.style.display = 'none';
       });
       document.body.appendChild($div);
@@ -195,7 +195,7 @@ let base = {
         xmlResquest.setRequestHeader(key, data.header[key]);
       }
     }
-    xmlResquest.onload = function () {
+    xmlResquest.onload = function() {
       if (this.status == 200) {
         var blob = this.response;
         callback(window.URL.createObjectURL(blob));
@@ -276,6 +276,47 @@ let base = {
       nodes.unshift(_node);
     }
     return nodes;
+  },
+  //获取所有节点的子节点
+  // data数据格式[
+  //     { name: 'tree1', id: 1, parentId: 0 },
+  //     { name: 'tree2', id: 2, parentId: 0 }]
+  getTreeAllChildren(id, data) {
+    //递归获取某个节点的所有子节点信息
+    var nodes = [];
+    if (!(data instanceof Array)) {
+      return nodes;
+    }
+
+    var _child = data.find((x) => {
+      return x.id === id;
+    });
+    if (!_child) {
+      return [];
+    }
+    nodes.push(_child);
+    var _parentIds = [_child.id];
+    for (let index = 0; index < _parentIds.length; index++) {
+      data.forEach((_node) => {
+        if (
+          _node.parentId === _parentIds[index] &&
+          _node.parentId !== _node.id
+        ) {
+          _parentIds.push(_node.id);
+          nodes.unshift(_node);
+        }
+      });
+    }
+    return nodes;
+  },
+  //获取所有子节点的id
+  // data数据格式[
+  //     { name: 'tree1', id: 1, parentId: 0 },
+  //     { name: 'tree2', id: 2, parentId: 0 }]
+  getTreeAllChildrenId(id, data) {
+    return this.getTreeAllChildren(id, data).map((c) => {
+      return c.id;
+    });
   }
 };
 export default base;

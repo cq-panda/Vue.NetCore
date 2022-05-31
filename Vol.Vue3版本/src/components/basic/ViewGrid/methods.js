@@ -30,8 +30,10 @@ let methods = {
       return x.value == 'Search';
     });
     //添加高级查询
-    let hasOneFormItem = this.searchFormOptions.length==1&&this.searchFormOptions[0].length==1;
-    if (searchIndex != -1&&!hasOneFormItem) {
+    let hasOneFormItem =
+      this.searchFormOptions.length == 1 &&
+      this.searchFormOptions[0].length == 1;
+    if (searchIndex != -1 && !hasOneFormItem) {
       this.buttons.splice(searchIndex + 1, 0, {
         icon: this.fiexdSearchForm ? 'el-icon-refresh-left' : 'el-icon-search',
         name: this.fiexdSearchForm ? '重置' : '高级查询',
@@ -46,13 +48,15 @@ let methods = {
       });
     }
     if (hasOneFormItem) {
-      this.fiexdSearchForm=false;
+      this.fiexdSearchForm = false;
     }
     this.maxBtnLength += searchIndex == -1 ? 0 : 1;
-    if (this.buttons.length <= this.maxBtnLength) return this.buttons;
-    let btns = this.buttons.slice(0, this.maxBtnLength);
-    btns[this.maxBtnLength - 1].last = true;
-    return btns;
+    // if (this.buttons.length <= this.maxBtnLength) {
+    //   return this.buttons;
+    // }
+    // let btns = this.buttons.slice(0, this.maxBtnLength);
+    // btns[this.maxBtnLength - 1].last = true;
+    // return btns;
   },
   extendBtn(btns, source) {
     //btns权限按钮，source为扩展按钮
@@ -1497,6 +1501,7 @@ let methods = {
     this.importAfter(data);
   }
 };
+import customColumns from './ViewGridCustomColumn.js'
 //合并扩展方法
-methods = Object.assign(methods, detailMethods, serviceFilter);
+methods = Object.assign(methods, detailMethods, serviceFilter,customColumns);
 export default methods;
