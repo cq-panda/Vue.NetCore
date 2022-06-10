@@ -566,7 +566,7 @@ var vueParam = {
     this.mounted();
     // this.$refs.searchForm.forEach()
   },
-  destroyed() {
+  unmounted() {
     this.destroyed();
     this.dynamicComponent = null;
   },
