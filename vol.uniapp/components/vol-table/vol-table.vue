@@ -79,12 +79,11 @@
 									{{rowFormatterValue(row,column)}}
 								</view>
 								<view v-else-if="column.type=='img'">
-									  <view  style="float: right;margin-left:10px;" width="50px" height="50px" v-for="(src,index) in getImgSrc(row[column.field])">
-										  <u--image
-										  width="50px" height="50px" 
-										  	radius="4px" :src="src"
-										  	:key="index"></u--image>
-									  </view>
+									<view style="float: right;margin-left:10px;" width="50px" height="50px"
+										v-for="(src,index) in getImgSrc(row[column.field])">
+										<u--image width="50px" height="50px" radius="4px" :src="src" :key="index">
+										</u--image>
+									</view>
 								</view>
 								<view v-else-if="column.type=='date'">
 									{{(row[column.field]||'').substr(0,10)}}
@@ -95,8 +94,9 @@
 					</view>
 					<view style="margin:20rpx 0 40rpx 20rpx" @click.stop>
 						<view :key="btnIndex" class="extent-button" v-for="(btn,btnIndex) in rowButtons(rowindex,row)">
-							<u-button :icon="btn.icon" :hairline="true" :shape="btn.shape" :disabled="btn.disabled" :plain="btn.plain" :type="btn.type"
-								style="height:60rpx;" @click="rowBtnClick(btn,rowindex,row)" :text="btn.text">
+							<u-button :icon="btn.icon" :hairline="true" :shape="btn.shape" :disabled="btn.disabled"
+								:plain="btn.plain" :type="btn.type" style="height:60rpx;"
+								@click="rowBtnClick(btn,rowindex,row)" :text="btn.text">
 							</u-button>
 						</view>
 					</view>
@@ -109,9 +109,8 @@
 </template>
 
 <script>
-	let _this;
 	export default {
-		// name: "vol-table",
+		name: "vol-table",
 		props: {
 			loadKey: {
 				type: Boolean,
@@ -218,11 +217,11 @@
 					this.rowClick(index, this.rowsData[index], columns);
 					return;
 				}
-				_this.$emit('rowClick', index, this.rowsData[index], columns);
+				this.$emit('rowClick', index, this.rowsData[index], columns);
 			},
 			rowFormatter(row, column, index) {
 				let _val;
-				_this.$emit('formatter', row, column, index, (val) => {
+				this.$emit('formatter', row, column, index, (val) => {
 					_val = val;
 				})
 				return _val;
@@ -327,11 +326,11 @@
 			},
 			rowButtons(index, row) {
 				let _buttons = [];
-				this.$emit('rowButtons',index, row, (buttons) => {
+				this.$emit('rowButtons', index, row, (buttons) => {
 					_buttons = buttons;
 				})
 				console.log(_buttons)
-				return (_buttons || [])//.reverse();
+				return (_buttons || []) //.reverse();
 			},
 			rowBtnClick(btn, rowindex, row) {
 				this.$emit('rowButtonClick', btn, rowindex, row);
@@ -339,7 +338,6 @@
 		},
 		created() {
 			this.getData();
-			_this = this;
 			this.inColumns = this.columns;
 			if (this.loadKey) {
 				this.loadSource();
