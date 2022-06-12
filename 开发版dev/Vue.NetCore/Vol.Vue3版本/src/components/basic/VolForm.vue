@@ -189,7 +189,7 @@
             <div
               v-show="!item.hidden"
               style="width: 100%"
-              v-else-if="['date', 'datetime'].indexOf(item.type) != -1"
+              v-else-if="['date', 'datetime','month'].indexOf(item.type) != -1"
             >
               <el-date-picker
                 clearable
