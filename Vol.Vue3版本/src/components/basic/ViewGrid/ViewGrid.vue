@@ -485,7 +485,7 @@ var vueParam = {
         columns: [], //从表列信息
         edit: true, //明细是否可以编辑
         single: false, //明细表是否单选
-        load: true,
+        load: false,//
         delKeys: [], //当编辑时删除当前明细的行主键值
         url: '', //从表加载数据的url
         pagination: { total: 0, size: 100, sortName: '' }, //从表分页配置数据
