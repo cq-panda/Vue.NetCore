@@ -10,13 +10,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\Debug\netcoreapp3.1\</OutputPath>
     <DocumentationFile>bin\Debug\netcoreapp3.1\VOL.WebApi.xml</DocumentationFile>
-    <NoWarn>1701;1702;CS1591;CS8618;CS8600;CS8602;CS1572;CS1573;CS1587</NoWarn>
+    <NoWarn>1701;1702;CS1591;CS8618;CS8600;CS8602;CS1572;CS1573;CS1587;CS1591;CS1570;CS8765;</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netcoreapp3.1\VOL.WebApi.xml</DocumentationFile>
     <OutputPath>bin\Release\netcoreapp3.1\</OutputPath>
-    <NoWarn>1701;1702;CS1572;CS1573;CS1587;CS8618;CS8600;CS8602;</NoWarn>
+    <NoWarn>1701;1702;CS1572;CS1573;CS1587;CS8618;CS8600;CS8602;CS1591;CS1570;CS8765;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
