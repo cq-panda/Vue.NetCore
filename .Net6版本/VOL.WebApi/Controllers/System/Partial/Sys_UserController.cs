@@ -169,7 +169,7 @@ namespace VOL.System.Controllers
             string code = VierificationCode.RandomText();
             var data = new
             {
-                img = VierificationCode.CreateBase64Imgage(code),
+                img = VierificationCodeHelpers.CreateBase64Image(code),
                 uuid = Guid.NewGuid()
             };
             HttpContext.GetService<IMemoryCache>().Set(data.uuid.ToString(), code, new TimeSpan(0, 5, 0));

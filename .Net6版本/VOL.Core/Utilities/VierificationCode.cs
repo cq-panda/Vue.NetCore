@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Text;
 
 namespace VOL.Core.Utilities
@@ -31,6 +32,9 @@ namespace VOL.Core.Utilities
             }
             return code;
         }
+
+        [SupportedOSPlatform("Windows")]
+        [Obsolete("仅在 Windows 上支持 System.Drawing.Common,具体请参考：https://docs.microsoft.com/zh-cn/dotnet/core/compatibility/core-libraries/6.0/system-drawing-common-windows-only")]
         public static string CreateBase64Imgage(string code)
         {
             Random random = new Random();
