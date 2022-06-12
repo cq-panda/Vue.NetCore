@@ -1,40 +1,40 @@
-import detailMethods from "./detailMethods.js";
+import detailMethods from './detailMethods.js';
 //业务处理方法,全部可以由开发覆盖
-import serviceFilter from "./serviceFilter.js";
+import serviceFilter from './serviceFilter.js';
 let methods = {
   //当添加扩展组件gridHeader/gridBody/gridFooter及明细modelHeader/modelBody/modelFooter时，
   //如果要获取父级Vue对象,请使用此方法进行回调
   parentCall(fun) {
-    if (typeof fun != "function") {
-      return console.log("扩展组件需要传入一个回调方法才能获取父级Vue对象");
+    if (typeof fun != 'function') {
+      return console.log('扩展组件需要传入一个回调方法才能获取父级Vue对象');
     }
     fun(this);
   },
   getCurrentAction() {
     if (this.currentReadonly) {
-      return "";
+      return '';
     }
-    return "--" + (this.currentAction == this.const.ADD ? "新增" : "编辑");
+    return '--' + (this.currentAction == this.const.ADD ? '新增' : '编辑');
   },
   quickSearchKeyPress($event) {
     //查询字段为input时，按回车查询
     if ($event.keyCode == 13) {
-      if (this._searchFormFields[this.singleSearch.field] != "") {
+      if (this._searchFormFields[this.singleSearch.field] != '') {
         this.search();
       }
     }
   },
   getButtons() {
     //生成ViewGrid界面的操作按钮及更多选项
-    let searchIndex = this.buttons.findIndex(x => {
-      return x.value == "Search";
+    let searchIndex = this.buttons.findIndex((x) => {
+      return x.value == 'Search';
     });
     //添加高级查询
     if (searchIndex != -1) {
       this.buttons.splice(searchIndex + 1, 0, {
-        icon: "ios-arrow-down",
-        class: "r-dropdown",
-        name: "",
+        icon: 'ios-arrow-down',
+        class: 'r-dropdown',
+        name: '',
         type: this.buttons[searchIndex].type,
         onClick: () => {
           this.searchBoxShow = !this.searchBoxShow;
@@ -53,7 +53,7 @@ let methods = {
       return;
     }
     //source通过在表的扩展js文件中buttons对应按钮的属性index决定按钮所放位置
-    source.forEach(x => {
+    source.forEach((x) => {
       //通过按钮的Index属性，放到指定的位置
       btns.splice(x.index == undefined ? btns.length : x.index, 0, x);
     });
@@ -75,12 +75,23 @@ let methods = {
     );
     if (permissionButtons) {
       //2020.03.31添加深拷贝按钮组
-      permissionButtons.forEach(p => {
+      permissionButtons.forEach((p) => {
         let _obj = {};
         for (const key in p) {
           _obj[key] = p[key];
         }
         this.buttons.push(_obj);
+      });
+      this.buttons.splice(1, 0, {
+        name: '重 置',
+        icon: 'md-refresh',
+        class: '',
+        value:"reset",
+        hidden: true,
+        type: 'success',
+        onClick: function () {
+          this.resetSearch();
+        }
       });
       // this.buttons.push(...permissionButtons);
     }
@@ -98,7 +109,7 @@ let methods = {
     //弹出框按钮
     let boxButtons = [];
 
-    let saveBtn = this.buttons.some(x => {
+    let saveBtn = this.buttons.some((x) => {
       if (
         x.value &&
         (x.value.toLowerCase() == this.const.ADD.toLowerCase() ||
@@ -109,8 +120,8 @@ let methods = {
     this.currentReadonly = !saveBtn;
     //从表表格操作按钮
     let detailGridButtons = {
-      name: "刷新",
-      icon: "md-refresh",
+      name: '刷新',
+      icon: 'md-refresh',
       onClick() {
         //如果明细表当前的状态为新建时，禁止刷新
         if (this.currentAction == this.const.ADD) {
@@ -120,7 +131,7 @@ let methods = {
       }
     };
 
-    let importExcel = this.buttons.some(x => {
+    let importExcel = this.buttons.some((x) => {
       if (x.value == this.const.IMPORT) return true;
     });
     //如果有导入权限,则需要初始化导入组件
@@ -137,15 +148,15 @@ let methods = {
     //如果当前角色没有编辑或新建功能，查看明细时字段设置全部只读
     //只有明细表，将明细表也设置为不可能编辑，并且不显示添加行、删除行
     if (!saveBtn) {
-      this.editFormOptions.forEach(row => {
-        row.forEach(x => {
+      this.editFormOptions.forEach((row) => {
+        row.forEach((x) => {
           x.disabled = true;
         });
       });
       //没有新增编辑权限的，弹出框都设置为只读
-      this.detail.columns.forEach(row => {
-        if (row.hasOwnProperty("edit")) {
-          row["edit"] = false;
+      this.detail.columns.forEach((row) => {
+        if (row.hasOwnProperty('edit')) {
+          row['edit'] = false;
         }
       });
       //弹出框扩展按钮
@@ -163,18 +174,18 @@ let methods = {
     boxButtons.push(
       ...[
         {
-          name: "保 存",
-          icon: "md-checkmark",
-          type: "error",
-          value: "save",
+          name: '保 存',
+          icon: 'md-checkmark',
+          type: 'error',
+          value: 'save',
           onClick() {
             this.save();
           }
         },
         {
-          name: "重 置",
-          icon: "md-refresh",
-          type: "success",
+          name: '重 置',
+          icon: 'md-refresh',
+          type: 'success',
           onClick() {
             this.resetEdit();
           }
@@ -185,27 +196,27 @@ let methods = {
     this.detailOptions.buttons.push(
       ...[
         {
-          name: "添加行",
-          icon: "md-add",
+          name: '添加行',
+          icon: 'md-add',
           onClick() {
             this.addRow();
           }
         },
         {
-          name: "删除行",
-          icon: "md-close",
+          name: '删除行',
+          icon: 'md-close',
           onClick() {
             this.delRow();
           }
-        },//2022.01.08增加明细表导入导出功能
+        }, //2022.01.08增加明细表导入导出功能
         //注意需要重写后台明细表接口的导入与下载模板、导出的权限,Sys_DictionaryListController.cs/SellOrderListController.cs
         {
           type: 'danger',
           plain: true,
-          name: "导入",
+          name: '导入',
           value: 'import',
           hidden: false,
-          icon: "md-arrow-up",
+          icon: 'md-arrow-up',
           onClick() {
             this.upload.url = `${this.http.ipAddress}api/${this.detail.table}/${this.const.IMPORT}?table=1`;
             this.upload.template.url = `${this.http.ipAddress}api/${this.detail.table}/${this.const.DOWNLOADTEMPLATE}`;
@@ -217,9 +228,9 @@ let methods = {
         {
           type: 'danger',
           plain: true,
-          name: "导出",
+          name: '导出',
           value: 'export',
-          icon: "md-arrow-down",
+          icon: 'md-arrow-down',
           hidden: false,
           onClick() {
             this.export(true);
@@ -242,7 +253,7 @@ let methods = {
     click.apply(this);
   },
   changeDropdown(btnName, v1) {
-    let button = this.buttons.filter(x => {
+    let button = this.buttons.filter((x) => {
       return x.name == btnName;
     });
     if (button && button.length > 0) {
@@ -250,13 +261,13 @@ let methods = {
     }
   },
   emptyValue(value) {
-    if (typeof value == 'string' && value.trim() === "") {
+    if (typeof value == 'string' && value.trim() === '') {
       return true;
     }
     if (value instanceof Array && !value.length) {
       return true;
     }
-    return value === null || value === undefined || value === "";
+    return value === null || value === undefined || value === '';
   },
   getSearchParameters() {
     //获取查询参数
@@ -270,25 +281,25 @@ let methods = {
       let value = this._searchFormFields[key];
       if (this.emptyValue(value)) continue;
 
-      if (typeof value == "number") {
-        value = value + "";
+      if (typeof value == 'number') {
+        value = value + '';
       }
       let displayType = this.getSearchItem(key);
 
       //联级只保留选中节点的最后一个值
-      if (displayType == "cascader") {
+      if (displayType == 'cascader') {
         //查询下面所有的子节点，如：选中的是父节点，应该查询下面所有的节点数据--待完
-        value = value.length ? (value[value.length - 1] + "") : "";
+        value = value.length ? value[value.length - 1] + '' : '';
       }
       //2021.05.02增加区间查询
       if (
-        typeof value == "string" ||
-        ["date", "datetime", "range"].indexOf(displayType) == -1
+        typeof value == 'string' ||
+        ['date', 'datetime', 'range'].indexOf(displayType) == -1
       ) {
-
         query.wheres.push({
           name: key,
-          value: typeof value == "string" ? (value + '').trim() : value.join(","),
+          value:
+            typeof value == 'string' ? (value + '').trim() : value.join(','),
           displayType: displayType
         });
         continue;
@@ -299,8 +310,8 @@ let methods = {
             name: key,
             value: (value[index] + '').trim(),
             displayType: (() => {
-              if (["date", "datetime", "range"].indexOf(displayType) != -1) {
-                return index ? "lessorequal" : "thanorequal";
+              if (['date', 'datetime', 'range'].indexOf(displayType) != -1) {
+                return index ? 'lessorequal' : 'thanorequal';
               }
               return displayType;
             })()
@@ -352,7 +363,7 @@ let methods = {
     for (let index = 0; index < this.searchFormOptions.length; index++) {
       if (data) return data.type;
       const item = this.searchFormOptions[index];
-      data = item.find(x => {
+      data = item.find((x) => {
         return x.field == field;
       });
     }
@@ -368,7 +379,7 @@ let methods = {
     //重置编辑的数据
     let isEdit = this.currentAction != this.const.ADD;
     //重置之前
-    if (!this[isEdit ? "resetUpdateFormBefore" : "resetAddFormBefore"]()) {
+    if (!this[isEdit ? 'resetUpdateFormBefore' : 'resetAddFormBefore']()) {
       return;
     }
     let objKey = {};
@@ -379,31 +390,31 @@ let methods = {
     this.resetEditForm(objKey);
     //重置之后
 
-    if (!this[isEdit ? "resetUpdateFormAfter" : "resetAddFormAfter"]()) {
+    if (!this[isEdit ? 'resetUpdateFormAfter' : 'resetAddFormAfter']()) {
       return;
     }
   },
   resetSearchForm(sourceObj) {
     //重置查询表
-    this.resetForm("searchForm", sourceObj);
+    this.resetForm('searchForm', sourceObj);
   },
   resetEditForm(sourceObj) {
     if (this.hasDetail && this.$refs.detail) {
       // this.$refs.detail.rowData.splice(0);
       this.$refs.detail.reset();
     }
-    this.resetForm("form", sourceObj);
+    this.resetForm('form', sourceObj);
   },
   getKeyValueType(formData, isEditForm) {
     try {
-      let keyLeft = (isEditForm ? "e" : "s") + "_b_";
-      formData.forEach(item => {
-        item.forEach(x => {
+      let keyLeft = (isEditForm ? 'e' : 's') + '_b_';
+      formData.forEach((item) => {
+        item.forEach((x) => {
           if (this.keyValueType.hasOwnProperty(keyLeft + x.field)) {
             return true;
           }
           let data;
-          if (x.type == "switch") {
+          if (x.type == 'switch') {
             this.keyValueType[x.field] = 1;
           } else if (x.bind && x.bind.data) {
             data = x.bind.data;
@@ -437,12 +448,12 @@ let methods = {
 
     if (!sourceObj) return;
     let form, keyLeft;
-    if (formName == "searchForm") {
+    if (formName == 'searchForm') {
       form = this._searchFormFields;
-      keyLeft = "s" + "_b_";
+      keyLeft = 's' + '_b_';
     } else {
       form = this._editFormFields;
-      keyLeft = "e" + "_b_";
+      keyLeft = 'e' + '_b_';
     }
     //获取数据源的data类型，否则如果数据源data的key是数字，重置的值是字符串就无法绑定值
     if (!this.keyValueType._dinit) {
@@ -457,66 +468,70 @@ let methods = {
         let kv_type = this.keyValueType[keyLeft + key];
 
         if (
-          kv_type == "selectList" ||
-          kv_type == "checkbox" ||
-          kv_type == "cascader"
+          kv_type == 'selectList' ||
+          kv_type == 'checkbox' ||
+          kv_type == 'cascader'
         ) {
           // 2020.05.31增加iview组件Cascader
           // 2020.11.01增加iview组件Cascader表单重置时查询所有的父节点
-          if (kv_type == "cascader") {
-            var treeDic = this.dicKeys.find(dic => {
+          if (kv_type == 'cascader') {
+            var treeDic = this.dicKeys.find((dic) => {
               return dic.fileds && dic.fileds.indexOf(key) != -1;
-            })
+            });
             if (treeDic && treeDic.orginData && treeDic.orginData.length) {
               if (typeof treeDic.orginData[0].id == 'number') {
                 newVal = ~~newVal;
               } else {
                 newVal = newVal + '';
               }
-              _cascaderParentTree = this.base.getTreeAllParent(newVal, treeDic.orginData);
+              _cascaderParentTree = this.base.getTreeAllParent(
+                newVal,
+                treeDic.orginData
+              );
               if (_cascaderParentTree) {
-                newVal = _cascaderParentTree.map(x => { return x.id })
+                newVal = _cascaderParentTree.map((x) => {
+                  return x.id;
+                });
               }
             } else {
               newVal = [newVal];
             }
-          }
-          else if (
-            newVal != "" &&
+          } else if (
+            newVal != '' &&
             newVal != undefined &&
-            typeof newVal == "string"
+            typeof newVal == 'string'
           ) {
-            newVal = newVal.split(",");
-          } else if (kv_type == "checkbox") {
+            newVal = newVal.split(',');
+          } else if (kv_type == 'checkbox') {
             newVal = [];
           }
         } else if (
           this.keyValueType.hasOwnProperty(key) &&
-          typeof this.keyValueType[key] == "number" &&
+          typeof this.keyValueType[key] == 'number' &&
           newVal * 1 == newVal
         ) {
           newVal = newVal * 1;
         } else {
           if (newVal == null || newVal == undefined) {
-            newVal = "";
+            newVal = '';
           } else {
-            newVal += "";
+            newVal += '';
           }
         }
         if (newVal instanceof Array) {
           if (form[key]) {
             form[key] = [];
           }
-          form[key].splice(0)
+          form[key].splice(0);
           //  this.$set(form, key, newVal);
           form[key].push(...newVal);
-          if (kv_type == "cascader") {
+          if (kv_type == 'cascader') {
             this.$nextTick(() => {
               //封装后iview原生监听不到model变化，后面再调试看看2020.11.01
               _cascaderParentTree = _cascaderParentTree || [];
-              _cascaderParentTree.forEach(c => {
+              _cascaderParentTree.forEach((c) => {
                 c.label = c.value;
-              })
+              });
               //2021.08.22优化表单级联只读判断
               if (this.$refs.form.$refs[key]) {
                 this.$refs.form.$refs[key][0].selected = _cascaderParentTree;
@@ -527,7 +542,7 @@ let methods = {
           form[key] = newVal;
         }
       } else {
-        form[key] = form[key] instanceof Array ? [] : "";
+        form[key] = form[key] instanceof Array ? [] : '';
       }
     }
   },
@@ -548,7 +563,7 @@ let methods = {
   save() {
     //新增或编辑时保存
     // if (!this.$refs.form.validate()) return;
-    this.$refs.form.validate(result => {
+    this.$refs.form.validate((result) => {
       if (result) {
         this.saveExecute();
       }
@@ -564,32 +579,39 @@ let methods = {
         this.uploadfiled.indexOf(key) != -1 &&
         this._editFormFields[key] instanceof Array
       ) {
-        let allPath = this._editFormFields[key].map(x => {
+        let allPath = this._editFormFields[key].map((x) => {
           return x.path;
         });
-        _editFormFields[key] = allPath.join(",");
+        _editFormFields[key] = allPath.join(',');
       } else {
         //2021.05.30修复下拉框清除数据后后台不能保存的问题
-        if (this._editFormFields[key] === undefined && this.dicKeys.some(x => { return x.fileds && x.fileds.indexOf(key) != -1 })) {
+        if (
+          this._editFormFields[key] === undefined &&
+          this.dicKeys.some((x) => {
+            return x.fileds && x.fileds.indexOf(key) != -1;
+          })
+        ) {
           _editFormFields[key] = null;
         } else {
           _editFormFields[key] = this._editFormFields[key];
         }
-
       }
     }
     //将数组转换成string
     //2020.11.01增加级联处理
     for (const key in _editFormFields) {
       if (_editFormFields[key] instanceof Array) {
-
-        var iscascader = this.dicKeys.some(x => { return x.type == "cascader" && x.fileds && x.fileds.indexOf(key) != -1 });
+        var iscascader = this.dicKeys.some((x) => {
+          return (
+            x.type == 'cascader' && x.fileds && x.fileds.indexOf(key) != -1
+          );
+        });
         if (iscascader && _editFormFields[key].length) {
-          _editFormFields[key] = _editFormFields[key][_editFormFields[key].length - 1];
+          _editFormFields[key] =
+            _editFormFields[key][_editFormFields[key].length - 1];
         } else {
-          _editFormFields[key] = _editFormFields[key].join(",");
+          _editFormFields[key] = _editFormFields[key].join(',');
         }
-
       }
     }
 
@@ -611,17 +633,22 @@ let methods = {
     if (_currentIsAdd) {
       //2020.12.06增加新建前异步处理方法
       //2021.08.16修复异步语法写错的问题
-      if (!this.addBefore(formData) || !await this.addBeforeAsync(formData)) return;
+      if (!this.addBefore(formData) || !(await this.addBeforeAsync(formData)))
+        return;
     } else {
       //2020.12.06增加修改前异步处理方法
-      if (!this.updateBefore(formData) || !await this.updateBeforeAsync(formData)) return;
+      if (
+        !this.updateBefore(formData) ||
+        !(await this.updateBeforeAsync(formData))
+      )
+        return;
     }
     let url = this.getUrl(this.currentAction);
-    this.http.post(url, formData, true).then(x => {
+    this.http.post(url, formData, true).then((x) => {
       //保存后
       if (_currentIsAdd) {
         if (!this.addAfter(x)) return;
-        //连续添加 
+        //连续添加
         if (this.continueAdd && x.status) {
           this.$success(x.message);
           //新建
@@ -645,7 +672,7 @@ let methods = {
         return;
       }
       let resultRow;
-      if (typeof x.data == "string" && x.data != "") {
+      if (typeof x.data == 'string' && x.data != '') {
         resultRow = JSON.parse(x.data);
       } else {
         resultRow = x.data;
@@ -653,7 +680,7 @@ let methods = {
 
       if (this.currentAction == this.const.ADD) {
         //  this.currentRow=x.data;
-        this._editFormFields[this.table.key] = "";
+        this._editFormFields[this.table.key] = '';
         this.currentAction = this.const.EDIT;
         this.currentRow = resultRow.data;
       }
@@ -672,26 +699,26 @@ let methods = {
   del() {
     //删除数据
     let rows = this.$refs.table.getSelected();
-    if (rows.length == 0) return this.$error("请选择要删除的行!");
-    let delKeys = rows.map(x => {
+    if (rows.length == 0) return this.$error('请选择要删除的行!');
+    let delKeys = rows.map((x) => {
       return x[this.table.key];
     });
     if (!delKeys || delKeys.length == 0)
-      return this.$error("没有获取要删除的行数据!");
+      return this.$error('没有获取要删除的行数据!');
     //删除前
     if (!this.delBefore(delKeys, rows)) {
       return;
     }
     let tigger = false;
     this.$Modal.confirm({
-      title: "删除警告!",
+      title: '删除警告!',
       content:
         '<p style="color: red;font-weight: bold;letter-spacing: 3px;">确认要删除选择的数据吗?</p>',
       onOk: () => {
         if (tigger) return;
         tigger = true;
         let url = this.getUrl(this.const.DEL);
-        this.http.post(url, delKeys, "正在删除数据....").then(x => {
+        this.http.post(url, delKeys, '正在删除数据....').then((x) => {
           if (!x.status) return this.$error(x.message);
           this.$success(x.message);
           //删除后
@@ -708,13 +735,13 @@ let methods = {
   },
   async initBox() {
     //2022.01.08增加新建时隐藏明细表导出功能
-    this.detailOptions.buttons.forEach(x => {
+    this.detailOptions.buttons.forEach((x) => {
       if (x.value == 'export') {
-        x.hidden = this.currentAction == 'Add'
+        x.hidden = this.currentAction == 'Add';
       }
-    })
+    });
     //初始化新建、编辑的弹出框
-    if (!await this.modelOpenBeforeAsync(this.currentRow)) return false;
+    if (!(await this.modelOpenBeforeAsync(this.currentRow))) return false;
     this.modelOpenBefore(this.currentRow);
     if (!this.boxInit) {
       this.boxInit = true;
@@ -726,9 +753,9 @@ let methods = {
   setEditForm(row) {
     // if (this.remoteColumns.length == 0 || !rows || rows.length == 0) return;
     let remoteColumns = this.$refs.table.remoteColumns;
-    remoteColumns.forEach(column => {
-      this.editFormOptions.forEach(option => {
-        option.forEach(x => {
+    remoteColumns.forEach((column) => {
+      this.editFormOptions.forEach((option) => {
+        option.forEach((x) => {
           if (x.field == column.field) {
             x.data.data = Object.assign([], x.data, column.bind.data);
           }
@@ -747,7 +774,7 @@ let methods = {
     //点击table单元格快捷链接显示编辑数据
     this.currentAction = this.const.EDIT;
     this.currentRow = row;
-    if (!await this.initBox()) return;
+    if (!(await this.initBox())) return;
     this.resetDetailTable(row);
     this.setEditForm(row);
     this.setContinueAdd(false);
@@ -758,7 +785,9 @@ let methods = {
   },
   setContinueAdd(isAdd) {
     if (!this.continueAdd) return;
-    var _button = this.boxButtons.find(x => { return x.value == "save" });
+    var _button = this.boxButtons.find((x) => {
+      return x.value == 'save';
+    });
     if (_button) {
       _button.name = isAdd ? this.continueAddName : '保 存';
     }
@@ -771,9 +800,9 @@ let methods = {
     }
     let obj = {};
     //如果有switch标签，默认都设置为是
-    this.editFormOptions.forEach(x => {
-      x.forEach(item => {
-        if (item.type == "switch") {
+    this.editFormOptions.forEach((x) => {
+      x.forEach((item) => {
+        if (item.type == 'switch') {
           obj[item.field] = 1;
         }
       });
@@ -784,7 +813,7 @@ let methods = {
     //新建
     this.currentAction = this.const.ADD;
     this.currentRow = {};
-    if (!await this.initBox()) return;
+    if (!(await this.initBox())) return;
 
     this.resetAdd();
     this.setContinueAdd(true);
@@ -799,15 +828,15 @@ let methods = {
     this.currentAction = this.const.EDIT;
     let rows = this.$refs.table.getSelected();
     if (rows.length == 0) {
-      return this.$error("请选择要编辑的行!");
+      return this.$error('请选择要编辑的行!');
     }
-    if (rows.length!=1) {
-      return this.$error("只能选择一行数据进行编辑!");
+    if (rows.length != 1) {
+      return this.$error('只能选择一行数据进行编辑!');
     }
     //记录当前编辑的行
     this.currentRow = rows[0];
     //初始化弹出框
-    if (!await this.initBox()) return;
+    if (!(await this.initBox())) return;
     this.setContinueAdd(false);
     //重置表单
     this.resetDetailTable();
@@ -827,12 +856,12 @@ let methods = {
     this.editFormOptions.forEach((x, xIndex) => {
       x.forEach((item, yIndex) => {
         if (item.remote) {
-          let column = this.columns.find(x => {
+          let column = this.columns.find((x) => {
             return x.bind && x.bind.key == item.dataKey;
           });
           if (!column) return;
           let key = this.currentRow[item.field];
-          let obj = column.bind.data.find(x => {
+          let obj = column.bind.data.find((x) => {
             return x.key == key;
           });
           // obj ? obj.value : key如果没有查到数据源，直接使用原数据
@@ -865,17 +894,17 @@ let methods = {
   download(url, fileName) {
     //下载导出的文件
     let xmlResquest = new XMLHttpRequest();
-    xmlResquest.open("GET", url, true);
-    xmlResquest.setRequestHeader("Content-type", "application/json");
+    xmlResquest.open('GET', url, true);
+    xmlResquest.setRequestHeader('Content-type', 'application/json');
     xmlResquest.setRequestHeader(
-      "Authorization",
+      'Authorization',
       this.$store.getters.getToken()
     );
     let elink = this.$refs.export;
-    xmlResquest.responseType = "blob";
+    xmlResquest.responseType = 'blob';
     xmlResquest.onload = function (oEvent) {
       if (xmlResquest.status != 200) {
-        this.$error("下载文件出错了..");
+        this.$error('下载文件出错了..');
         return;
       }
       let content = xmlResquest.response;
@@ -890,23 +919,30 @@ let methods = {
     };
     xmlResquest.send();
   },
-  getFileName(isDetail) { //2021.01.08增加导出excel时自定义文件名
+  getFileName(isDetail) {
+    //2021.01.08增加导出excel时自定义文件名
     if (isDetail) {
       return this.detail.cnName + '.xlsx';
     }
     return this.table.cnName + '.xlsx';
   },
-  export(isDetail) {//2021.01.08增加导出明细表与主表区分
+  export(isDetail) {
+    //2021.01.08增加导出明细表与主表区分
     //导出
     let url, query, param;
     if (isDetail) {
       //明细表导出时如果是新建状态，禁止导出
-      if (this.currentAction == "Add") {
+      if (this.currentAction == 'Add') {
         return;
       }
       url = `api/${this.detail.table}/${this.const.EXPORT}`;
-      param = { wheres: [{ name: this.table.key, value: this.editFormFields[this.table.key] }] };
-    } else {//主表导出
+      param = {
+        wheres: [
+          { name: this.table.key, value: this.editFormFields[this.table.key] }
+        ]
+      };
+    } else {
+      //主表导出
       url = this.getUrl(this.const.EXPORT);
       query = this.getSearchParameters();
       param = { order: this.pagination.order, wheres: query.wheres || [] };
@@ -916,29 +952,31 @@ let methods = {
       return;
     }
 
-    if (param.wheres && typeof param.wheres == "object") {
+    if (param.wheres && typeof param.wheres == 'object') {
       param.wheres = JSON.stringify(param.wheres);
     }
     let $http = this.http;
-    let fileName = this.getFileName(isDetail)
+    let fileName = this.getFileName(isDetail);
     //2021.01.08优化导出功能
-    $http.post(url, param, "正在导出数据....", { responseType: "blob" }).then((content) => {
-      const blob = new Blob([content]);
-      if ("download" in document.createElement("a")) {
-        // 非IE下载
-        const elink = document.createElement("a");
-        elink.download = fileName;
-        elink.style.display = "none";
-        elink.href = URL.createObjectURL(blob);
-        document.body.appendChild(elink);
-        elink.click();
-        URL.revokeObjectURL(elink.href);
-        document.body.removeChild(elink);
-      } else {
-        // IE10+下载
-        navigator.msSaveBlob(blob, fileName);
-      }
-    });
+    $http
+      .post(url, param, '正在导出数据....', { responseType: 'blob' })
+      .then((content) => {
+        const blob = new Blob([content]);
+        if ('download' in document.createElement('a')) {
+          // 非IE下载
+          const elink = document.createElement('a');
+          elink.download = fileName;
+          elink.style.display = 'none';
+          elink.href = URL.createObjectURL(blob);
+          document.body.appendChild(elink);
+          elink.click();
+          URL.revokeObjectURL(elink.href);
+          document.body.removeChild(elink);
+        } else {
+          // IE10+下载
+          navigator.msSaveBlob(blob, fileName);
+        }
+      });
     //.then(result => {
     // if (!result.status) {
     //   return this.$error(result.message);
@@ -966,23 +1004,23 @@ let methods = {
   audit() {
     //审核弹出框
     let rows = this.$refs.table.getSelected();
-    if (rows.length == 0) return this.$error("请选择要审核的行!");
-    let checkStatus = rows.every(x => {
+    if (rows.length == 0) return this.$error('请选择要审核的行!');
+    let checkStatus = rows.every((x) => {
       return x.AuditStatus > 0;
     });
-    if (checkStatus) return this.$error("只能选择审核中的数据!");
+    if (checkStatus) return this.$error('只能选择审核中的数据!');
     this.auditParam.rows = rows.length;
     this.auditParam.model = true;
   },
   saveAudit() {
     //保存审核
     let rows = this.$refs.table.getSelected();
-    if (this.auditParam.status == -1) return this.$error("请选择审核结果!");
+    if (this.auditParam.status == -1) return this.$error('请选择审核结果!');
 
     if (rows.length != this.auditParam.rows)
-      return this.$error("所选数据已发生变化,请重新选择审数据!");
+      return this.$error('所选数据已发生变化,请重新选择审数据!');
 
-    let keys = rows.map(x => {
+    let keys = rows.map((x) => {
       return x[this.table.key];
     });
     if (!this.auditBefore(keys, rows)) {
@@ -990,18 +1028,18 @@ let methods = {
     }
     let url =
       this.getUrl(this.const.AUDIT) +
-      "?auditReason=" +
+      '?auditReason=' +
       this.auditParam.reason +
-      "&auditStatus=" +
+      '&auditStatus=' +
       this.auditParam.status;
-    this.http.post(url, keys, "审核中....").then(x => {
+    this.http.post(url, keys, '审核中....').then((x) => {
       if (!this.auditAfter(x, rows)) {
         return;
       }
       if (!x.status) return this.$error(x.message);
       this.auditParam.rows = 0;
       this.auditParam.status = -1;
-      this.auditParam.reason = "";
+      this.auditParam.reason = '';
       this.auditParam.model = false;
       this.$success(x.message);
       this.refresh();
@@ -1012,22 +1050,22 @@ let methods = {
     if (this.viewColumns == 0) {
       this.viewColumns.push(
         ...[
-          { title: "名称", key: "title" },
-          { title: "字段", key: "field" },
-          { title: "类型", key: "type" },
-          { title: "是否显示", key: "hidden" },
-          { title: "绑定数据源", key: "bind" }
+          { title: '名称', key: 'title' },
+          { title: '字段', key: 'field' },
+          { title: '类型', key: 'type' },
+          { title: '是否显示', key: 'hidden' },
+          { title: '绑定数据源', key: 'bind' }
         ]
       );
-      this.columns.forEach(x => {
+      this.columns.forEach((x) => {
         this.viewData.push({
           title: x.title,
           field: x.field,
           type: x.type,
-          hidden: x.hidden ? "否" : "是",
-          bind: x.bind ? x.bind.dicNo : "--",
+          hidden: x.hidden ? '否' : '是',
+          bind: x.bind ? x.bind.dicNo : '--',
           cellClassName: {
-            title: "table-info-cell-title"
+            title: 'table-info-cell-title'
           }
         });
       });
@@ -1044,20 +1082,20 @@ let methods = {
     //有上传的字段
     //2020.05.03新增
     //编辑数据源的类型
-    formOptions.forEach(item => {
-      item.forEach(d => {
+    formOptions.forEach((item) => {
+      item.forEach((d) => {
         if (
-          d.type == "img" ||
-          d.type == "excel" ||
-          d.type == "file" ||
-          d.columnType == "img"
+          d.type == 'img' ||
+          d.type == 'excel' ||
+          d.type == 'file' ||
+          d.columnType == 'img'
         ) {
-          d.url = this.http.ipAddress + "api" + this.table.url + "Upload";
+          d.url = this.http.ipAddress + 'api' + this.table.url + 'Upload';
           this.uploadfiled.push(d.field);
         }
         if (!d.dataKey) return true;
         //2022.02.20强制开启联级可以选择某个节点
-        if (d.type == "cascader" && !d.hasOwnProperty("changeOnSelect")) {
+        if (d.type == 'cascader' && !d.hasOwnProperty('changeOnSelect')) {
           //强制开启联级可以选择某个节点
           d.changeOnSelect = true;
         }
@@ -1068,7 +1106,7 @@ let methods = {
           return true;
         }
         //2020.05.03增加编辑表单对checkbox的支持
-        if (d.type == "checkbox" && !(formFileds[d.field] instanceof Array)) {
+        if (d.type == 'checkbox' && !(formFileds[d.field] instanceof Array)) {
           formFileds[d.field] = [];
         }
         if (keys.indexOf(d.dataKey) == -1) {
@@ -1078,27 +1116,32 @@ let methods = {
           //2020.05.03修复查询表单与编辑表单type类型变成强一致性的问题
           //this.dicKeys.push({ dicNo: d.dataKey, data: [], type: d.type });
           //  2020.11.01增加iview组件Cascader数据源存储
-          let _dic = { dicNo: d.dataKey, data: [], fileds: [d.field], orginData: []};
-          if (d.type == "cascader") {
-            _dic.type = "cascader";
+          let _dic = {
+            dicNo: d.dataKey,
+            data: [],
+            fileds: [d.field],
+            orginData: []
+          };
+          if (d.type == 'cascader') {
+            _dic.type = 'cascader';
           }
           if (isEdit) {
             _dic['e_type'] = d.type;
           }
           this.dicKeys.push(_dic);
-        } else if (d.type == "cascader") {
-          this.dicKeys.forEach(x => {
+        } else if (d.type == 'cascader') {
+          this.dicKeys.forEach((x) => {
             if (x.dicNo == d.dataKey) {
-              x.type = "cascader";
+              x.type = 'cascader';
               x.fileds.push(d.field);
             }
-          })
+          });
         }
 
         //2020.01.30移除内部表单formOptions数据源配置格式data.data，所有参数改为与组件api格式相同
         Object.assign(
           d,
-          this.dicKeys.filter(f => {
+          this.dicKeys.filter((f) => {
             return f.dicNo == d.dataKey;
           })[0]
         );
@@ -1108,7 +1151,7 @@ let methods = {
   //初始table与明细表的数据源指向dicKeys对象，再去后台加载数据源
   initColumns(scoure, dicKeys, keys) {
     if (!scoure || !(scoure instanceof Array)) return;
-    scoure.forEach(item => {
+    scoure.forEach((item) => {
       if (!item.bind || (item.bind.data && item.bind.data.length > 0))
         return true;
       let key = item.bind.key || item.bind.dicNo;
@@ -1119,7 +1162,7 @@ let methods = {
       if (this.hasKeyField.indexOf(item.field) == -1) {
         this.hasKeyField.push(item.field);
       }
-      var dic = dicKeys.filter(x => {
+      var dic = dicKeys.filter((x) => {
         return x.dicNo == key;
       });
       if (!dic || dic.length == 0) {
@@ -1128,43 +1171,48 @@ let methods = {
         keys.push(key);
       }
       //2020.11.01增加级联处理
-      if (dic[0].type == "cascader") {
-        item.bind = { data: dic[0].orginData, tyep: "select",key:key }
+      if (dic[0].type == 'cascader') {
+        item.bind = { data: dic[0].orginData, tyep: 'select', key: key };
       } else {
         item.bind = dic[0];
       }
       //2020.05.03优化table数据源checkbox与select类型从编辑列中选取
-      item.bind.type = item.bind.e_type || "string";
+      item.bind.type = item.bind.e_type || 'string';
     });
   },
   bindOptions(dic) {
     //绑定下拉框的数据源
     //绑定后台的字典数据
-    dic.forEach(d => {
-      this.dicKeys.forEach(x => {
+    dic.forEach((d) => {
+      this.dicKeys.forEach((x) => {
         if (x.dicNo != d.dicNo) return true;
         //2020.10.26增加级联数据源绑定处理
-        if (x.type == "cascader") {
+        if (x.type == 'cascader') {
           //2022.04.04增加级联字典数据源刷新后table没有变化的问题
-          this.columns.forEach(column=>{
-            if (column.bind&&column.bind.key==d.dicNo) {
-                column.bind.data=d.data;
+          this.columns.forEach((column) => {
+            if (column.bind && column.bind.key == d.dicNo) {
+              column.bind.data = d.data;
             }
-         })
+          });
           //生成tree结构
-          x.data.push(... this.base.convertTree(JSON.parse(JSON.stringify(d.data)), (node, data, isRoot) => {
-            node.label = node.value;
-            node.value = node.key;
-          }));
+          x.data.push(
+            ...this.base.convertTree(
+              JSON.parse(JSON.stringify(d.data)),
+              (node, data, isRoot) => {
+                node.label = node.value;
+                node.value = node.key;
+              }
+            )
+          );
           x.orginData.push(...d.data);
-        } else if (d.data.length > 0 && !d.data[0].hasOwnProperty("key")) {
+        } else if (d.data.length > 0 && !d.data[0].hasOwnProperty('key')) {
           let source = d.data,
             newSource = new Array(source.length);
           for (let index = 0; index < source.length; index++) {
             newSource[index] = {
               //默认从字典数据读出来的key都是string类型,但如果数据从sql中查询的可能为非string,否是async-validator需要重置设置格式
-              key: source["key"] + "", //source[index][x.config.valueField] + "",
-              value: source["value"] //source[index][x.config.textField]
+              key: source['key'] + '', //source[index][x.config.valueField] + "",
+              value: source['value'] //source[index][x.config.textField]
             };
           }
 
@@ -1172,12 +1220,12 @@ let methods = {
         } else {
           //2020.06.06，如果是selectList数据源使用的自定义sql并且key是数字，强制转换成字符串
           if (
-            x.e_type == "selectList" &&
+            x.e_type == 'selectList' &&
             d.data.length > 0 &&
-            typeof d.data[0].key == "number"
+            typeof d.data[0].key == 'number'
           ) {
-            d.data.forEach(c => {
-              c.key = c.key + "";
+            d.data.forEach((c) => {
+              c.key = c.key + '';
             });
           }
           x.data.push(...d.data);
@@ -1194,19 +1242,24 @@ let methods = {
   },
   getUrl(action, ingorPrefix) {
     //是否忽略前缀/  获取操作的url
-    return (!ingorPrefix ? "/" : "") + "api" + this.table.url + action;
+    return (!ingorPrefix ? '/' : '') + 'api' + this.table.url + action;
   },
   initDicKeys() {
     //初始化字典数据
     let keys = [];
     //2022.04.17优化重新加载数据源
-    this.dicKeys.forEach(item=>{
+    this.dicKeys.forEach((item) => {
       item.data.splice(0);
-      item.orginData&&item.orginData.splice(0);
-    })
-   // this.dicKeys.splice(0);
+      item.orginData && item.orginData.splice(0);
+    });
+    // this.dicKeys.splice(0);
     //初始化编辑数据源,默认为一个空数组，如果要求必填设置type=number/decimal的最小值
-    this.initFormOptions(this.editFormOptions, keys, this._editFormFields, true);
+    this.initFormOptions(
+      this.editFormOptions,
+      keys,
+      this._editFormFields,
+      true
+    );
     //初始化查询数据源,默认为一个空数组
     this.initFormOptions(
       this.searchFormOptions,
@@ -1215,9 +1268,9 @@ let methods = {
       false
     );
     //查询日期设置为可选开始与结果日期
-    this.searchFormOptions.forEach(item => {
-      item.forEach(x => {
-        if (x.type == "date" || x.type == "datetime") x.range = true;
+    this.searchFormOptions.forEach((item) => {
+      item.forEach((x) => {
+        if (x.type == 'date' || x.type == 'datetime') x.range = true;
       });
     });
     //初始化datatable表数据源,默认为一个空数组,dicKeys为界面所有的数据字典编号
@@ -1244,23 +1297,23 @@ let methods = {
     }
     if (keys.length == 0) return;
     let $this = this;
-    this.http.post("/api/Sys_Dictionary/GetVueDictionary", keys).then(dic => {
+    this.http.post('/api/Sys_Dictionary/GetVueDictionary', keys).then((dic) => {
       $this.bindOptions(dic);
       //2022.04.04增加字典加载完成方法
-      $this.dicInited&&$this.dicInited(dic)
+      $this.dicInited && $this.dicInited(dic);
     });
   },
   setFiexdColumn(columns, containerWidth) {
     //计算整个table的宽度，根据宽度决定是否启用第一行显示的列为固定列
     let columnsWidth = 0;
-    columns.forEach(x => {
+    columns.forEach((x) => {
       if (!x.hidden && x.width) {
         columnsWidth += x.width;
       }
     });
     //启用第一列为固定列
     if (columnsWidth > containerWidth) {
-      let firstColumn = columns.find(x => !x.hidden);
+      let firstColumn = columns.find((x) => !x.hidden);
       if (firstColumn) {
         firstColumn.fixed = true;
       }
@@ -1272,12 +1325,17 @@ let methods = {
     //弹出框高度至少250px
     clientHeight = clientHeight < 250 ? 250 : clientHeight;
     let clientWidth = document.documentElement.clientWidth;
-    if (this.editFormOptions.some(x => { return x.some(item => { return item.type == "editor" }) })) {
-      this.editor.uploadImgUrl = this.getUrl("upload");
+    if (
+      this.editFormOptions.some((x) => {
+        return x.some((item) => {
+          return item.type == 'editor';
+        });
+      })
+    ) {
+      this.editor.uploadImgUrl = this.getUrl('upload');
       this.boxOptions.height = clientHeight * 0.8;
       this.boxOptions.width = clientWidth * 0.8;
-    }
-    else {
+    } else {
       if (this.boxOptions.height) {
         //如果高度与宽度超过了获取到的可见高宽度，则设为默认的90%高宽
         if (this.boxOptions.height > clientHeight * 0.8) {
@@ -1314,12 +1372,12 @@ let methods = {
       this.detailOptions.pagination.sortName = this.detail.sortName;
       this.detailOptions.cnName = this.detail.cnName;
       this.detailOptions.key = this.detail.key;
-      this.detailOptions.url = this.getUrl("getDetailPage");
+      this.detailOptions.url = this.getUrl('getDetailPage');
       //计算弹出框整个table的宽度，根据宽度决定是否启用第一行显示的列为固定列
       this.setFiexdColumn(this.detail.columns, clientWidth);
     } else {
       let maxColumns = 1; //最大列数，根据列计算弹框的宽度
-      this.editFormOptions.forEach(x => {
+      this.editFormOptions.forEach((x) => {
         if (x.length > maxColumns) maxColumns = x.length;
       });
       let maxHeightRate = 0.7,
@@ -1369,54 +1427,66 @@ let methods = {
       duration: 3
     });
   },
-  setFiexdSearchForm(visiable) { //2020.09.011增加固定查询表单功能,visiable=true默认将查询表单展开
+  setFiexdSearchForm(visiable) {
+    //2020.09.011增加固定查询表单功能,visiable=true默认将查询表单展开
     this.fiexdSearchForm = true;
-    let refreshBtn = this.buttons.find(x => x.name == "刷 新");
+    this.buttons.forEach(btn=>{
+      if(btn.value=='reset'){
+        btn.hidden=!btn.hidden;
+      }
+    })
+    let refreshBtn = this.buttons.find((x) => x.name == '刷 新');
     if (visiable) {
       this.searchBoxShow = true;
     }
     if (refreshBtn) {
-      refreshBtn.name = "重 置";
+      refreshBtn.name = '重 置';
       refreshBtn.onClick = function () {
         this.resetSearch();
       };
     }
   },
-  endEditBefore(row, column, index) {//2021.03.19是否开启查询界面表格双击编辑结束方法,返回false不会结束编辑
+  endEditBefore(row, column, index) {
+    //2021.03.19是否开启查询界面表格双击编辑结束方法,返回false不会结束编辑
     return true;
   },
-  filterPermission(tableName, permission) {  //2021.03.19判断是否有某个表的按钮权限
+  filterPermission(tableName, permission) {
+    //2021.03.19判断是否有某个表的按钮权限
     //:["Search","Add","Delete","Update","Import","Export","Upload","Audit"]
-    const _result = (this.$store.state.system.permission || []).find(x => { return x.url == '/' + tableName });
-    return _result && _result.permission.some(x => x == permission);
+    const _result = (this.$store.state.system.permission || []).find((x) => {
+      return x.url == '/' + tableName;
+    });
+    return _result && _result.permission.some((x) => x == permission);
   },
-  destroyed() { //2021.04.11增加vue页面销毁方法,路由必须设置keepLive:false，设置方法见：前端开发文档-》[禁用页面缓存keepAlive]
-
+  destroyed() {
+    //2021.04.11增加vue页面销毁方法,路由必须设置keepLive:false，设置方法见：前端开发文档-》[禁用页面缓存keepAlive]
   },
   loadTreeTableChildren(tree, treeNode, resolve) {
     this.loadTreeChildren.call(this, tree, treeNode, resolve);
   },
-  loadTreeChildren(tree, treeNode, resolve) {//树形结构加载子节点(2021.05.02),在onInit中设置了rowKey主键字段后才会生效
+  loadTreeChildren(tree, treeNode, resolve) {
+    //树形结构加载子节点(2021.05.02),在onInit中设置了rowKey主键字段后才会生效
     return resolve([]);
   },
-  importDetailAfter(data) { //2022.01.08增加明细表导入后处理
-
+  importDetailAfter(data) {
+    //2022.01.08增加明细表导入后处理
   },
-  importExcelAfter(data) {//2022.01.08增加明细表导入后方法判断
+  importExcelAfter(data) {
+    //2022.01.08增加明细表导入后方法判断
     if (!data.status) {
-      return;// this.$message.error(data.message);
+      return; // this.$message.error(data.message);
     }
     //明细表导入
     if (this.boxModel) {
       if (data.data) {
         data.data = JSON.parse(data.data);
       } else {
-        data.data = []
+        data.data = [];
       }
-      data.data.forEach(x => {
+      data.data.forEach((x) => {
         x[this.detail.key] = undefined;
         x[this.table.key] = undefined;
-      })
+      });
       this.importDetailAfter(data); //增加明细表导入后处理
       this.$refs.detail.rowData.unshift(...data.data);
       this.upload.excel = false;
