@@ -105,6 +105,7 @@ export default {
     this.viewModel = true;
   },
   closeCustomModel() {
+    this.viewModel=false;
     if (this.checkColumnChanged()) {
       this.viewColumns = JSON.parse(JSON.stringify(this.viewColumnsClone));
     }
