@@ -48,6 +48,7 @@
         :fixed="fixed"
         width="55"
       ></el-table-column>
+
       <!-- 2020.10.10移除table第一行强制排序 -->
       <el-table-column
         v-for="(column, cindex) in filterColumns"
@@ -60,6 +61,14 @@
         :align="column.align"
         :sortable="column.sort ? 'custom' : false"
       >
+        <template #header>
+          <span
+            v-if="(column.require || column.required) && column.edit"
+            class="column-required"
+            >*</span
+          >{{ column.title }}
+        </template>
+
         <template #default="scope">
           <!-- 2022.01.08增加多表头，现在只支持常用功能渲染，不支持编辑功能(涉及到组件重写) -->
           <el-table-column
@@ -374,13 +383,13 @@ export default defineComponent({
     },
     linkView: {
       type: Function,
-      default: function () {
+      default: function() {
         return 1;
       }
     },
     pagination: {
       type: Object,
-      default: function () {
+      default: function() {
         return { total: 0, size: 30, sortName: '' };
       }
     },
@@ -427,21 +436,21 @@ export default defineComponent({
     beginEdit: {
       // 编辑开始
       type: Function,
-      default: function (row, column, index) {
+      default: function(row, column, index) {
         return true;
       }
     },
     endEditBefore: {
       // 结束编辑前
       type: Function,
-      default: function (row, column, index) {
+      default: function(row, column, index) {
         return true;
       }
     },
     endEditAfter: {
       // 结束编辑前
       type: Function,
-      default: function (row, column, index) {
+      default: function(row, column, index) {
         return true;
       }
     },
@@ -1453,6 +1462,13 @@ export default defineComponent({
 // .vol-table.fx-right ::v-deep(.el-table__header th:last-child) {
 //   border-left: 1px solid #eff1f5;
 // }
+.column-required {
+  position: relative;
+  color: #f20303;
+  font-size: 14px;
+  top: 2px;
+  right: 2px;
+}
 </style>
 
 <style scoped>
