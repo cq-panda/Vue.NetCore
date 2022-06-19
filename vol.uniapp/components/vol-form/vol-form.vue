@@ -72,13 +72,13 @@
 			</view>
 
 			<view class="f-form-content" v-else-if="item.type=='number'">
-				<input :focus="item.focus" :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
-					v-model="formFields[item.field]" border="none"
+				<input :focus="item.focus" :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;"
+					type="number" v-model="formFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='decimal'">
-				<input :focus="item.focus" :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
-					v-model="formFields[item.field]" border="none"
+				<input :focus="item.focus" :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;"
+					type="digit" v-model="formFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='switch'">
@@ -110,7 +110,8 @@
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view v-if="item.extra" @click="extraClick(item,inFormFields)">
-				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.clor||'#ffff'" size="20"></u-icon>
+				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.clor||'#ffff'" size="20">
+				</u-icon>
 				<text :style="item.extra.style">{{item.extra.text}}</text>
 			</view>
 		</view>
@@ -127,16 +128,15 @@
 				<view class="vol-action-sheet-select-title">请选择{{actionSheetCurrentItem.title}}
 					<text class="vol-action-sheet-select-confirm" @click="actionConfirmClick">确定</text>
 				</view>
-			<!-- 	超过10个下拉框选项默认开启搜索 -->
-				<view class="vol-action-sheet-select-filter" v-show="actionSheetCurrentItem.data&&actionSheetCurrentItem.data.length>=10">
-					<view
-						style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
+				<!-- 	超过10个下拉框选项默认开启搜索 -->
+				<view class="vol-action-sheet-select-filter"
+					v-show="actionSheetCurrentItem.data&&actionSheetCurrentItem.data.length>=10">
+					<view style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
 						<u--input placeholder="请输入关键字搜索" v-model="searchText">
 						</u--input>
 					</view>
 					<view class="search-btn">
-						<u-button type="primary" icon="trash" @click="searchText=''"
-							size="small">清除</u-button>
+						<u-button type="primary" icon="trash" @click="searchText=''" size="small">清除</u-button>
 					</view>
 				</view>
 				<view class="vol-action-sheet-select-content">
@@ -201,7 +201,10 @@
 				pickerCurrentItem: {}, //当前选项
 				pickerCurrentRangeIndex: 0,
 				actionSheetModel: false,
-				actionSheetCurrentItem: {}, //当前选项
+				actionSheetCurrentItem: {
+					min: 633715200000,
+					max: 0
+				}, //当前选项
 				actionSheetSelectValues: [], //当前选中的项
 				numberModel: false,
 				numberType: 'number',
@@ -223,10 +226,13 @@
 					} else if (option.max && typeof option.max == 'string') {
 						option.max = Number(new Date(option.max.replace(/-/g, "/")))
 					}
+					if (!this.pickerCurrentItem.max) {
+						this.pickerCurrentItem.max = option.max;
+					}
 				}
-			
-				if(option.hasOwnProperty('focus')){
-					option.focus=false;
+
+				if (option.hasOwnProperty('focus')) {
+					option.focus = false;
 				}
 			})
 			this.inFormOptions = this.formOptions;
@@ -296,7 +302,7 @@
 				this.$emit('dicInited', result);
 			},
 			showActionSheet(item) {
-				this.searchText='';
+				this.searchText = '';
 				this.actionSheetSelectValues = [];
 				this.actionSheetCurrentItem = item;
 				var value = this.inFormFields[item.field];
@@ -603,8 +609,8 @@
 			deletePic(item, event) {
 				this.inFormFields[item.field].splice(event.index, 1)
 			},
-			extraClick(item,inFormFields){
-				this.$emit('extraClick',item,inFormFields)
+			extraClick(item, inFormFields) {
+				this.$emit('extraClick', item, inFormFields)
 			}
 		},
 		// #ifdef MP-WEIXIN
@@ -670,13 +676,14 @@
 		// 	}
 		// }
 		.vol-action-sheet-select-filter {
-		    display: flex;
-		    background: #ffff;
-		    padding: 10rpx;
-		    border-bottom: 1px solid #eeee;
+			display: flex;
+			background: #ffff;
+			padding: 10rpx;
+			border-bottom: 1px solid #eeee;
+
 			.search-btn {
-				    position: relative;
-				    top: 3px;
+				position: relative;
+				top: 3px;
 				// margin-left: 20rpx;
 				// padding-right: 20rpx;
 				// width: 100rpx;
