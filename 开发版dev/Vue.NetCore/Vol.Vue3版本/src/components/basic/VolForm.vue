@@ -213,6 +213,7 @@
               v-model="formFields[item.field]"
               :disabled="item.readonly || item.disabled"
               placeholder="请选择时间"
+              :value-format="getDateFormat(item)"
               :format="item.format"
               style="width: 100%"
               size="medium"
