@@ -631,6 +631,27 @@ let methods = {
     //获取明细数据(前台数据明细未做校验，待完.后台已经校验)
     if (this.hasDetail) {
       formData.detailData = this.$refs.detail.rowData;
+      let _fields = this.detail.columns
+        .filter((c) => {
+          return (
+            c.type == 'selectList' || (c.edit && c.edit.type == 'selectList')
+          );
+        })
+        .map((c) => {
+          return c.field;
+        });
+        //2022.06.20增加保存时对明细表下拉框多选的判断
+      if (_fields.length) {
+        formData.detailData = JSON.parse(JSON.stringify(formData.detailData));
+        formData.detailData.forEach((row) => {
+          for (let index = 0; index < _fields.length; index++) {
+            const _field = _fields[index];
+            if (Array.isArray(row[_field])) {
+              row[_field] = row[_field].join(',');
+            }
+          }
+        });
+      }
     }
     if (this.detailOptions.delKeys.length > 0) {
       formData.delKeys = this.detailOptions.delKeys;
@@ -922,7 +943,7 @@ let methods = {
     );
     let elink = this.$refs.export;
     xmlResquest.responseType = 'blob';
-    xmlResquest.onload = function (oEvent) {
+    xmlResquest.onload = function(oEvent) {
       if (xmlResquest.status != 200) {
         this.$error('下载文件出错了..');
         return;
@@ -1446,7 +1467,7 @@ let methods = {
     }
     if (refreshBtn) {
       refreshBtn.name = '重 置';
-      refreshBtn.onClick = function () {
+      refreshBtn.onClick = function() {
         this.resetSearch();
       };
     }
@@ -1501,7 +1522,7 @@ let methods = {
     this.importAfter(data);
   }
 };
-import customColumns from './ViewGridCustomColumn.js'
+import customColumns from './ViewGridCustomColumn.js';
 //合并扩展方法
-methods = Object.assign(methods, detailMethods, serviceFilter,customColumns);
+methods = Object.assign(methods, detailMethods, serviceFilter, customColumns);
 export default methods;
