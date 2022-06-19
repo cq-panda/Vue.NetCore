@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,7 +9,7 @@ using VOL.Entity.DomainModels;
 
 namespace VOL.Core.Filters
 {
-    public  abstract class ServiceFunFilter<T> where T : class
+    public abstract class ServiceFunFilter<T> where T : class
     {
 
         /// <summary>
@@ -191,6 +192,17 @@ namespace VOL.Core.Filters
         /// 导入保存前
         /// </summary>
         protected Func<List<T>, WebResponseContent> ImportOnExecuting;
+
+        /// <summary>
+        /// 2022.06.20增加原生excel读取方法(导入时可以自定义读取excel内容)
+        /// string=当前读取的excel单元格的值
+        /// ExcelWorksheet=excel对象
+        /// ExcelRange当前excel单元格对象
+        /// int=当前读取的第几数
+        /// int=当前读取的第几列
+        /// string=返回的值
+        /// </summary>
+        protected Func<string, ExcelWorksheet, ExcelRange, int, int, string> ImportOnReadCellValue;
 
     }
 }
