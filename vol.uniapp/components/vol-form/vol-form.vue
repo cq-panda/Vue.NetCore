@@ -72,12 +72,12 @@
 			</view>
 
 			<view class="f-form-content" v-else-if="item.type=='number'">
-				<input :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
+				<input :focus="item.focus" :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
 					v-model="formFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='decimal'">
-				<input :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
+				<input :focus="item.focus" :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
 					v-model="formFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
@@ -90,7 +90,7 @@
 				</u-radio-group>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='textarea'">
-				<textarea :ref="item.field" auto-height style="width: 100%;padding-right: 8rpx;"
+				<textarea :focus="item.focus" :ref="item.field" auto-height style="width: 100%;padding-right: 8rpx;"
 					v-model="inFormFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></textarea>
 			</view>
@@ -105,7 +105,7 @@
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else>
-				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
+				<input :focus="item.focus" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
 					v-model="inFormFields[item.field]" border="none" :ref="item.field"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
@@ -223,6 +223,10 @@
 					} else if (option.max && typeof option.max == 'string') {
 						option.max = Number(new Date(option.max.replace(/-/g, "/")))
 					}
+				}
+			
+				if(option.hasOwnProperty('focus')){
+					option.focus=false;
 				}
 			})
 			this.inFormOptions = this.formOptions;
