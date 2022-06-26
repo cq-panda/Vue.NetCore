@@ -420,7 +420,9 @@ export default defineComponent({
           console.log(navigation[_index - 1]);
           setItem(navigation[_index - 1]);
           router.push({
-            path: navigation[_index - 1].path
+            path: navigation[_index - 1].path,
+            //2022.06.27修复tabs二次切换后参数丢失的问题
+            query:navigation[_index - 1].query
           });
           navigation.splice(_index, 1);
           selectId.value = selectId.value - 1 + '';
