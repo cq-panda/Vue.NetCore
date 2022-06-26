@@ -1276,13 +1276,18 @@ export default defineComponent({
         return row[column.field];
       }
       if (!val && val != 0) return val;
+      if (column.edit && column.edit.type == 'selectList') {
+        if (!Array.isArray(val)) {
+          val = val.split(',');
+          row[column.field] = val;
+        }
+        return this.getSelectFormatter(column, val, true);
+      }
       // 编辑多选table显示
-      if (
-        (column.bind.type == 'selectList' || column.bind.type == 'checkbox') &&
-        typeof val === 'string' &&
-        val.indexOf(',') != -1
-      ) {
-        return this.getSelectFormatter(column, val);
+      if (column.bind.type == 'selectList' || column.bind.type == 'checkbox') {
+        if (typeof val === 'string' && val.indexOf(',') != -1) {
+          return this.getSelectFormatter(column, val);
+        }
       }
       let source = column.bind.data.filter((x) => {
         // return x.key != "" && x.key == val;
@@ -1292,9 +1297,9 @@ export default defineComponent({
       if (source && source.length > 0) val = source[0].value;
       return val;
     },
-    getSelectFormatter(column, val) {
+    getSelectFormatter(column, val, isArr) {
       // 编辑多选table显示
-      let valArr = val.split(',');
+      let valArr = isArr ? val : val.split(',');
       for (let index = 0; index < valArr.length; index++) {
         column.bind.data.forEach((x) => {
           // 2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
