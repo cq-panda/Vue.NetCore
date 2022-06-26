@@ -36,8 +36,8 @@
 							<view class="vol-cell" v-else-if="column.formatter"
 								v-html="rowFormatter(row,column,rowindex)">
 							</view>
-							<view class="vol-cell" v-else-if="column.type=='img'">
-								<u--image style="float:left;margin-left:5px;" width="40px" height="40px" radius="4px"
+							<view @click.stop="previewImage(row[column.field])" class="vol-cell" v-else-if="column.type=='img'">
+								<u--image  style="float:left;margin-left:5px;" width="40px" height="40px" radius="4px"
 									:src="src" v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
 								</u--image>
 							</view>
@@ -78,7 +78,7 @@
 								<view v-else-if="column.bind">
 									{{rowFormatterValue(row,column)}}
 								</view>
-								<view v-else-if="column.type=='img'">
+								<view @click.stop="previewImage(row[column.field])" v-else-if="column.type=='img'">
 									<view style="float: right;margin-left:10px;" width="50px" height="50px"
 										v-for="(src,index) in getImgSrc(row[column.field])">
 										<u--image width="50px" height="50px" radius="4px" :src="src" :key="index">
@@ -296,6 +296,9 @@
 					return []
 				}
 				let _imgs = imgs.split(',').map(x => {
+					if(x.startsWith('http')){
+						return x;
+					}
 					return this.http.ipAddress + x
 				});
 				return _imgs;
@@ -334,6 +337,13 @@
 			},
 			rowBtnClick(btn, rowindex, row) {
 				this.$emit('rowButtonClick', btn, rowindex, row);
+			},
+			previewImage(urls) {
+				uni.previewImage({
+					urls: this.getImgSrc(urls),
+					longPressActions: {
+					}
+				});
 			}
 		},
 		created() {
