@@ -895,6 +895,11 @@ export default defineComponent({
       // 结束编辑前
       if (!this.endEditBefore(_row, column, this.edit.rowIndex)) return false;
       if (this.edit.rowIndex != -1) {
+        //2022.06.26修复表格内容切换后行数不一致时不能编辑的问题
+        if (this.edit.rowIndex - 1 > (this.rowData || this.tableData).length) {
+          this.edit.rowIndex = -1;
+          return;
+        }
         let row = (this.url ? this.rowData : this.tableData)[
           this.edit.rowIndex
         ];
