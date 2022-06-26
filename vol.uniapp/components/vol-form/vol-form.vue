@@ -555,7 +555,11 @@
 				if (option.mutiple) {
 					lists = [].concat(event.file)
 				} else {
-					lists.push(event.file)
+					if (Array.isArray(event.file)) {
+						lists.push(...event.file)
+					} else {
+						lists.push(event.file)
+					}
 				}
 				let fileListLen = this.inFormFields[option.field].length
 				lists.map((item) => {
@@ -570,9 +574,10 @@
 					let item = this.inFormFields[option.field][fileListLen];
 					let fileName = lists[i].name;
 					if (!fileName && lists[i].thumb) {
-						let arr = lists[i].thumb.split('.');
-						let _obj = arr[0].split('/');
-						fileName = _obj[_obj.length - 1] + '.' + arr[1];
+						let lastIndex = lists[i].thumb.lastIndexOf('/') + 1;
+						// let arr = lists[i].thumb.substr(0,lastIndex);
+						// let _obj = arr[0].split('/');
+						fileName = lists[i].thumb.substr(lastIndex)
 					}
 					this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
 						status: 'success',
