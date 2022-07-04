@@ -568,7 +568,6 @@ var vueParam = {
   },
   unmounted() {
     this.destroyed();
-    this.dynamicComponent = null;
   },
   created: function () {
     //合并自定义业务扩展方法
