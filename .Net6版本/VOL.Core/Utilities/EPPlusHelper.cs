@@ -526,6 +526,16 @@ namespace VOL.Core.Utilities
             return cellOptions;
         }
 
+        public static string ExportGeneralExcel(
+         List<Dictionary<string, object>> rows,
+         string fileName,
+         string path = null,
+         Action<ExcelWorksheet, int, int, object> onFillCell = null,
+         Action<ExcelWorksheet> saveBefore = null)
+        {
+            return ExportGeneralExcel(rows.Select(item => item as IDictionary<string, object>).ToList(), fileName, path, onFillCell, saveBefore);
+        }
+
         /// <summary>
         /// 2021.01.10增加通过excel导出功能
         /// </summary>
@@ -536,7 +546,7 @@ namespace VOL.Core.Utilities
         /// <param name="saveBefore"></param>
         /// <returns></returns>
         public static string ExportGeneralExcel(
-                List<Dictionary<string, object>> rows,
+                List<IDictionary<string, object>> rows,
                 string fileName,
                 string path = null,
                 Action<ExcelWorksheet, int, int, object> onFillCell = null,
