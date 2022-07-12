@@ -36,7 +36,7 @@ namespace VOL.Core.Extensions
             AppSetting.Init(services, configuration);
             Type baseType = typeof(IDependency);
             var compilationLibrary = DependencyContext.Default
-                .CompileLibraries
+                .RuntimeLibraries
                 .Where(x => !x.Serviceable
                 && x.Type == "project")
                 .ToList();
