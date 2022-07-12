@@ -1271,6 +1271,7 @@ export default defineComponent({
     formatter(row, column, template) {
       if (!template) return row[column.property];
       let val = row[column.field];
+      if (!val && val != 0) return val;
       // 是否值
       if (column.edit && column.edit.type == 'switch') {
         return val ? '是' : '否';
@@ -1278,13 +1279,14 @@ export default defineComponent({
       if (!column.bind || !column.bind.data) {
         return row[column.field];
       }
-      if (!val && val != 0) return val;
+
       if (column.edit && column.edit.type == 'selectList') {
         if (!Array.isArray(val)) {
-          val = val.split(',');
-          row[column.field] = val;
+          row[column.field] = val.split(',');
+        } else {
+          val = val.join(',');
         }
-        return this.getSelectFormatter(column, val, true);
+        return this.getSelectFormatter(column, val);
       }
       // 编辑多选table显示
       if (column.bind.type == 'selectList' || column.bind.type == 'checkbox') {
@@ -1300,9 +1302,9 @@ export default defineComponent({
       if (source && source.length > 0) val = source[0].value;
       return val;
     },
-    getSelectFormatter(column, val, isArr) {
+    getSelectFormatter(column, val) {
       // 编辑多选table显示
-      let valArr = isArr ? val : val.split(',');
+      let valArr = val.split(',');
       for (let index = 0; index < valArr.length; index++) {
         column.bind.data.forEach((x) => {
           // 2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
