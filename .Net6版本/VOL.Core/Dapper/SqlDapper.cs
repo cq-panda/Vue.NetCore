@@ -752,6 +752,7 @@ namespace VOL.Core.Dapper
             if (DBType.Name == "PgSql")
             {
                 PGSqlBulkInsert(table, tableName);
+                return table.Rows.Count;
             }
             return MSSqlBulkInsert(table, tableName, sqlBulkCopyOptions ?? SqlBulkCopyOptions.KeepIdentity);
         }
