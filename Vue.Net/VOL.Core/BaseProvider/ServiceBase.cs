@@ -1003,7 +1003,7 @@ namespace VOL.Core.BaseProvider
 
                 //主键值是否正确
                 string detailKeyVal = dic[detailKeyInfo.Name].ToString();
-                if (!mainKeyProperty.ValidationValueForDbType(detailKeyVal).FirstOrDefault().Item1
+                if (!detailKeyInfo.ValidationValueForDbType(detailKeyVal).FirstOrDefault().Item1
                     || deatilDefaultVal == detailKeyVal)
                     return Response.Error(ResponseType.KeyError);
 
