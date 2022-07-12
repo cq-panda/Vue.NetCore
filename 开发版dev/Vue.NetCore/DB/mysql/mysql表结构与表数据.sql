@@ -942,3 +942,5 @@ INSERT Sys_Menu (MenuName, Auth, Icon, Description, Enable, OrderNo, TableName,
  ParentId, Url, CreateDate, Creator, ModifyDate, Modifier, MenuType)
   VALUES ( '消息推送', '{"text":"查询","value":"Search"}', N'el-icon-chat-line-round', NULL, 1, 1700, '.', 0, '/signalR',
    '2022-05-04 12:00', N'超级管理员', null, '超级管理员', 0)
+
+set global local_infile = 'ON';

@@ -1922,3 +1922,4 @@ ALTER TABLE "public"."Sys_TableInfo" ADD CONSTRAINT "sys_tableinfo_pkey" PRIMARY
 -- Primary Key structure for table Sys_User
 -- ----------------------------
 ALTER TABLE "public"."Sys_User" ADD CONSTRAINT "sys_user_pkey" PRIMARY KEY ("User_Id");
+ALTER TABLE "public"."Sys_Menu" ADD  "MenuType" int4  

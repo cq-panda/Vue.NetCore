@@ -1673,3 +1673,4 @@ INSERT Sys_Menu (MenuName, Auth, Icon, Description, Enable, OrderNo, TableName,
    
 ALTER TABLE Sys_Menu ADD MenuType INT;
    
+set global local_infile = 'ON';
