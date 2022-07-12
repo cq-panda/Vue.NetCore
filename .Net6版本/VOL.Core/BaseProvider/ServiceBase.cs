@@ -751,17 +751,18 @@ namespace VOL.Core.BaseProvider
             editList.ForEach(x =>
             {
                 //获取编辑的字段
-                string[] updateField = saveModel.DetailData
+                var updateField = saveModel.DetailData
                     .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
                     .Equal(detailKeyInfo.GetValue(x)))
                     .FirstOrDefault()
                     .Keys.Where(k => k != detailKeyInfo.Name)
                     .Where(r => !CreateFields.Contains(r))
-                    .ToArray();
+                    .ToList();
+                updateField.AddRange(ModifyFields);
                 //設置默認值
                 x.SetModifyDefaultVal();
                 //添加修改字段
-                repository.Update<DetailT>(x, updateField);
+                repository.Update<DetailT>(x, updateField.ToArray());
             });
 
             //明细新增

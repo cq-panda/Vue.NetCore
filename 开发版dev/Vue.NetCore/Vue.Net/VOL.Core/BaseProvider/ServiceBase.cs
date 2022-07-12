@@ -125,7 +125,7 @@ namespace VOL.Core.BaseProvider
             //例如sql，只能(编辑)自己创建的数据:判断数据是不是当前用户创建的
             //sql = $" {sql} and createid!={UserContext.Current.UserId}";
             object obj = repository.DapperContext.ExecuteScalar(sql, null);
-            if (obj == null || obj.GetInt()== 0)
+            if (obj == null || obj.GetInt() == 0)
             {
                 Response.Error("不能编辑此数据");
             }
@@ -143,8 +143,8 @@ namespace VOL.Core.BaseProvider
             //例如sql，只能(删除)自己创建的数据:找出不是自己创建的数据
             //sql = $" {sql} and createid!={UserContext.Current.UserId}";
             object obj = repository.DapperContext.ExecuteScalar(sql, null);
-            int idsCount=  ids.Split(",").Distinct().Count();
-            if (obj == null || obj.GetInt()!= idsCount)
+            int idsCount = ids.Split(",").Distinct().Count();
+            if (obj == null || obj.GetInt() != idsCount)
             {
                 Response.Error("不能删除此数据");
             }
@@ -427,7 +427,7 @@ namespace VOL.Core.BaseProvider
             try
             {
                 //2022.06.20增加原生excel读取方法(导入时可以自定义读取excel内容)
-                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate(),readValue: ImportOnReadCellValue);
+                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate(), readValue: ImportOnReadCellValue);
             }
             catch (Exception ex)
             {
@@ -445,7 +445,7 @@ namespace VOL.Core.BaseProvider
             if (HttpContext.Current.Request.Query.ContainsKey("table"))
             {
                 ImportOnExecuted?.Invoke(list);
-                return Response.OK("文件上传成功",list.Serialize());
+                return Response.OK("文件上传成功", list.Serialize());
             }
             repository.AddRange(list, true);
             if (ImportOnExecuted != null)
@@ -453,7 +453,7 @@ namespace VOL.Core.BaseProvider
                 Response = ImportOnExecuted.Invoke(list);
                 if (CheckResponseResult()) return Response;
             }
-            return Response.OK("文件上传成功" );
+            return Response.OK("文件上传成功");
         }
 
         /// <summary>
@@ -751,17 +751,18 @@ namespace VOL.Core.BaseProvider
             editList.ForEach(x =>
             {
                 //获取编辑的字段
-                string[] updateField = saveModel.DetailData
+                var updateField = saveModel.DetailData
                     .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
                     .Equal(detailKeyInfo.GetValue(x)))
                     .FirstOrDefault()
                     .Keys.Where(k => k != detailKeyInfo.Name)
                     .Where(r => !CreateFields.Contains(r))
-                    .ToArray();
+                    .ToList();
+                updateField.AddRange(ModifyFields);
                 //設置默認值
                 x.SetModifyDefaultVal();
                 //添加修改字段
-                repository.Update<DetailT>(x, updateField);
+                repository.Update<DetailT>(x, updateField.ToArray());
             });
 
             //明细新增
