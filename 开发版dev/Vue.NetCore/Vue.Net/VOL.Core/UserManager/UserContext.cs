@@ -319,7 +319,6 @@ namespace VOL.Core.ManageUser
         {
             if (roleId <= 0) roleId = RoleId;
             tableName = tableName.ToLower();
-            authName = authName.ToLower();
             return GetPermissions(roleId).Any(x => x.TableName == tableName && x.UserAuthArr.Contains(authName));
         }
 
