@@ -162,34 +162,47 @@ namespace VOL.Core.BaseProvider
             {
                 return base.OrderByExpression.GetExpressionToDic();
             }
-            //排序字段不存在直接移除
-            if (!string.IsNullOrEmpty(pageData.Sort) && !propertyInfo.Any(x => x.Name.ToLower() == pageData.Sort.ToLower()))
+            if (!string.IsNullOrEmpty(pageData.Sort))
             {
-                pageData.Sort = null;
+                if (pageData.Sort.Contains(","))
+                {
+                    var sortArr = pageData.Sort.Split(",").Where(x => propertyInfo.Any(c => c.Name == x)).Select(s => s).Distinct().ToList();
+                    Dictionary<string, QueryOrderBy> sortDic = new Dictionary<string, QueryOrderBy>();
+                    foreach (var name in sortArr)
+                    {
+                        sortDic[name] = pageData.Order?.ToLower() == _asc ? QueryOrderBy.Asc : QueryOrderBy.Desc;
+                    }
+                    return sortDic;
+                }
+                else if (propertyInfo.Any(x => x.Name == pageData.Sort))
+                {
+                    return new Dictionary<string, QueryOrderBy>() { {
+                            pageData.Sort,
+                            pageData.Order?.ToLower() == _asc? QueryOrderBy.Asc: QueryOrderBy.Desc
+                     } };
+                }
             }
             //如果没有排序字段，则使用主键作为排序字段
-            if (string.IsNullOrEmpty(pageData.Sort))
+
+            PropertyInfo property = propertyInfo.GetKeyProperty();
+            //如果主键不是自增类型则使用appsettings.json中CreateMember->DateField配置的创建时间作为排序
+            if (property.PropertyType == typeof(int) || property.PropertyType == typeof(long))
             {
-                PropertyInfo property = propertyInfo.GetKeyProperty();
-                //如果主键不是自增类型则使用appsettings.json中CreateMember->DateField配置的创建时间作为排序
-                if (property.PropertyType == typeof(int) || property.PropertyType == typeof(long))
+                if (!propertyInfo.Any(x => x.Name.ToLower() == pageData.Sort))
                 {
-                    if (!propertyInfo.Any(x => x.Name.ToLower() == pageData.Sort))
-                    {
-                        pageData.Sort = propertyInfo.GetKeyName();
-                    }
+                    pageData.Sort = propertyInfo.GetKeyName();
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(AppSetting.CreateMember.DateField)
+                    && propertyInfo.Any(x => x.Name == AppSetting.CreateMember.DateField))
+                {
+                    pageData.Sort = AppSetting.CreateMember.DateField;
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(AppSetting.CreateMember.DateField)
-                        && propertyInfo.Any(x => x.Name == AppSetting.CreateMember.DateField))
-                    {
-                        pageData.Sort = AppSetting.CreateMember.DateField;
-                    }
-                    else
-                    {
-                        pageData.Sort = propertyInfo.GetKeyName();
-                    }
+                    pageData.Sort = propertyInfo.GetKeyName();
                 }
             }
             return new Dictionary<string, QueryOrderBy>() { {
@@ -325,13 +338,9 @@ namespace VOL.Core.BaseProvider
             var queryeable = repository.DbContext.Set<Detail>().Where(whereExpression);
 
             gridData.total = queryeable.Count();
+            options.Sort = options.Sort ?? typeof(Detail).GetKeyName();
+            Dictionary<string, QueryOrderBy> orderBy =   GetPageDataSort(options,typeof(Detail).GetProperties());
 
-            string sortName = options.Sort ?? typeof(Detail).GetKeyName();
-            Dictionary<string, QueryOrderBy> orderBy = new Dictionary<string, QueryOrderBy>() { {
-                     sortName,
-                     options.Order == "asc" ?
-                     QueryOrderBy.Asc :
-                     QueryOrderBy.Desc } };
             gridData.rows = queryeable
                  .GetIQueryableOrderBy(orderBy)
                 .Skip((options.Page - 1) * options.Rows)
