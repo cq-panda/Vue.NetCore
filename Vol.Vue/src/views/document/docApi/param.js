@@ -7,8 +7,8 @@ const param = {
     attr: [{ name: "loadKey", desc: "是否自动绑定select/checkboxt等标签的数据源", type: "bool", default: "false" },
     { name: "width", desc: "表单宽度", type: "number", default: "100%" },
     { name: "labelWidth", desc: "左边标签宽度", type: "number", default: "100" },
-    { name: "formFileds", desc: "表单字段key/value，如:{name:'admin',age:''}", type: "json", default: "" },
-    { name: "formFields", desc: "<span style='color:red;'>表单字段同上（此属性用于兼容上面字段拼写错误的问题，2020.09.13更新后才能使用）</span>", type: "json", default: "" },
+    { name: "formFields", desc: "表单字段存的值，如:{name:'admin',age:''}", type: "json", default: "" },
+   // { name: "formFields", desc: "<span style='color:red;'>表单字段同上（此属性用于兼容上面字段拼写错误的问题，2020.09.13更新后才能使用）</span>", type: "json", default: "" },
     { name: "disabled", desc: "是否只读", type: "bool", default: "false" },
     { name: "placeholder", desc: "标签提示文字", type: "string", default: "" },
     { name: "colSize", desc: "每行列的宽度，可选值:12,8,6,如果是12标签会占100%宽度", type: "number", default: "" },
@@ -217,7 +217,9 @@ const param = {
     methods: [{ name: "delRow", desc: "删除选中行，this.$refs.自定义的名字.delRow()", param: "" },
     { name: "addRow", desc: "添加行，this.$refs.自定义的名字.addRow({'字段1':'值1','字段2':'值2'})；<br>批量添加行：this.$refs.自定义的名字.rowData.push(...[{'字段1':'值1'},{'字段2':'值2'}]);//<br>(vue3版本不要循环添加，请使用批量添加", param: "" },
     { name: "selection", desc: "获取选中的行，this.$refs.自定义的名字.selection,注意此处selection是属性", param: "" },
-    { name: "getSelected", desc: "获取选中的行(vue3版本才能使用)，this.$refs.自定义的名字.getSelected()", param: "" },
+    { name: "getSelected", desc: "获取选中的行(vue3版本才能使用)，this.$refs.自定义的ref名字.getSelected()", param: "" },
+    { name: "获取底部统计合计数据", desc: "this.$refs.自定义的ref名字.summaryData", param: "" },
+    { name: "获取/设置table正在编辑的行", desc: "this.$refs.自定义的ref名字.edit.rowIndex //设置值可以指定某行处于编辑状态，值为-1时关闭编辑状态，", param: "" },
     { name: "tableData/rowData", desc: "获取表中的所有行数据", param: "this.$refs.自定义的名字.tableData/rowData(如果传入了url参数，使用rowData)" },
     { name: "reset", desc: "清空表数据", param: "this.$refs.自定义的名字.reset" },
     { name: "load", desc: `<p>
@@ -285,6 +287,7 @@ const param = {
     { name: "rowClick", desc: `单击行事件同时选中当前行选中:
     <p>
     rowClick ({ row, column, event }) {   </p>
+    <p>&nbsp;// this.$refs.table.$refs.table.clearSelection();//清除当前选中的行  </p>
         <p>&nbsp; this.$refs.table.$refs.table.toggleRowSelection(row);  </p>
         <p> },  </p>
     </p>
@@ -473,7 +476,10 @@ const param = {
     { name: "调用删除方法", desc: "this.del(row)//row要删除的行数据", param: "" },
     { name: "调用编辑方法", desc: "this.edit(row)//row要编辑的行数据", param: "" },
     { name: "获取从表明细选择中的行", desc: "获取从表明细选择中的行,使用：this.$refs.detail.getSelected()", param: "" },
+    { name: "强制刷新从表统计合计数据", desc: "this.$refs.detail.updateDetailTableSummaryTotal()", param: "" },
     { name: "获取table所有的行数据", desc: "this.$refs.table.rowData", param: "" },
+    { name: "获取/设置table正在编辑的行", desc: "this.$refs.table.edit.rowIndex //设置值可以指定某行处于编辑状态，值为-1时关闭编辑状态，", param: "" },
+    
     { name: "获取明细表table所有的行数据", desc: "this.$refs.detail.rowData", param: "" },
     {
       name: "刷新从表数据", desc: `<p> this.resetDetailTable()</p>
@@ -840,18 +846,57 @@ const param = {
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">tableHeight</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">200</span>;;
       </div>
-      <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$Notice</span>.<span style="color:#dcdcaa;">success</span>({&nbsp;<span style="color:#9cdcfe;">title</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'create方法执行时,你可以此处编写业务逻辑'</span>&nbsp;});
-      </div>
+  
+
+
+      
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;},
       </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInited</span>&nbsp;()&nbsp;{
       </div>
+
+      <p>
+      <br />
+    </p>
+    <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
       <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;this.$Notice.success({&nbsp;title:&nbsp;'create方法执行后',&nbsp;desc:&nbsp;'你可以SellOrder.js中编写业务逻辑,其他方法同样适用'&nbsp;});</span>
+        <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+          <div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//明细表行编辑开始、结束方法(只能写在onInited中)</span>
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//明细表点击表格时触发编辑方法</span>
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#dcdcaa;">beginEdit</span>= (<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">index</span>) <span style="color:#569cd6;">=&gt;</span> {
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;<span style="color:#6a9955;">//返回false不会进行编辑</span>
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//明细表格行编辑结束方法</span>
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#dcdcaa;">endEditBefore</span>= (<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">index</span>) <span style="color:#569cd6;">=&gt;</span> {
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;<span style="color:#6a9955;">//返回false不会进行编辑</span>
+          </div>
+          <div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+          </div>
+        </div>
       </div>
+    </div>
+    <p>
+      <br />
+    </p>
+
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;},
       </div>
@@ -1382,7 +1427,7 @@ const param = {
         &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onActivated</span>&nbsp;()&nbsp;{&nbsp;<span style="color:#6a9955;">//重新加载字典绑定的数据源(如果需要每次点击页面时刷新字典数据源，直接将整个方法添加到js的methods中即可使用)</span>
       </div>
       <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">initDicKeys</span>();
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">//this</span>.<span style="color:#dcdcaa;">initDicKeys</span>();
       </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;},
@@ -1415,22 +1460,18 @@ const param = {
         &nbsp;&nbsp;&nbsp;&nbsp;},
       </div>
       <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowClick</span>&nbsp;({&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>&nbsp;})&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面点击行事件</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowClick</span>&nbsp;({&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>&nbsp;})&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面table点击行事件</span>
       </div>
+      <div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">//this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">clearRowSelection</span>(<span style="color:#9cdcfe;">row</span>)//清除当前选中当前行;
+    </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">toggleRowSelection</span>(<span style="color:#9cdcfe;">row</span>)//单击行时选中当前行;
       </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;},
 
-        <div> 
-        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowDbClick</span>&nbsp;({&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>&nbsp;})&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面双击行事件</span>
-      </div>
-      <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">toggleRowSelection</span>(<span style="color:#9cdcfe;">row</span>)//双击行时选中当前行;
-      </div>
-      <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;},
+      
 
         <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<div>
