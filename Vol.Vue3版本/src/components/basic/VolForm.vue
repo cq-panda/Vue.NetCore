@@ -319,7 +319,7 @@
               :input-style="item.inputStyle"
               v-else-if="item.type == 'password'"
               type="password"
-              v-model.number="formFields[item.field]"
+              v-model="formFields[item.field]"
               size="medium"
               :disabled="item.readonly || item.disabled"
               v-show="!item.hidden"
