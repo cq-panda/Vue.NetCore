@@ -130,12 +130,15 @@
           <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
           <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
           <!-- 2021.09.21增加编辑时对readonly属性判断 -->
-          <div v-else-if="column.edit && !column.readonly" class="edit-el">
-            <div
-              @click.stop
-              v-if="column.edit.keep || edit.rowIndex == scope.$index"
-              class="e-item"
-            >
+          <div
+            v-else-if="
+              column.edit &&
+                !column.readonly &&
+                (column.edit.keep || edit.rowIndex == scope.$index)
+            "
+            class="edit-el"
+          >
+            <div @click.stop class="e-item">
               <div>
                 <!-- 2020.07.24增加日期onChange事件 -->
                 <el-date-picker
@@ -228,13 +231,6 @@
                 </a>
               </div>
             </div>
-            <template v-else>
-              <div
-                v-if="column.formatter"
-                v-html="column.formatter(scope.row, column)"
-              ></div>
-              <div v-else>{{ formatter(scope.row, column, true) }}</div>
-            </template>
           </div>
           <!--没有编辑功能的直接渲染标签-->
           <template v-else>
@@ -279,7 +275,7 @@
             ></div>
             <!-- 2021.11.18修复table数据源设置为normal后点击行$event缺失的问题 -->
             <div
-              v-else-if="column.bind && column.normal"
+              v-else-if="column.bind && (column.normal|| column.edit )"
               @click="formatterClick(scope.row, column, $event)"
               :style="column.getStyle && column.getStyle(scope.row, column)"
             >
