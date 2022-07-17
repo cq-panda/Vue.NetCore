@@ -189,7 +189,7 @@
             <div
               v-show="!item.hidden"
               style="width: 100%"
-              v-else-if="['date', 'datetime','month'].indexOf(item.type) != -1"
+              v-else-if="['date', 'datetime', 'month'].indexOf(item.type) != -1"
             >
               <el-date-picker
                 clearable
@@ -579,17 +579,16 @@ export default defineComponent({
           //2022.03.13增加级联数据源自动转换
           if (x.type == 'cascader') {
             let _data = JSON.parse(JSON.stringify(d.data));
-            let cascaderArr =
-              appContext.config.globalProperties.base.convertTree(
-                _data,
-                (node, data, isRoot) => {
-                  if (!node.inited) {
-                    node.inited = true;
-                    node.label = node.value;
-                    node.value = node.key;
-                  }
+            let cascaderArr = appContext.config.globalProperties.base.convertTree(
+              _data,
+              (node, data, isRoot) => {
+                if (!node.inited) {
+                  node.inited = true;
+                  node.label = node.value;
+                  node.value = node.key;
                 }
-              );
+              }
+            );
             props.formRules.forEach((option) => {
               option.forEach((item) => {
                 if (item.dataKey == x.key) {
@@ -618,7 +617,7 @@ export default defineComponent({
     const initUpload = (item, init) => {
       if (!init) return;
       if (
-        ['img', 'excel', 'file'].indexOf(item.type != -1) ||
+        ['img', 'excel', 'file'].indexOf(item.type) != -1 ||
         item.columnType == 'img'
       ) {
         // 只是没设置是否自动上传的，默认都是选择文件后自动上传
@@ -1071,16 +1070,10 @@ export default defineComponent({
           }
         };
         if (item.type == 'mail') {
-          _rule.required = item.required;
-          return [
-            _rule,
-            {
-              type: type,
-              message: message,
-              trigger: 'blur'
-            }
-          ];
+          _rule.validator=undefined;
+          return _rule;
         }
+
         if (item.min) {
           _rule.min = item.min;
           _rule.message = item.title + '至少' + item.min + '个字符!';
