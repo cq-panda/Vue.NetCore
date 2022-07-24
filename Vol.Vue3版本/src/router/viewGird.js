@@ -106,6 +106,10 @@ let viewgird = [
         path: '/FormCollectionObject',
         name: 'FormCollectionObject',
         component: () => import('@/views/system/form/FormCollectionObject.vue')
+    }    ,{
+        path: '/Sys_WorkFlow',
+        name: 'Sys_WorkFlow',
+        component: () => import('@/views/system/flow/Sys_WorkFlow.vue')
     }]
 
 export default viewgird

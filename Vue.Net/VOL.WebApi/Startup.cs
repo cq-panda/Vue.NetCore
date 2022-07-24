@@ -30,6 +30,8 @@ using VOL.Core.Filters;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
 using VOL.Core.Utilities.PDFHelper;
+using VOL.Core.WorkFlow;
+using VOL.Entity.DomainModels;
 using VOL.WebApi.Controllers.Hubs;
 
 namespace VOL.WebApi
@@ -170,6 +172,8 @@ namespace VOL.WebApi
         public void ConfigureContainer(ContainerBuilder builder)
         {
             Services.AddModule(builder, Configuration);
+
+            WorkFlowContainer.Instance.Use<SellOrder>().Use<App_ReportPrice>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
