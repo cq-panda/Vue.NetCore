@@ -399,7 +399,7 @@
 			formatDicValue(item) {
 				var value = this.inFormFields[item.field];
 				if (this.base.isEmpty(value)) {
-					return undefined;
+					return '';
 				}
 				if (this.isMultiSelect(item)) {
 					return this.formatDicValueList(item);
