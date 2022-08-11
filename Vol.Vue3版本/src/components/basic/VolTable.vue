@@ -816,8 +816,12 @@ export default defineComponent({
       return [];
     },
     formatterClick(row, column, event) {
-      column.click && column.click(row, column, event);
-      event.stopPropagation();
+      if (column.click) {
+        column.click(row, column, event);
+        event.stopPropagation && event.stopPropagation();
+      } else {
+        this.rowClick(row, column, event);
+      }
     },
     initIndex({ row, rowIndex }) {
       if (this.index) {
