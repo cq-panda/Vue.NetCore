@@ -307,7 +307,7 @@
 				this.actionSheetCurrentItem = item;
 				var value = this.inFormFields[item.field];
 				if (!this.base.isEmpty(value, true)) {
-					if (value instanceof Array) {
+					if (Array.isArray(value)) {
 						this.actionSheetSelectValues.push(...value.map(x => {
 							return x;
 						}));
@@ -357,7 +357,7 @@
 					//	return this.actionClick(item)
 				}
 				//多选
-				if (this.inFormFields[this.actionSheetCurrentItem.field] instanceof Array) {
+				if (Array.isArray(this.inFormFields[this.actionSheetCurrentItem.field])) {
 					//深复制原来的数据
 					this.inFormFields[this.actionSheetCurrentItem.field] = this.actionSheetSelectValues.map(x => {
 						return x
@@ -381,7 +381,7 @@
 				}
 				var _textArr = [];
 
-				if (!(value instanceof Array)) {
+				if (!(Array.isArray(value))) {
 					value = (value + '').split(',')
 				}
 				value.forEach(x => {
@@ -460,7 +460,7 @@
 					if (source && source.hasOwnProperty(key)) {
 						this.inFormFields[key] = source[key];
 					} else {
-						if (this.inFormFields[key] instanceof Array) {
+						if (Array.isArray(this.inFormFields[key])) {
 							this.inFormFields[key].splice(0);
 							if (this.inFormOptions.some(x => {
 									return x.field == key && x.range
@@ -595,7 +595,7 @@
 						filePath: url,
 						name: 'fileInput',
 						header: {
-							"uapp":1,
+							"uapp": 1,
 							"Authorization": this.$store.getters.getToken()
 						},
 						formData: {},

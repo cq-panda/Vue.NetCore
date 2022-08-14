@@ -95,8 +95,7 @@
 				</view>
 				<slot name="modelHeader"></slot>
 				<view class="vol-action-sheet-select-content">
-					<vol-form :load-key="false" @onChange="editGirdFormOnChange" ref="form"
-					@extraClick="gridExtraClick"
+					<vol-form :load-key="false" @onChange="editGirdFormOnChange" ref="form" @extraClick="gridExtraClick"
 						:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
 					</vol-form>
 				</view>
@@ -275,7 +274,7 @@
 					if (source && source.hasOwnProperty(key)) {
 						formFields[key] = source[key];
 					} else {
-						if (formFields[key] instanceof Array) {
+						if (Array.isArray(formFields[key])) {
 							formFields[key].splice(0);
 							if (formOptions.some(x => {
 									return x.field == key && x.range
@@ -420,7 +419,7 @@
 				//将数组转换成string
 				for (const key in this.editFormFields) {
 					let _val = this.editFormFields[key];
-					if (_val instanceof Array) {
+					if (Array.isArray(_val)) {
 						//上传的图片
 						if (this.editFormOptions.some(x => {
 								return x.field == key && x.type == 'img'
@@ -643,8 +642,8 @@
 			gridRowButtonClick(btn, index, row) {
 				this.rowButtonClick && this.rowButtonClick(btn, index, row);
 			},
-			gridExtraClick(option,fields){
-				this.extraClick&&this.extraClick(option,fields);
+			gridExtraClick(option, fields) {
+				this.extraClick && this.extraClick(option, fields);
 			}
 		},
 		created() {
