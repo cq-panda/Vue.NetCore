@@ -3067,3 +3067,183 @@ USE [master]
 GO
 ALTER DATABASE [netcoredev] SET  READ_WRITE 
 GO
+
+
+
+
+CREATE TABLE [dbo].[Sys_WorkFlow](
+	[WorkFlow_Id] [uniqueidentifier] NOT NULL,
+	[WorkName] [nvarchar](200) NOT NULL,
+	[WorkTable] [nvarchar](200) NOT NULL,
+	[WorkTableName] [nvarchar](200) NULL,
+	[NodeConfig] [nvarchar](max) NULL,
+	[LineConfig] [nvarchar](max) NULL,
+	[Remark] [nvarchar](500) NULL,
+	[CreateDate] [datetime] NULL,
+	[CreateID] [int] NULL,
+	[Creator] [nvarchar](30) NULL,
+	[Enable] [tinyint] NULL,
+	[Modifier] [nvarchar](30) NULL,
+	[ModifyDate] [datetime] NULL,
+	[ModifyID] [int] NULL,
+ CONSTRAINT [PK__Sys_Work__2A1726C38AD06D4D] PRIMARY KEY CLUSTERED 
+(
+	[WorkFlow_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+/****** Object:  Table [dbo].[Sys_WorkFlowStep]    Script Date: 2022/8/15 4:18:48 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Sys_WorkFlowStep](
+	[WorkStepFlow_Id] [uniqueidentifier] NOT NULL,
+	[WorkFlow_Id] [uniqueidentifier] NULL,
+	[StepId] [nvarchar](100) NULL,
+	[StepName] [nvarchar](200) NULL,
+	[StepType] [int] NULL,
+	[StepValue] [int] NULL,
+	[OrderId] [int] NULL,
+	[Remark] [nvarchar](500) NULL,
+	[CreateDate] [datetime] NULL,
+	[CreateID] [int] NULL,
+	[Creator] [nvarchar](30) NULL,
+	[Enable] [tinyint] NULL,
+	[Modifier] [nvarchar](30) NULL,
+	[ModifyDate] [datetime] NULL,
+	[ModifyID] [int] NULL,
+ CONSTRAINT [PK__Sys_Work__26A928370FFD6659] PRIMARY KEY CLUSTERED 
+(
+	[WorkStepFlow_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+/****** Object:  Table [dbo].[Sys_WorkFlowTable]    Script Date: 2022/8/15 4:18:48 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Sys_WorkFlowTable](
+	[WorkFlowTable_Id] [uniqueidentifier] NOT NULL,
+	[WorkFlow_Id] [uniqueidentifier] NULL,
+	[WorkName] [nvarchar](200) NULL,
+	[WorkTableKey] [nvarchar](200) NULL,
+	[WorkTable] [nvarchar](200) NULL,
+	[WorkTableName] [nvarchar](200) NULL,
+	[CurrentOrderId] [int] NULL,
+	[AuditStatus] [int] NULL,
+	[CreateDate] [datetime] NULL,
+	[CreateID] [int] NULL,
+	[Creator] [nvarchar](30) NULL,
+	[Enable] [tinyint] NULL,
+	[Modifier] [nvarchar](30) NULL,
+	[ModifyDate] [datetime] NULL,
+	[ModifyID] [int] NULL,
+ CONSTRAINT [PK__Sys_Work__E731D35B8DAE74D6] PRIMARY KEY CLUSTERED 
+(
+	[WorkFlowTable_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+/****** Object:  Table [dbo].[Sys_WorkFlowTableStep]    Script Date: 2022/8/15 4:18:48 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Sys_WorkFlowTableStep](
+	[Sys_WorkFlowTableStep_Id] [uniqueidentifier] NOT NULL,
+	[WorkFlowTable_Id] [uniqueidentifier] NOT NULL,
+	[WorkFlow_Id] [uniqueidentifier] NULL,
+	[StepId] [nvarchar](100) NULL,
+	[StepName] [nvarchar](200) NULL,
+	[StepType] [int] NULL,
+	[StepValue] [int] NULL,
+	[OrderId] [int] NULL,
+	[AuditId] [int] NULL,
+	[Auditor] [nvarchar](50) NULL,
+	[AuditStatus] [int] NULL,
+	[AuditDate] [datetime] NULL,
+	[Remark] [nvarchar](500) NULL,
+	[CreateDate] [datetime] NULL,
+	[CreateID] [int] NULL,
+	[Creator] [nvarchar](30) NULL,
+	[Enable] [tinyint] NULL,
+	[Modifier] [nvarchar](30) NULL,
+	[ModifyDate] [datetime] NULL,
+	[ModifyID] [int] NULL,
+ CONSTRAINT [PK__Sys_Work__2CBB561BDE0F2FDA] PRIMARY KEY CLUSTERED 
+(
+	[Sys_WorkFlowTableStep_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlow', @level2type=N'COLUMN',@level2name=N'WorkName'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表名' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlow', @level2type=N'COLUMN',@level2name=N'WorkTable'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'功能菜单' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlow', @level2type=N'COLUMN',@level2name=N'WorkTableName'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'节点信息' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlow', @level2type=N'COLUMN',@level2name=N'NodeConfig'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'连接配置' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlow', @level2type=N'COLUMN',@level2name=N'LineConfig'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'备注' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlow', @level2type=N'COLUMN',@level2name=N'Remark'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程主表id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowStep', @level2type=N'COLUMN',@level2name=N'WorkFlow_Id'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'流程节点Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowStep', @level2type=N'COLUMN',@level2name=N'StepId'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'节点名称' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowStep', @level2type=N'COLUMN',@level2name=N'StepName'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'节点类型(1=按用户审批,2=按角色审批)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowStep', @level2type=N'COLUMN',@level2name=N'StepType'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'审批用户id或角色id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowStep', @level2type=N'COLUMN',@level2name=N'StepValue'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'备注' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowStep', @level2type=N'COLUMN',@level2name=N'Remark'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表主键id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowTable', @level2type=N'COLUMN',@level2name=N'WorkTableKey'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表名' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowTable', @level2type=N'COLUMN',@level2name=N'WorkTable'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'表中文名' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowTable', @level2type=N'COLUMN',@level2name=N'WorkTableName'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'审核人id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowTableStep', @level2type=N'COLUMN',@level2name=N'AuditId'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'审核人' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowTableStep', @level2type=N'COLUMN',@level2name=N'Auditor'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'审核状态' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Sys_WorkFlowTableStep', @level2type=N'COLUMN',@level2name=N'AuditStatus'
+GO
+
+

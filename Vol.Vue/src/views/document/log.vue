@@ -49,7 +49,33 @@ export default {
     return {
       active: 0,
       log: [
+        { date: '2022.08', type: 'month' },
+        {
+          date: '2022-08-15 04:08:46',
+          desc: '修复移动端安卓真机类型错误的问题'
+        },
+        {
+          date: '2022-08-15 04:06:17',
+          desc: '修复移动端图片上传权限异常的问题'
+        },
+        {
+          date: '2022-08-15 04:03:46',
+          style:"color:red",
+          desc: `增加审批流程功能,更新代码：
+          
+          <p>1、VOL.Core类库全部更新替换覆盖</p>
+            <p>2、 UserInfo.cs</p>
+              <p>3、  数据库更新：更新db文件夹中表结构Sys_WorkFlow、Sys_WorkFlowStep、Sys_WorkFlowTable、Sys_WorkFlowTableStep这4张图，同时生成代码(代码生成时类库选择system，文件夹名flow)</p>
+              <p>4、流程注入见后台代码：Startup.cs中ConfigureContainer方法说明</p>
+                 <p>5、其他遗漏或详细补充见视频</p>
+              `
+      
+        },
         { date: '2022.07', type: 'month' },
+
+        { date: '2022-07-30 11:16:55', desc: '移除.net6版本过时代码' },
+        { date: '2022-07-25 02:45:15', desc: '增加审批流程(审批逻辑待完)' },
+        { date: '2022-07-20 00:17:15', desc: '优化移动端下拉框默认值显示' },
         { date: '2022-07-18 02:55:25', desc: '完善文档' },
         {
           date: '2022-07-18 02:01:05',
