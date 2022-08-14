@@ -595,6 +595,7 @@
 						filePath: url,
 						name: 'fileInput',
 						header: {
+							"uapp":1,
 							"Authorization": this.$store.getters.getToken()
 						},
 						formData: {},
