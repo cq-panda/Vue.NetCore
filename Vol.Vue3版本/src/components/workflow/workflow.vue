@@ -79,18 +79,18 @@ import { ForceDirected } from './force-directed';
 
 export default {
   props: {
-    lineList: {
-      type: Array,
-      default: () => {
-        return [];
-      }
-    },
-    nodeList: {
-      type: Array,
-      default: () => {
-        return [];
-      }
-    }
+    // lineList: {
+    //   type: Array,
+    //   default: () => {
+    //     return [];
+    //   }
+    // },
+    // nodeList: {
+    //   type: Array,
+    //   default: () => {
+    //     return [];
+    //   }
+    // }
   },
   created() {
     this.http.get('api/Sys_WorkFlow/getTableInfo').then((result) => {
@@ -529,14 +529,18 @@ export default {
           /**
            * 这里需要进行业务判断，是否可以删除
            */
-          this.data.nodeList = this.data.nodeList.filter(function(node) {
-            if (node.id === nodeId) {
-              // 伪删除，将节点隐藏，否则会导致位置错位
-              // node.show = false
-              return false;
-            }
-            return true;
+          let index = this.data.nodeList.findIndex((x) => {
+            return x.id == nodeId;
           });
+          this.data.nodeList.splice(index, 1);
+          // this.data.nodeList = this.data.nodeList.filter(function(node) {
+          //   if (node.id === nodeId) {
+          //     // 伪删除，将节点隐藏，否则会导致位置错位
+          //     // node.show = false
+          //     return false;
+          //   }
+          //   return true;
+          // });
           this.$nextTick(function() {
             this.jsPlumb.removeAllEndpoints(nodeId);
           });
@@ -587,13 +591,13 @@ export default {
     // 加载流程图
     dataReload(data) {
       this.easyFlowVisible = false;
-      this.data.nodeList.splice(0);
-      this.data.lineList.splice(0);
+      // this.data.nodeList.splice(0);
+      // this.data.lineList.splice(0);
       this.$nextTick(() => {
-        data = JSON.parse(JSON.stringify(data)); //lodash.cloneDeep(data);
+        data = lodash.cloneDeep(data);
         this.easyFlowVisible = true;
-        this.data.nodeList.push(...data.nodeList);
-        this.data.lineList.push(...data.lineList);
+        this.data.nodeList = data.nodeList;
+        this.data.lineList = data.lineList;
         //this.data = data;
         this.$nextTick(() => {
           this.jsPlumb = jsPlumb.getInstance();

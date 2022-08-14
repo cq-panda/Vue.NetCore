@@ -4,7 +4,7 @@ using System.Text;
 
 namespace VOL.Core.Const
 {
-    public struct SqlDbTypeName 
+    public struct SqlDbTypeName
     {
         public const string NVarChar = "nvarchar";
         public const string VarChar = "varchar";

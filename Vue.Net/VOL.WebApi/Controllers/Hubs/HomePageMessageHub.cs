@@ -88,7 +88,10 @@ namespace VOL.WebApi.Controllers.Hubs
         /// <returns></returns>
         public async Task<bool> SendHomeMessage(string username, string title, string message)
         {
-   
+            if (_connectionIds[Context.ConnectionId]!="admin")
+            {
+                return false;
+            }
             await Clients.Clients(GetCnnectionIds(username).ToArray()).SendAsync("ReceiveHomePageMessage", new
             {
                 //   username,

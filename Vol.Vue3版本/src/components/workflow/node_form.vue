@@ -15,11 +15,19 @@
           :formRules="formRules"
         >
           <div style="text-align:center;padding-left:25px;display:flex;">
-            <el-button size="small" icon="el-icon-delete" type="danger" @click="delNode"
-              >删除节点</el-button
+            <el-button
+              size="small"
+              icon="el-icon-delete"
+              type="danger"
+              @click="delNode"
+              >删除</el-button
             >
-            <el-button size="small" icon="el-icon-check" type="primary" @click="save"
-              >修改节点</el-button
+            <el-button
+              size="small"
+              icon="el-icon-check"
+              type="primary"
+              @click="save"
+              >保存</el-button
             >
           </div>
         </VolForm>
@@ -70,7 +78,7 @@
             style="text-align:center;padding-left:25px;"
           >
             <el-button
-            size="small"
+              size="small"
               style=" width: 100%;"
               icon="el-icon-delete"
               type="danger"
@@ -156,7 +164,6 @@ export default {
       visible: true,
       // node 或 line
       type: 'node',
-      node: {},
       line: {},
       data: {},
       stateList: [
@@ -191,6 +198,8 @@ export default {
       data.nodeList.filter((node) => {
         if (node.id === id) {
           let _node = cloneDeep(node);
+          _node.roleId = _node.roleId || null;
+          _node.userId = _node.userId || null;
           // for (const key in this.node) {
           //   this.node[key] = _node[key];
           // }
@@ -206,6 +215,7 @@ export default {
     // 修改连线
     saveLine() {
       this.$emit('setLineLabel', this.line.from, this.line.to, this.line.label);
+      this.$message.success('保存成功')
     },
     save() {
       this.data.nodeList.filter((node) => {
@@ -218,6 +228,7 @@ export default {
           this.$emit('repaintEverything', this.node);
         }
       });
+            this.$message.success('保存成功')
     },
     deleteElement() {
       this.$emit('deleteElement');

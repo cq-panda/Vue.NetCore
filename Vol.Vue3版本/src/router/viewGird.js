@@ -110,6 +110,10 @@ let viewgird = [
         path: '/Sys_WorkFlow',
         name: 'Sys_WorkFlow',
         component: () => import('@/views/system/flow/Sys_WorkFlow.vue')
+    }    ,{
+        path: '/Sys_WorkFlowTable',
+        name: 'Sys_WorkFlowTable',
+        component: () => import('@/views/system/flow/Sys_WorkFlowTable.vue')
     }]
 
 export default viewgird

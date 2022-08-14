@@ -85,7 +85,7 @@ namespace VOL.Core.Configuration
 
             _connection = provider.GetRequiredService<IOptions<Connection>>().Value;
 
-
+    
 
             ExpMinutes = (configuration["ExpMinutes"] ?? "120").GetInt();
 
@@ -130,10 +130,10 @@ namespace VOL.Core.Configuration
         public bool UseSignalR { get; set; }
     }
 
-    public class CreateMember : TableDefaultColumns
+    public class CreateMember: TableDefaultColumns
     {
     }
-    public class ModifyMember : TableDefaultColumns
+    public class ModifyMember: TableDefaultColumns
     {
     }
 

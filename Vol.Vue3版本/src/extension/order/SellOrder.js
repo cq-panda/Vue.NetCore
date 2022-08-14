@@ -183,11 +183,11 @@ let extension = {
       return true;
     },
     searchAfter(result) { //查询ViewGird表数据后param查询参数,result回返查询的结果
-      this.$notify({
-        title: '查询结果',
-        message: '返回的对象：' + JSON.stringify(result),
-        type: 'success'
-      });
+      // this.$notify({
+      //   title: '查询结果',
+      //   message: '返回的对象：' + JSON.stringify(result),
+      //   type: 'success'
+      // });
       return true;
     },
     searchDetailBefore(param) {//查询从表表数据前,param查询参数
@@ -195,11 +195,11 @@ let extension = {
       return true;
     },
     searchDetailAfter(data) {//查询从表后param查询参数,result回返查询的结果
-      this.$notify({
-        title: '明细查询结果',
-        message: '返回的对象：' + JSON.stringify(data),
-        type: 'success'
-      });
+      // this.$notify({
+      //   title: '明细查询结果',
+      //   message: '返回的对象：' + JSON.stringify(data),
+      //   type: 'success'
+      // });
       return true;
     },
     delBefore(ids, rows) { //查询界面的表删除前 ids为删除的id数组,rows删除的行
@@ -276,7 +276,7 @@ let extension = {
       return true;
     },
     updateAfter(result) {//编辑保存后result返回的状态及表单对象
-      this.$message.success(this.detailOptions.cnName + '编辑完成后,返回的数据' + JSON.stringify(result));
+    //  this.$message.success(this.detailOptions.cnName + '编辑完成后,返回的数据' + JSON.stringify(result));
       return true;
     },
     auditBefore(ids, rows) {//审核前

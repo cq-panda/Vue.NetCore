@@ -189,16 +189,16 @@ let methods = {
           onClick() {
             this.save();
           }
-        },
-        {
-          name: '重 置',
-          icon: 'el-icon-refresh-right',
-          type: 'primary',
-          disabled: false,
-          onClick() {
-            this.resetEdit();
-          }
         }
+        // {
+        //   name: '重 置',
+        //   icon: 'el-icon-refresh-right',
+        //   type: 'primary',
+        //   disabled: false,
+        //   onClick() {
+        //     this.resetEdit();
+        //   }
+        // }
       ]
     );
     //从表表格操作按钮
@@ -640,7 +640,7 @@ let methods = {
         .map((c) => {
           return c.field;
         });
-        //2022.06.20增加保存时对明细表下拉框多选的判断
+      //2022.06.20增加保存时对明细表下拉框多选的判断
       if (_fields.length) {
         formData.detailData = JSON.parse(JSON.stringify(formData.detailData));
         formData.detailData.forEach((row) => {
@@ -806,6 +806,7 @@ let methods = {
     this.boxModel = true;
   },
   async linkData(row, column) {
+    this.boxOptions.title = '编辑';
     //点击table单元格快捷链接显示编辑数据
     this.currentAction = this.const.EDIT;
     this.currentRow = row;
@@ -845,6 +846,7 @@ let methods = {
     this.resetEditForm(obj);
   },
   async add() {
+    this.boxOptions.title = '新建';
     //新建
     this.currentAction = this.const.ADD;
     this.currentRow = {};
@@ -859,6 +861,7 @@ let methods = {
     // this.modelOpenAfter();
   },
   async edit(rows) {
+    this.boxOptions.title = '编辑';
     //编辑
     this.currentAction = this.const.EDIT;
     if (rows) {
@@ -1055,7 +1058,8 @@ let methods = {
   saveAudit() {
     //保存审核
     let rows = this.$refs.table.getSelected();
-    if (this.auditParam.status == -1) return this.$error('请选择审核结果!');
+    if (this.auditParam.value == -1 && this.auditParam.status == -1)
+      return this.$error('请选择审核结果!');
 
     if (rows.length != this.auditParam.rows)
       return this.$error('所选数据已发生变化,请重新选择审数据!');
@@ -1063,6 +1067,9 @@ let methods = {
     let keys = rows.map((x) => {
       return x[this.table.key];
     });
+    if (this.auditParam.value != -1) {
+      keys = [this.editFormFields[this.table.key]];
+    }
     if (!this.auditBefore(keys, rows)) {
       return;
     }
@@ -1071,7 +1078,9 @@ let methods = {
       '?auditReason=' +
       this.auditParam.reason +
       '&auditStatus=' +
-      this.auditParam.status;
+      (this.auditParam.status < 0
+        ? this.auditParam.value
+        : this.auditParam.status);
     this.http.post(url, keys, '审核中....').then((x) => {
       if (!this.auditAfter(x, rows)) {
         return;
@@ -1079,8 +1088,10 @@ let methods = {
       if (!x.status) return this.$error(x.message);
       this.auditParam.rows = 0;
       this.auditParam.status = -1;
+      this.auditParam.value = -1;
       this.auditParam.reason = '';
       this.auditParam.model = false;
+      this.boxModel = false;
       this.$success(x.message);
       this.refresh();
     });
@@ -1520,6 +1531,88 @@ let methods = {
       return;
     }
     this.importAfter(data);
+  },
+  onGridModelClose(iconClick) {
+    if (this.isBoxAudit) {
+      this.initFormOptionType(false);
+    }
+    this.isBoxAudit = false;
+    this.onModelClose(iconClick);
+  },
+  initAuditColumn() {
+    let _btn = this.buttons.find((x) => {
+      return x.value == 'Audit';
+    });
+    if (!_btn) {
+      return;
+    }
+    _btn.hidden = true;
+    this.columns.push({
+      field: '操作',
+      title: '操作',
+      width: 70,
+      // fixed:"right",
+      align: 'center',
+      formatter: (row) => {
+        if (
+          row.AuditStatus === 0 ||
+          row.auditStatus === 0 ||
+          row.auditstatus === 0
+        ) {
+          return '<i style="cursor: pointer;color: #2d8cf0;" class="el-icon-edit">审核</i>';
+        }
+        return '<i style="cursor: pointer;color: #2d8cf0;" class="el-icon-view">查看</i>';
+      },
+      click: (row) => {
+        this.getWorkFlowSteps(row);
+      }
+    });
+  },
+  getWorkFlowSteps(row) {
+    let table = this.table.url.replaceAll('/', '');
+    let url = `api/Sys_WorkFlow/getSteps?tableName=${table}&id=${
+      row[this.table.key]
+    }`;
+    this.http.get(url, {}, true).then((result) => {
+      this.workFlowSteps.splice(0);
+      //有可能没有配置审批流程
+      if (!result.list || !result.list.length) {
+        return;
+      }
+
+      this.auditParam.showAction = result.list.some((c) => {
+        return c.isCurrentUser;
+      });
+      this.workFlowSteps.push(...result.list);
+      this.isBoxAudit = true;
+      this.initFormOptionType(true);
+      this.edit(row);
+      this.boxOptions.title = '审核';
+    });
+  },
+  initFormOptionType(isReadonly) {
+    this.editFormOptions.forEach((options) => {
+      options.forEach((option) => {
+        if (isReadonly) {
+          if (!option.readonly) {
+            this.formFieldsType.push(option.field);
+            option.readonly = true;
+          }
+        } else {
+          if (this.formFieldsType.indexOf(option.field) != -1) {
+            option.readonly = false;
+          }
+        }
+      });
+    });
+  },
+  getAuditStatus(status){
+    let data=  this.auditParam.data.find(x=>{return x.value==status });
+    if (!data) {
+      return '-';
+     //   return `审核值不正确:${status}`
+    }
+    return data.text;
   }
 };
 import customColumns from './ViewGridCustomColumn.js';

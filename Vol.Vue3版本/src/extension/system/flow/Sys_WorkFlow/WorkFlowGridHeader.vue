@@ -10,8 +10,6 @@
     <div>
       <flow-panel
         ref="flow"
-        :lineList="lineList"
-        :nodeList="nodeList"
       ></flow-panel>
     </div>
     <template #footer>
@@ -52,7 +50,7 @@ export default {
       } else {
         this.nodeList = [
           {
-            id: 'nodeA',
+            id: '1659276275052',
             name: '流程C-节点A',
             type: 'task',
             left: '230px',
@@ -60,7 +58,7 @@ export default {
             ico: 'el-icon-user-solid'
           },
           {
-            id: 'nodeB',
+            id: '1659276282115',
             name: '流程C-节点B',
             type: 'task',
             left: '225px',
@@ -74,10 +72,8 @@ export default {
       } else {
         this.lineList = [
           {
-            from: 'nodeA',
-            to: 'nodeB'
-            //  connector: 'Straight',
-            //   paintStyle: {strokeWidth: 1, stroke: '#827f7f'}
+            from: '1659276275052',
+            to: '1659276282115'
           }
         ];
       }
@@ -97,8 +93,10 @@ export default {
     },
     save() {
       let mainData = JSON.parse(JSON.stringify(this.$refs.flow.formFields));
-      mainData.NodeConfig = JSON.stringify(this.$refs.flow.data.nodeList);
-      mainData.LineConfig = JSON.stringify(this.$refs.flow.data.lineList);
+      let nodeList = this.$refs.flow.data.nodeList;
+      mainData.NodeConfig = JSON.stringify(nodeList);
+      let lineList = this.$refs.flow.data.lineList;
+      mainData.LineConfig = JSON.stringify(lineList);
 
       let nodes = JSON.parse(mainData.NodeConfig);
       let lines = JSON.parse(mainData.LineConfig);
@@ -115,18 +113,62 @@ export default {
         return this.$message.error('只能设置一个流程根节点');
       }
       let detailData = [];
-      //   if (root.length) {
-      //     root = root[0];
-      //     detailData.push({
-      //       WorkStepFlow_Id: root.WorkStepFlow_Id,
-      //       WorkFlow_Id: root.WorkFlow_Id,
-      //       Step: 1,
-      //       NodeType:root.NodeType,
-      //       UserId:root.UserId,
-      //       RoleId:root.RoleId,
-      //       Remark:root.Remark
-      //     });
-      //   }
+      let ids = nodeList.map((x) => {
+        return x.id;
+      });
+
+      let rootId = root[0].id;
+
+      detailData.push(
+        nodeList.find((x) => {
+          return x.id == rootId;
+        })
+      );
+
+      //查找当前节点的下一个节点(后面增加会签等分支的时候,find改为filter批量查找)
+      for (let index = 0; index < detailData.length; index++) {
+        let id = detailData[index].id;
+        let item = lineList.find((x) => {
+          return x.from == id;
+        });
+        if (item) {
+          //查找下一个节点
+          item = nodeList.find((x) => {
+            return x.id == item.to;
+          });
+          detailData.push(item);
+        }
+      }
+
+      detailData = detailData.map((x, index) => {
+        return {
+          StepId: x.id,
+          StepName: x.name,
+          StepType: x.nodeType,
+          StepValue: x.nodeType == '1' ? x.userId : x.roelId,
+          OrderId: index + 1
+        };
+      });
+
+      for (let index = 0; index < detailData.length; index++) {
+        const step = detailData[index];
+        if (!step.StepName) {
+          return this.$message.error(`请输入第【${index + 1}】个节点的名称`);
+        }
+        // if (!step.StepType) {
+        //    return this.$message.error(`请输入第【${index + 1}】个节点的名称`);
+        // }
+        //区分用户、角色，这里待完
+        //节点删除后保存有问题，待处理
+        if (!step.StepType) {
+          step.StepType = '1';
+        }
+        if (step.StepType == '1' && !step.StepValue) {
+          return this.$message.error(
+            `请选择第【${index + 1}】个节点的审批用户`
+          );
+        }
+      }
 
       let params = {
         mainData: mainData,

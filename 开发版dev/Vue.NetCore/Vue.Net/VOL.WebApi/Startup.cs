@@ -28,6 +28,7 @@ using VOL.Core.Extensions;
 using VOL.Core.Filters;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
+using VOL.Core.WorkFlow;
 using VOL.WebApi.Controllers.Hubs;
 
 namespace VOL.WebApi
@@ -192,6 +193,8 @@ namespace VOL.WebApi
         public void ConfigureContainer(ContainerBuilder builder)
         {
             Services.AddModule(builder, Configuration);
+            //初始化流程表，表里面必须有AuditStatus字段，可以参照 演示环境sellorder表
+           // WorkFlowContainer.Instance.Use<表名1>().Use<表名2>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

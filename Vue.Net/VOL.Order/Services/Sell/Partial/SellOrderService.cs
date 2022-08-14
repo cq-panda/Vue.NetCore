@@ -12,6 +12,7 @@ using VOL.Core.Extensions;
 using VOL.Core.ManageUser;
 using VOL.Core.UserManager;
 using VOL.Core.Utilities;
+using VOL.Core.WorkFlow;
 using VOL.Entity.DomainModels;
 using VOL.Order.IRepositories;
 using VOL.Order.Repositories;
@@ -36,7 +37,7 @@ namespace VOL.Order.Services
         {
             _httpContextAccessor = httpContextAccessor;
             _repository = repository;
-            base.Init(_repository);
+            //  base.Init(_repository);
             //2020.08.15
             //开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效
             //如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置 IsMultiTenancy = true;
@@ -205,6 +206,24 @@ namespace VOL.Order.Services
                 return webResponse.OK("已新建成功,台AddOnExecuted方法返回的消息");
             };
 
+
+            //新建的数据进入审批流程前处理，
+            AddWorkFlowExecuting = (SellOrder order) =>
+            {
+                //返回false，当前数据不会进入审批流程
+                return true;
+            };
+
+            //新建的数据写入审批流程后,第二个参数为审批人的用户id
+            AddWorkFlowExecuted = (SellOrder order, List<int> userIds) =>
+            {
+                //这里可以做发邮件通知
+                //var userInfo = repository.DbContext.Set<Sys_User>()
+                //                .Where(x => userIds.Contains(x.User_Id))
+                //                .Select(s => new { s.User_Id, s.UserTrueName, s.Email, s.PhoneNo }).ToList();
+ 
+            };
+
             return base.Add(saveDataModel);
         }
         /// <summary>
@@ -298,16 +317,40 @@ namespace VOL.Order.Services
         }
         public override WebResponseContent Audit(object[] keys, int? auditStatus, string auditReason)
         {
-            //审核保存前处理
+            //status当前审批状态,lastAudit是否最后一个审批节点
+            AuditWorkFlowExecuting = (SellOrder order, AuditStatus status, bool lastAudit) =>
+            {
+                return webResponse.OK();
+            };
+            //status当前审批状态,nextUserIds下一个节点审批人的帐号id(可以从sys_user表中查询用户具体信息),lastAudit是否最后一个审批节点
+            AuditWorkFlowExecuted = (SellOrder order, AuditStatus status, List<int> nextUserIds, bool lastAudit) =>
+            {
+                //lastAudit=true时，流程已经结束 
+                if (!lastAudit)
+                {
+                    //这里可以给下一批审批发送邮件通知
+                    //var userInfo = repository.DbContext.Set<Sys_User>()
+                    //             .Where(x => nextUserIds.Contains(x.User_Id))
+                    //             .Select(s => new { s.User_Id, s.UserTrueName, s.Email, s.PhoneNo }).ToList();
+                }
+
+                return webResponse.OK();
+            };
+
+
+            //审核保存前处理(不是审批流程)
             AuditOnExecuting = (List<SellOrder> order) =>
             {
                 return webResponse.OK();
             };
-
+            //审核后处理(不是审批流程)
             AuditOnExecuted = (List<SellOrder> order) =>
             {
                 return webResponse.OK();
             };
+
+
+
             return base.Audit(keys, auditStatus, auditReason);
         }
 

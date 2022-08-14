@@ -15,7 +15,7 @@
         public string DB { get; set; }
 
         /// <summary>
-        /// redis加密key 
+        /// redis加密key
         /// </summary>
         public string Redis { get; set; }
 

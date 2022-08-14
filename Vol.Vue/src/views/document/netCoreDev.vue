@@ -1311,980 +1311,1086 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
           title: "后台基础代码扩展实现",
           name: "extend",
           content: [
-            `<div style="padding:15px 0;color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-	<div>
-	//此处是SellOrderService为例，如果框架生成的默认功能满足不了需求，请查看下面代码根据需要实现对应功能
-	<br>
-		&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;<span style="color:#9cdcfe;">partial</span>&nbsp;<span style="color:#9cdcfe;">class</span>&nbsp;<span style="color:#9cdcfe;">SellOrderService</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;string&nbsp;<span style="color:#dcdcaa;">GetServiceDate</span>()
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">DateTime</span>.<span style="color:#9cdcfe;">Now</span>.<span style="color:#dcdcaa;">ToString</span>(<span style="color:#ce9178;">"yyyy-MM-dd&nbsp;HH:mm:sss"</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此SellOrderService.cs类由代码生成器生成，默认是没有任何代码，如果需要写业务代码，请在此类中实现</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果默认的增、删、改、查、导入、导出、审核满足不了业务，请参考下面的方法进行业务代码扩展(扩展代码是对ServiceFunFilter.cs的实现)</span>
-	</div>
+            `<p>
+			<div style="padding:20px;font-size:18px;">此处是SellOrderService为例，如果框架生成的默认功能满足不了需求，请查看下面代码根据需要实现对应功能</div>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			<span style="color:#9cdcfe;">public</span> <span style="color:#9cdcfe;">partial</span> <span style="color:#569cd6;">class</span> <span style="color:#4ec9b0;">SellOrderService</span>
+		</div>
+		<div>
+			{
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#9cdcfe;">string</span> <span style="color:#dcdcaa;">GetServiceDate</span>()
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">DateTime</span>.<span style="color:#9cdcfe;">Now</span>.<span style="color:#dcdcaa;">ToString</span>(<span style="color:#ce9178;">"yyyy-MM-dd HH:mm:sss"</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">//此SellOrderService.cs类由代码生成器生成，默认是没有任何代码，如果需要写业务代码，请在此类中实现</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">//如果默认的增、删、改、查、导入、导出、审核满足不了业务，请参考下面的方法进行业务代码扩展(扩展代码是对ServiceFunFilter.cs的实现)</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebResponseContent&nbsp;<span style="color:#9cdcfe;">webResponse</span>&nbsp;=&nbsp;<span style="color:#569cd6;">new</span>&nbsp;<span style="color:#dcdcaa;">WebResponseContent</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;IHttpContextAccessor&nbsp;_httpContextAccessor;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;ISellOrderRepository&nbsp;_repository;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">[ActivatorUtilitiesConstructor]</span>
-	</div>
-	<div>
-		<span style="color:#9cdcfe;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;SellOrderService(IHttpContextAccessor&nbsp;httpContextAccessor,&nbsp;ISellOrderRepository&nbsp;repository)</span>
-	</div>
-	<div>
-		<span style="color:#9cdcfe;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>&nbsp;<span style="color:#dcdcaa;">base</span>(<span style="color:#9cdcfe;">repository</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">_httpContextAccessor</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">httpContextAccessor</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">_repository</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">repository</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Init(_repository);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.08.15</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置&nbsp;IsMultiTenancy&nbsp;=&nbsp;true;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">IsMultiTenancy</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">PageGridData</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">PageDataOptions</span>&nbsp;<span style="color:#9cdcfe;">options</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//options.Value可以从前台查询的方法提交一些其他参数放到value里面</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//前端提交方式，见文档：组件api-&gt;viewgrid组件里面的searchBefore方法</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;object&nbsp;<span style="color:#9cdcfe;">extraValue</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">options</span>.<span style="color:#9cdcfe;">Value</span>;
-	</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#9cdcfe;">WebResponseContent</span> <span style="color:#9cdcfe;">webResponse</span> = <span style="color:#569cd6;">new</span> <span style="color:#dcdcaa;">WebResponseContent</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">private</span> <span style="color:#9cdcfe;">IHttpContextAccessor</span> <span style="color:#9cdcfe;">_httpContextAccessor</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">private</span> <span style="color:#9cdcfe;">ISellOrderRepository</span> <span style="color:#9cdcfe;">_repository</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; [<span style="color:#9cdcfe;">ActivatorUtilitiesConstructor</span>]
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#dcdcaa;">SellOrderService</span>(<span style="color:#9cdcfe;">IHttpContextAccessor</span> <span style="color:#9cdcfe;">httpContextAccessor</span>, <span style="color:#9cdcfe;">ISellOrderRepository</span> <span style="color:#9cdcfe;">repository</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; : <span style="color:#4ec9b0;">base</span>(<span style="color:#4ec9b0;">repository</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">_httpContextAccessor</span> = <span style="color:#9cdcfe;">httpContextAccessor</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">_repository</span> = <span style="color:#9cdcfe;">repository</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp;base.Init(_repository);</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//2020.08.15</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置 IsMultiTenancy = true;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">IsMultiTenancy</span> = <span style="color:#569cd6;">true</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">//查询</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">PageGridData</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">PageDataOptions</span> <span style="color:#9cdcfe;">options</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//options.Value可以从前台查询的方法提交一些其他参数放到value里面</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//前端提交方式，见文档：组件api-&gt;viewgrid组件里面的searchBefore方法</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">object</span> <span style="color:#9cdcfe;">extraValue</span> = <span style="color:#9cdcfe;">options</span>.<span style="color:#9cdcfe;">Value</span>;
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处是从前台提交的原生的查询条件，这里可以自己过滤</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">QueryRelativeList</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SearchParameters</span>&gt;&nbsp;<span style="color:#9cdcfe;">parameters</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//此处是从前台提交的原生的查询条件，这里可以自己过滤</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">QueryRelativeList</span> = (<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SearchParameters</span>&gt; <span style="color:#9cdcfe;">parameters</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.08.15</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置原生查询的sql语句，这里必须返回select&nbsp;*&nbsp;表所有字段</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//（先内部过滤数据,内部调用EF方法FromSqlRaw,自己写的sql注意sql注入的问题），不会影响界面上提交的查询</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*&nbsp;&nbsp;</span>
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;string&nbsp;date&nbsp;=&nbsp;DateTime.Now.AddYears(-10).ToString("yyyy-MM-dd");</span>
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QuerySql&nbsp;=&nbsp;$@"select&nbsp;*&nbsp;from&nbsp;SellOrder&nbsp;&nbsp;</span>
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;createdate&gt;'{date}'</span>
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;Order_Id&nbsp;in&nbsp;(select&nbsp;Order_Id&nbsp;from&nbsp;SellOrderList)</span>
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;CreateID={UserContext.Current.UserId}";</span>
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//2020.08.15</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置原生查询的sql语句，这里必须返回select * 表所有字段</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//（先内部过滤数据,内部调用EF方法FromSqlRaw,自己写的sql注意sql注入的问题），不会影响界面上提交的查询</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/* &nbsp;</span>
+		</div>
+		<div>
+			<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;* &nbsp;string date = DateTime.Now.AddYears(-10).ToString("yyyy-MM-dd");</span>
+		</div>
+		<div>
+			<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; QuerySql = $@"select * from SellOrder &nbsp;</span>
+		</div>
+		<div>
+			<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;where createdate&gt;'{date}'</span>
+		</div>
+		<div>
+			<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;and &nbsp;Order_Id in (select Order_Id from SellOrderList)</span>
+		</div>
+		<div>
+			<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;and CreateID={UserContext.Current.UserId}";</span>
+		</div>
+		<div>
+			<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; */</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2020.08.15</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处与上面QuerySql只需要实现其中一个就可以了</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询前可以自已设定查询表达式的条件</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">QueryRelativeExpression</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">IQueryable</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">queryable</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//IQueryable&lt;int&gt;&nbsp;userQuery&nbsp;=&nbsp;RoleContext.GetCurrentAllChildUser();</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//queryable&nbsp;=&nbsp;queryable.Where(x&nbsp;=&gt;&nbsp;x.CreateID&nbsp;==&nbsp;UserContext.Current.UserId&nbsp;||&nbsp;userQuery.Contains(x.CreateID&nbsp;??&nbsp;0));</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">queryable</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//2020.08.15</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//此处与上面QuerySql只需要实现其中一个就可以了</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//查询前可以自已设定查询表达式的条件</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">QueryRelativeExpression</span> = (<span style="color:#9cdcfe;">IQueryable</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">queryable</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//当前用户只能操作自己(与下级角色)创建的数据,如:查询、删除、修改等操作</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//IQueryable&lt;int&gt; userQuery = RoleContext.GetCurrentAllChildUser();</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//queryable = queryable.Where(x =&gt; x.CreateID == UserContext.Current.UserId || userQuery.Contains(x.CreateID ?? 0));</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">queryable</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//指定多个字段进行排序</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">OrderByExpression</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;<span style="color:#dcdcaa;">Dictionary</span>&lt;<span style="color:#4ec9b0;">object</span>,&nbsp;<span style="color:#4ec9b0;">QueryOrderBy</span>&gt;()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;x.<span style="color:#9cdcfe;">CreateDate</span>,QueryOrderBy.<span style="color:#9cdcfe;">Desc</span>&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;x.<span style="color:#9cdcfe;">SellNo</span>,QueryOrderBy.<span style="color:#9cdcfe;">Asc</span>}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//指定多个字段进行排序</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">OrderByExpression</span> = <span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#569cd6;">new</span> <span style="color:#dcdcaa;">Dictionary</span>&lt;<span style="color:#4ec9b0;">object</span>, <span style="color:#4ec9b0;">QueryOrderBy</span>&gt;() {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; { <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span>,<span style="color:#9cdcfe;">QueryOrderBy</span>.<span style="color:#9cdcfe;">Desc</span> },
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; { <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>,<span style="color:#9cdcfe;">QueryOrderBy</span>.<span style="color:#9cdcfe;">Asc</span>}
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//int&nbsp;a&nbsp;=&nbsp;1;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">////指定多个字段按条件进行排序（需要2021.07.04更新LambdaExtensions类后才能使用）</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//OrderByExpression&nbsp;=&nbsp;x&nbsp;=&gt;&nbsp;new&nbsp;Dictionary&lt;object,&nbsp;QueryOrderBy&gt;()&nbsp;{</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;x.CreateDate,QueryOrderBy.Desc&nbsp;},</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;x.SellNo,a==1?QueryOrderBy.Desc:QueryOrderBy.Asc}</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//};</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//int a = 1;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">////指定多个字段按条件进行排序（需要2021.07.04更新LambdaExtensions类后才能使用）</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//OrderByExpression = x =&gt; new Dictionary&lt;object, QueryOrderBy&gt;() {</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp;{ x.CreateDate,QueryOrderBy.Desc },</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp;{ x.SellNo,a==1?QueryOrderBy.Desc:QueryOrderBy.Asc}</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//};</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询完成后，在返回页面前可对查询的数据进行操作</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">GetPageDataOnExecuted</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">PageGridData</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">grid</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//可对查询的结果的数据操作</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">sellOrders</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">grid</span>.<span style="color:#9cdcfe;">rows</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询table界面显示求和</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">SummaryExpress</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">IQueryable</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">queryable</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">queryable</span>.<span style="color:#dcdcaa;">GroupBy</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#b5cea8;">1</span>).<span style="color:#dcdcaa;">Select</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//AvgPrice注意大小写和数据库字段大小写一样</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">Qty</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">Sum</span>(<span style="color:#9cdcfe;">o</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#9cdcfe;">o</span>.<span style="color:#9cdcfe;">Qty</span>).<span style="color:#dcdcaa;">ToString</span>(<span style="color:#ce9178;">"f2"</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span style="color:#dcdcaa;">FirstOrDefault</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//查询完成后，在返回页面前可对查询的数据进行操作</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">GetPageDataOnExecuted</span> = (<span style="color:#9cdcfe;">PageGridData</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">grid</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//可对查询的结果的数据操作</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">sellOrders</span> = <span style="color:#9cdcfe;">grid</span>.<span style="color:#9cdcfe;">rows</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//查询table界面显示求和</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">SummaryExpress</span> = (<span style="color:#9cdcfe;">IQueryable</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">queryable</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">queryable</span>.<span style="color:#dcdcaa;">GroupBy</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#b5cea8;">1</span>).<span style="color:#dcdcaa;">Select</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#569cd6;">new</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//AvgPrice注意大小写和数据库字段大小写一样</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Qty</span> = <span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">Sum</span>(<span style="color:#9cdcfe;">o</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#9cdcfe;">o</span>.<span style="color:#9cdcfe;">Qty</span>).<span style="color:#dcdcaa;">ToString</span>(<span style="color:#ce9178;">"f2"</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .<span style="color:#dcdcaa;">FirstOrDefault</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">options</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;设置弹出框明细表的合计信息</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;/summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;typeparam&nbsp;name="detail"&gt;&lt;/typeparam&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;param&nbsp;name="queryeable"&gt;&lt;/param&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;returns&gt;&lt;/returns&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">protected</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">object</span>&nbsp;<span style="color:#dcdcaa;">GetDetailSummary</span>&lt;<span style="color:#4ec9b0;">detail</span>&gt;(<span style="color:#9cdcfe;">IQueryable</span>&lt;<span style="color:#9cdcfe;">detail</span>&gt;&nbsp;<span style="color:#9cdcfe;">queryeable</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;(<span style="color:#9cdcfe;">queryeable</span>&nbsp;<span style="color:#c586c0;">as</span>&nbsp;<span style="color:#4ec9b0;">IQueryable</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;).<span style="color:#dcdcaa;">GroupBy</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#b5cea8;">1</span>).<span style="color:#dcdcaa;">Select</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//Weight/Qty注意大小写和数据库字段大小写一样</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">Weight</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">Sum</span>(<span style="color:#9cdcfe;">o</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#9cdcfe;">o</span>.<span style="color:#9cdcfe;">Weight</span>),
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">Qty</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">Sum</span>(<span style="color:#9cdcfe;">o</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#9cdcfe;">o</span>.<span style="color:#9cdcfe;">Qty</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}).<span style="color:#dcdcaa;">FirstOrDefault</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">options</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// 设置弹出框明细表的合计信息</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;typeparam name="detail"&gt;&lt;/typeparam&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;param name="queryeable"&gt;&lt;/param&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;returns&gt;&lt;/returns&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">protected</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">object</span> <span style="color:#dcdcaa;">GetDetailSummary</span>&lt;<span style="color:#4ec9b0;">detail</span>&gt;(<span style="color:#9cdcfe;">IQueryable</span>&lt;<span style="color:#9cdcfe;">detail</span>&gt; <span style="color:#9cdcfe;">queryeable</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> (<span style="color:#9cdcfe;">queryeable</span> <span style="color:#c586c0;">as</span> <span style="color:#4ec9b0;">IQueryable</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;).<span style="color:#dcdcaa;">GroupBy</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#b5cea8;">1</span>).<span style="color:#dcdcaa;">Select</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#569cd6;">new</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//Weight/Qty注意大小写和数据库字段大小写一样</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Weight</span> = <span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">Sum</span>(<span style="color:#9cdcfe;">o</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#9cdcfe;">o</span>.<span style="color:#9cdcfe;">Weight</span>),
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Qty</span> = <span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">Sum</span>(<span style="color:#9cdcfe;">o</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#9cdcfe;">o</span>.<span style="color:#9cdcfe;">Qty</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; }).<span style="color:#dcdcaa;">FirstOrDefault</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;查询业务代码编写(从表(明细表查询))</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;/summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;param&nbsp;name="pageData"&gt;&lt;/param&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;returns&gt;&lt;/returns&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">object</span>&nbsp;<span style="color:#dcdcaa;">GetDetailPage</span>(<span style="color:#9cdcfe;">PageDataOptions</span>&nbsp;<span style="color:#9cdcfe;">pageData</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//自定义查询胆细表</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// 查询业务代码编写(从表(明细表查询))</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;param name="pageData"&gt;&lt;/param&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;returns&gt;&lt;/returns&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">object</span> <span style="color:#dcdcaa;">GetDetailPage</span>(<span style="color:#9cdcfe;">PageDataOptions</span> <span style="color:#9cdcfe;">pageData</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//自定义查询胆细表</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">////明细表自定义查询方式一：EF</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//var&nbsp;query&nbsp;=&nbsp;SellOrderListRepository.Instance.IQueryablePage&lt;SellOrderList&gt;(</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageData.Page,</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageData.Rows,</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out&nbsp;int&nbsp;count,</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;=&gt;&nbsp;x.Order_Id&nbsp;==&nbsp;pageData.Value.GetGuid(),</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderBy:&nbsp;x&nbsp;=&gt;&nbsp;new&nbsp;Dictionary&lt;object,&nbsp;QueryOrderBy&gt;()&nbsp;{&nbsp;{&nbsp;x.CreateDate,&nbsp;QueryOrderBy.Desc&nbsp;}&nbsp;}</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;);</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//PageGridData&lt;SellOrderList&gt;&nbsp;detailGrid&nbsp;=&nbsp;new&nbsp;PageGridData&lt;SellOrderList&gt;();</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//detailGrid.rows&nbsp;=&nbsp;query.ToList();</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//detailGrid.total&nbsp;=&nbsp;count;</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">////明细表自定义查询方式一：EF</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//var query = SellOrderListRepository.Instance.IQueryablePage&lt;SellOrderList&gt;(</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; pageData.Page,</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; pageData.Rows,</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; out int count,</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; x =&gt; x.Order_Id == pageData.Value.GetGuid(),</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp;orderBy: x =&gt; new Dictionary&lt;object, QueryOrderBy&gt;() { { x.CreateDate, QueryOrderBy.Desc } }</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp;);</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//PageGridData&lt;SellOrderList&gt; detailGrid = new PageGridData&lt;SellOrderList&gt;();</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//detailGrid.rows = query.ToList();</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//detailGrid.total = count;</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">////明细表自定义查询方式二：dapper</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//string&nbsp;sql&nbsp;=&nbsp;"select&nbsp;count(1)&nbsp;from&nbsp;SellOrderList&nbsp;where&nbsp;Order_Id=@orderId";</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//detailGrid.total&nbsp;=&nbsp;repository.DapperContext.ExecuteScalar(sql,&nbsp;new&nbsp;{&nbsp;orderId&nbsp;=&nbsp;pageData.Value&nbsp;}).GetInt();</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">////明细表自定义查询方式二：dapper</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//string sql = "select count(1) from SellOrderList where Order_Id=@orderId";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//detailGrid.total = repository.DapperContext.ExecuteScalar(sql, new { orderId = pageData.Value }).GetInt();</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//sql&nbsp;=&nbsp;@$"select&nbsp;*&nbsp;from&nbsp;(</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;select&nbsp;*,ROW_NUMBER()over(order&nbsp;by&nbsp;createdate&nbsp;desc)&nbsp;as&nbsp;rowId&nbsp;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;SellOrderList&nbsp;where&nbsp;Order_Id=@orderId</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;as&nbsp;s&nbsp;where&nbsp;s.rowId&nbsp;between&nbsp;{((pageData.Page&nbsp;-&nbsp;1)&nbsp;*&nbsp;pageData.Rows&nbsp;+&nbsp;1)}&nbsp;and&nbsp;{pageData.Page&nbsp;*&nbsp;pageData.Rows}&nbsp;";</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//detailGrid.rows&nbsp;=&nbsp;repository.DapperContext.QueryList&lt;SellOrderList&gt;(sql,&nbsp;new&nbsp;{&nbsp;orderId&nbsp;=&nbsp;pageData.Value&nbsp;});</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//sql = @$"select * from (</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;select *,ROW_NUMBER()over(order by createdate desc) as rowId </span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; from SellOrderList where Order_Id=@orderId</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;) as s where s.rowId between {((pageData.Page - 1) * pageData.Rows + 1)} and {pageData.Page * pageData.Rows} ";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//detailGrid.rows = repository.DapperContext.QueryList&lt;SellOrderList&gt;(sql, new { orderId = pageData.Value });</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//return&nbsp;detailGrid;</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//return detailGrid;</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">GetDetailPage</span>(<span style="color:#9cdcfe;">pageData</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">GetDetailPage</span>(<span style="color:#9cdcfe;">pageData</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;新建</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;/summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;param&nbsp;name="saveDataModel"&gt;&lt;/param&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;returns&gt;&lt;/returns&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">WebResponseContent</span>&nbsp;<span style="color:#dcdcaa;">Add</span>(<span style="color:#9cdcfe;">SaveModel</span>&nbsp;<span style="color:#9cdcfe;">saveDataModel</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处saveModel是从前台提交的原生数据，可对数据进修改过滤</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">AddOnExecute</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">SaveModel</span>&nbsp;<span style="color:#9cdcfe;">saveModel</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果返回false,后面代码不会再执行</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;在保存数据库前的操作，所有数据都验证通过了，这一步执行完就执行数据库保存</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">AddOnExecuting</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">SellOrder</span>&nbsp;<span style="color:#9cdcfe;">order</span>,&nbsp;<span style="color:#9cdcfe;">object</span>&nbsp;<span style="color:#9cdcfe;">list</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果设置code=-1会强制返回，不再继续后面的操作,2021.07.04更新LambdaExtensions文件后才可以使用此属性</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//webResponse.Code&nbsp;=&nbsp;"-1";</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;webResponse.Message&nbsp;=&nbsp;"测试强制返回";</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//return&nbsp;webResponse.OK();</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// 新建</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;param name="saveDataModel"&gt;&lt;/param&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;returns&gt;&lt;/returns&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">WebResponseContent</span> <span style="color:#dcdcaa;">Add</span>(<span style="color:#9cdcfe;">SaveModel</span> <span style="color:#9cdcfe;">saveDataModel</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//此处saveModel是从前台提交的原生数据，可对数据进修改过滤</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">AddOnExecute</span> = (<span style="color:#9cdcfe;">SaveModel</span> <span style="color:#9cdcfe;">saveModel</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果返回false,后面代码不会再执行</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// 在保存数据库前的操作，所有数据都验证通过了，这一步执行完就执行数据库保存</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">AddOnExecuting</span> = (<span style="color:#9cdcfe;">SellOrder</span> <span style="color:#9cdcfe;">order</span>, <span style="color:#9cdcfe;">object</span> <span style="color:#9cdcfe;">list</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果设置code=-1会强制返回，不再继续后面的操作,2021.07.04更新LambdaExtensions文件后才可以使用此属性</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//webResponse.Code = "-1";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// webResponse.Message = "测试强制返回";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//return webResponse.OK();</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt;&nbsp;<span style="color:#9cdcfe;">orderLists</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">list</span>&nbsp;<span style="color:#c586c0;">as</span>&nbsp;<span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">orderLists</span>&nbsp;==&nbsp;<span style="color:#569cd6;">null</span>&nbsp;||&nbsp;<span style="color:#9cdcfe;">orderLists</span>.<span style="color:#9cdcfe;">Count</span>&nbsp;==&nbsp;<span style="color:#b5cea8;">0</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span style="color:#6a9955;">//如果没有界面上没有填写明细，则中断执行</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">Error</span>(<span style="color:#ce9178;">"必须填写明细数据"</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">orderLists</span>.<span style="color:#dcdcaa;">Exists</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">Qty</span>&nbsp;&lt;=&nbsp;<span style="color:#b5cea8;">20</span>))
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">Error</span>(<span style="color:#ce9178;">"明细数量必须大于20"</span>);
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt; <span style="color:#9cdcfe;">orderLists</span> = <span style="color:#9cdcfe;">list</span> <span style="color:#c586c0;">as</span> <span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">orderLists</span> == <span style="color:#569cd6;">null</span> || <span style="color:#9cdcfe;">orderLists</span>.<span style="color:#9cdcfe;">Count</span> == <span style="color:#b5cea8;">0</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {<span style="color:#6a9955;">//如果没有界面上没有填写明细，则中断执行</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">Error</span>(<span style="color:#ce9178;">"必须填写明细数据"</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">orderLists</span>.<span style="color:#dcdcaa;">Exists</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">Qty</span> &lt;= <span style="color:#b5cea8;">20</span>))
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">Error</span>(<span style="color:#ce9178;">"明细数量必须大于20"</span>);
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此方法中已开启了事务，如果在此方法中做其他数据库操作，请不要再开启事务</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;在保存数据库后的操作，此时已进行数据提交，但未提交事务，如果返回false，则会回滚提交</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">AddOnExecuted</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">SellOrder</span>&nbsp;<span style="color:#9cdcfe;">order</span>,&nbsp;<span style="color:#9cdcfe;">object</span>&nbsp;<span style="color:#9cdcfe;">list</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">order</span>.<span style="color:#9cdcfe;">Qty</span>&nbsp;&lt;&nbsp;<span style="color:#b5cea8;">10</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;<span style="color:#6a9955;">//如果输入的销售数量&lt;10，会回滚数据库</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">Error</span>(<span style="color:#ce9178;">"销售数量必须大于1000"</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>(<span style="color:#ce9178;">"已新建成功,台AddOnExecuted方法返回的消息"</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//此方法中已开启了事务，如果在此方法中做其他数据库操作，请不要再开启事务</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// 在保存数据库后的操作，此时已进行数据提交，但未提交事务，如果返回false，则会回滚提交</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">AddOnExecuted</span> = (<span style="color:#9cdcfe;">SellOrder</span> <span style="color:#9cdcfe;">order</span>, <span style="color:#9cdcfe;">object</span> <span style="color:#9cdcfe;">list</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">order</span>.<span style="color:#9cdcfe;">Qty</span> &lt; <span style="color:#b5cea8;">10</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; { &nbsp;<span style="color:#6a9955;">//如果输入的销售数量&lt;10，会回滚数据库</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">Error</span>(<span style="color:#ce9178;">"销售数量必须大于1000"</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>(<span style="color:#ce9178;">"已新建成功,台AddOnExecuted方法返回的消息"</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">Add</span>(<span style="color:#9cdcfe;">saveDataModel</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;编辑操作</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;/summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;param&nbsp;name="saveModel"&gt;&lt;/param&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;returns&gt;&lt;/returns&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">WebResponseContent</span>&nbsp;<span style="color:#dcdcaa;">Update</span>(<span style="color:#9cdcfe;">SaveModel</span>&nbsp;<span style="color:#9cdcfe;">saveModel</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此处saveModel是从前台提交的原生数据，可对数据进修改过滤</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">UpdateOnExecute</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">SaveModel</span>&nbsp;<span style="color:#9cdcfe;">model</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">////这里的设置配合下面order.Remark&nbsp;=&nbsp;"888"代码位置使用</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;saveModel.MainData.TryAdd("Remark",&nbsp;"1231");</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//新建的数据进入审批流程前处理，</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">AddWorkFlowExecuting</span> = (<span style="color:#9cdcfe;">SellOrder</span> <span style="color:#9cdcfe;">order</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//返回false，当前数据不会进入审批流程</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果不想前端提交某些可以编辑的字段的值,直接移除字段</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;saveModel.MainData.Remove("字段");</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//新建的数据写入审批流程后,第二个参数为审批人的用户id</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">AddWorkFlowExecuted</span> = (<span style="color:#9cdcfe;">SellOrder</span> <span style="color:#9cdcfe;">order</span>, <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">int</span>&gt; <span style="color:#9cdcfe;">userIds</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//这里可以做发邮件通知</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//var userInfo = repository.DbContext.Set&lt;Sys_User&gt;()</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;.Where(x =&gt; userIds.Contains(x.User_Id))</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;.Select(s =&gt; new { s.User_Id, s.UserTrueName, s.Email, s.PhoneNo }).ToList();</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果返回false,后面代码不会再执行</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">Add</span>(<span style="color:#9cdcfe;">saveDataModel</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// 编辑操作</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;param name="saveModel"&gt;&lt;/param&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;returns&gt;&lt;/returns&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">WebResponseContent</span> <span style="color:#dcdcaa;">Update</span>(<span style="color:#9cdcfe;">SaveModel</span> <span style="color:#9cdcfe;">saveModel</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//此处saveModel是从前台提交的原生数据，可对数据进修改过滤</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">UpdateOnExecute</span> = (<span style="color:#9cdcfe;">SaveModel</span> <span style="color:#9cdcfe;">model</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">////这里的设置配合下面order.Remark = "888"代码位置使用</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// saveModel.MainData.TryAdd("Remark", "1231");</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果不想前端提交某些可以编辑的字段的值,直接移除字段</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// saveModel.MainData.Remove("字段");</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果返回false,后面代码不会再执行</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//编辑方法保存数据库前处理</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">UpdateOnExecuting</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">SellOrder</span>&nbsp;<span style="color:#9cdcfe;">order</span>,&nbsp;<span style="color:#9cdcfe;">object</span>&nbsp;<span style="color:#9cdcfe;">addList</span>,&nbsp;<span style="color:#9cdcfe;">object</span>&nbsp;<span style="color:#9cdcfe;">updateList</span>,&nbsp;<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">object</span>&gt;&nbsp;<span style="color:#9cdcfe;">delKeys</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">order</span>.<span style="color:#9cdcfe;">TranNo</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"2019000001810001"</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果设置code=-1会强制返回，不再继续后面的操作,2021.07.04更新LambdaExtensions文件后才可以使用此属性</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//webResponse.Code&nbsp;=&nbsp;"-1";</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;webResponse.Message&nbsp;=&nbsp;"测试强制返回";</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//return&nbsp;webResponse.OK();</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">Error</span>(<span style="color:#ce9178;">"不能更新此["</span>&nbsp;+&nbsp;<span style="color:#9cdcfe;">order</span>.<span style="color:#9cdcfe;">TranNo</span>&nbsp;+&nbsp;<span style="color:#ce9178;">"]单号"</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//编辑方法保存数据库前处理</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">UpdateOnExecuting</span> = (<span style="color:#9cdcfe;">SellOrder</span> <span style="color:#9cdcfe;">order</span>, <span style="color:#9cdcfe;">object</span> <span style="color:#9cdcfe;">addList</span>, <span style="color:#9cdcfe;">object</span> <span style="color:#9cdcfe;">updateList</span>, <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">object</span>&gt; <span style="color:#9cdcfe;">delKeys</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">order</span>.<span style="color:#9cdcfe;">TranNo</span> == <span style="color:#ce9178;">"2019000001810001"</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果设置code=-1会强制返回，不再继续后面的操作,2021.07.04更新LambdaExtensions文件后才可以使用此属性</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//webResponse.Code = "-1";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// webResponse.Message = "测试强制返回";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//return webResponse.OK();</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">Error</span>(<span style="color:#ce9178;">"不能更新此["</span> + <span style="color:#9cdcfe;">order</span>.<span style="color:#9cdcfe;">TranNo</span> + <span style="color:#ce9178;">"]单号"</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">////如果要手动设置某些字段的值,值不是前端提交的（代码生成器里面编辑行必须设置为0并生成model）,如Remark字段:</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">////注意必须设置上面saveModel.MainData.TryAdd("Remark",&nbsp;"1231")</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//order.Remark&nbsp;=&nbsp;"888";</span>
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">////如果要手动设置某些字段的值,值不是前端提交的（代码生成器里面编辑行必须设置为0并生成model）,如Remark字段:</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">////注意必须设置上面saveModel.MainData.TryAdd("Remark", "1231")</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//order.Remark = "888";</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//新增的明细表</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt;&nbsp;<span style="color:#9cdcfe;">add</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">addList</span>&nbsp;<span style="color:#c586c0;">as</span>&nbsp;<span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//修改的明细表</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt;&nbsp;<span style="color:#9cdcfe;">update</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">updateList</span>&nbsp;<span style="color:#c586c0;">as</span>&nbsp;<span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//删除明细表Id</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">guids</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">delKeys</span>?.<span style="color:#dcdcaa;">Select</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;(<span style="color:#9cdcfe;">Guid</span>)<span style="color:#9cdcfe;">x</span>);
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//新增的明细表</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt; <span style="color:#9cdcfe;">add</span> = <span style="color:#9cdcfe;">addList</span> <span style="color:#c586c0;">as</span> <span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//修改的明细表</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt; <span style="color:#9cdcfe;">update</span> = <span style="color:#9cdcfe;">updateList</span> <span style="color:#c586c0;">as</span> <span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//删除明细表Id</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">var</span> <span style="color:#9cdcfe;">guids</span> = <span style="color:#9cdcfe;">delKeys</span>?.<span style="color:#dcdcaa;">Select</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> (<span style="color:#9cdcfe;">Guid</span>)<span style="color:#9cdcfe;">x</span>);
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//编辑方法保存数据库后处理</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//此方法中已开启了事务，如果在此方法中做其他数据库操作，请不要再开启事务</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;在保存数据库后的操作，此时已进行数据提交，但未提交事务，如果返回false，则会回滚提交</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">UpdateOnExecuted</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">SellOrder</span>&nbsp;<span style="color:#9cdcfe;">order</span>,&nbsp;<span style="color:#9cdcfe;">object</span>&nbsp;<span style="color:#9cdcfe;">addList</span>,&nbsp;<span style="color:#9cdcfe;">object</span>&nbsp;<span style="color:#9cdcfe;">updateList</span>,&nbsp;<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">object</span>&gt;&nbsp;<span style="color:#9cdcfe;">delKeys</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//新增的明细</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt;&nbsp;<span style="color:#9cdcfe;">add</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">addList</span>&nbsp;<span style="color:#c586c0;">as</span>&nbsp;<span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//修改的明细</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt;&nbsp;<span style="color:#9cdcfe;">update</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">updateList</span>&nbsp;<span style="color:#c586c0;">as</span>&nbsp;<span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//删除的行的主键</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">guids</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">delKeys</span>?.<span style="color:#dcdcaa;">Select</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;(<span style="color:#9cdcfe;">Guid</span>)<span style="color:#9cdcfe;">x</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//编辑方法保存数据库后处理</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//此方法中已开启了事务，如果在此方法中做其他数据库操作，请不要再开启事务</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// 在保存数据库后的操作，此时已进行数据提交，但未提交事务，如果返回false，则会回滚提交</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">UpdateOnExecuted</span> = (<span style="color:#9cdcfe;">SellOrder</span> <span style="color:#9cdcfe;">order</span>, <span style="color:#9cdcfe;">object</span> <span style="color:#9cdcfe;">addList</span>, <span style="color:#9cdcfe;">object</span> <span style="color:#9cdcfe;">updateList</span>, <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">object</span>&gt; <span style="color:#9cdcfe;">delKeys</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//新增的明细</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt; <span style="color:#9cdcfe;">add</span> = <span style="color:#9cdcfe;">addList</span> <span style="color:#c586c0;">as</span> <span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//修改的明细</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt; <span style="color:#9cdcfe;">update</span> = <span style="color:#9cdcfe;">updateList</span> <span style="color:#c586c0;">as</span> <span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//删除的行的主键</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">var</span> <span style="color:#9cdcfe;">guids</span> = <span style="color:#9cdcfe;">delKeys</span>?.<span style="color:#dcdcaa;">Select</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> (<span style="color:#9cdcfe;">Guid</span>)<span style="color:#9cdcfe;">x</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">Update</span>(<span style="color:#9cdcfe;">saveModel</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">Update</span>(<span style="color:#9cdcfe;">saveModel</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;删除</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;/summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;param&nbsp;name="keys"&gt;删除的行的主键&lt;/param&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;param&nbsp;name="delList"&gt;删除时是否将明细也删除&lt;/param&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;returns&gt;&lt;/returns&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">WebResponseContent</span>&nbsp;<span style="color:#dcdcaa;">Del</span>(<span style="color:#9cdcfe;">object</span>[]&nbsp;<span style="color:#9cdcfe;">keys</span>,&nbsp;<span style="color:#9cdcfe;">bool</span>&nbsp;<span style="color:#9cdcfe;">delList</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//删除前处理</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//删除的行的主键</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">DelOnExecuting</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">object</span>[]&nbsp;<span style="color:#9cdcfe;">_keys</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//删除后处理</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//删除的行的主键</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">DelOnExecuted</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">object</span>[]&nbsp;<span style="color:#9cdcfe;">_keys</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">Del</span>(<span style="color:#9cdcfe;">keys</span>,&nbsp;<span style="color:#9cdcfe;">delList</span>);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">WebResponseContent</span>&nbsp;<span style="color:#dcdcaa;">Audit</span>(<span style="color:#9cdcfe;">object</span>[]&nbsp;<span style="color:#9cdcfe;">keys</span>,&nbsp;<span style="color:#9cdcfe;">int</span>?&nbsp;<span style="color:#9cdcfe;">auditStatus</span>,&nbsp;<span style="color:#9cdcfe;">string</span>&nbsp;<span style="color:#9cdcfe;">auditReason</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//审核保存前处理</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">AuditOnExecuting</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">order</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// 删除</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;param name="keys"&gt;删除的行的主键&lt;/param&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;param name="delList"&gt;删除时是否将明细也删除&lt;/param&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;returns&gt;&lt;/returns&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">WebResponseContent</span> <span style="color:#dcdcaa;">Del</span>(<span style="color:#9cdcfe;">object</span>[] <span style="color:#9cdcfe;">keys</span>, <span style="color:#9cdcfe;">bool</span> <span style="color:#9cdcfe;">delList</span> = <span style="color:#569cd6;">true</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//删除前处理</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//删除的行的主键</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">DelOnExecuting</span> = (<span style="color:#9cdcfe;">object</span>[] <span style="color:#9cdcfe;">_keys</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//删除后处理</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//删除的行的主键</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">DelOnExecuted</span> = (<span style="color:#9cdcfe;">object</span>[] <span style="color:#9cdcfe;">_keys</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;};
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">Del</span>(<span style="color:#9cdcfe;">keys</span>, <span style="color:#9cdcfe;">delList</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">WebResponseContent</span> <span style="color:#dcdcaa;">Audit</span>(<span style="color:#9cdcfe;">object</span>[] <span style="color:#9cdcfe;">keys</span>, <span style="color:#9cdcfe;">int</span>? <span style="color:#9cdcfe;">auditStatus</span>, <span style="color:#9cdcfe;">string</span> <span style="color:#9cdcfe;">auditReason</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//status当前审批状态,lastAudit是否最后一个审批节点</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">AuditWorkFlowExecuting</span> = (<span style="color:#9cdcfe;">SellOrder</span> <span style="color:#9cdcfe;">order</span>, <span style="color:#9cdcfe;">AuditStatus</span> <span style="color:#9cdcfe;">status</span>, <span style="color:#9cdcfe;">bool</span> <span style="color:#9cdcfe;">lastAudit</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//status当前审批状态,nextUserIds下一个节点审批人的帐号id(可以从sys_user表中查询用户具体信息),lastAudit是否最后一个审批节点</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">AuditWorkFlowExecuted</span> = (<span style="color:#9cdcfe;">SellOrder</span> <span style="color:#9cdcfe;">order</span>, <span style="color:#9cdcfe;">AuditStatus</span> <span style="color:#9cdcfe;">status</span>, <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">int</span>&gt; <span style="color:#9cdcfe;">nextUserIds</span>, <span style="color:#9cdcfe;">bool</span> <span style="color:#9cdcfe;">lastAudit</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//lastAudit=true时，流程已经结束 </span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (!<span style="color:#9cdcfe;">lastAudit</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//这里可以给下一批审批发送邮件通知</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//var userInfo = repository.DbContext.Set&lt;Sys_User&gt;()</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .Where(x =&gt; nextUserIds.Contains(x.User_Id))</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .Select(s =&gt; new { s.User_Id, s.UserTrueName, s.Email, s.PhoneNo }).ToList();</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">AuditOnExecuted</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">order</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;base.Audit(<span style="color:#9cdcfe;">keys</span>,&nbsp;<span style="color:#9cdcfe;">auditStatus</span>,&nbsp;auditReason);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;导出</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;/summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;param&nbsp;name="pageData"&gt;&lt;/param&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;returns&gt;&lt;/returns&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">WebResponseContent</span>&nbsp;<span style="color:#dcdcaa;">Export</span>(<span style="color:#9cdcfe;">PageDataOptions</span>&nbsp;<span style="color:#9cdcfe;">pageData</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置最大导出的数量</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">Limit</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">1000</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//指定导出的字段(2020.05.07)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">ExportColumns</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span>&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//审核保存前处理(不是审批流程)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">AuditOnExecuting</span> = (<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">order</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//审核后处理(不是审批流程)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">AuditOnExecuted</span> = (<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">order</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//查询要导出的数据后，在生成excel文件前处理</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//list导出的实体，ignore过滤不导出的字段</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">ExportOnExecuting</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">list</span>,&nbsp;<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">string</span>&gt;&nbsp;<span style="color:#9cdcfe;">ignore</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;base.Export(pageData);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">Audit</span>(<span style="color:#9cdcfe;">keys</span>, <span style="color:#9cdcfe;">auditStatus</span>, <span style="color:#9cdcfe;">auditReason</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;下载模板(导入时弹出框中的下载模板)(2020.05.07)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;/summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;returns&gt;&lt;/returns&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">WebResponseContent</span>&nbsp;<span style="color:#dcdcaa;">DownLoadTemplate</span>()
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//指定导出模板的字段,如果不设置DownLoadTemplateColumns，默认导出查所有页面上能看到的列(2020.05.07)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">DownLoadTemplateColumns</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">Remark</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span>&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;base.DownLoadTemplate();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// 导出</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;param name="pageData"&gt;&lt;/param&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;returns&gt;&lt;/returns&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">WebResponseContent</span> <span style="color:#dcdcaa;">Export</span>(<span style="color:#9cdcfe;">PageDataOptions</span> <span style="color:#9cdcfe;">pageData</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置最大导出的数量</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Limit</span> = <span style="color:#b5cea8;">1000</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//指定导出的字段(2020.05.07)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">ExportColumns</span> = <span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#569cd6;">new</span> { <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>, <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>, <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span> };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;导入</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;/summary&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;param&nbsp;name="files"&gt;&lt;/param&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">///&nbsp;&lt;returns&gt;&lt;/returns&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">public</span>&nbsp;<span style="color:#9cdcfe;">override</span>&nbsp;<span style="color:#9cdcfe;">WebResponseContent</span>&nbsp;<span style="color:#dcdcaa;">Import</span>(<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">IFormFile</span>&gt;&nbsp;<span style="color:#9cdcfe;">files</span>)
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//(2020.05.07)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置导入的字段(如果指定了上面导出模板的字段，这里配置应该与上面DownLoadTemplate方法里配置一样)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果不设置导入的字段DownLoadTemplateColumns,默认显示所有界面上所有可以看到的字段</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">DownLoadTemplateColumns</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;{&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">Remark</span>,&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span>&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//查询要导出的数据后，在生成excel文件前处理</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//list导出的实体，ignore过滤不导出的字段</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">ExportOnExecuting</span> = (<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">list</span>, <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">string</span>&gt; <span style="color:#9cdcfe;">ignore</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//导入保存前处理(可以对list设置新的值)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">ImportOnExecuting</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">list</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">Export</span>(<span style="color:#9cdcfe;">pageData</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//导入后处理(已经写入到数据库了)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">ImportOnExecuted</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt;&nbsp;<span style="color:#9cdcfe;">list</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;base.Import(files);
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// 下载模板(导入时弹出框中的下载模板)(2020.05.07)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;returns&gt;&lt;/returns&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">WebResponseContent</span> <span style="color:#dcdcaa;">DownLoadTemplate</span>()
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//指定导出模板的字段,如果不设置DownLoadTemplateColumns，默认导出查所有页面上能看到的列(2020.05.07)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">DownLoadTemplateColumns</span> = <span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#569cd6;">new</span> { <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>, <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>, <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">Remark</span>, <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span> };
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">DownLoadTemplate</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;}
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// 导入</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;param name="files"&gt;&lt;/param&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;returns&gt;&lt;/returns&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">WebResponseContent</span> <span style="color:#dcdcaa;">Import</span>(<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">IFormFile</span>&gt; <span style="color:#9cdcfe;">files</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//(2020.05.07)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置导入的字段(如果指定了上面导出模板的字段，这里配置应该与上面DownLoadTemplate方法里配置一样)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果不设置导入的字段DownLoadTemplateColumns,默认显示所有界面上所有可以看到的字段</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">DownLoadTemplateColumns</span> = <span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#569cd6;">new</span> { <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>, <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>, <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">Remark</span>, <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span> };
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//导入保存前处理(可以对list设置新的值)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">ImportOnExecuting</span> = (<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">list</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//导入后处理(已经写入到数据库了)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">ImportOnExecuted</span> = (<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">list</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">Import</span>(<span style="color:#9cdcfe;">files</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
+<br />
+		<div>
+			}
+		</div>
 	</div>
-</div>`,
+</p>`,
           ],
           tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`,
         },

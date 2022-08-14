@@ -19,6 +19,7 @@ using VOL.Core.ManageUser;
 using VOL.Core.Services;
 using VOL.Core.Tenancy;
 using VOL.Core.Utilities;
+using VOL.Core.WorkFlow;
 using VOL.Entity;
 using VOL.Entity.DomainModels;
 using VOL.Entity.SystemModels;
@@ -339,7 +340,7 @@ namespace VOL.Core.BaseProvider
 
             gridData.total = queryeable.Count();
             options.Sort = options.Sort ?? typeof(Detail).GetKeyName();
-            Dictionary<string, QueryOrderBy> orderBy =   GetPageDataSort(options,typeof(Detail).GetProperties());
+            Dictionary<string, QueryOrderBy> orderBy = GetPageDataSort(options, typeof(Detail).GetProperties());
 
             gridData.rows = queryeable
                  .GetIQueryableOrderBy(orderBy)
@@ -551,6 +552,7 @@ namespace VOL.Core.BaseProvider
                     return Response;
                 });
                 if (Response.Status) Response.Data = new { data = saveDataModel.MainData };
+                AddProcese(mainEntity);
                 return Response;
             }
 
@@ -622,8 +624,26 @@ namespace VOL.Core.BaseProvider
                 return Response;
             });
             if (Response.Status && string.IsNullOrEmpty(Response.Message))
+            {
                 Response.OK(ResponseType.SaveSuccess);
+            }
+            AddProcese(entity);
             return Response;
+        }
+
+        private void AddProcese(T entity)
+        {
+            if (!CheckResponseResult() && WorkFlowManager.Exists<T>())
+            {
+                if (AddWorkFlowExecuting != null && !AddWorkFlowExecuting.Invoke(entity))
+                {
+                    return;
+                }
+                //写入流程
+                WorkFlowManager.AddProcese<T>(entity);
+                WorkFlowManager.Audit<T>(entity,AuditStatus.审核中,null,null,null,null, init: true, initInvoke: AddWorkFlowExecuted);
+
+            }
         }
 
         public void AddDetailToDBSet<TDetail>() where TDetail : class
@@ -872,6 +892,17 @@ namespace VOL.Core.BaseProvider
             if (saveModel == null)
                 return Response.Error(ResponseType.ParametersLack);
 
+
+            if (WorkFlowManager.Exists<T>())
+            {
+                var auditProperty = TProperties.Where(x => x.Name.ToLower() == "auditstatus").FirstOrDefault();
+                string value = saveModel.MainData[auditProperty.Name]?.ToString();
+                if (WorkFlowManager.GetAuditStatus<T>(value) != 1)
+                {
+                    return Response.Error("数据已经在审核中，不能修改");
+                }
+
+            }
             Type type = typeof(T);
 
             //设置修改时间,修改人的默认值
@@ -1131,6 +1162,28 @@ namespace VOL.Core.BaseProvider
                 return Response.Error("未获取到参数!");
             if (auditStatus != 1 && auditStatus != 2)
                 return Response.Error("请提求正确的审核结果!");
+
+            //进入流程审批
+            if (WorkFlowContainer.Exists<T>())
+            {
+                Expression<Func<T, bool>> whereExpression = typeof(T).GetKeyName().CreateExpression<T>(keys[0], LinqExpressionType.Equal);
+                T entity = repository.FindAsIQueryable(whereExpression).FirstOrDefault();
+
+                var auditProperty = TProperties.Where(x => x.Name.ToLower() == "auditstatus").FirstOrDefault();
+                if (auditProperty == null)
+                {
+                    return Response.Error("表缺少审核状态字段：AuditStatus");
+                }
+
+                AuditStatus status = (AuditStatus)Enum.Parse(typeof(AuditStatus), auditStatus.ToString());
+                if (auditProperty.GetValue(entity).GetInt() != (int)AuditStatus.审核中)
+                {
+                    return Response.Error("只能审批审核中的数据");
+                }
+                WorkFlowManager.Audit<T>(entity, status, auditReason, auditProperty, AuditWorkFlowExecuting, AuditWorkFlowExecuted);
+                return Response.OK("审核成功!");
+            }
+
 
             //获取主键
             PropertyInfo property = TProperties.GetKeyProperty();

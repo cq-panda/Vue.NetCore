@@ -19,6 +19,8 @@ using VOL.Core.DBManager;
 using VOL.Core.EFDbContext;
 using VOL.Core.Enums;
 using VOL.Core.Extensions.AutofacManager;
+//using VOL.Core.KafkaManager.IService;
+//using VOL.Core.KafkaManager.Service;
 using VOL.Core.ManageUser;
 using VOL.Core.ObjectActionValidator;
 using VOL.Core.Services;
@@ -91,7 +93,11 @@ namespace VOL.Core.Extensions
             {
                 builder.RegisterType<MemoryCacheService>().As<ICacheService>().SingleInstance();
             }
-         
+            //kafka注入
+            //if (AppSetting.Kafka.UseConsumer)
+            //    builder.RegisterType<KafkaConsumer<string, string>>().As<IKafkaConsumer<string, string>>().SingleInstance();
+            //if (AppSetting.Kafka.UseProducer)
+            //    builder.RegisterType<KafkaProducer<string, string>>().As<IKafkaProducer<string, string>>().SingleInstance();
             return services;
         }
 
