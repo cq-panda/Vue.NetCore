@@ -173,8 +173,8 @@ namespace VOL.WebApi
         {
             Services.AddModule(builder, Configuration);
 
-            //初始化流程表，表里面必须有AuditStatus字段，可以参照 演示环境sellorder表
-            // WorkFlowContainer.Instance.Use<表名1>().Use<表名2>();
+            //初始化流程表，表里面必须有AuditStatus字段
+            WorkFlowContainer.Instance.Use<App_Expert>().Use<SellOrder>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

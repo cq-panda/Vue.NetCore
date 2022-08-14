@@ -1,10 +1,10 @@
 /*****************************************************************************************
-**  Author:jxx 2022
-**  QQ:283591387
-**完整文档见：http://v2.volcore.xyz/document/api 【代码生成页面ViewGrid】
-**常用示例见：http://v2.volcore.xyz/document/vueDev
-**后台操作见：http://v2.volcore.xyz/document/netCoreDev
-*****************************************************************************************/
+ **  Author:jxx 2022
+ **  QQ:283591387
+ **完整文档见：http://v2.volcore.xyz/document/api 【代码生成页面ViewGrid】
+ **常用示例见：http://v2.volcore.xyz/document/vueDev
+ **后台操作见：http://v2.volcore.xyz/document/netCoreDev
+ *****************************************************************************************/
 //此js文件是用来自定义扩展业务代码，可以扩展一些自定义页面或者重新配置生成的代码
 
 let extension = {
@@ -21,20 +21,24 @@ let extension = {
   tableAction: '', //指定某张表的权限(这里填写表名,默认不用填写)
   buttons: { view: [], box: [], detail: [] }, //扩展的按钮
   methods: {
-     //下面这些方法可以保留也可以删除
-    onInit() {  //框架初始化配置前，
-        //示例：在按钮的最前面添加一个按钮
-        //   this.buttons.unshift({  //也可以用push或者splice方法来修改buttons数组
-        //     name: '按钮', //按钮名称
-        //     icon: 'el-icon-document', //按钮图标vue2版本见iview文档icon，vue3版本见element ui文档icon(注意不是element puls文档)
-        //     type: 'primary', //按钮样式vue2版本见iview文档button，vue3版本见element ui文档button
-        //     onClick: function () {
-        //       this.$Message.success('点击了按钮');
-        //     }
-        //   });
-
-        //示例：设置修改新建、编辑弹出框字段标签的长度
-        // this.boxOptions.labelWidth = 150;
+    //下面这些方法可以保留也可以删除
+    onInit() {
+      this.columns.push({
+        field: '操作',
+        title: '查看',
+        width: 100,
+        align: 'center',
+        formatter: (row) => {
+          return '<a style="font-size: 14px;border-bottom: 1px solid #3a8ee6;color: #3a8ee6; padding-bottom: 2px;  cursor: pointer;">查看详情</a>';
+        },
+        click: (row) => {
+          this.$tabs.open({
+            text: row.WorkTableName,
+            path: '/' + row.WorkTable,
+            query: { id: row.WorkTableKey, viewflow: 1 }
+          });
+        }
+      });
     },
     onInited() {
       //框架初始化配置后

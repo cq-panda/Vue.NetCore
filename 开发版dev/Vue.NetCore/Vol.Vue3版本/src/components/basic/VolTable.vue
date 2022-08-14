@@ -816,7 +816,7 @@ export default defineComponent({
       return [];
     },
     formatterClick(row, column, event) {
-       if (column.click) {
+      if (column.click) {
         column.click(row, column, event);
         event.stopPropagation && event.stopPropagation();
       } else {

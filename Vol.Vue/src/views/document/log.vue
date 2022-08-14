@@ -66,8 +66,10 @@ export default {
           <p>1、VOL.Core类库全部更新替换覆盖</p>
             <p>2、 UserInfo.cs</p>
               <p>3、  数据库更新：更新db文件夹中表结构Sys_WorkFlow、Sys_WorkFlowStep、Sys_WorkFlowTable、Sys_WorkFlowTableStep这4张图，同时生成代码(代码生成时类库选择system，文件夹名flow)</p>
+             <p style="margin-left:40px;font-size:13px;color:#579fea">数据库脚本地址<a href="https://gitee.com/x_discoverer/Vue.NetCore/tree/master/%E5%BC%80%E5%8F%91%E7%89%88dev/Vue.NetCore/DB/sqlserver">https://gitee.com/x_discoverer/Vue.NetCore/tree/master/%E5%BC%80%E5%8F%91%E7%89%88dev/Vue.NetCore/DB/sqlserver</a></p>
               <p>4、流程注入见后台代码：Startup.cs中ConfigureContainer方法说明</p>
-                 <p>5、其他遗漏或详细补充见视频</p>
+                      <p>5、前端更新文件夹：components</p>
+                 <p>6、其他遗漏或详细补充见视频</p>
               `
       
         },

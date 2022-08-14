@@ -7,6 +7,7 @@
       v-model="viewModel"
       :height="520"
       :width="500"
+      :padding="0"
       :lazy="true"
       title="设置"
     >
@@ -31,23 +32,74 @@
     <!--审核(异步点击按钮时才加载待完)-->
     <vol-box
       v-model="auditParam.model"
-      :height="300"
+      :height="500"
       :width="550"
       :lazy="true"
-      :title="table.cnName + '--审核'"
+      title="审批"
     >
       <template #content>
-        <div>
-          <Audit :auditParam="auditParam"></Audit>
+        <div class="v-steps">
+          <div
+            :class="{ 'step-current': item.isCurrent }"
+            class="step-item"
+            v-for="(item, index) in workFlowSteps"
+            :key="index"
+          >
+            <div class="left-item">
+              <div>审批时间</div>
+              <div class="left-date">{{ item.auditDate || '待审批' }}</div>
+            </div>
+            <div class="right-item">
+              <div class="step-line"></div>
+              <i class="step-circle"></i>
+              <div class="step-title">
+                {{ item.stepName }}
+              </div>
+              <div class="step-text">审批人：{{ item.auditor }}</div>
+              <div class="step-text">
+                状 态： {{ getAuditStatus(item.auditStatus) }}
+              </div>
+              <div class="step-text">备 注： {{ item.remark || '-' }}</div>
+            </div>
+          </div>
+          <div class="audit-content" v-show="auditParam.showAction">
+            <vol-header style="margin-bottom: 10px;"
+              >审批：
+              <el-radio-group
+                style="margin-left:15px"
+                v-model="auditParam.value"
+              >
+                <el-radio
+                  v-for="item in auditParam.data"
+                  :key="item.value"
+                  :label="item.value"
+                >
+                  <span>{{ item.text }}</span>
+                </el-radio>
+              </el-radio-group>
+            </vol-header>
+
+            <el-input
+              v-model="auditParam.reason"
+              type="textarea"
+              style="margin-right: 13px;"
+              :autosize="{ minRows: 4, maxRows: 10 }"
+              placeholder="请输入备注..."
+            ></el-input>
+          </div>
         </div>
       </template>
       <template #footer>
-        <div>
-          <el-button type="primary" size="mini" @click="saveAudit"
-            ><i class="el-icon-check"></i>审核</el-button
-          >
+        <div style="text-align: center;">
           <el-button size="mini" @click="auditParam.model = false"
             ><i class="el-icon-close"></i>关闭</el-button
+          >
+          <el-button
+            type="primary"
+            v-show="auditParam.showAction"
+            size="mini"
+            @click="saveAudit"
+            ><i class="el-icon-check"></i>审核</el-button
           >
         </div>
       </template>
@@ -198,11 +250,11 @@
         <vol-box
           v-if="boxInit"
           v-model="boxModel"
-          :title="table.cnName + getCurrentAction()"
+          :title="boxOptions.title"
           :width="boxOptions.width"
           :height="boxOptions.height"
           :padding="0"
-          :on-model-close="onModelClose"
+          :on-model-close="onGridModelClose"
         >
           <!--明细头部自定义组件-->
           <template #content>
@@ -212,6 +264,11 @@
                 ref="modelHeader"
                 @parentCall="parentCall"
               ></component>
+              <!-- <div v-show="isBoxAudit" class="flow-step">
+                <div v-for="(item, index) in workFlowSteps" :key="index">
+                  {{ item.stepName }}
+                </div>
+              </div> -->
               <div class="item form-item">
                 <vol-form
                   ref="form"
@@ -288,7 +345,24 @@
             </div>
           </template>
           <template #footer>
-            <div>
+            <div style="text-align: center;" v-show="isBoxAudit">
+              <el-button
+                size="mini"
+                type="primary"
+                plain
+                @click="onGridModelClose(false)"
+              >
+                <i class="el-icon-close">关闭</i>
+              </el-button>
+              <el-button
+                size="mini"
+                type="primary"
+                @click="auditParam.model = true"
+              >
+                <i class="el-icon-view">查看流程</i>
+              </el-button>
+            </div>
+            <div v-show="!isBoxAudit">
               <el-button
                 v-for="(btn, bIndex) in boxButtons"
                 :key="bIndex"
@@ -305,7 +379,7 @@
                 size="mini"
                 type="primary"
                 plain
-                @click="onModelClose(false)"
+                @click="onGridModelClose(false)"
               >
                 <i class="el-icon-close">关闭</i>
               </el-button>
@@ -405,7 +479,8 @@ var vueParam = {
     ),
     'custom-column': defineAsyncComponent(() =>
       import('./ViewGridCustomColumn.vue')
-    )
+    ),
+    'vol-header': defineAsyncComponent(() => import('./../VolHeader.vue'))
   },
   props: {},
   setup(props) {
@@ -431,6 +506,9 @@ var vueParam = {
   },
   data() {
     return {
+      isBoxAudit: false,
+      formFieldsType: [],
+      workFlowSteps: [],
       //树形结构的主键字段，如果设置值默认会开启树形table；注意rowKey字段的值必须是唯一（2021.05.02）
       rowKey: undefined,
       fiexdSearchForm: false, //2020.09.011是否固定查询表单，true查询表单将固定显示在表单的最上面
@@ -453,7 +531,7 @@ var vueParam = {
       viewColumnsClone: [],
       showCustom: true, //是否显示自定义配置列按钮2022.05.27
       // viewData: [], //查看表结构信息
-      maxBtnLength: 5, //界面按钮最多显示的个数，超过的数量都显示在更多中
+      maxBtnLength: 8, //界面按钮最多显示的个数，超过的数量都显示在更多中
       buttons: [], //查询界面按钮  如需要其他操作按钮，可在表对应的.js中添加(如:Sys_User.js中buttons添加其他按钮)
       splitButtons: [],
       uploadfiled: [], //上传文件图片的字段
@@ -485,7 +563,7 @@ var vueParam = {
         columns: [], //从表列信息
         edit: true, //明细是否可以编辑
         single: false, //明细表是否单选
-        load: false,//
+        load: false, //
         delKeys: [], //当编辑时删除当前明细的行主键值
         url: '', //从表加载数据的url
         pagination: { total: 0, size: 100, sortName: '' }, //从表分页配置数据
@@ -512,12 +590,15 @@ var vueParam = {
         //审核对象
         rows: 0, //当前选中审核的行数
         model: false, //审核弹出框
-        status: -1, //审核结果
+        value: -1, //审核结果
+        status: -1,
         reason: '', //审核原因
+        showAction: false, //是否显示审批操作(当前节点为用户审批时显示)
         //审核选项(可自行再添加)
         data: [
-          { text: '通过', status: 1 },
-          { text: '拒绝', status: 2 }
+          { text: '通过', value: 1 },
+          { text: '拒绝', value: 2 },
+          { text: '拒绝', value: 3 }
         ]
       },
       upload: {
@@ -537,6 +618,7 @@ var vueParam = {
       textInline: true, //table内容超出后是否不换行2020.01.16
       pagination: { total: 0, size: 30, sortName: '' }, //从分页配置数据
       boxOptions: {
+        title: '', //弹出框显示的标题2022.08.01
         saveClose: true,
         labelWidth: 100,
         height: 0,
@@ -569,12 +651,13 @@ var vueParam = {
   unmounted() {
     this.destroyed();
   },
-  created: function () {
+  created: function() {
     //合并自定义业务扩展方法
     Object.assign(this, this.extend.methods);
     //如果没有指定排序字段，则用主键作为默认排序字段
     this.pagination.sortName = this.table.sortName || this.table.key;
     this.initBoxButtons(); //初始化弹出框与明细表格按钮
+    this.initAuditColumn();
     this.onInit(); //初始化前，如果需要做其他处理在扩展方法中覆盖此方法
     this.getButtons();
     //初始化自定义表格列
@@ -584,8 +667,8 @@ var vueParam = {
     this.initDicKeys(); //初始下框数据源
     this.onInited(); //初始化后，如果需要做其他处理在扩展方法中覆盖此方法
   },
-  beforeUpdate: function () {},
-  updated: function () {}
+  beforeUpdate: function() {},
+  updated: function() {}
 };
 
 import props from './props.js';
@@ -649,5 +732,101 @@ export default defineComponent(vueParam);
     border-top: 0;
     box-shadow: 0 7px 18px -12px #bdc0bb;
   }
+}
+</style>
+
+<style lang="less" scoped>
+.step-item {
+  background: #fff;
+  display: flex;
+}
+.left-item {
+  min-width: 180px;
+  text-align: right;
+  padding-right: 25px;
+  padding-top: 8px;
+  .left-date {
+    font-size: 13px;
+    padding-top: 7px;
+    color: #6c6c6c;
+  }
+}
+.right-item {
+  cursor: pointer;
+  position: relative;
+  border-bottom: 1px solid #f3f3f3;
+  padding: 5px 0 5px 5px;
+}
+.left-item,
+.right-item {
+  padding-bottom: 10px;
+}
+.right-item:last-child {
+  border-bottom: 0;
+}
+
+.step-line {
+  top: 16px;
+  left: -10px;
+  width: 1px;
+  height: 100%;
+  position: absolute;
+  background-color: #ebedf0;
+}
+
+.step-circle {
+  position: absolute;
+  top: 17px;
+  left: -9px;
+  z-index: 2;
+  font-size: 12px;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  background-color: #a1a1a1;
+  border-radius: 50%;
+}
+
+.right-item::before {
+  content: '';
+}
+
+.step-content {
+  padding-top: 2px;
+  font-size: 14px;
+  color: #828282;
+  line-height: 1.5;
+}
+.step-title {
+  font-weight: bold;
+  padding-top: 3px;
+}
+
+.step-text {
+  font-size: 13px;
+  color: #999999;
+  padding-top: 6px;
+}
+.step-current {
+  * {
+    color: #2f95ff !important;
+  }
+  .step-circle {
+    background: #2f95ff !important;
+  }
+  // border-radius: 5px;
+  // border: 1px solid #d6eaff;
+  font-size: 13px;
+  padding-top: 6px;
+  // background-color: #eff7ffd9;
+  color: black;
+}
+.audit-content {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 22px;
+  border: 1px solid #eee;
 }
 </style>
