@@ -1163,12 +1163,12 @@ namespace VOL.Core.BaseProvider
             if (auditStatus != 1 && auditStatus != 2)
                 return Response.Error("请提求正确的审核结果!");
 
-            //进入流程审批
-            if (WorkFlowContainer.Exists<T>())
-            {
-                Expression<Func<T, bool>> whereExpression = typeof(T).GetKeyName().CreateExpression<T>(keys[0], LinqExpressionType.Equal);
-                T entity = repository.FindAsIQueryable(whereExpression).FirstOrDefault();
+            Expression<Func<T, bool>> whereExpression = typeof(T).GetKeyName().CreateExpression<T>(keys[0], LinqExpressionType.Equal);
+            T entity = repository.FindAsIQueryable(whereExpression).FirstOrDefault();
 
+            //进入流程审批
+            if (WorkFlowManager.Exists<T>(entity))
+            {
                 var auditProperty = TProperties.Where(x => x.Name.ToLower() == "auditstatus").FirstOrDefault();
                 if (auditProperty == null)
                 {
@@ -1201,7 +1201,7 @@ namespace VOL.Core.BaseProvider
                 object convertVal = value.ToString().ChangeType(property.PropertyType);
                 if (convertVal == null) continue;
 
-                T entity = Activator.CreateInstance<T>();
+                entity = Activator.CreateInstance<T>();
                 property.SetValue(entity, convertVal);
                 foreach (var item in updateFileds)
                 {

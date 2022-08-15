@@ -39,38 +39,6 @@
             label-width="80px"
             v-show="type === 'node'"
           >
-            <!-- <el-form-item label="类型">
-            <el-input v-model="node.type" :disabled="true"></el-input>
-          </el-form-item> -->
-            <!-- <el-form-item label="流程名称">
-            <el-input v-model="node.name"></el-input>
-          </el-form-item>
-          <el-form-item label="坐标x">
-            <el-input v-model="node.left" :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="坐标y">
-            <el-input v-model="node.top" :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="ico图标">
-            <el-input v-model="node.ico"></el-input>
-          </el-form-item> -->
-            <!-- <el-form-item label="状态">
-            <el-select v-model="node.state" placeholder="请选择">
-              <el-option
-                v-for="item in stateList"
-                :key="item.state"
-                :label="item.label"
-                :value="item.state"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item> -->
-            <!-- <el-form-item>
-            <el-button icon="el-icon-close" type="danger" @click="delNode"
-              >删除</el-button
-            >
-
-          </el-form-item> -->
           </el-form>
 
           <div
@@ -108,6 +76,9 @@ export default {
             option.data = result.users || [];
           } else if (option.field == 'roleId') {
             option.data = result.roles || [];
+          } else if (option.field == 'deptId') {
+            //部门(暂时没有部门表)
+            option.data = result.dept || [];
           }
         });
       });
@@ -115,7 +86,14 @@ export default {
   },
   data() {
     return {
-      node: { name: '', nodeType: '1', userId: null, roleId: null },
+      node: {
+        name: '',
+        nodeType: 1,
+        userId: null,
+        roleId: null,
+        deptId: null,
+        stepValue: null
+      },
       formRules: [
         [
           {
@@ -124,19 +102,21 @@ export default {
             required: true
           }
         ],
-        // [
-        //   {
-        //     dataKey: '',
-        //     title: '审批类型',
-        //     required: true,
-        //     field: 'nodeType',
-        //     data: [
-        //       { key: '1', value: '按用户审批' },
-        //       { key: '2', value: '按角色审批' }
-        //     ],
-        //     type: 'select'
-        //   }
-        // ],
+        [
+          {
+            dataKey: '1111',
+            title: '审批类型',
+            required: true,
+            field: 'nodeType',
+            data: [
+              { key: 1, value: '按用户审批' },
+              { key: 2, value: '按角色审批' },
+              { key: 3, value: '按部门审批' }
+            ],
+            type: 'select',
+            onChange: this.nodeTypeChange
+          }
+        ],
         [
           {
             dataKey: '',
@@ -147,18 +127,29 @@ export default {
             data: [],
             type: 'select'
           }
+        ],
+        [
+          {
+            dataKey: '',
+            hidden: true,
+            title: '角色信息',
+            required: true,
+            field: 'roleId',
+            data: [],
+            type: 'select'
+          }
+        ],
+        [
+          {
+            dataKey: '',
+            hidden: true,
+            title: '部门信息',
+            required: true,
+            field: 'deptId',
+            data: [],
+            type: 'select'
+          }
         ]
-        // [
-        //   {
-        //     dataKey: '',
-        //     hidden: false,
-        //     title: '角色信息',
-        //     required: true,
-        //     field: 'roleId',
-        //     data: [],
-        //     type: 'select'
-        //   }
-        // ]
       ],
 
       visible: true,
@@ -200,12 +191,26 @@ export default {
           let _node = cloneDeep(node);
           _node.roleId = _node.roleId || null;
           _node.userId = _node.userId || null;
-          // for (const key in this.node) {
-          //   this.node[key] = _node[key];
-          // }
-          // this.node = cloneDeep(node);
+          _node.nodeType = (_node.nodeType || 1) * 1;
+          this.nodeTypeChange(_node.nodeType);
           Object.assign(this.node, _node);
         }
+      });
+    },
+    nodeTypeChange(value) {
+      // { key: 1, value: '按用户审批' },
+      //   { key: 2, value: '按角色审批' },
+      //   { key: 3, value: '按部门审批' }
+      this.formRules.forEach((options) => {
+        options.forEach((option) => {
+          if (option.field == 'userId') {
+            option.hidden = value != 1;
+          } else if (option.field == 'roleId') {
+            option.hidden = value != 2;
+          } else if (option.field == 'deptId') {
+            option.hidden = value != 3;
+          }
+        });
       });
     },
     lineInit(line) {
@@ -215,7 +220,7 @@ export default {
     // 修改连线
     saveLine() {
       this.$emit('setLineLabel', this.line.from, this.line.to, this.line.label);
-      this.$message.success('保存成功')
+      this.$message.success('保存成功');
     },
     save() {
       this.data.nodeList.filter((node) => {
@@ -225,10 +230,11 @@ export default {
           node.top = this.node.top;
           node.ico = this.node.ico;
           node.state = this.node.state;
+          node.stepValue = this.node.stepValue;
           this.$emit('repaintEverything', this.node);
         }
       });
-            this.$message.success('保存成功')
+      this.$message.success('保存成功');
     },
     deleteElement() {
       this.$emit('deleteElement');

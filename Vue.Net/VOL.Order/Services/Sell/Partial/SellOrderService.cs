@@ -41,7 +41,7 @@ namespace VOL.Order.Services
             //2020.08.15
             //开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效
             //如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置 IsMultiTenancy = true;
-            IsMultiTenancy = true;
+           // IsMultiTenancy = true;
         }
         //查询
         public override PageGridData<SellOrder> GetPageData(PageDataOptions options)

@@ -18,6 +18,11 @@ namespace VOL.Core.WorkFlow
         {
             return WorkFlowContainer.Exists<T>();
         }
+
+        public static bool Exists<T>(T entity)
+        {
+            return WorkFlowContainer.Exists<T>() && GetAuditStatusValue<T>(typeof(T).GetKeyProperty().GetValue(entity).ToString()) != null;
+        }
         public static bool Exists(string table)
         {
             return WorkFlowContainer.Exists(table);
@@ -25,10 +30,15 @@ namespace VOL.Core.WorkFlow
 
         public static int GetAuditStatus<T>(string value)
         {
+            return GetAuditStatusValue<T>(value) ?? 0;
+        }
+
+        public static int? GetAuditStatusValue<T>(string value)
+        {
             return DBServerProvider.DbContext.Set<Sys_WorkFlowTable>()
                    .Where(x => x.WorkTable == typeof(T).GetEntityTableName() && x.WorkTableKey == value)
                    .Select(s => s.CurrentOrderId)
-                   .FirstOrDefault() ?? 0;
+                   .FirstOrDefault();
         }
 
 
@@ -37,7 +47,7 @@ namespace VOL.Core.WorkFlow
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
-        public static void AddProcese<T>(T entity,bool rewrite=false)
+        public static void AddProcese<T>(T entity, bool rewrite = false)
         {
             string workTable = typeof(T).GetEntityTableName();
 
@@ -100,7 +110,7 @@ namespace VOL.Core.WorkFlow
              Func<T, AuditStatus, bool, WebResponseContent> workFlowExecuting,
              Func<T, AuditStatus, List<int>, bool, WebResponseContent> workFlowExecuted,
              bool init = false,
-             Action<T, List<int>> initInvoke=null
+             Action<T, List<int>> initInvoke = null
             ) where T : class
         {
             WebResponseContent webResponse = new WebResponseContent(true);
@@ -125,7 +135,7 @@ namespace VOL.Core.WorkFlow
 
             if (init)
             {
-                if (workFlow.Sys_WorkFlowTableStep.Count==0)
+                if (workFlow.Sys_WorkFlowTableStep.Count == 0)
                 {
                     return webResponse;
                 }
@@ -160,6 +170,7 @@ namespace VOL.Core.WorkFlow
                 workFlow.CurrentOrderId = nextStep.OrderId;
                 //原表显示审核中状态
                 autditProperty.SetValue(entity, (int)AuditStatus.审核中);
+                workFlow.AuditStatus = (int)AuditStatus.审核中;
             }
             else
             {
@@ -190,7 +201,7 @@ namespace VOL.Core.WorkFlow
 
             if (workFlowExecuted != null)
             {
-                webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep.StepType??0), isLast);
+                webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0), isLast);
             }
             return webResponse;
         }

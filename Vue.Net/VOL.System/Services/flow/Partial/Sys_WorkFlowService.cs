@@ -44,7 +44,7 @@ namespace VOL.System.Services
         WebResponseContent webResponse = new WebResponseContent();
         public override WebResponseContent Add(SaveModel saveDataModel)
         {
-            saveDataModel.MainData["Enable"] = 0;
+            saveDataModel.MainData["Enable"] = 1;
             AddOnExecuting = (Sys_WorkFlow workFlow, object list) =>
             {
                 if (repository.Exists(x=>x.WorkTable==workFlow.WorkTable))
@@ -57,7 +57,7 @@ namespace VOL.System.Services
             AddOnExecuted = (Sys_WorkFlow workFlow, object list) =>
             {
                 return webResponse.OK();
-            };
+            }; 
             return base.Add(saveDataModel);
         }
 

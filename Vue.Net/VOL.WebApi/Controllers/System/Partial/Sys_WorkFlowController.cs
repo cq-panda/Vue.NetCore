@@ -16,6 +16,7 @@ using VOL.System.IRepositories;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using VOL.Core.ManageUser;
+using VOL.Core.Services;
 
 namespace VOL.System.Controllers
 {
@@ -64,6 +65,7 @@ namespace VOL.System.Controllers
             {
                 users = await _userRepository.FindAsIQueryable(x => true).Select(s => new { key = s.User_Id, value = s.UserTrueName }).ToListAsync(),
                 roles = await _roleRepository.FindAsIQueryable(x => true).Select(s => new { key = s.Role_Id, value = s.RoleName }).ToListAsync(),
+                dept = new string[] { }//部门表，暂时没有
             };
             return Json(data);
         }
@@ -76,45 +78,56 @@ namespace VOL.System.Controllers
         [HttpGet, Route("getSteps")]
         public async Task<IActionResult> GetSteps(string tableName, string id)
         {
-            if (!WorkFlowManager.Exists(tableName)) return Json(new { });
+            var flow = await _workFlowTableRepository.FindAsIQueryable(x => x.WorkTable == tableName && x.WorkTableKey == id)
+                               .Include(x => x.Sys_WorkFlowTableStep)
+                               .FirstOrDefaultAsync();
+
+            if (flow == null)
+            {
+                return Json(new { });
+            }
 
             var user = UserContext.Current.UserInfo;
-            var userQuery = _userRepository.FindAsIQueryable(x => 1 == 1);
-            try
+            List<int> stepValues = flow.Sys_WorkFlowTableStep.Select(s => s.StepValue ?? 0).ToList();
+            var users = _userRepository.FindAsIQueryable(x => stepValues.Contains(x.User_Id))
+                                        .Select(u => new { u.User_Id, u.UserTrueName });
+            var data = new
             {
-                var data = (await _workFlowTableRepository.FindAsIQueryable(x => x.WorkTable == tableName && x.WorkTableKey == id)
-               .Include(x => x.Sys_WorkFlowTableStep)
-               .ToListAsync())
-               .Select(s => new
-               {
-                   step = s.CurrentOrderId,
-                   s.AuditStatus,
-                   list = s.Sys_WorkFlowTableStep.OrderBy(o => o.OrderId)
-                     .Select(c => new
-                     {
-                         c.AuditId,
-                         Auditor = userQuery.Where(u => u.User_Id == c.StepValue).Select(u => u.UserTrueName).FirstOrDefault(),
-                         c.AuditDate,
-                         c.AuditStatus,
-                         //  AuditStatus = c.AuditStatus ?? (int)AuditStatus.审核中,
-                         c.Remark,
-                         c.StepValue,
-                         c.StepName,
-                         c.OrderId,
-                         //判断是按角色审批 还是用户帐号审批
-                         isCurrentUser = s.AuditStatus == (int)AuditStatus.审核中 && c.OrderId == s.CurrentOrderId && (c.StepType == 1 ? user.User_Id : user.Role_Id) == c.StepValue,
-                         isCurrent = s.AuditStatus == (int)AuditStatus.审核中 && c.OrderId == s.CurrentOrderId
-                     })
-               }).FirstOrDefault();
-                //获取用户名或者角色名待完
-                if (data == null) return Json(new { });
-                return Json(data);
-            }
-            catch (Exception ex)
-            {
-                return Json(ex.Message + ex.StackTrace);
+                step = flow.CurrentOrderId,
+                flow.AuditStatus,
+                list = flow.Sys_WorkFlowTableStep
+                   .Select(c => new
+                   {
+                       c.AuditId,
+                       Auditor = users.Where(us => us.User_Id == c.StepValue).Select(us => us.UserTrueName).FirstOrDefault(),
+                       c.AuditDate,
+                       c.AuditStatus,
+                       c.Remark,
+                       c.StepValue,
+                       c.StepName,
+                       c.OrderId,
+                       //判断是按角色审批 还是用户帐号审批
+                       isCurrentUser = (c.AuditStatus ?? 0) == (int)AuditStatus.审核中 && c.OrderId == flow.CurrentOrderId && GetAuditStepValue(c.StepType) == c.StepValue,
+                       isCurrent = c.OrderId == flow.CurrentOrderId
+                   }).OrderBy(o => o.OrderId)
+            };
 
+            return Json(data);
+        }
+
+        private int GetAuditStepValue(int? stepType)
+        {
+            if (stepType == (int)AuditType.角色审批)
+            {
+                return UserContext.Current.RoleId;
             }
+            if (stepType == (int)AuditType.部门审批)
+            {
+                return UserContext.Current.UserInfo.DeptId;
+            }
+            //按用户审批
+            return UserContext.Current.UserId;
+
         }
     }
 }

@@ -1577,12 +1577,20 @@ let methods = {
       this.workFlowSteps.splice(0);
       //有可能没有配置审批流程
       if (!result.list || !result.list.length) {
-        return;
+        result.list = [];
+        this.auditParam.showAction = true;
+        this.auditParam.height = 240;
+        this.auditParam.showViewButton = row.AuditStatus == 0;
+      } else {
+        this.auditParam.showAction = result.list.some((c) => {
+          return c.isCurrentUser;
+        });
+        this.auditParam.height = 450;
+        this.auditParam.showViewButton = true;
       }
-
-      this.auditParam.showAction = result.list.some((c) => {
-        return c.isCurrentUser;
-      });
+      this.auditParam.reason='';
+      this.auditParam.status=-1;
+      this.auditParam.value=-1;
       this.workFlowSteps.push(...result.list);
       this.isBoxAudit = true;
       this.initFormOptionType(true);
@@ -1606,11 +1614,13 @@ let methods = {
       });
     });
   },
-  getAuditStatus(status){
-    let data=  this.auditParam.data.find(x=>{return x.value==status });
+  getAuditStatus(status) {
+    let data = this.auditParam.data.find((x) => {
+      return x.value == status;
+    });
     if (!data) {
       return '-';
-     //   return `审核值不正确:${status}`
+      //   return `审核值不正确:${status}`
     }
     return data.text;
   }
