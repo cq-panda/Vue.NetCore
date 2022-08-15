@@ -1672,5 +1672,115 @@ INSERT Sys_Menu (MenuName, Auth, Icon, Description, Enable, OrderNo, TableName,
    '2022-05-04 12:00', N'超级管理员', null, '超级管理员', 0);
    
 ALTER TABLE Sys_Menu ADD MenuType INT;
-   
+
+-- ----------------------------
+-- Table structure for Sys_WorkFlow
+-- ----------------------------
+CREATE TABLE `Sys_WorkFlow`  (
+  `WorkFlow_Id` char(36) NOT NULL,
+  `WorkName` varchar(200) NOT NULL COMMENT '流程名称',
+  `WorkTable` varchar(200) NOT NULL COMMENT '表名',
+  `WorkTableName` varchar(200) NULL COMMENT '功能菜单',
+  `NodeConfig` longtext NULL COMMENT '节点信息',
+  `LineConfig` longtext NULL COMMENT '连接配置',
+  `Remark` text NULL COMMENT '备注',
+  `CreateDate` datetime NULL,
+  `CreateID` int NULL,
+  `Creator` varchar(30) NULL,
+  `Enable` tinyint NULL,
+  `Modifier` varchar(30) NULL,
+  `ModifyDate` datetime NULL,
+  `ModifyID` int NULL,
+  PRIMARY KEY (`WorkFlow_Id`)
+);
+
+-- ----------------------------
+-- Records of Sys_WorkFlow
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for Sys_WorkFlowStep
+-- ----------------------------
+CREATE TABLE `Sys_WorkFlowStep`  (
+  `WorkStepFlow_Id` char(36) NOT NULL,
+  `WorkFlow_Id` char(36) NULL COMMENT '流程主表id',
+  `StepId` varchar(100) NULL COMMENT '流程节点Id',
+  `StepName` varchar(200) NULL COMMENT '节点名称',
+  `StepType` int NULL COMMENT '节点类型(1=按用户审批,2=按角色审批)',
+  `StepValue` int NULL COMMENT '审批用户id或角色id',
+  `OrderId` int NULL,
+  `Remark` text NULL COMMENT '备注',
+  `CreateDate` datetime NULL,
+  `CreateID` int NULL,
+  `Creator` varchar(30) NULL,
+  `Enable` tinyint NULL,
+  `Modifier` varchar(30) NULL,
+  `ModifyDate` datetime NULL,
+  `ModifyID` int NULL,
+  PRIMARY KEY (`WorkStepFlow_Id`)
+);
+
+-- ----------------------------
+-- Records of Sys_WorkFlowStep
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for Sys_WorkFlowTable
+-- ----------------------------
+CREATE TABLE `Sys_WorkFlowTable`  (
+  `WorkFlowTable_Id` char(36) NOT NULL,
+  `WorkFlow_Id` char(36) NULL,
+  `WorkName` varchar(200) NULL,
+  `WorkTableKey` varchar(200) NULL COMMENT '表主键id',
+  `WorkTable` varchar(200) NULL COMMENT '表名',
+  `WorkTableName` varchar(200) NULL COMMENT '表中文名',
+  `CurrentOrderId` int NULL,
+  `AuditStatus` int NULL,
+  `CreateDate` datetime NULL,
+  `CreateID` int NULL,
+  `Creator` varchar(30) NULL,
+  `Enable` tinyint NULL,
+  `Modifier` varchar(30) NULL,
+  `ModifyDate` datetime NULL,
+  `ModifyID` int NULL,
+  PRIMARY KEY (`WorkFlowTable_Id`)
+);
+
+-- ----------------------------
+-- Records of Sys_WorkFlowTable
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for Sys_WorkFlowTableStep
+-- ----------------------------
+CREATE TABLE `Sys_WorkFlowTableStep`  (
+  `Sys_WorkFlowTableStep_Id` char(36) NOT NULL,
+  `WorkFlowTable_Id` char(36) NOT NULL,
+  `WorkFlow_Id` char(36) NULL,
+  `StepId` varchar(100) NULL,
+  `StepName` varchar(200) NULL,
+  `StepType` int NULL,
+  `StepValue` int NULL,
+  `OrderId` int NULL,
+  `AuditId` int NULL COMMENT '审核人id',
+  `Auditor` varchar(50) NULL COMMENT '审核人',
+  `AuditStatus` int NULL COMMENT '审核状态',
+  `AuditDate` datetime NULL,
+  `Remark` text NULL,
+  `CreateDate` datetime NULL,
+  `CreateID` int NULL,
+  `Creator` varchar(30) NULL,
+  `Enable` tinyint NULL,
+  `Modifier` varchar(30) NULL,
+  `ModifyDate` datetime NULL,
+  `ModifyID` int NULL,
+  PRIMARY KEY (`Sys_WorkFlowTableStep_Id`)
+);
+
 set global local_infile = 'ON';
