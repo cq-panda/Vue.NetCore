@@ -788,6 +788,10 @@ namespace VOL.Core.Dapper
                             TableName = tableName,
                             CharacterSet = "UTF8"
                         };
+                        if (csv.IndexOf("\n")>0)
+                        {
+                            csv = csv.Replace("\n", " ");
+                        }
                         var array = Encoding.UTF8.GetBytes(csv);
                         using (stream = new MemoryStream(array))
                         {
