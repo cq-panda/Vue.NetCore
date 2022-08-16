@@ -422,7 +422,7 @@ export default defineComponent({
           router.push({
             path: navigation[_index - 1].path,
             //2022.06.27修复tabs二次切换后参数丢失的问题
-            query:navigation[_index - 1].query
+            query: navigation[_index - 1].query
           });
           navigation.splice(_index, 1);
           selectId.value = selectId.value - 1 + '';
@@ -683,8 +683,9 @@ export default defineComponent({
       let that = this;
       // 使用原生js 为单个dom绑定鼠标右击事件
       that.$nextTick(() => {
-        let tab_top_dom = document.getElementsByClassName(
-          'el-tabs__item is-top'
+        let tab_top_dom = Object.assign(
+          [],
+          document.getElementsByClassName('el-tabs__item is-top')
         );
         tab_top_dom.forEach((item, index) => {
           item.oncontextmenu = that.openTabsMenu;
