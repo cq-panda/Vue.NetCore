@@ -893,16 +893,15 @@ namespace VOL.Core.BaseProvider
                 return Response.Error(ResponseType.ParametersLack);
 
 
-            if (WorkFlowManager.Exists<T>())
-            {
-                var auditProperty = TProperties.Where(x => x.Name.ToLower() == "auditstatus").FirstOrDefault();
-                string value = saveModel.MainData[auditProperty.Name]?.ToString();
-                if (WorkFlowManager.GetAuditStatus<T>(value) != 1)
-                {
-                    return Response.Error("数据已经在审核中，不能修改");
-                }
-
-            }
+            //if (WorkFlowManager.Exists<T>())
+            //{
+            //    var auditProperty = TProperties.Where(x => x.Name.ToLower() == "auditstatus").FirstOrDefault();
+            //    string value = saveModel.MainData[auditProperty.Name]?.ToString();
+            //    if (WorkFlowManager.GetAuditStatus<T>(value) != 1)
+            //    {
+            //        return Response.Error("数据已经在审核中，不能修改");
+            //    }
+            //}
             Type type = typeof(T);
 
             //设置修改时间,修改人的默认值
