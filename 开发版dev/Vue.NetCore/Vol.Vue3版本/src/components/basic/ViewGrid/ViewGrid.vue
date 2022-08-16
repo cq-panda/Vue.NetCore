@@ -64,18 +64,21 @@
             </div>
           </div>
           <div class="audit-content" v-show="auditParam.showAction">
-           <div style="margin-bottom:10px;">
-               审批：
-            <el-radio-group style="margin-left:15px" v-model="auditParam.value">
-              <el-radio
-                v-for="item in auditParam.data"
-                :key="item.value"
-                :label="item.value"
+            <div style="margin-bottom:10px;">
+              审批：
+              <el-radio-group
+                style="margin-left:15px"
+                v-model="auditParam.value"
               >
-                <span>{{ item.text }}</span>
-              </el-radio>
-            </el-radio-group>
-           </div>
+                <el-radio
+                  v-for="item in auditParam.data"
+                  :key="item.value"
+                  :label="item.value"
+                >
+                  <span>{{ item.text }}</span>
+                </el-radio>
+              </el-radio-group>
+            </div>
 
             <el-input
               v-model="auditParam.reason"
@@ -421,8 +424,8 @@
           :summary="summary"
           :double-edit="doubleEdit"
           :index="doubleEdit"
-           :beginEdit="beginEdit"
-          :endEditBefore="endEditBefore"
+          :beginEdit="tableBeginEdit"
+          :endEditBefore="tableEndEditBefore"
           :click-edit="true"
           :column-index="columnIndex"
           :text-inline="textInline"
@@ -593,8 +596,8 @@ var vueParam = {
         value: -1, //审核结果
         status: -1,
         reason: '', //审核原因
-        height:500,
-        showViewButton:true,
+        height: 500,
+        showViewButton: true,
         showAction: false, //是否显示审批操作(当前节点为用户审批时显示)
         //审核选项(可自行再添加)
         data: [
