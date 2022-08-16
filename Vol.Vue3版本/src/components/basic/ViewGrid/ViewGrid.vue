@@ -421,6 +421,7 @@
           :summary="summary"
           :double-edit="doubleEdit"
           :index="doubleEdit"
+           :beginEdit="beginEdit"
           :endEditBefore="endEditBefore"
           :click-edit="true"
           :column-index="columnIndex"

@@ -1483,6 +1483,10 @@ let methods = {
       };
     }
   },
+  beginEdit(row, column, index) {
+    //2021.03.19是否开启查询界面表格双击编辑结束方法,返回false不会结束编辑
+    return true;
+  },
   endEditBefore(row, column, index) {
     //2021.03.19是否开启查询界面表格双击编辑结束方法,返回false不会结束编辑
     return true;
@@ -1551,7 +1555,7 @@ let methods = {
       field: '操作',
       title: '操作',
       width: 70,
-      // fixed:"right",
+      fixed:"right",
       align: 'center',
       formatter: (row) => {
         if (
