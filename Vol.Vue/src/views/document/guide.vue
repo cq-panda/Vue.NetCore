@@ -18,7 +18,7 @@
         <a target="_blank" href="https://www.cctalk.com/m/group/90268531">
           <Icon type="ios-ionic" /><br />框架视频</a
         >
-        <a style="padding-top: 25px;">QQ1群:45221949 <br />QQ2群:913189178</a>
+        <a style="padding-top: 25px">QQ1群:45221949 <br />QQ2群:913189178</a>
         <a target="_blank" href="https://github.com/cq-panda/Vue.NetCore">
           <Icon type="logo-github" /><br />GitHub</a
         >
@@ -86,16 +86,15 @@
         >
           <Icon type="ios-help-circle-outline" /><br />常见问题</a
         >
-    
       </div>
-      <div style="    font-size: 25px;font-weight: bold;  margin-bottom: 20px;">
-       <a
+      <div style="font-size: 25px; font-weight: bold; margin-bottom: 20px">
+        <a
           target="_blank"
           href="https://github.com/sxy407249209/SignalRWebRtcDemo"
         >
           <Icon type="ios-mic-outline" />SignalR+WebRtc实时视频通话</a
         >
-        </div>
+      </div>
       <div
         style="
           font-size: 15px;
@@ -715,19 +714,7 @@
               </span>
               <span style="display: none"></span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 16px">
                 <strong>描述</strong>
               </span>
@@ -736,19 +723,7 @@
               <span style="display: none"></span>
               <span style="display: none"></span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 90px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 16px">
                 <strong>状态</strong>
               </span>
@@ -756,599 +731,193 @@
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">用户管理</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >登陆、密码修改</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">角色管理</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">角色管理</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">权限分配</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >用户基础权限分配，后台支持多种权限控制方式,也可自行定义</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >用户权限/菜单静态化处理</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >对用户权限/菜单在本地服务器作静态化处理,只有在用户权限/菜单变化时才刷新redis缓存</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">JWT认证</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >采用前台端分离JWT认证，并且支持JWT过期动态刷新</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
+              <span style="color: #666666; font-size: 14px">√</span>
+            </td>
+          </tr>
+                    <tr>
+            <td class="g-cell">
+              <span style="color: #666666; font-size: 14px">审批流程</span>
+            </td>
+            <td class="g-cell">
+              <span style="color: #666666; font-size: 14px"
+                >2022.08增加审批流程功能</span
+              >
+            </td>
+            <td class="g-cell">
+              <span style="color: #666666; font-size: 14px">√</span>
+            </td>
+          </tr>
+                    <tr>
+            <td class="g-cell">
+              <span style="color: #666666; font-size: 14px">定时任务</span>
+            </td>
+            <td class="g-cell">
+              <span style="color: #666666; font-size: 14px"
+                >2022.08增加Quertz.Net定时任务</span
+              >
+            </td>
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >异步队列批量写日志</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >框架封装了一个异步队列批量写入日志</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">Repository</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >Repository作为数据提供，提供了常用EF方法封装</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >前端常用组件封装</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >此框架主要围绕表单组件进行开发，并且封装的组件都支持扩展</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">基础业务实现</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >已实现(表/主从表)的增、删、改、查、导入、导出、审核基础功能(前提建一张带主键的mysql/sqlserver表),这些基础业务不要写任何代码，直接用代码生成器生成即可，并且生成的代码支持其他业务代码扩展</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">代码生成器</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >代码生成器为可视化配置，提供了可配置属性的20多种，所有基础功能只需要勾选确认，生成的代码包括Vue/Vue扩展文件/路由,后台表相关的类(控制器/扩展控制器,业务接口/扩展业务接口,接口实现/扩展接口实现类)，支持单表表单、主从表单的代码生成</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >数据源预先配置</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >数据源作为前端下拉框/多选框的字典项源，支持key/value配置及sql从数据源加载配置</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">
                 表单数据源自动绑定
                 <span style="display: none"></span>
               </span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >如果一个表单带有多个下拉框，这里只需要配置数据源编号即可自动绑定</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
@@ -1368,300 +937,84 @@
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >Redis/Memory缓存</span
               >
               <span style="display: none"></span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >已对Redis/Memory封装直接使用即可</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">Dapper</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >已对Dapper封装直接使用即可</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">扩展方法</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >框架封装了大量的扩展方法,如：通用实体校验(框架所有实现校验全部依赖于此扩展)扩展、string扩展、object扩展、表达式生成/解析扩展、文件操作扩展等</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">H5开发</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >可支持直接开发并部署H5页面&nbsp;</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">分库、多数据</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >分库、多数据操作</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">静态页面发布</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >后台发布并生成可浏览的静态页面</span
               >
               <span style="display: none"></span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px; white-space: normal"
                 >√</span
               >
@@ -1669,95 +1022,23 @@
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">多租户</span>
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            ></td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell"></td>
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
               <span style="display: none"></span>
             </td>
           </tr>
           <tr>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px"
                 >消息推送(signalR)</span
               >
             </td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            ></td>
-            <td
-              style="
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                margin: 0px;
-                padding: 7px;
-                color: rgba(111, 93, 93, 0.87);
-                font-size: 13px;
-                border-collapse: collapse;
-                min-width: 60px;
-                border: 1px solid #d4d1d1;
-              "
-            >
+            <td class="g-cell"></td>
+            <td class="g-cell">
               <span style="color: #666666; font-size: 14px">√</span>
               <span style="display: none"></span>
             </td>
@@ -1774,49 +1055,49 @@
   </div>
 </template>
 <script>
-import "./doc.less";
+import './doc.less';
 export default {
   data() {
     return {
       activedIndex: 0,
       list: [
         {
-          id: "#1-1",
-          name: "Vue3版本",
+          id: '#1-1',
+          name: 'Vue3版本'
         },
         {
-          id: "#1-1",
-          name: "启动项目",
+          id: '#1-1',
+          name: '启动项目'
         },
         {
-          id: "#2",
-          name: "启动报错",
+          id: '#2',
+          name: '启动报错'
         },
         {
-          id: "#3",
-          name: "快速上手",
+          id: '#3',
+          name: '快速上手'
         },
         {
-          id: "#4",
-          name: "端口变更",
+          id: '#4',
+          name: '端口变更'
         },
         {
-          id: "#5",
-          name: "项目发布",
+          id: '#5',
+          name: '项目发布'
         },
         {
-          id: "#5-1",
-          name: "前后台发布在一起",
+          id: '#5-1',
+          name: '前后台发布在一起'
         },
         {
-          id: "#6",
-          name: "项目更新",
+          id: '#6',
+          name: '项目更新'
         },
         {
-          id: "#7",
-          name: "功能介绍",
-        },
-      ],
+          id: '#7',
+          name: '功能介绍'
+        }
+      ]
     };
   },
   methods: {
@@ -1828,8 +1109,8 @@ export default {
         top = 0;
       }
       window.scrollTo(0, top);
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -1912,12 +1193,23 @@ table {
     font-size: 40px;
   }
   a:hover {
-    color:#b2b2b2 !important;
+    color: #b2b2b2 !important;
     // background: #e8e8e8;
     i {
       // transform: scale(1.2);
       // font-size: 50px !important;
     }
   }
+}
+.g-cell {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  margin: 0px;
+  padding: 7px;
+  color: rgba(111, 93, 93, 0.87);
+  font-size: 13px;
+  border-collapse: collapse;
+  min-width: 60px;
+  border: 1px solid #d4d1d1;
 }
 </style>

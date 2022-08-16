@@ -123,6 +123,7 @@ const param = {
     { name: "render", desc: "<span style='color:red;'>支持vue原生render处理,[前端开发->render渲染form对象1/2]为配置示例，render完整用法见vue官方文档(2020.06.20)</span>", type: "function", default: "" },
     { name: "cellStyle", desc: "<span style='color:red;'>单元格td背景颜色,cellStyle:(row, rowIndex, columnIndex)=>  return { background: '#f3f3f3' }  2020.12.13 </span>", type: "function", default: "" },
     { name: "title", desc: "table列名", type: "string", default: "" },
+    { name: "showOverflowTooltip", desc: "<span style='color:red;'>当内容过长被隐藏时显示tooltip(2022.08.26更新voltable.vue组件,仅支持vue3版本)</span>", type: "boll", default: "false" },
     { name: "width", desc: "列宽度", type: "number", default: "" },
     { name: "sort", desc: "是否排序列", type: "bool", default: "false" },
     { name: "hidden", desc: "是否隐藏列", type: "bool", default: "false" },
