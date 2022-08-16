@@ -335,6 +335,7 @@
                   :click-edit="detailOptions.clickEdit"
                   :column-index="detailOptions.columnIndex"
                   :ck="detailOptions.ck"
+                  :text-inline="detailOptions.textInline"
                 ></vol-table>
               </div>
               <!--明细footer自定义组件-->
@@ -571,6 +572,7 @@ var vueParam = {
         url: '', //从表加载数据的url
         pagination: { total: 0, size: 100, sortName: '' }, //从表分页配置数据
         height: 0, //默认从表高度
+        textInline:true,//明细表行内容显示在一行上，如果需要换行显示，请设置为false
         doubleEdit: true, //使用双击编辑
         clickEdit: false, //是否开启点击单元格编辑，点击其他行时结束编辑
         currentReadonly: false, //当前用户没有编辑或新建权限时，表单只读(可用于判断用户是否有编辑或新建权限)
