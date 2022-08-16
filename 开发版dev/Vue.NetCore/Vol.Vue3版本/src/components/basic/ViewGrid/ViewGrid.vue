@@ -641,8 +641,13 @@ var vueParam = {
   },
   methods: {},
   activated() {
+    
     //2020.06.25增加activated方法
     this.onActivated && this.onActivated();
+    if (this._inited&&this.isViewFlow()) {
+        this.resetSearch();
+        this.search();
+    }
     if (!this._inited) {
       this._inited = true;
       return;

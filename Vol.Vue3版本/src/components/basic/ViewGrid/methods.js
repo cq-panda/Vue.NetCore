@@ -353,14 +353,30 @@ let methods = {
     if (query) {
       param = Object.assign(param, query);
     }
+    if (this.isViewFlow() && this.$route.query.id) {
+      param.wheres.push({
+        name: this.table.key,
+        value: this.$route.query.id
+      });
+    }
     let status = this.searchBefore(param);
     callBack(status);
   },
+
   loadTableAfter(data, callBack, result) {
     //查询后
     //2020.10.30增加查询后返回所有的查询信息
     let status = this.searchAfter(data, result);
     callBack(status);
+    //自动弹出框审批详情
+    if (this.isViewFlow()&&data&&data.length) {
+      let query = JSON.parse(JSON.stringify(this.$route.query));
+      query.viewflow = 0;
+      this.$router.replace({ path: this.$route.path, query: query });
+      this.$nextTick(()=>{
+        this.getWorkFlowSteps(data[0])
+      })
+    }
   },
   loadDetailTableBefore(param, callBack) {
     //明细查询前
@@ -690,7 +706,7 @@ let methods = {
         if (!this.updateAfter(x)) return;
       }
       if (!x.status) return this.$error(x.message);
-      this.$success(x.message||'操作成功');
+      this.$success(x.message || '操作成功');
       //如果保存成功后需要关闭编辑框，直接返回不处理后面
       if (this.boxOptions.saveClose) {
         this.boxModel = false;
@@ -1634,6 +1650,9 @@ let methods = {
       //   return `审核值不正确:${status}`
     }
     return data.text;
+  },
+  isViewFlow() {
+    return this.$route.query.viewflow == '1';
   }
 };
 import customColumns from './ViewGridCustomColumn.js';
