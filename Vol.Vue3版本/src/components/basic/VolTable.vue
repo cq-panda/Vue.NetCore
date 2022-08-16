@@ -60,6 +60,7 @@
         :key="column.field + cindex"
         :align="column.align"
         :sortable="column.sort ? 'custom' : false"
+        :show-overflow-tooltip="column.showOverflowTooltip"
       >
         <template #header>
           <span
