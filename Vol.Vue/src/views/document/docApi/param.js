@@ -376,6 +376,7 @@ const param = {
                     key: "", <span style="color: #008000;">//</span><span style="color: #008000;">从表主键名</span>
                     data: [], <span style="color: #008000;">//</span><span style="color: #008000;">数据源</span>
                     columns: [], <span style="color: #008000;">//</span><span style="color: #008000;">从表列信息</span>
+                    textInline: <span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">明细表行内容显示在一行上，如果需要换行显示，请设置为false2022.08.16</span>
                     edit: <span style="color: #0000ff;">true</span>, <span style="color: #008000;">//</span><span style="color: #008000;">明细是否可以编辑</span>
                     single:<span style="color: #0000ff;">false</span>,<span style="color: #008000;">//</span><span style="color: #008000;">明细表是否单选</span>
                     delKeys: [], <span style="color: #008000;">//</span><span style="color: #008000;">当编辑时删除当前明细的行主键值</span>

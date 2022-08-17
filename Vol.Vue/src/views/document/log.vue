@@ -51,6 +51,50 @@ export default {
       log: [
         { date: '2022.08', type: 'month' },
         {
+          date: '2022-08-17 22:53:15',
+          desc: '加发邮件功能：更新MailHelper.cs、appsettings.json(最后面的Mail配置)'
+        },
+        {
+          date: '2022-08-17 00:16:20',
+          desc: '增加点击我的审批时自动跳转弹出审批信息页面'
+        },
+        {
+          date: '2022-08-16 23:26:38',
+          desc: '优化vue3版本http.js文件强制url地址以/结尾'
+        },
+        {
+          date: '2022-08-16 23:22:53',
+          desc: '增加vue3版本明细表内容超出换行显示属性'
+        },
+        {
+          date: '2022-08-16 23:14:37',
+          desc: '优化vue3版本table事件点击上下文指向'
+        },
+        {
+          date: '2022-08-16 23:13:52',
+          desc: '修复vue3版本首页index.vue导航右键功能浏览器兼容的问题'
+        },
+        { date: '2022-08-16 23:12:28', desc: '完善文档' },
+        { date: '2022-08-16 23:11:19', desc: '优化代码生成器模板' },
+        {
+          date: '2022-08-16 22:44:39',
+          desc: '集成vue3版本voltable组件列属性showOverflowTooltip(当内容过长被隐藏时显示 tooltip)'
+        },
+        {
+          date: '2022-08-16 22:39:11',
+          desc: '增加vue3版本主表在线表格编辑前方法拦截'
+        },
+        { date: '2022-08-16 02:07:44', desc: '增加mysql审批流程表结构' },
+        {
+          date: '2022-08-16 01:56:59',
+          desc: '完善审批流程，增加角色、部门审批功能'
+        },
+        {
+          date: '2022-08-16 01:52:47',
+          desc: '优化sqldapper批量写入mysql数据库'
+        },
+        { date: '2022-08-15 05:17:49', desc: '增加流程示例' },
+        {
           date: '2022-08-15 04:08:46',
           desc: '修复移动端安卓真机类型错误的问题'
         },
@@ -60,18 +104,16 @@ export default {
         },
         {
           date: '2022-08-15 04:03:46',
-          style:"color:red",
+          style: 'color:red',
           desc: `增加审批流程功能,更新代码：
-          
-          <p>1、VOL.Core类库全部更新替换覆盖</p>
-            <p>2、 UserInfo.cs</p>
-              <p>3、  数据库更新：更新db文件夹中表结构Sys_WorkFlow、Sys_WorkFlowStep、Sys_WorkFlowTable、Sys_WorkFlowTableStep这4张图，同时生成代码(代码生成时类库选择system，文件夹名flow)</p>
-             <p style="margin-left:40px;font-size:13px;color:#579fea">数据库脚本地址<a href="https://gitee.com/x_discoverer/Vue.NetCore/tree/master/%E5%BC%80%E5%8F%91%E7%89%88dev/Vue.NetCore/DB/sqlserver">https://gitee.com/x_discoverer/Vue.NetCore/tree/master/%E5%BC%80%E5%8F%91%E7%89%88dev/Vue.NetCore/DB/sqlserver</a></p>
-              <p>4、流程注入见后台代码：Startup.cs中ConfigureContainer方法说明</p>
-                      <p>5、前端更新文件夹：components</p>
+             <p>1、  数据库更新：更新db文件夹中表结构Sys_WorkFlow、Sys_WorkFlowStep、Sys_WorkFlowTable、Sys_WorkFlowTableStep这4张表;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同时生成代码(代码生成时类库选择system，文件夹名flow)</p>
+             <p style="margin-left:25px;font-size:13px;color:#579fea">数据库脚本地址<a href="https://gitee.com/x_discoverer/Vue.NetCore/tree/master/DB">https://gitee.com/x_discoverer/Vue.NetCore/tree/master/DB</a></p>
+             <p>2、VOL.Core类库全部更新替换覆盖</p>
+            <p>3、后台：UserInfo.cs、Sys_WorkFlowController.cs、Sys_WorkFlowService.cs</p>
+            <p>4、流程注入见后台代码：Startup.cs中ConfigureContainer方法说明</p>
+                      <p>5、前端更新文件夹：components、extension->system->flow文件夹</p>
                  <p>6、其他遗漏或详细补充见视频</p>
               `
-      
         },
         { date: '2022.07', type: 'month' },
 
