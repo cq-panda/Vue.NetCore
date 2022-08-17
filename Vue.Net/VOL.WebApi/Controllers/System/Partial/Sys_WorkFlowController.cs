@@ -89,7 +89,7 @@ namespace VOL.System.Controllers
 
             var user = UserContext.Current.UserInfo;
             List<int> stepValues = flow.Sys_WorkFlowTableStep.Select(s => s.StepValue ?? 0).ToList();
-            var users = _userRepository.FindAsIQueryable(x => stepValues.Contains(x.User_Id))
+            var users = _userRepository.FindAsIQueryable(x =>true)
                                         .Select(u => new { u.User_Id, u.UserTrueName });
             var data = new
             {
@@ -99,7 +99,7 @@ namespace VOL.System.Controllers
                    .Select(c => new
                    {
                        c.AuditId,
-                       Auditor = users.Where(us => us.User_Id == c.StepValue).Select(us => us.UserTrueName).FirstOrDefault(),
+                       Auditor = users.Where(us => us.User_Id == c.AuditId).Select(us => us.UserTrueName).FirstOrDefault(),
                        c.AuditDate,
                        c.AuditStatus,
                        c.Remark,
@@ -108,7 +108,7 @@ namespace VOL.System.Controllers
                        c.OrderId,
                        //判断是按角色审批 还是用户帐号审批
                        isCurrentUser = (c.AuditStatus ?? 0) == (int)AuditStatus.审核中 && c.OrderId == flow.CurrentOrderId && GetAuditStepValue(c.StepType) == c.StepValue,
-                       isCurrent = c.OrderId == flow.CurrentOrderId
+                       isCurrent = c.OrderId == flow.CurrentOrderId&&c.AuditStatus!=(int)AuditStatus.审核通过
                    }).OrderBy(o => o.OrderId)
             };
 
