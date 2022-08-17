@@ -8,9 +8,7 @@
     :padding="0"
   >
     <div>
-      <flow-panel
-        ref="flow"
-      ></flow-panel>
+      <flow-panel ref="flow"></flow-panel>
     </div>
     <template #footer>
       <div style="text-align: center;">
@@ -145,7 +143,8 @@ export default {
           StepId: x.id,
           StepName: x.name,
           StepType: x.nodeType,
-          StepValue: x.nodeType == '1' ? x.userId : x.roelId,
+          StepValue:
+            x.nodeType == 1 ? x.userId : x.nodeType == 2 ? x.roleId : x.deptId,
           OrderId: index + 1
         };
       });
