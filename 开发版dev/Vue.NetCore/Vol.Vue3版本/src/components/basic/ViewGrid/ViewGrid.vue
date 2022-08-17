@@ -605,7 +605,7 @@ var vueParam = {
         data: [
           { text: '通过', value: 1 },
           { text: '拒绝', value: 2 },
-          { text: '拒绝', value: 3 }
+          { text: '驳回', value: 3 }
         ]
       },
       upload: {

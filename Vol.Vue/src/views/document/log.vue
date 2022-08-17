@@ -52,7 +52,7 @@ export default {
         { date: '2022.08', type: 'month' },
         {
           date: '2022-08-17 22:53:15',
-          desc: '加发邮件功能：更新MailHelper.cs、appsettings.json(最后面的Mail配置)'
+          desc: '增加发邮件功能：更新MailHelper.cs、appsettings.json(最后面的Mail配置)'
         },
         {
           date: '2022-08-17 00:16:20',
