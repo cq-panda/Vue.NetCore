@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 50729
  Source Host           : 120.53.251.208:3306
- Source Schema         : 0103
+ Source Schema         : netcoredev0819
 
  Target Server Type    : MySQL
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 03/01/2022 19:57:55
+ Date: 19/08/2022 16:03:04
 */
 
 SET NAMES utf8mb4;
@@ -38,10 +38,10 @@ CREATE TABLE `App_Appointment`  (
 -- ----------------------------
 -- Records of App_Appointment
 -- ----------------------------
-INSERT INTO `App_Appointment` VALUES ('08d73c0e-edef-0a68-ab81-c3dc5e0fe407', '2019-09-18 16:05:11', 1, '超级管理员', '美国十八世纪仅列于华盛顿之后的最著名人物。。', '超级管理员', '2020-04-24 13:47:46', 1, '杰明·富兰克林', '138888887698');
-INSERT INTO `App_Appointment` VALUES ('08d73c0e-edf8-595b-9a8f-2ff134751833', '2019-09-18 16:05:11', 1, '超级管理员', '由古希腊盲诗人荷马创作的两部长篇史诗。', '超级管理员', '2020-04-24 13:44:04', 1, '荷马史诗', '1300111235');
-INSERT INTO `App_Appointment` VALUES ('08d73c11-6a43-97e8-ca70-e8b0d906807e', '2019-09-18 16:22:59', 1, '超级管理员', '希腊神话是原始氏族社会的精神产物。', '超级管理员', '2020-05-28 16:41:33', 1, '希腊神话', '138888887698');
-INSERT INTO `App_Appointment` VALUES ('08d99f6a-11d7-42c8-8b54-3b4f3ea26a70', '2021-11-04 16:06:56', 1, '超级管理员', '23', NULL, NULL, NULL, '1', '32');
+INSERT INTO `App_Appointment` VALUES ('08d9fcbc-b5e9-4833-8bfb-3b3ce77bc704', '2022-03-03 10:22:48', 1, '超级管理员', '古埃及第十九王朝法老第三位法老，杰出的政治家、军事家、文学家、诗人、建筑家，其执政时期是埃及新王国最后的强盛年', '超级管理员', '2022-03-03 10:24:14', 1, '拉美西斯', '1388888888');
+INSERT INTO `App_Appointment` VALUES ('08d9fcbc-b5eb-4c1f-80bc-3c5029d935e7', '2022-03-03 10:22:48', 1, '超级管理员', '奈菲尔塔利（Nefertari ）是古埃及著名法老，拉美西斯二世八位王后中唯一一个拥有神庙的王后', '超级管理员', '2022-03-03 10:24:16', 1, '奈菲尔塔利', '1399999999');
+INSERT INTO `App_Appointment` VALUES ('08da0e85-17db-4da5-85ed-1400a5fce2c5', '2022-03-26 01:30:02', 1, '超级管理员', '人中吕布,马中赤兔,方天画戟,专杀义父', '超级管理员', '2022-03-26 01:32:55', 1, '人中吕布', '13777777777');
+INSERT INTO `App_Appointment` VALUES ('08da0e85-17db-4e08-8b4e-450a5f98f8ba', '2022-03-26 01:30:02', 1, '超级管理员', '非礼啊!非礼啊!非礼啊!', '超级管理员', '2022-03-26 01:32:57', 1, '貂蝉西施', '13666666666');
 
 -- ----------------------------
 -- Table structure for App_Expert
@@ -76,14 +76,15 @@ CREATE TABLE `App_Expert`  (
   `UserTrueName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `User_Id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`ExpertId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 282 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 288 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of App_Expert
 -- ----------------------------
 INSERT INTO `App_Expert` VALUES (275, '2018-09-07 10:58:17', 1, 1, '测试超级管理员', NULL, '上海市', '中国农业大学', '2018-09-04 15:49:44', 3344, 'User31110458', '博士', 1, '宫本七号', 'Upload/Tables/App_Expert/202103061750152777/head2.jpg', '150124199911110116', '超级管理员', '2021-03-07 21:55:31', 1, '1388886666', '教授', '拉美西斯', '二十九岁,对于一个人男人而言不算老,可是对于爱情来说已是风烛残年', 'Upload/Tables/App_Expert/201911271400081947/启用图片支持 (1).xlsx', '13381277739', 'User31110458', 3344);
-INSERT INTO `App_Expert` VALUES (276, '2019-09-22 22:30:08', 3362, 1, 'zs', '', '北京市', '窦天宝传奇', '2018-09-18 17:45:54', 3358, '较瘦', '小学', 1, '榴莲', 'Upload/Tables/App_Expert/202109221608498894/c6dd920b17825b5801e97b400897ed03_t.gif', '250124123911110121', '超级管理员', '2021-09-24 11:09:48', 1, '1388887777', '演员', '木兰', '还没想好', 'Upload/Tables/App_Expert/201912111717154170/exceltest.xlsx', '18612119023', '较瘦', 3358);
-INSERT INTO `App_Expert` VALUES (280, NULL, NULL, 0, NULL, NULL, '北京市', NULL, '2021-03-06 17:52:07', 1, '超级管理员', NULL, 1, '女秘书', 'Upload/Tables/App_Expert/202103061753415708/060222.jpg', NULL, '超级管理员', '2021-12-30 11:26:21', 1, '1388888888', NULL, '女秘书', '嗯？嗯？嗯？嗯？嗯？', NULL, NULL, NULL, NULL);
+INSERT INTO `App_Expert` VALUES (276, '2019-09-22 22:30:08', 3362, 1, 'zs', '', '北京市', '窦天宝传奇', '2018-09-18 17:45:54', 3358, '较瘦', '小学', 1, '榴莲', 'Upload/Tables/App_Expert/202109221608498894/c6dd920b17825b5801e97b400897ed03_t.gif', '250124123911110121', '超级管理员', '2021-09-24 11:09:48', 1, '1388887777', '演员', '木兰', '还没想好', 'Upload/Tables/App_Expert/201912111717154170/exceltest.xlsx', '17612519002', '较瘦', 3358);
+INSERT INTO `App_Expert` VALUES (280, NULL, NULL, 0, NULL, NULL, '北京市', NULL, '2021-03-06 17:52:07', 1, '超级管理员', NULL, 1, '女秘书', 'Upload/Tables/App_Expert/202103061753415708/060222.jpg', NULL, '超级管理员', '2021-12-30 11:26:21', 1, '1388888888', NULL, '女秘书', '嗯？嗯？嗯？嗯？嗯？', NULL, '17612519001', NULL, NULL);
+INSERT INTO `App_Expert` VALUES (287, NULL, NULL, 0, NULL, NULL, '北京市', NULL, '2022-08-15 05:02:14', 1, '超级管理员', NULL, 0, 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for App_News
@@ -110,15 +111,15 @@ CREATE TABLE `App_News`  (
   `Title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `ViewCount` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 73789 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 73804 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of App_News
 -- ----------------------------
-INSERT INTO `App_News` VALUES (73779, NULL, NULL, '<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	<b>网易娱乐11月21日报道</b>&nbsp;日前，杨幂在个人平台晒出自拍照，沈腾喊话魏大勋，再度引来网友对杨幂与魏大勋恋情的猜想。随后，又有网友发现魏大勋疯狂点赞微博，疑似承认与杨幂恋情。12月20日晚间，魏大勋工作室回应称，当天魏大勋的账号没有登陆过，点赞并非艺人本人的操作行为，是新浪微博系统故障导致。\n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	据了解，20日晚，有网友发现魏大勋的微博账号在疯狂点赞微博，其中有一条是“女人三十如狼四十如虎”，而杨幂1986年出生，今年33岁，再度引发网友的猜想\n</p>', '2019-12-22 00:54:24', 1, '超级管理员', 1, 'static/news/20191222/0054254823.html', 1, 'Upload/Tables/App_News/202108021127034211/06.jpg', '超级管理员', '2021-01-16 12:02:27', 1, 1, NULL, NULL, '魏大勋点赞\"女人三十如狼\"微博 工作室这样回应，又有网友发现魏大勋疯狂点赞微博，疑似承认与杨幂恋情', NULL);
-INSERT INTO `App_News` VALUES (73780, NULL, NULL, '<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	<b>相关阅读：</b> \n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	<a href=\"https://tech.163.com/19/1221/17/F0UFROFU00097U7R.html\" target=\"_self\" style=\"color:#0F6B99;line-height:1;\"><b>马云回应指挥交响乐争议：企业家最大的资源不是钱</b></a> \n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	网易科技讯 12月21日消息，今日，马云在“2019世界浙商上海论坛暨上海市浙江商会年会”上谈到，2019年很不容易，但是我们做企业的都知道，每一年都不容易。唯一2019年最不容易的是，以往可能是部分人不容易，2019年可能是大部分企业不容易。\n</p>\n<p style=\"text-align:center;margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;color:#404040;white-space:normal;background-color:#FFFFFF;\">\n	<img src=\"http://cms-bucket.ws.126.net/2019/1221/3e42a18ej00q2uvfx0030c000t600jgc.jpg?imageView&amp;thumbnail=550x0\" style=\"vertical-align:top;max-width:550px;\" /> \n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	马云以自己为例称，“昨天一天，我收到很多朋友借钱的电话，一天内5个电话。过去一个礼拜，要卖楼的朋友大概有10个，确实不容易。”（易科）\n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	<span style=\"font-weight:700;\">以下为马云演讲实录：</span> \n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	马云：我想讲三句话，三个意思。\n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	第一，祝贺王均金会长、喻渭蛟执行会长的完美的工作。2019年，商会取得了那么多的成绩，这是不容易的，这主要是奉献，通过帮助别人来提升自己。我们看到了商会的巨大努力。\n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	第二，2019年很不容易，但是我们做企业的都知道，每一年都不容易。唯一2019年最不容易的是，以往可能是部分人不容易，2019年可能是大部分企业不容易。\n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	到了年底了，昨天一天，我收到很多朋友借钱的电话，一天内5个电话。过去一个礼拜，要卖楼的朋友大概有10个，确实不容易。\n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	我们所有的企业家都要明白，做企业2019年不容易，要想到这可能是不容易的开始，大家都不容易，就好办了。\n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	第三层，大家要明白，浙商过不去，其他商人肯定也过不去，我们要有这个自信。世界正在进入巨大的变化之中，中国经济也面临巨大的调整，我们只有改变自己，才能适应这种调整，我相信这是机会的开始。\n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	我们每一年的浙商大会，尤其是上海商会，会开得非常好，我们在这不是炫耀成绩，不是谈怎么赚钱，而是互相交流，互相学习，提升自己。只有学习的人，才能面向未来，只有改变自己的人，才有未来，只有为未来解决问题的企业，才有希望。\n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	祝大家2020年，在最困难的时候能够度过，我相信，我也对浙商，所有爱学习的企业家、爱交流的企业家、实干的企业家、改变自己的企业家，我相信他们能度过。\n</p>\n<p style=\"margin-top:32px;margin-bottom:0px;padding:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;text-indent:2em;color:#404040;text-align:justify;white-space:normal;background-color:#FFFFFF;\">\n	再次祝贺大家，祝福大家，2020年，我们一起努力\n</p>', '2019-12-22 00:56:04', 1, '超级管理员', 1, 'static/news/20191222/0056049868.html', 1, 'Upload/Tables/App_News/202108021126542659/05.jpg', '超级管理员', '2021-06-25 15:33:52', 1, 2, NULL, NULL, '马云谈2019太难了：光昨天我就收到5个朋友借钱电话', NULL);
-INSERT INTO `App_News` VALUES (73785, NULL, NULL, '<p>7月31日晚10时30分，北京市公安局朝阳分局官方微博发布“情况通报”称，针对网络举报的“吴某凡多次诱骗年轻女性发生性关系”等有关情况，经警方调查，吴某凡（男，30岁，加拿大籍）因涉嫌强奸罪，目前已被朝阳公安分局依法刑事拘留，案件侦办工作正在进一步开展。</p><p>吴某凡，就是吴亦凡。此时，离7月22日北京市公安局朝阳分局发布涉及都美竹、吴亦凡等人的相关通报，仅过去了9天。</p><p><br/></p><p><strong>“蝴蝶”扇动“翅膀”：</strong></p><p><strong>陨落，从一场电影开始</strong></p><p>从万人瞩目的顶流巨星，到被公安机关刑事拘留的强奸罪嫌疑人，吴亦凡在“明面”上的陨落时间仅用了64天。</p><p>5月28日中午，一张吴亦凡与女孩包场看电影的截图和观影后两人走出影院的监控视频在网络放出。当晚，吴亦凡工作室委托律师发布声明提到，电影院涉嫌严重侵犯艺人隐私。随后，涉事影院发布致歉信并表示，吴亦凡及友人观影时间为5月26日，私自偷拍吴亦凡相关视频的员工饶某已被开除。</p><p>看似只是一则不起眼的绯闻，但最终引发了都美竹后续的发声。</p><p>6月2日，自称“都美竹最好的朋友”的网友“刘美丽同学”发布多张疑似都美竹与吴亦凡聊天截图，表示好友与吴亦凡曾是恋爱关系，但从4月起遭遇吴亦凡冷暴力，目前抑郁中。</p><p>信息不断发酵的同时，吴亦凡方开始发布律师声明。6月3日，北京星权律师事务所发声称，诸多主体在网络平台中发布严重失实言论，“部分别有用心者”甚至存在恶意PS相关聊天记录截图的行为，旨在“混淆视听，抹黑吴亦凡”。同日，吴亦凡在微博发布自嘲“糊凡”，更直指对方炒作，“没有一片雪花是清白的”。</p>', '2021-08-02 11:15:40', 1, '超级管理员', 1, 'static/news/20210802/1115429008.html', 0, 'Upload/Tables/App_News/202108021124432797/03.jpg', '超级管理员', '2021-12-19 23:33:06', 1, 2, NULL, NULL, '64天，“顶流”的陨落，涉嫌强奸罪！吴亦凡被北京朝阳警方拘留', NULL);
-INSERT INTO `App_News` VALUES (73786, NULL, NULL, '<p>1111中国基金报&nbsp; 安曼</p><p><a href=\"https://www.163.com/keywords/6/5/60525927/1.html\" target=\"_blank\">恒大</a>又在“朋友圈”卖资产了，这次接盘的是老朋友<a href=\"https://www.163.com/keywords/8/7/817e8baf/1.html\" target=\"_blank\">腾讯</a>！</p><p>8月1日晚间，恒腾网络在港交所公告称，中国恒大以32.5亿港元价格出售恒腾网络合计11%股权。</p><p><img alt=\"恒大又卖资产！马化腾出手了！影视大佬曾豪掷44亿接盘，浮亏超19亿...\" src=\"https://nimg.ws.126.net/?url=http%3A%2F%2Fcms-bucket.ws.126.net%2F2021%2F0802%2F00a68ad6p00qx6ojp0027c000hs00egc.png&amp;thumbnail=660x2147483647&amp;quality=80&amp;type=jpg\"/></p><p>就在一个多月前，中国恒大刚以44.33亿港元转让了7.39亿股恒腾网络的股份，接盘方是去年收购的儒意<a href=\"https://www.163.com/keywords/5/7/5f7189c6/1.html\" target=\"_blank\">影视</a>的实控人柯利明。</p><p><b>腾讯接盘7%</b></p><p><b>再次成为第二大股东</b></p><p>据公告介绍，腾讯方面按每股3.20港元价格收购恒腾网络7%股份，总代价20.68亿港元；另一个独立第三方买方以每股3.20港元价格收购恒腾网络4%股份，交易代价11.82亿港元。</p><p>两笔交易总交易代价32.5亿港元。</p><p>交易完成后，腾讯方面和独立第三方买方将分别持有恒腾已发行股本约23.90%及4%，而中国恒大仍将持有26.55%的股份。</p><p>公告还指出，为了支持恒腾业务发展，恒大方面同意提供一笔约20.7亿港元的五年期无抵押无息股东贷款。</p><p>6月22日，恒大方面以每股6港元向儒意影业、南瓜电影创始人柯利明转让7.39亿股恒腾网络股份，占总股本8%，套现44.33亿港元。交易完成后，恒大持股37.55%为第一大股东，柯利明持股增至20.5%，超过QQ音乐持股量，成为恒腾网络第二大股东。</p><p>但是此次交易完成之后，腾讯再度成为恒腾网络的第二大股东。</p><p><b>加码港版“爆款制造机”</b></p><p>不少人士分析，因为恒腾网络在流媒体领域的强劲发展势头，所以腾讯才会花重金增持。</p><p>公开资料显示，恒腾网络是由恒大集团和腾讯两大巨头合资成立的上市公司，此前，主营业务为家具定制、家电配套、阳台布艺、软装饰品、软装工程及厨房用品等产品的线上化销售。</p><p>2020年7月，恒腾网络发布公告称，将以总价72亿港元（约合人民币62亿元）全资收购儒意影业，以完成从家装行业向影视行业的转型。</p><p>而儒意影业是业内知名的影视公司，在图书出版界、编剧界、导演界、制片领域拥有强大的资源整合能力,与好莱坞影视巨头长期深入合作,先后制作了《北平无战事》、《琅琊榜》、《芈月传》、《老中医》、《老酒馆》、《决战中途岛》、《致我们终将逝去的青春》、《缝纫机乐队》、《动物世界》等超100部精品影视作品,储备数百部影视版权。</p><p>2021年的春节档，儒意影业制作的《你好，李焕英》、《送你一朵小红花》意外成为票房“黑马”，一时间恒腾网络的股价一度暴涨近800%。</p>', '2021-08-02 11:21:11', 1, '超级管理员', 1, 'static/news/20210802/1121154569.html', 1, 'Upload/Tables/App_News/202109241738397101/77776s.jpg', '超级管理员', '2021-12-19 23:32:41', 1, 1, NULL, NULL, '恒大又卖资产！马化腾出手了！影视大佬曾豪掷44亿接盘，浮亏超19亿', NULL);
+INSERT INTO `App_News` VALUES (73799, NULL, NULL, '<p style=\"line-height:2;\"><br/></p><p style=\"line-height:2;\"><img src=\"https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2022%2F0419%2Fe8ae745dj00rakxnm0058d000rs00fnp.jpg&amp;thumbnail=660x2147483647&amp;quality=80&amp;type=jpg\"/><br/></p><p style=\"line-height:2;\">开发商Studio Wildcard宣布《方舟：终极幸存者版》将于2022年9月登录任天堂Switch，发售实体版和数字版，售价49.99美元，原版游戏所有者可以免费升级。</p><p style=\"line-height:2;\">《方舟：终极幸存者版》包含了本体《方舟：生存进化》及其所有大型扩展包Scorched Earth、Aberration、Extinction 和 Genesis Parts 1&amp;2，其中Scorched Earth扩展包将在游戏发售时发布，随后的扩展包将每隔两个月发布一次。</p><p style=\"line-height:2;\">拥有原版《方舟：生存进化》的玩家可能会记得，这款游戏自Switch版上线以来一直处于很糟糕的状态。幸运的是，Studio Wildcard已经与第三方开发商合作，重新编写了Switch上的整体代码，并在最新版本的虚幻4上进行开发。计划对功能、图形和优化进行完整的修改。此外，所有现有的Switch进度和存档数据将被保留至新版。</p><p style=\"line-height:2;\">不过最新新版游戏的质量如何，还是需要等发售之后实测才会知道，毕竟虚幻4引擎的游戏在switch上流畅运行，对于开发商来说真的是一个很大的挑战。</p>', '2022-04-20 01:49:23', 1, '超级管理员', 1, 'static/news/20220420/0949288120.html', 1, 'Upload/Tables/App_News/202204201140571762/20-05.png', '超级管理员', '2022-04-20 09:51:16', 1, 1, NULL, NULL, '重写代码可免费升级！《方舟终极版》9月登录Switch', NULL);
+INSERT INTO `App_News` VALUES (73800, NULL, NULL, '<p style=\"line-height:2.5;\"><span style=\"color: var(--el-text-color-regular);\"><br/></span></p><ul><li><span style=\"color: var(--el-text-color-regular);\">用框架之前尽量会一些简单vue基础语法，如果不会vue项目不复杂也不影响使用框架</span></li></ul><p><br/></p><ul><li>后台：会熟练写C#代码就没问题</li></ul><p><br/></p><ul><li>前端Vue语法学习方式，<span style=\"color: var(--el-text-color-regular);\">直接在框架上添加页面以脚手架的方式来学习Vue</span></li></ul><p><br/></p><p style=\"line-height:2.5;\"><b>刚入门前端的先学会这些就够了</b></p><p style=\"line-height:2.5;\"><span style=\"color: var(--el-text-color-regular);\">1.</span><span style=\"font-size: 14px; color: var(--el-text-color-regular);\">基础语法</span></p><p style=\"line-height:2.5;\"></p><p style=\"line-height:2.5;\">&nbsp; &nbsp; &nbsp; v-model  v-for  v-if  v-else-if  v-show&nbsp;</p><p style=\"line-height:2.5;\">&nbsp; &nbsp; &nbsp; @click  slot  ref  class  style\n</p><p style=\"line-height:2.5;\">2.子父组件传参</p><p style=\"line-height:2.5;\"><span style=\"color: var(--el-text-color-regular);\">&nbsp; &nbsp; &nbsp;props、$emit、$refs</span></p><p style=\"line-height:2.5;\">3、生命周期</p><p style=\"line-height:2.5;\">&nbsp; &nbsp; &nbsp;created、mounted、destroyed、activated<br/></p><p style=\"line-height:2.5;\">4、创建Vue页面、Vue组件(页面)引用</p>', '2022-04-21 10:36:28', 1, '超级管理员', 1, 'static/news/20220421/1044487732.html', 1, 'Upload/Tables/App_News/202204211047116801/v.png', '超级管理员', '2022-04-21 10:59:05', 1, 1, NULL, NULL, '前端Vue与后台学习方式与一些基础语法问题', NULL);
+INSERT INTO `App_News` VALUES (73801, NULL, NULL, '<div style=\"\"><br/></div><ul style=\"\"><li>202-05-03 11:41:43&nbsp;优化vue3版本权限分配页面区分app菜单</li><li>202-05-03 11:41:03&nbsp;优化vue2版本权限分配页面区分app菜单</li><li>202-05-03 11:13:08&nbsp;增加vue3版本volform输入框inputStyle属性</li><li>202-05-03 10:56:33&nbsp;增加vue3版本voltable组件textarea编辑类型</li><li>202-05-03 10:46:14&nbsp;移除多余设置默认值的操作</li><li>202-05-03 10:36:37&nbsp;优化移动端权限名不区分大小写</li><li>202-05-03 10:33:18&nbsp;优化移动端保存前方法</li><li>202-05-03 10:31:50&nbsp;增加移动端表单组件ref属性</li><li>202-05-03 10:29:44&nbsp;屏蔽代码生成器生成dto功能</li><li>202-05-03 03:50:26<p>vue3版本集成signalR(消息推送),更新文件:</p><p>package.json、router/index.js、views/index.vue、views/Home.vue、views/index/index.less、Startup.cs、appsettings.json、</p>Hubs/HomePageMessageHub.cs、views/index文件夹、views/signalR/Index.vue</li></ul>', '2022-05-06 15:46:30', 1, '超级管理员', 0, 'static/news/20220506/1546322571.html', 1, 'Upload/Tables/App_News/202205061555467266/vl.png', '超级管理员', '2022-05-06 15:56:56', 1, 1, NULL, NULL, '2022.05增加首页消息推送(signalr)功能可实时发送消息', NULL);
+INSERT INTO `App_News` VALUES (73802, NULL, NULL, '<div><br/></div><ul><li>增加自定义列显示与顺序、菜单右键关闭功能、tabs与菜单联功动能</li><li>具体见演示地址或更新日志</li></ul>', '2022-05-29 23:28:07', 1, '超级管理员', 1, NULL, 1, 'Upload/Tables/App_News/202205292342573890/QQ图片20220529233342.png', '超级管理员', '2022-05-29 23:30:51', 1, 1, NULL, NULL, '2022.05增加自定义列显示与顺序、菜单右键关闭功能、tabs与菜单联功动能', NULL);
 
 -- ----------------------------
 -- Table structure for App_ReportPrice
@@ -173,15 +174,15 @@ CREATE TABLE `App_Transaction`  (
   `Quantity` int(11) NOT NULL,
   `TransactionType` int(11) NOT NULL,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of App_Transaction
 -- ----------------------------
-INSERT INTO `App_Transaction` VALUES (4, '1', '2019-09-18 18:10:01', 1, '超级管理员', '寒江孤影，江湖故人....', NULL, '超级管理员', '2021-10-12 10:23:42', 1, '小小*鸭', '13419098123', 25, 1);
+INSERT INTO `App_Transaction` VALUES (4, '3', '2019-09-18 18:10:01', 1, '超级管理员', '寒江孤影，江湖故人....', NULL, '超级管理员', '2022-03-31 16:56:04', 1, '小小*鸭', '13419098123', 25, 0);
 INSERT INTO `App_Transaction` VALUES (5, '1', '2019-09-18 18:10:01', 1, '超级管理员', '闻着臭，吃着更臭。。。。。', NULL, '超级管理员', '2021-10-12 10:23:39', 1, '不爱`吃臭`豆腐', '13419098123', 25, 1);
-INSERT INTO `App_Transaction` VALUES (6, '3', '2019-09-18 18:22:25', 1, '超级管理员', '。。。', NULL, '超级管理员', '2021-12-15 09:40:21', 1, '同是天涯流落人', '13419444123', 199, 1);
-INSERT INTO `App_Transaction` VALUES (9, '3', '2020-09-19 23:22:19', 1, '超级管理员', '13888888888138888888881', NULL, '超级管理员', '2021-10-10 15:08:11', 1, '林子大了什么鸟都有', '13888888888', 0, 1);
+INSERT INTO `App_Transaction` VALUES (6, '3', '2019-09-18 18:22:25', 1, '超级管理员', '。。。', NULL, '超级管理员', '2022-04-13 10:13:43', 1, '同是天涯流落人', '13419444123', 199, 1);
+INSERT INTO `App_Transaction` VALUES (9, '3', '2020-09-19 23:22:19', 1, '超级管理员', '还没想好', NULL, '超级管理员', '2022-04-13 10:13:50', 1, '林子大了什么鸟都有', '13999999999', 100, 0);
 
 -- ----------------------------
 -- Table structure for App_TransactionAvgPrice
@@ -203,18 +204,15 @@ CREATE TABLE `App_TransactionAvgPrice`  (
   `ModifyID` int(11) NULL DEFAULT NULL,
   `Variety` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of App_TransactionAvgPrice
 -- ----------------------------
-INSERT INTO `App_TransactionAvgPrice` VALUES (3, '16月龄以上', 18.00, '石家庄市', '2019-05-06 14:06:35', 1, '超级管理员', '2019-05-08', 0, 1, '超级管理员', '2021-11-10 10:02:54', 1, '数码相框,影棚器材');
-INSERT INTO `App_TransactionAvgPrice` VALUES (6, '7-12月龄', 19.00, '北京市', '2019-05-08 15:42:30', 1, '超级管理员', '2019-05-07', 0, 1, '超级管理员', '2021-11-10 10:02:29', 1, '单反相机');
-INSERT INTO `App_TransactionAvgPrice` VALUES (10, '2-6月龄', 22.00, '唐山市', '2019-07-12 18:01:27', 1, '超级管理员', '2019-07-07', NULL, 0, '超级管理员', '2021-11-10 10:02:23', 1, '影棚器材');
-INSERT INTO `App_TransactionAvgPrice` VALUES (13, '2-6月龄', 90.00, '北京市', '2020-11-16 23:14:23', 1, '超级管理员', '2020-11-16', NULL, 1, '超级管理员', '2021-11-10 10:02:19', 1, '户外器材');
-INSERT INTO `App_TransactionAvgPrice` VALUES (14, '12-16月龄', 50.00, '天津市', '2020-11-16 23:14:40', 1, '超级管理员', '2020-11-16', NULL, 1, '超级管理员', '2021-11-10 10:02:14', 1, '户外器材');
-INSERT INTO `App_TransactionAvgPrice` VALUES (17, '12-16月龄', 12.00, '唐山市', '2020-11-16 23:15:47', 1, '超级管理员', '2020-11-16', NULL, 0, '超级管理员', '2021-11-10 10:02:12', 1, '影棚器材');
-INSERT INTO `App_TransactionAvgPrice` VALUES (19, '7-12月龄', 20.00, '邯郸市', '2020-11-16 23:16:22', 1, '超级管理员', '2020-11-16', NULL, 0, '超级管理员', '2021-11-10 10:02:09', 1, '数码相机');
+INSERT INTO `App_TransactionAvgPrice` VALUES (3, '50-60', 18.00, '石家庄市', '2019-05-06 14:06:35', 1, '超级管理员', '2019-05-08', 0, 1, '超级管理员', '2022-03-26 02:19:25', 1, '数码相框,影棚器材');
+INSERT INTO `App_TransactionAvgPrice` VALUES (13, '20-30', 90.00, '北京市', '2020-11-16 23:14:23', 1, '超级管理员', '2020-11-16', NULL, 1, '超级管理员', '2022-03-26 02:19:09', 1, '户外器材');
+INSERT INTO `App_TransactionAvgPrice` VALUES (14, '30-40', 50.00, '天津市', '2020-11-16 23:14:40', 1, '超级管理员', '2020-11-16', NULL, 1, '超级管理员', '2022-03-26 02:19:05', 1, '户外器材');
+INSERT INTO `App_TransactionAvgPrice` VALUES (17, '40-50', 12.00, '石家庄市', '2020-11-16 23:15:47', 1, '超级管理员', '2020-11-16', NULL, 0, '超级管理员', '2022-07-06 15:06:49', 1, '影棚器材');
 
 -- ----------------------------
 -- Table structure for FormCollectionObject
@@ -232,15 +230,157 @@ CREATE TABLE `FormCollectionObject`  (
   `ModifyDate` datetime(0) NULL DEFAULT NULL,
   `ModifyID` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`FormCollectionId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of FormCollectionObject
 -- ----------------------------
+INSERT INTO `FormCollectionObject` VALUES ('00ac79fa-529b-45c1-ae98-1838d86f5e95', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-04-21\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-04-28 10:20:13', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('03c45672-2149-4399-9ecb-75644718f038', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-02-17 13:16:44', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('0513b2ca-6ccd-489d-9e83-ea3de7b01754', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"d\"}', '2022-02-28 08:14:37', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('066ed25e-9f90-498f-bdec-05cb7881913e', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-01-26 11:50:22', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('06febfc3-28d0-497f-828d-a29d5acfa366', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-03-08\",\"field1641207457900\":\"324\",\"field1641207424694\":\"\"}', '2022-03-16 16:51:55', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('0a71d04e-6840-48ba-a3de-817896e1e111', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-01-14 01:44:33', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('0b0d324e-916b-4246-9f7a-96f5f9435320', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"22\"}', '2022-03-10 08:58:21', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('0b3ac6d2-35ac-42b0-84c5-bd4a22157dc2', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意,十分满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"1\",\"field1650260638189\":\"1\",\"field1650260647796\":\"1\",\"field1641206608182\":\"1\"}', '2022-05-14 23:18:19', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('0b5e3fb4-9c8b-407d-931e-bae4b8b34ce9', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"11\",\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-06-30 16:41:37', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('1041a590-3d36-43c8-8b1d-fe6a7a7ca18f', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"1\",\"field1650260638189\":\"1\",\"field1650260647796\":\"1\",\"field1641206608182\":\"1\"}', '2022-04-18 18:07:15', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('10e5c36a-c3b0-4d9f-83bc-c25bd97e2b82', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"0\"}', '2022-02-12 14:12:00', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('15290644-4a33-4c16-8326-fd75974592a6', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":\"7\",\"field1650260638189\":\"7777777777777777\",\"field1650260647796\":\"7777777777777777\",\"field1641206608182\":\"777\"}', '2022-06-06 16:31:29', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('1550cb90-47c6-43cd-8690-97999d72d92f', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-06-13 10:35:58', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('16d5ead2-e9ef-40fb-b275-832898b8cdfa', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"fgdfghf gfh fg\"}', '2022-03-09 17:07:15', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('182125f4-f074-4b48-8ab1-e17aba5b82e9', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"FAS\"}', '2022-02-08 17:18:44', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('1da99df3-fc0c-48e6-98db-e95daeeddd05', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"4、输入框：\",\"field1650260638189\":\"5、输入框：\",\"field1650260647796\":\"6、输入框：\",\"field1641206608182\":\"7、其他意见：\"}', '2022-06-11 23:15:22', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('1f50d9ec-6be5-4410-b54b-e918ee0eb386', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"相当满意\",\"field1641206608182\":null}', '2022-03-24 21:27:29', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('201e9a14-7ee7-4f68-919f-aac4059dfc2c', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-04-12 14:49:03', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('21323223-980d-4177-a144-210fd26f10bf', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"fq\"}', '2022-03-25 19:45:47', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('248d00a3-73fd-4c44-84b2-142543c61155', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"111\"}', '2022-02-17 14:01:27', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('25b4cd02-8602-4516-8394-b4025e9cc420', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"1\",\"field1650260638189\":\"2\",\"field1650260647796\":\"3\",\"field1641206608182\":\"4\"}', '2022-04-27 10:09:39', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('29819b15-d57b-435a-a4aa-68458e60bc4d', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"1\",\"field1650260638189\":\"2\",\"field1650260647796\":\"3\",\"field1641206608182\":\"\\n\"}', '2022-05-27 10:51:36', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('2cf3ecde-45f3-44e5-af2a-329a8e91e6da', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"人\"}', '2022-03-27 22:52:18', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('2e10dfbc-5e80-466d-9e68-00f4c03b03cb', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-01-07\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-01-19 11:10:53', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('2e426da4-9bc2-4086-b910-55335252e286', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-07-07 17:15:39', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('2e71a231-ec58-4fe4-8101-f0d3405ac79d', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"0\",\"field1640871902689\":\"2022-03-12\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-03-12 07:21:12', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('2e860327-82a9-4e51-a451-f32295db062a', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":\"5\",\"field1650260638189\":\"5\",\"field1650260647796\":\"5\",\"field1641206608182\":\"5\"}', '2022-05-11 09:59:04', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('2ea29d88-281d-449a-a200-645ca8c613d5', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2017-05-04\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-05-23 17:21:34', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('2f9fbaff-4c97-42e4-94b2-5fc2704b3a18', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"相当满意\",\"field1641206608182\":null}', '2022-03-03 10:14:39', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('32c11483-0898-447b-baff-a5911e988925', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-02-05 11:32:07', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('33d6d570-c665-40b6-9035-c5f6a7fce01f', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"11111111\"}', '2022-03-04 16:54:25', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('35cbe5b1-2498-4f13-b605-ee6f191d30a9', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-06-08\",\"field1641207457900\":\"v v    \",\"field1641207424694\":\"\"}', '2022-06-03 22:02:09', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('370e55db-746a-40cd-90f2-ff73b64eab00', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"相当满意,比较满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-08-02 11:37:54', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('372a0316-bf48-4411-bef0-bdfc2deefeb8', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-06-22 16:39:37', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('3990f4bd-68ac-483c-bc85-38335e83b88a', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-01-30\",\"field1641207457900\":\"的风景埃里克就\",\"field1641207424694\":\"\"}', '2022-01-22 21:16:06', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('3bb62484-b056-43a2-9b33-5764fc625ab9', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"相当满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-06-16 10:45:34', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('3e7a21bf-dd68-4b6a-bfa9-b0aaa3e8d49f', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"1231\"}', '2022-03-02 13:58:08', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('3f22aafc-214f-4374-a97c-2cdcce81e08a', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-03-31 16:19:16', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('4254e8ed-0e9f-4423-9f72-1007df7fceb1', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"相当满意\",\"field1641206608182\":\"test\"}', '2022-01-19 23:07:20', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('448ef9bf-bb84-4e56-af5b-17032207fa23', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-08-01 10:56:59', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('4dcd83b4-5e1e-4299-9bc6-302313f98d5f', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-04-02 21:09:23', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('4f443026-4c8f-4c27-b6b7-20eeefab42a1', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"sss\"}', '2022-02-25 17:30:06', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('51fcee24-aee5-4b55-9c30-f42082e8c61e', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意,十分满意,相当满意,比较满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-01-13 08:56:25', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('52990452-b50e-497c-aa0f-5093214d690b', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"22233\"}', '2022-03-10 08:58:37', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('530ce4a0-d399-49e3-b417-9dfdf2ac4da7', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"十分满意,相当满意,比较满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-03-31 15:29:02', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('53e1f20a-6c35-48b5-9fca-d5c72f87ca76', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"0\",\"field1640871902689\":\"2022-02-01\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-02-08 23:58:30', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('55419def-5b55-4878-9575-430a9761ac93', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-01-15 18:38:30', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('58253f8c-66d5-4eeb-a952-c84841351fe4', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"相当满意\",\"field1641205647957\":\"比较满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-05-23 17:21:10', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('584c592f-0fb5-4246-a57e-9f39e80f97da', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-05-06 12:03:23', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('5d26599c-2dbb-4261-9569-01472b8f525d', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-03-08 14:21:34', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('5dba775b-c261-46ec-bf4c-e3747e2939f8', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-02-17 18:17:30', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('5e8d3723-e5b4-41a3-b088-12266b98c523', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意,十分满意,相当满意,比较满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"111222333\"}', '2022-02-14 13:39:41', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('5fa2dc0b-a498-4434-9286-690f0df8a914', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-01-12 10:53:22', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('5fdcfca6-99b5-4477-b9d8-103e9787dc2f', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-08-13 10:04:15', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('61ca3776-d945-4b44-9242-a73a70b925c4', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"qqqq\"}', '2022-02-20 21:11:02', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('63398fae-9ce4-4818-9103-68c095fc9b6b', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-04-06 21:57:17', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('63c4f091-b740-4995-a4e4-f46183cfcb49', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-06-16\",\"field1641207457900\":\"哈哈哈哈\",\"field1641207424694\":\"\"}', '2022-06-22 17:26:14', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('650dc3f2-075b-490b-9382-bd813af0dcd9', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"相当满意\",\"field1650260639951\":\"111\",\"field1650260638189\":\"111\",\"field1650260647796\":\"111\",\"field1641206608182\":\"111\"}', '2022-06-23 13:50:13', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('67941f5e-7f34-455b-9afd-280ec7f02240', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意,十分满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"请问\"}', '2022-01-22 17:22:18', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('6c8a34fc-f86a-4517-a792-2a941ceb2015', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":\"sdad\",\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-04-28 17:07:37', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('6d36b685-e343-4e0f-b17d-ba39d83e3f72', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意,非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"111\"}', '2022-01-18 16:07:10', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('6e279655-a553-494b-80e9-ac1b14361cab', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-07-07\",\"field1641207457900\":\"1334\",\"field1641207424694\":\"\"}', '2022-07-07 16:52:47', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('71ccce55-7dd4-4de7-962b-a0625ffaabf7', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-02-03\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-02-17 21:57:14', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('73eb6ca6-1159-4c95-a0cd-03789e158dd6', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-07-05 10:33:25', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('766e2ed2-8de0-4043-bc77-93533e4bb666', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"5\"}', '2022-08-11 09:38:56', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('7835bd2f-46f4-4476-92fc-562343f5222c', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-08-03\",\"field1641207457900\":\"test\",\"field1641207424694\":\"\"}', '2022-08-07 17:14:22', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('793a839a-4fb4-45a4-a274-c265529a08d7', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"888\"}', '2022-04-06 21:57:39', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('7c2c5dde-1318-4382-848c-215a862bbc14', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-01-01\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-01-25 09:24:22', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('7cc358fe-d17c-49b0-a32d-4bde5b8d81ba', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意,相当满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-08-03 15:58:01', 1, '超级管理员', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('7f7591b8-367e-4128-9e43-ef68e67edb5d', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-04-14 09:20:31', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('7fd4ea6c-d4ec-4cbe-a0dd-1ea77992ba88', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-02-22 17:22:06', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('814dbafb-dd62-438e-81c9-56e71cf49fa7', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-06-11 21:45:22', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('8245c9b8-a4c9-4db8-96e4-3cc471acbb79', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-06-10\",\"field1641207457900\":\"C#越学越不会了\",\"field1641207424694\":\"\"}', '2022-06-05 16:40:26', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('84754fa9-d2d0-4ed3-b3f0-90157a0a78c6', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-03-02 14:23:40', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('848437d7-50be-40e7-88b4-de67ec402faa', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-04-22\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-04-13 13:25:29', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('8510b8ea-e415-48b7-adbd-c88c39fe8136', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"XIONG GONG\"}', '2022-08-16 09:20:07', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('87166fa0-cfba-406c-b09e-2d94308a4905', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-06-02 21:48:04', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('87a68d22-74e1-498f-88cb-3462904eb0c7', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-05-08 01:46:27', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('8f754069-a619-4eb5-9261-aab4163b9e34', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-08-16 11:22:32', 3362, '演示帐号', NULL, NULL, NULL);
 INSERT INTO `FormCollectionObject` VALUES ('90513c4c-b639-4d0d-8c9d-fb69b77620f8', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-01-05\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-01-03 19:06:50', 1, '超级管理员', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('90f1525a-062c-4180-9a92-00bc802901c9', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"比较满意,十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-01-21 15:24:27', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('9245c5de-c3d8-45a4-a8a0-a03975f15efc', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-02-28 20:04:37', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('956d43cc-c96a-4945-a029-079b0f99508f', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"1999-06-01\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-04-20 11:40:36', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('96348cf2-095e-4a37-8ab4-d0072b780c55', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"1\"}', '2022-04-12 15:11:51', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('9c1226c7-5694-4d52-8d2f-23ae5ade8b92', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"12\",\"field1650260638189\":\"34\",\"field1650260647796\":\"455\",\"field1641206608182\":\"66\"}', '2022-04-28 15:39:06', 3362, '演示帐号', NULL, NULL, NULL);
 INSERT INTO `FormCollectionObject` VALUES ('a37c1956-ddc0-457b-8f0a-93cdc44c257d', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意,相当满意\",\"field1641205647957\":\"相当满意\",\"field1641206608182\":\"没有意见\"}', '2022-01-03 19:05:46', 1, '超级管理员', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('a507f976-af08-4e7a-9885-9a04a97592df', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-04-18 14:32:03', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('a5c0e586-c7ad-43f4-8629-aa9e1c672c42', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-01-19\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-01-21 13:49:39', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('a60cfa8b-cdb0-47f9-9cee-570c3150e055', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意,十分满意,相当满意,比较满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-01-16 08:53:12', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('a7ac9b0d-f866-4db0-b499-59e3d36d8131', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意,相当满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":\"1\",\"field1650260638189\":\"1\",\"field1650260647796\":\"1\",\"field1641206608182\":\"1\"}', '2022-07-19 16:00:56', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('a8adcb8f-3238-41f3-b3bd-28197a5bc230', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-01-18 14:13:54', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('a92575b4-9889-42ed-9677-5a648a429970', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"1\",\"field1650260638189\":\"1\",\"field1650260647796\":\"1\",\"field1641206608182\":\"1\"}', '2022-04-26 10:09:18', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('ad25a88c-54c6-4164-8f8a-9d54d6489b42', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-02-01\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-02-15 13:35:39', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('ae89f005-a7a2-43cc-9786-99301569f78e', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"sdf\",\"field1650260638189\":\"dsf\",\"field1650260647796\":\"sdf\",\"field1641206608182\":\"dsf\"}', '2022-06-15 15:28:11', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('ae8f2272-1311-4a2d-a58c-ea2b6fa36578', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"0000\"}', '2022-03-16 15:53:31', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('afe8243d-a936-443f-864c-7b5278f26167', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"0\",\"field1640871902689\":\"2018-01-03\",\"field1641207457900\":\"这个低代码会有很多坑  实际用的时候 发现很痛苦\\n小项目会很方便\",\"field1641207424694\":\"\"}', '2022-01-14 15:53:14', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('b2097447-69bb-454f-809e-d47ad90301d9', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-04-09 21:39:04', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('b5fab3ae-ec1d-4a51-a9b5-041104b957d8', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-03-09 13:47:41', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('bf26c23b-88ed-404b-98f1-e081c4d92f54', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意,十分满意,相当满意,比较满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-08-07 17:14:14', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('c0dbcff2-b8f6-4c3b-93ec-59ee17dbab6f', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2017-03-24\",\"field1641207457900\":\"支持博主，希望网站越做越完善\",\"field1641207424694\":\"\"}', '2022-05-22 07:46:53', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('c1c56c53-785c-4641-a581-228326dcf491', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-04-01 10:25:59', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('c217f308-55ed-431f-8de3-8a41c197c336', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"相当满意\",\"field1641205647957\":\"相当满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-04-18 14:32:43', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('c768c884-d674-44be-a003-aae62eeff90c', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意,相当满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"3333\"}', '2022-03-18 12:01:53', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('cafcb37f-b6e8-46a1-b786-78a38a76c40b', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-07-19 23:39:56', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('cb7e2576-3b88-48bf-9202-3f77a9f915b5', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"相当满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-07-25 22:24:50', 3362, '演示帐号', NULL, NULL, NULL);
 INSERT INTO `FormCollectionObject` VALUES ('cccc519c-c448-4292-85d1-6a0ac2828fd9', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-01-04\",\"field1641207457900\":\"123456\",\"field1641207424694\":\"\"}', '2022-01-03 19:09:53', 1, '超级管理员', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('cce9c0a6-8850-43a1-aca9-b7e6321dceef', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"0\",\"field1640871902689\":\"2022-01-16\",\"field1641207457900\":\"科技大道就看见\",\"field1641207424694\":\"\"}', '2022-01-16 16:21:36', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('cde313b5-1fa1-4c43-9765-df1d66f19249', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":\"111\",\"field1650260638189\":\"222\",\"field1650260647796\":\"333\",\"field1641206608182\":\"44\"}', '2022-05-07 15:33:29', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('ce238aa2-5355-463c-8341-15e08fce098b', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"78999\"}', '2022-04-12 18:53:36', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('cfa58a5a-2b94-42a2-8825-acd558983a2b', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-04-27\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-05-10 01:27:35', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('d01d07e6-b8dc-49de-b6a9-9b54333af37a', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"444\"}', '2022-03-23 14:43:19', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('d01d544c-d260-4ee9-9929-b18daba2b880', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"456\",\"field1650260638189\":\"456\",\"field1650260647796\":\"456\",\"field1641206608182\":\"456\"}', '2022-06-29 13:21:54', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('d3a90649-7dbe-4f27-ad73-2a201bd2b7fa', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-04-13 13:22:36', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('d7833a92-c0d9-4a90-b70f-375b980258c4', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"0\",\"field1640871902689\":\"2022-01-01\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-01-16 17:00:28', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('d8c84159-280d-4280-a374-63f4fecc9b8c', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-03-12 07:21:22', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('d9d8dca9-8899-4636-886b-929d91de6cf9', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":\"e\",\"field1650260638189\":\"we\",\"field1650260647796\":\"ew\",\"field1641206608182\":\"we\"}', '2022-05-31 15:45:49', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('da47770c-9067-459b-805c-e7081480c9d4', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-06-09 12:22:22', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('dc0319f2-3b02-465e-9c94-d32c19cc83ba', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-07-01 09:24:58', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('dc4af657-1e89-4807-baf9-92693aff0762', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"比较满意,相当满意,十分满意\",\"field1641205647957\":\"相当满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-06-02 09:42:43', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('dc827875-7c48-4092-8299-615e60897dd6', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-08-07 17:13:45', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('dd6b3150-808e-4ca9-b936-66b12e88173b', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"0\",\"field1640871902689\":\"2022-03-31\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-04-26 10:08:55', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('dedb01d1-b168-4ef7-a9f8-e2fc809821d7', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意,十分满意,比较满意,相当满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-02-22 09:11:27', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('dfd6a79c-5ee7-4362-a7b5-a7ee556dcb4f', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"36\"}', '2022-01-14 15:10:33', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('e003b80d-a262-49f5-86f5-7a9be8cfebb8', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\";ppp\"}', '2022-01-18 22:46:35', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('e3eaeafe-19cc-4335-b05a-ba1723532a94', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-06-15\",\"field1641207457900\":\"3333\",\"field1641207424694\":\"\"}', '2022-06-22 17:25:54', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('e4a9051a-acd6-4c9f-b484-6ade9641b97a', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"我的测试\"}', '2022-03-23 09:55:50', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('e6e08ec4-5b55-4b3f-8f1f-b399817ddab6', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"2323\"}', '2022-03-07 13:02:29', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('e75f8825-5934-4562-9846-a938e105a6aa', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"十分满意,相当满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":null}', '2022-04-18 11:56:55', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('e894b567-e6e0-4fb9-9eac-6b90557b4c06', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-03-10\",\"field1641207457900\":\"dddd\",\"field1641207424694\":\"\"}', '2022-03-18 20:23:02', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('e8f5cdee-4b67-4191-bb48-0c9968fa49d4', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-04-13\",\"field1641207457900\":\"432\",\"field1641207424694\":\"\"}', '2022-04-13 09:04:19', 3362, '演示帐号', NULL, NULL, NULL);
 INSERT INTO `FormCollectionObject` VALUES ('e913389c-e11a-4675-b8eb-a25c75086e37', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意,十分满意,相当满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"1111\"}', '2022-01-03 19:09:45', 1, '超级管理员', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('e988f446-00df-4d43-9682-eba419c9f18b', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"比较满意\",\"field1641205647957\":\"比较满意\",\"field1641206608182\":\"滚滚滚\"}', '2022-01-16 16:17:55', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('ed4863d4-6bf7-4f4c-bd6b-b984881d6dd1', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"123\"}', '2022-03-16 14:36:51', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('edfac119-20ec-494f-b92e-b9f340ef7093', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-01-13 14:49:38', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('ef16549c-59b7-425d-b32e-424882eeb92f', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"非常满意,十分满意,相当满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"123\"}', '2022-04-01 15:27:07', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('f011feed-4cff-4f9d-a878-a38a8afd539c', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"0\",\"field1640871902689\":\"2022-08-19\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-08-03 15:56:21', 1, '超级管理员', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('f549faa0-c6e0-431e-a029-a0ba7767386b', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"1\"}', '2022-02-16 11:45:15', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('f6cbc763-5cd0-4774-be84-06e7a9872278', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意,相当满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":null}', '2022-01-12 11:32:06', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('f6f2586f-2249-4bca-928f-0b513deab6e2', '0431a578-bfc9-407f-b95e-321c350f10cb', NULL, '{\"FormId\":\"0431a578-bfc9-407f-b95e-321c350f10cb\",\"field1640871905593\":\"1\",\"field1640871902689\":\"2022-08-09\",\"field1641207457900\":null,\"field1641207424694\":\"\"}', '2022-08-15 13:21:19', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('f8d30ab4-8d7f-42ac-899c-dac1c5f61619', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意,十分满意,相当满意,比较满意\",\"field1641205647957\":\"十分满意\",\"field1641206608182\":\"34343\"}', '2022-04-14 21:07:46', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('fa69e0b6-4bbd-4ac0-a691-cbbb2905f589', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1641206608182\":\"111\"}', '2022-03-04 16:53:11', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('fbb50231-efa5-46c2-a3bb-9ce2279de293', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"非常满意\",\"field1641205647957\":\"非常满意\",\"field1650260639951\":\"e\",\"field1650260638189\":\"qew\",\"field1650260647796\":\"eqw\",\"field1641206608182\":\"qwe\"}', '2022-07-14 14:52:12', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('fced572f-b387-46a4-9afc-c70c4931f3cf', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"0\",\"field1641206170991\":\"相当满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":\"1\",\"field1650260638189\":\"1\",\"field1650260647796\":\"1\",\"field1641206608182\":\"1\"}', '2022-08-01 12:47:47', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('fd8d649a-ce7f-4801-89dc-0a7e3556468c', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":\"AAA\",\"field1650260638189\":\"AAA\",\"field1650260647796\":\"AAA\",\"field1641206608182\":null}', '2022-06-12 17:24:32', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('fe3cc538-3bf7-4c9c-a6cf-9c96386d17e5', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意,相当满意\",\"field1641205647957\":\"相当满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-05-02 14:30:57', 3362, '演示帐号', NULL, NULL, NULL);
+INSERT INTO `FormCollectionObject` VALUES ('ff2b479b-66ca-4ad4-9272-6671d465d9d3', '8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', NULL, '{\"FormId\":\"8e6d9e7c-16c2-48b8-9d67-f1a1a19453da\",\"field1641205615398\":\"1\",\"field1641206170991\":\"十分满意\",\"field1641205647957\":\"十分满意\",\"field1650260639951\":null,\"field1650260638189\":null,\"field1650260647796\":null,\"field1641206608182\":null}', '2022-04-23 22:57:26', 3362, '演示帐号', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for FormDesignOptions
@@ -261,13 +401,13 @@ CREATE TABLE `FormDesignOptions`  (
   `ModifyDate` datetime(0) NULL DEFAULT NULL,
   `ModifyID` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`FormId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of FormDesignOptions
 -- ----------------------------
-INSERT INTO `FormDesignOptions` VALUES ('0431a578-bfc9-407f-b95e-321c350f10cb', '2021开发语言使用调查', '[{\"id\":5,\"name\":\"是否同时使用多种语言开发\",\"type\":\"radio\",\"icon\":\"el-icon-aim\",\"value\":0,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"key\":\"enable\",\"field\":\"field1640871905593\",\"width\":100,\"readonly\":false,\"required\":true,\"values\":[\"否\"]},{\"id\":3,\"name\":\"从什么时候开始做开发?\",\"type\":\"date\",\"icon\":\"el-icon-date\",\"value\":null,\"field\":\"field1640871902689\",\"width\":100,\"readonly\":false,\"required\":true},{\"id\":2,\"name\":\"说点什么\",\"type\":\"textarea\",\"value\":\"\",\"icon\":\"el-icon-document-copy\",\"field\":\"field1641207457900\",\"width\":100,\"readonly\":false,\"required\":false},{\"id\":9,\"name\":\"图片上传\",\"type\":\"img\",\"url\":\"\",\"maxSize\":3,\"fileInfo\":[],\"multiple\":false,\"autoUpload\":false,\"maxFile\":5,\"icon\":\"el-icon-picture-outline\",\"field\":\"field1641207424694\",\"width\":100,\"readonly\":false,\"required\":false}]', '{\"fields\":{\"field1640871905593\":[],\"field1640871902689\":null,\"field1641207457900\":null,\"field1641207424694\":null},\"formOptions\":[[{\"field\":\"field1640871905593\",\"title\":\"是否同时使用多种语言开发\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"}],[{\"field\":\"field1640871902689\",\"title\":\"从什么时候开始做开发?\",\"type\":\"date\",\"required\":true,\"readonly\":false,\"colSize\":12}],[{\"field\":\"field1641207457900\",\"title\":\"说点什么\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12}],[{\"field\":\"field1641207424694\",\"title\":\"图片上传\",\"type\":\"img\",\"required\":false,\"readonly\":false,\"colSize\":12,\"maxSize\":3,\"fileInfo\":[],\"multiple\":false,\"autoUpload\":false,\"maxFile\":5,\"url\":\"\"}]],\"tables\":[],\"tabs\":[]}', '[{\"field\":\"field1640871905593\",\"title\":\"是否同时使用多种语言开发\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"},{\"field\":\"field1640871902689\",\"title\":\"从什么时候开始做开发?\",\"type\":\"date\",\"required\":true,\"readonly\":false,\"colSize\":12},{\"field\":\"field1641207457900\",\"title\":\"说点什么\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12},{\"field\":\"field1641207424694\",\"title\":\"图片上传\",\"type\":\"img\",\"required\":false,\"readonly\":false,\"colSize\":12,\"maxSize\":3,\"fileInfo\":[],\"multiple\":false,\"autoUpload\":false,\"maxFile\":5,\"url\":\"\"}]', NULL, '[]', '2021-12-29 23:39:22', 1, '超级管理员', '超级管理员', '2022-01-03 19:00:30', 1);
-INSERT INTO `FormDesignOptions` VALUES ('8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', '2021双减政策调查', '[{\"id\":5,\"name\":\"您的孩子放学后是否有学校布置的书面作业?\",\"type\":\"radio\",\"icon\":\"el-icon-aim\",\"value\":0,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"key\":\"enable\",\"field\":\"field1641205615398\",\"width\":100,\"readonly\":false,\"required\":true,\"values\":[\"否\"]},{\"id\":6,\"name\":\"您认为放学后作业对孩子的负担怎样?\",\"values\":[\"非常满意\"],\"type\":\"checkbox\",\"key\":\"满意度\",\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"icon\":\"el-icon-circle-check\",\"field\":\"field1641206170991\",\"width\":100,\"readonly\":false,\"required\":true},{\"id\":5,\"name\":\"作为家长,对当前双减政策是否满意？\",\"type\":\"radio\",\"icon\":\"el-icon-aim\",\"value\":0,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"key\":\"满意度\",\"field\":\"field1641205647957\",\"width\":100,\"readonly\":false,\"required\":true,\"values\":[\"非常满意\"]},{\"id\":2,\"name\":\"其他意见\",\"type\":\"textarea\",\"value\":\"\",\"icon\":\"el-icon-document-copy\",\"field\":\"field1641206608182\",\"width\":100,\"readonly\":false,\"required\":false}]', '{\"fields\":{\"field1641205615398\":[],\"field1641206170991\":[],\"field1641205647957\":[],\"field1641206608182\":null},\"formOptions\":[[{\"field\":\"field1641205615398\",\"title\":\"您的孩子放学后是否有学校布置的书面作业?\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"}],[{\"field\":\"field1641206170991\",\"title\":\"您认为放学后作业对孩子的负担怎样?\",\"type\":\"checkbox\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"}],[{\"field\":\"field1641205647957\",\"title\":\"作为家长,对当前双减政策是否满意？\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"}],[{\"field\":\"field1641206608182\",\"title\":\"其他意见\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12}]],\"tables\":[],\"tabs\":[]}', '[{\"field\":\"field1641205615398\",\"title\":\"您的孩子放学后是否有学校布置的书面作业?\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"},{\"field\":\"field1641206170991\",\"title\":\"您认为放学后作业对孩子的负担怎样?\",\"type\":\"checkbox\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"},{\"field\":\"field1641205647957\",\"title\":\"作为家长,对当前双减政策是否满意？\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"},{\"field\":\"field1641206608182\",\"title\":\"其他意见\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12}]', NULL, '[]', '2021-12-30 21:45:16', 1, '超级管理员', '超级管理员', '2022-01-03 18:43:46', 1);
+INSERT INTO `FormDesignOptions` VALUES ('0431a578-bfc9-407f-b95e-321c350f10cb', '2021开发语言使用调查', '[{\"id\":5,\"name\":\"多种语言开发\",\"type\":\"radio\",\"icon\":\"el-icon-aim\",\"value\":0,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"key\":\"enable\",\"field\":\"field1640871905593\",\"width\":100,\"readonly\":false,\"required\":true,\"values\":[\"否\"]},{\"id\":3,\"name\":\"从什么时候开始做开发?\",\"type\":\"date\",\"icon\":\"el-icon-date\",\"value\":null,\"field\":\"field1640871902689\",\"width\":100,\"readonly\":false,\"required\":true},{\"id\":2,\"name\":\"说点什么\",\"type\":\"textarea\",\"value\":\"\",\"icon\":\"el-icon-document-copy\",\"field\":\"field1641207457900\",\"width\":100,\"readonly\":false,\"required\":false},{\"id\":9,\"name\":\"图片上传\",\"type\":\"img\",\"url\":\"\",\"maxSize\":3,\"fileInfo\":[],\"multiple\":false,\"autoUpload\":false,\"maxFile\":5,\"icon\":\"el-icon-picture-outline\",\"field\":\"field1641207424694\",\"width\":100,\"readonly\":false,\"required\":false}]', '{\"fields\":{\"field1640871905593\":[],\"field1640871902689\":null,\"field1641207457900\":null,\"field1641207424694\":null},\"formOptions\":[[{\"field\":\"field1640871905593\",\"title\":\"多种语言开发\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"}],[{\"field\":\"field1640871902689\",\"title\":\"从什么时候开始做开发?\",\"type\":\"date\",\"required\":true,\"readonly\":false,\"colSize\":12}],[{\"field\":\"field1641207457900\",\"title\":\"说点什么\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12}],[{\"field\":\"field1641207424694\",\"title\":\"图片上传\",\"type\":\"img\",\"required\":false,\"readonly\":false,\"colSize\":12,\"maxSize\":3,\"fileInfo\":[],\"multiple\":false,\"autoUpload\":false,\"maxFile\":5,\"url\":\"\"}]],\"tables\":[],\"tabs\":[]}', '[{\"field\":\"field1640871905593\",\"title\":\"多种语言开发\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"},{\"field\":\"field1640871902689\",\"title\":\"从什么时候开始做开发?\",\"type\":\"date\",\"required\":true,\"readonly\":false,\"colSize\":12},{\"field\":\"field1641207457900\",\"title\":\"说点什么\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12},{\"field\":\"field1641207424694\",\"title\":\"图片上传\",\"type\":\"img\",\"required\":false,\"readonly\":false,\"colSize\":12,\"maxSize\":3,\"fileInfo\":[],\"multiple\":false,\"autoUpload\":false,\"maxFile\":5,\"url\":\"\"}]', NULL, '[]', '2021-12-29 23:39:22', 1, '超级管理员', '超级管理员', '2022-08-03 15:58:37', 1);
+INSERT INTO `FormDesignOptions` VALUES ('8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', '2021双减政策调查', '[{\"id\":5,\"name\":\"您的孩子放学后是否有学校布置的书面作业?\",\"type\":\"radio\",\"icon\":\"el-icon-aim\",\"value\":0,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"key\":\"enable\",\"field\":\"field1641205615398\",\"width\":100,\"readonly\":false,\"required\":true,\"values\":[\"否\"]},{\"id\":6,\"name\":\"您认为放学后作业对孩子的负担怎样?\",\"values\":[\"非常满意\"],\"type\":\"checkbox\",\"key\":\"满意度\",\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"icon\":\"el-icon-circle-check\",\"field\":\"field1641206170991\",\"width\":100,\"readonly\":false,\"required\":true},{\"id\":5,\"name\":\"作为家长,对当前双减政策是否满意？\",\"type\":\"radio\",\"icon\":\"el-icon-aim\",\"value\":0,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"key\":\"满意度\",\"field\":\"field1641205647957\",\"width\":100,\"readonly\":false,\"required\":true,\"values\":[\"非常满意\"]},{\"id\":2,\"name\":\"其他意见\",\"type\":\"textarea\",\"value\":\"\",\"icon\":\"el-icon-document-copy\",\"field\":\"field1641206608182\",\"width\":100,\"readonly\":false,\"required\":false}]', '{\"fields\":{\"field1641205615398\":[],\"field1641206170991\":[],\"field1641205647957\":[],\"field1641206608182\":null},\"formOptions\":[[{\"field\":\"field1641205615398\",\"title\":\"您的孩子放学后是否有学校布置的书面作业?\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"}],[{\"field\":\"field1641206170991\",\"title\":\"您认为放学后作业对孩子的负担怎样?\",\"type\":\"checkbox\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"}],[{\"field\":\"field1641205647957\",\"title\":\"作为家长,对当前双减政策是否满意？\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"}],[{\"field\":\"field1641206608182\",\"title\":\"其他意见\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12}]],\"tables\":[],\"tabs\":[]}', '[{\"field\":\"field1641205615398\",\"title\":\"您的孩子放学后是否有学校布置的书面作业?\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"},{\"field\":\"field1641206170991\",\"title\":\"您认为放学后作业对孩子的负担怎样?\",\"type\":\"checkbox\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"},{\"field\":\"field1641205647957\",\"title\":\"作为家长,对当前双减政策是否满意？\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"},{\"field\":\"field1641206608182\",\"title\":\"其他意见\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12}]', NULL, '[]', '2021-12-30 21:45:16', 1, '超级管理员', '超级管理员', '2022-08-03 15:57:54', 1);
 
 -- ----------------------------
 -- Table structure for SellOrder
@@ -296,9 +436,9 @@ CREATE TABLE `SellOrder`  (
 -- ----------------------------
 -- Records of SellOrder
 -- ----------------------------
-INSERT INTO `SellOrder` VALUES ('2bf6dade-d206-4856-827d-a5bf060c1c70', 1, '2021031400000002', 'T2021031400000002', 200, NULL, 0, NULL, NULL, NULL, 1, '超级管理员', '2021-01-22 19:11:22', 1, '超级管理员', '2021-09-27 00:43:41');
-INSERT INTO `SellOrder` VALUES ('d012569d-3007-4ea5-be12-72a21492fdf6', 1, '2021031400000001', 'T2021031400000001', 22, NULL, 0, NULL, NULL, NULL, 1, '超级管理员', '2021-01-22 17:49:47', 1, '超级管理员', '2021-08-27 09:40:31');
-INSERT INTO `SellOrder` VALUES ('f30e1d98-b2c6-4150-b372-a9154553041e', 3, 'T2019000001810003', 'S2019000001810004', 56, '2019-09-18 13:28:06', 1, 1, '超级管理员', NULL, 3362, 'admin666', '2019-09-18 12:20:52', 1, '超级管理员', '2021-09-22 16:10:24');
+INSERT INTO `SellOrder` VALUES ('47e41e06-cb4a-4763-9aeb-df66cd6615e1', 1, '20022208150002', '20022208150002', 200, NULL, 0, NULL, NULL, '2002220815000220022208150002', 1, '超级管理员', '2022-08-16 02:03:17', 1, '超级管理员', '2022-08-16 14:28:36');
+INSERT INTO `SellOrder` VALUES ('978ad775-77c0-49ca-be31-ba36bb6f8af8', 1, '20022208150003', '20022208150003', 10, NULL, 0, NULL, NULL, '20022208150003', 1, '超级管理员', '2022-08-17 23:27:48', NULL, NULL, NULL);
+INSERT INTO `SellOrder` VALUES ('ec217c01-42a2-435f-bdb6-70613b947bf9', 1, '20022208150001', '20022208150001', 200, NULL, 0, NULL, NULL, NULL, 3362, 'admin666', '2022-08-15 05:01:04', 1, '超级管理员', '2022-08-16 14:28:38');
 
 -- ----------------------------
 -- Table structure for SellOrderList
@@ -324,10 +464,9 @@ CREATE TABLE `SellOrderList`  (
 -- ----------------------------
 -- Records of SellOrderList
 -- ----------------------------
-INSERT INTO `SellOrderList` VALUES ('08d8bebb-0d71-4f51-80e0-fc4d38ed29ca', 'd012569d-3007-4ea5-be12-72a21492fdf6', '女装', '1', 200, 1.00, 'Upload/Tables/Sys_Dictionary/202108020957229625/77776s.jpg', 1, '超级管理员', '2021-01-22 17:49:47', 1, '超级管理员', '2021-08-27 09:40:31');
-INSERT INTO `SellOrderList` VALUES ('08d8bec6-733b-4556-8687-3a218f4d8333', '2bf6dade-d206-4856-827d-a5bf060c1c70', '女装', '11', 22, NULL, 'Upload/Tables/Sys_Dictionary/202104181727204574/060222.jpg', 1, '超级管理员', '2021-01-22 19:11:22', 1, '超级管理员', '2021-09-27 00:43:41');
-INSERT INTO `SellOrderList` VALUES ('8f74fe02-543f-4c98-bb66-c8fc01e67683', 'f30e1d98-b2c6-4150-b372-a9154553041e', '男装', '1', 2, 11.00, 'Upload/Tables/Sys_Dictionary/202101180933091704/1111s.jpg', 1, '超级管理员', '2021-01-18 09:33:18', 1, '超级管理员', '2021-09-22 16:10:24');
-INSERT INTO `SellOrderList` VALUES ('9af6dd8d-b2f1-47fc-ae0a-9d88d8fbcfda', '2bf6dade-d206-4856-827d-a5bf060c1c70', '女装', '1', 200, 1.00, 'Upload/Tables/Sys_Dictionary/202108020957229625/77776s.jpg', 1, '超级管理员', '2021-09-27 00:43:41', NULL, NULL, NULL);
+INSERT INTO `SellOrderList` VALUES ('08da7e38-19ce-4ca8-8410-49252fca5be5', 'ec217c01-42a2-435f-bdb6-70613b947bf9', '潮流', '11', 200, 200.00, NULL, 1, '超级管理员', '2022-08-15 05:01:04', 1, '超级管理员', '2022-08-16 14:28:38');
+INSERT INTO `SellOrderList` VALUES ('08da7ee8-6deb-4b27-83c4-4a29a041ba1a', '47e41e06-cb4a-4763-9aeb-df66cd6615e1', '家电', '120', 200, 200.00, NULL, 1, '超级管理员', '2022-08-16 02:03:17', 1, '超级管理员', '2022-08-16 14:28:36');
+INSERT INTO `SellOrderList` VALUES ('08da8065-0a6c-47ae-8875-0b8582aeb68c', '978ad775-77c0-49ca-be31-ba36bb6f8af8', '家电', '200', 200, 200.00, NULL, 1, '超级管理员', '2022-08-17 23:27:48', NULL, NULL, NULL);
 INSERT INTO `SellOrderList` VALUES ('fc332cef-c1eb-4063-b71c-6addf19a8e8b', '6efb65b8-585e-4be7-8b77-94c76e362412', '22', '2', 0, NULL, NULL, 1, '超级管理员', '2019-08-30 11:05:19', NULL, NULL, NULL);
 
 -- ----------------------------
@@ -717,30 +856,30 @@ CREATE TABLE `Sys_Dictionary`  (
 -- ----------------------------
 -- Records of Sys_Dictionary
 -- ----------------------------
-INSERT INTO `Sys_Dictionary` VALUES (3, '{valueField: \'Enable\',\ntextField: \'Enable\',\n containField: null,\n  handler: null }', '2019-07-05 17:36:23', NULL, 'admin', '1', NULL, '是否值', 'enable', 1, '测试超级管理员', '2018-07-10 16:38:51', 1, NULL, 0, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (3, '{valueField: \'Enable\',\ntextField: \'Enable\',\n containField: null,\n  handler: null }', '2019-07-05 17:36:23', NULL, 'admin', '1', NULL, '是否值', 'enable', 1, '超级管理员', '2022-08-03 15:59:01', 1, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (30, '{valueField: \'Success\',\n textField: \'Success\', \n containField: null,\n handler: null }\n', '2018-06-11 18:26:05', 0, '测试超级管理员', NULL, NULL, '响应状态', 'restatus', 1, '测试超级管理员', '2018-06-12 10:21:48', 1, NULL, 0, NULL);
-INSERT INTO `Sys_Dictionary` VALUES (31, '{valueField: \'LogType\',\n textField: \'LogType\', \n containField: null,\n handler: null }\n', '2018-06-12 14:46:07', NULL, '测试超级管理员', NULL, NULL, '日志类型', 'log', 1, '超级管理员', '2020-11-05 10:28:22', 1, NULL, 1, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (31, '{valueField: \'LogType\',\n textField: \'LogType\', \n containField: null,\n handler: null }\n', '2018-06-12 14:46:07', NULL, '测试超级管理员', NULL, NULL, '日志类型', 'log', 1, '超级管理员', '2022-02-21 12:43:18', 1, NULL, 1, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (32, '{valueField: \'Role_Id\',\n textField: \'RoleName\', \n containField: [\'Role_Id\',\'RoleName\'],\n handler: null }\n', '2018-06-14 16:48:35', NULL, '测试超级管理员', NULL, 'SELECT Role_Id as \'key\',RoleName as \'value\' FROM Sys_Role WHERE Enable=1\n', '角色列表', 'roles', 1, '测试超级管理员', '2018-07-13 15:03:53', 1, 123, 0, 'sql语句需要key,value列，界面才能绑定数据源');
 INSERT INTO `Sys_Dictionary` VALUES (35, '{\n valueField: \'AuditStatus\',\n textField: \'AuditStatus\',\n  containField:null \n}', '2018-07-10 10:51:37', NULL, '测试超级管理员', NULL, NULL, '审核状态', 'audit', 1, '演示帐号', '2020-09-10 11:42:31', 3362, NULL, 0, NULL);
-INSERT INTO `Sys_Dictionary` VALUES (36, '{\n valueField: \'Variety\',\n textField: \'Variety\',\n  containField:null \n}', '2018-07-10 14:06:12', 1, '测试超级管理员', NULL, NULL, '品种', 'pz', 1, '超级管理员', '2021-11-10 09:59:44', 1, NULL, 0, NULL);
-INSERT INTO `Sys_Dictionary` VALUES (37, '{\n valueField: \'AgeRange\',\n textField: \'AgeRange\',\n  containField:null \n}', '2018-07-10 14:07:46', NULL, '测试超级管理员', NULL, NULL, '月龄', 'age', 1, '测试超级管理员', '2018-07-10 14:14:49', 1, NULL, 0, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (36, '{\n valueField: \'Variety\',\n textField: \'Variety\',\n  containField:null \n}', '2018-07-10 14:06:12', 1, '测试超级管理员', NULL, NULL, '分类', 'pz', 1, '超级管理员', '2022-03-26 02:18:40', 1, NULL, 0, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (37, '{\n valueField: \'AgeRange\',\n textField: \'AgeRange\',\n  containField:null \n}', '2018-07-10 14:07:46', NULL, '测试超级管理员', NULL, NULL, '值范围', 'age', 1, '超级管理员', '2022-03-26 02:18:48', 1, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (38, '{\n valueField: \'City\',\n textField: \'City\',\n  containField:null \n}', '2018-07-10 14:18:25', NULL, '测试超级管理员', NULL, 'SELECT  CASE WHEN  CityName=\'市辖区\' THEN  ProvinceName ELSE CityName end  as  \'key\',CASE WHEN  CityName=\'市辖区\' THEN  ProvinceName ELSE CityName end  as  \'value\'  FROM Sys_City AS a \nINNER JOIN Sys_Province AS b \nON a.ProvinceCode=b.ProvinceCode\nWHERE a.CityName<> \'县\'', '城市', 'city', 1, '测试超级管理员', '2018-07-16 17:03:50', 1, NULL, 0, NULL);
-INSERT INTO `Sys_Dictionary` VALUES (44, '{\n valueField: \'NewsType\',\n textField: \'NewsType\',\n  containField:null \n}', '2018-07-10 16:15:59', 1, '测试超级管理员', NULL, NULL, '新闻类型', 'news', 1, '超级管理员', '2021-03-24 13:42:20', 1, NULL, 0, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (44, '{\n valueField: \'NewsType\',\n textField: \'NewsType\',\n  containField:null \n}', '2018-07-10 16:15:59', 1, '测试超级管理员', NULL, NULL, '新闻类型', 'news', 1, '超级管理员', '2022-06-27 13:46:28', 1, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (45, '{\n valueField: \'Expire\',\n textField: \'Expire\',\n  containField:null \n}', '2018-07-10 16:38:40', 1, '测试超级管理员', NULL, NULL, '是否过期', 'expire', 1, NULL, NULL, NULL, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (46, '{\n valueField: \'ProvinceName\',\n textField: \'ProvinceName\',\n  containField:null \n}', '2018-07-16 13:27:34', NULL, '测试超级管理员', NULL, 'SELECT  CASE WHEN  CityName=\'市辖区\' THEN  ProvinceName ELSE CityName end  as  \'key\',CASE WHEN  CityName=\'市辖区\' THEN  ProvinceName ELSE CityName end  as  \'value\'  FROM Sys_City AS a \nINNER JOIN Sys_Province AS b \nON a.ProvinceCode=b.ProvinceCode\nWHERE a.CityName<> \'县\'', '省列表', 'pro', 1, '测试超级管理员', '2018-07-23 15:23:21', 1, NULL, 0, 'sql语句需要key,value列，界面才能绑定数据源');
 INSERT INTO `Sys_Dictionary` VALUES (48, '{\n valueField: \'ClassifyId\',\n textField: \'ClassifyTitle\',\n  containField:null \n}', '2018-07-18 10:16:22', NULL, '测试超级管理员', NULL, NULL, '是否买入', 'nav', 1, '超级管理员', '2019-09-18 18:09:42', 1, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (49, '{\n valueField: \'Gender\',\n textField: \'Gender\',\n  containField:null \n}', '2018-07-23 10:04:45', NULL, '测试超级管理员', NULL, NULL, '性别', 'gender', 1, '测试超级管理员', '2018-07-23 11:10:28', 1, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (50, '{\n valueField: \'Enable\',\n textField: \'Enable\',\n  containField:null \n}', '2018-07-23 15:36:43', 1, '测试超级管理员', NULL, NULL, '启用状态', 'status', 1, NULL, NULL, NULL, NULL, 0, NULL);
-INSERT INTO `Sys_Dictionary` VALUES (52, '{\n valueField: \'Choiceness\',\n textField: \'Choiceness\',\n  containField:null \n}', '2018-07-24 15:45:47', 1, '测试超级管理员', NULL, NULL, '是否买入', 'cq', 1, '超级管理员', '2020-09-06 00:24:59', 1, NULL, 0, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (52, '{\n valueField: \'Choiceness\',\n textField: \'Choiceness\',\n  containField:null \n}', '2018-07-24 15:45:47', 1, '测试超级管理员', NULL, NULL, '是否买入', 'cq', 1, '超级管理员', '2022-03-26 23:07:16', 1, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (59, '{\n valueField: \'IsRegregisterPhone\',\n textField: \'IsRegregisterPhone\',\n  containField:null \n}', '2018-08-29 15:54:21', 1, '测试超级管理员', NULL, NULL, 'test', 'isphone', 1, '超级管理员', '2020-12-19 18:02:55', 1, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (62, '{\n valueField: \'IsTop\',\n textField: \'IsTop\',\n  containField:null \n}', '2019-08-20 09:57:54', 1, '超级管理员', NULL, NULL, 'test1', 'top', 1, '超级管理员', '2022-01-03 19:13:37', 1, NULL, 1, 'dddd');
 INSERT INTO `Sys_Dictionary` VALUES (64, NULL, '2019-09-18 19:25:47', 1, '超级管理员', NULL, NULL, '订单类型', 'ordertype', 1, NULL, NULL, NULL, NULL, 0, NULL);
-INSERT INTO `Sys_Dictionary` VALUES (65, NULL, '2019-09-19 10:07:23', 1, '超级管理员', NULL, NULL, '商品名称', 'pn', 1, '超级管理员', '2021-03-24 13:43:23', 1, NULL, 0, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (65, NULL, '2019-09-19 10:07:23', 1, '超级管理员', NULL, NULL, '商品名称', 'pn', 1, '超级管理员', '2022-07-12 10:55:23', 1, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (66, NULL, '2020-05-08 09:42:50', 1, '超级管理员', NULL, NULL, 'dr', 'dr', 1, NULL, NULL, NULL, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (67, NULL, '2020-05-30 19:48:29', 1, '超级管理员', NULL, NULL, '获取所有角色Table显示用', 't_roles', 1, '超级管理员', '2020-05-30 19:48:36', 1, NULL, 0, NULL);
-INSERT INTO `Sys_Dictionary` VALUES (69, NULL, '2020-09-18 23:13:42', 1, '超级管理员', NULL, NULL, '11', 'test111', 1, '超级管理员', '2021-10-15 16:27:27', 1, 1, 0, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (69, NULL, '2020-09-18 23:13:42', 1, '超级管理员', NULL, NULL, '11', 'test111', 1, '超级管理员', '2022-06-16 11:00:09', 1, 1, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (70, NULL, '2020-11-02 19:18:08', 1, '超级管理员', NULL, 'SELECT Role_Id AS id,parentId,Role_Id AS `key`,RoleName AS `value` FROM Sys_Role', '级联角色', 'tree_roles', 1, '超级管理员', '2021-02-28 14:35:35', 1, NULL, 0, NULL);
-INSERT INTO `Sys_Dictionary` VALUES (75, NULL, '2022-01-03 19:31:24', 1, '超级管理员', NULL, NULL, '满意度', '满意度', 1, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (75, NULL, '2022-01-03 19:31:24', 1, '超级管理员', NULL, NULL, '满意度', '满意度', 1, '超级管理员', '2022-03-26 23:07:19', 1, NULL, 0, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_DictionaryList
@@ -761,58 +900,56 @@ CREATE TABLE `Sys_DictionaryList`  (
   `OrderNo` int(11) NULL DEFAULT NULL,
   `Remark` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`DicList_ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 179 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 183 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_DictionaryList
 -- ----------------------------
-INSERT INTO `Sys_DictionaryList` VALUES (3, NULL, 1, 'admin', '否', '0', 3, NULL, '超级管理员', '2019-08-23 10:45:47', 1, 2, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (4, NULL, 1, 'xxx', '是', '1', 3, NULL, '超级管理员', '2019-08-23 10:45:47', 1, 1, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (3, NULL, 1, 'admin', '否', '0', 3, NULL, '超级管理员', '2022-08-03 15:59:01', 1, 2, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (4, NULL, 1, 'xxx', '是', '1', 3, NULL, '超级管理员', '2022-08-03 15:59:01', 1, 1, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (22, '2018-06-11 18:26:05', 1, '测试超级管理员', '其他', '0', 30, NULL, '超级管理员', '2019-08-21 16:49:43', 1, 10, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (23, '2018-06-11 18:26:05', 1, '测试超级管理员', '成功', '1', 30, NULL, '超级管理员', '2019-08-21 16:49:43', 1, 100, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (24, '2018-06-12 09:41:58', 1, '测试超级管理员', '异常', '2', 30, NULL, '超级管理员', '2019-08-21 16:49:43', 1, 50, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (25, '2018-06-12 14:46:08', 1, '测试超级管理员', '系统', 'System', 31, NULL, '超级管理员', '2020-11-05 10:28:22', 1, 100, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (26, '2018-06-12 14:47:32', 1, '测试超级管理员', '登陆', 'Login', 31, NULL, '超级管理员', '2020-11-05 10:28:22', 1, 90, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (27, '2018-06-15 15:29:58', 1, '测试超级管理员', '新建', 'Add', 31, NULL, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (28, '2018-06-15 15:29:58', 1, '测试超级管理员', '删除', 'Del', 31, 1, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (29, '2018-06-15 15:30:34', 1, '测试超级管理员', '编辑', 'Edit', 31, 1, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (25, '2018-06-12 14:46:08', 1, '测试超级管理员', '系统', 'System', 31, NULL, '超级管理员', '2022-02-21 12:43:18', 1, 100, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (26, '2018-06-12 14:47:32', 1, '测试超级管理员', '登陆', 'Login', 31, NULL, '超级管理员', '2022-02-21 12:43:18', 1, 90, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (27, '2018-06-15 15:29:58', 1, '测试超级管理员', '新建', 'Add', 31, NULL, '超级管理员', '2022-02-21 12:43:18', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (28, '2018-06-15 15:29:58', 1, '测试超级管理员', '删除', 'Del', 31, 1, '超级管理员', '2022-02-21 12:43:18', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (29, '2018-06-15 15:30:34', 1, '测试超级管理员', '编辑', 'Edit', 31, 1, '超级管理员', '2022-02-21 12:43:18', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (37, '2018-07-10 10:51:38', 1, '测试超级管理员', '审核中', '0', 35, NULL, '演示帐号', '2020-09-10 11:42:31', 3362, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (38, '2018-07-10 10:51:38', 1, '测试超级管理员', '审核通过', '1', 35, NULL, '演示帐号', '2020-09-10 11:42:31', 3362, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (39, '2018-07-10 10:51:38', 1, '测试超级管理员', '审核未通过', '2', 35, NULL, '演示帐号', '2020-09-10 11:42:31', 3362, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (40, '2018-07-10 14:06:13', 1, '测试超级管理员', '数码相框', '数码相框', 36, 0, '超级管理员', '2021-11-10 09:59:44', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (41, '2018-07-10 14:06:13', 1, '测试超级管理员', '影棚器材', '影棚器材', 36, 0, '超级管理员', '2021-11-10 09:59:44', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (42, '2018-07-10 14:06:13', 1, '测试超级管理员', '户外器材', '户外器材', 36, 0, '超级管理员', '2021-11-10 09:59:44', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (44, '2018-07-10 14:06:13', 1, '测试超级管理员', '运动相机', '运动相机', 36, 0, '超级管理员', '2021-11-10 09:59:44', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (45, '2018-07-10 14:06:13', 1, '测试超级管理员', '微单相机', '微单相机', 36, 0, '超级管理员', '2021-11-10 09:59:44', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (46, '2018-07-10 14:06:13', 1, '测试超级管理员', '单反相机', '单反相机', 36, 0, '超级管理员', '2021-11-10 09:59:44', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (47, '2018-07-10 14:07:46', 1, '测试超级管理员', '0-2月龄', '0-2月龄', 37, NULL, '测试超级管理员', '2018-09-06 15:57:29', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (48, '2018-07-10 14:07:46', 1, '测试超级管理员', '2-6月龄', '2-6月龄', 37, NULL, '测试超级管理员', '2018-09-06 15:57:29', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (49, '2018-07-10 14:07:46', 1, '测试超级管理员', '7-12月龄', '7-12月龄', 37, NULL, '测试超级管理员', '2018-09-06 15:57:29', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (50, '2018-07-10 14:07:46', 1, '测试超级管理员', '12-16月龄', '12-16月龄', 37, NULL, '测试超级管理员', '2018-09-06 15:57:29', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (51, '2018-07-10 14:07:46', 1, '测试超级管理员', '16月龄以上', '16月龄以上', 37, NULL, '测试超级管理员', '2018-09-06 15:57:29', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (64, '2018-07-10 16:15:59', 1, '测试超级管理员', '实时', '1', 44, NULL, '超级管理员', '2021-03-24 13:42:20', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (65, '2018-07-10 16:15:59', 1, '测试超级管理员', '娱乐', '2', 44, NULL, '超级管理员', '2021-03-24 13:42:20', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (40, '2018-07-10 14:06:13', 1, '测试超级管理员', '数码相框', '数码相框', 36, 0, '超级管理员', '2022-03-26 02:18:40', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (41, '2018-07-10 14:06:13', 1, '测试超级管理员', '影棚器材', '影棚器材', 36, 0, '超级管理员', '2022-03-26 02:18:40', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (42, '2018-07-10 14:06:13', 1, '测试超级管理员', '户外器材', '户外器材', 36, 0, '超级管理员', '2022-03-26 02:18:40', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (44, '2018-07-10 14:06:13', 1, '测试超级管理员', '运动相机', '运动相机', 36, 0, '超级管理员', '2022-03-26 02:18:40', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (45, '2018-07-10 14:06:13', 1, '测试超级管理员', '微单相机', '微单相机', 36, 0, '超级管理员', '2022-03-26 02:18:40', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (46, '2018-07-10 14:06:13', 1, '测试超级管理员', '单反相机', '单反相机', 36, 0, '超级管理员', '2022-03-26 02:18:40', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (47, '2018-07-10 14:07:46', 1, '测试超级管理员', '50-60', '50-60', 37, 0, '超级管理员', '2022-03-26 02:18:48', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (48, '2018-07-10 14:07:46', 1, '测试超级管理员', '40-50', '40-50', 37, 0, '超级管理员', '2022-03-26 02:18:48', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (49, '2018-07-10 14:07:46', 1, '测试超级管理员', '30-40', '30-40', 37, 0, '超级管理员', '2022-03-26 02:18:48', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (50, '2018-07-10 14:07:46', 1, '测试超级管理员', '20-30', '20-30', 37, 0, '超级管理员', '2022-03-26 02:18:48', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (51, '2018-07-10 14:07:46', 1, '测试超级管理员', '10-20', '10-20', 37, 0, '超级管理员', '2022-03-26 02:18:48', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (64, '2018-07-10 16:15:59', 1, '测试超级管理员', '更新日志', '1', 44, 0, '超级管理员', '2022-04-20 01:31:15', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (65, '2018-07-10 16:15:59', 1, '测试超级管理员', '其他信息', '2', 44, 0, '超级管理员', '2022-04-20 01:31:15', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (66, '2018-07-10 16:38:40', 1, '测试超级管理员', '否', '0', 45, NULL, '超级管理员', '2019-09-03 13:20:46', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (67, '2018-07-10 16:38:40', 1, '测试超级管理员', '是', '1', 45, NULL, '超级管理员', '2019-09-03 13:20:46', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (70, '2018-07-11 17:11:18', 1, '测试超级管理员', 'App请求异常', 'ApiException', 31, NULL, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (71, '2018-07-11 17:11:19', 1, '测试超级管理员', 'PC请求异常', 'Exception', 31, NULL, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (71, '2018-07-11 17:11:19', 1, '测试超级管理员', 'PC请求异常', 'Exception', 31, NULL, '超级管理员', '2022-02-21 12:43:18', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (77, '2018-07-18 10:16:22', 1, '测试超级管理员', '现金', '1', 48, NULL, '超级管理员', '2019-09-18 18:09:42', 1, 120, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (78, '2018-07-18 10:16:23', 1, '测试超级管理员', '赊账', '2', 48, NULL, '超级管理员', '2019-09-18 18:09:42', 1, 70, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (79, '2018-07-18 10:16:23', 1, '测试超级管理员', '抵扣', '3', 48, NULL, '超级管理员', '2019-09-18 18:09:42', 1, 100, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (90, '2018-07-23 10:04:45', 1, '测试超级管理员', '男', '0', 49, NULL, '测试超级管理员', '2018-07-23 11:10:28', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (91, '2018-07-23 10:04:45', 1, '测试超级管理员', '女', '1', 49, NULL, '测试超级管理员', '2018-07-23 11:10:28', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (92, '2018-07-23 10:44:14', 1, '测试超级管理员', '修改密码', 'ApiModifyPwd', 31, 0, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (96, '2018-07-23 15:36:43', 1, '测试超级管理员', '未启用', '0', 50, 1, '超级管理员', '2019-08-16 18:17:47', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (97, '2018-07-23 15:36:43', 1, '测试超级管理员', '已启用', '1', 50, 1, '超级管理员', '2019-08-16 18:17:47', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (98, '2018-07-23 15:36:43', 1, '测试超级管理员', '已删除', '2', 50, 1, '超级管理员', '2019-08-16 18:17:47', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (101, '2018-07-24 15:45:47', 1, '测试超级管理员', '否', '0', 52, 0, '超级管理员', '2020-09-06 00:24:59', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (102, '2018-07-24 15:45:47', 1, '测试超级管理员', '是', '1', 52, 0, '超级管理员', '2020-09-06 00:24:59', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (101, '2018-07-24 15:45:47', 1, '测试超级管理员', '否', '0', 52, 0, '超级管理员', '2022-03-26 23:07:16', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (102, '2018-07-24 15:45:47', 1, '测试超级管理员', '是', '1', 52, 0, '超级管理员', '2022-03-26 23:07:16', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (128, '2018-08-29 15:54:21', 1, '测试超级管理员', '是', '1', 59, 0, '超级管理员', '2020-12-19 18:02:55', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (129, '2018-08-29 15:54:21', 1, '测试超级管理员', '否', '0', 59, 1, '超级管理员', '2020-12-19 18:02:55', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (130, '2018-09-04 16:13:47', 1, '测试超级管理员', '数码相机', '数码相机', 36, 1, '超级管理员', '2021-11-10 09:59:44', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (130, '2018-09-04 16:13:47', 1, '测试超级管理员', '数码相机', '数码相机', 36, 1, '超级管理员', '2022-03-26 02:18:40', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (142, '2019-08-20 09:57:54', 1, '超级管理员', '是', '1', 62, 1, '超级管理员', '2022-01-03 19:13:37', 1, NULL, '1');
 INSERT INTO `Sys_DictionaryList` VALUES (143, '2019-08-20 09:57:54', 1, '超级管理员', '否', '0', 62, 1, '超级管理员', '2022-01-03 19:13:37', 1, NULL, '测试');
-INSERT INTO `Sys_DictionaryList` VALUES (144, '2019-08-21 16:40:50', 1, '超级管理员', '刷新Token', 'ReplaceToeken', 31, NULL, '超级管理员', '2020-11-05 10:28:22', 1, 110, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (144, '2019-08-21 16:40:50', 1, '超级管理员', '刷新Token', 'ReplaceToeken', 31, NULL, '超级管理员', '2022-02-21 12:43:18', 1, 110, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (145, '2019-08-21 16:49:43', 1, '超级管理员', 'Info', '3', 30, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (149, '2019-09-18 19:25:47', 1, '超级管理员', '发货', '1', 64, 1, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (150, '2019-09-18 19:25:47', 1, '超级管理员', '退货', '2', 64, 1, NULL, NULL, NULL, NULL, NULL);
@@ -821,20 +958,19 @@ INSERT INTO `Sys_DictionaryList` VALUES (152, '2019-09-19 10:07:23', 1, '超级�
 INSERT INTO `Sys_DictionaryList` VALUES (153, '2019-09-19 10:07:23', 1, '超级管理员', '潮流', '潮流', 65, 1, '超级管理员', '2021-03-24 13:43:23', 1, 4, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (154, '2019-09-19 10:07:23', 1, '超级管理员', '家电', '家电', 65, NULL, '超级管理员', '2021-03-24 13:43:23', 1, 6, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (155, '2019-09-19 10:07:23', 1, '超级管理员', '食品', '食品', 65, NULL, '超级管理员', '2021-03-24 13:43:23', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (156, '2019-10-11 10:41:32', 1, '超级管理员', '登陆已过期', 'ApiAuthorize', 31, NULL, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (156, '2019-10-11 10:41:32', 1, '超级管理员', '登陆已过期', 'ApiAuthorize', 31, NULL, '超级管理员', '2022-02-21 12:43:18', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (157, '2020-05-08 09:42:50', 1, '超级管理员', '否', '0', 66, 0, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (158, '2020-05-08 09:42:50', 1, '超级管理员', '是', '1', 66, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (160, '2020-09-06 00:24:59', 1, '超级管理员', NULL, NULL, 52, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (161, '2020-09-11 23:10:50', 1, '超级管理员', '审核', 'Audit', 31, 0, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (162, '2020-09-11 23:10:50', 1, '超级管理员', '打印', 'Print', 31, 0, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (164, '2020-09-11 23:12:54', 1, '超级管理员', '开启权限', 'Open', 31, 0, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (165, '2020-09-11 23:12:54', 1, '超级管理员', '其他', 'Other', 31, 0, '超级管理员', '2020-11-05 10:28:22', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (168, '2020-11-05 10:28:22', 1, '超级管理员', 'Info', '3', 31, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (161, '2020-09-11 23:10:50', 1, '超级管理员', '审核', 'Audit', 31, 0, '超级管理员', '2022-02-21 12:43:18', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (162, '2020-09-11 23:10:50', 1, '超级管理员', '打印', 'Print', 31, 0, '超级管理员', '2022-02-21 12:43:18', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (164, '2020-09-11 23:12:54', 1, '超级管理员', '开启权限', 'Open', 31, 0, '超级管理员', '2022-02-21 12:43:18', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (165, '2020-09-11 23:12:54', 1, '超级管理员', '其他', 'Other', 31, 0, '超级管理员', '2022-02-21 12:43:18', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (168, '2020-11-05 10:28:22', 1, '超级管理员', 'Info', '3', 31, 0, '超级管理员', '2022-02-21 12:43:18', 1, NULL, NULL);
 INSERT INTO `Sys_DictionaryList` VALUES (171, '2021-08-16 14:00:45', 1, '超级管理员', '3', '3', 69, 0, '超级管理员', '2021-10-15 16:27:27', 1, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (175, '2022-01-03 19:31:25', 1, '超级管理员', '非常满意', '非常满意', 75, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (176, '2022-01-03 19:31:25', 1, '超级管理员', '十分满意', '十分满意', 75, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (177, '2022-01-03 19:31:25', 1, '超级管理员', '相当满意', '相当满意', 75, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `Sys_DictionaryList` VALUES (178, '2022-01-03 19:31:25', 1, '超级管理员', '比较满意', '比较满意', 75, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (175, '2022-01-03 19:31:25', 1, '超级管理员', '非常满意', '非常满意', 75, 0, '超级管理员', '2022-03-26 23:07:19', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (176, '2022-01-03 19:31:25', 1, '超级管理员', '十分满意', '十分满意', 75, 0, '超级管理员', '2022-03-26 23:07:19', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (177, '2022-01-03 19:31:25', 1, '超级管理员', '相当满意', '相当满意', 75, 0, '超级管理员', '2022-03-26 23:07:19', 1, NULL, NULL);
+INSERT INTO `Sys_DictionaryList` VALUES (178, '2022-01-03 19:31:25', 1, '超级管理员', '比较满意', '比较满意', 75, 0, '超级管理员', '2022-03-26 23:07:19', 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_Log
@@ -843,7 +979,7 @@ DROP TABLE IF EXISTS `Sys_Log`;
 CREATE TABLE `Sys_Log`  (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `BeginDate` datetime(0) NULL DEFAULT NULL,
-  `BrowserType` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `BrowserType` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `ElapsedTime` int(11) NULL DEFAULT NULL,
   `EndDate` datetime(0) NULL DEFAULT NULL,
   `ExceptionInfo` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
@@ -857,42 +993,13 @@ CREATE TABLE `Sys_Log`  (
   `UserIP` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `UserName` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `User_Id` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 255446 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+  PRIMARY KEY (`Id`) USING BTREE,
+  INDEX `IDX_BeginDate`(`BeginDate`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_Log
 -- ----------------------------
-INSERT INTO `Sys_Log` VALUES (255431, '2022-01-03 19:57:16', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 85, '2022-01-03 19:57:16', '', 'System', '', '', 0, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/Upload/Tables/Sys_User/202006191408112343/1111s.jpg', '127.0.0.1', '', 0);
-INSERT INTO `Sys_Log` VALUES (255432, '2022-01-03 19:57:16', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 3240, '2022-01-03 19:57:19', '', 'System', '', '', 1, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/api/menu/getTreeMenu', '127.0.0.1', '超级管理员', 1);
-INSERT INTO `Sys_Log` VALUES (255433, '2022-01-03 19:57:20', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 261, '2022-01-03 19:57:20', '', 'System', '', '', 1, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/api/formDesignOptions/getList', '127.0.0.1', '超级管理员', 1);
-INSERT INTO `Sys_Log` VALUES (255434, '2022-01-03 19:57:20', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 470, '2022-01-03 19:57:20', '', 'System', '', '', 1, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/api/FormCollectionObject/getPageData', '127.0.0.1', '超级管理员', 1);
-INSERT INTO `Sys_Log` VALUES (255438, '2022-01-03 19:57:21', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 537, '2022-01-03 19:57:21', '', 'System', '', '', 1, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/api/FormCollectionObject/getPageData', '127.0.0.1', '超级管理员', 1);
-INSERT INTO `Sys_Log` VALUES (255439, '2022-01-03 19:57:21', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 636, '2022-01-03 19:57:22', '', 'System', '', '', 1, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/api/FormCollectionObject/getPageData', '127.0.0.1', '超级管理员', 1);
-INSERT INTO `Sys_Log` VALUES (255440, '2022-01-03 19:57:23', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 516, '2022-01-03 19:57:24', '', 'System', '', '', 1, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/api/Sys_Log/getPageData', '127.0.0.1', '超级管理员', 1);
-INSERT INTO `Sys_Log` VALUES (255441, '2022-01-03 19:57:23', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 1154, '2022-01-03 19:57:25', '', 'System', '', '', 1, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/api/Sys_Dictionary/GetVueDictionary', '127.0.0.1', '超级管理员', 1);
-INSERT INTO `Sys_Log` VALUES (255442, '2022-01-03 19:57:25', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 553, '2022-01-03 19:57:25', '', 'System', '', '', 1, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/api/Sys_Log/getPageData', '127.0.0.1', '超级管理员', 1);
-INSERT INTO `Sys_Log` VALUES (255443, '2022-01-03 19:57:23', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 2234, '2022-01-03 19:57:26', '', 'System', '', '', 1, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/api/Sys_Dictionary/GetVueDictionary', '127.0.0.1', '超级管理员', 1);
-INSERT INTO `Sys_Log` VALUES (255445, '2022-01-03 19:57:29', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 552, '2022-01-03 19:57:29', '', 'System', '', '', 1, '127.0.0.1:9995', 3, 'http://127.0.0.1:9995/api/Sys_Log/getPageData', '127.0.0.1', '超级管理员', 1);
-
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 120.53.251.208
- Source Server Type    : MySQL
- Source Server Version : 50729
- Source Host           : 120.53.251.208:3306
- Source Schema         : netcoredev
-
- Target Server Type    : MySQL
- Target Server Version : 50729
- File Encoding         : 65001
-
- Date: 27/03/2022 15:12:26
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for Sys_Menu
@@ -915,7 +1022,7 @@ CREATE TABLE `Sys_Menu`  (
   `Modifier` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `MenuType` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`Menu_Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 126 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 129 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_Menu
@@ -981,8 +1088,8 @@ INSERT INTO `Sys_Menu` VALUES (83, '从表图片上传', '[{\"text\":\"查询\",
 INSERT INTO `Sys_Menu` VALUES (84, '树形菜单', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'el-icon-c-scale-to-original', NULL, 1, 1705, '树形菜单与table', 0, '', '2020-04-26 20:19:42', '超级管理员', '2021-08-02 02:57:43', '超级管理员', NULL);
 INSERT INTO `Sys_Menu` VALUES (85, 'tree与代码生成页面', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"}]', '', NULL, 1, 100, 'treetable1', 84, '/treetable1', '2020-04-26 20:20:28', '超级管理员', '2019-11-15 14:32:32', NULL, NULL);
 INSERT INTO `Sys_Menu` VALUES (86, 'tree自定义table数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 10, 'treetable2', 84, '/treetable2', '2020-04-26 20:20:57', '超级管理员', '2020-04-26 20:21:34', '超级管理员', NULL);
-INSERT INTO `Sys_Menu` VALUES (89, '审批设置', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'el-icon-thumb', NULL, 1, 1702, '审批流', 0, '', '2020-11-29 16:49:27', '超级管理员', '2021-08-02 02:58:07', '超级管理员', NULL);
-INSERT INTO `Sys_Menu` VALUES (90, '审批流', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, 'workFlow', 89, '/workFlow', '2020-11-29 16:49:42', '超级管理员', '2020-02-02 20:01:16', NULL, NULL);
+INSERT INTO `Sys_Menu` VALUES (89, '流程管理', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'el-icon-s-operation', NULL, 1, 1765, '.', 0, '', '2020-11-29 16:49:27', '超级管理员', '2022-07-25 03:04:30', '超级管理员', 0);
+INSERT INTO `Sys_Menu` VALUES (90, '审批流程', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 2000, 'Sys_WorkFlow', 89, '/Sys_WorkFlow', '2020-11-29 16:49:42', '超级管理员', '2022-08-15 04:33:07', '超级管理员', 0);
 INSERT INTO `Sys_Menu` VALUES (91, '多列合并显示', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 0, '/App_Expert', 48, '/App_Expert2', '2021-03-06 17:47:23', '超级管理员', '2021-02-28 22:18:37', NULL, NULL);
 INSERT INTO `Sys_Menu` VALUES (92, '主从一对一(2)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"删除\",\"value\":\"Delete\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 890, 'SellOrder2', 74, '/SellOrder2', '2021-03-14 23:52:46', '超级管理员', '2021-03-14 23:52:54', '超级管理员', NULL);
 INSERT INTO `Sys_Menu` VALUES (93, '主从一对一(3)', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"新建\",\"value\":\"Add\"},{\"text\":\"编辑\",\"value\":\"Update\"},{\"text\":\"导入\",\"value\":\"Import\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 880, 'SellOrder3', 74, '/SellOrder3', '2021-03-14 23:53:50', '超级管理员', '2021-03-14 23:52:54', NULL, NULL);
@@ -1018,8 +1125,9 @@ INSERT INTO `Sys_Menu` VALUES (122, '表格显示table', '[{\"text\":\"查询\",
 INSERT INTO `Sys_Menu` VALUES (123, '自定义扩展', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 8050, '.', 0, '', '2022-03-26 03:16:13', '超级管理员', '2022-03-27 08:59:44', '超级管理员', 1);
 INSERT INTO `Sys_Menu` VALUES (124, '生成页面扩展组件', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, '.', 123, 'pages/pagedemo/pagedemo', '2022-03-26 03:16:51', '超级管理员', '2022-03-27 09:04:15', '超级管理员', 1);
 INSERT INTO `Sys_Menu` VALUES (125, '手动绑定数据', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, '.', 120, 'pages/table/table3/table3', '2022-03-27 03:02:06', '超级管理员', '2022-03-27 02:15:29', NULL, 1);
-
-SET FOREIGN_KEY_CHECKS = 1;
+INSERT INTO `Sys_Menu` VALUES (126, '消息推送', '[{\"text\":\"查询\",\"value\":\"Search\"}]', 'el-icon-chat-line-round', NULL, 1, 2900, '.', 0, '/signalR', '2022-05-04 12:00:00', '超级管理员', '2022-05-05 15:31:04', '超级管理员', 0);
+INSERT INTO `Sys_Menu` VALUES (127, '我的任务', '[{\"text\":\"查询\",\"value\":\"Search\"},{\"text\":\"导出\",\"value\":\"Export\"}]', '', NULL, 1, 1500, 'Sys_WorkFlowTable', 89, '/Sys_WorkFlowTable', '2022-08-15 04:33:28', '超级管理员', '2022-08-15 04:33:39', '超级管理员', 0);
+INSERT INTO `Sys_Menu` VALUES (128, '发起流程', '[{\"text\":\"查询\",\"value\":\"Search\"}]', '', NULL, 1, 0, '发起流程', 89, '/flowdemo', '2022-08-15 04:33:54', '超级管理员', '2022-08-15 04:34:33', '超级管理员', 0);
 
 -- ----------------------------
 -- Table structure for Sys_Province
@@ -1091,7 +1199,7 @@ CREATE TABLE `Sys_Role`  (
   `ParentId` int(11) NOT NULL,
   `RoleName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`Role_Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_Role
@@ -1104,6 +1212,7 @@ INSERT INTO `Sys_Role` VALUES (5, '2019-05-30 10:59:13', 'admin', NULL, '还没�
 INSERT INTO `Sys_Role` VALUES (8, '2021-05-02 18:33:49', '超级管理员', NULL, NULL, NULL, 1, '', NULL, NULL, 4, '二级角色');
 INSERT INTO `Sys_Role` VALUES (10, '2021-07-09 22:28:18', '超级管理员', NULL, NULL, NULL, 1, '', NULL, NULL, 8, '三级角色');
 INSERT INTO `Sys_Role` VALUES (11, '2021-07-09 22:29:07', '超级管理员', NULL, NULL, NULL, 1, '超级管理员', '2021-08-06 11:22:06', NULL, 8, '四级角色');
+INSERT INTO `Sys_Role` VALUES (12, '2022-03-23 09:47:00', '超级管理员', NULL, NULL, NULL, 1, '', NULL, NULL, 2, '测试角色');
 
 -- ----------------------------
 -- Table structure for Sys_RoleAuth
@@ -1120,7 +1229,7 @@ CREATE TABLE `Sys_RoleAuth`  (
   `Role_Id` int(11) NULL DEFAULT NULL,
   `User_Id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`Auth_Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 228 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 271 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_RoleAuth
@@ -1177,7 +1286,7 @@ INSERT INTO `Sys_RoleAuth` VALUES (199, 'Search', '2020-05-05 12:05:34', '超级
 INSERT INTO `Sys_RoleAuth` VALUES (200, 'Search', '2020-05-05 12:05:34', '超级管理员', 27, '超级管理员', '2020-05-05 12:05:34', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (201, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 12:05:34', '超级管理员', 75, '超级管理员', '2020-05-05 12:05:34', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (202, 'Search', '2020-05-05 12:05:34', '超级管理员', 57, '超级管理员', '2020-05-05 12:05:34', 2, NULL);
-INSERT INTO `Sys_RoleAuth` VALUES (203, 'Search,Import,Export,Upload,test', '2020-05-05 12:05:34', '超级管理员', 49, '超级管理员', '2021-03-06 17:47:32', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (203, 'Search,Import,Export,Upload', '2020-05-05 12:05:34', '超级管理员', 49, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (204, 'Search,Update', '2020-05-05 12:05:34', '超级管理员', 71, '超级管理员', '2020-05-05 12:05:34', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (205, 'Search', '2020-05-05 12:05:34', '超级管理员', 31, '超级管理员', '2020-05-05 12:05:34', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (206, 'Search', '2020-05-05 12:05:34', '超级管理员', 58, '超级管理员', '2020-05-05 12:05:34', 2, NULL);
@@ -1189,7 +1298,7 @@ INSERT INTO `Sys_RoleAuth` VALUES (211, 'Search,Add,Update,Export,Audit', '2020-
 INSERT INTO `Sys_RoleAuth` VALUES (212, 'Search,Add,Delete,Update,Import,Export', '2020-05-25 13:15:51', '超级管理员', 52, '超级管理员', '2020-05-25 13:15:51', 4, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (213, 'Search,Import,Export,Upload', '2020-09-11 01:03:11', '演示帐号', 49, '演示帐号', '2020-09-11 01:03:11', 6, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (214, 'Search', '2020-11-29 16:52:52', '超级管理员', 89, '超级管理员', '2020-11-29 16:52:52', 2, NULL);
-INSERT INTO `Sys_RoleAuth` VALUES (215, 'Search', '2020-11-29 16:52:52', '超级管理员', 90, '超级管理员', '2020-11-29 16:52:52', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (215, 'Search,Add,Delete,Update,Export', '2020-11-29 16:52:52', '超级管理员', 90, '超级管理员', '2022-07-25 03:10:47', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (216, 'Search,Add,Delete,Update,Import,Export,Upload', '2021-01-16 12:01:58', '超级管理员', 70, '超级管理员', '2021-01-16 12:01:58', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (217, 'Search,Add,Delete,Update,Import,Export', '2021-03-06 17:47:32', '超级管理员', 91, '超级管理员', '2021-03-06 17:47:32', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (218, 'Search,Add,Delete,Update,Import,Export', '2021-03-14 23:56:27', '超级管理员', 92, '超级管理员', '2021-03-14 23:56:27', 2, NULL);
@@ -1199,9 +1308,52 @@ INSERT INTO `Sys_RoleAuth` VALUES (221, 'Search,Add,Delete,Update', '2021-03-20 
 INSERT INTO `Sys_RoleAuth` VALUES (222, 'Search', '2021-05-02 15:57:11', '超级管理员', 96, '超级管理员', '2021-05-02 15:57:11', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (223, 'Search', '2021-05-02 15:57:11', '超级管理员', 97, '超级管理员', '2021-05-02 15:57:11', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (224, 'Export', '2021-05-05 15:25:06', '超级管理员', 68, '超级管理员', '2021-05-05 15:25:06', 6, NULL);
-INSERT INTO `Sys_RoleAuth` VALUES (225, 'Search', '2021-08-30 02:51:00', '超级管理员', 98, '超级管理员', '2021-08-30 02:51:00', 2, NULL);
-INSERT INTO `Sys_RoleAuth` VALUES (226, 'Search', '2021-08-30 02:51:00', '超级管理员', 99, '超级管理员', '2021-08-30 02:51:00', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (225, 'Search', '2021-08-30 02:51:00', '超级管理员', 98, '超级管理员', '2022-03-27 02:41:51', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (226, 'Search', '2021-08-30 02:51:00', '超级管理员', 99, '超级管理员', '2022-03-27 02:41:51', 2, NULL);
 INSERT INTO `Sys_RoleAuth` VALUES (227, 'Search', '2021-09-27 00:47:34', '超级管理员', 100, '超级管理员', '2021-09-27 00:47:34', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (228, 'Search', '2022-01-08 17:16:55', '超级管理员', 103, '超级管理员', '2022-01-08 17:16:55', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (229, 'Search,Add,Delete,Update', '2022-01-08 17:16:55', '超级管理员', 104, '超级管理员', '2022-01-08 17:16:55', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (230, 'Search', '2022-01-08 18:07:11', '超级管理员', 105, '超级管理员', '2022-01-08 18:07:11', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (231, 'Search,Add,Delete,Export', '2022-01-08 18:07:11', '超级管理员', 101, '超级管理员', '2022-03-27 02:41:51', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (232, 'Search,Export', '2022-01-08 18:07:11', '超级管理员', 102, '超级管理员', '2022-03-27 02:41:51', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (233, 'Search,Export', '2022-01-10 10:30:29', '超级管理员', 106, '超级管理员', '2022-03-27 02:41:51', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (234, 'Search', '2022-03-26 03:22:47', '超级管理员', 108, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (235, 'Search,Add,Delete,Update', '2022-03-26 03:22:47', '超级管理员', 111, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (236, 'Search,Add,Delete,Update', '2022-03-26 03:22:47', '超级管理员', 114, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (237, 'Search,Add,Delete,Update', '2022-03-26 03:22:47', '超级管理员', 113, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (238, 'Search,Add,Delete,Update', '2022-03-26 03:22:47', '超级管理员', 116, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (239, 'Search', '2022-03-26 03:22:47', '超级管理员', 119, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (240, 'Search', '2022-03-26 03:22:47', '超级管理员', 118, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (241, 'Search', '2022-03-26 03:22:47', '超级管理员', 109, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (242, 'Search', '2022-03-26 03:22:47', '超级管理员', 122, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (243, 'Search', '2022-03-26 03:22:47', '超级管理员', 124, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (244, 'Search', '2022-03-26 03:22:47', '超级管理员', 120, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (245, 'Search', '2022-03-26 03:22:47', '超级管理员', 117, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (246, 'Search', '2022-03-26 03:22:47', '超级管理员', 123, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (247, 'Search', '2022-03-26 03:22:47', '超级管理员', 115, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (248, 'Search', '2022-03-26 03:22:47', '超级管理员', 112, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (249, 'Search', '2022-03-26 03:22:47', '超级管理员', 110, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (250, 'Search', '2022-03-26 03:22:47', '超级管理员', 121, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (251, 'Search', '2022-03-26 03:22:47', '超级管理员', 107, '超级管理员', '2022-03-26 03:22:47', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (252, 'Search', '2022-03-27 02:39:28', '超级管理员', 107, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (253, 'Search', '2022-03-27 02:39:28', '超级管理员', 110, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (254, 'Search', '2022-03-27 02:39:28', '超级管理员', 112, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (255, 'Search', '2022-03-27 02:39:28', '超级管理员', 115, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (256, 'Search', '2022-03-27 02:39:28', '超级管理员', 123, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (257, 'Search', '2022-03-27 02:39:28', '超级管理员', 117, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (258, 'Search', '2022-03-27 02:39:28', '超级管理员', 124, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (259, 'Search', '2022-03-27 02:39:28', '超级管理员', 118, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (260, 'Search', '2022-03-27 02:39:28', '超级管理员', 119, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (261, 'Search,Add,Delete,Update', '2022-03-27 02:39:28', '超级管理员', 116, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (262, 'Search,Add,Delete,Update', '2022-03-27 02:39:28', '超级管理员', 113, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (263, 'Search,Add,Delete,Update', '2022-03-27 02:39:28', '超级管理员', 114, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (264, 'Search,Add,Delete,Update', '2022-03-27 02:39:28', '超级管理员', 111, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (265, 'Search', '2022-03-27 02:39:28', '超级管理员', 108, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (266, 'Search', '2022-03-27 02:39:28', '超级管理员', 109, '超级管理员', '2022-03-27 02:39:28', 12, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (267, 'Search', '2022-03-27 03:02:19', '超级管理员', 125, '超级管理员', '2022-03-27 03:02:19', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (268, 'Search', '2022-05-04 14:45:36', '超级管理员', 126, '超级管理员', '2022-05-04 14:45:36', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (269, 'Search,Export', '2022-08-15 05:02:56', '超级管理员', 127, '超级管理员', '2022-08-15 05:02:56', 2, NULL);
+INSERT INTO `Sys_RoleAuth` VALUES (270, 'Search', '2022-08-15 05:02:56', '超级管理员', 128, '超级管理员', '2022-08-15 05:02:56', 2, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_RoleAuthData
@@ -1225,28 +1377,6 @@ CREATE TABLE `Sys_RoleAuthData`  (
 -- ----------------------------
 -- Records of Sys_RoleAuthData
 -- ----------------------------
-
--- ----------------------------
--- Table structure for Sys_TableColumn
--- ----------------------------
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 120.53.251.208
- Source Server Type    : MySQL
- Source Server Version : 50729
- Source Host           : 120.53.251.208:3306
- Source Schema         : netcoredev
-
- Target Server Type    : MySQL
- Target Server Version : 50729
- File Encoding         : 65001
-
- Date: 27/03/2022 15:13:41
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for Sys_TableColumn
@@ -1290,23 +1420,23 @@ CREATE TABLE `Sys_TableColumn`  (
   `TableName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `Table_Id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`ColumnId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 787 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 865 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_TableColumn
 -- ----------------------------
-INSERT INTO `Sys_TableColumn` VALUES (20, NULL, NULL, NULL, NULL, '角色ID', 'Role_Id', 'int', 70, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, NULL, '', NULL, 1, 1, NULL, 1, 0, 1, NULL, '超级管理员', '2021-12-29 22:46:12', 1, 1420, '', NULL, NULL, '', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (21, NULL, NULL, NULL, NULL, '父级ID', 'ParentId', 'int', 70, '', '2018-06-04 10:14:21', NULL, NULL, 'tree_roles', NULL, 1, 'cascader', NULL, 1, 1, NULL, 0, 0, 0, NULL, '超级管理员', '2021-12-29 22:46:12', 1, 1410, '', NULL, NULL, '', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (22, NULL, NULL, NULL, NULL, '角色名称', 'RoleName', 'string', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 1, '', NULL, 1, 1, NULL, 0, 1, 0, 50, '超级管理员', '2021-12-29 22:46:12', 1, 1400, '', NULL, 1, 'text', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (23, NULL, NULL, NULL, NULL, '部门ID', 'Dept_Id', 'int', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, NULL, '', NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2021-12-29 22:46:12', 1, 1390, '', NULL, NULL, '', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (24, NULL, NULL, NULL, NULL, '部门名称', 'DeptName', 'string', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 2, '', NULL, 1, 1, NULL, 0, 1, 0, 50, '超级管理员', '2021-12-29 22:46:12', 1, 1380, '', NULL, 1, 'text', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (25, NULL, NULL, NULL, NULL, '排序', 'OrderNo', 'int', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, NULL, '', NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2021-12-29 22:46:12', 1, 1370, '', NULL, NULL, '', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (26, NULL, NULL, NULL, NULL, '创建人', 'Creator', 'string', 130, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 4, '', NULL, 1, 1, NULL, 0, 1, 1, 50, '超级管理员', '2021-12-29 22:46:12', 1, 1360, '', NULL, NULL, '', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (27, NULL, NULL, NULL, NULL, '创建时间', 'CreateDate', 'DateTime', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 4, 'datetime', NULL, 1, 1, NULL, 0, 1, 1, NULL, '超级管理员', '2021-12-29 22:46:12', 1, 1350, '', NULL, 2, 'datetime', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (28, NULL, NULL, NULL, NULL, '修改人', 'Modifier', 'string', 130, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 5, '', NULL, 1, 1, NULL, 0, 1, 1, 50, '超级管理员', '2021-12-29 22:46:12', 1, 1340, '', NULL, NULL, '', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (29, NULL, NULL, NULL, NULL, '修改时间', 'ModifyDate', 'DateTime', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 5, '', NULL, 1, 1, NULL, 0, 1, 1, NULL, '超级管理员', '2021-12-29 22:46:12', 1, 1330, '', NULL, 2, 'datetime', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (30, NULL, NULL, NULL, NULL, '', 'DeleteBy', 'string', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, NULL, '', NULL, 0, 0, NULL, 0, 1, 0, 50, '超级管理员', '2021-12-29 22:46:12', 1, 1320, '', NULL, NULL, '', 0, 'Sys_Role', 2);
-INSERT INTO `Sys_TableColumn` VALUES (31, NULL, NULL, NULL, NULL, '是否启用', 'Enable', 'sbyte', 90, '', '2018-06-04 10:14:21', NULL, NULL, 'enable', NULL, 2, 'switch', NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2021-12-29 22:46:12', 1, 1375, '', NULL, 1, 'select', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (20, NULL, NULL, NULL, NULL, '角色ID', 'Role_Id', 'int', 70, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, NULL, '', NULL, 1, 1, NULL, 1, 0, 1, NULL, '超级管理员', '2022-04-06 22:34:14', 1, 1420, '', NULL, NULL, '', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (21, NULL, NULL, NULL, NULL, '父级ID', 'ParentId', 'int', 70, '', '2018-06-04 10:14:21', NULL, NULL, 'tree_roles', NULL, 1, 'cascader', NULL, 1, 1, NULL, 0, 0, 0, NULL, '超级管理员', '2022-04-06 22:34:14', 1, 1410, '', NULL, NULL, '', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (22, NULL, NULL, NULL, NULL, '角色名称', 'RoleName', 'string', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 1, '', NULL, 1, 1, NULL, 0, 1, 0, 50, '超级管理员', '2022-04-06 22:34:14', 1, 1400, '', NULL, 1, 'text', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (23, NULL, NULL, NULL, NULL, '部门ID', 'Dept_Id', 'int', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, NULL, '', NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-04-06 22:34:14', 1, 1390, '', NULL, NULL, '', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (24, NULL, NULL, NULL, NULL, '部门名称', 'DeptName', 'string', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 2, '', NULL, 1, 1, NULL, 0, 1, 0, 50, '超级管理员', '2022-04-06 22:34:14', 1, 1380, '', NULL, 1, 'text', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (25, NULL, NULL, NULL, NULL, '排序', 'OrderNo', 'int', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, NULL, '', NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-04-06 22:34:14', 1, 1370, '', NULL, NULL, '', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (26, NULL, NULL, NULL, NULL, '创建人', 'Creator', 'string', 130, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 4, '', NULL, 1, 1, NULL, 0, 1, 1, 50, '超级管理员', '2022-04-06 22:34:14', 1, 1360, '', NULL, NULL, '', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (27, NULL, NULL, NULL, NULL, '创建时间', 'CreateDate', 'DateTime', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 4, 'datetime', NULL, 1, 1, NULL, 0, 1, 1, NULL, '超级管理员', '2022-04-06 22:34:14', 1, 1350, '', NULL, 2, 'datetime', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (28, NULL, NULL, NULL, NULL, '修改人', 'Modifier', 'string', 130, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 5, '', NULL, 1, 1, NULL, 0, 1, 1, 50, '超级管理员', '2022-04-06 22:34:14', 1, 1340, '', NULL, NULL, '', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (29, NULL, NULL, NULL, NULL, '修改时间', 'ModifyDate', 'DateTime', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, 5, '', NULL, 1, 1, NULL, 0, 1, 1, NULL, '超级管理员', '2022-04-06 22:34:14', 1, 1330, '', NULL, 2, 'datetime', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (30, NULL, NULL, NULL, NULL, '', 'DeleteBy', 'string', 90, '', '2018-06-04 10:14:21', NULL, NULL, '', NULL, NULL, '', NULL, 0, 0, NULL, 0, 1, 0, 50, '超级管理员', '2022-04-06 22:34:14', 1, 1320, '', NULL, NULL, '', 0, 'Sys_Role', 2);
+INSERT INTO `Sys_TableColumn` VALUES (31, NULL, NULL, NULL, NULL, '是否启用', 'Enable', 'sbyte', 90, '', '2018-06-04 10:14:21', NULL, NULL, 'enable', NULL, 2, 'switch', NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-04-06 22:34:14', 1, 1375, '', NULL, 1, 'select', 0, 'Sys_Role', 2);
 INSERT INTO `Sys_TableColumn` VALUES (32, NULL, NULL, NULL, NULL, '字典ID', 'Dic_ID', 'int', 90, NULL, '2018-06-06 14:05:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 1, 0, 1, NULL, '超级管理员', '2019-08-23 10:17:27', 1, 1300, NULL, NULL, NULL, NULL, NULL, 'Sys_Dictionary', 3);
 INSERT INTO `Sys_TableColumn` VALUES (33, NULL, NULL, NULL, NULL, '字典名称', 'DicName', 'string', 140, NULL, '2018-06-06 14:05:43', NULL, NULL, NULL, NULL, 1, NULL, NULL, 1, 1, NULL, 0, 0, 0, 100, '超级管理员', '2019-08-23 10:17:27', 1, 1290, NULL, NULL, 1, 'textarea', NULL, 'Sys_Dictionary', 3);
 INSERT INTO `Sys_TableColumn` VALUES (34, NULL, NULL, NULL, NULL, '父级ID', 'ParentId', 'int', 90, NULL, '2018-06-06 14:05:43', NULL, NULL, NULL, NULL, 1, NULL, NULL, 1, 1, NULL, 0, 0, 0, NULL, '超级管理员', '2019-08-23 10:17:27', 1, 1280, NULL, NULL, 1, NULL, NULL, 'Sys_Dictionary', 3);
@@ -1536,30 +1666,70 @@ INSERT INTO `Sys_TableColumn` VALUES (783, NULL, NULL, NULL, NULL, '提交人', 
 INSERT INTO `Sys_TableColumn` VALUES (784, NULL, NULL, NULL, NULL, '', 'Modifier', 'string', 130, NULL, '2022-01-03 19:29:20', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, '超级管理员', '2022-01-03 19:30:13', 1, 650, NULL, NULL, NULL, NULL, 0, 'FormCollectionObject', 85);
 INSERT INTO `Sys_TableColumn` VALUES (785, NULL, NULL, NULL, NULL, '', 'ModifyDate', 'DateTime', 110, NULL, '2022-01-03 19:29:20', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-01-03 19:30:13', 1, 600, NULL, NULL, NULL, NULL, 0, 'FormCollectionObject', 85);
 INSERT INTO `Sys_TableColumn` VALUES (786, NULL, NULL, NULL, NULL, '', 'ModifyID', 'int', 80, NULL, '2022-01-03 19:29:20', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-01-03 19:30:13', 1, 550, NULL, NULL, NULL, NULL, 0, 'FormCollectionObject', 85);
-
-SET FOREIGN_KEY_CHECKS = 1;
-
--- ----------------------------
--- Table structure for Sys_TableInfo
--- ----------------------------
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 120.53.251.208
- Source Server Type    : MySQL
- Source Server Version : 50729
- Source Host           : 120.53.251.208:3306
- Source Schema         : netcoredev
-
- Target Server Type    : MySQL
- Target Server Version : 50729
- File Encoding         : 65001
-
- Date: 27/03/2022 15:14:27
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+INSERT INTO `Sys_TableColumn` VALUES (801, NULL, NULL, NULL, NULL, '', 'WorkFlow_Id', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 1, 0, 1, 36, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (802, NULL, NULL, NULL, NULL, '流程名称', 'WorkName', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 0, 0, 200, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, 1, 'like', 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (803, NULL, NULL, NULL, NULL, '表名', 'WorkTable', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 0, 0, 200, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, 1, '', 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (804, NULL, NULL, NULL, NULL, '功能菜单', 'WorkTableName', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, 200, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (805, NULL, NULL, NULL, NULL, '节点信息', 'NodeConfig', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, 0, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (806, NULL, NULL, NULL, NULL, '连接配置', 'LineConfig', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, 0, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (807, NULL, NULL, NULL, NULL, '备注', 'Remark', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, 500, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (808, NULL, NULL, NULL, NULL, '创建时间', 'CreateDate', 'DateTime', 120, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (809, NULL, NULL, NULL, NULL, '', 'CreateID', 'int', 120, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (810, NULL, NULL, NULL, NULL, '', 'Creator', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, 30, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (811, NULL, NULL, NULL, NULL, '是否启用', 'Enable', 'sbyte', 120, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, 1, 'datetime', 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (812, NULL, NULL, NULL, NULL, '', 'Modifier', 'string', 120, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (813, NULL, NULL, NULL, NULL, '', 'ModifyDate', 'DateTime', 120, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (814, NULL, NULL, NULL, NULL, '', 'ModifyID', 'int', 120, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:37:59', 1, 0, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlow', 88);
+INSERT INTO `Sys_TableColumn` VALUES (815, NULL, NULL, NULL, NULL, '', 'WorkStepFlow_Id', 'string', 110, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 1, 0, 1, 36, '超级管理员', '2022-08-17 23:38:35', 1, 1250, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (816, NULL, NULL, NULL, NULL, '流程主表id', 'WorkFlow_Id', 'string', 110, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, 36, '超级管理员', '2022-08-17 23:38:35', 1, 1200, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (817, NULL, NULL, NULL, NULL, '流程节点Id', 'StepId', 'string', 120, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, 100, '超级管理员', '2022-08-17 23:38:35', 1, 1150, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (818, NULL, NULL, NULL, NULL, '节点名称', 'StepName', 'string', 180, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, 200, '超级管理员', '2022-08-17 23:38:35', 1, 1100, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (819, NULL, NULL, NULL, NULL, '节点类型(1=按用户审批,2=按角色审批,3=按部门审批)', 'StepType', 'int', 110, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:38:35', 1, 1050, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (820, NULL, NULL, NULL, NULL, '审批用户id或角色id、部门id', 'StepValue', 'int', 110, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:38:35', 1, 1000, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (821, NULL, NULL, NULL, NULL, '审批顺序', 'OrderId', 'int', 110, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:38:35', 1, 950, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (822, NULL, NULL, NULL, NULL, '备注', 'Remark', 'string', 220, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, 500, '超级管理员', '2022-08-17 23:38:35', 1, 900, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (823, NULL, NULL, NULL, NULL, '创建时间', 'CreateDate', 'DateTime', 110, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, 0, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:38:35', 1, 850, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (824, NULL, NULL, NULL, NULL, '', 'CreateID', 'int', 80, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:38:35', 1, 800, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (825, NULL, NULL, NULL, NULL, '', 'Creator', 'string', 130, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, '超级管理员', '2022-08-17 23:38:35', 1, 750, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (826, NULL, NULL, NULL, NULL, '', 'Enable', 'sbyte', 110, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:38:35', 1, 700, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (827, NULL, NULL, NULL, NULL, '', 'Modifier', 'string', 130, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, '超级管理员', '2022-08-17 23:38:35', 1, 650, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (828, NULL, NULL, NULL, NULL, '', 'ModifyDate', 'DateTime', 110, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:38:35', 1, 600, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (829, NULL, NULL, NULL, NULL, '', 'ModifyID', 'int', 80, NULL, '2022-08-17 23:20:22', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:38:35', 1, 550, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowStep', 89);
+INSERT INTO `Sys_TableColumn` VALUES (830, NULL, NULL, NULL, NULL, '', 'WorkFlowTable_Id', 'string', 110, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 1, 0, 1, 36, '超级管理员', '2022-08-17 23:40:13', 1, 1250, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (831, NULL, NULL, NULL, NULL, '流程id', 'WorkFlow_Id', 'string', 110, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, 36, '超级管理员', '2022-08-17 23:40:13', 1, 1200, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (832, NULL, NULL, NULL, NULL, '流程名称', 'WorkName', 'string', 180, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 200, '超级管理员', '2022-08-17 23:40:13', 1, 1150, NULL, NULL, 1, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (833, NULL, NULL, NULL, NULL, '表主键id', 'WorkTableKey', 'string', 180, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, 200, '超级管理员', '2022-08-17 23:40:13', 1, 1100, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (834, NULL, NULL, NULL, NULL, '表名', 'WorkTable', 'string', 120, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 200, '超级管理员', '2022-08-17 23:40:13', 1, 1050, NULL, NULL, 1, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (835, NULL, NULL, NULL, NULL, '业务名称', 'WorkTableName', 'string', 120, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 200, '超级管理员', '2022-08-17 23:40:13', 1, 1000, NULL, NULL, 1, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (836, NULL, NULL, NULL, NULL, '当前审批节点', 'CurrentOrderId', 'int', 110, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:40:13', 1, 950, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (837, NULL, NULL, NULL, NULL, '审批状态', 'AuditStatus', 'int', 110, NULL, '2022-08-17 23:21:04', 1, '超级管理员', 'audit', NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:40:13', 1, 900, NULL, NULL, 1, 'select', 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (838, NULL, NULL, NULL, NULL, '创建时间', 'CreateDate', 'DateTime', 110, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:40:13', 1, 850, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (839, NULL, NULL, NULL, NULL, '', 'CreateID', 'int', 80, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:40:13', 1, 800, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (840, NULL, NULL, NULL, NULL, '创建时间', 'Creator', 'string', 130, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, '超级管理员', '2022-08-17 23:40:13', 1, 750, NULL, NULL, 1, 'datetime', 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (841, NULL, NULL, NULL, NULL, '', 'Enable', 'sbyte', 110, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:40:13', 1, 700, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (842, NULL, NULL, NULL, NULL, '', 'Modifier', 'string', 130, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, '超级管理员', '2022-08-17 23:40:13', 1, 650, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (843, NULL, NULL, NULL, NULL, '', 'ModifyDate', 'DateTime', 110, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:40:13', 1, 600, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (844, NULL, NULL, NULL, NULL, '', 'ModifyID', 'int', 80, NULL, '2022-08-17 23:21:04', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:40:13', 1, 550, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTable', 90);
+INSERT INTO `Sys_TableColumn` VALUES (845, NULL, NULL, NULL, NULL, '', 'Sys_WorkFlowTableStep_Id', 'string', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 1, 0, 1, 36, '超级管理员', '2022-08-17 23:22:24', 1, 1500, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (846, NULL, NULL, NULL, NULL, '', 'Modifier', 'string', 130, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, '超级管理员', '2022-08-17 23:22:24', 1, 650, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (847, NULL, NULL, NULL, NULL, '', 'Enable', 'sbyte', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 700, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (848, NULL, NULL, NULL, NULL, '', 'Creator', 'string', 130, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 30, '超级管理员', '2022-08-17 23:22:24', 1, 750, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (849, NULL, NULL, NULL, NULL, '', 'CreateID', 'int', 80, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 800, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (850, NULL, NULL, NULL, NULL, '', 'CreateDate', 'DateTime', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 850, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (851, NULL, NULL, NULL, NULL, '', 'Remark', 'string', 220, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 500, '超级管理员', '2022-08-17 23:22:24', 1, 900, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (852, NULL, NULL, NULL, NULL, '审核时间', 'AuditDate', 'DateTime', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 950, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (853, NULL, NULL, NULL, NULL, '审核状态', 'AuditStatus', 'int', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 1000, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (854, NULL, NULL, NULL, NULL, '审核人', 'Auditor', 'string', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 50, '超级管理员', '2022-08-17 23:22:24', 1, 1050, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (855, NULL, NULL, NULL, NULL, '审核人id', 'AuditId', 'int', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 1100, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (856, NULL, NULL, NULL, NULL, '审批顺序', 'OrderId', 'int', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 1150, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (857, NULL, NULL, NULL, NULL, '节点类型(1=按用户审批,2=按角色审批,3=按部门审批 )', 'StepValue', 'int', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 1200, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (858, NULL, NULL, NULL, NULL, '审批类型', 'StepType', 'int', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 1250, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (859, NULL, NULL, NULL, NULL, '节名称', 'StepName', 'string', 180, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 200, '超级管理员', '2022-08-17 23:22:24', 1, 1300, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (860, NULL, NULL, NULL, NULL, '节点id', 'StepId', 'string', 120, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 100, '超级管理员', '2022-08-17 23:22:24', 1, 1350, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (861, NULL, NULL, NULL, NULL, '流程id', 'WorkFlow_Id', 'string', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, 36, '超级管理员', '2022-08-17 23:22:24', 1, 1400, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (862, NULL, NULL, NULL, NULL, '主表id', 'WorkFlowTable_Id', 'string', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 0, 0, 36, '超级管理员', '2022-08-17 23:22:24', 1, 1450, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (863, NULL, NULL, NULL, NULL, '', 'ModifyDate', 'DateTime', 110, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 600, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
+INSERT INTO `Sys_TableColumn` VALUES (864, NULL, NULL, NULL, NULL, '', 'ModifyID', 'int', 80, NULL, '2022-08-17 23:22:13', 1, '超级管理员', NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 0, 1, 0, NULL, '超级管理员', '2022-08-17 23:22:24', 1, 550, NULL, NULL, NULL, NULL, 0, 'Sys_WorkFlowTableStep', 91);
 
 -- ----------------------------
 -- Table structure for Sys_TableInfo
@@ -1587,7 +1757,7 @@ CREATE TABLE `Sys_TableInfo`  (
   `UploadField` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `UploadMaxCount` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`Table_Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 87 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 92 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_TableInfo
@@ -1598,13 +1768,12 @@ INSERT INTO `Sys_TableInfo` VALUES (4, '字典明细', '字典明细', NULL, NUL
 INSERT INTO `Sys_TableInfo` VALUES (5, '系统日志', '系统日志', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'System', 'VOL.System', NULL, 10, NULL, NULL, 'Sys_Log', 'Sys_Log', NULL, NULL);
 INSERT INTO `Sys_TableInfo` VALUES (6, NULL, '用户管理', NULL, NULL, NULL, NULL, NULL, 1, 'UserName', 'System', 'VOL.System', NULL, 8, NULL, '', 'Sys_User', 'Sys_User', 'HeadImageUrl', 1);
 INSERT INTO `Sys_TableInfo` VALUES (8, '用户基础信息', '用户基础信息', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'System', 'VOL.System', 200, 0, NULL, NULL, '无', NULL, NULL, NULL);
-INSERT INTO `Sys_TableInfo` VALUES (10, '日志管理', '日志管理', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'System', 'VOL.System', NULL, 0, NULL, '170', '日志管理', NULL, NULL, NULL);
+INSERT INTO `Sys_TableInfo` VALUES (10, '日志管理', '日志管理', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'System', 'VOL.System', NULL, 0, NULL, '170', '日志管理', '日志管理', NULL, NULL);
 INSERT INTO `Sys_TableInfo` VALUES (11, '配置管理', '配置管理', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'System', 'VOL.System', NULL, 0, NULL, '250', '配置管理', NULL, NULL, NULL);
 INSERT INTO `Sys_TableInfo` VALUES (15, '成交均价', '自动绑定下拉框', NULL, NULL, NULL, NULL, NULL, 1, 'AvgPrice', 'App', 'VOL.AppManager', NULL, 79, NULL, NULL, 'App_TransactionAvgPrice', 'App_TransactionAvgPrice', NULL, NULL);
 INSERT INTO `Sys_TableInfo` VALUES (16, NULL, '新增编辑表单', NULL, NULL, NULL, NULL, NULL, 1, 'Price', 'App', 'VOL.AppManager', NULL, 79, NULL, NULL, 'App_ReportPrice', NULL, NULL, NULL);
 INSERT INTO `Sys_TableInfo` VALUES (19, NULL, '导入导出', NULL, NULL, NULL, NULL, NULL, 1, 'Name', 'App', 'VOL.AppManager', NULL, 79, NULL, NULL, 'App_Transaction', 'App_Transaction', NULL, NULL);
 INSERT INTO `Sys_TableInfo` VALUES (20, NULL, '启用图片支持', NULL, NULL, NULL, NULL, NULL, 1, 'UserName', 'App', 'VOL.AppManager', NULL, 79, NULL, NULL, 'App_Expert', NULL, 'HeadImageUrl', 1);
-INSERT INTO `Sys_TableInfo` VALUES (27, '侩牛资讯', '静态页面发布', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'News', 'VOL.AppManager', NULL, 0, NULL, NULL, '侩牛资讯', NULL, NULL, NULL);
 INSERT INTO `Sys_TableInfo` VALUES (28, NULL, '新闻列表', NULL, NULL, NULL, NULL, NULL, 1, 'Title', 'News', 'VOL.AppManager', NULL, 27, 'Content', 'CreateDate', 'App_News', 'App_News', 'ImageUrl', 3);
 INSERT INTO `Sys_TableInfo` VALUES (76, '订单管理', '测试完整示例', NULL, NULL, NULL, NULL, NULL, 1, NULL, '订单管理', 'VOL.Order', NULL, 0, NULL, NULL, '订单管理', NULL, NULL, NULL);
 INSERT INTO `Sys_TableInfo` VALUES (77, '销售订单', '销售订单', NULL, NULL, '订单明细', 'SellOrderList', NULL, 1, 'TranNo', 'Sell', 'VOL.Order', NULL, 76, NULL, 'CreateDate', 'SellOrder', 'SellOrder', NULL, NULL);
@@ -1615,8 +1784,11 @@ INSERT INTO `Sys_TableInfo` VALUES (83, '表单设计', '表单设计', NULL, NU
 INSERT INTO `Sys_TableInfo` VALUES (84, '表单设计', '表单设计', NULL, NULL, NULL, '', NULL, 1, 'Title', 'form', 'VOL.System', NULL, 83, NULL, 'CreateDate', 'FormDesignOptions', 'FormDesignOptions', NULL, NULL);
 INSERT INTO `Sys_TableInfo` VALUES (85, '数据采集', '数据采集', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'form', 'VOL.System', NULL, 83, NULL, 'CreateDate', 'FormCollectionObject', 'FormCollectionObject', NULL, NULL);
 INSERT INTO `Sys_TableInfo` VALUES (86, 'test', 'test', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'test', 'VOL.System', NULL, 10, NULL, NULL, 'Sys_Log111', NULL, NULL, NULL);
-
-SET FOREIGN_KEY_CHECKS = 1;
+INSERT INTO `Sys_TableInfo` VALUES (87, '审批流程', '审批流程', NULL, NULL, NULL, NULL, NULL, 1, NULL, '审批流程', 'VOL.System', NULL, 0, NULL, NULL, '审批流程', NULL, NULL, NULL);
+INSERT INTO `Sys_TableInfo` VALUES (88, '审批流程配置', '审批流程配置', NULL, NULL, '审批步骤', 'Sys_WorkFlowStep', NULL, 1, 'WorkName', 'flow', 'VOL.System', NULL, 87, NULL, 'CreateDate', 'Sys_WorkFlow', 'Sys_WorkFlow', NULL, NULL);
+INSERT INTO `Sys_TableInfo` VALUES (89, '审批节点配置', '审批节点配置', NULL, NULL, '', NULL, NULL, 1, NULL, 'flow', 'VOL.System', NULL, 87, NULL, 'CreateDate', 'Sys_WorkFlowStep', 'Sys_WorkFlowStep', NULL, NULL);
+INSERT INTO `Sys_TableInfo` VALUES (90, '审批流程', '审批流程', NULL, NULL, '审批节点', 'Sys_WorkFlowTableStep', NULL, 1, NULL, 'flow', 'VOL.System', NULL, 87, NULL, 'CreateDate', 'Sys_WorkFlowTable', 'Sys_WorkFlowTable', NULL, NULL);
+INSERT INTO `Sys_TableInfo` VALUES (91, '审批节点', '审批节点', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'flow', 'VOL.System', NULL, 87, NULL, 'CreateDate', 'Sys_WorkFlowTableStep', 'Sys_WorkFlowTableStep', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_User
@@ -1656,131 +1828,152 @@ CREATE TABLE `Sys_User`  (
   `UserTrueName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Token` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`User_Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3379 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 3380 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of Sys_User
 -- ----------------------------
-INSERT INTO `Sys_User` VALUES (1, '北京市西城区', 0, '2019-08-18 00:54:06', 1, '超级管理员', '2012-06-10 11:10:03', NULL, NULL, NULL, 0, '283591387@qq.com', 1, 1, 'Upload/Tables/Sys_User/202006191408112343/1111s.jpg', 0, '2017-08-28 09:58:55', '2019-12-14 15:13:49', NULL, '超级管理员', '2020-06-19 14:08:12', 1, 0, 1, '超级管理员', '13888888888', '~还没想好...', NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', '超级管理员', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTY0MTIwODc0MSIsIm5iZiI6IjE2NDEyMDg3NDEiLCJleHAiOiIxNjQxMjE1OTQxIiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9._rhE6MTMaMzote4Z2QFZcvH7D80AFVsVAf34r6EkqIw');
-INSERT INTO `Sys_User` VALUES (3362, '北京市还没注册', NULL, '2019-08-18 00:54:06', 1, '超级管理员', '2019-08-13 14:24:27', NULL, NULL, NULL, NULL, NULL, 1, 0, 'Upload/Tables/Sys_User/202004241341311851/04.jpg', 0, NULL, '2019-09-22 23:12:33', '01012345678', '超级管理员', '2021-01-27 12:53:41', 1, NULL, 2, '测试管理员', NULL, NULL, NULL, 'admin666', 'j79rYYvCz4vdhcboB1Ausg==', '演示帐号', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzYyIiwiaWF0IjoiMTY0MTIwOTg2MiIsIm5iZiI6IjE2NDEyMDk4NjIiLCJleHAiOiIxNjQxMjE3MDYyIiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.Z7Ay5SL2GGE16DuB9eI0pvqYH3jQ__U47e5nuwX5Jfw');
-INSERT INTO `Sys_User` VALUES (3378, NULL, NULL, NULL, NULL, NULL, '2021-09-27 15:50:22', 1, '超级管理员', NULL, NULL, NULL, 0, 0, 'Upload/Tables/Sys_User/202109271550212214/12313.jpg', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, '小编', NULL, NULL, NULL, 'Admin888', 'N4GbASgPLeXypdPhgxiVcQ==', 'Admin888', NULL);
-
-SET FOREIGN_KEY_CHECKS = 1;
-INSERT Sys_Menu (MenuName, Auth, Icon, Description, Enable, OrderNo, TableName,
- ParentId, Url, CreateDate, Creator, ModifyDate, Modifier, MenuType)
-  VALUES ( '消息推送', '{"text":"查询","value":"Search"}', N'el-icon-chat-line-round', NULL, 1, 1700, '.', 0, '/signalR',
-   '2022-05-04 12:00', N'超级管理员', null, '超级管理员', 0);
-   
-ALTER TABLE Sys_Menu ADD MenuType INT;
+INSERT INTO `Sys_User` VALUES (1, '北京市西城区', 0, '2019-08-18 00:54:06', 1, '超级管理员', '2012-06-10 11:10:03', NULL, NULL, NULL, 0, '283591387@qq.com', 1, 1, 'Upload/Tables/Sys_User/202006191408112343/1111s.jpg', 0, '2017-08-28 09:58:55', '2019-12-14 15:13:49', NULL, '超级管理员', '2020-06-19 14:08:12', 1, 0, 1, '超级管理员', '13888888888', '~还没想好...', NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', '超级管理员', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTY2MDg5NjEwNiIsIm5iZiI6IjE2NjA4OTYxMDYiLCJleHAiOiIxNjYwOTAzMzA2IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.6XVriAuqB2hkthnhC0pwWupJCKLQBz8XLVqHIhLUaX0');
+INSERT INTO `Sys_User` VALUES (3362, '北京市还没注册', NULL, '2019-08-18 00:54:06', 1, '超级管理员', '2019-08-13 14:24:27', NULL, NULL, NULL, NULL, NULL, 1, 0, 'Upload/Tables/Sys_User/202004241341311851/04.jpg', 0, NULL, '2019-09-22 23:12:33', '01012345678', '超级管理员', '2021-01-27 12:53:41', 1, NULL, 2, '测试管理员', NULL, NULL, NULL, 'admin666', 'j79rYYvCz4vdhcboB1Ausg==', '演示帐号', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzYyIiwiaWF0IjoiMTY2MDg5NTY1MiIsIm5iZiI6IjE2NjA4OTU2NTIiLCJleHAiOiIxNjYzNDg3NjUyIiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.h2-MxpKITk_YN7wkQMNQgZok_ioP5o-bY_PR0MPbT9U');
+INSERT INTO `Sys_User` VALUES (3378, NULL, NULL, NULL, NULL, NULL, '2021-09-27 15:50:22', 1, '超级管理员', NULL, NULL, NULL, 0, 0, 'Upload/Tables/Sys_User/202109271550212214/12313.jpg', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '小编', NULL, NULL, NULL, 'Admin888', 'al7ulHECMmQ_i6lA3dPKlg==', 'Admin888', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzc4IiwiaWF0IjoiMTY0NTQxODQ0NyIsIm5iZiI6IjE2NDU0MTg0NDciLCJleHAiOiIxNjQ1NDI1NjQ3IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.mbKyMF6dQMZEmOjnRy8MZwXjz3jsm2DsejSrkFWD3B4');
 
 -- ----------------------------
 -- Table structure for Sys_WorkFlow
 -- ----------------------------
+DROP TABLE IF EXISTS `Sys_WorkFlow`;
 CREATE TABLE `Sys_WorkFlow`  (
-  `WorkFlow_Id` char(36) NOT NULL,
-  `WorkName` varchar(200) NOT NULL COMMENT '流程名称',
-  `WorkTable` varchar(200) NOT NULL COMMENT '表名',
-  `WorkTableName` varchar(200) NULL COMMENT '功能菜单',
-  `NodeConfig` longtext NULL COMMENT '节点信息',
-  `LineConfig` longtext NULL COMMENT '连接配置',
-  `Remark` text NULL COMMENT '备注',
-  `CreateDate` datetime NULL,
-  `CreateID` int NULL,
-  `Creator` varchar(30) NULL,
-  `Enable` tinyint NULL,
-  `Modifier` varchar(30) NULL,
-  `ModifyDate` datetime NULL,
-  `ModifyID` int NULL,
-  PRIMARY KEY (`WorkFlow_Id`)
-);
+  `WorkFlow_Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `WorkName` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程名称',
+  `WorkTable` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表名',
+  `WorkTableName` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '功能菜单',
+  `NodeConfig` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '节点信息',
+  `LineConfig` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '连接配置',
+  `Remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `CreateDate` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `CreateID` int(11) NULL DEFAULT NULL,
+  `Creator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `Enable` tinyint(4) NULL DEFAULT NULL COMMENT '是否启用',
+  `Modifier` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ModifyDate` datetime(0) NULL DEFAULT NULL,
+  `ModifyID` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`WorkFlow_Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of Sys_WorkFlow
 -- ----------------------------
-BEGIN;
-COMMIT;
+INSERT INTO `Sys_WorkFlow` VALUES ('c016fa5e-6f44-4d59-a929-7391e82caf18', '订单流程测试', 'SellOrder', '销售订单', '[{\"id\":\"1659276275052\",\"name\":\"流程-节点A\",\"type\":\"task\",\"left\":\"230px\",\"top\":\"15px\",\"ico\":\"el-icon-user-solid\",\"nodeType\":\"1\",\"userId\":1,\"roleId\":null},{\"id\":\"1659276282115\",\"name\":\"流程-节点B\",\"type\":\"task\",\"left\":\"228px\",\"top\":\"127px\",\"ico\":\"el-icon-goods\",\"nodeType\":\"1\",\"userId\":3362,\"roleId\":null},{\"id\":\"l0om4eidz\",\"name\":\"流程-节点C\",\"type\":\"timer\",\"left\":\"226px\",\"top\":\"243.25px\",\"ico\":\"el-icon-plus\",\"state\":\"success\",\"nodeType\":\"1\",\"userId\":3378,\"roleId\":null}]', '[{\"from\":\"1659276275052\",\"to\":\"1659276282115\"},{\"from\":\"1659276282115\",\"to\":\"l0om4eidz\"}]', '订单流程测试', '2022-08-15 05:00:03', 1, '超级管理员', 0, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlow` VALUES ('d3445da2-043f-4c8b-943a-0c8a8f92d4b5', '流程测试', 'App_Expert', '启用图片支持', '[{\"id\":\"1659276275052\",\"name\":\"流程C-节点A\",\"type\":\"task\",\"left\":\"46px\",\"top\":\"28px\",\"ico\":\"el-icon-user-solid\",\"nodeType\":\"1\",\"userId\":1,\"roleId\":null},{\"id\":\"1659276282115\",\"name\":\"流程C-节点B\",\"type\":\"task\",\"left\":\"61px\",\"top\":\"195px\",\"ico\":\"el-icon-goods\",\"nodeType\":\"1\",\"userId\":1,\"roleId\":null},{\"id\":\"txpo1vyv8u\",\"name\":\"添加节点\",\"type\":\"timer\",\"left\":\"266px\",\"top\":\"99px\",\"ico\":\"el-icon-plus\",\"state\":\"success\",\"stepValue\":null,\"nodeType\":1,\"userId\":3362,\"roleId\":null,\"deptId\":null},{\"id\":\"yshtxdrq9u\",\"name\":\"添加节点1\",\"type\":\"timer\",\"left\":\"498px\",\"top\":\"200px\",\"ico\":\"el-icon-plus\",\"state\":\"success\",\"stepValue\":null,\"nodeType\":1,\"userId\":3378,\"roleId\":null,\"deptId\":null},{\"id\":\"64q19orr1h\",\"name\":\"添加节点2\",\"type\":\"timer\",\"left\":\"515px\",\"top\":\"39px\",\"ico\":\"el-icon-plus\",\"state\":\"success\",\"stepValue\":null,\"nodeType\":1,\"userId\":1,\"roleId\":null,\"deptId\":null}]', '[{\"from\":\"1659276275052\",\"to\":\"1659276282115\"},{\"from\":\"1659276282115\",\"to\":\"txpo1vyv8u\"},{\"from\":\"txpo1vyv8u\",\"to\":\"yshtxdrq9u\"},{\"from\":\"yshtxdrq9u\",\"to\":\"64q19orr1h\"}]', '流程测试', '2022-08-15 05:02:05', 1, '超级管理员', 0, '超级管理员', '2022-08-17 00:30:38', 1);
 
 -- ----------------------------
 -- Table structure for Sys_WorkFlowStep
 -- ----------------------------
+DROP TABLE IF EXISTS `Sys_WorkFlowStep`;
 CREATE TABLE `Sys_WorkFlowStep`  (
-  `WorkStepFlow_Id` char(36) NOT NULL,
-  `WorkFlow_Id` char(36) NULL COMMENT '流程主表id',
-  `StepId` varchar(100) NULL COMMENT '流程节点Id',
-  `StepName` varchar(200) NULL COMMENT '节点名称',
-  `StepType` int NULL COMMENT '节点类型(1=按用户审批,2=按角色审批)',
-  `StepValue` int NULL COMMENT '审批用户id或角色id',
-  `OrderId` int NULL,
-  `Remark` text NULL COMMENT '备注',
-  `CreateDate` datetime NULL,
-  `CreateID` int NULL,
-  `Creator` varchar(30) NULL,
-  `Enable` tinyint NULL,
-  `Modifier` varchar(30) NULL,
-  `ModifyDate` datetime NULL,
-  `ModifyID` int NULL,
-  PRIMARY KEY (`WorkStepFlow_Id`)
-);
+  `WorkStepFlow_Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `WorkFlow_Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '流程主表id',
+  `StepId` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '流程节点Id',
+  `StepName` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '节点名称',
+  `StepType` int(11) NULL DEFAULT NULL COMMENT '节点类型(1=按用户审批,2=按角色审批,3=按部门审批)',
+  `StepValue` int(11) NULL DEFAULT NULL COMMENT '审批用户id或角色id、部门id',
+  `OrderId` int(11) NULL DEFAULT NULL COMMENT '审批顺序',
+  `Remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `CreateDate` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `CreateID` int(11) NULL DEFAULT NULL,
+  `Creator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `Enable` tinyint(4) NULL DEFAULT NULL,
+  `Modifier` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ModifyDate` datetime(0) NULL DEFAULT NULL,
+  `ModifyID` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`WorkStepFlow_Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of Sys_WorkFlowStep
 -- ----------------------------
-BEGIN;
-COMMIT;
+INSERT INTO `Sys_WorkFlowStep` VALUES ('08da7e37-f54f-4d01-841c-fd9981caf52c', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '1659276275052', '流程-节点A', 1, 1, 1, NULL, '2022-08-15 05:00:03', 1, '超级管理员', NULL, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowStep` VALUES ('08da7e37-f54f-4d43-8759-ea887bb9ad66', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '1659276282115', '流程-节点B', 1, 3362, 2, NULL, '2022-08-15 05:00:03', 1, '超级管理员', NULL, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowStep` VALUES ('08da7e37-f54f-4d6a-8e9b-5a067e559d4c', 'c016fa5e-6f44-4d59-a929-7391e82caf18', 'l0om4eidz', '流程-节点C', 1, 3378, 3, NULL, '2022-08-15 05:00:03', 1, '超级管理员', NULL, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowStep` VALUES ('08da7e38-3e0b-48c7-8c31-702b73e9d97e', 'd3445da2-043f-4c8b-943a-0c8a8f92d4b5', '1659276275052', '流程C-节点A', 1, 1, 1, NULL, '2022-08-15 05:02:05', 1, '超级管理员', NULL, '超级管理员', '2022-08-17 00:30:38', 1);
+INSERT INTO `Sys_WorkFlowStep` VALUES ('08da7e38-3e0b-48ef-8010-b941874857b5', 'd3445da2-043f-4c8b-943a-0c8a8f92d4b5', '1659276282115', '流程C-节点B', 1, 1, 2, NULL, '2022-08-15 05:02:05', 1, '超级管理员', NULL, '超级管理员', '2022-08-17 00:30:38', 1);
+INSERT INTO `Sys_WorkFlowStep` VALUES ('257cb391-4b84-41eb-b8db-d38c6dde4e9c', 'd3445da2-043f-4c8b-943a-0c8a8f92d4b5', 'txpo1vyv8u', '添加节点', 1, 3362, 3, NULL, '2022-08-17 00:30:38', 1, '超级管理员', NULL, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowStep` VALUES ('a6b7408c-9dc4-422d-8d98-c9a5660f579a', 'd3445da2-043f-4c8b-943a-0c8a8f92d4b5', 'yshtxdrq9u', '添加节点1', 1, 3378, 4, NULL, '2022-08-17 00:30:38', 1, '超级管理员', NULL, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowStep` VALUES ('ee385e1c-d78a-4eb8-9539-661822dcbfb8', 'd3445da2-043f-4c8b-943a-0c8a8f92d4b5', '64q19orr1h', '添加节点2', 1, 1, 5, NULL, '2022-08-17 00:30:38', 1, '超级管理员', NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_WorkFlowTable
 -- ----------------------------
+DROP TABLE IF EXISTS `Sys_WorkFlowTable`;
 CREATE TABLE `Sys_WorkFlowTable`  (
-  `WorkFlowTable_Id` char(36) NOT NULL,
-  `WorkFlow_Id` char(36) NULL,
-  `WorkName` varchar(200) NULL,
-  `WorkTableKey` varchar(200) NULL COMMENT '表主键id',
-  `WorkTable` varchar(200) NULL COMMENT '表名',
-  `WorkTableName` varchar(200) NULL COMMENT '表中文名',
-  `CurrentOrderId` int NULL,
-  `AuditStatus` int NULL,
-  `CreateDate` datetime NULL,
-  `CreateID` int NULL,
-  `Creator` varchar(30) NULL,
-  `Enable` tinyint NULL,
-  `Modifier` varchar(30) NULL,
-  `ModifyDate` datetime NULL,
-  `ModifyID` int NULL,
-  PRIMARY KEY (`WorkFlowTable_Id`)
-);
+  `WorkFlowTable_Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `WorkFlow_Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '流程id',
+  `WorkName` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '流程名称',
+  `WorkTableKey` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '表主键id',
+  `WorkTable` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '表名',
+  `WorkTableName` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '业务名称',
+  `CurrentOrderId` int(11) NULL DEFAULT NULL COMMENT '当前审批节点',
+  `AuditStatus` int(11) NULL DEFAULT NULL COMMENT '审批状态',
+  `CreateDate` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `CreateID` int(11) NULL DEFAULT NULL,
+  `Creator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建时间',
+  `Enable` tinyint(4) NULL DEFAULT NULL,
+  `Modifier` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ModifyDate` datetime(0) NULL DEFAULT NULL,
+  `ModifyID` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`WorkFlowTable_Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of Sys_WorkFlowTable
 -- ----------------------------
-BEGIN;
-COMMIT;
+INSERT INTO `Sys_WorkFlowTable` VALUES ('460b5903-4ff2-4f84-a88f-bbbf473942ec', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '订单流程测试', 'ec217c01-42a2-435f-bdb6-70613b947bf9', 'SellOrder', '销售订单', 2, 1, '2022-08-15 05:01:04', 1, '超级管理员', 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTable` VALUES ('8abd4a91-fad8-466f-9fe4-6524188ef4c9', 'd3445da2-043f-4c8b-943a-0c8a8f92d4b5', '流程油荒', '287', 'App_Expert', '启用图片支持', 1, 0, '2022-08-15 05:02:14', 1, '超级管理员', 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTable` VALUES ('a251f602-f8d1-4399-8429-48d3349ad210', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '订单流程测试', '978ad775-77c0-49ca-be31-ba36bb6f8af8', 'SellOrder', '销售订单', 1, 0, '2022-08-17 23:27:48', 1, '超级管理员', 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTable` VALUES ('b4d10013-8297-421f-aad4-3147fdac2450', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '订单流程测试', '47e41e06-cb4a-4763-9aeb-df66cd6615e1', 'SellOrder', '销售订单', 2, 0, '2022-08-16 02:03:17', 1, '超级管理员', 1, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_WorkFlowTableStep
 -- ----------------------------
+DROP TABLE IF EXISTS `Sys_WorkFlowTableStep`;
 CREATE TABLE `Sys_WorkFlowTableStep`  (
-  `Sys_WorkFlowTableStep_Id` char(36) NOT NULL,
-  `WorkFlowTable_Id` char(36) NOT NULL,
-  `WorkFlow_Id` char(36) NULL,
-  `StepId` varchar(100) NULL,
-  `StepName` varchar(200) NULL,
-  `StepType` int NULL,
-  `StepValue` int NULL,
-  `OrderId` int NULL,
-  `AuditId` int NULL COMMENT '审核人id',
-  `Auditor` varchar(50) NULL COMMENT '审核人',
-  `AuditStatus` int NULL COMMENT '审核状态',
-  `AuditDate` datetime NULL,
-  `Remark` text NULL,
-  `CreateDate` datetime NULL,
-  `CreateID` int NULL,
-  `Creator` varchar(30) NULL,
-  `Enable` tinyint NULL,
-  `Modifier` varchar(30) NULL,
-  `ModifyDate` datetime NULL,
-  `ModifyID` int NULL,
-  PRIMARY KEY (`Sys_WorkFlowTableStep_Id`)
-);
+  `Sys_WorkFlowTableStep_Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `WorkFlowTable_Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主表id',
+  `WorkFlow_Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '流程id',
+  `StepId` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '节点id',
+  `StepName` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '节名称',
+  `StepType` int(11) NULL DEFAULT NULL COMMENT '审批类型',
+  `StepValue` int(11) NULL DEFAULT NULL COMMENT '节点类型(1=按用户审批,2=按角色审批,3=按部门审批 )',
+  `OrderId` int(11) NULL DEFAULT NULL COMMENT '审批顺序',
+  `AuditId` int(11) NULL DEFAULT NULL COMMENT '审核人id',
+  `Auditor` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '审核人',
+  `AuditStatus` int(11) NULL DEFAULT NULL COMMENT '审核状态',
+  `AuditDate` datetime(0) NULL DEFAULT NULL COMMENT '审核时间',
+  `Remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `CreateDate` datetime(0) NULL DEFAULT NULL,
+  `CreateID` int(11) NULL DEFAULT NULL,
+  `Creator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `Enable` tinyint(4) NULL DEFAULT NULL,
+  `Modifier` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ModifyDate` datetime(0) NULL DEFAULT NULL,
+  `ModifyID` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`Sys_WorkFlowTableStep_Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of Sys_WorkFlowTableStep
+-- ----------------------------
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('02e50a7c-e04b-41cd-a8cf-6224b77a9c1b', '8abd4a91-fad8-466f-9fe4-6524188ef4c9', 'd3445da2-043f-4c8b-943a-0c8a8f92d4b5', '1659276282115', '流程C-节点B', 1, 1, 2, 1, NULL, NULL, NULL, NULL, '2022-08-15 05:02:14', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('136b08e5-1fb5-4a07-8d7f-6f78d09c2685', '460b5903-4ff2-4f84-a88f-bbbf473942ec', 'c016fa5e-6f44-4d59-a929-7391e82caf18', 'l0om4eidz', '流程-节点C', 1, 3378, 3, 3378, NULL, NULL, NULL, NULL, '2022-08-15 05:01:04', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('1ac547df-27cf-4eb4-9ad6-37881ef671cc', 'a251f602-f8d1-4399-8429-48d3349ad210', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '1659276282115', '流程-节点B', 1, 3362, 2, 3362, NULL, NULL, NULL, NULL, '2022-08-17 23:27:48', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('1c75af0d-96ea-4777-8f1b-98a8ba168d89', '8abd4a91-fad8-466f-9fe4-6524188ef4c9', 'd3445da2-043f-4c8b-943a-0c8a8f92d4b5', '1659276275052', '流程C-节点A', 1, 1, 1, 1, NULL, NULL, NULL, NULL, '2022-08-15 05:02:14', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('21c8252a-15a3-4435-a6ca-0dbee4474bba', 'b4d10013-8297-421f-aad4-3147fdac2450', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '1659276275052', '流程-节点A', 1, 1, 1, 1, '超级管理员', 1, '2022-08-16 02:03:38', '审批通过测试', '2022-08-16 02:03:17', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('521f23e3-6d5d-4a9d-8e67-a289440f7ecd', 'a251f602-f8d1-4399-8429-48d3349ad210', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '1659276275052', '流程-节点A', 1, 1, 1, 1, NULL, NULL, NULL, NULL, '2022-08-17 23:27:48', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('81856e1e-9796-4ceb-8b8a-36b201604e25', '460b5903-4ff2-4f84-a88f-bbbf473942ec', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '1659276275052', '流程-节点A', 1, 1, 1, 1, '超级管理员', 1, '2022-08-15 05:13:51', '1', '2022-08-15 05:01:04', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('83485f9f-119b-4344-a26a-22a1f4a3760e', 'b4d10013-8297-421f-aad4-3147fdac2450', 'c016fa5e-6f44-4d59-a929-7391e82caf18', 'l0om4eidz', '流程-节点C', 1, 3378, 3, 3378, NULL, NULL, NULL, NULL, '2022-08-16 02:03:17', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('d9a0f59c-7b3e-4099-84a5-2b3c74414b46', 'a251f602-f8d1-4399-8429-48d3349ad210', 'c016fa5e-6f44-4d59-a929-7391e82caf18', 'l0om4eidz', '流程-节点C', 1, 3378, 3, 3378, NULL, NULL, NULL, NULL, '2022-08-17 23:27:48', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('e623c47c-e0f5-4052-a2be-baf857784499', '460b5903-4ff2-4f84-a88f-bbbf473942ec', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '1659276282115', '流程-节点B', 1, 3362, 2, 3362, NULL, NULL, NULL, NULL, '2022-08-15 05:01:04', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `Sys_WorkFlowTableStep` VALUES ('f92d5a23-f572-446e-a3e4-e6063ee6dcdf', 'b4d10013-8297-421f-aad4-3147fdac2450', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '1659276282115', '流程-节点B', 1, 3362, 2, 3362, NULL, NULL, NULL, NULL, '2022-08-16 02:03:17', NULL, NULL, 1, NULL, NULL, NULL);
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 set global local_infile = 'ON';
