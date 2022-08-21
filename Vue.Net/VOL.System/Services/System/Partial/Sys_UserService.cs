@@ -254,14 +254,13 @@ namespace VOL.System.Services
             base.AddOnExecute = (SaveModel userModel) =>
             {
                 int roleId = userModel?.MainData?["Role_Id"].GetInt() ?? 0;
-                if (roleId > 0)
+                if (roleId > 0 && !UserContext.Current.IsSuperAdmin)
                 {
                     string roleName = GetChildrenName(roleId);
-                    if ((!UserContext.Current.IsSuperAdmin && roleId == 1) || string.IsNullOrEmpty(roleName))
+                    if ((roleId == 1) || string.IsNullOrEmpty(roleName))
                         return responseData.Error("不能选择此角色");
-                    //选择新建的角色ID，手动添加角色ID的名称
-                    userModel.MainData["RoleName"] = roleName;
                 }
+                userModel.MainData["RoleName"] = "";
                 return responseData.OK();
             };
 
@@ -297,21 +296,25 @@ namespace VOL.System.Services
         {
             base.DelOnExecuting = (object[] ids) =>
             {
-                int[] userIds = ids.Select(x => Convert.ToInt32(x)).ToArray();
-                //校验只能删除当前角色下能看到的用户
-                var xxx = repository.Find(x => userIds.Contains(x.User_Id));
-                var delUserIds = repository.Find(x => userIds.Contains(x.User_Id), s => new { s.User_Id, s.Role_Id, s.UserTrueName });
-                List<int> roleIds = Sys_RoleService
-                   .Instance
-                   .GetAllChildrenRoleId(UserContext.Current.RoleId);
-
-                string[] userNames = delUserIds.Where(x => !roleIds.Contains(x.Role_Id))
-                 .Select(s => s.UserTrueName)
-                 .ToArray();
-                if (userNames.Count() > 0)
+                if (!UserContext.Current.IsSuperAdmin)
                 {
-                    return new WebResponseContent().Error($"没有权限删除用户：{string.Join(',', userNames)}");
+                    int[] userIds = ids.Select(x => Convert.ToInt32(x)).ToArray();
+                    //校验只能删除当前角色下能看到的用户
+                    var xxx = repository.Find(x => userIds.Contains(x.User_Id));
+                    var delUserIds = repository.Find(x => userIds.Contains(x.User_Id), s => new { s.User_Id, s.Role_Id, s.UserTrueName });
+                    List<int> roleIds = Sys_RoleService
+                       .Instance
+                       .GetAllChildrenRoleId(UserContext.Current.RoleId);
+
+                    string[] userNames = delUserIds.Where(x => !roleIds.Contains(x.Role_Id))
+                     .Select(s => s.UserTrueName)
+                     .ToArray();
+                    if (userNames.Count() > 0)
+                    {
+                        return new WebResponseContent().Error($"没有权限删除用户：{string.Join(',', userNames)}");
+                    }
                 }
+
                 return new WebResponseContent().OK();
             };
             base.DelOnExecuted = (object[] userIds) =>
@@ -346,18 +349,21 @@ namespace VOL.System.Services
             //禁止修改用户名
             base.UpdateOnExecute = (SaveModel saveInfo) =>
             {
-                int roleId = saveModel.MainData["Role_Id"].GetInt();
-                string roleName = GetChildrenName(roleId);
-                saveInfo.MainData.TryAdd("RoleName", roleName);
-                if (UserContext.IsRoleIdSuperAdmin(userInfo.Role_Id))
+                if (!UserContext.Current.IsSuperAdmin)
                 {
-                    if (userInfo.Role_Id == roleId)
+                    int roleId = saveModel.MainData["Role_Id"].GetInt();
+                    string roleName = GetChildrenName(roleId);
+                    saveInfo.MainData.TryAdd("RoleName", roleName);
+                    if (UserContext.IsRoleIdSuperAdmin(userInfo.Role_Id))
                     {
-                        saveInfo.MainData["RoleName"] = userInfo.RoleName;
+                        if (userInfo.Role_Id == roleId)
+                        {
+                            saveInfo.MainData["RoleName"] = userInfo.RoleName;
+                        }
+                        return responseContent.OK();
                     }
-                    return responseContent.OK();
+                    if (string.IsNullOrEmpty(roleName)) return responseContent.Error("不能选择此角色");
                 }
-                if (string.IsNullOrEmpty(roleName)) return responseContent.Error("不能选择此角色");
 
                 return responseContent.OK();
             };
