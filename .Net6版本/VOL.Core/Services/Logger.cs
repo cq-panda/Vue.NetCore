@@ -230,7 +230,7 @@ namespace VOL.Core.Services
             log.ServiceIP = context.Connection.LocalIpAddress.MapToIPv4().ToString() + ":" + context.Connection.LocalPort;
 
             log.BrowserType = context.Request.Headers["User-Agent"];
-            if (log.BrowserType.Length > 190)
+            if (log.BrowserType.Length>190)
             {
                 log.BrowserType = log.BrowserType.Substring(0, 190);
             }

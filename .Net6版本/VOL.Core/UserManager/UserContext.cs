@@ -94,6 +94,8 @@ namespace VOL.Core.ManageUser
                     User_Id = userId,
                     Role_Id = s.Role_Id.GetInt(),
                     RoleName = s.RoleName,
+                    //2022.08.15增加部门id
+                    DeptId = s.Dept_Id??0,
                     Token = s.Token,
                     UserName = s.UserName,
                     UserTrueName = s.UserTrueName,

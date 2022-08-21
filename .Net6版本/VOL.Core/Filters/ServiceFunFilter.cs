@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using VOL.Core.Enums;
 using VOL.Core.Utilities;
+using VOL.Core.WorkFlow;
 using VOL.Entity.DomainModels;
 
 namespace VOL.Core.Filters
@@ -116,6 +117,17 @@ namespace VOL.Core.Filters
         protected Func<T, object, WebResponseContent> AddOnExecuted;
 
         /// <summary>
+        /// 进入审批流程方法之前
+        /// </summary>
+        protected Func<T, bool> AddWorkFlowExecuting;
+
+        /// <summary>
+        /// 写入审批流程数据之后
+        /// list:审批的人id
+        /// </summary>
+        protected Action<T,List<int>> AddWorkFlowExecuted;
+
+        /// <summary>
         /// 调用更新方法前处理(SaveModel为传入的原生数据)
         /// </summary>
         protected Func<SaveModel, WebResponseContent> UpdateOnExecute;
@@ -162,6 +174,24 @@ namespace VOL.Core.Filters
         /// 审核后处理
         /// </summary>
         protected Func<List<T>, WebResponseContent> AuditOnExecuted;
+
+
+        /// <summary>
+        /// 审批流程审核前
+        /// T:当前审核的数据
+        /// AuditStatus:审核状态
+        /// bool:当前数据是否为最后一个人审核
+        /// </summary>
+        protected Func<T, AuditStatus, bool, WebResponseContent> AuditWorkFlowExecuting;
+
+        /// <summary>
+        /// 审批流程审核后
+        /// T:当前审核的数据
+        /// AuditStatus:审核状态
+        /// list:下一个节点的审批人id
+        /// bool:当前数据是否为最后一个人审核
+        /// </summary>
+        protected Func<T, AuditStatus,List<int>, bool, WebResponseContent> AuditWorkFlowExecuted;
 
         /// <summary>
         ///导出前处理,DataTable导出的表数据
