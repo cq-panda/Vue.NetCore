@@ -9,7 +9,7 @@
     :rules="rules"
   >
     <template v-for="(row, findex) in formRules" :key="findex">
-      <div style="width: 100%">
+      <div class="vol-form-item">
         <el-form-item
           :label="item.title ? item.title + '：' : ''"
           v-show="!item.hidden"
@@ -69,8 +69,8 @@
             <el-select
               :disabled="item.readonly || item.disabled"
               v-show="!item.hidden"
-              size="medium"
               style="width: 100%"
+              :size="size"
               v-else-if="['select', 'selectList'].indexOf(item.type) != -1"
               v-model="formFields[item.field]"
               filterable
@@ -122,9 +122,13 @@
               v-else-if="item.type == 'radio'"
               @change="item.onChange"
             >
-              <el-radio v-for="kv in item.data" :key="kv.key" :label="kv.key">{{
-                kv.value
-              }}</el-radio>
+              <el-radio
+                v-for="kv in item.data"
+                :disabled="item.readonly || item.disabled"
+                :key="kv.key"
+                :label="kv.key"
+                >{{ kv.value }}</el-radio
+              >
             </el-radio-group>
 
             <el-checkbox-group
@@ -137,6 +141,7 @@
               <el-checkbox
                 v-for="kv in item.data"
                 :key="kv.key"
+                :disabled="item.readonly || item.disabled"
                 :label="kv.key"
                 >{{ kv.value }}</el-checkbox
               >
@@ -149,14 +154,13 @@
               "
             >
               <el-date-picker
-                size="medium"
+                :size="size"
                 :disabled="item.readonly || item.disabled"
                 style="flex: 1; width: auto"
                 v-model="formFields[item.field][0]"
                 :type="item.type == 'date' ? 'date' : 'datetime'"
                 :disabledDate="(val) => getDateOptions(val, item)"
                 placeholder="开始时间"
-                prefix-icon=" "
                 @change="
                   (val) => {
                     dateRangeChange(val, item);
@@ -169,7 +173,7 @@
                 >至</span
               >
               <el-date-picker
-                size="medium"
+                :size="size"
                 :disabled="item.readonly || item.disabled"
                 style="flex: 1; width: auto"
                 v-model="formFields[item.field][1]"
@@ -192,10 +196,10 @@
               v-else-if="['date', 'datetime', 'month'].indexOf(item.type) != -1"
             >
               <el-date-picker
+                :size="size"
                 clearable
                 :disabled="item.readonly || item.disabled"
                 style="width: 100%"
-                size="medium"
                 v-model="formFields[item.field]"
                 @change="item.onChange"
                 :type="item.type"
@@ -209,6 +213,7 @@
             </div>
 
             <el-time-picker
+              :size="size"
               v-else-if="item.type == 'time'"
               v-model="formFields[item.field]"
               :disabled="item.readonly || item.disabled"
@@ -216,7 +221,6 @@
               :value-format="getDateFormat(item)"
               :format="item.format"
               style="width: 100%"
-              size="medium"
             >
             </el-time-picker>
 
@@ -255,8 +259,8 @@
               :downLoad="item.downLoad ? true : false"
             ></vol-upload>
             <el-cascader
+              :size="size"
               clearable
-              size="medium"
               style="width: 100%"
               v-model="formFields[item.field]"
               :disabled="item.readonly || item.disabled"
@@ -273,15 +277,15 @@
               v-else-if="item.type == 'range' || item.range"
             >
               <el-input
+                :size="size"
                 :disabled="item.readonly || item.disabled"
                 style="flex: 1"
-                size="medium"
                 v-model="formFields[item.field][0]"
                 clearable
               />
               <span style="margin: 0 5px">-</span>
               <el-input
-                size="medium"
+                :size="size"
                 :disabled="item.readonly || item.disabled"
                 style="flex: 1"
                 v-model="formFields[item.field][1]"
@@ -289,6 +293,7 @@
               />
             </div>
             <el-input
+              :size="size"
               clearable
               :input-style="item.inputStyle"
               :disabled="item.readonly || item.disabled"
@@ -305,6 +310,7 @@
               :ref="item.field"
             />
             <el-input-number
+              :size="size"
               style="width: 100%"
               :input-style="item.inputStyle"
               v-else-if="item.type == 'number'"
@@ -315,12 +321,12 @@
               controls-position="right"
             />
             <el-input
+              :size="size"
               clearable
               :input-style="item.inputStyle"
               v-else-if="item.type == 'password'"
               type="password"
-              v-model="formFields[item.field]"
-              size="medium"
+              v-model.number="formFields[item.field]"
               :disabled="item.readonly || item.disabled"
               v-show="!item.hidden"
               :placeholder="
@@ -329,10 +335,10 @@
             />
             <!-- 2021.11.18修复el-input没有默认enter事件时回车异常 -->
             <el-input
+              :size="size"
               clearable
               :input-style="item.inputStyle"
               v-else-if="item.onKeyPress"
-              size="medium"
               :placeholder="
                 item.placeholder ? item.placeholder : '请输入' + item.title
               "
@@ -348,9 +354,9 @@
               @keyup.enter="item.onKeyPress"
             ></el-input>
             <el-input
+              :size="size"
               clearable
               v-else
-              size="medium"
               :input-style="item.inputStyle"
               :placeholder="
                 item.placeholder ? item.placeholder : '请输入' + item.title
@@ -470,6 +476,10 @@ export default defineComponent({
       default: () => {
         return {};
       }
+    },
+    size: {
+      type: String, //large / default / small
+      default: 'large'
     }
   },
   computed: {
@@ -617,7 +627,7 @@ export default defineComponent({
     const initUpload = (item, init) => {
       if (!init) return;
       if (
-        ['img', 'excel', 'file'].indexOf(item.type) != -1 ||
+        ['img', 'excel', 'file'].indexOf(item.type != -1) ||
         item.columnType == 'img'
       ) {
         // 只是没设置是否自动上传的，默认都是选择文件后自动上传
@@ -1070,10 +1080,9 @@ export default defineComponent({
           }
         };
         if (item.type == 'mail') {
-          _rule.validator=undefined;
+          _rule.validator = undefined;
           return _rule;
         }
-
         if (item.min) {
           _rule.min = item.min;
           _rule.message = item.title + '至少' + item.min + '个字符!';
@@ -1260,9 +1269,31 @@ export default defineComponent({
     line-height: 36px;
   }
 }
+.vol-form-item {
+  width: 100%;
+}
+.vol-form-item ::v-deep(.el-form-item__content) {
+  display: unset !important;
+}
+.vol-form-item ::v-deep(.el-input--large .el-input__inner) {
+  height: 34px !important;
+}
+.vol-form-item ::v-deep(.el-input-number--large .el-input-number__increase) {
+  border-top: 1px solid #d4d4d4;
+}
+.vol-form-item ::v-deep(.el-input-number--large .el-input-number__decrease) {
+  border-bottom: 1px solid #d4d4d4;
+}
+.vol-form-item ::v-deep(.el-input--large.el-date-editor) {
+  height: 36px;
+}
 .v-date-range ::v-deep(.el-input__prefix) {
   display: none;
 }
+.v-date-range ::v-deep(.el-input__inner) {
+  padding: 0;
+}
+
 .el-form-item ::v-deep(.el-checkbox) {
   margin-right: 8px;
 }

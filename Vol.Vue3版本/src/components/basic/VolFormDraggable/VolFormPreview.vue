@@ -22,7 +22,7 @@
           <div class="header-btns">
             <el-button
               type="primary"
-              size="mini"
+              size="samll"
               :key="bindex"
               plain
               @click="tableBtnClick(item, bindex, index)"
@@ -69,7 +69,7 @@
             <div class="header-btns">
               <el-button
                 type="primary"
-                size="mini"
+                size="samll"
                 :key="bindex"
                 :icon="btnItem.icon"
                 plain
@@ -97,7 +97,7 @@
     </div>
 
     <div class="form-btns">
-      <el-button type="primary" @click="submit" icon="el-icon-check" size="mini"
+      <el-button type="primary" @click="submit" icon="el-icon-check" size="samll"
         >提交</el-button
       >
       <el-button
@@ -105,7 +105,7 @@
         @click="reset"
         plain
         icon="el-icon-refresh-right"
-        size="mini"
+        size="samll"
         >重置</el-button
       >
       <el-button
@@ -113,7 +113,7 @@
         @click="download"
         plain
         icon="el-icon-refresh-right"
-        size="mini"
+        size="samll"
         >下载代码</el-button
       >
     </div>

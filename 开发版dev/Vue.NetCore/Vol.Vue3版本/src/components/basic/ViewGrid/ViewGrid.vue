@@ -16,13 +16,13 @@
       </template>
       <template #footer>
         <div style="text-align: center">
-          <el-button type="default" size="mini" @click="closeCustomModel"
+          <el-button type="default" size="small" @click="closeCustomModel"
             ><i class="el-icon-close"></i>取消</el-button
           >
-          <el-button type="success" size="mini" @click="initViewColumns(true)"
+          <el-button type="success" size="small" @click="initViewColumns(true)"
             ><i class="el-icon-refresh"></i>重置</el-button
           >
-          <el-button type="primary" size="mini" @click="saveColumnConfig"
+          <el-button type="primary" size="small" @click="saveColumnConfig"
             ><i class="el-icon-check"></i>确定</el-button
           >
         </div>
@@ -92,13 +92,13 @@
       </template>
       <template #footer>
         <div style="text-align: center;">
-          <el-button size="mini" @click="auditParam.model = false"
+          <el-button size="samll" @click="auditParam.model = false"
             ><i class="el-icon-close"></i>关闭</el-button
           >
           <el-button
             type="primary"
             v-show="auditParam.showAction"
-            size="mini"
+            size="samll"
             @click="saveAudit"
             ><i class="el-icon-check"></i>审核</el-button
           >
@@ -151,12 +151,12 @@
           >
             <template #footer>
               <div v-if="!fiexdSearchForm" class="form-closex">
-                <el-button size="mini" type="primary" plain @click="search">
+                <el-button size="samll" type="primary" plain @click="search">
                   <i class="el-icon-search" />查询
                 </el-button>
 
                 <el-button
-                  size="mini"
+                  size="samll"
                   type="success"
                   plain
                   @click="resetSearch"
@@ -164,7 +164,7 @@
                   <i class="el-icon-refresh-right" />重置
                 </el-button>
                 <el-button
-                  size="mini"
+                  size="samll"
                   plain
                   @click="searchBoxShow = !searchBoxShow"
                 >
@@ -306,7 +306,7 @@
                       :plain="btn.plain"
                       v-show="!(typeof btn.hidden == 'boolean' && btn.hidden)"
                       @click="onClick(btn.onClick)"
-                      size="mini"
+                      size="samll"
                       ><i :class="btn.icon"></i>{{ btn.name }}</el-button
                     >
                   </div>
@@ -349,7 +349,7 @@
           <template #footer>
             <div style="text-align: center;" v-show="isBoxAudit">
               <el-button
-                size="mini"
+                size="samll"
                 type="primary"
                 plain
                 @click="onGridModelClose(false)"
@@ -357,7 +357,7 @@
                 <i class="el-icon-close">关闭</i>
               </el-button>
               <el-button
-                size="mini"
+                size="samll"
                 type="primary"
                 v-show="auditParam.showViewButton"
                 @click="auditParam.model = true"
@@ -370,7 +370,7 @@
                 v-for="(btn, bIndex) in boxButtons"
                 :key="bIndex"
                 :type="btn.type"
-                size="mini"
+                size="samll"
                 :plain="btn.plain"
                 v-show="!(typeof btn.hidden == 'boolean' && btn.hidden)"
                 :disabled="btn.hasOwnProperty('disabled') && !!btn.disabled"
@@ -379,7 +379,7 @@
                 <i :class="btn.icon"> {{ btn.name }}</i>
               </el-button>
               <el-button
-                size="mini"
+                size="samll"
                 type="primary"
                 plain
                 @click="onGridModelClose(false)"
@@ -593,7 +593,7 @@ var vueParam = {
       },
       auditParam: {
         //审核对象
-        rows: 0, //当前选中审核的行数
+        rows: 0, //当前选中审核的行数 
         model: false, //审核弹出框
         value: -1, //审核结果
         status: -1,

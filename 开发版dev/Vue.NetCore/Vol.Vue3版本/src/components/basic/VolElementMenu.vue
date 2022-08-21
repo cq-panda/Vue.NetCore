@@ -12,20 +12,20 @@
       @contextmenu.prevent="bindRightClickMenu"
     >
       <template v-for="item in convertTree(list)">
-        <el-submenu
+        <el-sub-menu
           :key="item.id"
           :index="'' + item.id"
           v-if="item.children.length && (!enable || item.enable == 1)"
         >
           <template #title>
-            <i :class="item.icon"></i>
+            <i class="menu-icon" :class="item.icon"></i>
             <span> {{ item.name }}</span>
           </template>
           <vol-element-menu-child
             :enable="enable"
             :list="item.children"
           ></vol-element-menu-child>
-        </el-submenu>
+        </el-sub-menu>
         <template v-else>
           <el-menu-item
             class="menu-item-lv1"
@@ -130,7 +130,7 @@ export default defineComponent({
     watch(
       () => props.currentMenuId,
       (newVal, oldVal) => {
-        defaultActive.value=newVal+'';
+        defaultActive.value = newVal + '';
         openedIds.splice(0);
         openedIds.push(
           ..._base.getTreeAllParent(newVal, props.list).map((c) => {
@@ -140,7 +140,16 @@ export default defineComponent({
       }
     );
     const router = useRouter();
+    let eventSelect = false;
     const select = (index, path) => {
+      if (eventSelect) {
+        return;
+      }
+      eventSelect = true;
+      setTimeout(() => {
+        eventSelect = false;
+      }, 20);
+
       let _item = props.list.find((x) => {
         return x.id == index;
       });
@@ -177,9 +186,13 @@ export default defineComponent({
   }
 });
 </script>
-<style scoped>
+<style lang="less" scoped>
 .vol-el-menu {
   box-sizing: content-box;
   width: 100%;
+  .menu-icon {
+    font-size: 18px;
+    margin-right: 6px;
+  }
 }
 </style>

@@ -8,14 +8,14 @@
           <template #title></template>
           <span> {{ item.name }}</span>
         </el-menu-item>
-        <el-submenu :key="item.id"
+        <el-sub-menu :key="item.id"
                     :index="'' + item.id"
                     v-if="item.children.length && (!enable || item.enable == 1)">
           <template #title>
             <span> {{ item.name }}</span>
           </template>
           <vol-element-menu-child :list="item.children" />
-        </el-submenu>
+        </el-sub-menu>
       </template>
       <template v-else>
         <el-menu-item :key="item.id"

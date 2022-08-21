@@ -2,7 +2,6 @@
   <div>
     <el-select
       style="width: 150px"
-      size="small"
       v-if="['select', 'selectList'].indexOf(singleSearch.type) != -1"
       v-model="searchFormFields[singleSearch.field]"
       :filterable="
@@ -26,7 +25,6 @@
       <el-date-picker
         style="width: 210px"
         :clearable="false"
-        size="small"
         unlink-panels
         v-model="searchFormFields[singleSearch.field]"
         type="daterange"
@@ -42,7 +40,6 @@
     <el-cascader
       style="width: 210px"
       clearable
-      size="small"
       v-model="searchFormFields[singleSearch.field]"
       v-else-if="singleSearch.type == 'cascader'"
       :options="singleSearch.data"
@@ -53,7 +50,7 @@
       clearable
       v-else
       style="width: 150px"
-      size="small"
+      size="default"
       v-model="searchFormFields[singleSearch.field]"
       :placeholder="singleSearch.title"
       @keypress="tiggerPress"

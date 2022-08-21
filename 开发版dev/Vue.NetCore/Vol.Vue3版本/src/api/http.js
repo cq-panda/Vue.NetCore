@@ -100,10 +100,10 @@ function showLoading (loading) {
         return;
     }
     loadingInstance = Loading.service({
-        target: '#loading-container',
-        customClass: "el-loading",
-        text: typeof loading == "string" ? loading : '正在处理.....',
-        spinner: 'el-icon-loading',
+        lock: true,
+        text: 'Loading',
+        customClass:"http-loading",
+        background: typeof loading == "string" ? loading : '正在处理.....',
         background: 'rgba(58, 61, 63, 0.32)'
     });
 }
