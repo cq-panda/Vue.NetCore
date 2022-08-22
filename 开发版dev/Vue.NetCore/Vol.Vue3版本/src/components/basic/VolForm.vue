@@ -82,6 +82,7 @@
               @change="item.onChange"
               :remote="item.remote || item.url"
               clearable
+              :collapse-tags="item.collapseTags===undefined||item.collapseTags"
               :remote-method="
                 (val) => {
                   remoteSearch(item, formFields, val);
