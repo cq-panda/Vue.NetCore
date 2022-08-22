@@ -35,6 +35,7 @@
       :row-class-name="initIndex"
       :cell-style="getCellStyle"
       style="width: 100%"
+      :scrollbar-always-on="true"
     >
       <el-table-column
         v-if="columnIndex"
