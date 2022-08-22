@@ -26,7 +26,10 @@ namespace VOL.Core.Utilities
         /// <param name="ignoreColumns">忽略不导出的列(如果设置了exportColumns,ignoreColumns不会生效)</param>
         /// <returns></returns>
 
-        public static WebResponseContent ReadToDataTable<T>(string path, Expression<Func<T, object>> exportColumns = null, List<string> ignoreTemplate = null)
+        public static WebResponseContent ReadToDataTable<T>(string path,
+            Expression<Func<T, object>> exportColumns = null,
+            List<string> ignoreTemplate = null,
+            Func<string, ExcelWorksheet, ExcelRange, int, int, string> readValue = null)
         {
             WebResponseContent responseContent = new WebResponseContent();
 
@@ -90,7 +93,13 @@ namespace VOL.Core.Utilities
                     T entity = Activator.CreateInstance<T>();
                     for (int j = sheet.Dimension.Start.Column, k = sheet.Dimension.End.Column; j <= k; j++)
                     {
+
                         string value = sheet.Cells[m, j].Value?.ToString();
+                        //2022.06.20增加原生excel读取方法
+                        if (readValue != null)
+                        {
+                            value = readValue(value, sheet, sheet.Cells[m, j], m, j);
+                        }
 
                         CellOptions options = cellOptions.Where(x => x.Index == j).FirstOrDefault();
                         PropertyInfo property = propertyInfos.Where(x => x.Name == options.ColumnName).FirstOrDefault();
@@ -516,7 +525,17 @@ namespace VOL.Core.Utilities
             }
             return cellOptions;
         }
-     
+
+        public static string ExportGeneralExcel(
+         List<Dictionary<string, object>> rows,
+         string fileName,
+         string path = null,
+         Action<ExcelWorksheet, int, int, object> onFillCell = null,
+         Action<ExcelWorksheet> saveBefore = null)
+        {
+            return ExportGeneralExcel(rows.Select(item => item as IDictionary<string, object>).ToList(), fileName, path, onFillCell, saveBefore);
+        }
+
         /// <summary>
         /// 2021.01.10增加通过excel导出功能
         /// </summary>
@@ -527,7 +546,7 @@ namespace VOL.Core.Utilities
         /// <param name="saveBefore"></param>
         /// <returns></returns>
         public static string ExportGeneralExcel(
-                List<Dictionary<string, object>> rows,
+                List<IDictionary<string, object>> rows,
                 string fileName,
                 string path = null,
                 Action<ExcelWorksheet, int, int, object> onFillCell = null,
