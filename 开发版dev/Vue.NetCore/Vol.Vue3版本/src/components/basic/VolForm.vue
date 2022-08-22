@@ -122,9 +122,13 @@
               v-else-if="item.type == 'radio'"
               @change="item.onChange"
             >
-              <el-radio v-for="kv in item.data" :key="kv.key" :label="kv.key">{{
-                kv.value
-              }}</el-radio>
+              <el-radio
+                v-for="kv in item.data"
+                :disabled="item.readonly || item.disabled"
+                :key="kv.key"
+                :label="kv.key"
+                >{{ kv.value }}</el-radio
+              >
             </el-radio-group>
 
             <el-checkbox-group
@@ -137,6 +141,7 @@
               <el-checkbox
                 v-for="kv in item.data"
                 :key="kv.key"
+                :disabled="item.readonly || item.disabled"
                 :label="kv.key"
                 >{{ kv.value }}</el-checkbox
               >
@@ -262,7 +267,7 @@
               v-else-if="item.type == 'cascader'"
               :options="item.data"
               :props="{
-                checkStrictly: item.changeOnSelect || item.checkStrictly,
+                checkStrictly: item.changeOnSelect || item.checkStrictly
               }"
               @change="item.onChange"
             >
@@ -297,7 +302,7 @@
               type="textarea"
               :autosize="{
                 minRows: item.minRows || 2,
-                maxRows: item.maxRows || 10,
+                maxRows: item.maxRows || 10
               }"
               :placeholder="
                 item.placeholder ? item.placeholder : '请输入' + item.title
@@ -392,32 +397,32 @@
 <script>
 const rule = {
   change: [
-    "checkbox",
-    "select",
-    "date",
-    "datetime",
-    "drop",
-    "radio",
-    "cascader",
+    'checkbox',
+    'select',
+    'date',
+    'datetime',
+    'drop',
+    'radio',
+    'cascader'
   ], // 2020.05.31增加级联类型
   phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
   decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
-  number: /(^[\-0-9][0-9]*([0-9]+)?)$/,
+  number: /(^[\-0-9][0-9]*([0-9]+)?)$/
 };
-const inputTypeArr = ["text", "string", "mail", "textarea", "password"];
+const inputTypeArr = ['text', 'string', 'mail', 'textarea', 'password'];
 const types = {
-  int: "number",
-  byte: "number",
-  decimal: "number", // "float",
-  string: "string",
-  bool: "boolean",
-  date: "datetime",
-  date: "date",
-  mail: "email",
+  int: 'number',
+  byte: 'number',
+  decimal: 'number', // "float",
+  string: 'string',
+  bool: 'boolean',
+  date: 'datetime',
+  date: 'date',
+  mail: 'email'
 };
 //表单验证注意：每次验证都必须执行callback,否则验证不执行回调方法
 const colPow = Math.pow(10, 3);
-import FormExpand from "./VolForm/VolFormRender";
+import FormExpand from './VolForm/VolFormRender';
 import {
   defineAsyncComponent,
   defineComponent,
@@ -426,56 +431,56 @@ import {
   toRefs,
   getCurrentInstance,
   onMounted,
-  watch,
-} from "vue";
+  watch
+} from 'vue';
 export default defineComponent({
   components: {
     FormExpand,
-    "vol-upload": defineAsyncComponent(() =>
-      import("@/components/basic/VolUpload.vue")
+    'vol-upload': defineAsyncComponent(() =>
+      import('@/components/basic/VolUpload.vue')
     ),
-    "vol-wang-editor": defineAsyncComponent(() =>
-      import("@/components/editor/VolWangEditor.vue")
-    ),
+    'vol-wang-editor': defineAsyncComponent(() =>
+      import('@/components/editor/VolWangEditor.vue')
+    )
   },
   props: {
     loadKey: {
       // 是否加载formRules字段配置的数据源
       type: Boolean,
-      default: true,
+      default: true
     },
     width: {
       // 表单宽度
       type: Number,
-      default: 0,
+      default: 0
     },
     labelWidth: {
       // 表单左边label文字标签的宽度
       type: Number,
-      default: 100,
+      default: 100
     },
     formRules: {
       // 表单配置规则，如字段类型，是否必填
       type: Array,
-      default: [],
+      default: []
     },
     formFields: {
       type: Object,
       default: () => {
         return {};
-      },
+      }
     },
     editor: {
       // 2021.01.16编辑器信息 {uploadImgUrl:"",upload:null//上传方法}
       type: Object,
       default: () => {
         return {};
-      },
+      }
     },
     size: {
       type: String, //large / default / small
-      default: "large",
-    },
+      default: 'large'
+    }
   },
   computed: {
     rules() {
@@ -486,7 +491,7 @@ export default defineComponent({
         });
       });
       return ruleResult;
-    },
+    }
   },
   setup(props, context) {
     const { appContext } = getCurrentInstance();
@@ -519,7 +524,7 @@ export default defineComponent({
           });
         }
         row.forEach((item, yIndex) => {
-          if (item.type == "number") {
+          if (item.type == 'number') {
             numberFields.push(item.field);
           }
           // 目前只支持select单选远程搜索，remote远程从后台字典数据源进行搜索，url从指定的url搜索
@@ -533,18 +538,18 @@ export default defineComponent({
           // 初始化数据源空对象
           if (item.dataKey) {
             // 下拉框都强制设置为字符串类型
-            item.columnType = "string";
+            item.columnType = 'string';
             if (!item.data) {
               item.data = [];
             }
           }
 
-          if (item.range || item.type == "range") {
+          if (item.range || item.type == 'range') {
             if (
               !(props.formFields[item.field] instanceof Array) ||
               props.formFields[item.field].length != 2
             ) {
-              props.formFields[item.field] = ["", ""];
+              props.formFields[item.field] = ['', ''];
             }
             rangeFields.push(item.field);
           }
@@ -570,7 +575,7 @@ export default defineComponent({
 
       if (keys.length == 0) return;
       appContext.config.globalProperties.http
-        .post("/api/Sys_Dictionary/GetVueDictionary", keys)
+        .post('/api/Sys_Dictionary/GetVueDictionary', keys)
         .then((dic) => {
           bindOptions(dic, binds);
         });
@@ -582,19 +587,18 @@ export default defineComponent({
           // 如果有数据的则不查询
           if (x.data.length > 0) return true;
           //2022.03.13增加级联数据源自动转换
-          if (x.type == "cascader") {
+          if (x.type == 'cascader') {
             let _data = JSON.parse(JSON.stringify(d.data));
-            let cascaderArr =
-              appContext.config.globalProperties.base.convertTree(
-                _data,
-                (node, data, isRoot) => {
-                  if (!node.inited) {
-                    node.inited = true;
-                    node.label = node.value;
-                    node.value = node.key;
-                  }
+            let cascaderArr = appContext.config.globalProperties.base.convertTree(
+              _data,
+              (node, data, isRoot) => {
+                if (!node.inited) {
+                  node.inited = true;
+                  node.label = node.value;
+                  node.value = node.key;
                 }
-              );
+              }
+            );
             props.formRules.forEach((option) => {
               option.forEach((item) => {
                 if (item.dataKey == x.key) {
@@ -603,13 +607,13 @@ export default defineComponent({
                 }
               });
             });
-          } else if (d.data.length > 0 && !d.data[0].hasOwnProperty("key")) {
+          } else if (d.data.length > 0 && !d.data[0].hasOwnProperty('key')) {
             let source = d.data,
               newSource = new Array(source.length);
             for (let index = 0; index < source.length; index++) {
               newSource[index] = {
-                key: source["key"] + "",
-                value: source["value"],
+                key: source['key'] + '',
+                value: source['value']
               };
             }
             x.data.push(...newSource);
@@ -623,17 +627,17 @@ export default defineComponent({
     const initUpload = (item, init) => {
       if (!init) return;
       if (
-        ["img", "excel", "file"].indexOf(item.type != -1) ||
-        item.columnType == "img"
+        ['img', 'excel', 'file'].indexOf(item.type != -1) ||
+        item.columnType == 'img'
       ) {
         // 只是没设置是否自动上传的，默认都是选择文件后自动上传
-        if (!item.hasOwnProperty("autoUpload")) {
+        if (!item.hasOwnProperty('autoUpload')) {
           item.autoUpload = true;
         }
-        if (!item.hasOwnProperty("fileList")) {
+        if (!item.hasOwnProperty('fileList')) {
           item.fileList = true;
         }
-        if (!item.hasOwnProperty("downLoad")) {
+        if (!item.hasOwnProperty('downLoad')) {
           item.downLoad = true;
         }
         if (!item.removeBefore) {
@@ -667,9 +671,9 @@ export default defineComponent({
       let result = true;
       volform.value.validate((valid) => {
         if (!valid) {
-          appContext.config.globalProperties.$message.error("数据验证未通过!");
+          appContext.config.globalProperties.$message.error('数据验证未通过!');
           result = false;
-        } else if (typeof callback === "function") {
+        } else if (typeof callback === 'function') {
           callback(valid);
         }
       });
@@ -683,7 +687,7 @@ export default defineComponent({
       rangeFields,
       numberFields,
       validate,
-      volform,
+      volform
       //  initFormRules,
       // initSource
     };
@@ -695,7 +699,7 @@ export default defineComponent({
   data() {
     return {
       // remoteCall: true,
-      errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
+      errorImg: 'this.src="' + require('@/assets/imgs/error-img.png') + '"'
       // span: 1,
       // rangeFields: [],
     };
@@ -723,7 +727,7 @@ export default defineComponent({
     },
     getSrc(path) {
       if (!path) return;
-      if (!this.base.isUrl(path) && path.indexOf(".") != -1) {
+      if (!this.base.isUrl(path) && path.indexOf('.') != -1) {
         return this.http.ipAddress + path;
       }
       return path;
@@ -731,10 +735,10 @@ export default defineComponent({
     // 是否为图片文件等格式并对字段的转换成数组：[{name:'1.jpg',path:'127.0.0.1/ff/1.jpg'}]
     isFile(item, formFields) {
       if (
-        item.type == "img" ||
-        item.columnType == "img" ||
-        item.type == "excel" ||
-        item.type == "file"
+        item.type == 'img' ||
+        item.columnType == 'img' ||
+        item.type == 'excel' ||
+        item.type == 'file'
       ) {
         this.convertFileToArray(item, formFields);
         return true;
@@ -761,21 +765,21 @@ export default defineComponent({
         return;
       }
       // 将以逗号隔开的文件分割成数组127.0.0.1/aa/1.jpg,将127.0.0.1/aa/2.jpg
-      if (typeof fileInfo === "string") {
-        if (fileInfo.trim() === "") {
+      if (typeof fileInfo === 'string') {
+        if (fileInfo.trim() === '') {
           formFields[item.field] = [];
           return;
         }
         // 如果文件路径是字符串，则使用，拆分
-        fileInfo = fileInfo.replace(/\\/g, "/");
-        let files = fileInfo.split(",");
+        fileInfo = fileInfo.replace(/\\/g, '/');
+        let files = fileInfo.split(',');
         formFields[item.field] = [];
         for (let index = 0; index < files.length; index++) {
           let file = files[index];
-          let splitFile = file.split("/");
+          let splitFile = file.split('/');
           formFields[item.field].push({
             name: splitFile.length > 0 ? splitFile[splitFile.length - 1] : file,
-            path: file, // this.base.isUrl(file) ? file : this.http.ipAddress + file,
+            path: file // this.base.isUrl(file) ? file : this.http.ipAddress + file,
           });
         }
       }
@@ -785,59 +789,59 @@ export default defineComponent({
         file.path,
         file.name,
         {
-          Authorization: this.$store.getters.getToken(),
+          Authorization: this.$store.getters.getToken()
         },
         this.http.ipAddress
       );
     },
     validatorPhone(ruleOption, value, callback) {
-      if (!ruleOption.required && !value && value != "0") {
+      if (!ruleOption.required && !value && value != '0') {
         return callback();
       }
-      if (!rule.phone.test((value || "").trim())) {
-        return callback(new Error("请输入正确的手机号"));
+      if (!rule.phone.test((value || '').trim())) {
+        return callback(new Error('请输入正确的手机号'));
       }
       callback();
     },
     validatorPwd(ruleOption, value, callback) {
-      if (!ruleOption.required && !value && value != "0") {
+      if (!ruleOption.required && !value && value != '0') {
         return callback();
       }
-      if ((value + "").trim().length < 6) {
-        return callback(new Error("密码长度不能小于6位"));
+      if ((value + '').trim().length < 6) {
+        return callback(new Error('密码长度不能小于6位'));
       }
       callback();
     },
     convertArrayValue(data, val) {
       // 2020.12.13增加表单多选只转换字典
       // 编辑多选table显示
-      let valArr = val instanceof Array ? val : val.split(",");
+      let valArr = val instanceof Array ? val : val.split(',');
       for (let index = 0; index < valArr.length; index++) {
         var _item = data.find((x) => {
-          return x.key && x.key != "0" && x.key + "" == valArr[index] + "";
+          return x.key && x.key != '0' && x.key + '' == valArr[index] + '';
         });
         if (_item) {
           valArr[index] = _item.value;
         }
       }
-      return valArr.join(",");
+      return valArr.join(',');
     },
     getText(formFields, item) {
       // 2019.10.24修复表单select组件为只读的属性时没有绑定数据源
       let text = formFields[item.field];
-      if (typeof text === "function") return text(formFields);
-      if (text === "null" || text === "" || text === null || text === undefined)
-        return "--";
+      if (typeof text === 'function') return text(formFields);
+      if (text === 'null' || text === '' || text === null || text === undefined)
+        return '--';
       //2021.03.02增加只读时日期处理
-      if (item.type == "date") {
-        return text.replace("T", " ").split(" ")[0];
+      if (item.type == 'date') {
+        return text.replace('T', ' ').split(' ')[0];
       }
       //2021.03.31修复表单switch只读时没有转换值的问题
-      if (item.type == "switch") {
-        return text ? "是" : "否";
+      if (item.type == 'switch') {
+        return text ? '是' : '否';
       }
       if (!item.data) return text;
-      if (item.type == "selectList" || item.type == "checkbox") {
+      if (item.type == 'selectList' || item.type == 'checkbox') {
         return this.convertArrayValue(item.data, text);
       }
       var _item = item.data.find((x) => {
@@ -851,7 +855,7 @@ export default defineComponent({
       // console.log(2);
     },
     onChange(item, value) {
-      if (item.onChange && typeof item.onChange === "function") {
+      if (item.onChange && typeof item.onChange === 'function') {
         item.onChange(value, item);
       }
     },
@@ -862,7 +866,7 @@ export default defineComponent({
         //  console.log('undefined');
       }
       this.remoteCall = false;
-      if (item.onChange && typeof item.onChange === "function") {
+      if (item.onChange && typeof item.onChange === 'function') {
         item.onChange(value, item);
       }
     },
@@ -873,7 +877,7 @@ export default defineComponent({
     // 远程搜索(打开弹出框时应该禁止搜索)
     remoteSearch(item, formFields, val) {
       if (
-        val == "" ||
+        val == '' ||
         (item.data.length == 1 &&
           (val == item.data[0].key || val == item.data[0].value))
       ) {
@@ -882,14 +886,14 @@ export default defineComponent({
       // 弹出框或初始化表单时给data设置数组默认值2
       // 2020.09.26修复远程搜索自定义url不起作用的问题
       let url;
-      if (typeof item.url === "function") {
+      if (typeof item.url === 'function') {
         url = item.url(val, item.dataKey, item);
       } else {
         url =
-          (item.url || "/api/Sys_Dictionary/GetSearchDictionary") +
-          "?dicNo=" +
+          (item.url || '/api/Sys_Dictionary/GetSearchDictionary') +
+          '?dicNo=' +
           item.dataKey +
-          "&value=" +
+          '&value=' +
           val;
       }
       this.http.post(url).then((dicData) => {
@@ -900,14 +904,14 @@ export default defineComponent({
       });
     },
     getObject(date) {
-      if (typeof date === "object") {
+      if (typeof date === 'object') {
         return date;
       }
       return new Date(date);
     },
     reset(sourceObj) {
       // 重置表单时，禁用远程查询
-      this.$refs["volform"].resetFields();
+      this.$refs['volform'].resetFields();
       if (this.rangeFields.length) {
         this.rangeFields.forEach((key) => {
           this.formFields[key].splice(0);
@@ -942,24 +946,24 @@ export default defineComponent({
       if (
         // item.readonly ||
         // item.disabled ||
-        item.type == "switch" ||
-        item.type == "range"
+        item.type == 'switch' ||
+        item.type == 'range'
       )
         return { required: false };
       // 用户设置的自定义方法
-      if (item.validator && typeof item.validator === "function") {
+      if (item.validator && typeof item.validator === 'function') {
         return {
           validator: (rule, val, callback) => {
             // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
             let message = item.validator(rule, val);
-            if (message) return callback(new Error(message + ""));
+            if (message) return callback(new Error(message + ''));
             return callback();
           },
           required: item.required,
-          trigger: rule.change.indexOf(item.type) != -1 ? "change" : "blur",
+          trigger: rule.change.indexOf(item.type) != -1 ? 'change' : 'blur'
         };
       }
-      if (["img", "excel", "file"].indexOf(item.type) != -1) {
+      if (['img', 'excel', 'file'].indexOf(item.type) != -1) {
         return {
           validator: (rule, val, callback) => {
             //2021.09.05移除文件上传默认必填
@@ -969,24 +973,24 @@ export default defineComponent({
               (!val || !val.length)
             ) {
               return callback(
-                new Error(item.type == "img" ? "请上传照片" : "请上传文件")
+                new Error(item.type == 'img' ? '请上传照片' : '请上传文件')
               );
             }
             return callback();
           },
           required: item.required,
-          trigger: "change",
+          trigger: 'change'
         };
       }
       // 设置数字的最大值民最小值
       if (
-        item.type == "number" ||
-        item.columnType == "number" ||
-        item.columnType == "int" ||
-        item.type == "decimal"
+        item.type == 'number' ||
+        item.columnType == 'number' ||
+        item.columnType == 'int' ||
+        item.type == 'decimal'
       ) {
         // 如果是必填项的数字，设置一个默认最大与最值小
-        if (item.required && typeof item.min !== "number") {
+        if (item.required && typeof item.min !== 'number') {
           item.min = 0; //item.type == "decimal" ? 0.1 : 1;
         }
 
@@ -994,94 +998,94 @@ export default defineComponent({
           required: item.required,
           message: item.title,
           title: item.title,
-          trigger: "blur",
+          trigger: 'blur',
           min: item.min,
           max: item.max,
           type: item.columnType || item.type,
           validator: (ruleObj, value, callback) => {
             if (!ruleObj.min && !ruleObj.max) {
               if (ruleObj.required) {
-                if (value == "") {
+                if (value == '') {
                   formFields[rule.field] = 0;
                   return callback();
                 }
               }
-              if (value === "" || value === undefined) return callback();
+              if (value === '' || value === undefined) return callback();
             }
             if (this.isReadonly(item)) return callback();
-            if (ruleObj.type == "number") {
+            if (ruleObj.type == 'number') {
               if (!rule.number.test(value)) {
-                ruleObj.message = ruleObj.title + "只能是整数";
+                ruleObj.message = ruleObj.title + '只能是整数';
                 return callback(new Error(ruleObj.message));
               }
             } else {
               if (!rule.decimal.test(value)) {
-                ruleObj.message = ruleObj.title + "只能是数字";
+                ruleObj.message = ruleObj.title + '只能是数字';
                 return callback(new Error(ruleObj.message));
               }
             }
             if (
               ruleObj.min !== undefined &&
-              typeof ruleObj.min === "number" &&
+              typeof ruleObj.min === 'number' &&
               value < ruleObj.min
             ) {
-              ruleObj.message = ruleObj.title + "不能小于" + ruleObj.min;
+              ruleObj.message = ruleObj.title + '不能小于' + ruleObj.min;
               return callback(new Error(ruleObj.message));
             }
             if (
               ruleObj.max !== undefined &&
-              typeof ruleObj.max === "number" &&
+              typeof ruleObj.max === 'number' &&
               value > ruleObj.max
             ) {
-              ruleObj.message = ruleObj.title + "不能大于" + ruleObj.max;
+              ruleObj.message = ruleObj.title + '不能大于' + ruleObj.max;
               return callback(new Error(ruleObj.message));
             }
             return callback();
-          },
+          }
         };
       }
 
       // 手机、密码验证
-      if (item.type == "password" || item.type == "phone") {
+      if (item.type == 'password' || item.type == 'phone') {
         return {
           validator:
-            item.type == "phone" ? this.validatorPhone : this.validatorPwd,
+            item.type == 'phone' ? this.validatorPhone : this.validatorPwd,
           required: item.required,
-          trigger: "blur",
+          trigger: 'blur'
         };
       }
 
-      if (!item.required && item.type != "mail") return { required: false };
+      if (!item.required && item.type != 'mail') return { required: false };
 
-      if (!item.hasOwnProperty("type")) item.type = "text";
+      if (!item.hasOwnProperty('type')) item.type = 'text';
 
       if (inputTypeArr.indexOf(item.type) != -1) {
         let message =
           item.title +
-          (item.type == "mail" ? "必须是一个邮箱地址" : "不能为空");
-        let type = item.type == "mail" ? "email" : types[item.columnType];
+          (item.type == 'mail' ? '必须是一个邮箱地址' : '不能为空');
+        let type = item.type == 'mail' ? 'email' : types[item.columnType];
         let _rule = {
           required: true,
           message: message,
-          trigger: "blur",
+          trigger: 'blur',
           type: type,
           validator: (ruleObj, value, callback) => {
             if (
               !this.isReadonly(item) &&
-              (value === "" || value === undefined || value === null)
+              (value === '' || value === undefined || value === null)
             ) {
               return callback(new Error(ruleObj.message));
             }
             return callback();
-          },
+          }
         };
         if (item.type == 'mail') {
-          _rule.validator=undefined;
+          _rule.validator = undefined;
           return _rule;
         }
         if (item.min) {
           _rule.min = item.min;
-          _rule.message = item.title + "至少" + item.min + "个字符!";
+          _rule.message = item.title + '至少' + item.min + '个字符!';
         }
         if (item.max) {
           return [
@@ -1089,90 +1093,90 @@ export default defineComponent({
             {
               max: item.max,
               required: true,
-              message: item.title + "最多" + item.max + "个字符!",
-              trigger: "blur",
-            },
+              message: item.title + '最多' + item.max + '个字符!',
+              trigger: 'blur'
+            }
           ];
         }
         return _rule;
       }
 
-      if (item.type == "radio") {
+      if (item.type == 'radio') {
         return {
           required: item.required,
-          message: "请选择" + item.title,
-          trigger: "change",
-          type: "string",
+          message: '请选择' + item.title,
+          trigger: 'change',
+          type: 'string'
         };
       }
       if (
-        item.type == "date" ||
-        item.type == "datetime" ||
-        item.type == "time"
+        item.type == 'date' ||
+        item.type == 'datetime' ||
+        item.type == 'time'
       ) {
         return {
           required: true,
-          message: "请选择" + item.title,
-          trigger: "change",
-          type: item.range ? "array" : "string",
+          message: '请选择' + item.title,
+          trigger: 'change',
+          type: item.range ? 'array' : 'string',
           validator: (rule, val, callback) => {
             if (this.isReadonly(item)) return callback();
             // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
             if (!val || (item.range && !val.length)) {
-              return callback(new Error("请选择日期"));
+              return callback(new Error('请选择日期'));
             }
             return callback();
-          },
+          }
         };
       }
 
-      if (item.type == "cascader") {
+      if (item.type == 'cascader') {
         return {
-          type: "array",
+          type: 'array',
           required: true,
           min: item.min || 1,
           // message: "请选择" + item.title,
-          trigger: "change",
+          trigger: 'change',
           validator: (rule, val, callback) => {
             if (this.isReadonly(item)) return callback();
             // 用户自定义的方法，如果返回了值，直接显示返回的值，验证不通过
             let _arr = this.formFields[item.field];
             if (!_arr || !_arr.length) {
-              return callback(new Error("请选择" + item.title));
+              return callback(new Error('请选择' + item.title));
             }
             return callback();
-          },
+          }
         };
       }
 
       if (
-        ["select", "selectList", "checkbox", "cascader"].indexOf(item.type) !=
+        ['select', 'selectList', 'checkbox', 'cascader'].indexOf(item.type) !=
         -1
       ) {
         let _rule = {
-          type: item.type == "select" ? "string" : "array",
+          type: item.type == 'select' ? 'string' : 'array',
           required: true,
           min: item.min || 1,
-          message: "请选择" + item.title,
-          trigger: "change",
+          message: '请选择' + item.title,
+          trigger: 'change',
           validator: (rule, value, callback) => {
             if (this.isReadonly(item)) return callback();
             //2021.11.27修复多选没有提示的问题
-            if (value == undefined || value === "") {
+            if (value == undefined || value === '') {
               return callback(new Error(rule.message));
             } else if (
-              (item.type == "checkbox" || item.type == "selectList") &&
+              (item.type == 'checkbox' || item.type == 'selectList') &&
               (!(value instanceof Array) || !value.length)
             ) {
               return callback(new Error(rule.message));
             }
             return callback();
-          },
+          }
         };
 
         if (_rule.max) {
           _rule.nax = item.max;
-          _rule.message = "最多只能选择" + item.max + "项";
+          _rule.message = '最多只能选择' + item.max + '项';
         }
         return _rule;
       }
@@ -1184,7 +1188,7 @@ export default defineComponent({
       }
       return (
         date1.valueOf() <
-        (typeof date2 == "number" ? date2 : new Date(date2).valueOf())
+        (typeof date2 == 'number' ? date2 : new Date(date2).valueOf())
       );
     },
     getDateOptions(date, item) {
@@ -1192,9 +1196,9 @@ export default defineComponent({
       if ((!item.min && !item.max) || !date) {
         return false;
       }
-      if (item.min && item.min.indexOf(" ") == -1) {
+      if (item.min && item.min.indexOf(' ') == -1) {
         //不设置时分秒，后面会自动加上 08:00
-        item.min = item.min + " 00:00:000";
+        item.min = item.min + ' 00:00:000';
       }
       return (
         this.compareDate(date, item.min) || !this.compareDate(date, item.max)
@@ -1202,11 +1206,11 @@ export default defineComponent({
     },
     getDateFormat(item) {
       //见https://day.js.org/docs/zh-CN/display/format
-      return item.type == "date" ? "YYYY-MM-DD" : "YYYY-MM-DD HH:mm:ss";
+      return item.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
     },
     dateRangeChange(val, item) {
       if (!val) {
-        this.$emit("update:formFields");
+        this.$emit('update:formFields');
         return;
       }
       item.onChange && item.onChange(val);
@@ -1216,8 +1220,8 @@ export default defineComponent({
         return;
       }
       item.onKeyPress($event);
-    },
-  },
+    }
+  }
 });
 </script>
 <style lang="less" scoped>
@@ -1297,7 +1301,7 @@ export default defineComponent({
   padding-left: 5px;
 }
 .el-form-item ::v-deep(textarea) {
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei", "微软雅黑", Arial, sans-serif !important;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif !important;
 }
 </style>

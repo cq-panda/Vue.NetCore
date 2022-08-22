@@ -22,7 +22,7 @@
         icon="el-icon-bottom"
         @click="dowloadTemplate"
         :loading="loadingStatus"
-        >
+      >
         <!-- <i v-show="!loadingStatus" class="el-icon-bottom"></i> -->
         下载模板</el-button
       >
@@ -32,14 +32,14 @@
         @click="upload"
         icon="el-icon-top"
         :loading="loadingStatus"
-        >
+      >
         <!-- <i v-show="!loadingStatus" class="el-icon-top"></i> -->
         上传文件</el-button
       >
     </div>
     <div class="alert">
       <el-alert title="上传说明" type="warning" :closable="false" show-icon
-        >只能上传excel文件,文件大小不超过5M</el-alert
+        >只能上传excel文件,文件大小不超过{{ maxSize }}M</el-alert
       >
     </div>
 
@@ -64,48 +64,52 @@ export default {
   props: {
     url: {
       type: String,
-      default: "",
+      default: ''
     },
     template: {
       //下载模板配置
       type: Object,
       default: () => {
         return {
-          url: "", //模板下载路径，如果没有模板路径，则不显示下载模板功能
-          fileName: "未定义文件名", //下载模板的文件名
+          url: '', //模板下载路径，如果没有模板路径，则不显示下载模板功能
+          fileName: '未定义文件名' //下载模板的文件名
         };
-      },
+      }
     },
     importExcelBefore: {
       type: Function,
       default: (file) => {
         return true;
-      },
-    },
+      }
+    }
   },
   data() {
     return {
-      maxSize: 102 * 5,
+      maxSize: 100,
       model: true,
       file: null,
       loadingStatus: false,
-      message: "",
-      resultClass: "",
+      message: '',
+      resultClass: ''
     };
   },
   methods: {
     clearMsg() {
-      this.message = "";
+      this.message = '';
     },
     reset() {
       this.file = null;
-      this.message = "";
-      this.resultClass = "";
+      this.message = '';
+      this.resultClass = '';
     },
     getFileType() {
-      let fileName = this.file.name.split(".").pop().toLocaleLowerCase() || "";
-      if (["numbers", "csv", "xls", "xlsx"].indexOf(fileName) == -1) {
-        this.$Message.error("只能选择excel文件");
+      let fileName =
+        this.file.name
+          .split('.')
+          .pop()
+          .toLocaleLowerCase() || '';
+      if (['numbers', 'csv', 'xls', 'xlsx'].indexOf(fileName) == -1) {
+        this.$Message.error('只能选择excel文件');
         return false;
       }
       return true;
@@ -120,14 +124,14 @@ export default {
     upload() {
       let _url = this.url;
       if (!_url) {
-        return this.$Message.error("没有配置好Url");
+        return this.$Message.error('没有配置好Url');
       }
 
       if (!this.file) {
-        return this.$Message.error("请选择文件");
+        return this.$Message.error('请选择文件');
       }
       var formData = new FormData();
-      formData.append("fileInput", this.file);
+      formData.append('fileInput', this.file);
       if (!this.importExcelBefore(formData)) {
         return;
       }
@@ -138,11 +142,11 @@ export default {
           this.loadingStatus = false;
           this.file = null;
           if (x.status) {
-            this.$emit("importExcelAfter", x);
+            this.$emit('importExcelAfter', x);
           }
 
           this.message = x.message;
-          this.resultClass = x.status ? "v-r-success" : "v-r-error";
+          this.resultClass = x.status ? 'v-r-success' : 'v-r-error';
         },
         (error) => {
           this.loadingStatus = false;
@@ -152,21 +156,21 @@ export default {
     dowloadTemplate() {
       let url = this.template.url;
       let xmlResquest = new XMLHttpRequest();
-      xmlResquest.open("GET", url, true);
-      xmlResquest.setRequestHeader("Content-type", "application/json");
+      xmlResquest.open('GET', url, true);
+      xmlResquest.setRequestHeader('Content-type', 'application/json');
       xmlResquest.setRequestHeader(
-        "Authorization",
+        'Authorization',
         this.$store.getters.getToken()
       );
-      let fileName = this.template.fileName + ".xlsx";
+      let fileName = this.template.fileName + '.xlsx';
       let elink = this.$refs.template;
-      xmlResquest.responseType = "blob";
+      xmlResquest.responseType = 'blob';
       let $_vue = this;
       this.loadingStatus = true;
-      xmlResquest.onload = function (oEvent) {
+      xmlResquest.onload = function(oEvent) {
         $_vue.loadingStatus = false;
-        if (xmlResquest.response.type == "application/json") {
-          return $_vue.message.error("未找到下载文件");
+        if (xmlResquest.response.type == 'application/json') {
+          return $_vue.message.error('未找到下载文件');
         }
         let content = xmlResquest.response;
         elink.download = fileName;
@@ -175,13 +179,13 @@ export default {
         elink.click();
       };
       xmlResquest.send();
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
 .upload-container {
-  min-height: 276px !important;
+  min-height: 270px !important;
   display: inline-block;
   width: 100%;
   padding: 10px;
