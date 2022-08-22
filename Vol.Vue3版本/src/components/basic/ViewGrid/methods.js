@@ -1422,7 +1422,7 @@ let methods = {
       clientHeight = clientHeight * 0.85;
       if (!this.detailOptions.height) {
         this.detailOptions.height =
-          clientHeight - this.editFormOptions.length * 57 - 205;
+          clientHeight - this.editFormOptions.length * 36 - 234;
         this.detailOptions.height =
           this.detailOptions.height < 240 ? 240 : this.detailOptions.height;
       }
