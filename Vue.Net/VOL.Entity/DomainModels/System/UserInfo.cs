@@ -18,6 +18,10 @@ namespace VOL.Entity.DomainModels
         public string UserName { get; set; }
         public string UserTrueName { get; set; }
         public int  Enable { get; set; }
+        /// <summary>
+        /// 部门id
+        /// </summary>
+        public int DeptId { get; set; }
         public string Token { get; set; }
     }
 }
