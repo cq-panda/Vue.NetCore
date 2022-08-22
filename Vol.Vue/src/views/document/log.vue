@@ -51,6 +51,57 @@ export default {
       log: [
         { date: '2022.08', type: 'month' },
         {
+          date: '2022-08-22 21:33:00',
+          desc: '优化vue3版本表单类型为number时的默认值'
+        },
+        { date: '2022-08-22 21:23:07', desc: '优化vue3版本select多选显示' },
+        { date: '2022-08-22 21:09:40', desc: '优化用户表新建或修改提示信息' },
+        {
+          date: '2022-08-22 21:00:23',
+          desc: '优化vue3版本voltable默认显示滚动条'
+        },
+        {
+          date: '2022-08-22 20:46:55',
+          desc: '优化vue3版本菜单与上传组件图标显示'
+        },
+        { date: '2022-08-22 20:43:34', desc: '优化弹出框高度自适应' },
+        { date: '2022-08-22 20:35:02', desc: '优化文件上传默认大小' },
+        {
+          date: '2022-08-22 01:35:31',
+          style: 'color:red',
+          desc: `
+          <div style="font-weight:600;"> 升级element plus正式版本2.2.14及vue版本3.2.37，更新方式(先升级2022.08.15的更新说明,不更新会影响审批功能)：</div>
+           <div style="margin-top:20px;">1、使用cmd命令切换到Vol.Vue3版本目录下,分别执行这4个命令</div>
+            <div style="margin-left:20px;">npm install vue@3.2.37 --force</div>
+            <div style="margin-left:20px;">npm uninstall element-plus</div>
+            <div style="margin-left:20px;">npm install element-plus --save</div>
+            <div style="margin-left:20px;">npm cache clear --force</div>
+
+            <div style="margin-top:20px;">2、前端更新文件</div>
+            <div style="margin-left:20px;">public->index.html</div>
+            <div style="margin-left:20px;">App.vue</div>
+            <div style="margin-left:20px;">QuickSearch.vue</div>
+            <div style="margin-left:20px;">ViewGrid.vue</div>
+            <div style="margin-left:20px;">VolElementMenu.vue</div>
+            <div style="margin-left:20px;">VolElementMenuChild.vue</div>
+            <div style="margin-left:20px;">VolTable.vue</div>
+            <div style="margin-left:20px;">VolForm.vue</div>
+            <div style="margin-left:20px;">main.js</div>
+            <div style="margin-left:20px;">vue.config.js</div>
+            <div style="margin-left:20px;">index.vue 第388行代码位置： const selectNav = (item) => {</div>
+            <div style="margin-left:20px;">assets->element-icon文件夹，(新增加的字段文件)</div>
+
+
+</div>
+        `
+        },
+        { date: '2022-08-22 01:33:45', desc: '优化用户新建与删除提示' },
+        { date: '2022-08-22 01:33:07', desc: '增加.net6版本审批流程' },
+        { date: '2022-08-19 16:35:08', desc: '更新mysql脚本' },
+        { date: '2022-08-18 02:38:58', desc: '更新sqlserver脚本' },
+        { date: '2022-08-18 02:17:52', desc: '调整审核类型显示' },
+        { date: '2022-08-18 01:43:35', desc: '优化审批人显示' },
+        {
           date: '2022-08-17 22:53:15',
           desc: '增加发邮件功能：更新MailHelper.cs、appsettings.json(最后面的Mail配置)'
         },
