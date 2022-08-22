@@ -93,14 +93,11 @@
             <el-button type="primary"
                        @click="save"><i class="el-icon-check"></i>保存</el-button>
             <el-button type="success"
-                       icon="md-add"
                        @click="add"><i class="el-icon-plus"></i>新建</el-button>
             <el-button type="warning"
-                       icon="md-add-circle"
                        @click="addChild"><i class="el-icon-plus"></i>添加子级</el-button>
             <el-button type="primary"
                        plain
-                       icon="ios-barcode-outline"
                        @click="addBrother"><i class="el-icon-circle-plus"></i> 添加同级</el-button>
             <el-button type="warning"
                        plain

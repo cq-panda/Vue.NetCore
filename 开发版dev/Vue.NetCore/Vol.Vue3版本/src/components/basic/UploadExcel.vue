@@ -19,21 +19,19 @@
         style="margin-left: 10px"
         type="primary"
         size="small"
-        icon="el-icon-bottom"
         @click="dowloadTemplate"
         :loading="loadingStatus"
       >
-        <!-- <i v-show="!loadingStatus" class="el-icon-bottom"></i> -->
+     <i class="el-icon-bottom"></i>
         下载模板</el-button
       >
       <el-button
         type="success"
         size="small"
         @click="upload"
-        icon="el-icon-top"
         :loading="loadingStatus"
       >
-        <!-- <i v-show="!loadingStatus" class="el-icon-top"></i> -->
+          <i class="el-icon-top"></i>
         上传文件</el-button
       >
     </div>
