@@ -125,7 +125,7 @@ namespace VOL.Core.BaseProvider
             //例如sql，只能(编辑)自己创建的数据:判断数据是不是当前用户创建的
             //sql = $" {sql} and createid!={UserContext.Current.UserId}";
             object obj = repository.DapperContext.ExecuteScalar(sql, null);
-            if (obj == null || obj.GetInt() > 0)
+            if (obj == null || obj.GetInt() == 0)
             {
                 Response.Error("不能编辑此数据");
             }
@@ -143,7 +143,8 @@ namespace VOL.Core.BaseProvider
             //例如sql，只能(删除)自己创建的数据:找出不是自己创建的数据
             //sql = $" {sql} and createid!={UserContext.Current.UserId}";
             object obj = repository.DapperContext.ExecuteScalar(sql, null);
-            if (obj == null || obj.GetInt() > 0)
+            int idsCount = ids.Split(",").Distinct().Count();
+            if (obj == null || obj.GetInt() != idsCount)
             {
                 Response.Error("不能删除此数据");
             }
@@ -161,34 +162,47 @@ namespace VOL.Core.BaseProvider
             {
                 return base.OrderByExpression.GetExpressionToDic();
             }
-            //排序字段不存在直接移除
-            if (!string.IsNullOrEmpty(pageData.Sort) && !propertyInfo.Any(x => x.Name.ToLower() == pageData.Sort.ToLower()))
+            if (!string.IsNullOrEmpty(pageData.Sort))
             {
-                pageData.Sort = null;
+                if (pageData.Sort.Contains(","))
+                {
+                    var sortArr = pageData.Sort.Split(",").Where(x => propertyInfo.Any(c => c.Name == x)).Select(s => s).Distinct().ToList();
+                    Dictionary<string, QueryOrderBy> sortDic = new Dictionary<string, QueryOrderBy>();
+                    foreach (var name in sortArr)
+                    {
+                        sortDic[name] = pageData.Order?.ToLower() == _asc ? QueryOrderBy.Asc : QueryOrderBy.Desc;
+                    }
+                    return sortDic;
+                }
+                else if (propertyInfo.Any(x => x.Name == pageData.Sort))
+                {
+                    return new Dictionary<string, QueryOrderBy>() { {
+                            pageData.Sort,
+                            pageData.Order?.ToLower() == _asc? QueryOrderBy.Asc: QueryOrderBy.Desc
+                     } };
+                }
             }
             //如果没有排序字段，则使用主键作为排序字段
-            if (string.IsNullOrEmpty(pageData.Sort))
+
+            PropertyInfo property = propertyInfo.GetKeyProperty();
+            //如果主键不是自增类型则使用appsettings.json中CreateMember->DateField配置的创建时间作为排序
+            if (property.PropertyType == typeof(int) || property.PropertyType == typeof(long))
             {
-                PropertyInfo property = propertyInfo.GetKeyProperty();
-                //如果主键不是自增类型则使用appsettings.json中CreateMember->DateField配置的创建时间作为排序
-                if (property.PropertyType == typeof(int) || property.PropertyType == typeof(long))
+                if (!propertyInfo.Any(x => x.Name.ToLower() == pageData.Sort))
                 {
-                    if (!propertyInfo.Any(x => x.Name.ToLower() == pageData.Sort))
-                    {
-                        pageData.Sort = propertyInfo.GetKeyName();
-                    }
+                    pageData.Sort = propertyInfo.GetKeyName();
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(AppSetting.CreateMember.DateField)
+                    && propertyInfo.Any(x => x.Name == AppSetting.CreateMember.DateField))
+                {
+                    pageData.Sort = AppSetting.CreateMember.DateField;
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(AppSetting.CreateMember.DateField)
-                        && propertyInfo.Any(x => x.Name == AppSetting.CreateMember.DateField))
-                    {
-                        pageData.Sort = AppSetting.CreateMember.DateField;
-                    }
-                    else
-                    {
-                        pageData.Sort = propertyInfo.GetKeyName();
-                    }
+                    pageData.Sort = propertyInfo.GetKeyName();
                 }
             }
             return new Dictionary<string, QueryOrderBy>() { {
@@ -324,13 +338,9 @@ namespace VOL.Core.BaseProvider
             var queryeable = repository.DbContext.Set<Detail>().Where(whereExpression);
 
             gridData.total = queryeable.Count();
+            options.Sort = options.Sort ?? typeof(Detail).GetKeyName();
+            Dictionary<string, QueryOrderBy> orderBy = GetPageDataSort(options, typeof(Detail).GetProperties());
 
-            string sortName = options.Sort ?? typeof(Detail).GetKeyName();
-            Dictionary<string, QueryOrderBy> orderBy = new Dictionary<string, QueryOrderBy>() { {
-                     sortName,
-                     options.Order == "asc" ?
-                     QueryOrderBy.Asc :
-                     QueryOrderBy.Desc } };
             gridData.rows = queryeable
                  .GetIQueryableOrderBy(orderBy)
                 .Skip((options.Page - 1) * options.Rows)
@@ -425,7 +435,8 @@ namespace VOL.Core.BaseProvider
             }
             try
             {
-                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate());
+                //2022.06.20增加原生excel读取方法(导入时可以自定义读取excel内容)
+                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate(), readValue: ImportOnReadCellValue);
             }
             catch (Exception ex)
             {
@@ -443,7 +454,7 @@ namespace VOL.Core.BaseProvider
             if (HttpContext.Current.Request.Query.ContainsKey("table"))
             {
                 ImportOnExecuted?.Invoke(list);
-                return Response.OK("文件上传成功",list.Serialize());
+                return Response.OK("文件上传成功", list.Serialize());
             }
             repository.AddRange(list, true);
             if (ImportOnExecuted != null)
@@ -451,7 +462,7 @@ namespace VOL.Core.BaseProvider
                 Response = ImportOnExecuted.Invoke(list);
                 if (CheckResponseResult()) return Response;
             }
-            return Response.OK("文件上传成功" );
+            return Response.OK("文件上传成功");
         }
 
         /// <summary>
@@ -749,17 +760,18 @@ namespace VOL.Core.BaseProvider
             editList.ForEach(x =>
             {
                 //获取编辑的字段
-                string[] updateField = saveModel.DetailData
+                var updateField = saveModel.DetailData
                     .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
                     .Equal(detailKeyInfo.GetValue(x)))
                     .FirstOrDefault()
                     .Keys.Where(k => k != detailKeyInfo.Name)
                     .Where(r => !CreateFields.Contains(r))
-                    .ToArray();
+                    .ToList();
+                updateField.AddRange(ModifyFields);
                 //設置默認值
                 x.SetModifyDefaultVal();
                 //添加修改字段
-                repository.Update<DetailT>(x, updateField);
+                repository.Update<DetailT>(x, updateField.ToArray());
             });
 
             //明细新增
@@ -1000,7 +1012,7 @@ namespace VOL.Core.BaseProvider
 
                 //主键值是否正确
                 string detailKeyVal = dic[detailKeyInfo.Name].ToString();
-                if (!mainKeyProperty.ValidationValueForDbType(detailKeyVal).FirstOrDefault().Item1
+                if (!detailKeyInfo.ValidationValueForDbType(detailKeyVal).FirstOrDefault().Item1
                     || deatilDefaultVal == detailKeyVal)
                     return Response.Error(ResponseType.KeyError);
 

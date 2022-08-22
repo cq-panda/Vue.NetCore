@@ -541,30 +541,6 @@ namespace VOL.Core.Extensions
             return info;
         }
 
-        public static byte[] ToBytes(this object obj)
-        {
-            if (obj == null)
-                return null;
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
-        }
-
-        public static object ToObject(this byte[] source)
-        {
-            using (var memStream = new MemoryStream())
-            {
-                var bf = new BinaryFormatter();
-                memStream.Write(source, 0, source.Length);
-                memStream.Seek(0, SeekOrigin.Begin);
-                var obj = bf.Deserialize(memStream);
-                return obj;
-            }
-        }
-
         /// <summary>
         /// 将object转换为char类型信息。
         /// </summary>
@@ -1171,7 +1147,7 @@ namespace VOL.Core.Extensions
             return timeStamp.Substring(0, timeStamp.Length - 7);
         }
 
-        private static readonly Regex MobileRegex = new Regex("^1[3|4|5|7|8][0-9]\\d{4,8}$");
+        private static readonly Regex MobileRegex = new Regex("^1[3-9][0-9]\\d{4,8}$");
         private static readonly Regex EmailRegex = new Regex("^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\\.[a-zA-Z0-9_-]{2,3}){1,2})$");
 
         /// <summary>
@@ -1183,7 +1159,7 @@ namespace VOL.Core.Extensions
         {
             return MobileRegex.IsMatch(mobile);
         }
- 
+
         /// <summary>
         /// 判断当前字符串是否为邮箱
         /// </summary>
