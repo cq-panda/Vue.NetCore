@@ -49,19 +49,9 @@ namespace VOL.System.Controllers
         /// <returns></returns>
         [ApiActionPermission(ActionRolePermission.SuperAdmin)]
         [HttpPost, Route("delMenu")]
-        public  async   Task<ActionResult> DelMenu(int menuId)
+        public async Task<ActionResult> DelMenu(int menuId)
         {
-            Core.Utilities.WebResponseContent webResponse = new Core.Utilities.WebResponseContent();
-            var repository = Repositories.Sys_MenuRepository.Instance;
-            if (await repository.ExistsAsync(x => x.ParentId == menuId))
-            {  
-                return Json(webResponse.Error("当前菜单存在子菜单,请先删除子菜单!"));
-            }
-            repository.Delete(new Sys_Menu()
-            {
-                Menu_Id = menuId
-            },true);
-            return Json(webResponse.OK("删除成功"));
+            return Json(await Service.DelMenu(menuId));
         }
 
     }
