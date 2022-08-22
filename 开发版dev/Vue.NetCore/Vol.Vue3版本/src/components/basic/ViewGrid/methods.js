@@ -369,13 +369,13 @@ let methods = {
     let status = this.searchAfter(data, result);
     callBack(status);
     //自动弹出框审批详情
-    if (this.isViewFlow()&&data&&data.length) {
+    if (this.isViewFlow() && data && data.length) {
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.viewflow = 0;
       this.$router.replace({ path: this.$route.path, query: query });
-      this.$nextTick(()=>{
-        this.getWorkFlowSteps(data[0])
-      })
+      this.$nextTick(() => {
+        this.getWorkFlowSteps(data[0]);
+      });
     }
   },
   loadDetailTableBefore(param, callBack) {
@@ -1125,6 +1125,10 @@ let methods = {
     formOptions.forEach((item) => {
       item.forEach((d) => {
         if (d.type == 'number') {
+          //2022.08.22优化表单类型为number时的默认值
+          if (formFields[d.field] === '') {
+            formFields[d.field] = undefined;
+          }
           this.numberFields.push(d.field);
         }
         if (
