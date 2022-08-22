@@ -94,6 +94,8 @@ namespace VOL.Core.ManageUser
                     User_Id = userId,
                     Role_Id = s.Role_Id.GetInt(),
                     RoleName = s.RoleName,
+                    //2022.08.15增加部门id
+                    DeptId = s.Dept_Id??0,
                     Token = s.Token,
                     UserName = s.UserName,
                     UserTrueName = s.UserTrueName,
@@ -124,6 +126,7 @@ namespace VOL.Core.ManageUser
         private static readonly Dictionary<int, List<Permissions>> rolePermissions = new Dictionary<int, List<Permissions>>();
 
 
+
         /// <summary>
         /// 获取用户所有的菜单权限
         /// </summary>
@@ -134,6 +137,22 @@ namespace VOL.Core.ManageUser
             {
                 return GetPermissions(RoleId);
             }
+        }
+
+        /// <summary>
+        /// 菜单按钮变更时，同时刷新权限缓存2022.05.23
+        /// </summary>
+        /// <param name="menuId"></param>
+        public void RefreshWithMenuActionChange(int menuId)
+        {
+            foreach (var roleId in rolePermissions.Where(c => c.Value.Any(x => x.Menu_Id == menuId)).Select(s => s.Key))
+            {
+                if (rolePermissionsVersion.ContainsKey(roleId))
+                {
+                    CacheService.Add(roleId.GetRoleIdKey(), DateTime.Now.ToString("yyyyMMddHHMMssfff"));
+                }
+            }
+
         }
 
         /// <summary>
@@ -173,9 +192,11 @@ namespace VOL.Core.ManageUser
             {
                 try
                 {
+                    var menuAuthArr = x.MenuAuth.DeserializeObject<List<Sys_Actions>>();
                     x.UserAuthArr = string.IsNullOrEmpty(x.UserAuth)
                     ? new string[0]
-                    : x.UserAuth.Split(",");
+                    : x.UserAuth.Split(",").Where(c => menuAuthArr.Any(m => m.Value == c)).ToArray();
+
                 }
                 catch { }
                 finally
@@ -300,7 +321,6 @@ namespace VOL.Core.ManageUser
         {
             if (roleId <= 0) roleId = RoleId;
             tableName = tableName.ToLower();
-            authName = authName.ToLower();
             return GetPermissions(roleId).Any(x => x.TableName == tableName && x.UserAuthArr.Contains(authName));
         }
 
