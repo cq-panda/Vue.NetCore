@@ -251,6 +251,7 @@ namespace VOL.System.Services
         public override WebResponseContent Add(SaveModel saveModel)
         {
             WebResponseContent responseData = new WebResponseContent();
+            saveModel.MainData["RoleName"] = "无";
             base.AddOnExecute = (SaveModel userModel) =>
             {
                 int roleId = userModel?.MainData?["Role_Id"].GetInt() ?? 0;
@@ -260,7 +261,6 @@ namespace VOL.System.Services
                     if ((roleId == 1) || string.IsNullOrEmpty(roleName))
                         return responseData.Error("不能选择此角色");
                 }
-                userModel.MainData["RoleName"] = "";
                 return responseData.OK();
             };
 
@@ -346,6 +346,7 @@ namespace VOL.System.Services
         {
             WebResponseContent responseContent = new WebResponseContent();
             UserInfo userInfo = UserContext.Current.UserInfo;
+            saveModel.MainData["RoleName"] = "无";
             //禁止修改用户名
             base.UpdateOnExecute = (SaveModel saveInfo) =>
             {
@@ -356,10 +357,6 @@ namespace VOL.System.Services
                     saveInfo.MainData.TryAdd("RoleName", roleName);
                     if (UserContext.IsRoleIdSuperAdmin(userInfo.Role_Id))
                     {
-                        if (userInfo.Role_Id == roleId)
-                        {
-                            saveInfo.MainData["RoleName"] = userInfo.RoleName;
-                        }
                         return responseContent.OK();
                     }
                     if (string.IsNullOrEmpty(roleName)) return responseContent.Error("不能选择此角色");
