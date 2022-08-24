@@ -552,14 +552,14 @@
 				}
 				this.fabButtons.push(...fabButtons);
 			},
-			initPermission() {
+			async initPermission() {
 				let permission = this.$store.getters.getMenu();
 				if (permission.length) {
 					this.permission = permission;
 					this.initPermissionButtons();
 					return;
 				}
-				this.http.get("api/menu/getTreeMenu", {}, false).then(result => {
+				await this.http.get("api/menu/getTreeMenu", {}, false).then(result => {
 					this.permission = result;
 					this.$store.commit("setPermission", result);
 					this.initPermissionButtons();
@@ -646,19 +646,19 @@
 				this.extraClick && this.extraClick(option, fields);
 			}
 		},
-		created() {
+		async created() {
 			_$this = this;
 			uni.getSystemInfo({
 				success: function(res) {
 					_$this.height = res.windowHeight - 10;
 				}
 			});
-			this.initPermission();
 			this.titleField = (this.columns.find(x => {
 				return x.link
 			}) || {}).field;
-			this.tableUrl = 'api' + this.options.table.url + 'getPageData';
-
+		    this.tableUrl = 'api' + this.options.table.url + 'getPageData';
+			
+			await this.initPermission();
 
 			let extend;
 			// #ifdef MP-WEIXIN
