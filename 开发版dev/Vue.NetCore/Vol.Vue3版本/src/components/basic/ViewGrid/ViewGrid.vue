@@ -298,7 +298,7 @@
                     </span>
                   </div>
                   <!--明细表格按钮-->
-                  <div class="btns">
+                  <div class="btns" v-show="!isBoxAudit">
                     <el-button
                       v-for="(btn, bIndex) in detailOptions.buttons"
                       :key="bIndex"

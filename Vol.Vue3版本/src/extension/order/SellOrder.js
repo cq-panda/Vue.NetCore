@@ -109,7 +109,7 @@ let extension = {
       })
     },
     mounted() {
-      this.$message.success('mounted方法执行时,你可以此处编写业务逻辑');
+      //this.$message.success('mounted方法执行时,你可以此处编写业务逻辑');
     },
     //方式1,通过select选择触发显示与隐藏
     onInit() {
@@ -155,7 +155,7 @@ let extension = {
       })
 
       //动态设置查询界面table高度
-      this.tableMaxHeight = 300;
+      this.tableHeight = 300;
       
     },
     onInited() {
