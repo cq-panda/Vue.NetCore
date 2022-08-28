@@ -236,10 +236,9 @@
                       maxBtnLength,
                       buttons.length
                     )"
-                    :icon="item.icon"
                     :key="dIndex"
                   >
-                    {{ item.name }}</el-dropdown-item
+                    <i :class="item.icon"></i> {{ item.name }}</el-dropdown-item
                   >
                 </el-dropdown-menu>
               </template>
@@ -572,7 +571,7 @@ var vueParam = {
         url: '', //从表加载数据的url
         pagination: { total: 0, size: 100, sortName: '' }, //从表分页配置数据
         height: 0, //默认从表高度
-        textInline:true,//明细表行内容显示在一行上，如果需要换行显示，请设置为false
+        textInline: true, //明细表行内容显示在一行上，如果需要换行显示，请设置为false
         doubleEdit: true, //使用双击编辑
         clickEdit: false, //是否开启点击单元格编辑，点击其他行时结束编辑
         currentReadonly: false, //当前用户没有编辑或新建权限时，表单只读(可用于判断用户是否有编辑或新建权限)
@@ -593,7 +592,7 @@ var vueParam = {
       },
       auditParam: {
         //审核对象
-        rows: 0, //当前选中审核的行数 
+        rows: 0, //当前选中审核的行数
         model: false, //审核弹出框
         value: -1, //审核结果
         status: -1,
@@ -641,12 +640,11 @@ var vueParam = {
   },
   methods: {},
   activated() {
-    
     //2020.06.25增加activated方法
     this.onActivated && this.onActivated();
-    if (this._inited&&this.isViewFlow()) {
-        this.resetSearch();
-        this.search();
+    if (this._inited && this.isViewFlow()) {
+      this.resetSearch();
+      this.search();
     }
     if (!this._inited) {
       this._inited = true;
