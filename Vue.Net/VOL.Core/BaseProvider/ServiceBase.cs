@@ -535,6 +535,7 @@ namespace VOL.Core.BaseProvider
             if (saveDataModel.DetailData == null || saveDataModel.DetailData.Count == 0)
             {
                 T mainEntity = saveDataModel.MainData.DicToEntity<T>();
+                SetAuditDefaultValue(mainEntity);
                 if (base.AddOnExecuting != null)
                 {
                     Response = base.AddOnExecuting(mainEntity, null);
@@ -582,6 +583,7 @@ namespace VOL.Core.BaseProvider
         {
             //设置用户默认值
             entity.SetCreateDefaultVal();
+            SetAuditDefaultValue(entity);
             if (validationEntity)
             {
                 Response = entity.ValidationEntity();
@@ -631,6 +633,32 @@ namespace VOL.Core.BaseProvider
             return Response;
         }
 
+        /// <summary>
+        /// 设置审批字段默认值
+        /// </summary>
+        /// <param name="entity"></param>
+        private void SetAuditDefaultValue(T entity)
+        {
+            if (!WorkFlowManager.Exists<T>())
+            {
+                return;
+            }
+            var propertity = TProperties.Where(x => x.Name.ToLower() == "auditstatus").FirstOrDefault();
+            if (propertity != null && propertity.GetValue(entity) == null)
+            {
+                propertity.SetValue(entity, 0);
+            }
+        }
+        /// <summary>
+        /// 写入流程
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="changeTableStatus">是否修改原表的审批状态</param>
+        protected void RewriteFlow(T entity,bool changeTableStatus = true) 
+        {
+            WorkFlowManager.AddProcese(entity, true, changeTableStatus);
+        }
         private void AddProcese(T entity)
         {
             if (!CheckResponseResult() && WorkFlowManager.Exists<T>())
@@ -641,8 +669,7 @@ namespace VOL.Core.BaseProvider
                 }
                 //写入流程
                 WorkFlowManager.AddProcese<T>(entity);
-                WorkFlowManager.Audit<T>(entity,AuditStatus.审核中,null,null,null,null, init: true, initInvoke: AddWorkFlowExecuted);
-
+                WorkFlowManager.Audit<T>(entity, AuditStatus.审核中, null, null, null, null, init: true, initInvoke: AddWorkFlowExecuted);
             }
         }
 
@@ -1159,8 +1186,6 @@ namespace VOL.Core.BaseProvider
         {
             if (keys == null || keys.Length == 0)
                 return Response.Error("未获取到参数!");
-            if (auditStatus != 1 && auditStatus != 2)
-                return Response.Error("请提求正确的审核结果!");
 
             Expression<Func<T, bool>> whereExpression = typeof(T).GetKeyName().CreateExpression<T>(keys[0], LinqExpressionType.Equal);
             T entity = repository.FindAsIQueryable(whereExpression).FirstOrDefault();
@@ -1179,8 +1204,15 @@ namespace VOL.Core.BaseProvider
                 {
                     return Response.Error("只能审批审核中的数据");
                 }
-                WorkFlowManager.Audit<T>(entity, status, auditReason, auditProperty, AuditWorkFlowExecuting, AuditWorkFlowExecuted);
-                return Response.OK("审核成功!");
+                Response = repository.DbContextBeginTransaction(() =>
+                {
+                    return WorkFlowManager.Audit<T>(entity, status, auditReason, auditProperty, AuditWorkFlowExecuting, AuditWorkFlowExecuted);
+                });
+                if (Response.Status)
+                {
+                    return Response.OK(ResponseType.AuditSuccess);
+                }
+                return Response.Error(Response.Message??"审批失败");
             }
 
 
@@ -1230,13 +1262,21 @@ namespace VOL.Core.BaseProvider
                 Response = AuditOnExecuting(auditList);
                 if (CheckResponseResult()) return Response;
             }
-            repository.UpdateRange(auditList, updateFileds.Select(x => x.Name).ToArray(), true);
-            if (base.AuditOnExecuted != null)
+            Response = repository.DbContextBeginTransaction(() =>
             {
-                Response = AuditOnExecuted(auditList);
-                if (CheckResponseResult()) return Response;
+                repository.UpdateRange(auditList, updateFileds.Select(x => x.Name).ToArray(), true);
+                if (base.AuditOnExecuted != null)
+                {
+                    Response = AuditOnExecuted(auditList);
+                    if (CheckResponseResult()) return Response;
+                }
+                return Response.OK();
+            });
+            if (Response.Status)
+            {
+                return Response.OK(ResponseType.AuditSuccess);
             }
-            return Response.OK(ResponseType.AuditSuccess);
+            return Response.Error(Response.Message);
         }
 
         public virtual (string, T, bool) ApiValidate(string bizContent, Expression<Func<T, object>> expression = null)

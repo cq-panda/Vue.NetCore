@@ -333,6 +333,13 @@ namespace VOL.Order.Services
                     //             .Where(x => nextUserIds.Contains(x.User_Id))
                     //             .Select(s => new { s.User_Id, s.UserTrueName, s.Email, s.PhoneNo }).ToList();
                 }
+                
+
+                //审批流程回退功能，回到第一个审批人重新审批(重新生成审批流程)
+                //if (status==AuditStatus.审核未通过||status==AuditStatus.驳回)
+                //{
+                //    base.RewriteFlow(order);
+                //}
 
                 return webResponse.OK();
             };

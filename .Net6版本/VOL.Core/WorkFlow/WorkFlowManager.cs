@@ -41,13 +41,69 @@ namespace VOL.Core.WorkFlow
                    .FirstOrDefault();
         }
 
+        private static void Rewrite<T>(T entity, Sys_WorkFlow workFlow,bool changeTableStatus) where T:class
+        {
+            var autditProperty = typeof(T).GetProperties().Where(x => x.Name.ToLower() == "auditstatus").FirstOrDefault();
+            if (autditProperty == null)
+            {
+                return;
+            }
 
+            string value = typeof(T).GetKeyProperty().GetValue(entity).ToString();
+
+            var dbContext = DBServerProvider.DbContext;
+
+
+            var workTable = dbContext.Set<Sys_WorkFlowTable>().Where(x => x.WorkTableKey == value && x.WorkFlow_Id == workFlow.WorkFlow_Id)
+                   .AsNoTracking()
+                  .Include(x => x.Sys_WorkFlowTableStep).FirstOrDefault();
+            if (workTable == null || workFlow.Sys_WorkFlowStep == null)
+            {
+                Console.WriteLine($"未查到流程数据，id：{ workFlow.WorkFlow_Id}");
+                return;
+            }
+            workTable.CurrentOrderId = 1;
+            workTable.AuditStatus = (int)AuditStatus.审核中;
+            workTable.Sys_WorkFlowTableStep.ForEach(item =>
+            {
+                item.Enable = 0;
+            });
+
+            if (changeTableStatus)
+            {
+                dbContext.Entry(entity).State = EntityState.Detached;
+                autditProperty.SetValue(entity, 0);
+                dbContext.Entry(entity).Property(autditProperty.Name).IsModified = true;
+            }
+
+            var wlowTableStep = workFlow.Sys_WorkFlowStep.OrderBy(x => x.OrderId).Select(s => new Sys_WorkFlowTableStep()
+            {
+                Sys_WorkFlowTableStep_Id = Guid.NewGuid(),
+                WorkFlowTable_Id = workTable.WorkFlowTable_Id,
+                WorkFlow_Id = s.WorkFlow_Id,
+                StepId = s.StepId,
+                StepName = s.StepName,
+                AuditId = s.StepType == (int)AuditType.用户审批 ? s.StepValue : null,
+                StepType = s.StepType,
+                StepValue = s.StepValue,
+                OrderId = s.OrderId,
+                Enable = 1,
+                CreateDate = DateTime.Now,
+            }).ToList();
+            dbContext.Entry(workTable).State = EntityState.Detached;
+            dbContext.Update(workTable);
+            dbContext.AddRange(wlowTableStep);
+            dbContext.SaveChanges();
+
+        }
         /// <summary>
         /// 写入流程
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
-        public static void AddProcese<T>(T entity, bool rewrite = false)
+        /// <param name="rewrite">是否重新生成流程</param>
+        /// <param name="changeTableStatus">是否修改原表的审批状态</param>
+        public static void AddProcese<T>(T entity, bool rewrite = false,bool changeTableStatus=true) where T:class
         {
             string workTable = typeof(T).GetEntityTableName();
 
@@ -57,6 +113,12 @@ namespace VOL.Core.WorkFlow
                 .FirstOrDefault();
 
             if (workFlow == null || workFlow.Sys_WorkFlowStep.Count == 0) return;
+            //重新生成流程
+            if (rewrite)
+            {
+                Rewrite(entity, workFlow,changeTableStatus);
+                return;
+            }
 
             var userInfo = UserContext.Current.UserInfo;
             Guid workFlowTable_Id = Guid.NewGuid();
@@ -195,10 +257,16 @@ namespace VOL.Core.WorkFlow
             currnetStep.AuditDate = DateTime.Now;
             currnetStep.AuditStatus = (int)status;
             currnetStep.Remark = remark;
+
+
+            //dbContext.Entry(workFlow).Property("CurrentOrderId").IsModified = true;
+            //dbContext.Entry(workFlow).Property("AuditStatus").IsModified = true;
+
+
             dbContext.Set<Sys_WorkFlowTable>().Update(workFlow);
 
             dbContext.SaveChanges();
-
+            dbContext.Entry(workFlow).State = EntityState.Detached;
             if (workFlowExecuted != null)
             {
                 webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0), isLast);

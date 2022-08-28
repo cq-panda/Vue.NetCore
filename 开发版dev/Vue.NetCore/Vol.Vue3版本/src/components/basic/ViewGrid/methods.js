@@ -1620,12 +1620,16 @@ let methods = {
         this.auditParam.showAction = result.list.some((c) => {
           return c.isCurrentUser;
         });
-        this.auditParam.height = 450;
+        this.auditParam.height = 511;
         this.auditParam.showViewButton = true;
       }
       this.auditParam.reason = '';
       this.auditParam.status = -1;
       this.auditParam.value = -1;
+      result.his.forEach((item) => {
+        item.auditStatus = this.getAuditStatus(item.auditStatus);
+      });
+      this.auditParam.auditHis = result.his;
       this.workFlowSteps.push(...result.list);
       this.isBoxAudit = true;
       this.initFormOptionType(true);

@@ -89,27 +89,33 @@ namespace VOL.System.Controllers
 
             var user = UserContext.Current.UserInfo;
             List<int> stepValues = flow.Sys_WorkFlowTableStep.Select(s => s.StepValue ?? 0).ToList();
-            var users = _userRepository.FindAsIQueryable(x => true)
-                                        .Select(u => new { u.User_Id, u.UserTrueName });
+
+            var auditUsers = flow.Sys_WorkFlowTableStep.Where(x => x.AuditId > 0).Select(s => s.AuditId).ToArray();
+            var users = await _userRepository.FindAsIQueryable(x => auditUsers.Contains(x.User_Id))
+                                        .Select(u => new { u.User_Id, u.UserTrueName }).ToListAsync();
+
+            var steps = flow.Sys_WorkFlowTableStep
+                    .Select(c => new
+                    {
+                        c.AuditId,
+                        Auditor = users.Where(us => us.User_Id == c.AuditId).Select(us => us.UserTrueName).FirstOrDefault(),
+                        c.AuditDate,
+                        c.AuditStatus,
+                        c.Remark,
+                        c.StepValue,
+                        c.StepName,
+                        c.OrderId,
+                        c.Enable,
+                        //判断是按角色审批 还是用户帐号审批
+                        isCurrentUser = (c.AuditStatus ?? 0) == (int)AuditStatus.审核中 && c.OrderId == flow.CurrentOrderId && GetAuditStepValue(c.StepType) == c.StepValue,
+                        isCurrent = c.OrderId == flow.CurrentOrderId && c.AuditStatus != (int)AuditStatus.审核通过
+                    }).OrderBy(o => o.OrderId);
             var data = new
             {
                 step = flow.CurrentOrderId,
                 flow.AuditStatus,
-                list = flow.Sys_WorkFlowTableStep
-                   .Select(c => new
-                   {
-                       c.AuditId,
-                       Auditor = users.Where(us => us.User_Id == c.AuditId).Select(us => us.UserTrueName).FirstOrDefault(),
-                       c.AuditDate,
-                       c.AuditStatus,
-                       c.Remark,
-                       c.StepValue,
-                       c.StepName,
-                       c.OrderId,
-                       //判断是按角色审批 还是用户帐号审批
-                       isCurrentUser = (c.AuditStatus ?? 0) == (int)AuditStatus.审核中 && c.OrderId == flow.CurrentOrderId && GetAuditStepValue(c.StepType) == c.StepValue,
-                       isCurrent = c.OrderId == flow.CurrentOrderId && c.AuditStatus != (int)AuditStatus.审核通过
-                   }).OrderBy(o => o.OrderId)
+                list = steps.Where(x => (x.Enable == null || x.Enable > 0)).ToList(),
+                his = steps.Where(x => x.AuditId > 0 &&x.AuditStatus>0 && x.Enable == 0).ToList(),
             };
 
             return Json(data);

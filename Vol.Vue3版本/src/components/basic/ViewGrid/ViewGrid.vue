@@ -33,62 +33,69 @@
     <vol-box
       v-model="auditParam.model"
       :height="auditParam.height"
-      :width="550"
+      :width="750"
       :lazy="true"
-      :padding="10"
+      :padding="0"
       title="审批"
     >
       <template #content>
-        <div class="v-steps">
-          <div
-            :class="{ 'step-current': item.isCurrent }"
-            class="step-item"
-            v-for="(item, index) in workFlowSteps"
-            :key="index"
-          >
-            <div class="left-item">
-              <div>审批时间</div>
-              <div class="left-date">{{ item.auditDate || '待审批' }}</div>
-            </div>
-            <div class="right-item">
-              <div class="step-line"></div>
-              <i class="step-circle"></i>
-              <div class="step-title">
-                {{ item.stepName }}
-              </div>
-              <div class="step-text">审批人：{{ item.auditor }}</div>
-              <div class="step-text">
-                状 态： {{ getAuditStatus(item.auditStatus) }}
-              </div>
-              <div class="step-text">备 注： {{ item.remark || '-' }}</div>
-            </div>
-          </div>
-          <div class="audit-content" v-show="auditParam.showAction">
-            <div style="margin-bottom:10px;">
-              审批：
-              <el-radio-group
-                style="margin-left:15px"
-                v-model="auditParam.value"
+        <el-tabs type="card">
+          <el-tab-pane label="当前审批">
+            <div class="v-steps">
+              <div
+                :class="{ 'step-current': item.isCurrent }"
+                class="step-item"
+                v-for="(item, index) in workFlowSteps"
+                :key="index"
               >
-                <el-radio
-                  v-for="item in auditParam.data"
-                  :key="item.value"
-                  :label="item.value"
-                >
-                  <span>{{ item.text }}</span>
-                </el-radio>
-              </el-radio-group>
-            </div>
+                <div class="left-item">
+                  <div>审批时间</div>
+                  <div class="left-date">{{ item.auditDate || '待审批' }}</div>
+                </div>
+                <div class="right-item">
+                  <div class="step-line"></div>
+                  <i class="step-circle"></i>
+                  <div class="step-title">
+                    {{ item.stepName }}
+                  </div>
+                  <div class="step-text">审批人：{{ item.auditor }}</div>
+                  <div class="step-text">
+                    状 态： {{ getAuditStatus(item.auditStatus) }}
+                  </div>
+                  <div class="step-text">备 注： {{ item.remark || '-' }}</div>
+                </div>
+              </div>
+              <div class="audit-content" v-show="auditParam.showAction">
+                <div style="margin-bottom:10px;">
+                  审批：
+                  <el-radio-group
+                    style="margin-left:15px"
+                    v-model="auditParam.value"
+                  >
+                    <el-radio
+                      v-for="item in auditParam.data"
+                      :key="item.value"
+                      :label="item.value"
+                    >
+                      <span>{{ item.text }}</span>
+                    </el-radio>
+                  </el-radio-group>
+                </div>
 
-            <el-input
-              v-model="auditParam.reason"
-              type="textarea"
-              style="margin-right: 13px;"
-              :autosize="{ minRows: 4, maxRows: 10 }"
-              placeholder="请输入备注..."
-            ></el-input>
-          </div>
-        </div>
+                <el-input
+                  v-model="auditParam.reason"
+                  type="textarea"
+                  style="margin-right: 13px;"
+                  :autosize="{ minRows: 4, maxRows: 10 }"
+                  placeholder="请输入备注..."
+                ></el-input>
+              </div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="审批记录">
+          <audit-his :table-data="auditParam.auditHis"></audit-his>
+           </el-tab-pane>
+        </el-tabs>
       </template>
       <template #footer>
         <div style="text-align: center;">
@@ -483,7 +490,8 @@ var vueParam = {
     'custom-column': defineAsyncComponent(() =>
       import('./ViewGridCustomColumn.vue')
     ),
-    'vol-header': defineAsyncComponent(() => import('./../VolHeader.vue'))
+    'vol-header': defineAsyncComponent(() => import('./../VolHeader.vue')),
+        'audit-his': defineAsyncComponent(() => import('./AuditHis.vue'))
   },
   props: {},
   setup(props) {
@@ -599,6 +607,7 @@ var vueParam = {
         reason: '', //审核原因
         height: 500,
         showViewButton: true,
+        auditHis:[],
         showAction: false, //是否显示审批操作(当前节点为用户审批时显示)
         //审核选项(可自行再添加)
         data: [
