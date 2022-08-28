@@ -606,6 +606,10 @@ let methods = {
           return x.path;
         });
         editFormFields[key] = allPath.join(',');
+      } else if (typeof this.editFormFields[key] == 'function') {
+        try {
+          editFormFields[key] = this.editFormFields[key]();
+        } catch (error) {}
       } else {
         //2021.05.30修复下拉框清除数据后后台不能保存的问题
         if (
