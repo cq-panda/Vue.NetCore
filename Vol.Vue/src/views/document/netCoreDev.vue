@@ -1313,6 +1313,7 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
           content: [
             `<p>
 			<div style="padding:20px;font-size:18px;">此处是SellOrderService为例，如果框架生成的默认功能满足不了需求，请查看下面代码根据需要实现对应功能</div>
+	<p>
 	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 		<div>
 			<span style="color:#9cdcfe;">public</span> <span style="color:#9cdcfe;">partial</span> <span style="color:#569cd6;">class</span> <span style="color:#4ec9b0;">SellOrderService</span>
@@ -1379,7 +1380,7 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置 IsMultiTenancy = true;</span>
 		</div>
 		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">IsMultiTenancy</span> = <span style="color:#569cd6;">true</span>;
+			&nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">// IsMultiTenancy = true;</span>
 		</div>
 		<div>
 			&nbsp; &nbsp; }
@@ -2176,6 +2177,25 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
 		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//审批流程回退功能，回到第一个审批人重新审批(重新生成审批流程)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//if (status==AuditStatus.审核未通过||status==AuditStatus.驳回)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//{</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp;base.RewriteFlow(order);</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//}</span>
+		</div>
 <br />
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
@@ -2390,6 +2410,10 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 			}
 		</div>
 	</div>
+</p>
+<p>
+	<br />
+</p>
 </p>`,
           ],
           tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`,

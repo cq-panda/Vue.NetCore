@@ -1626,9 +1626,12 @@ let methods = {
       this.auditParam.reason = '';
       this.auditParam.status = -1;
       this.auditParam.value = -1;
-      result.his.forEach((item) => {
-        item.auditStatus = this.getAuditStatus(item.auditStatus);
-      });
+      if (result.his) {
+        result.his.forEach((item) => {
+          item.auditStatus = this.getAuditStatus(item.auditStatus);
+        });
+      }
+
       this.auditParam.auditHis = result.his;
       this.workFlowSteps.push(...result.list);
       this.isBoxAudit = true;

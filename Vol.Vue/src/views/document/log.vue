@@ -50,6 +50,15 @@ export default {
       active: 0,
       log: [
         { date: '2022.08', type: 'month' },
+        { date: "2022-08-29 04:32:06",desc:"增加审批流程回退功能,更新文件:ServiceBase.cs、WorkFlowManager.cs、Sys_WorkFlowController.cs、前端viewgrid文件夹(回退使用方法见后台开发文档上审批方法)"},
+{ date: "2022-08-29 02:11:03",desc:"优化vue3版本table编辑时数据源类型判断"},
+{ date: "2022-08-29 01:45:31",desc:"优化vue3版本审批时隐藏弹出框其他按钮"},
+{ date: "2022-08-29 01:35:33",desc:"优化vue3版本表单编辑为函数时提交自动计算结果"},
+{ date: "2022-08-29 01:29:53",desc:"修复vue3版本升级后白色与黑色主题颜色显示异常的问题"},
+{ date: "2022-08-29 01:09:52",desc:"优化登陆页字体大小"},
+{ date: "2022-08-29 01:07:11",desc:"修复vue3版本升级后更多按钮图标不显示的问题"},
+{ date: "2022-08-24 21:33:53",desc:"Merge branch 'master' of https://github.com/cq-panda/Vue.NetCore"},
+{ date: "2022-08-24 21:32:19",desc:"优化移动端权限加载顺序"},
         {
           date: '2022-08-22 21:33:00',
           desc: '优化vue3版本表单类型为number时的默认值'
