@@ -259,6 +259,8 @@ export default defineComponent({
 .loging-btn {
   button {
     width: 100%;
+    font-size:14px !important;
+    letter-spacing:2px;
   }
 }
 .content {
