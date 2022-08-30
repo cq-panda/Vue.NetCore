@@ -48,6 +48,7 @@ namespace VOL.Core.Enums
         ExpertAuthority,
         ParEmpty,
         NoToken,
-        ReplaceToeken
+        ReplaceToeken,
+        KafkaException
     }
 }

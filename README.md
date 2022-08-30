@@ -21,9 +21,12 @@
 ## 框架开发依赖环境
  - 后台：VS2019、vs2022 、.NetCore3.1 、.Net6、EFCore3.1/6.0、JWT、Dapper、signalR、Autofac、SqlServer/MySql/PGSql/Oracle、Redis(可选,默认使用内置IMemory)
  - 前端：VsCode、Vue2/vue3（webpack、node.js,如果没有此环境自行搜索:vue webpack npm)、vuex、axios、promise、iview、element-ui
- 
+## 链接
+
 ## [vol框架视频](https://www.cctalk.com/m/group/90268531)
 ## [NET视频教程(微软MVP-ACE录制)](https://space.bilibili.com/525836469)
+## [元讯趣编程交流社区](https://www.qubcedu.com/)
+
 ## 项目启动与上手
  - http://v2.volcore.xyz/document/guide
 ## vue2版本

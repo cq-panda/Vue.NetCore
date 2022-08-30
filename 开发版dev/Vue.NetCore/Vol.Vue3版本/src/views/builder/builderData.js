@@ -114,7 +114,7 @@ let data = {
       ],
       [
         { "title": "快捷编辑", "field": "expressField", placeholder: "快捷编辑字段" },
-        { "title": "排序字段", "field": "sortName", "placeholder": "非自增主键需要输入排序字段", colSize: 8 },
+        { "title": "排序字段", "field": "sortName", "placeholder": "多个排序字段逗号隔开(默认降序排序),如：Name,Age", colSize: 8 },
 
         // { "title": "还没想好", "field": "richtitle" }
       ],

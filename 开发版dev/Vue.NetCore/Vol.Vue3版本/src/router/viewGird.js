@@ -42,6 +42,22 @@ let viewgird = [
         path: '/FormCollectionObject',
         name: 'FormCollectionObject',
         component: () => import('@/views/system/form/FormCollectionObject.vue')
+    }    ,{
+        path: '/Sys_WorkFlow',
+        name: 'Sys_WorkFlow',
+        component: () => import('@/views/system/flow/Sys_WorkFlow.vue')
+    }    ,{
+        path: '/Sys_WorkFlowStep',
+        name: 'Sys_WorkFlowStep',
+        component: () => import('@/views/system/flow/Sys_WorkFlowStep.vue')
+    }    ,{
+        path: '/Sys_WorkFlowTable',
+        name: 'Sys_WorkFlowTable',
+        component: () => import('@/views/system/flow/Sys_WorkFlowTable.vue')
+    }    ,{
+        path: '/Sys_WorkFlowTableStep',
+        name: 'Sys_WorkFlowTableStep',
+        component: () => import('@/views/system/flow/Sys_WorkFlowTableStep.vue')
     }]
 
 export default viewgird

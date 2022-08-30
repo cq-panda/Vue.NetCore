@@ -7,8 +7,14 @@
       </div>
       <div class="vol-menu">
         <el-scrollbar style="height: 100%">
-          <VolMenu :on-select="onSelect" :enable="true" :open-select="false" :isCollapse="isCollapse"
-            :list="menuOptions"></VolMenu>
+          <VolMenu
+            :currentMenuId="currentMenuId"
+            :on-select="onSelect"
+            :enable="true"
+            :open-select="false"
+            :isCollapse="isCollapse"
+            :list="menuOptions"
+          ></VolMenu>
         </el-scrollbar>
       </div>
     </div>
@@ -17,9 +23,14 @@
         <div class="project-name">VOL开发框架Vue3.x版本</div>
         <div class="header-text">
           <div class="h-link">
-            <a href="javascript:void(0)" @click="to(item)" v-for="(item, index) in links.filter((c) => {
-              return !c.icon;
-            })" :key="index">
+            <a
+              href="javascript:void(0)"
+              @click="to(item)"
+              v-for="(item, index) in links.filter((c) => {
+                return !c.icon;
+              })"
+              :key="index"
+            >
               <span v-if="!item.icon"> {{ item.text }}</span>
               <i v-else :class="item.icon"></i>
             </a>
@@ -27,9 +38,14 @@
         </div>
         <div class="header-info">
           <div class="h-link">
-            <a href="javascript:void(0)" @click="to(item)" v-for="(item, index) in links.filter((c) => {
-              return c.icon;
-            })" :key="index">
+            <a
+              href="javascript:void(0)"
+              @click="to(item)"
+              v-for="(item, index) in links.filter((c) => {
+                return c.icon;
+              })"
+              :key="index"
+            >
               <span v-if="!item.icon"> {{ item.text }}</span>
               <i v-else :class="item.icon"></i>
             </a>
@@ -47,32 +63,66 @@
             <span id="index-date"></span>
           </div>
           <div class="settings">
-            <i style="font-size: 20px" class="el-icon-s-tools" @click="drawer_model = true" />
+            <i
+              style="font-size: 20px"
+              class="el-icon-s-tools"
+              @click="drawer_model = true"
+            />
           </div>
         </div>
       </div>
       <div class="vol-path">
-        <el-tabs @tab-click="selectNav" @tab-remove="removeNav" @contextmenu.prevent="bindRightClickMenu(false)"
-          type="border-card" class="header-navigation" v-model="selectId" :strtch="false">
-          <el-tab-pane v-for="(item, navIndex) in navigation" type="card" :name="navIndex+''" :closable="navIndex > 0"
-            :key="navIndex" :label="item.name">
-            <span style="display:none;">{{ navIndex }}</span>
+        <el-tabs
+          @tab-click="selectNav"
+          @tab-remove="removeNav"
+          @contextmenu.prevent="bindRightClickMenu(false)"
+          type="border-card"
+          class="header-navigation"
+          v-model="selectId"
+          :strtch="false"
+        >
+          <el-tab-pane
+            v-for="(item, navIndex) in navigation"
+            type="card"
+            :name="navIndex + ''"
+            :closable="navIndex > 0"
+            :key="navIndex"
+            :label="item.name"
+          >
+            <span style="display: none">{{ navIndex }}</span>
           </el-tab-pane>
         </el-tabs>
         <!-- 右键菜单 -->
         <div v-show="contextMenuVisible">
-          <ul :style="{ left: menuLeft + 'px', top: menuTop + 'px' }" class="contextMenu">
+          <ul
+            :style="{ left: menuLeft + 'px', top: menuTop + 'px' }"
+            class="contextMenu"
+          >
             <li v-show="visibleItem.all">
-              <el-button type="text" icon="el-icon-close" @click="closeTabs()" size="mini">关闭所有</el-button>
+              <el-button type="text" @click="closeTabs()" size="samll">
+                <i class="el-icon-close"></i>
+                {{
+                  navigation.length == 2 ? "关闭菜单" : "关闭所有"
+                }}</el-button
+              >
             </li>
             <li v-show="visibleItem.left">
-              <el-button type="text" icon="el-icon-back" @click="closeTabs('left')" size="mini">关闭左边</el-button>
+              <el-button type="text" @click="closeTabs('left')" size="samll"
+                ><i class="el-icon-back"></i>关闭左边</el-button
+              >
             </li>
             <li v-show="visibleItem.right">
-              <el-button type="text" icon="el-icon-right" @click="closeTabs('right')" size="mini">关闭右边</el-button>
+              <el-button type="text" @click="closeTabs('right')" size="samll">
+                <i class="el-icon-right"></i>关闭右边</el-button
+              >
             </li>
             <li v-show="visibleItem.other">
-              <el-button type="text" icon="el-icon-bottom-right" @click="closeTabs('other')" size="mini">关闭其他</el-button>
+              <el-button
+                type="text"
+                @click="closeTabs('other')"
+             
+                ><i class="el-icon-right"></i>关闭其他
+              </el-button>
             </li>
           </ul>
         </div>
@@ -80,30 +130,54 @@
       <div class="vol-main" id="vol-main">
         <el-scrollbar style="height: 100%" v-if="permissionInited">
           <loading v-show="$store.getters.isLoading()"></loading>
-          <router-view v-if="
-            !$route.meta ||
-            ($route.meta && !$route.meta.hasOwnProperty('keepAlive'))
-          " v-slot="{ Component }">
+          <router-view
+            v-if="
+              !$route.meta ||
+              ($route.meta && !$route.meta.hasOwnProperty('keepAlive'))
+            "
+            v-slot="{ Component }"
+          >
             <keep-alive>
               <component :is="Component" />
             </keep-alive>
           </router-view>
-          <router-view v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"></router-view>
+          <router-view
+            v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"
+          ></router-view>
         </el-scrollbar>
       </div>
     </div>
-    <el-drawer title="选择主题" v-model="drawer_model" direction="rtl" destroy-on-close>
+    <el-drawer
+      title="选择主题"
+      v-model="drawer_model"
+      direction="rtl"
+      destroy-on-close
+    >
       <div class="theme-selector">
-        <div @click="changeTheme(item.name)" class="item" v-for="(item, index) in theme_color" :key="index"
-          :style="{ background: item.color }">
-          <div v-show="item.leftColor" :style="{ background: item.leftColor }" style="height: 100%; width: 20px"
-            class="t-left"></div>
+        <div
+          @click="changeTheme(item.name)"
+          class="item"
+          v-for="(item, index) in theme_color"
+          :key="index"
+          :style="{ background: item.color }"
+        >
+          <div
+            v-show="item.leftColor"
+            :style="{ background: item.leftColor }"
+            style="height: 100%; width: 20px"
+            class="t-left"
+          ></div>
           <div class="t-right"></div>
         </div>
       </div>
     </el-drawer>
 
-    <el-drawer title="消息列表" v-model="messageModel" direction="rtl" destroy-on-close>
+    <el-drawer
+      title="消息列表"
+      v-model="messageModel"
+      direction="rtl"
+      destroy-on-close
+    >
       <Message :list="messageList"></Message>
     </el-drawer>
   </div>
@@ -145,7 +219,8 @@ export default defineComponent({
       rightTabs: true,
       otherTabs: true,
       menuLeft: 0,
-      menuTop: 0
+      menuTop: 0,
+      //  contextMenuVisible: false, // 右键关闭显/隐
     };
   },
   setup(props, context) {
@@ -193,15 +268,23 @@ export default defineComponent({
     const errorImg = ref(
       'this.src="' + require("@/assets/imgs/error-img.png") + '"'
     );
-    // 【首页】选中标签序号
-    const selectId = ref('1');
+    const selectId = ref("1");
     // 【首页】标签序号(当前右键选中的菜单)
-    const selectMenuIndex = ref('0');
+    const selectMenuIndex = ref("0");
+    //2022.05.29增加tab选项与菜单联动功能
+    const currentMenuId = ref(0);
     const userName = ref("--");
     const userInfo = ref({});
-    const visibleItem = reactive({ left: false, right: false, all: false, other: false });
+    const visibleItem = reactive({
+      left: false,
+      right: false,
+      all: false,
+      other: false,
+    });
     const userImg = ref("");
-    const navigation = reactive([{ name: "首页", path: "/home" }]);
+    const navigation = reactive([
+      { orderNo: "0", id: "1", name: "首页", path: "/home" },
+    ]);
     const logo = ref(imgUrl);
     const theme = ref("blue2");
     const menuOptions = ref([]);
@@ -256,18 +339,17 @@ export default defineComponent({
         return x.path == item.path;
       });
       if (_index == -1) {
-        navigation.push(
-          {
+        navigation.push({
           //  orderNo: String(navigation.length),// 序号
-            id: item.id+'',
-            name: item.name || item.text || "无标题",
-            path: item.path,
-            query: item.query, //2021.03.20修复自定义二次打开$tabs时参数丢失的问题
-          });
+          id: item.id + "",
+          name: item.name || item.text || "无标题",
+          path: item.path,
+          query: item.query, //2021.03.20修复自定义二次打开$tabs时参数丢失的问题
+        });
         //新打开的tab移至最后一个选项
-          selectId.value = navigation.length - 1 + '';
+        selectId.value = navigation.length - 1 + "";
       } else {
-         selectId.value = _index + '';
+        selectId.value = _index + "";
       }
       if (useRoute === undefined) {
         //非标准菜单，记录最后一次跳转的页面，用于刷新
@@ -275,7 +357,7 @@ export default defineComponent({
         router.push(item);
         // this.$router.push(item);
       }
-
+      currentMenuId.value = item.id * 1;
       // tab菜单绑定右键事件
       proxy.$nextTick(function (e) {
         proxy.bindRightClickMenu(true);
@@ -304,7 +386,15 @@ export default defineComponent({
       return nav ? JSON.parse(nav) : null;
     };
     const selectNav = (item) => {
-      selectId.value = item.instance.props.name;
+      //升级element正式版修改
+      selectId.value = item.props.name;
+      let _path = navigation[item.index].path;
+      currentMenuId.value = (
+        menuOptions.value.find((c) => {
+          return c.path == _path;
+        }) || { id: 0 }
+      ).id;
+
       router.push({
         path: navigation[item.index].path,
         query: navigation[item.index].query,
@@ -315,28 +405,26 @@ export default defineComponent({
       return new Promise(() => {
         //关闭的当前项,跳转到前一个页面
         if (selectId.value == _index + "") {
-          if(navigation[_index*1 + 1]){ // 下一个页面
-            setItem(navigation[_index*1 + 1]);
-            router.push({
-              path: navigation[_index*1 + 1].path,
-            });
-            navigation.splice(_index, 1);
-            selectId.value = selectId.value + "";
-          }else{// 上一个页面
-            setItem(navigation[_index - 1]);
-            router.push({
-              path: navigation[_index - 1].path,
-            });
-            navigation.splice(_index, 1);
-            selectId.value = selectId.value - 1 + "";
-          }          
-          
+          console.log(navigation[_index - 1]);
+          setItem(navigation[_index - 1]);
+          router.push({
+            path: navigation[_index - 1].path,
+            //2022.06.27修复tabs二次切换后参数丢失的问题
+            query: navigation[_index - 1].query,
+          });
+          navigation.splice(_index, 1);
+          selectId.value = selectId.value - 1 + "";
           return;
         }
         if (_index < selectId.value) {
           selectId.value = selectId.value - 1 + "";
         }
         navigation.splice(_index, 1);
+        currentMenuId.value = (
+          menuOptions.value.find((c) => {
+            return c.path == navigation[selectId.value * 1].path;
+          }) || { id: 0 }
+        ).id;
       });
     };
 
@@ -356,24 +444,23 @@ export default defineComponent({
      * @param {*} e 事件对象
      */
     const openTabsMenu = function (e) {
-
       e.preventDefault(); // 防止默认菜单弹出
-      let tabId = e.target.id.split('-')[1] * 1;
-
+      let tabId = e.target.id.split("-")[1] * 1;
 
       //记录当前选中的菜单index
-      selectMenuIndex.value = document.getElementById('pane-' + tabId).children[0].textContent * 1;
+      selectMenuIndex.value =
+        document.getElementById("pane-" + tabId).children[0].textContent * 1;
       //只有首页时不显示
       if (navigation.length == 1) {
         return;
       }
 
-      //首页设置显示关闭其它菜单
+      //首页设置显示关闭右边菜单
       if (!selectMenuIndex.value) {
         visibleItem.all = false;
-        visibleItem.right = false;
+        visibleItem.right = true;
         visibleItem.left = false;
-        visibleItem.other = true;
+        visibleItem.other = false;
       } else {
         visibleItem.all = true;
         //不是最后一个显示关闭右边菜单
@@ -385,61 +472,75 @@ export default defineComponent({
       }
       contextMenuVisible.value = true;
       // 设置右键菜单显示的位置
-      proxy.menuLeft = e.target.getBoundingClientRect().left - (isCollapse.value ? 63 : 198);//-e.target.clientWidth
+      proxy.menuLeft =
+        e.target.getBoundingClientRect().left - (isCollapse.value ? 63 : 198); //-e.target.clientWidth
       proxy.menuTop = 36;
     };
 
     /**
-        * 关闭右键菜单
-        */
+     * 关闭右键菜单
+     */
     const closeTabsMenu = () => {
       contextMenuVisible.value = false;
     };
     const toHome = () => {
       open({
         text: navigation[0].name,
-        path: navigation[0].path
-      })
-    }
+        path: navigation[0].path,
+      });
+    };
     /**
      * 关闭其它标签页
-     * @param {*} value 关闭类型(left,right,other)
+     * @param {*} par 关闭类型(left,right,other)
      */
     const closeTabs = (value) => {
-      let selectMenuId = navigation[selectId.value *1].id;// 当前选中tab的id
-      //let _menuId= navigation[selectMenuIndex.value *1].id;// 当前右键tab的id
-      let currnetIndex =selectMenuIndex.value *1;// 当前右键tab的序号值
+      let _menuId = navigation[selectId.value * 1].id;
+      let currnetIndex = selectId.value * 1; // navigation.findIndex(c => { return c.id == selectId.value });
       switch (value) {
-        case "left": { // 删除左侧tab标签
-          navigation.splice(1, currnetIndex - 1);
-          currnetIndex = "1";
+        case "left": {
+          // 删除左侧tab标签
+          navigation.splice(1, currnetIndex - 1); // 删除左侧tab标签
           break;
         }
-        case "right": { // 删除右侧tab标签
-          navigation.splice(currnetIndex + 1);
-          if (selectMenuIndex.value < currnetIndex) {
-            navigation.splice(selectMenuIndex.value, currnetIndex-selectMenuIndex.value);
-          }         
+        case "right": {
+          // 删除右侧tab标签
+          if (selectMenuIndex.value == 0) {
+            navigation.splice(currnetIndex); // 删除右侧tab标签
+            toHome();
+          } else {
+            navigation.splice(currnetIndex + 1); // 删除右侧tab标签
+            if (selectMenuIndex.value < currnetIndex) {
+              navigation.splice(
+                selectMenuIndex.value,
+                currnetIndex - selectMenuIndex.value
+              );
+            }
+          }
           break;
         }
-        case "other": { // 删除其他所有tab标签
-          navigation.splice(currnetIndex + 1);// 删除右侧tab标签(这里必须按照右→左顺序删除)
-          navigation.splice(1, currnetIndex - 1);// 删除左侧tab标签          
+        case "other": {
+          // 删除其他所有tab标签
+          navigation.splice(currnetIndex + 1); // 删除右侧tab标签(这里必须按照右→左顺序删除)
+          navigation.splice(1, currnetIndex - 1); // 删除左侧tab标签
           break;
         }
-        default: { //关闭所有
+        default: {
+          //关闭所有
           navigation.splice(1, navigation.length);
           toHome();
           break;
         }
       }
-      
-      let selectTabNo = navigation.findIndex(c=>{return c.id==selectMenuId})+"";
-      selectId.value = selectTabNo=="-1" ? currnetIndex + "":selectTabNo;
+      selectId.value =
+        navigation.findIndex((c) => {
+          return c.id == _menuId;
+        }) + "";
       closeTabsMenu();
     };
 
-    watch(() => contextMenuVisible.value,(newVal, oldVal) => {
+    watch(
+      () => contextMenuVisible.value,
+      (newVal, oldVal) => {
         // 监视
         if (newVal) {
           document.body.addEventListener("click", closeTabsMenu);
@@ -468,6 +569,7 @@ export default defineComponent({
       Object.assign(_config.$tabs, { open: open, close: close });
 
       http.get("api/menu/getTreeMenu", {}, true).then((data) => {
+        data.push({ id: "1", name: "首页", url: "/home" }); // 为了获取选中id使用
         data.forEach((d) => {
           d.path = (d.url || "").replace("/Manager", "");
           d.to = (d.url || "").replace("/Manager", "");
@@ -506,7 +608,7 @@ export default defineComponent({
             return open(item, false);
           }
         }
-        selectId.value = "0";
+        selectId.value = "1";
       });
     };
     created();
@@ -540,7 +642,8 @@ export default defineComponent({
       contextMenuVisible,
       visibleItem,
       closeTabsMenu,
-      closeTabs
+      closeTabs,
+      currentMenuId,
     };
   },
   /**
@@ -564,17 +667,19 @@ export default defineComponent({
      * @param {*} $event 事件
      */
     bindRightClickMenu(enable) {
-      if (!enable)
-        return;
+      if (!enable) return;
       let that = this;
       // 使用原生js 为单个dom绑定鼠标右击事件
       that.$nextTick(() => {
-        let tab_top_dom = document.getElementsByClassName("el-tabs__item is-top");
+        let tab_top_dom = Object.assign(
+          [],
+          document.getElementsByClassName("el-tabs__item is-top")
+        );
         tab_top_dom.forEach((item, index) => {
           item.oncontextmenu = that.openTabsMenu;
         });
       });
-    }
+    },
   },
 
   /**
@@ -640,6 +745,9 @@ function showTime() {
   font-size: 14px;
   color: #333;
   box-shadow: 2px 2px 3px 0 rgb(182 182 182 / 20%);
+  i,button{
+    font-size: 14px !important;
+  }
 }
 
 .contextMenu li {
@@ -658,8 +766,12 @@ function showTime() {
   letter-spacing: 1px;
 }
 
-.el-tabs.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:last-child,
-.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:nth-child(2) {
+.el-tabs.el-tabs--top.el-tabs--border-card.header-navigation
+  > .el-tabs__header
+  .el-tabs__item:last-child,
+.el-tabs--top.el-tabs--border-card.header-navigation
+  > .el-tabs__header
+  .el-tabs__item:nth-child(2) {
   padding: 0;
 }
 

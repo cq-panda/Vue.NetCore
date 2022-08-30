@@ -2,7 +2,7 @@
   <div class="v-header">
     <div class="v-left-text">
       <!-- <i size="20" :class="icon" class="h-icon"/> -->
-      <span>{{text}}</span>
+      <span>{{ title || text }}</span>
     </div>
     <div class="content">
       <slot name="content"></slot>
@@ -17,11 +17,15 @@ export default {
   props: {
     icon: {
       type: String,
-      default: ""
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
     },
     text: {
       type: String,
-      default: "未定义名称"
+      default: '未定义名称'
     }
   }
 };
@@ -52,9 +56,9 @@ export default {
   }
   .v-right-content {
     flex: 1;
-        text-align: right;
+    text-align: right;
   }
-  .h-icon{
+  .h-icon {
     position: relative;
     top: 2px;
     margin-right: 3px;

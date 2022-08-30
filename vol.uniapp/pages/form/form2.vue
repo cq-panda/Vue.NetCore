@@ -26,7 +26,7 @@
 					inputText: "这是必填输入框",
 					textarea: "这里的文字有点长这里的文字有点长这里的文字有点长。。",
 					pwd: "12345",
-					readonlyText:"只读输入框",
+					readonlyText: "只读输入框",
 					selectVal: "",
 					selectListVal: [], //多选这里的值是数组 
 					dateValue: "2022-03-27",
@@ -34,7 +34,12 @@
 					dateRange: ["2022-03-10", "2022-06-20"], //数组 
 					switchValue: 1,
 					selectClickValue: "",
-					dateClickValue: null
+					dateClickValue: null,
+					imgs: [{
+						url: "http://api.volcore.xyz/Upload/Tables/Sys_User/202006191408112343/1111s.jpg"
+					}, {
+						url: "http://api.volcore.xyz/Upload/Tables/App_News/202204201140571762/20-05.png"
+					}]
 				},
 				editFormOptions: [{
 						"title": "输入框",
@@ -116,6 +121,16 @@
 						"title": "日期事件",
 						"type": "date",
 						"field": "dateClickValue"
+					}, {
+						type: "group" //表单分组
+					},
+					{
+						"title": "图片上传",
+						"type": "img",
+						"url":"api/sys_user/upload",//后台框架自带的上传方法，如果涉及权限问题，请参照后台开发文档上重写权限来重写upload方法的权限
+						"multiple": true, //从图上传
+						"maxCount": 3, //最多只能上传3张图片
+						"field": "imgs"
 					},
 				],
 			}
@@ -159,5 +174,3 @@
 		}
 	}
 </style>
-
-

@@ -72,13 +72,13 @@
 			</view>
 
 			<view class="f-form-content" v-else-if="item.type=='number'">
-				<input :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
-					v-model="formFields[item.field]" border="none"
+				<input :focus="item.focus" :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;"
+					type="number" v-model="formFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='decimal'">
-				<input :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="digit"
-					v-model="formFields[item.field]" border="none"
+				<input :focus="item.focus" :ref="item.field" placeholder-style="color:rgb(192 196 204);font-size:15px;"
+					type="digit" v-model="formFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='switch'">
@@ -90,7 +90,7 @@
 				</u-radio-group>
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='textarea'">
-				<textarea :ref="item.field" auto-height style="width: 100%;padding-right: 8rpx;"
+				<textarea :focus="item.focus" :ref="item.field" auto-height style="width: 100%;padding-right: 8rpx;"
 					v-model="inFormFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></textarea>
 			</view>
@@ -105,12 +105,13 @@
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view class="f-form-content" v-else>
-				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
+				<input :focus="item.focus" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
 					v-model="inFormFields[item.field]" border="none" :ref="item.field"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view v-if="item.extra" @click="extraClick(item,inFormFields)">
-				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.clor||'#ffff'" size="20"></u-icon>
+				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.clor||'#ffff'" size="20">
+				</u-icon>
 				<text :style="item.extra.style">{{item.extra.text}}</text>
 			</view>
 		</view>
@@ -127,16 +128,15 @@
 				<view class="vol-action-sheet-select-title">请选择{{actionSheetCurrentItem.title}}
 					<text class="vol-action-sheet-select-confirm" @click="actionConfirmClick">确定</text>
 				</view>
-			<!-- 	超过10个下拉框选项默认开启搜索 -->
-				<view class="vol-action-sheet-select-filter" v-show="actionSheetCurrentItem.data&&actionSheetCurrentItem.data.length>=10">
-					<view
-						style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
+				<!-- 	超过10个下拉框选项默认开启搜索 -->
+				<view class="vol-action-sheet-select-filter"
+					v-show="actionSheetCurrentItem.data&&actionSheetCurrentItem.data.length>=10">
+					<view style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
 						<u--input placeholder="请输入关键字搜索" v-model="searchText">
 						</u--input>
 					</view>
 					<view class="search-btn">
-						<u-button type="primary" icon="trash" @click="searchText=''"
-							size="small">清除</u-button>
+						<u-button type="primary" icon="trash" @click="searchText=''" size="small">清除</u-button>
 					</view>
 				</view>
 				<view class="vol-action-sheet-select-content">
@@ -201,7 +201,10 @@
 				pickerCurrentItem: {}, //当前选项
 				pickerCurrentRangeIndex: 0,
 				actionSheetModel: false,
-				actionSheetCurrentItem: {}, //当前选项
+				actionSheetCurrentItem: {
+					min: 633715200000,
+					max: 0
+				}, //当前选项
 				actionSheetSelectValues: [], //当前选中的项
 				numberModel: false,
 				numberType: 'number',
@@ -223,6 +226,13 @@
 					} else if (option.max && typeof option.max == 'string') {
 						option.max = Number(new Date(option.max.replace(/-/g, "/")))
 					}
+					if (!this.pickerCurrentItem.max) {
+						this.pickerCurrentItem.max = option.max;
+					}
+				}
+
+				if (option.hasOwnProperty('focus')) {
+					option.focus = false;
 				}
 			})
 			this.inFormOptions = this.formOptions;
@@ -292,12 +302,12 @@
 				this.$emit('dicInited', result);
 			},
 			showActionSheet(item) {
-				this.searchText='';
+				this.searchText = '';
 				this.actionSheetSelectValues = [];
 				this.actionSheetCurrentItem = item;
 				var value = this.inFormFields[item.field];
 				if (!this.base.isEmpty(value, true)) {
-					if (value instanceof Array) {
+					if (Array.isArray(value)) {
 						this.actionSheetSelectValues.push(...value.map(x => {
 							return x;
 						}));
@@ -347,7 +357,7 @@
 					//	return this.actionClick(item)
 				}
 				//多选
-				if (this.inFormFields[this.actionSheetCurrentItem.field] instanceof Array) {
+				if (Array.isArray(this.inFormFields[this.actionSheetCurrentItem.field])) {
 					//深复制原来的数据
 					this.inFormFields[this.actionSheetCurrentItem.field] = this.actionSheetSelectValues.map(x => {
 						return x
@@ -371,7 +381,7 @@
 				}
 				var _textArr = [];
 
-				if (!(value instanceof Array)) {
+				if (!(Array.isArray(value))) {
 					value = (value + '').split(',')
 				}
 				value.forEach(x => {
@@ -389,7 +399,7 @@
 			formatDicValue(item) {
 				var value = this.inFormFields[item.field];
 				if (this.base.isEmpty(value)) {
-					return undefined;
+					return '';
 				}
 				if (this.isMultiSelect(item)) {
 					return this.formatDicValueList(item);
@@ -450,7 +460,7 @@
 					if (source && source.hasOwnProperty(key)) {
 						this.inFormFields[key] = source[key];
 					} else {
-						if (this.inFormFields[key] instanceof Array) {
+						if (Array.isArray(this.inFormFields[key])) {
 							this.inFormFields[key].splice(0);
 							if (this.inFormOptions.some(x => {
 									return x.field == key && x.range
@@ -545,7 +555,11 @@
 				if (option.mutiple) {
 					lists = [].concat(event.file)
 				} else {
-					lists.push(event.file)
+					if (Array.isArray(event.file)) {
+						lists.push(...event.file)
+					} else {
+						lists.push(event.file)
+					}
 				}
 				let fileListLen = this.inFormFields[option.field].length
 				lists.map((item) => {
@@ -560,9 +574,10 @@
 					let item = this.inFormFields[option.field][fileListLen];
 					let fileName = lists[i].name;
 					if (!fileName && lists[i].thumb) {
-						let arr = lists[i].thumb.split('.');
-						let _obj = arr[0].split('/');
-						fileName = _obj[_obj.length - 1] + '.' + arr[1];
+						let lastIndex = lists[i].thumb.lastIndexOf('/') + 1;
+						// let arr = lists[i].thumb.substr(0,lastIndex);
+						// let _obj = arr[0].split('/');
+						fileName = lists[i].thumb.substr(lastIndex)
 					}
 					this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
 						status: 'success',
@@ -580,6 +595,7 @@
 						filePath: url,
 						name: 'fileInput',
 						header: {
+							"uapp": 1,
 							"Authorization": this.$store.getters.getToken()
 						},
 						formData: {},
@@ -599,8 +615,8 @@
 			deletePic(item, event) {
 				this.inFormFields[item.field].splice(event.index, 1)
 			},
-			extraClick(item,inFormFields){
-				this.$emit('extraClick',item,inFormFields)
+			extraClick(item, inFormFields) {
+				this.$emit('extraClick', item, inFormFields)
 			}
 		},
 		// #ifdef MP-WEIXIN
@@ -666,13 +682,14 @@
 		// 	}
 		// }
 		.vol-action-sheet-select-filter {
-		    display: flex;
-		    background: #ffff;
-		    padding: 10rpx;
-		    border-bottom: 1px solid #eeee;
+			display: flex;
+			background: #ffff;
+			padding: 10rpx;
+			border-bottom: 1px solid #eeee;
+
 			.search-btn {
-				    position: relative;
-				    top: 3px;
+				position: relative;
+				top: 3px;
 				// margin-left: 20rpx;
 				// padding-right: 20rpx;
 				// width: 100rpx;

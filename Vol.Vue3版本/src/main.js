@@ -3,14 +3,16 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import ElementPlus from 'element-plus';
-import 'element-plus/lib/theme-chalk/index.css';
+// import 'element-plus/lib/theme-chalk/index.css';
+import 'element-plus/dist/index.css'
+import './assets/element-icon/icon.css'
 import base from './uitils/common'
 import http from './api/http'
-import 'dayjs/locale/zh-cn'
+// import 'dayjs/locale/zh-cn'
 // import locale from 'element-plus/lib/locale/lang/zh-cn'
 
 import permission from './api/permission'
-import viewgird from './components/basic/ViewGrid';
+import viewgird from './components/basic/ViewGrid';  
 const app = createApp(App);
 app.config.globalProperties.base = base;
 app.config.globalProperties.http = http;
@@ -20,7 +22,7 @@ app.config.globalProperties.$global = {
     signalR: false //是否开启signalR
 }
 app.use(store)
-    .use(ElementPlus, { size: 'medium' })
+    .use(ElementPlus, { size: 'default' })
     .use(router)
     .use(viewgird)
     .mount('#app');

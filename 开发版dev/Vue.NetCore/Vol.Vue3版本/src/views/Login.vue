@@ -133,12 +133,6 @@
     <div class="r-bg"></div>
 
     <div class="login-footer">
-      <a @click="openUrl('https://github.com/cq-panda/Vue.NetCore')">
-        GitHub
-      </a>
-      <a @click="openUrl('https://gitee.com/x_discoverer/Vue.NetCore')">
-        Gitee
-      </a>
       <a
         style="text-decoration: none"
         href="https://beian.miit.gov.cn/"
@@ -146,9 +140,14 @@
         >京ICP备19056538号-1</a
       >
       <a @click="openUrl('http://v2.volcore.xyz/')"> Vue2版本 </a>
-      <a>QQ1群：45221949(已满)</a>
       <a>QQ2群：913189178</a>
-     
+      
+               <a
+        href="https://dotnet9.com/"
+        style="text-decoration: none"
+        target="blank"
+        >Dotnet9</a
+      >
           <a
         href="https://space.bilibili.com/525836469"
         style="text-decoration: none"
@@ -260,6 +259,8 @@ export default defineComponent({
 .loging-btn {
   button {
     width: 100%;
+    font-size:14px !important;
+    letter-spacing:2px;
   }
 }
 .content {

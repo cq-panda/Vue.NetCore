@@ -21,9 +21,8 @@
     <div class="btns">
       <el-button
         type="primary"
-        icon="el-icon-chat-line-round"
         @click="sendMessage"
-        >发送消息</el-button
+        ><i class="el-icon-chat-line-round"></i>发送消息</el-button
       >
     </div>
   </div>

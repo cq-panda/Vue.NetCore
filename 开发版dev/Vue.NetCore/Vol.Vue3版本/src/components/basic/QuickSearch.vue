@@ -2,7 +2,6 @@
   <div>
     <el-select
       style="width: 150px"
-      size="small"
       v-if="['select', 'selectList'].indexOf(singleSearch.type) != -1"
       v-model="searchFormFields[singleSearch.field]"
       :filterable="
@@ -19,22 +18,28 @@
       >
       </el-option>
     </el-select>
-    <el-date-picker
-      style="width: 210px"
-      clearable
-      size="small"
-      unlink-panels
+    <div
+      class="date-range"
       v-else-if="['date', 'datetime'].indexOf(singleSearch.type) != -1"
-      v-model="searchFormFields[singleSearch.field]"
-      type="daterange"
-      :value-format="getDateFormat(singleSearch)"
-      :placeholder="singleSearch.title"
     >
-    </el-date-picker>
+      <el-date-picker
+        style="width: 210px"
+        :clearable="false"
+        unlink-panels
+        v-model="searchFormFields[singleSearch.field]"
+        type="daterange"
+        :value-format="getDateFormat(singleSearch)"
+        :placeholder="singleSearch.title"
+      >
+      </el-date-picker>
+      <i
+        class="el-icon-circle-close"
+        @click="dateRangeClear(singleSearch.field)"
+      ></i>
+    </div>
     <el-cascader
       style="width: 210px"
       clearable
-      size="small"
       v-model="searchFormFields[singleSearch.field]"
       v-else-if="singleSearch.type == 'cascader'"
       :options="singleSearch.data"
@@ -45,7 +50,7 @@
       clearable
       v-else
       style="width: 150px"
-      size="small"
+      size="default"
       v-model="searchFormFields[singleSearch.field]"
       :placeholder="singleSearch.title"
       @keypress="tiggerPress"
@@ -96,6 +101,9 @@ export default {
         this.compareDate(date, item.min) || !this.compareDate(date, item.max)
       );
     },
+    dateRangeClear(field) {
+      this.searchFormFields[field]=[undefined,undefined];
+    },
   },
   created() {
     this.singleSearch.dateType = this.singleSearch.type + "range";
@@ -121,3 +129,24 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+.date-range{
+  position: relative;
+  > i{
+    display: none;
+    height: 27px;
+    line-height: 27px;
+    right: 1px;
+    top: 3px;
+    font-size: 13px;
+    color: #b4adad;
+    position: absolute;
+    padding: 0 6px 0 3px;
+    background: #ffff;
+    cursor: pointer;
+  }
+}
+.date-range:hover > i{
+  display: inline-block;
+}
+</style>

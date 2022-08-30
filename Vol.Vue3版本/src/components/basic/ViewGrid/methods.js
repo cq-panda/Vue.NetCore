@@ -30,8 +30,10 @@ let methods = {
       return x.value == 'Search';
     });
     //添加高级查询
-    let hasOneFormItem = this.searchFormOptions.length==1&&this.searchFormOptions[0].length==1;
-    if (searchIndex != -1&&!hasOneFormItem) {
+    let hasOneFormItem =
+      this.searchFormOptions.length == 1 &&
+      this.searchFormOptions[0].length == 1;
+    if (searchIndex != -1 && !hasOneFormItem) {
       this.buttons.splice(searchIndex + 1, 0, {
         icon: this.fiexdSearchForm ? 'el-icon-refresh-left' : 'el-icon-search',
         name: this.fiexdSearchForm ? '重置' : '高级查询',
@@ -46,13 +48,15 @@ let methods = {
       });
     }
     if (hasOneFormItem) {
-      this.fiexdSearchForm=false;
+      this.fiexdSearchForm = false;
     }
     this.maxBtnLength += searchIndex == -1 ? 0 : 1;
-    if (this.buttons.length <= this.maxBtnLength) return this.buttons;
-    let btns = this.buttons.slice(0, this.maxBtnLength);
-    btns[this.maxBtnLength - 1].last = true;
-    return btns;
+    // if (this.buttons.length <= this.maxBtnLength) {
+    //   return this.buttons;
+    // }
+    // let btns = this.buttons.slice(0, this.maxBtnLength);
+    // btns[this.maxBtnLength - 1].last = true;
+    // return btns;
   },
   extendBtn(btns, source) {
     //btns权限按钮，source为扩展按钮
@@ -185,16 +189,16 @@ let methods = {
           onClick() {
             this.save();
           }
-        },
-        {
-          name: '重 置',
-          icon: 'el-icon-refresh-right',
-          type: 'primary',
-          disabled: false,
-          onClick() {
-            this.resetEdit();
-          }
         }
+        // {
+        //   name: '重 置',
+        //   icon: 'el-icon-refresh-right',
+        //   type: 'primary',
+        //   disabled: false,
+        //   onClick() {
+        //     this.resetEdit();
+        //   }
+        // }
       ]
     );
     //从表表格操作按钮
@@ -349,14 +353,30 @@ let methods = {
     if (query) {
       param = Object.assign(param, query);
     }
+    if (this.isViewFlow() && this.$route.query.id) {
+      param.wheres.push({
+        name: this.table.key,
+        value: this.$route.query.id
+      });
+    }
     let status = this.searchBefore(param);
     callBack(status);
   },
+
   loadTableAfter(data, callBack, result) {
     //查询后
     //2020.10.30增加查询后返回所有的查询信息
     let status = this.searchAfter(data, result);
     callBack(status);
+    //自动弹出框审批详情
+    if (this.isViewFlow() && data && data.length) {
+      let query = JSON.parse(JSON.stringify(this.$route.query));
+      query.viewflow = 0;
+      this.$router.replace({ path: this.$route.path, query: query });
+      this.$nextTick(() => {
+        this.getWorkFlowSteps(data[0]);
+      });
+    }
   },
   loadDetailTableBefore(param, callBack) {
     //明细查询前
@@ -586,6 +606,10 @@ let methods = {
           return x.path;
         });
         editFormFields[key] = allPath.join(',');
+      } else if (typeof this.editFormFields[key] == 'function') {
+        try {
+          editFormFields[key] = this.editFormFields[key]();
+        } catch (error) {}
       } else {
         //2021.05.30修复下拉框清除数据后后台不能保存的问题
         if (
@@ -627,6 +651,27 @@ let methods = {
     //获取明细数据(前台数据明细未做校验，待完.后台已经校验)
     if (this.hasDetail) {
       formData.detailData = this.$refs.detail.rowData;
+      let _fields = this.detail.columns
+        .filter((c) => {
+          return (
+            c.type == 'selectList' || (c.edit && c.edit.type == 'selectList')
+          );
+        })
+        .map((c) => {
+          return c.field;
+        });
+      //2022.06.20增加保存时对明细表下拉框多选的判断
+      if (_fields.length) {
+        formData.detailData = JSON.parse(JSON.stringify(formData.detailData));
+        formData.detailData.forEach((row) => {
+          for (let index = 0; index < _fields.length; index++) {
+            const _field = _fields[index];
+            if (Array.isArray(row[_field])) {
+              row[_field] = row[_field].join(',');
+            }
+          }
+        });
+      }
     }
     if (this.detailOptions.delKeys.length > 0) {
       formData.delKeys = this.detailOptions.delKeys;
@@ -665,7 +710,7 @@ let methods = {
         if (!this.updateAfter(x)) return;
       }
       if (!x.status) return this.$error(x.message);
-      this.$success(x.message);
+      this.$success(x.message || '操作成功');
       //如果保存成功后需要关闭编辑框，直接返回不处理后面
       if (this.boxOptions.saveClose) {
         this.boxModel = false;
@@ -781,6 +826,7 @@ let methods = {
     this.boxModel = true;
   },
   async linkData(row, column) {
+    this.boxOptions.title = '编辑';
     //点击table单元格快捷链接显示编辑数据
     this.currentAction = this.const.EDIT;
     this.currentRow = row;
@@ -820,6 +866,7 @@ let methods = {
     this.resetEditForm(obj);
   },
   async add() {
+    this.boxOptions.title = '新建';
     //新建
     this.currentAction = this.const.ADD;
     this.currentRow = {};
@@ -834,6 +881,7 @@ let methods = {
     // this.modelOpenAfter();
   },
   async edit(rows) {
+    this.boxOptions.title = '编辑';
     //编辑
     this.currentAction = this.const.EDIT;
     if (rows) {
@@ -918,7 +966,7 @@ let methods = {
     );
     let elink = this.$refs.export;
     xmlResquest.responseType = 'blob';
-    xmlResquest.onload = function (oEvent) {
+    xmlResquest.onload = function(oEvent) {
       if (xmlResquest.status != 200) {
         this.$error('下载文件出错了..');
         return;
@@ -1030,7 +1078,8 @@ let methods = {
   saveAudit() {
     //保存审核
     let rows = this.$refs.table.getSelected();
-    if (this.auditParam.status == -1) return this.$error('请选择审核结果!');
+    if (this.auditParam.value == -1 && this.auditParam.status == -1)
+      return this.$error('请选择审核结果!');
 
     if (rows.length != this.auditParam.rows)
       return this.$error('所选数据已发生变化,请重新选择审数据!');
@@ -1038,6 +1087,9 @@ let methods = {
     let keys = rows.map((x) => {
       return x[this.table.key];
     });
+    if (this.auditParam.value != -1) {
+      keys = [this.editFormFields[this.table.key]];
+    }
     if (!this.auditBefore(keys, rows)) {
       return;
     }
@@ -1046,7 +1098,9 @@ let methods = {
       '?auditReason=' +
       this.auditParam.reason +
       '&auditStatus=' +
-      this.auditParam.status;
+      (this.auditParam.status < 0
+        ? this.auditParam.value
+        : this.auditParam.status);
     this.http.post(url, keys, '审核中....').then((x) => {
       if (!this.auditAfter(x, rows)) {
         return;
@@ -1054,8 +1108,10 @@ let methods = {
       if (!x.status) return this.$error(x.message);
       this.auditParam.rows = 0;
       this.auditParam.status = -1;
+      this.auditParam.value = -1;
       this.auditParam.reason = '';
       this.auditParam.model = false;
+      this.boxModel = false;
       this.$success(x.message);
       this.refresh();
     });
@@ -1073,6 +1129,10 @@ let methods = {
     formOptions.forEach((item) => {
       item.forEach((d) => {
         if (d.type == 'number') {
+          //2022.08.22优化表单类型为number时的默认值
+          if (formFields[d.field] === '') {
+            formFields[d.field] = undefined;
+          }
           this.numberFields.push(d.field);
         }
         if (
@@ -1370,7 +1430,7 @@ let methods = {
       clientHeight = clientHeight * 0.85;
       if (!this.detailOptions.height) {
         this.detailOptions.height =
-          clientHeight - this.editFormOptions.length * 57 - 205;
+          clientHeight - this.editFormOptions.length * 36 - 234;
         this.detailOptions.height =
           this.detailOptions.height < 240 ? 240 : this.detailOptions.height;
       }
@@ -1442,10 +1502,21 @@ let methods = {
     }
     if (refreshBtn) {
       refreshBtn.name = '重 置';
-      refreshBtn.onClick = function () {
+      refreshBtn.onClick = function() {
         this.resetSearch();
       };
     }
+  },
+  tableBeginEdit(row, column, index) {
+    //2021.03.19是否开启查询界面表格双击编辑结束方法,返回false不会结束编辑
+    return this.beginEdit(row, column, index);
+  },
+  beginEdit(row, column, index) {
+    //2021.03.19是否开启查询界面表格双击编辑结束方法,返回false不会结束编辑
+    return true;
+  },
+  tableEndEditBefore(row, column, index) {
+    return this.endEditBefore(row, column, index);
   },
   endEditBefore(row, column, index) {
     //2021.03.19是否开启查询界面表格双击编辑结束方法,返回false不会结束编辑
@@ -1495,8 +1566,111 @@ let methods = {
       return;
     }
     this.importAfter(data);
+  },
+  onGridModelClose(iconClick) {
+    if (this.isBoxAudit) {
+      this.initFormOptionType(false);
+    }
+    this.isBoxAudit = false;
+    this.onModelClose(iconClick);
+  },
+  initAuditColumn() {
+    let _btn = this.buttons.find((x) => {
+      return x.value == 'Audit';
+    });
+    if (!_btn) {
+      return;
+    }
+    _btn.hidden = true;
+    this.columns.push({
+      field: '操作',
+      title: '操作',
+      width: 70,
+      fixed: 'right',
+      align: 'center',
+      formatter: (row) => {
+        if (
+          row.AuditStatus === 0 ||
+          row.auditStatus === 0 ||
+          row.auditstatus === 0
+        ) {
+          return '<i style="cursor: pointer;color: #2d8cf0;" class="el-icon-edit">审核</i>';
+        }
+        return '<i style="cursor: pointer;color: #2d8cf0;" class="el-icon-view">查看</i>';
+      },
+      click: (row) => {
+        this.getWorkFlowSteps(row);
+      }
+    });
+  },
+  getWorkFlowSteps(row) {
+    let table = this.table.url.replaceAll('/', '');
+    let url = `api/Sys_WorkFlow/getSteps?tableName=${table}&id=${
+      row[this.table.key]
+    }`;
+    this.http.get(url, {}, true).then((result) => {
+      this.workFlowSteps.splice(0);
+      //有可能没有配置审批流程
+      if (!result.list || !result.list.length) {
+        result.list = [];
+        this.auditParam.showAction = true;
+        this.auditParam.height = 240;
+        this.auditParam.showViewButton = row.AuditStatus == 0;
+      } else {
+        this.auditParam.showAction = result.list.some((c) => {
+          return c.isCurrentUser;
+        });
+        this.auditParam.height = 511;
+        this.auditParam.showViewButton = true;
+      }
+      this.auditParam.reason = '';
+      this.auditParam.status = -1;
+      this.auditParam.value = -1;
+      if (result.his) {
+        result.his.forEach((item) => {
+          item.auditStatus = this.getAuditStatus(item.auditStatus);
+        });
+      }
+
+      this.auditParam.auditHis = result.his;
+      this.workFlowSteps.push(...result.list);
+      this.isBoxAudit = true;
+      this.initFormOptionType(true);
+      this.edit(row);
+      this.boxOptions.title = '审核';
+    });
+  },
+  initFormOptionType(isReadonly) {
+    this.editFormOptions.forEach((options) => {
+      options.forEach((option) => {
+        if (isReadonly) {
+          if (!option.readonly) {
+            this.formFieldsType.push(option.field);
+            option.readonly = true;
+          }
+        } else {
+          if (this.formFieldsType.indexOf(option.field) != -1) {
+            option.readonly = false;
+          }
+        }
+      });
+    });
+  },
+  getAuditStatus(status) {
+    let data = this.auditParam.data.find((x) => {
+      return x.value == status;
+    });
+    if (!data) {
+      return '-';
+      //   return `审核值不正确:${status}`
+    }
+    return data.text;
+  },
+  isViewFlow() {
+    return this.$route.query.viewflow == '1';
   }
 };
+import customColumns from './ViewGridCustomColumn.js';
 //合并扩展方法
-methods = Object.assign(methods, detailMethods, serviceFilter);
+methods = Object.assign(methods, detailMethods, serviceFilter, customColumns);
 export default methods;

@@ -720,10 +720,10 @@ export default {
                   value: "left",
                 },
                 {
-                  attr: "loadKey",
-                  desc: "是否默认加载数据源",
+                  attr: "focus",
+                  desc: "是否获取焦点",
                   type: "bool",
-                  value: "true",
+                  value: "false",
                 },
               ],
             },

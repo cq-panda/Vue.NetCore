@@ -7,7 +7,7 @@
       <div class="header">
         <span class="text"><icon type="md-contact"></icon>角色权限分配</span>
 
-        <el-button type="primary" size="mini" icon="el-icon-check" @click="save"
+        <el-button type="primary" size="mini"  @click="save"
           >保存</el-button
         >
       </div>

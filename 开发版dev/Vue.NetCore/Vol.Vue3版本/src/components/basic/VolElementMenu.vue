@@ -2,6 +2,8 @@
   <div class="vol-el-menu">
     <el-menu
       close="vol-el-menu--vertical"
+      :default-openeds="openedIds"
+      :default-active="defaultActive"
       :unique-opened="true"
       @select="select"
       :collapse="isCollapse"
@@ -10,20 +12,20 @@
       @contextmenu.prevent="bindRightClickMenu"
     >
       <template v-for="item in convertTree(list)">
-        <el-submenu
+        <el-sub-menu
           :key="item.id"
           :index="'' + item.id"
           v-if="item.children.length && (!enable || item.enable == 1)"
         >
           <template #title>
-            <i :class="item.icon"></i>
+            <i class="menu-icon" :class="item.icon"></i>
             <span> {{ item.name }}</span>
           </template>
           <vol-element-menu-child
             :enable="enable"
             :list="item.children"
           ></vol-element-menu-child>
-        </el-submenu>
+        </el-sub-menu>
         <template v-else>
           <el-menu-item
             class="menu-item-lv1"
@@ -41,48 +43,53 @@
 </template>
 
 <script>
-import VolElementMenuChild from "./VolElementMenuChild";
-import { useRouter } from "vue-router";
+import VolElementMenuChild from './VolElementMenuChild';
+import { useRouter } from 'vue-router';
 
 import {
   defineComponent,
-  // reactive,
-  // watch,
-  // ref,
-  // toRef,
-  // toRefs,
+  reactive,
+  watch,
+  ref,
+  toRef,
+  toRefs,
+  getCurrentInstance
   // onMounted,
-} from "vue";
+} from 'vue';
 export default defineComponent({
   components: {
-    "vol-element-menu-child": VolElementMenuChild,
+    'vol-element-menu-child': VolElementMenuChild
   },
   props: {
     enable: {
       type: Boolean,
-      default: false, //是否判断enable=1
+      default: false //是否判断enable=1
     },
     isCollapse: {
       type: Boolean,
-      default: false,
+      default: false
     },
     onSelect: {
       type: Function,
-      default: (x) => {},
+      default: (x) => {}
     },
     openSelect: {
       //打开的时候是否触发选中事件
       type: Boolean,
-      default: true,
+      default: true
     },
     list: {
       type: Array,
-      default: [],
+      default: []
     },
     rootId: {
       type: String,
-      default: "0",
+      default: '0'
     },
+    currentMenuId: {
+      type: Number,
+      default: 0
+    }
   },
   setup(props) {
     // const { list } = toRefs(props);
@@ -100,8 +107,8 @@ export default defineComponent({
     };
     let rootTreeId = !isNaN(props.rootId) ? ~~props.rootId : props.rootId;
     props.list.forEach((x) => {
-      if (!x.icon || x.icon.substring(0, 3) != "el-") {
-        x.icon = "el-icon-menu";
+      if (!x.icon || x.icon.substring(0, 3) != 'el-') {
+        x.icon = 'el-icon-menu';
       }
       x.children = [];
       x.isRoot = x.parentId === rootTreeId;
@@ -110,31 +117,44 @@ export default defineComponent({
       var root_data = [];
       data.forEach((x) => {
         if (x.parentId === rootTreeId) {
-          if (!x.hasOwnProperty("enable")) x.enable = 1;
+          if (!x.hasOwnProperty('enable')) x.enable = 1;
           root_data.push(x);
           getTree(x.id, x, data);
         }
       });
       return root_data;
     };
-    // watch(
-    //   () => props.list,
-    //   (newVal, oldVal) => {
-    //     treeList.value = convertTree(JSON.parse(JSON.stringify(newVal)));
-    //   }
-    //   // ,
-    //   // {
-    //   //   deep: true,
-    //   // }
-    // );
-    // treeList.value = convertTree(JSON.parse(JSON.stringify(props.list)));
+    const openedIds = reactive([props.currentMenuId]);
+    const defaultActive = ref(props.currentMenuId + '');
+    let _base = getCurrentInstance().appContext.config.globalProperties.base;
+    watch(
+      () => props.currentMenuId,
+      (newVal, oldVal) => {
+        defaultActive.value = newVal + '';
+        openedIds.splice(0);
+        openedIds.push(
+          ..._base.getTreeAllParent(newVal, props.list).map((c) => {
+            return c.id;
+          })
+        );
+      }
+    );
     const router = useRouter();
+    let eventSelect = false;
     const select = (index, path) => {
+      if (eventSelect) {
+        return;
+      }
+      eventSelect = true;
+      setTimeout(() => {
+        eventSelect = false;
+      }, 20);
+
       let _item = props.list.find((x) => {
         return x.id == index;
       });
       props.onSelect(index, _item);
-      router.push({ path: _item.path || "" });
+      router.push({ path: _item.path || '' });
     };
 
     const handleOpen = (index, path) => {
@@ -149,8 +169,7 @@ export default defineComponent({
      * @param {*} enable 是否启用右键事件[true:启用;false:禁用;]
      */
     const bindRightClickMenu = (enable) => {
-      if(!enable)
-        return;
+      if (!enable) return;
     };
 
     return {
@@ -160,15 +179,20 @@ export default defineComponent({
       convertTree,
       handleOpen,
       handleClose,
-      bindRightClickMenu
+      bindRightClickMenu,
+      openedIds,
+      defaultActive
     };
-  },
+  }
 });
 </script>
-<style scoped>
+<style lang="less" scoped>
 .vol-el-menu {
   box-sizing: content-box;
   width: 100%;
+  .menu-icon {
+    font-size: 18px;
+    margin-right: 6px;
+  }
 }
 </style>
-

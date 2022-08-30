@@ -56,7 +56,7 @@
       <slot></slot>
       <div v-if="desc">
         <el-alert
-          :title="getText() + '文件大小不超过' + (maxSize || 3) + 'M'"
+          :title="getText() + '文件大小不超过' + (maxSize || 50) + 'M'"
           type="info"
           show-icon
         >
@@ -117,7 +117,7 @@ export default {
     maxSize: {
       //文件限制大小3M
       type: Number,
-      default: 3,
+      default: 50,
     },
 
     autoUpload: {
@@ -527,12 +527,12 @@ export default {
           );
           return false;
         }
-        if (file.size > (this.maxSize || 3) * 1024 * 1024) {
+        if (file.size > (this.maxSize || 50) * 1024 * 1024) {
           this.$message.error(
             "选择的文件【" +
               file.name +
               "】不能超过:" +
-              (this.maxSize || 3) +
+              (this.maxSize || 50) +
               "M"
           );
           return false;

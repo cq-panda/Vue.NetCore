@@ -95,8 +95,7 @@
 				</view>
 				<slot name="modelHeader"></slot>
 				<view class="vol-action-sheet-select-content">
-					<vol-form :load-key="false" @onChange="editGirdFormOnChange" ref="form"
-					@extraClick="gridExtraClick"
+					<vol-form :load-key="false" @onChange="editGirdFormOnChange" ref="form" @extraClick="gridExtraClick"
 						:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
 					</vol-form>
 				</view>
@@ -275,7 +274,7 @@
 					if (source && source.hasOwnProperty(key)) {
 						formFields[key] = source[key];
 					} else {
-						if (formFields[key] instanceof Array) {
+						if (Array.isArray(formFields[key])) {
 							formFields[key].splice(0);
 							if (formOptions.some(x => {
 									return x.field == key && x.range
@@ -420,7 +419,7 @@
 				//将数组转换成string
 				for (const key in this.editFormFields) {
 					let _val = this.editFormFields[key];
-					if (_val instanceof Array) {
+					if (Array.isArray(_val)) {
 						//上传的图片
 						if (this.editFormOptions.some(x => {
 								return x.field == key && x.type == 'img'
@@ -553,14 +552,14 @@
 				}
 				this.fabButtons.push(...fabButtons);
 			},
-			initPermission() {
+			async initPermission() {
 				let permission = this.$store.getters.getMenu();
 				if (permission.length) {
 					this.permission = permission;
 					this.initPermissionButtons();
 					return;
 				}
-				this.http.get("api/menu/getTreeMenu", {}, false).then(result => {
+				await this.http.get("api/menu/getTreeMenu", {}, false).then(result => {
 					this.permission = result;
 					this.$store.commit("setPermission", result);
 					this.initPermissionButtons();
@@ -643,23 +642,23 @@
 			gridRowButtonClick(btn, index, row) {
 				this.rowButtonClick && this.rowButtonClick(btn, index, row);
 			},
-			gridExtraClick(option,fields){
-				this.extraClick&&this.extraClick(option,fields);
+			gridExtraClick(option, fields) {
+				this.extraClick && this.extraClick(option, fields);
 			}
 		},
-		created() {
+		async created() {
 			_$this = this;
 			uni.getSystemInfo({
 				success: function(res) {
 					_$this.height = res.windowHeight - 10;
 				}
 			});
-			this.initPermission();
 			this.titleField = (this.columns.find(x => {
 				return x.link
 			}) || {}).field;
-			this.tableUrl = 'api' + this.options.table.url + 'getPageData';
-
+		    this.tableUrl = 'api' + this.options.table.url + 'getPageData';
+			
+			await this.initPermission();
 
 			let extend;
 			// #ifdef MP-WEIXIN

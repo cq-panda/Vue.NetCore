@@ -14,6 +14,17 @@ module.exports = {
     //查看CSS属于哪个css文件
     sourceMap: true
   },
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: "javascript/auto"
+        },
+      ]
+    }
+  },
   //https://cli.vuejs.org/zh/guide/html-and-static-assets.html#html
   chainWebpack: (config) => {
     // 移除 prefetch 插件

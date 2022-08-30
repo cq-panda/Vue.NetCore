@@ -21,6 +21,9 @@ else if (process.env.NODE_ENV == 'debug') {
 else if (process.env.NODE_ENV == 'production') {
     axios.defaults.baseURL = 'http://api.volcore.xyz/';
 }
+if (!axios.defaults.baseURL.endsWith('/')) {
+    axios.defaults.baseURL+="/";
+}
 let ipAddress = axios.defaults.baseURL;
 axios.interceptors.request.use((config) => {
     return config;
@@ -97,10 +100,10 @@ function showLoading (loading) {
         return;
     }
     loadingInstance = Loading.service({
-        target: '#loading-container',
-        customClass: "el-loading",
-        text: typeof loading == "string" ? loading : '正在处理.....',
-        spinner: 'el-icon-loading',
+        lock: true,
+        text: 'Loading',
+        customClass:"http-loading",
+        background: typeof loading == "string" ? loading : '正在处理.....',
         background: 'rgba(58, 61, 63, 0.32)'
     });
 }
@@ -148,7 +151,29 @@ function get (url, param, loading, config) {
     })
 }
 
-
+//url:url地址
+//params:请求参数
+//fileName:下载的文件名
+//loading:是否显示加载状态
+function download (url, params, fileName, loading,callback) {
+    fileName = fileName.replace(">", "＞").replace("<", "＜");
+    post(url, params, loading, { responseType: 'blob' }).then(content => {
+        const blob = new Blob([content])
+        if ('download' in document.createElement('a')) { // 非IE下载
+            const elink = document.createElement('a')
+            elink.download = fileName
+            elink.style.display = 'none'
+            elink.href = URL.createObjectURL(blob)
+            document.body.appendChild(elink)
+            elink.click()
+            URL.revokeObjectURL(elink.href) // 释放URL 对象
+            document.body.removeChild(elink)
+        } else { // IE10+下载
+            navigator.msSaveBlob(blob, fileName)
+        }
+        callback&&callback();
+    })
+}
 
 
 function createXHR () {
@@ -293,4 +318,4 @@ ajax.post = function (url, param, success, errror) {
 ajax.get = function (url, param, success, errror) {
     ajax({ url: url, param: param, success: success, error: errror, type: 'get' })
 }
-export default { post, get, ajax, ipAddress }
+export default { post, get,download, ajax, ipAddress }

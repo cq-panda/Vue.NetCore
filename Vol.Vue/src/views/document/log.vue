@@ -30,8 +30,8 @@
           :key="index1"
         >
           <span class="date">{{ list.date }}</span>
-           <div :style="list.style" v-if="list.style" v-html="list.desc"></div>
-          <span v-else >{{ list.desc }}</span>
+          <div :style="list.style" v-if="list.style" v-html="list.desc"></div>
+          <span v-else>{{ list.desc }}</span>
         </li>
       </ul>
     </div>
@@ -49,132 +49,613 @@ export default {
     return {
       active: 0,
       log: [
-           { date: '2022.05', type: 'month' },
-           { date: "202-05-08 22:51:55",desc:"增加vue3版本voltable下拉框选择只读disabled与是否显示hidden属性"},
-{ date: "202-05-08 22:50:45",desc:"增加vue3版本下拉框选项只读readonly与是否显示hidden属性"},
-{ date: "202-05-08 22:49:55",desc:"增加vue3版本明细表按钮默认hidden属性"},
-{ date: "202-05-08 22:24:47",desc:"移动端voltable组件增加单元格点击事件"},
-{ date: "202-05-08 21:58:06",desc:"修复移动端生成的页面点击跳转后不能再次点击的问题"},
-{ date: "202-05-08 21:56:54",desc:"修改移动端搜索功能图标"},
-{ date: "202-05-07 00:43:40",desc:"增加移动端下拉框搜索功能"},
-{ date: "202-05-06 23:58:06",desc:"增加vue3版本获取当前时间的通用方法"},
-{ date: "202-05-06 23:30:05",desc:"优化示例与示例"},
-{ date: "202-05-06 23:29:20",desc:"修复vue3版本错误信息重复的问题"},
-{ date: "202-05-06 23:28:45",desc:"优化vue3表单动态列宽度计算"},
-{ date: "202-05-06 00:28:59",desc:"优化移动端组件"},
-{ date: "202-05-05 23:34:53",desc:"优化列表数据显示"},
-{ date: "202-05-05 23:07:56",desc:"修改移动端级联为下拉框操作"},
-{ date: "202-05-05 21:54:25",desc:"增加vue3版本弹出框按钮默认属性disabled值"},
-{ date: "202-05-05 15:03:45",desc:"增加swagger null判断"},
-{ date: "202-05-05 14:30:21",desc:"Update mysql表结构与表数据.sql"},
-{ date: "202-05-05 11:30:32",desc:"设置signalR不开启，如果需要启用，在main.js中设置"},
-{ date: "202-05-05 11:26:02",desc:"增加vue3版本是否开启消息推送signalR属性配置"},
+        { date: '2022.08', type: 'month' },
+        { date: "2022-08-29 04:32:06",desc:"增加审批流程回退功能,更新文件:ServiceBase.cs、WorkFlowManager.cs、Sys_WorkFlowController.cs、前端viewgrid文件夹(回退使用方法见后台开发文档上审批方法)"},
+{ date: "2022-08-29 02:11:03",desc:"优化vue3版本table编辑时数据源类型判断"},
+{ date: "2022-08-29 01:45:31",desc:"优化vue3版本审批时隐藏弹出框其他按钮"},
+{ date: "2022-08-29 01:35:33",desc:"优化vue3版本表单编辑为函数时提交自动计算结果"},
+{ date: "2022-08-29 01:29:53",desc:"修复vue3版本升级后白色与黑色主题颜色显示异常的问题"},
+{ date: "2022-08-29 01:09:52",desc:"优化登陆页字体大小"},
+{ date: "2022-08-29 01:07:11",desc:"修复vue3版本升级后更多按钮图标不显示的问题"},
+{ date: "2022-08-24 21:33:53",desc:"Merge branch 'master' of https://github.com/cq-panda/Vue.NetCore"},
+{ date: "2022-08-24 21:32:19",desc:"优化移动端权限加载顺序"},
+        {
+          date: '2022-08-22 21:33:00',
+          desc: '优化vue3版本表单类型为number时的默认值'
+        },
+        { date: '2022-08-22 21:23:07', desc: '优化vue3版本select多选显示' },
+        { date: '2022-08-22 21:09:40', desc: '优化用户表新建或修改提示信息' },
+        {
+          date: '2022-08-22 21:00:23',
+          desc: '优化vue3版本voltable默认显示滚动条'
+        },
+        {
+          date: '2022-08-22 20:46:55',
+          desc: '优化vue3版本菜单与上传组件图标显示'
+        },
+        { date: '2022-08-22 20:43:34', desc: '优化弹出框高度自适应' },
+        { date: '2022-08-22 20:35:02', desc: '优化文件上传默认大小' },
+        {
+          date: '2022-08-22 01:35:31',
+          style: 'color:red',
+          desc: `
+          <div style="font-weight:600;"> 升级element plus正式版本2.2.14及vue版本3.2.37，更新方式(先升级2022.08.15的更新说明,不更新会影响审批功能)：</div>
+           <div style="margin-top:20px;">1、使用cmd命令切换到Vol.Vue3版本目录下,分别执行这4个命令</div>
+            <div style="margin-left:20px;">npm install vue@3.2.37 --force</div>
+            <div style="margin-left:20px;">npm uninstall element-plus</div>
+            <div style="margin-left:20px;">npm install element-plus --save</div>
+            <div style="margin-left:20px;">npm cache clear --force</div>
 
-        { date: "202-05-04 12:14:59",desc:"优化登陆密码判断方式"},
-{ date: "202-05-03 11:42:38",desc:"完善文档"},
-{ date: "202-05-03 11:41:43",desc:"优化vue3版本权限分配页面区分app菜单"},
-{ date: "202-05-03 11:41:03",desc:"优化vue2版本权限分配页面区分app菜单"},
-{ date: "202-05-03 11:13:08",desc:"增加vue3版本volform输入框inputStyle属性"},
-{ date: "202-05-03 10:56:33",desc:"增加vue3版本voltable组件textarea编辑类型"},
-{ date: "202-05-03 10:46:14",desc:"移除多余设置默认值的操作"},
-{ date: "202-05-03 10:36:37",desc:"优化移动端权限名不区分大小写"},
-{ date: "202-05-03 10:33:18",desc:"优化移动端保存前方法"},
-{ date: "202-05-03 10:31:50",desc:"增加移动端表单组件ref属性"},
-{ date: "202-05-03 10:29:44",desc:"屏蔽代码生成器生成dto功能"},
-{ date: "202-05-03 03:50:26",style:"font-size:14px;color:red;",desc:"vue3版本集成signalR(消息推送)",desc:`<p>vue3版本集成signalR(消息推送),更新文件:</p>
-<p>package.json、router/index.js、views/index.vue、views/Home.vue、views/index/index.less、Startup.cs、appsettings.json、</p>Hubs/HomePageMessageHub.cs、views/index文件夹、views/signalR/Index.vue`},
+            <div style="margin-top:20px;">2、前端更新文件</div>
+            <div style="margin-left:20px;">public->index.html</div>
+            <div style="margin-left:20px;">App.vue</div>
+            <div style="margin-left:20px;">QuickSearch.vue</div>
+            <div style="margin-left:20px;">ViewGrid.vue</div>
+            <div style="margin-left:20px;">VolElementMenu.vue</div>
+            <div style="margin-left:20px;">VolElementMenuChild.vue</div>
+            <div style="margin-left:20px;">VolTable.vue</div>
+            <div style="margin-left:20px;">VolForm.vue</div>
+            <div style="margin-left:20px;">main.js</div>
+            <div style="margin-left:20px;">vue.config.js</div>
+            <div style="margin-left:20px;">index.vue 第388行代码位置： const selectNav = (item) => {</div>
+            <div style="margin-left:20px;">assets->element-icon文件夹，(新增加的字段文件)</div>
 
-         { date: '2022.04', type: 'month' },
-         { date: "202-04-25 01:27:35",desc:"优化vol-table组件null显示"},
-{ date: "202-04-25 01:11:12",desc:"修复vol-form组件日期在小程序真机上默认值异常的问题，集成日期最大值与最小值"},
-{ date: "202-04-22 20:09:21",desc:"提供sqlserver开发版最新脚本"},
-{ date: "202-04-22 15:58:45",desc:"调整kafka注入方式 解决生产者在控制器或Service里面无法调用问题"},
-{ date: "202-04-21 00:20:36",desc:"修复表单小程序上获取不到不文件名的问题"},
-{ date: "202-04-20 23:20:53",desc:"完善uniapp组件"},
-{ date: "202-04-20 01:31:55",desc:"增加uniapp示例"},
-{ date: "202-04-22 10:45:10",desc:"修改swaggerUI界面，查看方式更直观，同时接口可复制为MD文档格式"},
-{ date: "202-04-18 21:12:48",desc:"设置级联组件为下拉框展示"},
-{ date: "202-04-18 01:29:07",desc:"设置uniapp http.js默认开发请求信息"},
-{ date: "202-04-18 01:24:03",desc:"增加菜单区分uniapp与PC显示"},
-         { date: "2022-04-17 22:28:14",desc:"增加uniapp表单自定义placeholder属性"},
-        { date: "2022-04-17 22:27:37",desc:"修复uniapp表单字段为图片时没有初始化上传地址的问题"},
-        { date: "2022-04-17 21:58:21",desc:"增加代码生器partial实体生成，需要更新DomainModel.html、Sys_TableInfoService.cs"},
-        { date: "2022-04-17 21:26:58",desc:"增加vue3版本设置textInline属性后表头也可以自动换行"},
-        { date: "2022-04-17 21:05:48",desc:"增加vue3版本voltable中tag属性effect"},
-        { date: "2022-04-17 20:56:30",desc:"优化vue2版本volform表单onChange判断"},
-        { date: "2022-04-17 20:27:12",desc:"增加vue3版本动态控制明细表是否显示"},
-        { date: "2022-04-17 20:26:55",desc:"增加vue2版本动态控制明细表是否显示"},
-        { date: "2022-04-17 20:15:29",desc:"优化vue3版本重新加载数据源"},
-        { date: "2022-04-17 20:15:10",desc:"优化vue2版本重新加载数据源"},
-        { date: "2022-04-13 21:33:20",desc:"优化vue3版本voltable样式"},
-        { date: "2022-04-13 00:01:32",desc:"优化vue3版本表单只读验证"},
-        { date: "2022-04-11 21:31:54",desc:"增加vue3版本编辑器自定义上传的实现"},
-        { date: "2022-04-11 21:26:59",desc:"移除后台上传文件大小限制"},
-        { date: "2022-04-10 23:30:11",desc:"优化vue3版本菜单收缩后文字颜色显示"},
-        { date: "2022-04-07 01:10:10",desc:"完善文档"},
-        { date: "2022-04-06 23:57:53",desc:"优化vue3版本table合计固定列显示"},
-        { date: "2022-04-06 13:47:35",desc:"修复移动端searchAfter参数错误的问题"},
-        { date: "2022-04-06 00:27:13",desc:"优化vue3版本volform只读字段不验证必填"},
-        { date: "20222-04-05 20:59:48",desc:"完善文档"},
-        { date: "20222-04-05 20:53:15",desc:"优化vue3版本表单textarea字体"},
-        { date: "20222-04-04 14:44:44",desc:"增加vue3版本字典加载完成后的方法dicInited"},
-        { date: "20222-04-04 14:44:31",desc:"增加vue2版本字典加载完成后的方法dicInited"},
-        { date: "20222-04-04 14:36:27",desc:"修复vue3版本级联刷新数据源后table的数据源没有刷新的问题"},
-        { date: "20222-04-04 14:35:29",desc:"修复vue2版本级联刷新数据源后table的数据源没有刷新的问题"},
-        { date: "20222-04-01 23:27:54",desc:"完善文档"},
+
+</div>
+        `
+        },
+        { date: '2022-08-22 01:33:45', desc: '优化用户新建与删除提示' },
+        { date: '2022-08-22 01:33:07', desc: '增加.net6版本审批流程' },
+        { date: '2022-08-19 16:35:08', desc: '更新mysql脚本' },
+        { date: '2022-08-18 02:38:58', desc: '更新sqlserver脚本' },
+        { date: '2022-08-18 02:17:52', desc: '调整审核类型显示' },
+        { date: '2022-08-18 01:43:35', desc: '优化审批人显示' },
+        {
+          date: '2022-08-17 22:53:15',
+          desc: '增加发邮件功能：更新MailHelper.cs、appsettings.json(最后面的Mail配置)'
+        },
+        {
+          date: '2022-08-17 00:16:20',
+          desc: '增加点击我的审批时自动跳转弹出审批信息页面'
+        },
+        {
+          date: '2022-08-16 23:26:38',
+          desc: '优化vue3版本http.js文件强制url地址以/结尾'
+        },
+        {
+          date: '2022-08-16 23:22:53',
+          desc: '增加vue3版本明细表内容超出换行显示属性'
+        },
+        {
+          date: '2022-08-16 23:14:37',
+          desc: '优化vue3版本table事件点击上下文指向'
+        },
+        {
+          date: '2022-08-16 23:13:52',
+          desc: '修复vue3版本首页index.vue导航右键功能浏览器兼容的问题'
+        },
+        { date: '2022-08-16 23:12:28', desc: '完善文档' },
+        { date: '2022-08-16 23:11:19', desc: '优化代码生成器模板' },
+        {
+          date: '2022-08-16 22:44:39',
+          desc: '集成vue3版本voltable组件列属性showOverflowTooltip(当内容过长被隐藏时显示 tooltip)'
+        },
+        {
+          date: '2022-08-16 22:39:11',
+          desc: '增加vue3版本主表在线表格编辑前方法拦截'
+        },
+        { date: '2022-08-16 02:07:44', desc: '增加mysql审批流程表结构' },
+        {
+          date: '2022-08-16 01:56:59',
+          desc: '完善审批流程，增加角色、部门审批功能'
+        },
+        {
+          date: '2022-08-16 01:52:47',
+          desc: '优化sqldapper批量写入mysql数据库'
+        },
+        { date: '2022-08-15 05:17:49', desc: '增加流程示例' },
+        {
+          date: '2022-08-15 04:08:46',
+          desc: '修复移动端安卓真机类型错误的问题'
+        },
+        {
+          date: '2022-08-15 04:06:17',
+          desc: '修复移动端图片上传权限异常的问题'
+        },
+        {
+          date: '2022-08-15 04:03:46',
+          style: 'color:red',
+          desc: `增加审批流程功能,更新代码：
+             <p>1、  数据库更新：更新db文件夹中表结构Sys_WorkFlow、Sys_WorkFlowStep、Sys_WorkFlowTable、Sys_WorkFlowTableStep这4张表;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同时生成代码(代码生成时类库选择system，文件夹名flow)</p>
+             <p style="margin-left:25px;font-size:13px;color:#579fea">数据库脚本地址<a href="https://gitee.com/x_discoverer/Vue.NetCore/tree/master/DB">https://gitee.com/x_discoverer/Vue.NetCore/tree/master/DB</a></p>
+             <p>2、VOL.Core类库全部更新替换覆盖</p>
+            <p>3、后台：UserInfo.cs、Sys_WorkFlowController.cs、Sys_WorkFlowService.cs</p>
+            <p>4、流程注入见后台代码：Startup.cs中ConfigureContainer方法说明</p>
+                      <p>5、前端更新文件夹：components、extension->system->flow文件夹</p>
+                 <p>6、其他遗漏或详细补充见视频</p>
+              `
+        },
+        { date: '2022.07', type: 'month' },
+
+        { date: '2022-07-30 11:16:55', desc: '移除.net6版本过时代码' },
+        { date: '2022-07-25 02:45:15', desc: '增加审批流程(审批逻辑待完)' },
+        { date: '2022-07-20 00:17:15', desc: '优化移动端下拉框默认值显示' },
+        { date: '2022-07-18 02:55:25', desc: '完善文档' },
+        {
+          date: '2022-07-18 02:01:05',
+          desc: '修复vue3版本voltable组件编辑格式为年月日时格式显示不正确的问题'
+        },
+        {
+          date: '2022-07-18 01:44:37',
+          desc: '增加vue3版本代码生成器排序字段说明'
+        },
+        {
+          date: '2022-07-18 01:40:23',
+          desc: '修复自定义权限判断大小写判断错误的问题'
+        },
+        {
+          date: '2022-07-18 01:39:47',
+          desc: '增加默认多字段排序功能(多个字段逗号隔开),更新文件ServiceBase.cs'
+        },
+        {
+          date: '2022-07-18 01:18:19',
+          desc: '修复vue3版本volform邮箱类型验证不正确的问题'
+        },
+        {
+          date: '2022-07-18 00:57:40',
+          desc: '修复vue3版本volform密码输入框类型错误的问题'
+        },
+        {
+          date: '2022-07-13 00:14:34',
+          desc: '优化主从表不再要求主从表的主键字段类型一致'
+        },
+        {
+          date: '2022-07-13 00:11:49',
+          desc: '修复vue3版本vol-table编辑时下拉框多选key、value不一致没有正确转换的问题'
+        },
+        {
+          date: '2022-07-13 00:10:18',
+          desc: '修复明细表修改时修改人信息没有更新的问题'
+        },
+        { date: '2022-07-12 23:23:06', desc: '同步mysql与pgsql数据库脚本' },
+        {
+          date: '2022-07-12 23:19:19',
+          desc: '修复pgsql数据库批量写入异常的问题'
+        },
+        { date: '2022-07-12 23:16:45', desc: '优化反射代码注入' },
+        { date: '2022-07-05 01:36:39', desc: '优化通用excel导出方法' },
+        { date: '2022-07-05 00:11:00', desc: '移除vue3版本中的错误代码' },
+        { date: '2022.06', type: 'month' },
+        {
+          date: '2022-06-28 22:26:55',
+          desc: '修复vue3版本vol-table数据源某些条件下类型判断错误的问题'
+        },
+        { date: '2022-06-27 01:02:05', desc: '完善文档' },
+
+        {
+          date: '2022-06-27 00:53:54',
+          desc: '增加vue3版本vol-table表格编辑多选的支持'
+        },
+        {
+          date: '2022-06-27 00:36:21',
+          desc: '修复vue3版本this.$tabs打开选择卡后二次切换参数可能丢失的问题'
+        },
+        { date: '2022-06-27 00:25:06', desc: '增加移动端示例' },
+        {
+          date: '2022-06-27 00:13:07',
+          desc: '增加通用下载文件(excel)方法this.http.download()说明'
+        },
+        {
+          date: '2022-06-27 00:07:44',
+          desc: '增加移动端vol-table图片预览功能'
+        },
+        {
+          date: '2022-06-26 23:54:14',
+          desc: '修复移动端在安卓上传图片某些情况不能解析的问题'
+        },
+        {
+          date: '2022-06-26 23:28:59',
+          desc: '修复vue3版本vol-table组件表格内容切换后行数不一致时不能编辑的问题'
+        },
+        {
+          date: '2022-06-26 23:24:45',
+          desc: '修复sqldapper异步执行时没有区分数据库类型的问题'
+        },
+        { date: '2022-06-26 23:19:31', desc: '屏蔽kafka代码' },
+        { date: '2022-06-20 02:51:15', desc: '增加vue3版本通用导出方法' },
+        { date: '2022-06-20 02:12:42', desc: '优化vue3版本time选择日期格式' },
+        {
+          date: '2022-06-20 02:11:57',
+          desc: '增加vue3版本保存明细表时处理多选下拉框的值'
+        },
+        {
+          date: '2022-06-20 01:53:16',
+          desc: '增加导入时读取原生excel方法(可以自定义读取excel内容)'
+        },
+        {
+          date: '2022-06-20 01:51:15',
+          desc: '修复日志文件在小程序上异常的问题'
+        },
+        {
+          date: '2022-06-20 01:36:10',
+          desc: '修复移动端volform日期组件日期第一次默认值不能自动选中的问题'
+        },
+        {
+          date: '2022-06-20 01:31:52',
+          desc: '增加移动端vol-form获取焦点focus属性'
+        },
+        {
+          date: '2022-06-12 23:28:26',
+          desc: '增加vue2版本vol-table字段必填时显示红色*号'
+        },
+        {
+          date: '2022-06-12 23:27:42',
+          desc: '增加vue2版本固定查询条件时显示重置按钮'
+        },
+        {
+          date: '2022-06-12 23:06:35',
+          desc: '增加vue3版本vol-table表格必填时显示红色*号'
+        },
+        {
+          date: '2022-06-12 23:05:53',
+          desc: '修复vue3版本主从表第一次打开时执行两次查询的问题'
+        },
+        {
+          date: '2022-06-12 22:39:39',
+          desc: '增加vue3版本vol-form集成日期组件：年月选择'
+        },
+        {
+          date: '2022-06-12 22:30:07',
+          desc: '修复vue3版本自定义列点击取消时没有关闭的问题'
+        },
+        { date: '2022-06-12 22:23:15', desc: '增加dockfile配置(by @3ddbz)' },
+        {
+          date: '2022-06-12 22:21:40',
+          desc: '增加跨平台验证码SkiaSharp(by @3ddbz)'
+        },
+        {
+          date: '2022-06-11 00:43:48',
+          desc: '修复移动端vol-table不能同时使用多个组件的问题'
+        },
+        {
+          date: '2022-06-10 10:37:55',
+          desc: '修复vue3版本destroyed无效的问题'
+        },
+
+        { date: '2022.05', type: 'month' },
+        {
+          date: '2022-05-31 21:28:46',
+          desc: '调整生成验证码的代码以支持linux'
+        },
+        { date: '2022-05-31 21:27:05', desc: '添加docker支持' },
+        { date: '2022-05-31 11:00:36', desc: '移除开发版帐号登陆限制' },
+        {
+          date: '2022-05-29 23:22:15',
+          desc: '增加vue3版本顶部菜单选项卡切换时联动左侧菜单'
+        },
+        {
+          date: '2022-05-29 21:51:26',
+          desc: '增加通用获取递归获取所有子节点的方法'
+        },
+        { date: '2022-05-28 02:38:17', desc: '增加vue3版本自定义列显示与顺序' },
+        {
+          date: '2022-05-28 02:27:33',
+          desc: '增加vue3版本自定义列是否显示与列显示顺序'
+        },
+        { date: '2022-05-24 12:52:29', desc: '完善文档' },
+        { date: '2022-05-23 23:01:51', desc: '升级.net6 entity类库版本' },
+        {
+          date: '2022-05-23 21:53:37',
+          desc: '增加删除菜单时刷新缓存与修改菜单按钮时同步刷新角色权限缓存'
+        },
+        {
+          date: '2022-05-23 16:48:50',
+          desc: '修复vue3版本快捷查询日期无法清除的问题'
+        },
+        {
+          date: '2022-05-23 12:03:24',
+          desc: '增加扩展方法手机号验证支持199开头'
+        },
+        {
+          date: '2022-05-23 12:02:37',
+          desc: '修复dapper 更新方法update事务参数无效的问题'
+        },
+        {
+          date: '2022-05-23 12:01:33',
+          desc: '修改RepositoryBase.cs中SqlParameter引用'
+        },
+        { date: '2022-05-21 22:04:24', desc: '移除无效引用' },
+        { date: '2022-05-20 19:42:21', desc: '补全vue3与移动端文档' },
+        {
+          date: '2022-05-20 16:29:35',
+          desc: '修复vue3版本快捷查询为日期多选时，查询按钮被挡住的问题'
+        },
+        {
+          date: '2022-05-20 15:47:00',
+          desc: '优化vue3版本index.vue中tabs右键关闭操作'
+        },
+        { date: '2022-05-20 11:09:43', desc: 'Update http.js' },
+        {
+          date: '2022-05-20 09:50:18',
+          desc: '增加vue3版本导航菜单tab右键关闭功能,更新文件index.less,Index.vue,VolElementMenu.vue(by p1j123456 )'
+        },
+        {
+          date: '2022-05-20 09:34:27',
+          desc: 'Merge pull request #251 from p1j123456/master'
+        },
+        { date: '2022-05-19 22:46:41', desc: '追加tab标签右键' },
+        {
+          date: '2022-05-11 17:58:11',
+          desc: '修复vue2版本结束编辑前方法行数据不正确的问题'
+        },
+        { date: '2022-05-11 17:20:21', desc: 'Update Detail.vue' },
+        { date: '2022-05-11 00:54:04', desc: '完善文档' },
+        {
+          date: '2022-05-11 00:53:32',
+          desc: '增加vue3版本快捷查询支持级联、日期组件，查询只有一选项时强制隐藏高级查询'
+        },
+        {
+          date: '2022-05-11 00:09:51',
+          desc: '增加移动端列表数据可自定义多个按钮'
+        },
+        { date: '2022-05-11 00:08:17', desc: '增加移动端多按钮配置模板' },
+        {
+          date: '202-05-08 22:51:55',
+          desc: '增加vue3版本voltable下拉框选择只读disabled与是否显示hidden属性'
+        },
+        {
+          date: '202-05-08 22:50:45',
+          desc: '增加vue3版本下拉框选项只读readonly与是否显示hidden属性'
+        },
+        {
+          date: '202-05-08 22:49:55',
+          desc: '增加vue3版本明细表按钮默认hidden属性'
+        },
+        {
+          date: '202-05-08 22:24:47',
+          desc: '移动端voltable组件增加单元格点击事件'
+        },
+        {
+          date: '202-05-08 21:58:06',
+          desc: '修复移动端生成的页面点击跳转后不能再次点击的问题'
+        },
+        { date: '202-05-08 21:56:54', desc: '修改移动端搜索功能图标' },
+        { date: '202-05-07 00:43:40', desc: '增加移动端下拉框搜索功能' },
+        {
+          date: '202-05-06 23:58:06',
+          desc: '增加vue3版本获取当前时间的通用方法'
+        },
+        { date: '202-05-06 23:30:05', desc: '优化示例与示例' },
+        { date: '202-05-06 23:29:20', desc: '修复vue3版本错误信息重复的问题' },
+        { date: '202-05-06 23:28:45', desc: '优化vue3表单动态列宽度计算' },
+        { date: '202-05-06 00:28:59', desc: '优化移动端组件' },
+        { date: '202-05-05 23:34:53', desc: '优化列表数据显示' },
+        { date: '202-05-05 23:07:56', desc: '修改移动端级联为下拉框操作' },
+        {
+          date: '202-05-05 21:54:25',
+          desc: '增加vue3版本弹出框按钮默认属性disabled值'
+        },
+        { date: '202-05-05 15:03:45', desc: '增加swagger null判断' },
+        { date: '202-05-05 14:30:21', desc: 'Update mysql表结构与表数据.sql' },
+        {
+          date: '202-05-05 11:30:32',
+          desc: '设置signalR不开启，如果需要启用，在main.js中设置'
+        },
+        {
+          date: '202-05-05 11:26:02',
+          desc: '增加vue3版本是否开启消息推送signalR属性配置'
+        },
+
+        { date: '202-05-04 12:14:59', desc: '优化登陆密码判断方式' },
+        { date: '202-05-03 11:42:38', desc: '完善文档' },
+        {
+          date: '202-05-03 11:41:43',
+          desc: '优化vue3版本权限分配页面区分app菜单'
+        },
+        {
+          date: '202-05-03 11:41:03',
+          desc: '优化vue2版本权限分配页面区分app菜单'
+        },
+        {
+          date: '202-05-03 11:13:08',
+          desc: '增加vue3版本volform输入框inputStyle属性'
+        },
+        {
+          date: '202-05-03 10:56:33',
+          desc: '增加vue3版本voltable组件textarea编辑类型'
+        },
+        { date: '202-05-03 10:46:14', desc: '移除多余设置默认值的操作' },
+        { date: '202-05-03 10:36:37', desc: '优化移动端权限名不区分大小写' },
+        { date: '202-05-03 10:33:18', desc: '优化移动端保存前方法' },
+        { date: '202-05-03 10:31:50', desc: '增加移动端表单组件ref属性' },
+        { date: '202-05-03 10:29:44', desc: '屏蔽代码生成器生成dto功能' },
+        {
+          date: '202-05-03 03:50:26',
+          style: 'font-size:14px;color:red;',
+          desc: 'vue3版本集成signalR(消息推送)',
+          desc: `<p>vue3版本集成signalR(消息推送),更新文件:</p>
+<p>package.json、router/index.js、views/index.vue、views/Home.vue、views/index/index.less、Startup.cs、appsettings.json、</p>Hubs/HomePageMessageHub.cs、views/index文件夹、views/signalR/Index.vue`
+        },
+
+        { date: '2022.04', type: 'month' },
+        { date: '202-04-25 01:27:35', desc: '优化vol-table组件null显示' },
+        {
+          date: '202-04-25 01:11:12',
+          desc: '修复vol-form组件日期在小程序真机上默认值异常的问题，集成日期最大值与最小值'
+        },
+        { date: '202-04-22 20:09:21', desc: '提供sqlserver开发版最新脚本' },
+        {
+          date: '202-04-22 15:58:45',
+          desc: '调整kafka注入方式 解决生产者在控制器或Service里面无法调用问题'
+        },
+        {
+          date: '202-04-21 00:20:36',
+          desc: '修复表单小程序上获取不到不文件名的问题'
+        },
+        { date: '202-04-20 23:20:53', desc: '完善uniapp组件' },
+        { date: '202-04-20 01:31:55', desc: '增加uniapp示例' },
+        {
+          date: '202-04-22 10:45:10',
+          desc: '修改swaggerUI界面，查看方式更直观，同时接口可复制为MD文档格式'
+        },
+        { date: '202-04-18 21:12:48', desc: '设置级联组件为下拉框展示' },
+        {
+          date: '202-04-18 01:29:07',
+          desc: '设置uniapp http.js默认开发请求信息'
+        },
+        { date: '202-04-18 01:24:03', desc: '增加菜单区分uniapp与PC显示' },
+        {
+          date: '2022-04-17 22:28:14',
+          desc: '增加uniapp表单自定义placeholder属性'
+        },
+        {
+          date: '2022-04-17 22:27:37',
+          desc: '修复uniapp表单字段为图片时没有初始化上传地址的问题'
+        },
+        {
+          date: '2022-04-17 21:58:21',
+          desc: '增加代码生器partial实体生成，需要更新DomainModel.html、Sys_TableInfoService.cs'
+        },
+        {
+          date: '2022-04-17 21:26:58',
+          desc: '增加vue3版本设置textInline属性后表头也可以自动换行'
+        },
+        {
+          date: '2022-04-17 21:05:48',
+          desc: '增加vue3版本voltable中tag属性effect'
+        },
+        {
+          date: '2022-04-17 20:56:30',
+          desc: '优化vue2版本volform表单onChange判断'
+        },
+        {
+          date: '2022-04-17 20:27:12',
+          desc: '增加vue3版本动态控制明细表是否显示'
+        },
+        {
+          date: '2022-04-17 20:26:55',
+          desc: '增加vue2版本动态控制明细表是否显示'
+        },
+        { date: '2022-04-17 20:15:29', desc: '优化vue3版本重新加载数据源' },
+        { date: '2022-04-17 20:15:10', desc: '优化vue2版本重新加载数据源' },
+        { date: '2022-04-13 21:33:20', desc: '优化vue3版本voltable样式' },
+        { date: '2022-04-13 00:01:32', desc: '优化vue3版本表单只读验证' },
+        {
+          date: '2022-04-11 21:31:54',
+          desc: '增加vue3版本编辑器自定义上传的实现'
+        },
+        { date: '2022-04-11 21:26:59', desc: '移除后台上传文件大小限制' },
+        {
+          date: '2022-04-10 23:30:11',
+          desc: '优化vue3版本菜单收缩后文字颜色显示'
+        },
+        { date: '2022-04-07 01:10:10', desc: '完善文档' },
+        {
+          date: '2022-04-06 23:57:53',
+          desc: '优化vue3版本table合计固定列显示'
+        },
+        {
+          date: '2022-04-06 13:47:35',
+          desc: '修复移动端searchAfter参数错误的问题'
+        },
+        {
+          date: '2022-04-06 00:27:13',
+          desc: '优化vue3版本volform只读字段不验证必填'
+        },
+        { date: '20222-04-05 20:59:48', desc: '完善文档' },
+        { date: '20222-04-05 20:53:15', desc: '优化vue3版本表单textarea字体' },
+        {
+          date: '20222-04-04 14:44:44',
+          desc: '增加vue3版本字典加载完成后的方法dicInited'
+        },
+        {
+          date: '20222-04-04 14:44:31',
+          desc: '增加vue2版本字典加载完成后的方法dicInited'
+        },
+        {
+          date: '20222-04-04 14:36:27',
+          desc: '修复vue3版本级联刷新数据源后table的数据源没有刷新的问题'
+        },
+        {
+          date: '20222-04-04 14:35:29',
+          desc: '修复vue2版本级联刷新数据源后table的数据源没有刷新的问题'
+        },
+        { date: '20222-04-01 23:27:54', desc: '完善文档' },
         { date: '2022.03', type: 'month' },
-        { date: "20222-03-31 22:49:49",desc:"优化代码生成器路径保存方式"},
-        { date: "2022-03-27 13:36:10", desc: "完善文档"},
-        { date: "2022-03-27 12:05:16", desc: "初始化uniapp项目"},
-        { date: "2022-03-27 12:01:50",style:"font-size:14px;color:red;",
-        desc: `<p>增加移动端支持、安卓、ios、h5、微信小程序(uniapp)，更新文件：</p>
+        { date: '20222-03-31 22:49:49', desc: '优化代码生成器路径保存方式' },
+        { date: '2022-03-27 13:36:10', desc: '完善文档' },
+        { date: '2022-03-27 12:05:16', desc: '初始化uniapp项目' },
+        {
+          date: '2022-03-27 12:01:50',
+          style: 'font-size:14px;color:red;',
+          desc: `<p>增加移动端支持、安卓、ios、h5、微信小程序(uniapp)，更新文件：</p>
         <p>1、数据库：ALTER TABLE Sys_Menu  ADD MenuType INT </p>
           <p> 2、前端：Sys_Menu.vue、 builder文件夹   </p>
           <p>3、后台：Sys_Menu.cs、Sys_TableInfoController.cs、Sys_TableInfoService.cs、ISys_TableInfoService.cs、 <p>
-          <p>ApiAuthorizeFilter.cs、UserContext.cs、JwtHelper.cs、Permissions.cs、Sys_MenuService.cs、BuilderController.cs、Startup.cs、Template文件夹  </p>`},
-        { date: "2022-03-26 17:11:36", desc: "修复编辑器不能换行的问题"},
-        { date: "2022-03-26 00:35:06", desc: "增加vue3版本title修改"},
-        { date: "2022-03-24 22:16:13", desc: "修复vue3版本表单字段为number时+-默认不生效的问题"},
-        { date: "2022-03-24 21:49:27", desc: "优化vue2版本登录页面"},
-        { date: "2022-03-24 21:49:10", desc: "修复vue2版本编辑器某些情况不能设置值的问题"},
-        { date: "2022-03-24 21:48:45", desc: "修复vue3版本编辑器某些情况不能设置值的问题"},
+          <p>ApiAuthorizeFilter.cs、UserContext.cs、JwtHelper.cs、Permissions.cs、Sys_MenuService.cs、BuilderController.cs、Startup.cs、Template文件夹  </p>`
+        },
+        { date: '2022-03-26 17:11:36', desc: '修复编辑器不能换行的问题' },
+        { date: '2022-03-26 00:35:06', desc: '增加vue3版本title修改' },
         {
-          date: '2022-03-20 20:47:06', desc: '优化vue3版本编辑时限制只能选择一行数据提示'
+          date: '2022-03-24 22:16:13',
+          desc: '修复vue3版本表单字段为number时+-默认不生效的问题'
+        },
+        { date: '2022-03-24 21:49:27', desc: '优化vue2版本登录页面' },
+        {
+          date: '2022-03-24 21:49:10',
+          desc: '修复vue2版本编辑器某些情况不能设置值的问题'
         },
         {
-          date: '2022-03-20 20:46:56', desc: '优化vue2版本编辑时限制只能选择一行数据提示'
+          date: '2022-03-24 21:48:45',
+          desc: '修复vue3版本编辑器某些情况不能设置值的问题'
         },
         {
-          date: '2022-03-20 20:42:50', desc: '增加vue2版本volform表单swithc、checbox的onChange事件'
+          date: '2022-03-20 20:47:06',
+          desc: '优化vue3版本编辑时限制只能选择一行数据提示'
+        },
+        {
+          date: '2022-03-20 20:46:56',
+          desc: '优化vue2版本编辑时限制只能选择一行数据提示'
+        },
+        {
+          date: '2022-03-20 20:42:50',
+          desc: '增加vue2版本volform表单swithc、checbox的onChange事件'
         },
         { date: '2022-03-20 20:37:28', desc: '优化vue2版本首页头像加载判断' },
         { date: '2022-03-20 20:35:13', desc: '优化vue3版本首页头像加载判断' },
         {
-          date: '2022-03-20 20:29:21', desc: '修复vue2版本表单编辑器的图片不能自定义高度的问题'
+          date: '2022-03-20 20:29:21',
+          desc: '修复vue2版本表单编辑器的图片不能自定义高度的问题'
         },
         { date: '2022-03-20 20:28:12', desc: '完善vue3版本volform只读功能' },
         { date: '2022-03-20 20:24:59', desc: '优化vue2版本登陆页面' },
         {
-          date: '2022-03-20 20:24:12', desc: '修复vue2版本表单编辑器的图片不能自定义高度的问题'
+          date: '2022-03-20 20:24:12',
+          desc: '修复vue2版本表单编辑器的图片不能自定义高度的问题'
         },
         { date: '2022-03-15 23:56:31', desc: '增加扩展js模板默认方法' },
         { date: '2022-03-14 01:40:12', desc: '优化日志文件' },
         { date: '2022-03-14 01:39:11', desc: '优化表单示例' },
         {
-          date: '2022-03-14 01:38:54', desc: '修复vue3版本http.js中get方法自定义header无效的问题'
+          date: '2022-03-14 01:38:54',
+          desc: '修复vue3版本http.js中get方法自定义header无效的问题'
         },
         {
-          date: '2022-03-14 01:38:32', desc: '修复vue2版本http.js中get方法自定义header无效的问题'
+          date: '2022-03-14 01:38:32',
+          desc: '修复vue2版本http.js中get方法自定义header无效的问题'
         },
         {
-          date: '2022-03-14 01:37:45', desc: '增加vue3版本表单级联数据源自动转换功能'
+          date: '2022-03-14 01:37:45',
+          desc: '增加vue3版本表单级联数据源自动转换功能'
         },
         {
-          date: '2022-03-14 01:37:29', desc: '增加vue2版本表单级联数据源自动转换功能'
+          date: '2022-03-14 01:37:29',
+          desc: '增加vue2版本表单级联数据源自动转换功能'
         },
         { date: '2022-03-08 22:56:35', desc: '增加vue2版本npm install.bat' },
         {
-          date: '2022-03-03 00:28:42', desc: '优化代码生成器sqlserver数据库nvarchar长度判断'
+          date: '2022-03-03 00:28:42',
+          desc: '优化代码生成器sqlserver数据库nvarchar长度判断'
         },
         { date: '2022-03-03 00:28:06', desc: '添加vs警告配置' },
         { date: '2022.02', type: 'month' },
@@ -184,13 +665,16 @@ export default {
         { date: '2022-02-27 01:30:55', desc: '重写vue3版本一对多的示例代码' },
         { date: '2022-02-27 01:30:42', desc: '重写vue2版本一对多的示例代码' },
         {
-          date: '2022-02-27 00:14:27', desc: '优化vue3版本volform组件switch字段默认为0(否)'
+          date: '2022-02-27 00:14:27',
+          desc: '优化vue3版本volform组件switch字段默认为0(否)'
         },
         {
-          date: '2022-02-26 23:47:04', desc: '增加vue2版本voltable只读readonly属性(设置后表格不能编辑),增加非编辑列点击时不再开启编辑操作'
+          date: '2022-02-26 23:47:04',
+          desc: '增加vue2版本voltable只读readonly属性(设置后表格不能编辑),增加非编辑列点击时不再开启编辑操作'
         },
         {
-          date: '2022-02-26 19:21:12', desc: '优化vue2版本表单中的编辑器为懒加载(建议更新volform组件、更新后打包体积会减少3/5、打包时间会提升3倍)'
+          date: '2022-02-26 19:21:12',
+          desc: '优化vue2版本表单中的编辑器为懒加载(建议更新volform组件、更新后打包体积会减少3/5、打包时间会提升3倍)'
         },
         {
           date: '2022-02-20 02:39:56',
