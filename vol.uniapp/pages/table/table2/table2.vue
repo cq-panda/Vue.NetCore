@@ -3,9 +3,10 @@
 		<vol-alert>
 			<view>表格支持水平或列表显示、事件绑定、数据源自动转换、行格式化、自动分页，见table2.vue页面</view>
 		</vol-alert>
-		<vol-table :url="tableUrl" @rowClick="rowClick" :defaultLoadPage="load" @loadBefore="loadBefore"
-			:height="tableHeight" :titleField="titleField" :index="rowIndex" @loadAfter="loadAfter" ref="table"
-			:direction="direction" @formatter="formatter" :columns.sync="columns" :textInline="textInline">
+		<vol-table :url="tableUrl" @rowButtons="rowButtons" @rowButtonClick="rowButtonClick" @rowClick="rowClick"
+			:defaultLoadPage="load" @loadBefore="loadBefore" :height="tableHeight" :titleField="titleField"
+			:index="rowIndex" @loadAfter="loadAfter" ref="table" :direction="direction" @formatter="formatter"
+			:columns.sync="columns" :textInline="textInline">
 		</vol-table>
 	</view>
 </template>
@@ -29,7 +30,7 @@
 					},
 					{
 						field: 'ExpertName',
-						title: '名称'	
+						title: '名称'
 					},
 					{
 						field: 'UserName',
@@ -91,7 +92,34 @@
 			},
 			loadBefore(params, callback) {
 				callback(true);
-			}
+			},
+			rowButtons(index, row, callback) { //列表显示的按钮
+				//if(row.xx=='')
+				//自定义按钮,仅onInited中设置：this.direction = "list"后生效
+				let buttons = [{
+					text: "测试",
+					icon: "plus",
+					type: "primary",
+					shape: "circle",
+					//disabled: true
+				}, {
+					text: "删除",
+					icon: "trash",
+					type: "error",
+					plain: true,
+					shape: "circle",
+					//shape:"",//square、circle
+					//disabled: false
+				}];
+				callback(buttons);
+			},
+			rowButtonClick(btn, index, row) { //列表显示的按钮点击事件
+				if (btn.text == '删除') {
+					this.$toast('删除按钮')
+				} else  {
+					this.$toast('测试按钮')
+				}
+			},
 		}
 	}
 </script>
