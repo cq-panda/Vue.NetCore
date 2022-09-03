@@ -1,1 +1,1 @@
-npm install
+npm cache clear --force & npm install
