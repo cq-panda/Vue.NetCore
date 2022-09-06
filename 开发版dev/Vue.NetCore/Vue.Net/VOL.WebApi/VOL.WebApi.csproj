@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.18" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc5" />
   </ItemGroup>
 
