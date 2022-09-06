@@ -58,6 +58,14 @@ let viewgird = [
         path: '/Sys_WorkFlowTableStep',
         name: 'Sys_WorkFlowTableStep',
         component: () => import('@/views/system/flow/Sys_WorkFlowTableStep.vue')
+    }    ,{
+        path: '/Sys_QuartzOptions',
+        name: 'Sys_QuartzOptions',
+        component: () => import('@/views/system/quartz/Sys_QuartzOptions.vue')
+    }    ,{
+        path: '/Sys_QuartzLog',
+        name: 'Sys_QuartzLog',
+        component: () => import('@/views/system/quartz/Sys_QuartzLog.vue')
     }]
 
 export default viewgird
