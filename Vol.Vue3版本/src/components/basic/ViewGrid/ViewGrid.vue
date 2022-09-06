@@ -99,13 +99,13 @@
       </template>
       <template #footer>
         <div style="text-align: center;">
-          <el-button size="samll" @click="auditParam.model = false"
+          <el-button size="small" @click="auditParam.model = false"
             ><i class="el-icon-close"></i>关闭</el-button
           >
           <el-button
             type="primary"
             v-show="auditParam.showAction"
-            size="samll"
+            size="small"
             @click="saveAudit"
             ><i class="el-icon-check"></i>审核</el-button
           >

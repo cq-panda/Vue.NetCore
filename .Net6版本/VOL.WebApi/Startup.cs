@@ -19,6 +19,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Quartz;
+using Quartz.Impl;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
@@ -27,6 +29,7 @@ using VOL.Core.KafkaManager.IService;
 using VOL.Core.KafkaManager.Service;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
+using VOL.Core.Quartz;
 using VOL.Core.Utilities.PDFHelper;
 using VOL.Core.WorkFlow;
 using VOL.Entity.DomainModels;
@@ -166,11 +169,16 @@ namespace VOL.WebApi
             services.AddSignalR();
             //services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             //services.AddTransient<IPDFService, PDFService>();
+
+            services.AddHttpClient();
+            Services.AddTransient<HttpResultfulJob>();
+            Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            Services.AddSingleton<Quartz.Spi.IJobFactory, IOCJobFactory>();
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
             Services.AddModule(builder, Configuration);
-            //初始化流程表，表里面必须有AuditStatus字段
+            //初始化流程表，表里面必须有AuditStatus字段 
             WorkFlowContainer.Instance.Use<App_Expert>().Use<SellOrder>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -179,6 +187,10 @@ namespace VOL.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseQuartz(env);
             }
             app.UseMiddleware<ExceptionHandlerMiddleWare>();
             app.UseStaticFiles().UseStaticFiles(new StaticFileOptions

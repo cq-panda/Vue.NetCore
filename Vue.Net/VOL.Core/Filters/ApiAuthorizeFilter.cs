@@ -9,6 +9,7 @@ using System.Security.Claims;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
 using VOL.Core.ManageUser;
+using static VOL.Core.Filters.ApiTaskAttribute;
 
 namespace VOL.Core.Filters
 {
@@ -31,8 +32,15 @@ namespace VOL.Core.Filters
             //if (context.Filters.Any(item => item is IAllowAnonymousFilter))
             if (context.ActionDescriptor.EndpointMetadata.Any(item => item is IAllowAnonymous))
             {
-                //如果使用了固定Token不过期，直接对token的合法性及token是否存在进行验证
                 if (context.Filters
+                    .Where(item => item is IApiTaskFilter)
+                    .FirstOrDefault() is IApiTaskFilter apiTaskFilter) 
+                {
+                    apiTaskFilter.OnAuthorization(context);
+                    return;
+                }
+                //如果使用了固定Token不过期，直接对token的合法性及token是否存在进行验证
+                else if (context.Filters
                     .Where(item => item is IFixedTokenFilter)
                     .FirstOrDefault() is IFixedTokenFilter tokenFilter)
                 {

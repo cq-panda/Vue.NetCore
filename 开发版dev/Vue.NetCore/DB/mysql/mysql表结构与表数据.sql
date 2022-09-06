@@ -1816,4 +1816,100 @@ INSERT INTO `Sys_WorkFlowTableStep` VALUES ('f92d5a23-f572-446e-a3e4-e6063ee6dcd
 
 SET FOREIGN_KEY_CHECKS = 1;
 
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 120.53.251.208
+ Source Server Type    : MySQL
+ Source Server Version : 50729
+ Source Host           : 120.53.251.208:3306
+ Source Schema         : netcoredev
+
+ Target Server Type    : MySQL
+ Target Server Version : 50729
+ File Encoding         : 65001
+
+ Date: 07/09/2022 01:58:52
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for Sys_QuartzOptions
+-- ----------------------------
+DROP TABLE IF EXISTS `Sys_QuartzOptions`;
+CREATE TABLE `Sys_QuartzOptions`  (
+  `Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `TaskName` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `GroupName` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CronExpression` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ApiUrl` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `AuthKey` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `AuthValue` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `LastRunTime` datetime(0) NULL DEFAULT NULL,
+  `Status` int(11) NULL DEFAULT NULL,
+  `Describe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `PostData` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `TimeOut` int(11) NULL DEFAULT NULL,
+  `CreateID` int(11) NULL DEFAULT NULL,
+  `Creator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `CreateDate` datetime(0) NULL DEFAULT NULL,
+  `ModifyID` int(11) NULL DEFAULT NULL,
+  `Modifier` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ModifyDate` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 120.53.251.208
+ Source Server Type    : MySQL
+ Source Server Version : 50729
+ Source Host           : 120.53.251.208:3306
+ Source Schema         : netcoredev
+
+ Target Server Type    : MySQL
+ Target Server Version : 50729
+ File Encoding         : 65001
+
+ Date: 07/09/2022 01:58:59
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for Sys_QuartzLog
+-- ----------------------------
+DROP TABLE IF EXISTS `Sys_QuartzLog`;
+CREATE TABLE `Sys_QuartzLog`  (
+  `LogId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `TaskName` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ElapsedTime` int(11) NULL DEFAULT NULL,
+  `StratDate` datetime(0) NULL DEFAULT NULL,
+  `EndDate` datetime(0) NULL DEFAULT NULL,
+  `Result` int(11) NULL DEFAULT NULL,
+  `ResponseContent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `ErrorMsg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `CreateID` int(11) NULL DEFAULT NULL,
+  `Creator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `CreateDate` datetime(0) NULL DEFAULT NULL,
+  `ModifyID` int(11) NULL DEFAULT NULL,
+  `Modifier` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ModifyDate` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`LogId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+
 set global local_infile = 'ON';
+

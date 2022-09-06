@@ -1280,6 +1280,7 @@ DISTINCT
             {
                 columns[i].OrderNo = orderNo;
                 orderNo = orderNo - 50;
+                columns[i].EditRowNo = 0;
             }
 
             SetMaxLength(columns);
@@ -1763,7 +1764,7 @@ DISTINCT
             //  "\\" + modelNameSpace + "\\DomainModels\\{0}\\", folderName
             //  )
             string modelPath = $"{mapPath}\\{modelNameSpace}\\DomainModels\\{folderName}\\";
-            FileHelper.WriteFile(  modelPath  , tableName + ".cs",  domainContent);
+            FileHelper.WriteFile(modelPath, tableName + ".cs", domainContent);
             //partialContent
             modelPath += "partial\\";
             if (!FileHelper.FileExists(modelPath + tableName + ".cs"))
