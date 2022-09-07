@@ -38,7 +38,7 @@ namespace VOL.Core.Quartz
             AbstractTrigger trigger = (context as JobExecutionContextImpl).Trigger as AbstractTrigger;
             if (taskOptions == null) 
             {
-                Console.WriteLine($"未获取到作业");
+                Console.WriteLine($"未获取到作业"); 
                 return;
             }
             if (string.IsNullOrEmpty(taskOptions.ApiUrl) || taskOptions.ApiUrl == "/")
@@ -58,11 +58,11 @@ namespace VOL.Core.Quartz
             
                     if (_taskOptions != null)
                     {
-                        _taskOptions.LastRunTime = DateTime.Now;
                         dbContext.Update(_taskOptions);
                         var entry = dbContext.Entry(_taskOptions);
                         entry.State = EntityState.Unchanged;
                         entry.Property("LastRunTime").IsModified = true;
+                        _taskOptions.LastRunTime = DateTime.Now;
                         dbContext.SaveChanges();
                     }
                 }

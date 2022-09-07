@@ -53,7 +53,7 @@ namespace VOL.Core.Filters
             //演示环境除了admin帐号，其他帐号都不能增删改等操作
             if (!_userContext.IsSuperAdmin && AppSetting.GlobalFilter.Enable
                 && AppSetting.GlobalFilter.Actions.Contains(((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor).ActionName))
-            {
+            { 
                 return ResponseContent.Error(AppSetting.GlobalFilter.Message);
             }
 

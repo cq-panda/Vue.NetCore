@@ -12,13 +12,14 @@ using Microsoft.AspNetCore.Http;
 using VOL.Entity.DomainModels;
 using VOL.System.IServices;
 using VOL.Core.Filters;
+using VOL.Core.Enums;
 
 namespace VOL.System.Controllers
 {
     public partial class Sys_QuartzOptionsController
     {
         private readonly ISys_QuartzOptionsService _service;//访问业务代码
-        private readonly IHttpContextAccessor _httpContextAccessor; 
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         [ActivatorUtilitiesConstructor]
         public Sys_QuartzOptionsController(
@@ -36,7 +37,7 @@ namespace VOL.System.Controllers
         /// </summary>
         /// <returns></returns>
         [ApiTask]
-        [HttpGet,HttpPost,Route("test")]
+        [HttpGet, HttpPost, Route("test")]
         public IActionResult Test()
         {
             return Content(DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss"));
@@ -48,6 +49,7 @@ namespace VOL.System.Controllers
         /// <param name="taskOptions"></param>
         /// <returns></returns>
         [Route("run"), HttpPost]
+        [ActionPermission(ActionPermissionOptions.Update)]
         public async Task<object> Run([FromBody] Sys_QuartzOptions taskOptions)
         {
             return await Service.Run(taskOptions);
@@ -59,6 +61,7 @@ namespace VOL.System.Controllers
         /// <param name="taskOptions"></param>
         /// <returns></returns>
         [Route("start"), HttpPost]
+        [ActionPermission(ActionPermissionOptions.Update)]
         public async Task<object> Start([FromBody] Sys_QuartzOptions taskOptions)
         {
             return await Service.Start(taskOptions);
@@ -71,6 +74,7 @@ namespace VOL.System.Controllers
         /// <param name="taskOptions"></param>
         /// <returns></returns>
         [Route("pause"), HttpPost]
+        [ActionPermission(ActionPermissionOptions.Update)]
         public async Task<object> Pause([FromBody] Sys_QuartzOptions taskOptions)
         {
             return await Service.Pause(taskOptions);
