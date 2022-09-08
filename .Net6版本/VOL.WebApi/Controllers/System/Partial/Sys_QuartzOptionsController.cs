@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using VOL.Entity.DomainModels;
 using VOL.System.IServices;
 using VOL.Core.Filters;
+using VOL.Core.Enums;
 
 namespace VOL.System.Controllers
 {
@@ -48,6 +49,7 @@ namespace VOL.System.Controllers
         /// <param name="taskOptions"></param>
         /// <returns></returns>
         [Route("run"), HttpPost]
+        [ActionPermission(ActionPermissionOptions.Update)]
         public async Task<object> Run([FromBody] Sys_QuartzOptions taskOptions)
         {
             return await Service.Run(taskOptions);
@@ -59,6 +61,7 @@ namespace VOL.System.Controllers
         /// <param name="taskOptions"></param>
         /// <returns></returns>
         [Route("start"), HttpPost]
+        [ActionPermission(ActionPermissionOptions.Update)]
         public async Task<object> Start([FromBody] Sys_QuartzOptions taskOptions)
         {
             return await Service.Start(taskOptions);
@@ -71,6 +74,7 @@ namespace VOL.System.Controllers
         /// <param name="taskOptions"></param>
         /// <returns></returns>
         [Route("pause"), HttpPost]
+        [ActionPermission(ActionPermissionOptions.Update)]
         public async Task<object> Pause([FromBody] Sys_QuartzOptions taskOptions)
         {
             return await Service.Pause(taskOptions);

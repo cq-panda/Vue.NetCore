@@ -52,18 +52,16 @@ namespace VOL.Core.Quartz
 
         public static AuthorizationFilterContext Validation(AuthorizationFilterContext context)
         {
-            if (context.HttpContext.Request.Headers.TryGetValue(Key, out StringValues value))
+            bool result = context.HttpContext.Request.Headers.TryGetValue(Key, out StringValues value);
+            if (!result || AccessKey != value)
             {
-                if (AccessKey != value)
+                context.Result = new ContentResult()
                 {
-                    context.Result = new ContentResult()
-                    {
-                        Content = new { message = "key不匹配", status = false, code = 401 }.Serialize(),
-                        ContentType = "application/json",
-                        StatusCode = 401
-                    };
-                    return context;
-                }
+                    Content = new { message = "key不匹配", status = false, code = 401 }.Serialize(),
+                    ContentType = "application/json",
+                    StatusCode = 401
+                };
+                return context;
             }
             return context;
         }

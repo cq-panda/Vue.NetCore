@@ -43,7 +43,7 @@
                               [{"title":"创建人","field":"Creator","disabled":true},
                                {"title":"创建时间","field":"CreateDate","disabled":true}]]);
             const searchFormFields = ref({"TaskName":"","LastRunTime":"","CreateDate":"","ModifyDate":""});
-            const searchFormOptions = ref([[{"title":"任务名称","field":"TaskName","type":"like"},{"title":"最后执行执行","field":"LastRunTime","type":"datetime"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"修改时间","field":"ModifyDate","type":"datetime"}]]);
+            const searchFormOptions = ref([[{"title":"任务名称","field":"TaskName","type":"like"},{"title":"最后执行时间","field":"LastRunTime","type":"datetime"},{"title":"创建时间","field":"CreateDate","type":"datetime"},{"title":"修改时间","field":"ModifyDate","type":"datetime"}]]);
             const columns = ref([{field:'Id',title:'Id',type:'guid',width:110,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'TaskName',title:'任务名称',type:'string',link:true,width:120,require:true,align:'left',sort:true},
                        {field:'GroupName',title:'任务分组',type:'string',width:100,require:true,align:'left'},
@@ -55,7 +55,7 @@
                        {field:'AuthKey',title:'AuthKey',type:'string',width:100,hidden:true,align:'left'},
                        {field:'AuthValue',title:'AuthValue',type:'string',width:100,hidden:true,align:'left'},
                        {field:'Describe',title:'描述',type:'string',width:120,align:'left'},
-                       {field:'LastRunTime',title:'最后执行执行',type:'datetime',width:150,align:'left',sort:true},
+                       {field:'LastRunTime',title:'最后执行时间',type:'datetime',width:150,align:'left',sort:true},
                        {field:'Status',title:'运行状态',type:'int',width:90,align:'left'},
                        {field:'CreateID',title:'CreateID',type:'int',width:80,hidden:true,align:'left'},
                        {field:'Creator',title:'创建人',type:'string',width:130,hidden:true,readonly:true,align:'left'},
