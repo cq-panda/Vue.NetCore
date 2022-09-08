@@ -35,7 +35,7 @@ namespace VOL.Core.Quartz
             ISchedulerFactory _schedulerFactory = services.GetService<ISchedulerFactory>();
             try
             {
-                _taskList = services.GetService<VOLContext>().Set<Sys_QuartzOptions>().ToList();
+                _taskList = services.GetService<VOLContext>().Set<Sys_QuartzOptions>().Where(x=>x.Status==0).ToList();
                 for (int i = 0; i < 1; i++)
                 {
                     _taskList.Add(new Sys_QuartzOptions()
@@ -95,7 +95,7 @@ namespace VOL.Core.Quartz
                .WithIdentity(taskOptions.Id.ToString(), "group").Build();
                 ITrigger trigger = TriggerBuilder.Create()
                    .WithIdentity(taskOptions.Id.ToString(), "group")
-                   .StartNow()
+                  // .st()
                    .WithDescription(taskOptions.Describe)
                    .WithCronSchedule(taskOptions.CronExpression)
                    .Build();
@@ -113,17 +113,21 @@ namespace VOL.Core.Quartz
                 }
 
                 await scheduler.ScheduleJob(job, trigger);
-                if (taskOptions.Status == (int)TriggerState.Normal)
-                {
-                    await scheduler.Start();
-                    msg = $"作业启动:{taskOptions.TaskName}";
-                    Console.WriteLine(msg);
-                    QuartzFileHelper.Error(msg);
-                }
-                else
-                {
-                    await scheduler.PauseJob(job.Key);
-                }
+                await scheduler.Start();
+                msg = $"作业启动:{taskOptions.TaskName}";
+                Console.WriteLine(msg);
+                QuartzFileHelper.Error(msg);
+                //if (taskOptions.Status == (int)TriggerState.Normal)
+                //{
+                //    await scheduler.Start();
+                //    msg = $"作业启动:{taskOptions.TaskName}";
+                //    Console.WriteLine(msg);
+                //    QuartzFileHelper.Error(msg);
+                //}
+                //else
+                //{
+                //    await scheduler.PauseJob(job.Key);
+                //}
             }
             catch (Exception ex)
             {
@@ -177,7 +181,8 @@ namespace VOL.Core.Quartz
         /// <returns></returns>
         public static Task<object> Start(this ISchedulerFactory schedulerFactory, Sys_QuartzOptions taskOptions)
         {
-            return schedulerFactory.TriggerAction(JobAction.开启, taskOptions);
+            return taskOptions.AddJob(schedulerFactory);
+          //  return  schedulerFactory.TriggerAction(JobAction.开启, taskOptions);
         }
 
         /// <summary>
@@ -212,7 +217,7 @@ namespace VOL.Core.Quartz
                 string taskName = taskOptions.Id.ToString();
                 IScheduler scheduler = await schedulerFactory.GetScheduler();
                 List<JobKey> jobKeys = scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(groupName)).Result.ToList();
-                if (jobKeys == null || jobKeys.Count() == 0)
+                if (jobKeys == null || jobKeys.Count() == 0) 
                 {
                     errorMsg = $"未找到分组[{groupName}]";
                     return new { status = false, msg = errorMsg };
@@ -246,7 +251,6 @@ namespace VOL.Core.Quartz
                         {
                             taskOptions.Status = (int)JobAction.暂停;
                         }
-                        await taskOptions.AddJob(schedulerFactory); 
                         break;
                     case JobAction.开启:
                         await scheduler.ResumeTrigger(trigger.Key);

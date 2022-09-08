@@ -44,6 +44,19 @@ namespace VOL.System.Controllers
         }
 
         /// <summary>
+        /// api加上属性 [ApiTask]
+        /// </summary>
+        /// <returns></returns>
+        [ApiTask]
+        [HttpGet, HttpPost, Route("taskTest")]
+        public IActionResult TaskTest()
+        {
+            return Content(DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss"));
+        }
+
+
+
+        /// <summary>
         /// 手动执行一次
         /// </summary>
         /// <param name="taskOptions"></param>
