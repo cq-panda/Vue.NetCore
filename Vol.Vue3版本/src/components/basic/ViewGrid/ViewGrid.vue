@@ -65,7 +65,7 @@
                   <div class="step-text">备 注： {{ item.remark || '-' }}</div>
                 </div>
               </div>
-              <div class="audit-content" v-show="auditParam.showAction">
+              <div :style="{'margin-top':workFlowSteps.length?'20px':'-17px'}" class="audit-content" v-show="auditParam.showAction">
                 <div style="margin-bottom:10px;">
                   审批：
                   <el-radio-group
@@ -92,7 +92,7 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="审批记录">
+          <el-tab-pane  v-if="workFlowSteps.length" label="审批记录">
           <audit-his :table-data="auditParam.auditHis"></audit-his>
            </el-tab-pane>
         </el-tabs>

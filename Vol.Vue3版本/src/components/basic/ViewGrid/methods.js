@@ -609,7 +609,7 @@ let methods = {
       } else if (typeof this.editFormFields[key] == 'function') {
         try {
           editFormFields[key] = this.editFormFields[key]();
-        } catch (error) {}
+        } catch (error) { }
       } else {
         //2021.05.30修复下拉框清除数据后后台不能保存的问题
         if (
@@ -966,7 +966,7 @@ let methods = {
     );
     let elink = this.$refs.export;
     xmlResquest.responseType = 'blob';
-    xmlResquest.onload = function(oEvent) {
+    xmlResquest.onload = function (oEvent) {
       if (xmlResquest.status != 200) {
         this.$error('下载文件出错了..');
         return;
@@ -1077,20 +1077,8 @@ let methods = {
   },
   saveAudit() {
     //保存审核
-    let rows = this.$refs.table.getSelected();
-    if (this.auditParam.value == -1 && this.auditParam.status == -1)
-      return this.$error('请选择审核结果!');
-
-    if (rows.length != this.auditParam.rows)
-      return this.$error('所选数据已发生变化,请重新选择审数据!');
-
-    let keys = rows.map((x) => {
-      return x[this.table.key];
-    });
-    if (this.auditParam.value != -1) {
-      keys = [this.editFormFields[this.table.key]];
-    }
-    if (!this.auditBefore(keys, rows)) {
+    let keys = [this.editFormFields[this.table.key]];
+    if (!this.auditBefore(keys, this.currentRow)) {
       return;
     }
     let url =
@@ -1502,7 +1490,7 @@ let methods = {
     }
     if (refreshBtn) {
       refreshBtn.name = '重 置';
-      refreshBtn.onClick = function() {
+      refreshBtn.onClick = function () {
         this.resetSearch();
       };
     }
@@ -1578,9 +1566,10 @@ let methods = {
     let _btn = this.buttons.find((x) => {
       return x.value == 'Audit';
     });
-    if (!_btn) {
-      return;
-    }
+    let auditField = this.columns.map(m => { return m.field })
+      .find(name => { return (name || '').toLowerCase() == 'auditstatus' });
+    if (!_btn || !auditField) return;
+
     _btn.hidden = true;
     this.columns.push({
       field: '操作',
@@ -1589,14 +1578,9 @@ let methods = {
       fixed: 'right',
       align: 'center',
       formatter: (row) => {
-        if (
-          row.AuditStatus === 0 ||
-          row.auditStatus === 0 ||
-          row.auditstatus === 0
-        ) {
-          return '<i style="cursor: pointer;color: #2d8cf0;" class="el-icon-edit">审核</i>';
-        }
-        return '<i style="cursor: pointer;color: #2d8cf0;" class="el-icon-view">查看</i>';
+        return '<i style="cursor: pointer;color: #2d8cf0;"' + (row[auditField]
+          ? 'class="el-icon-view">查看</i>'
+          : 'class="el-icon-edit">审核</i>')
       },
       click: (row) => {
         this.getWorkFlowSteps(row);
@@ -1605,9 +1589,8 @@ let methods = {
   },
   getWorkFlowSteps(row) {
     let table = this.table.url.replaceAll('/', '');
-    let url = `api/Sys_WorkFlow/getSteps?tableName=${table}&id=${
-      row[this.table.key]
-    }`;
+    let url = `api/Sys_WorkFlow/getSteps?tableName=${table}&id=${row[this.table.key]
+      }`;
     this.http.get(url, {}, true).then((result) => {
       this.workFlowSteps.splice(0);
       //有可能没有配置审批流程
