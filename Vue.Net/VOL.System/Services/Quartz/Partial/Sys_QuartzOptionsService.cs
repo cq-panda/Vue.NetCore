@@ -54,7 +54,6 @@ namespace VOL.System.Services
             };
             AddOnExecuted = (Sys_QuartzOptions options, object list) =>
             {
-                options.AddJob(_schedulerFactory).GetAwaiter().GetResult();
                 return webResponse.OK();
             };
             return base.Add(saveDataModel);
@@ -115,7 +114,7 @@ namespace VOL.System.Services
         /// <returns></returns>
         public async Task<object> Pause(Sys_QuartzOptions taskOptions)
         {
-            var result = await _schedulerFactory.Pause(taskOptions);
+            var result = await _schedulerFactory.Remove(taskOptions);
             taskOptions.Status = (int)TriggerState.Paused;
             _repository.Update(taskOptions, x => new { x.Status }, true);
             return result;
