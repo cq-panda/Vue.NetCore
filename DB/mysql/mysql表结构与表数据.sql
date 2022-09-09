@@ -2080,31 +2080,28 @@ INSERT INTO `Sys_TableInfo` VALUES (94, '执行记录', '执行记录', NULL, NU
 -- Table structure for Sys_User
 -- ----------------------------
 DROP TABLE IF EXISTS `Sys_User`;
+
+
+-- ----------------------------
+-- Table structure for Sys_User
+-- ----------------------------
+DROP TABLE IF EXISTS `Sys_User`;
 CREATE TABLE `Sys_User`  (
   `User_Id` int(11) NOT NULL AUTO_INCREMENT,
-   `UserName` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `UserPwd` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `UserTrueName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-   `Role_Id` int(11) NOT NULL,
-  `RoleName` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Address` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `PhoneNo` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-   `DeptName` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `AppType` int(11) NULL DEFAULT NULL,
+  `AuditDate` datetime(0) NULL DEFAULT NULL,
+  `AuditStatus` int(11) NULL DEFAULT NULL,
+  `Auditor` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `CreateDate` datetime(0) NULL DEFAULT NULL,
+  `CreateID` int(11) NULL DEFAULT NULL,
+  `Creator` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `DeptName` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `Dept_Id` int(11) NULL DEFAULT NULL,
   `Email` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `Enable` tinyint(4) NOT NULL,
   `Gender` int(1) NULL DEFAULT NULL,
   `HeadImageUrl` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `AppType` int(11) NULL DEFAULT NULL,
-  `AuditDate` datetime(0) NULL DEFAULT NULL,
-  `AuditStatus` int(11) NULL DEFAULT NULL,
-  `Auditor` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-    `Remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-	  `Tel` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Token` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-   `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
   `IsRegregisterPhone` int(11) NOT NULL,
   `LastLoginDate` datetime(0) NULL DEFAULT NULL,
   `LastModifyPwdDate` datetime(0) NULL DEFAULT NULL,
@@ -2113,8 +2110,18 @@ CREATE TABLE `Sys_User`  (
   `ModifyDate` datetime(0) NULL DEFAULT NULL,
   `ModifyID` int(11) NULL DEFAULT NULL,
   `OrderNo` int(11) NULL DEFAULT NULL,
+  `Role_Id` int(11) NOT NULL,
+  `RoleName` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `PhoneNo` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `Remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `Tel` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `UserName` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `UserPwd` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `UserTrueName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `Token` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`User_Id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3381 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+
 
 -- ----------------------------
 -- Records of Sys_User
