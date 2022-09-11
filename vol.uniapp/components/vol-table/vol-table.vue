@@ -29,12 +29,13 @@
 							:class="{'text-inline':textInline}" :key="cindex" class="vol-table-body-cell"
 							v-if="!column.hidden" v-for="(column,cindex) in columns">
 							<view class="vol-cell" @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
-								<view :style="column.style" v-if="column.formatter"
-									v-html="rowFormatter(row,column,rowindex)"></view>
+								<view :style="column.style" v-if="column.formatter">
+									<rich-text :nodes="rowFormatter(row,column,rowindex)+''"></rich-text>
+								</view>
 								<view :style="column.style" v-else>{{row[column.field]}}</view>
 							</view>
-							<view class="vol-cell" v-else-if="column.formatter"
-								v-html="rowFormatter(row,column,rowindex)">
+							<view class="vol-cell" v-else-if="column.formatter">
+								<rich-text :nodes="rowFormatter(row,column,rowindex)+''"></rich-text>
 							</view>
 							<view @click.stop="previewImage(row[column.field])" class="vol-cell"
 								v-else-if="column.type=='img'">
@@ -58,6 +59,7 @@
 		</view>
 		<!-- 		列表显示 -->
 		<view v-else class="vol-table-list">
+			<!-- 		{{JSON.stringify(columns)}} -->
 			<u-list :upperThreshold="-999" v-if="tableHeight" :height="tableHeight" @scrolltolower="scrolltolower">
 				<u-empty mode="list" v-if="!rowsData.length" text="无数据"
 					icon="http://cdn.uviewui.com/uview/empty/list.png">
@@ -66,8 +68,7 @@
 					<view v-if="titleField" class="vol-table-list-item-title">
 						<text class="vol-table-list-item-title-border"></text>
 						<view class="vol-table-list-item-title-left">
-						 <view  v-html="getListTitleValue(row,index)">	
-						 </view>
+							<rich-text :nodes="getListTitleValue(row,index)+''"></rich-text>
 						</view>
 						<slot :data="row" name="title"></slot>
 					</view>
@@ -79,7 +80,9 @@
 								<view @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
 									{{row[column.field]}}
 								</view>
-								<view v-else-if="column.formatter" v-html="rowFormatter(row,column)"></view>
+								<view v-else-if="column.formatter">
+									<rich-text :nodes="rowFormatter(row,column)+''"></rich-text>
+								</view>
 								<view v-else-if="column.bind">
 									{{rowFormatterValue(row,column)}}
 								</view>
@@ -166,7 +169,7 @@
 		},
 		data() {
 			return {
-				className:'vol-table-'+(~~(Math.random()*1000000)),
+				className: 'vol-table-' + (~~(Math.random() * 1000000)),
 				rowsData: [],
 				sort: '',
 				order: "",
@@ -266,15 +269,15 @@
 				}
 				return _val;
 			},
-			getListTitleValue(row,index) {
-			
+			getListTitleValue(row, index) {
+
 				let column = this.inColumns.find(x => {
 					return x.field == this.titleField
 				});
-				if(column.formatter){
-					  return this.rowFormatter(row,column,index)
+				if (column.formatter) {
+					return this.rowFormatter(row, column, index)
 				}
-				
+
 				if (column.bind) {
 					return this.rowFormatterValue(row, column)
 				}
@@ -362,24 +365,23 @@
 			if (this.loadKey) {
 				this.loadSource();
 			}
+			//判断有没有formatter属性，调用父组件的注册方法
+			//计算高度
 			this.tableHeight = this.height;
-		},
-		mounted() {
-			uni.getSystemInfo({
-				success: resu => {
-					// resu 可以获取当前屏幕的高度
-					const query = uni.createSelectorQuery();
-					query.select('.'+this.className)
-						.boundingClientRect();
-					query.exec(res => {
-						if (!this.tableHeight) {
-							this.tableHeight = resu.windowHeight - res[0].top;
-						}
+			if (!this.tableHeight) {
+				let _this = this;
+				uni.getSystemInfo({
+					success: function(res) {
+						// #ifdef MP-WEIXIN
+						_this.tableHeight = res.windowHeight - 60;
+						return
+						// #endif
 
-					});
-				},
-				fail: res => {}
-			});
+						_this.tableHeight = res.windowHeight - 60;
+
+					}
+				});
+			}
 		},
 		watch: {
 			height(newVal) {
@@ -388,7 +390,9 @@
 			// #ifdef MP-WEIXIN
 			inColumns: {
 				handler(newValue, oldValue) {
-					this.$emit('update:columns', newValue)
+					if(newValue&&newValue.length){
+						this.$emit('update:columns', newValue)
+					}
 				},
 				immediate: true,
 				deep: true
@@ -485,7 +489,7 @@
 <style scoped lang="less">
 	.vol-table-list {
 		padding: 14rpx 0;
-		background:#f9f9f9;
+		background: #f9f9f9;
 	}
 
 	.vol-table-list-item-title {
@@ -495,19 +499,23 @@
 		line-height: 30rpx;
 		padding-left: 10rpx;
 		display: flex;
+		justify-content: center;
+		align-items: center;
+
 		.vol-table-list-item-title-left {
 			flex: 1;
-			    font-size: 28rpx;
-			    // font-weight: bold;
+			font-size: 28rpx;
+			// font-weight: bold;
 		}
-		.vol-table-list-item-title-border{
-		    display: inline-block;
-		    background: #00aaff;
-		    padding: 18rpx 8rpx;
-		    border-radius: 10rpx;
-		    margin-right: 14rpx;
+
+		.vol-table-list-item-title-border {
+			display: inline-block;
+			background: #00aaff;
+			padding: 18rpx 8rpx;
+			border-radius: 10rpx;
+			margin-right: 14rpx;
 		}
-			
+
 	}
 
 	.vol-table-list-item {
