@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view :class="className">
 		<!-- 		水平显示 -->
 		<view v-if="direction=='horizontal'">
 			<view class="vol-table-head">
@@ -36,8 +36,9 @@
 							<view class="vol-cell" v-else-if="column.formatter"
 								v-html="rowFormatter(row,column,rowindex)">
 							</view>
-							<view @click.stop="previewImage(row[column.field])" class="vol-cell" v-else-if="column.type=='img'">
-								<u--image  style="float:left;margin-left:5px;" width="40px" height="40px" radius="4px"
+							<view @click.stop="previewImage(row[column.field])" class="vol-cell"
+								v-else-if="column.type=='img'">
+								<u--image style="float:left;margin-left:5px;" width="40px" height="40px" radius="4px"
 									:src="src" v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
 								</u--image>
 							</view>
@@ -63,7 +64,11 @@
 				</u-empty>
 				<view :key="rowindex" v-for="(row,rowindex) in rowsData">
 					<view v-if="titleField" class="vol-table-list-item-title">
-						<view class="vol-table-list-item-title-left">{{getListTitleValue(row)}}</view>
+						<text class="vol-table-list-item-title-border"></text>
+						<view class="vol-table-list-item-title-left">
+						 <view  v-html="getListTitleValue(row,index)">	
+						 </view>
+						</view>
 						<slot :data="row" name="title"></slot>
 					</view>
 					<view @click="tableRowClick(rowindex,columns)" class="vol-table-list-item">
@@ -92,7 +97,7 @@
 							</view>
 						</view>
 					</view>
-					<view style="margin:20rpx 0 40rpx 20rpx" @click.stop>
+					<view style="margin:10rpx 0 20rpx 10rpx" @click.stop>
 						<view :key="btnIndex" class="extent-button" v-for="(btn,btnIndex) in rowButtons(rowindex,row)">
 							<u-button :icon="btn.icon" :hairline="true" :shape="btn.shape" :disabled="btn.disabled"
 								:plain="btn.plain" :type="btn.type" style="height:60rpx;"
@@ -161,6 +166,7 @@
 		},
 		data() {
 			return {
+				className:'vol-table-'+(~~(Math.random()*1000000)),
 				rowsData: [],
 				sort: '',
 				order: "",
@@ -260,10 +266,15 @@
 				}
 				return _val;
 			},
-			getListTitleValue(row) {
+			getListTitleValue(row,index) {
+			
 				let column = this.inColumns.find(x => {
 					return x.field == this.titleField
 				});
+				if(column.formatter){
+					  return this.rowFormatter(row,column,index)
+				}
+				
 				if (column.bind) {
 					return this.rowFormatterValue(row, column)
 				}
@@ -296,7 +307,7 @@
 					return []
 				}
 				let _imgs = imgs.split(',').map(x => {
-					if(x.startsWith('http')){
+					if (x.startsWith('http')) {
 						return x;
 					}
 					return this.http.ipAddress + x
@@ -341,8 +352,7 @@
 			previewImage(urls) {
 				uni.previewImage({
 					urls: this.getImgSrc(urls),
-					longPressActions: {
-					}
+					longPressActions: {}
 				});
 			}
 		},
@@ -352,25 +362,29 @@
 			if (this.loadKey) {
 				this.loadSource();
 			}
-			//判断有没有formatter属性，调用父组件的注册方法
-			//计算高度
 			this.tableHeight = this.height;
-			if (!this.tableHeight) {
-				let _this = this;
-				uni.getSystemInfo({
-					success: function(res) {
-						// #ifdef MP-WEIXIN
-						_this.tableHeight = res.windowHeight - 60;
-						return
-						// #endif
+		},
+		mounted() {
+			uni.getSystemInfo({
+				success: resu => {
+					// resu 可以获取当前屏幕的高度
+					const query = uni.createSelectorQuery();
+					query.select('.'+this.className)
+						.boundingClientRect();
+					query.exec(res => {
+						if (!this.tableHeight) {
+							this.tableHeight = resu.windowHeight - res[0].top;
+						}
 
-						_this.tableHeight = res.windowHeight - 60;
-
-					}
-				});
-			}
+					});
+				},
+				fail: res => {}
+			});
 		},
 		watch: {
+			height(newVal) {
+				this.tableHeight = newVal
+			},
 			// #ifdef MP-WEIXIN
 			inColumns: {
 				handler(newValue, oldValue) {
@@ -471,21 +485,29 @@
 <style scoped lang="less">
 	.vol-table-list {
 		padding: 14rpx 0;
-		background: #fcfcfc;
+		background:#f9f9f9;
 	}
 
 	.vol-table-list-item-title {
 		text-align: left;
 		margin: 18rpx 0 14rpx 22rpx;
 		font-size: 28rpx;
-		border-left: 16rpx solid #00aaff;
 		line-height: 30rpx;
 		padding-left: 10rpx;
 		display: flex;
-
 		.vol-table-list-item-title-left {
 			flex: 1;
+			    font-size: 28rpx;
+			    // font-weight: bold;
 		}
+		.vol-table-list-item-title-border{
+		    display: inline-block;
+		    background: #00aaff;
+		    padding: 18rpx 8rpx;
+		    border-radius: 10rpx;
+		    margin-right: 14rpx;
+		}
+			
 	}
 
 	.vol-table-list-item {
@@ -493,7 +515,7 @@
 		background: #FFFFFF;
 		box-shadow: 1px 1px 14px rgb(245 245 245 / 32%);
 		border: 1px solid #f3f3f3;
-		border-radius: 8rpx;
+		border-radius: 10rpx;
 
 		.vol-table-list-item-cell {
 			display: flex;
