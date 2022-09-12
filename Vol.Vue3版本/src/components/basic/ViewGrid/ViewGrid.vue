@@ -158,12 +158,12 @@
           >
             <template #footer>
               <div v-if="!fiexdSearchForm" class="form-closex">
-                <el-button size="samll" type="primary" plain @click="search">
+                <el-button size="small" type="primary" plain @click="search">
                   <i class="el-icon-search" />查询
                 </el-button>
 
                 <el-button
-                  size="samll"
+                  size="small"
                   type="success"
                   plain
                   @click="resetSearch"
@@ -171,7 +171,7 @@
                   <i class="el-icon-refresh-right" />重置
                 </el-button>
                 <el-button
-                  size="samll"
+                  size="small"
                   plain
                   @click="searchBoxShow = !searchBoxShow"
                 >
@@ -312,7 +312,7 @@
                       :plain="btn.plain"
                       v-show="!(typeof btn.hidden == 'boolean' && btn.hidden)"
                       @click="onClick(btn.onClick)"
-                      size="samll"
+                      size="small"
                       ><i :class="btn.icon"></i>{{ btn.name }}</el-button
                     >
                   </div>
@@ -355,7 +355,7 @@
           <template #footer>
             <div style="text-align: center;" v-show="isBoxAudit">
               <el-button
-                size="samll"
+                size="small"
                 type="primary"
                 plain
                 @click="onGridModelClose(false)"
@@ -363,7 +363,7 @@
                 <i class="el-icon-close">关闭</i>
               </el-button>
               <el-button
-                size="samll"
+                size="small"
                 type="primary"
                 v-show="auditParam.showViewButton"
                 @click="auditParam.model = true"
@@ -376,7 +376,7 @@
                 v-for="(btn, bIndex) in boxButtons"
                 :key="bIndex"
                 :type="btn.type"
-                size="samll"
+                size="small"
                 :plain="btn.plain"
                 v-show="!(typeof btn.hidden == 'boolean' && btn.hidden)"
                 :disabled="btn.hasOwnProperty('disabled') && !!btn.disabled"
@@ -385,7 +385,7 @@
                 <i :class="btn.icon"> {{ btn.name }}</i>
               </el-button>
               <el-button
-                size="samll"
+                size="small"
                 type="primary"
                 plain
                 @click="onGridModelClose(false)"

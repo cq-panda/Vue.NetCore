@@ -99,7 +99,7 @@
             class="contextMenu"
           >
             <li v-show="visibleItem.all">
-              <el-button type="text" @click="closeTabs()" size="samll">
+              <el-button type="text" @click="closeTabs()" size="small">
                 <i class="el-icon-close"></i>
                 {{
                   navigation.length == 2 ? "关闭菜单" : "关闭所有"
@@ -107,12 +107,12 @@
               >
             </li>
             <li v-show="visibleItem.left">
-              <el-button type="text" @click="closeTabs('left')" size="samll"
+              <el-button type="text" @click="closeTabs('left')" size="small"
                 ><i class="el-icon-back"></i>关闭左边</el-button
               >
             </li>
             <li v-show="visibleItem.right">
-              <el-button type="text" @click="closeTabs('right')" size="samll">
+              <el-button type="text" @click="closeTabs('right')" size="small">
                 <i class="el-icon-right"></i>关闭右边</el-button
               >
             </li>
