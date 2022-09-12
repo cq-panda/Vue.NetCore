@@ -826,7 +826,7 @@ let methods = {
     this.boxModel = true;
   },
   async linkData(row, column) {
-    this.boxOptions.title = '编辑';
+    this.boxOptions.title =this.table.cnName+'(编辑)';
     //点击table单元格快捷链接显示编辑数据
     this.currentAction = this.const.EDIT;
     this.currentRow = row;
@@ -866,7 +866,7 @@ let methods = {
     this.resetEditForm(obj);
   },
   async add() {
-    this.boxOptions.title = '新建';
+    this.boxOptions.title =this.table.cnName+'(新建)';
     //新建
     this.currentAction = this.const.ADD;
     this.currentRow = {};
@@ -1090,7 +1090,7 @@ let methods = {
         ? this.auditParam.value
         : this.auditParam.status);
     this.http.post(url, keys, '审核中....').then((x) => {
-      if (!this.auditAfter(x, rows)) {
+      if (!this.auditAfter(x, keys)) {
         return;
       }
       if (!x.status) return this.$error(x.message);
