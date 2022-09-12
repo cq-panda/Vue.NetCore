@@ -75,14 +75,11 @@
               v-model="formFields[item.field]"
               filterable
               :multiple="item.type == 'select' ? false : true"
-              :placeholder="
-                item.placeholder ? item.placeholder : '请选择' + item.title
-              "
+              :placeholder="item.placeholder ? item.placeholder : item.title"
               :allow-create="item.autocomplete"
               @change="item.onChange"
               :remote="item.remote || item.url"
               clearable
-              :collapse-tags="item.collapseTags===undefined||item.collapseTags"
               :remote-method="
                 (val) => {
                   remoteSearch(item, formFields, val);
@@ -306,10 +303,7 @@
                 minRows: item.minRows || 2,
                 maxRows: item.maxRows || 10
               }"
-              :placeholder="
-                item.placeholder ? item.placeholder : '请输入' + item.title
-              "
-              :ref="item.field"
+              :placeholder="item.placeholder ? item.placeholder : item.title"
             />
             <el-input-number
               :size="size"
@@ -332,9 +326,7 @@
               v-model.number="formFields[item.field]"
               :disabled="item.readonly || item.disabled"
               v-show="!item.hidden"
-              :placeholder="
-                item.placeholder ? item.placeholder : '请输入' + item.title
-              "
+              :placeholder="item.placeholder ? item.placeholder : item.title"
             />
             <!-- 2021.11.18修复el-input没有默认enter事件时回车异常 -->
             <el-input
@@ -343,9 +335,7 @@
               :ref="item.field"
               :input-style="item.inputStyle"
               v-else-if="item.onKeyPress"
-              :placeholder="
-                item.placeholder ? item.placeholder : '请输入' + item.title
-              "
+              :placeholder="item.placeholder ? item.placeholder : item.title"
               :disabled="item.readonly || item.disabled"
               v-show="!item.hidden"
               v-model="formFields[item.field]"
@@ -363,9 +353,7 @@
               v-else
               :ref="item.field"
               :input-style="item.inputStyle"
-              :placeholder="
-                item.placeholder ? item.placeholder : '请输入' + item.title
-              "
+              :placeholder="item.placeholder ? item.placeholder : item.title"
               :disabled="item.readonly || item.disabled"
               v-show="!item.hidden"
               v-model="formFields[item.field]"
@@ -1309,4 +1297,15 @@ export default defineComponent({
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
     'Microsoft YaHei', '微软雅黑', Arial, sans-serif !important;
 }
+.el-form-item ::v-deep(.el-select .el-select__tags > span) {
+  display: flex;
+}
+.el-form-item ::v-deep(.el-select__tags) {
+  overflow: hidden;
+  height: 30px;
+}
+.el-form-item ::v-deep(.el-select-tags-wrapper) {
+ position: absolute;
+}
 </style>
+
