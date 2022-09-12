@@ -49,6 +49,42 @@ export default {
     return {
       active: 0,
       log: [
+                { date: '2022.09', type: 'month' },
+        { date: "2022-09-12 20:39:32", desc: "优化vue3版本voltable合计小数位数(默认两次)"},
+{ date: "2022-09-12 20:32:37", desc: "优化vue3版本下拉框选择"},
+{ date: "2022-09-12 20:14:35", desc: "vue3版本volform组件增加ref属性"},
+{ date: "2022-09-12 19:14:50", desc: "集成vue3版本弹出框拖拽功能draggable"},
+{ date: "2022-09-12 19:02:54", desc: "修复vue3版本单词拼写错误的问题"},
+{ date: "2022-09-12 18:24:26", desc: "优化vue3版本弹出框标题显示"},
+{ date: "2022-09-12 02:16:05", desc: "修复移动端小程序上自定义格式无效的问题"},
+{ date: "2022-09-12 00:13:06", desc: "优化移动端vol-table高度计算与列表显示样式"},
+{ date: "2022-09-09 18:00:01", desc: "修复审批提示数据变化的问题"},
+{ date: "2022-09-09 17:58:41", desc: "重写vue3版本权限页面"},
+{ date: "2022-09-08 19:28:30", desc: "更新数据库脚本"},
+{ date: "2022-09-07 17:15:59", desc: "Update DateTimeHelper.cs"},
+{ date: "2022-09-07 14:30:57", desc: "增加定时任务Quartz.Net"},
+{ date: "2022-09-07 09:51:26", desc: "更新数据库脚本"},
+{ date: "2022-09-07 02:10:02",    style: 'color:red',desc: `
+   <div style="margin-top:20px;font-weight:600;">  集成定时任务Quartz，更新文件：</div>
+
+      <div style="margin-top:20px;">1、数据库表(db文件夹中找)Sys_QuartzLog、Sys_QuartzOptions</div>
+        <div style="margin-left:20px;">  将两张表生成代码(生成代码时类库选择system,文件夹输入Quartz) ;</div>
+
+       <div style="margin-left:20px;">   配置文件：appsettings.json中增加QuartzAccessKey属性    </div>   
+
+  <div style="margin-top:20px;">   2、后台：Vol.Core 类型下Filters、Quartz文件夹、Startup.cs、</div>
+     <div style="margin-left:20px;"> System 类库下Quartz文件夹；</div>
+             <div style="margin-left:20px;">            VOL.WebApi 类库下System->Partial->Sys_QuartzOptionsController.cs；</div>
+    
+    <div style="margin-top:20px;">  3、前端：extension->system文件夹下quartz;</div>
+    
+    <div style="margin-top:20px;">  4、增加菜单页面菜单</div>
+
+   <div style="margin-top:20px;">   5、增加数据字典：下拉框绑定设置中添加数据字典：参照现有字典配置：请求方式</div>
+
+`},
+{ date: "2022-09-07 02:01:31", desc: "优化代码生成器默认编辑行"},
+{ date: "2022-09-03 10:14:23", desc: "完善移动端vol-table示例"},
         { date: '2022.08', type: 'month' },
         { date: "2022-08-29 04:32:06",desc:"增加审批流程回退功能,更新文件:ServiceBase.cs、WorkFlowManager.cs、Sys_WorkFlowController.cs、前端viewgrid文件夹(回退使用方法见后台开发文档上审批方法)"},
 { date: "2022-08-29 02:11:03",desc:"优化vue3版本table编辑时数据源类型判断"},
