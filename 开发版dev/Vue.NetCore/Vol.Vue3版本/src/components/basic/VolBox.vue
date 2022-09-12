@@ -6,9 +6,11 @@
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :width="width"
+    :draggable="draggable"
+    :modal="modal"
     :before-close="handleClose"
   >
-    <template #title> <i :class="icon"></i> {{ title }} </template>
+    <template #header> <i :class="icon"></i> {{ title }} </template>
     <div class="dia-content" :style="{ height: contentHeight + 'px' }">
       <el-scrollbar style="flex: 1">
         <!-- 是否开启懒加载2020.12.06 -->
@@ -17,7 +19,7 @@
           class="srcoll-content"
           :style="{ padding: padding + 'px' }"
         >
-              <slot name="content"></slot>
+          <slot name="content"></slot>
           <slot></slot>
         </div>
       </el-scrollbar>
@@ -36,7 +38,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch, watchEffect } from "vue";
+import { defineComponent, ref, watch, watchEffect } from 'vue';
 
 export default defineComponent({
   props: {
@@ -44,47 +46,48 @@ export default defineComponent({
     lazy: {
       //是否开启懒加载2020.12.06
       type: Boolean,
-      default: false,
+      default: false
     },
     icon: {
       type: String,
-      default: "el-icon-warning-outline",
+      default: 'el-icon-warning-outline'
     },
     title: {
       type: String,
-      default: "基本信息",
+      default: '基本信息'
     },
     height: {
       type: Number,
-      default: 200,
+      default: 200
     },
     width: {
       type: Number,
-      default: 650,
+      default: 650
     },
     padding: {
       type: Number,
-      default: 16,
+      default: 16
     },
-    hideMask: {
+    modal: {  //是否需要遮罩层
       type: Boolean,
-      default: false,
+      default: true
     },
-    draggable: {
+    draggable: {  //启用可拖拽功能	
       type: Boolean,
-      default: false,
+      default: false
     },
     mask: {
       type: Boolean,
-      default: true,
+      default: true
     },
     onModelClose: {
       //2021.07.11增加弹出框关闭事件
       type: Function,
       default: (iconClick) => {
         return true;
-      },
-    },
+      }
+    }
+
   },
   setup(props, context) {
     const clientHeight = document.body.clientHeight;
@@ -100,16 +103,16 @@ export default defineComponent({
       let result = props.onModelClose(!!iconClose);
       if (result === false) return;
       vmodel.value = false;
-      context.emit("update:modelValue", false);
+      context.emit('update:modelValue', false);
       done && done();
     };
     const calcHeight = (val) => {
       if (props.height > clientHeight) {
-        contentHeight.value = clientHeight-56;
-        return clientHeight / -2 + "px";
+        contentHeight.value = clientHeight - 56;
+        return clientHeight / -2 + 'px';
       }
-      contentHeight.value=val||props.height;
-      return (props.height + 56) / -2 + "px";
+      contentHeight.value = val || props.height;
+      return (props.height + 56) / -2 + 'px';
     };
 
     top.value = calcHeight();
@@ -134,7 +137,7 @@ export default defineComponent({
       calcHeight,
       contentHeight
     };
-  },
+  }
 });
 </script>
 

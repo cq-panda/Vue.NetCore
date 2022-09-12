@@ -65,7 +65,13 @@
                   <div class="step-text">备 注： {{ item.remark || '-' }}</div>
                 </div>
               </div>
-              <div :style="{'margin-top':workFlowSteps.length?'20px':'-17px'}" class="audit-content" v-show="auditParam.showAction">
+              <div
+                :style="{
+                  'margin-top': workFlowSteps.length ? '20px' : '-17px'
+                }"
+                class="audit-content"
+                v-show="auditParam.showAction"
+              >
                 <div style="margin-bottom:10px;">
                   审批：
                   <el-radio-group
@@ -92,9 +98,9 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane  v-if="workFlowSteps.length" label="审批记录">
-          <audit-his :table-data="auditParam.auditHis"></audit-his>
-           </el-tab-pane>
+          <el-tab-pane v-if="workFlowSteps.length" label="审批记录">
+            <audit-his :table-data="auditParam.auditHis"></audit-his>
+          </el-tab-pane>
         </el-tabs>
       </template>
       <template #footer>
@@ -260,6 +266,8 @@
           :title="boxOptions.title"
           :width="boxOptions.width"
           :height="boxOptions.height"
+          :modal="boxOptions.modal"
+          :draggable="boxOptions.draggable"
           :padding="0"
           :on-model-close="onGridModelClose"
         >
@@ -491,7 +499,7 @@ var vueParam = {
       import('./ViewGridCustomColumn.vue')
     ),
     'vol-header': defineAsyncComponent(() => import('./../VolHeader.vue')),
-        'audit-his': defineAsyncComponent(() => import('./AuditHis.vue'))
+    'audit-his': defineAsyncComponent(() => import('./AuditHis.vue'))
   },
   props: {},
   setup(props) {
@@ -607,7 +615,7 @@ var vueParam = {
         reason: '', //审核原因
         height: 500,
         showViewButton: true,
-        auditHis:[],
+        auditHis: [],
         showAction: false, //是否显示审批操作(当前节点为用户审批时显示)
         //审核选项(可自行再添加)
         data: [
@@ -638,7 +646,9 @@ var vueParam = {
         labelWidth: 100,
         height: 0,
         width: 0,
-        summary: false //弹出框明细table是否显示合计
+        summary: false, //弹出框明细table是否显示合计
+        draggable: false, //2022.09.12弹出框拖动功能
+        modal: true //2022.09.12弹出框背景遮罩层
       }, //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
       editor: {
         uploadImgUrl: '', //上传路径
