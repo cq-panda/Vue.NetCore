@@ -296,6 +296,7 @@
             <el-input
               :size="size"
               clearable
+              :ref="item.field"
               :input-style="item.inputStyle"
               :disabled="item.readonly || item.disabled"
               v-else-if="item.type == 'textarea'"
@@ -313,6 +314,7 @@
             <el-input-number
               :size="size"
               style="width: 100%"
+              :ref="item.field"
               :input-style="item.inputStyle"
               v-else-if="item.type == 'number'"
               v-model="formFields[item.field]"
@@ -338,6 +340,7 @@
             <el-input
               :size="size"
               clearable
+              :ref="item.field"
               :input-style="item.inputStyle"
               v-else-if="item.onKeyPress"
               :placeholder="
@@ -358,6 +361,7 @@
               :size="size"
               clearable
               v-else
+              :ref="item.field"
               :input-style="item.inputStyle"
               :placeholder="
                 item.placeholder ? item.placeholder : '请输入' + item.title
