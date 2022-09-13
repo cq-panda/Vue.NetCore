@@ -224,6 +224,50 @@ export default {
           tips: ` 还没想好`,
           img: "",
         },
+		     {
+          title: "定时任务接口配置",
+          content: [
+            `
+			<p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	定时任务调用本框架的接口地址，需要在接口上添加[ApiTask]属性,具体见Sys_QuartzOptionsController.cs->test方法<br>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// api加上属性 [ApiTask]</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;returns&gt;&lt;/returns&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color:#9cdcfe;">ApiTask</span>]
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color:#9cdcfe;">HttpGet</span>, <span style="color:#9cdcfe;">HttpPost</span>, <span style="color:#dcdcaa;">Route</span>(<span style="color:#ce9178;">"test"</span>)]
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">public</span> <span style="color:#9cdcfe;">IActionResult</span> <span style="color:#dcdcaa;">Test</span>()
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#dcdcaa;">Content</span>(<span style="color:#9cdcfe;">DateTime</span>.<span style="color:#9cdcfe;">Now</span>.<span style="color:#dcdcaa;">ToString</span>(<span style="color:#ce9178;">"yyyy-MM-dd HH:mm:sss"</span>));
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+<br />
+	</div>
+</p>`,
+          ],
+          tips: ` 还没想好`,
+          img: "",
+        },
 		  {
           title: "取消跨域",
 		  content:[`<p>

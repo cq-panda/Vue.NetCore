@@ -1,41 +1,58 @@
 <template>
-  <div class="t-tree">
-    <div class="role-list">
-      <role-tree :onChange="getUserRole"></role-tree>
-    </div>
-    <div class="action-container">
-      <div class="header">
-        <span class="text"><icon type="md-contact"></icon>角色权限分配</span>
-
-        <el-button type="primary" size="mini"  @click="save"
-          >保存</el-button
+  <div class="role-container">
+    <div class="role-tree-left flex-col">
+      <div class="title"><i class="el-icon-user"></i>角色列表</div>
+      <el-scrollbar class="el-role-list">
+        <el-tree
+          :data="tree"
+          @node-click="nodeClick"
+          node-key="id"
+          :default-expanded-keys="openKeys"
+          :expand-on-click-node="false"
+          style="padding: 5px 0; margin-right: 2px"
         >
+          <template #default="{ data }">
+            <div class="action-group">
+              <div class="action-text">
+                {{ data.roleName }}
+              </div>
+            </div>
+          </template>
+        </el-tree>
+      </el-scrollbar>
+    </div>
+    <div class="role-tree-right flex-col">
+      <div class="title">
+        <div><i class="el-icon-folder-opened"></i>菜单权限</div>
+        <el-button type="primary" @click="save">保存</el-button>
       </div>
-      <el-scrollbar style="flex: 1">
+      <el-scrollbar class="el-role-list">
         <el-tree
           @check-change="leftCheckChange"
           @check="nodeCheck"
-          :data="tree"
-          show-checkbox
+          :data="roleTree"
+          :show-checkbox="false"
           style="padding: 15px"
           node-key="id"
           default-expand-all
           :expand-on-click-node="false"
         >
-          <template #default="{ node, data }">
+          <template #default="{ data }">
             <div class="action-group">
               <div
                 class="action-text"
                 :style="{ width: (4 - data.lv) * 18 + 150 + 'px' }"
               >
-                {{ data.text+(data.isApp?'(app)':'') }}
+                <el-checkbox v-model="data.leftCk" @change="allChange(data)">{{
+                  data.text + (data.isApp ? "(app)" : "")
+                }}</el-checkbox>
               </div>
               <div class="action-item">
                 <el-checkbox
                   v-for="(item, index) in data.actions"
                   :key="index"
                   v-model="item.checked"
-                  @change="() => {}"
+                  @change="actionChange(data, item.checked)"
                   >{{ item.text }}</el-checkbox
                 >
               </div>
@@ -46,77 +63,166 @@
     </div>
   </div>
 </template>
-<script>
-let id = 1000;
 
-import RoleTree from "./Permission/RoleTree";
-export default {
-  components: {
-    RoleTree,
-  },
-  data() {
-    return {
-      selectIndex: -1,
-      checked: false,
-      roles: [],
-      data: [],
-      tree: [],
+<script>
+import { defineComponent, ref, reactive, getCurrentInstance } from "vue";
+import http from "@/../src/api/http.js";
+export default defineComponent({
+  setup() {
+    const selectId = ref(-1);
+    const checked = ref(false);
+    const tree = reactive([]);
+    const list = reactive([]);
+    const roles = reactive([]);
+    const roleList = reactive([]);
+    const roleTree = reactive([]);
+    const openKeys = reactive([]);
+
+    const leftCheckChange = (node, selected) => {
+      node.actions.forEach((x, index) => {
+        x.checked = selected;
+      });
     };
-  },
-  created() {
-    this.load();
-  },
-  methods: {
-    load() {
-      this.http
-        .post("/api/role/getCurrentTreePermission", {}, true)
-        .then((result) => {
-          if (!result.status) return this.$message.error(result.message);
-          this.data.splice(0);
-          this.roles.splice(0);
-          this.data = result.data.tree;
-          this.roles = result.data.roles;
-          this.data.forEach((x) => {
-            if (x.pid == 0) {
-              x.lv = 1;
-              x.children = [];
-              this.tree.push(x);
-              this.getTree(x.id, x);
-            }
+    const nodeCheck = (node, data) => {
+      let rootData = roleList.find((x) => {
+        return x.id === node.pid;
+      });
+      if (rootData && rootData.actions.length) {
+        rootData.actions[0].checked =
+          node.actions.some((x) => {
+            return x.checked;
+          }) ||
+          data.halfCheckedNodes.some((x) => {
+            return x.id === node.pid;
           });
+      }
+    };
+
+    const allChange = (data) => {
+      data.actions.forEach((item) => {
+        item.checked = data.leftCk;
+      });
+      if (!data.children) {
+        return;
+      }
+      setChildrenChecked(data, data.leftCk);
+    };
+    const setChildrenChecked = (data, ck) => {
+      data.children.forEach((item) => {
+        item.leftCk = ck;
+        item.actions.forEach((c) => {
+          c.checked = ck;
         });
-    },
-    getUserRole(item, selectIndex) {
-      this.selectIndex = item.id;
-      this.data.forEach((x) => {
+        if (item.children) {
+          setChildrenChecked(item, ck);
+        }
+      });
+    };
+    const actionChange = (data, ck) => {
+      ck =
+        data.actions.filter((x) => {
+          return x.checked;
+        }).length == data.actions.length;
+      data.leftCk = ck;
+    };
+
+    const load = () => {
+      const url = "api/role/getUserChildRoles";
+      http.post(url, {}, true).then((result) => {
+        if (!result.status) return;
+        list.splice(0);
+        list.push(...result.data);
+        list.forEach((x) => {
+          if (x.parentId == 0) {
+            x.lv = 1;
+            x.children = [];
+            tree.push(x);
+            getTree(x.id, x);
+          }
+        });
+        openKeys.push(tree[0].id);
+        selectId.value = openKeys[0];
+      });
+    };
+    const getTree = (id, data) => {
+      list.forEach((x) => {
+        if (x.parentId == id) {
+          x.lv = data.lv + 1;
+          if (!data.children) data.children = [];
+          data.children.push(x);
+          getTree(x.id, x);
+        }
+      });
+    };
+    const nodeClick = (node, selected) => {
+      selectId.value = node.id;
+      getUserRole(node);
+    };
+    const getUserRole = (item) => {
+      selectId.value = item.id;
+      roleList.forEach((x) => {
         x.actions.forEach((a) => {
           a.checked = false;
         });
       });
-      this.http
-        .post("/api/role/getUserTreePermission?roleId=" + item.id, {}, true)
-        .then((result) => {
-          if (!result.status) return this.$message.error(result.message);
-          result.data.forEach((item) => {
-            if (item.actions.length == 0) return;
-            let sourceItem = this.data.find((f) => f.id == item.id);
-            if (!sourceItem) return;
-            item.actions.forEach((actions) => {
-              sourceItem.actions.forEach((soure) => {
-                if (soure.value == actions.value) {
-                  soure.checked = true;
-                }
-              });
+      let url = `/api/role/getUserTreePermission?roleId=${item.id}`;
+      http.post(url, {}, true).then((result) => {
+        if (!result.status) return;
+        result.data.forEach((item) => {
+          if (item.actions.length == 0) return;
+          let sourceItem = roleList.find((f) => f.id == item.id);
+          if (!sourceItem) return;
+          item.actions.forEach((actions) => {
+            sourceItem.actions.forEach((soure) => {
+              if (soure.value == actions.value) {
+                soure.checked = true;
+              }
             });
           });
         });
-    },
-    save() {
-      if (this.selectIndex == -1) {
-        return this.$message.error("请选择角色!");
+      });
+    };
+
+    const getRoleTree = (id, data, isRootId) => {
+      roleList.forEach((x) => {
+        if (x.pid == id) {
+          x.lv = data.lv + 1;
+          if (isRootId) {
+            x.rootId = id;
+          }
+          if (!data.children) data.children = [];
+          data.children.push(x);
+          getRoleTree(x.id, x, isRootId);
+        }
+      });
+    };
+
+    const getCurrentTreePermission = () => {
+      let url = "/api/role/getCurrentTreePermission";
+      http.post(url, {}, true).then((result) => {
+        if (!result.status) return;
+        roleList.splice(0);
+        roles.splice(0);
+        roleList.push(...result.data.tree);
+        roles.push(...result.data.roles);
+        roleList.forEach((x) => {
+          if (x.pid == 0) {
+            x.lv = 1;
+            x.children = [];
+            roleTree.push(x);
+            getRoleTree(x.id, x);
+          }
+        });
+      });
+    };
+    let $message =
+      getCurrentInstance().appContext.config.globalProperties.$message;
+    const save = () => {
+      if (selectId.value <= 0) {
+        return $message.error("请选择角色!");
       }
       let userPermissions = [];
-      this.data.forEach((x) => {
+      roleList.forEach((x) => {
         let checkedPermission = x.actions.filter((f) => {
           return f.checked;
         });
@@ -130,133 +236,122 @@ export default {
           });
         }
       });
-      //  let roleId = this.roles[this.selectIndex].id;
-      this.http
-        .post(
-          "/api/role/SavePermission?roleId=" + this.selectIndex, //roleId,
-          userPermissions,
-          true
-        )
-        .then((result) => {
-          this.$Message[result.status ? "success" : "error"](result.message);
-        });
-    },
-   getTree (id, data, isRootId) {
-      this.data.forEach(x => {
-        if (x.pid == id) {
-          x.lv = data.lv + 1;
-          if (isRootId) {
-            x.rootId = id;
-          }
-          if (!data.children) data.children = [];
-          data.children.push(x);
-          this.getTree(x.id, x, isRootId);
-        }
+      let url = `api/role/SavePermission?roleId=${selectId.value}`;
+      http.post(url, userPermissions, true).then((result) => {
+        $message[result.status ? "success" : "error"](result.message);
       });
-    },
-    actionChange (data) {
-      let checked = (data.actions.some(x => { return x.checked }));
-      //移除左边的选中节点
-      if (!checked) {
-        let keys = this.$refs.tree.getCheckedKeys().filter(x => { return x !== data.id });
-        this.$refs.tree.setCheckedKeys(keys || []);
-      } else { //选中根节点
-        let rootData = this.data.find(x => { return x.id === data.pid });
-        if (rootData && rootData.actions.length) {
-          rootData.actions[0].checked=true;
-        }
-        //选中左边节点
-        // let checkedKeys = this.$refs.tree.getCheckedKeys();
-        // if (checkedKeys.indexOf(data.pid) == -1) {
-        //   checkedKeys.push(data.id)
-        //   this.$refs.tree.setCheckedKeys(checkedKeys);
-        // }
-      }
-    },
-    nodeCheck (node, data) {
+    };
 
-      let rootData = this.data.find(x => { return x.id === node.pid });
-      if (rootData && rootData.actions.length) {
-        rootData.actions[0].checked =
-          node.actions.some(x => { return x.checked })
-          || data.halfCheckedNodes.some(x => { return x.id === node.pid });
-      }
-    },
-    leftCheckChange (node, selected) {
-      node.actions.forEach((x, index) => {
-        x.checked=selected;
-      });
-    }
+    load();
+    getCurrentTreePermission();
+    return {
+      list,
+      nodeClick,
+      checked,
+      tree,
+      selectId,
+      openKeys,
+      getUserRole,
+      roles,
+      roleList,
+      getCurrentTreePermission,
+      leftCheckChange,
+      nodeCheck,
+      roleTree,
+      allChange,
+      actionChange,
+      save,
+    };
   },
-};
+});
 </script>
-
 <style lang="less" scoped>
-.t-tree {
+.role-container {
   position: absolute;
-  width: 100%;
+  background: #f6f6f6;
   height: 100%;
+  width: 100%;
+  padding: 10px;
   display: flex;
-  padding: 8px;
-  background: #eee;
-  /* padding: 100px; */
-}
-
-.header {
-  background: #66b1ff0f;
-  line-height: 43px;
-  border-bottom: 1px solid #eee;
-  position: relative;
-  font-size: 15px;
-  padding: 0 15px;
-  button {
-    position: absolute;
-    right: 15px;
-    top: 8px;
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+  }
+  .role-tree-left {
+    border: 1px solid #f2f2f2;
+    background: #fff;
+    width: 230px;
+    margin-right: 10px;
+    .title {
+      i {
+        margin-left: 10px;
+      }
+    }
+  }
+  .role-tree-right {
+    background: #fff;
+    border: 1px solid #f2f2f2;
+    width: 0;
+    flex: 1;
+    .title {
+      display: flex;
+      i {
+        margin-left: 10px;
+      }
+      div {
+        flex: 1;
+      }
+    }
+    .action-group {
+      display: flex;
+      // line-height: 32px;
+      justify-content: center;
+      align-items: center;
+      label {
+        float: left;
+      }
+      .action-text {
+        line-height: 33px;
+        label {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  .title {
+    padding: 10px;
+    background: rgb(246 250 255);
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+  .el-role-list {
+    flex: 1;
+    height: 0;
+    overflow-x: hidden;
   }
 }
-.action-container {
-  border-radius: 4px;
-  flex: 1;
-  margin-left: 11px;
-  background: white;
-  border: 1px solid #eaeaea;
-  display: flex;
-  flex-direction: column;
+.role-tree-left ::v-deep(.el-tree-node__content) {
+  cursor: pointer;
+  height: auto;
+  padding: 5px;
+  margin: 2px 10px;
+  font-size: 15px;
 }
-
-.role-list {
-  width: 200px;
-  border: 1px solid #eee;
-  border-bottom: 0;
+.role-tree-left ::v-deep(.el-tree-node__content:hover) {
+  background: #f4f4f4;
+  border-radius: 20px;
 }
-
-.actived {
-  color: #409efe !important;
-  background-color: #f3f7f9;
+.role-tree-left ::v-deep(.is-current > .el-tree-node__content:first-child) {
+  background: #f2f2f2;
+  border-radius: 20px;
 }
-</style>
-<style scoped>
-.action-group {
-  width: 100%;
-  display: flex;
+.role-tree-right ::v-deep(.el-tree-node__content) {
+  margin-bottom: 5px;
+  height: auto;
 }
-.action-text {
-  font-size: 14px;
-  margin-right: 10px;
-}
-.action-item {
-  flex: 1;
-}
-.action-item > label {
-  min-width: 25px;
-  margin-left: 3px;
-  margin-right: 10px;
-}
-.action-container >>> .el-tree-node {
-  padding: 5px 0;
-}
-.action-container >>> .el-checkbox__label {
-  padding-left: 5px;
+.role-tree-right ::v-deep(.el-checkbox__label) {
+  position: relative;
+  top: 2px;
 }
 </style>

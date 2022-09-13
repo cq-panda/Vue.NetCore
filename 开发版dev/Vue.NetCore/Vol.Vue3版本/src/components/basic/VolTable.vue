@@ -1192,9 +1192,9 @@ export default defineComponent({
           this.paginations.total = data.total;
           // 合计
           this.getSummaries(data);
-          this.$nextTick(() => {
-            this.$refs.table.doLayout();
-          });
+          // this.$nextTick(() => {
+          //   this.$refs.table.doLayout();
+          // });
         },
         (error) => {
           this.loading = false;
@@ -1217,7 +1217,11 @@ export default defineComponent({
       this.columns.forEach((col) => {
         if (!col.hidden) {
           if (data.summary.hasOwnProperty(col.field)) {
-            this.summaryData.push(data.summary[col.field]);
+            let sum = data.summary[col.field];
+            if (sum) {
+              sum = (sum * 1.0).toFixed(2).replace('.00', '') * 1.0;
+            }
+            this.summaryData.push(sum);
           } else {
             this.summaryData.push('');
           }
@@ -1366,6 +1370,9 @@ export default defineComponent({
           sum += x[column.field] * 1;
         }
       });
+      if (sum) {
+        sum = (sum * 1.0).toFixed(2).replace('.00', '') * 1.0;
+      }
       this.summaryData[this.summaryIndex[column.field]] = sum;
     },
     getSummaryData({ columns, data }) {

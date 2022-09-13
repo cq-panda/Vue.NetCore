@@ -57,17 +57,9 @@
   </div>
 </template>
 <script>
-// import * as echarts from "echarts";
-import "echarts/lib/chart/bar";
-import "echarts/lib/chart/line";
-
-import "echarts/lib/chart/pie";
-import "echarts/lib/component/legend";
-import "echarts/lib/component/title";
-import "echarts/lib/component/grid";
-let echarts = require("echarts/lib/echarts");
-import { chart1, chart2, chart3, chart4 } from "./home/home-chart-options";
-import { ref, onMounted, onUnmounted } from "vue";
+import * as echarts from 'echarts';
+import { chart1, chart2, chart3, chart4 } from './home/home-chart-options';
+import { ref, onMounted, onUnmounted } from 'vue';
 var $chart2;
 export default {
   components: {},
@@ -75,40 +67,40 @@ export default {
     return {
       center: [
         {
-          title: "GitHub",
-          icon: "el-icon-set-up",
-          url: "https://github.com/cq-panda/Vue.NetCore",
+          title: 'GitHub',
+          icon: 'el-icon-set-up',
+          url: 'https://github.com/cq-panda/Vue.NetCore'
         },
         {
-          title: "Gitee",
-          icon: "el-icon-turn-off",
-          url: "https://gitee.com/x_discoverer/Vue.NetCore",
+          title: 'Gitee',
+          icon: 'el-icon-turn-off',
+          url: 'https://gitee.com/x_discoverer/Vue.NetCore'
         },
         {
-          title: "框架Vue2版本",
-          icon: "el-icon-reading",
-          url: "http://v2.volcore.xyz",
+          title: '框架Vue2版本',
+          icon: 'el-icon-reading',
+          url: 'http://v2.volcore.xyz'
         },
 
         {
-          title: "框架视频",
-          icon: "el-icon-document",
-          url: "https://www.cctalk.com/m/group/90268531"
+          title: '框架视频',
+          icon: 'el-icon-document',
+          url: 'https://www.cctalk.com/m/group/90268531'
         },
 
         {
-          title: "小程序/app/h5",
-          icon: "el-icon-chat-line-round",
-          url: "http://v2.volcore.xyz/app/guide",
+          title: '小程序/app/h5',
+          icon: 'el-icon-chat-line-round',
+          url: 'http://v2.volcore.xyz/app/guide'
         },
         {
-          title: "QQ群45221949",
-          icon: "el-icon-chat-dot-round",
-          url: "",
-        },
+          title: 'QQ群45221949',
+          icon: 'el-icon-chat-dot-round',
+          url: ''
+        }
       ],
       n: 90,
-      value1: "1",
+      value1: '1',
       applicants: {
         //报名信息
         day: 20, //本日
@@ -116,66 +108,66 @@ export default {
         month: 1200, //本月
         totalBoy: 800,
         totalGirl: 890,
-        taotal: 1690,
+        taotal: 1690
       }, //报名信息
       list: [
-        { desc: "框架2.x版本不支持直接升级Vue3版本(代码生成器已修改)" },
-        { desc: "框架使用的Element Plus组件，移除了Iview组件的依赖" },
-        { desc: "框架内部组件全部重新优化,相比2.x版本首屏大小减少60%" },
-        { desc: "框架Vue2版本会继续维护,并与Vue3版本同步更新,请放心使用" },
-        { desc: "框架Vue2、Vue3版本开发文档一致(差异部分文档会备注说明)" },
+        { desc: '框架2.x版本不支持直接升级Vue3版本(代码生成器已修改)' },
+        { desc: '框架使用的Element Plus组件，移除了Iview组件的依赖' },
+        { desc: '框架内部组件全部重新优化,相比2.x版本首屏大小减少60%' },
+        { desc: '框架Vue2版本会继续维护,并与Vue3版本同步更新,请放心使用' },
+        { desc: '框架Vue2、Vue3版本开发文档一致(差异部分文档会备注说明)' },
         //{ desc: "若正在使用Vue2框架版本继续使用即可;其他建议使用Vue3版本" },
         {
-          desc: "vue2、vue3文档相同,开文档大部分文档仍然使用的vue2语法",
+          desc: 'vue2、vue3文档相同,开文档大部分文档仍然使用的vue2语法'
         },
         {
-          desc: "自定义部分既可以使用vue3语法与可以使用vue3语法",
-        },
+          desc: '自定义部分既可以使用vue3语法与可以使用vue3语法'
+        }
         //(框架内部组件vue2/3语法都在使用),你也可以使用vue3语法
       ],
       grid: [
         {
-          name: "用户管理",
-          desc: "系统用户管理,注册用户3000000人。",
-          icon: "el-icon-user",
+          name: '用户管理',
+          desc: '系统用户管理,注册用户3000000人。',
+          icon: 'el-icon-user'
         },
         {
-          name: "站内消息",
-          desc: "您有一条新的消息,请及时处理。",
-          icon: "el-icon-chat-dot-round",
+          name: '站内消息',
+          desc: '您有一条新的消息,请及时处理。',
+          icon: 'el-icon-chat-dot-round'
         },
         {
-          name: "系统管理",
-          desc: "这里放点什么,还没想好。",
-          icon: "el-icon-setting",
+          name: '系统管理',
+          desc: '这里放点什么,还没想好。',
+          icon: 'el-icon-setting'
         },
         {
-          name: "还没想好",
-          desc: "这里不知道应该放点什么或者写点什么。",
-          icon: "el-icon-document",
+          name: '还没想好',
+          desc: '这里不知道应该放点什么或者写点什么。',
+          icon: 'el-icon-document'
         },
         {
-          name: "语音导航",
-          desc: "高德地图林志玲为您语音导航。",
-          icon: "el-icon-microphone",
+          name: '语音导航',
+          desc: '高德地图林志玲为您语音导航。',
+          icon: 'el-icon-microphone'
         },
         {
-          name: "垃圾回收",
-          desc: "删除过的数据在此处找回。。。。",
-          icon: "el-icon-delete",
-        },
-      ],
+          name: '垃圾回收',
+          desc: '删除过的数据在此处找回。。。。',
+          icon: 'el-icon-delete'
+        }
+      ]
     };
   },
   setup() {
     let open = (item) => {
-      window.open(item.url, "_blank");
+      window.open(item.url, '_blank');
     };
     let interval;
     onMounted(() => {
-      $chart = echarts.init(document.getElementById("h-chart1"));
+      $chart = echarts.init(document.getElementById('h-chart1'));
       $chart.setOption(chart1);
-      $chart2 = echarts.init(document.getElementById("h-chart2"));
+      $chart2 = echarts.init(document.getElementById('h-chart2'));
       $chart2.setOption(chart2);
 
       // interval = setInterval(() => {
@@ -192,11 +184,11 @@ export default {
       //   $chart2.setOption(chart2);
       // }, 2000);
 
-      $chart3 = echarts.init(document.getElementById("h-chart3"));
+      $chart3 = echarts.init(document.getElementById('h-chart3'));
       $chart3.setOption(chart3);
-      let $chart4 = echarts.init(document.getElementById("h-chart4"));
+      let $chart4 = echarts.init(document.getElementById('h-chart4'));
       $chart4.setOption(chart4);
-      let $chart5 = echarts.init(document.getElementById("h-chart5"));
+      let $chart5 = echarts.init(document.getElementById('h-chart5'));
       $chart5.setOption(chart2);
     });
     onUnmounted(() => {
@@ -211,7 +203,7 @@ export default {
   },
   destroyed() {
     $chart2 = null;
-  },
+  }
 };
 var $chart, $chart2, $chart3;
 // window.addEventListener("resize", function () {
@@ -388,4 +380,3 @@ var $chart, $chart2, $chart3;
   width: 400px;
 }
 </style>
- 

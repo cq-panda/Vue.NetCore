@@ -5,7 +5,8 @@
 		<view class="grid-list" v-for="(item,index) in grid">
 			<view class="grid-title">
 				<view class="grid-title-text">
-					{{item.name}}
+					<view class="grid-title-border"></view>
+				<view>	{{item.name}}</view>
 				</view>
 			</view>
 			<view class="grid-item" @click="gridClick(data.path)" v-for="(data,dindex) in item.data" :key="dindex">
@@ -70,7 +71,7 @@
 							name: "事件绑定",
 							icon: "pause-circle",
 							bg: "color2",
-								path: "/pages/form/form2"
+							path: "/pages/form/form2"
 						}, {
 							name: "自定义",
 							icon: "edit-pen",
@@ -158,11 +159,20 @@
 		.grid-title {
 			border-bottom: 1px solid #f7f7f7;
 			padding: 20rpx;
+
 			// margin: 10px;
 			// font-weight: bold;
+			.grid-title-border {
+				display: inline-block;
+				background: #00aaff;
+				padding: 18rpx 8rpx;
+				border-radius: 10rpx;
+				margin-right: 14rpx;
+			}
 
 			.grid-title-text {
-				border-left: 16rpx solid #00aaff;
+				display: flex;
+				// border-left: 16rpx solid #00aaff;
 				line-height: 1.1;
 				padding-left: 10rpx;
 

@@ -21,6 +21,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Quartz;
+using Quartz.Impl;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
@@ -29,6 +31,7 @@ using VOL.Core.Filters;
 //using VOL.Core.KafkaManager.Service;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
+using VOL.Core.Quartz;
 using VOL.Core.Utilities.PDFHelper;
 using VOL.Core.WorkFlow;
 using VOL.Entity.DomainModels;
@@ -168,6 +171,11 @@ namespace VOL.WebApi
             services.AddSignalR();
             //services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             //services.AddTransient<IPDFService, PDFService>();
+            services.AddHttpClient();
+            Services.AddTransient<HttpResultfulJob>();
+            Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            Services.AddSingleton<Quartz.Spi.IJobFactory, IOCJobFactory>();
+
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
@@ -182,6 +190,9 @@ namespace VOL.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else {
+                app.UseQuartz(env);
             }
             app.UseMiddleware<ExceptionHandlerMiddleWare>();
             app.UseStaticFiles().UseStaticFiles(new StaticFileOptions

@@ -65,7 +65,13 @@
                   <div class="step-text">备 注： {{ item.remark || '-' }}</div>
                 </div>
               </div>
-              <div class="audit-content" v-show="auditParam.showAction">
+              <div
+                :style="{
+                  'margin-top': workFlowSteps.length ? '20px' : '-17px'
+                }"
+                class="audit-content"
+                v-show="auditParam.showAction"
+              >
                 <div style="margin-bottom:10px;">
                   审批：
                   <el-radio-group
@@ -92,20 +98,20 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="审批记录">
-          <audit-his :table-data="auditParam.auditHis"></audit-his>
-           </el-tab-pane>
+          <el-tab-pane v-if="workFlowSteps.length" label="审批记录">
+            <audit-his :table-data="auditParam.auditHis"></audit-his>
+          </el-tab-pane>
         </el-tabs>
       </template>
       <template #footer>
         <div style="text-align: center;">
-          <el-button size="samll" @click="auditParam.model = false"
+          <el-button size="small" @click="auditParam.model = false"
             ><i class="el-icon-close"></i>关闭</el-button
           >
           <el-button
             type="primary"
             v-show="auditParam.showAction"
-            size="samll"
+            size="small"
             @click="saveAudit"
             ><i class="el-icon-check"></i>审核</el-button
           >
@@ -158,12 +164,12 @@
           >
             <template #footer>
               <div v-if="!fiexdSearchForm" class="form-closex">
-                <el-button size="samll" type="primary" plain @click="search">
+                <el-button size="small" type="primary" plain @click="search">
                   <i class="el-icon-search" />查询
                 </el-button>
 
                 <el-button
-                  size="samll"
+                  size="small"
                   type="success"
                   plain
                   @click="resetSearch"
@@ -171,7 +177,7 @@
                   <i class="el-icon-refresh-right" />重置
                 </el-button>
                 <el-button
-                  size="samll"
+                  size="small"
                   plain
                   @click="searchBoxShow = !searchBoxShow"
                 >
@@ -260,6 +266,8 @@
           :title="boxOptions.title"
           :width="boxOptions.width"
           :height="boxOptions.height"
+          :modal="boxOptions.modal"
+          :draggable="boxOptions.draggable"
           :padding="0"
           :on-model-close="onGridModelClose"
         >
@@ -312,7 +320,7 @@
                       :plain="btn.plain"
                       v-show="!(typeof btn.hidden == 'boolean' && btn.hidden)"
                       @click="onClick(btn.onClick)"
-                      size="samll"
+                      size="small"
                       ><i :class="btn.icon"></i>{{ btn.name }}</el-button
                     >
                   </div>
@@ -355,7 +363,7 @@
           <template #footer>
             <div style="text-align: center;" v-show="isBoxAudit">
               <el-button
-                size="samll"
+                size="small"
                 type="primary"
                 plain
                 @click="onGridModelClose(false)"
@@ -363,7 +371,7 @@
                 <i class="el-icon-close">关闭</i>
               </el-button>
               <el-button
-                size="samll"
+                size="small"
                 type="primary"
                 v-show="auditParam.showViewButton"
                 @click="auditParam.model = true"
@@ -376,7 +384,7 @@
                 v-for="(btn, bIndex) in boxButtons"
                 :key="bIndex"
                 :type="btn.type"
-                size="samll"
+                size="small"
                 :plain="btn.plain"
                 v-show="!(typeof btn.hidden == 'boolean' && btn.hidden)"
                 :disabled="btn.hasOwnProperty('disabled') && !!btn.disabled"
@@ -385,7 +393,7 @@
                 <i :class="btn.icon"> {{ btn.name }}</i>
               </el-button>
               <el-button
-                size="samll"
+                size="small"
                 type="primary"
                 plain
                 @click="onGridModelClose(false)"
@@ -491,7 +499,7 @@ var vueParam = {
       import('./ViewGridCustomColumn.vue')
     ),
     'vol-header': defineAsyncComponent(() => import('./../VolHeader.vue')),
-        'audit-his': defineAsyncComponent(() => import('./AuditHis.vue'))
+    'audit-his': defineAsyncComponent(() => import('./AuditHis.vue'))
   },
   props: {},
   setup(props) {
@@ -607,7 +615,7 @@ var vueParam = {
         reason: '', //审核原因
         height: 500,
         showViewButton: true,
-        auditHis:[],
+        auditHis: [],
         showAction: false, //是否显示审批操作(当前节点为用户审批时显示)
         //审核选项(可自行再添加)
         data: [
@@ -638,7 +646,9 @@ var vueParam = {
         labelWidth: 100,
         height: 0,
         width: 0,
-        summary: false //弹出框明细table是否显示合计
+        summary: false, //弹出框明细table是否显示合计
+        draggable: false, //2022.09.12弹出框拖动功能
+        modal: true //2022.09.12弹出框背景遮罩层
       }, //saveClose新建或编辑成功后是否关闭弹出框//弹出框的标签宽度labelWidth
       editor: {
         uploadImgUrl: '', //上传路径

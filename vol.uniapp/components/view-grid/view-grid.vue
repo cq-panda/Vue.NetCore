@@ -2,7 +2,7 @@
 	<view class="view-grid">
 		<slot name="gridHeader"></slot>
 		<!-- 	表格数据 -->
-		<vol-table :url="tableUrl" @cellClick="gridCellClick" @rowButtons="getRowButtons"
+		<vol-table :class="[className]" :url="tableUrl" @cellClick="gridCellClick" @rowButtons="getRowButtons"
 			@rowButtonClick="gridRowButtonClick" :rowClick="gridRowClick" :defaultLoadPage="load"
 			@loadBefore="loadGridTableBefore" :index="rowIndex" @loadAfter="loadGridTableAfter" ref="table"
 			:direction="direction" :titleField="titleField" :height="height" @formatter="cellFormatter"
@@ -163,6 +163,8 @@
 		},
 		data() {
 			return {
+				isWx: false,
+				className: 'vol-table-888888',
 				rowIndex: false, //是否显示table的行号
 				load: true, //是否默认加载table表格数据
 				height: 0, //当前table/列表高度
@@ -656,12 +658,13 @@
 			this.titleField = (this.columns.find(x => {
 				return x.link
 			}) || {}).field;
-		    this.tableUrl = 'api' + this.options.table.url + 'getPageData';
-			
+			this.tableUrl = 'api' + this.options.table.url + 'getPageData';
+
 			await this.initPermission();
 
 			let extend;
 			// #ifdef MP-WEIXIN
+			this.isWx = true;
 			if (_$this.$parent.options.extend && typeof _$this.$parent.options.extend == 'function') {
 				extend = _$this.$parent.options.extend();
 				if (extend.methods) {
@@ -676,10 +679,17 @@
 				}
 			}
 			this.initSearchFormDateRange();
-			_$this.onInited();
-			this.initSource();
+			if (!this.isWx) {
+				this.onInited();
+				this.initSource();
+			}
+
 		},
 		mounted() {
+			if (this.isWx) {
+				this.onInited();
+				this.initSource();
+			}
 			uni.getSystemInfo({
 				success: function(res) {
 					_$this.maxHeight = res.screenHeight * 0.82;

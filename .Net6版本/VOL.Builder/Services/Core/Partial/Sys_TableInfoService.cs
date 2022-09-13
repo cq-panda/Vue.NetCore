@@ -1280,6 +1280,7 @@ DISTINCT
             {
                 columns[i].OrderNo = orderNo;
                 orderNo = orderNo - 50;
+                columns[i].EditRowNo = 0;
             }
 
             SetMaxLength(columns);
