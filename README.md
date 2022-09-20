@@ -19,8 +19,8 @@
  - 移动端开发、app、微信小程序(uniapp)，见下面介绍
  - 在现有的代码生成器功能上，继续定制开发代码生成器功能,解决重复性工作
 ## 框架开发依赖环境
- - 后台：VS2019、vs2022 、.NetCore3.1 、.Net6、EFCore3.1/6.0、JWT、Dapper、signalR、Autofac、SqlServer/MySql/PGSql/Oracle、Redis(可选,默认使用内置IMemory)
- - 前端：VsCode、Vue2/vue3（webpack、node.js,如果没有此环境自行搜索:vue webpack npm)、vuex、axios、promise、iview、element-ui
+ - 后台：VS2019、vs2022 、.NetCore3.1 、.Net6、EFCore3.1/6.0、JWT、Dapper、SignalR、Quartz.Net、Autofac、SqlServer/MySql/PGSql/Oracle、Redis
+ - 前端：VsCode、Vue2/vue3（需要安装nodejs)、vuex、axios、promise、element ui、element plus
 ## 链接
 
 ## [vol框架视频](https://www.cctalk.com/m/group/90268531)
