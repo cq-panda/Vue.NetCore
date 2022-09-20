@@ -403,7 +403,8 @@ let methods = {
         return x.field == field;
       });
     }
-    return data.type;
+
+    return (data||{}).type;
   },
   resetSearch() {
     //重置查询对象
