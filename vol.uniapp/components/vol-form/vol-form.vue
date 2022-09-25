@@ -42,15 +42,15 @@
 					</view>
 				</template>
 				<view v-else class="f-form-content f-form-content-select" @click="showPicker(item)">
-					<view style="color:rgb(192 196 204);font-size:15px;width: 100%;" v-show="!inFormFields[item.field]">
+					<view style="color:rgb(192 196 204);font-size:15px;width: 100%;padding-right: 10rpx;" v-show="!inFormFields[item.field]">
 						{{'请选择'+item.title}}
 					</view>
 					<view style="flex:1;">
-						<view style="font-size:15px;">
+						<view style="font-size:15px;padding-right: 10rpx;">
 							{{item.type=='date'?(inFormFields[item.field]||'').substr(0,10):inFormFields[item.field]}}
 						</view>
 					</view>
-					<u-icon name="arrow-right"></u-icon>
+					<u-icon color="rgb(164 165 165)" name="arrow-right"></u-icon>
 				</view>
 			</template>
 

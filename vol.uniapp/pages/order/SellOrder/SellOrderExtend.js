@@ -38,6 +38,32 @@ export default function() {
 				//页面打开时默认弹出查询框
 				//this.searchModel = true;
 			},
+			
+			//审核操作：
+			//1、实现rowButtons方法返回审批按钮（注意表必须有AuditStatus字段int类型）
+			rowButtons(rowindex, row) {
+				//AuditStatus === 0审核中的数据
+				if (row.AuditStatus === 0) {
+					return [{
+						text: "审核",
+						type: "error",
+						shape: "circle"
+					}]
+				}
+				//返回查看审批按钮
+				return [{
+					text: "查看审核",
+					type: "primary",
+					shape: "circle"
+				}]
+			},
+			//2、实现rowButtons按钮点击方法，并跳转到审批页面(创建一个审批页面SellOrderAduit.vue并在pages.json中添加页面配置)
+			//3、具体实现见SellOrderAduit.vue页面
+			rowButtonClick(btn, rowindex, row) {
+				uni.navigateTo({
+					url: "/pages/order/SellOrder/SellOrderAduit?orderId=" + row.Order_Id
+				})
+			},
 			formatter(row, column) { //自定义格式化
 				// if(column.field=='xx'){
 				//  return '<a style="color:red;">' + row[column.field] + '</a>';
@@ -52,7 +78,7 @@ export default function() {
 				})
 				return false;
 			},
-			gridAdd(){ //点击添加跳转到详情页面
+			gridAdd() { //点击添加跳转到详情页面
 				let url = "/pages/order/SellOrder/Detail/Detail";
 				uni.navigateTo({
 					url: url

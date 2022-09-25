@@ -104,6 +104,7 @@
 						<view :key="btnIndex" class="extent-button" v-for="(btn,btnIndex) in rowButtons(rowindex,row)">
 							<u-button :icon="btn.icon" :hairline="true" :shape="btn.shape" :disabled="btn.disabled"
 								:plain="btn.plain" :type="btn.type" style="height:60rpx;"
+								size="small"
 								@click="rowBtnClick(btn,rowindex,row)" :text="btn.text">
 							</u-button>
 						</view>

@@ -24,9 +24,11 @@ export default function() {
 					if (column.field == 'Quantity' || column.field == 'TransactionType') {
 						//自定义格式化显示,在下面的formatter实现具体逻辑
 						column.formatter = true;
+						column.title="888888";
 
 					}
 				})
+				console.log("11")
 				//页面打开时禁用加载数据
 				//this.load=false;
 				//页面打开时默认弹出查询框
