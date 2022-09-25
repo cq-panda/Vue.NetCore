@@ -8,7 +8,7 @@
 				<text class="f-form-label-required" v-if="item.require||item.required">*</text>
 				<text>{{item.title}}</text>
 			</view>
-			<view v-if="item.readonly" style="font-size:15px;">
+			<view v-if="item.readonly" style="flex: 1;font-size: 15px;text-align: right;">
 				<view v-if="item.type=='img'" class="readonly-imgs">
 					<image v-for="(src,imgIndex) in getImgSrcs(item)" :key="imgIndex" :src="src"></image>
 				</view>
@@ -42,7 +42,7 @@
 					</view>
 				</template>
 				<view v-else class="f-form-content f-form-content-select" @click="showPicker(item)">
-					<view style="color:rgb(192 196 204);font-size:15px;" v-show="!inFormFields[item.field]">
+					<view style="color:rgb(192 196 204);font-size:15px;width: 100%;" v-show="!inFormFields[item.field]">
 						{{'请选择'+item.title}}
 					</view>
 					<view style="flex:1;">
@@ -742,6 +742,7 @@
 		}
 
 		.f-form-content-select {
+			    text-align: right;
 			display: flex;
 		}
 
@@ -758,6 +759,7 @@
 		.f-form-content {
 			flex: 1;
 			width: 0;
+			text-align: right;
 		}
 
 		.f-form-label-required {
