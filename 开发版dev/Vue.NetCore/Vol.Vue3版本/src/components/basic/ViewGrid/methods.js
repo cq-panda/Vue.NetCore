@@ -404,7 +404,7 @@ let methods = {
       });
     }
 
-    return (data||{}).type;
+    return (data || {}).type;
   },
   resetSearch() {
     //重置查询对象
@@ -610,7 +610,7 @@ let methods = {
       } else if (typeof this.editFormFields[key] == 'function') {
         try {
           editFormFields[key] = this.editFormFields[key]();
-        } catch (error) { }
+        } catch (error) {}
       } else {
         //2021.05.30修复下拉框清除数据后后台不能保存的问题
         if (
@@ -827,7 +827,7 @@ let methods = {
     this.boxModel = true;
   },
   async linkData(row, column) {
-    this.boxOptions.title =this.table.cnName+'(编辑)';
+    this.boxOptions.title = this.table.cnName + '(编辑)';
     //点击table单元格快捷链接显示编辑数据
     this.currentAction = this.const.EDIT;
     this.currentRow = row;
@@ -867,7 +867,7 @@ let methods = {
     this.resetEditForm(obj);
   },
   async add() {
-    this.boxOptions.title =this.table.cnName+'(新建)';
+    this.boxOptions.title = this.table.cnName + '(新建)';
     //新建
     this.currentAction = this.const.ADD;
     this.currentRow = {};
@@ -967,7 +967,7 @@ let methods = {
     );
     let elink = this.$refs.export;
     xmlResquest.responseType = 'blob';
-    xmlResquest.onload = function (oEvent) {
+    xmlResquest.onload = function(oEvent) {
       if (xmlResquest.status != 200) {
         this.$error('下载文件出错了..');
         return;
@@ -1020,7 +1020,8 @@ let methods = {
       param.wheres = JSON.stringify(param.wheres);
     }
     let $http = this.http;
-    let fileName = this.getFileName(isDetail);
+    //2022.09.26增加自定义导出文件名
+    let fileName = this.downloadFileName || this.getFileName(isDetail);
     //2021.01.08优化导出功能
     $http
       .post(url, param, '正在导出数据....', { responseType: 'blob' })
@@ -1491,7 +1492,7 @@ let methods = {
     }
     if (refreshBtn) {
       refreshBtn.name = '重 置';
-      refreshBtn.onClick = function () {
+      refreshBtn.onClick = function() {
         this.resetSearch();
       };
     }
@@ -1567,8 +1568,13 @@ let methods = {
     let _btn = this.buttons.find((x) => {
       return x.value == 'Audit';
     });
-    let auditField = this.columns.map(m => { return m.field })
-      .find(name => { return (name || '').toLowerCase() == 'auditstatus' });
+    let auditField = this.columns
+      .map((m) => {
+        return m.field;
+      })
+      .find((name) => {
+        return (name || '').toLowerCase() == 'auditstatus';
+      });
     if (!_btn || !auditField) return;
 
     _btn.hidden = true;
@@ -1579,9 +1585,12 @@ let methods = {
       fixed: 'right',
       align: 'center',
       formatter: (row) => {
-        return '<i style="cursor: pointer;color: #2d8cf0;"' + (row[auditField]
-          ? 'class="el-icon-view">查看</i>'
-          : 'class="el-icon-edit">审核</i>')
+        return (
+          '<i style="cursor: pointer;color: #2d8cf0;"' +
+          (row[auditField]
+            ? 'class="el-icon-view">查看</i>'
+            : 'class="el-icon-edit">审核</i>')
+        );
       },
       click: (row) => {
         this.getWorkFlowSteps(row);
@@ -1590,8 +1599,9 @@ let methods = {
   },
   getWorkFlowSteps(row) {
     let table = this.table.url.replaceAll('/', '');
-    let url = `api/Sys_WorkFlow/getSteps?tableName=${table}&id=${row[this.table.key]
-      }`;
+    let url = `api/Sys_WorkFlow/getSteps?tableName=${table}&id=${
+      row[this.table.key]
+    }`;
     this.http.get(url, {}, true).then((result) => {
       this.workFlowSteps.splice(0);
       //有可能没有配置审批流程
