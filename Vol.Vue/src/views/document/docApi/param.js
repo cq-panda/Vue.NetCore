@@ -334,6 +334,7 @@ const param = {
     },
     { name: "extend", desc: "扩展js中的所有对象,如:doc_viewGirdExtension.js整个js文件的对象", type: "json", default: "array" },
     { name: "single", desc: "查询界面的表是否只能单选", type: "bool", default: "false" },
+    { name: "downloadFileName", desc: "自定义导出文件名(2022.09.26更新前端组件后才能使用)", type: "string", default: "" },
     { name: "boxModel", desc: "弹出新建、编辑框状态", type: "bool", default: "false" },
     { name: "currentAction", desc: "当前操作的状态:如：Add,Update", type: "string", default: "" },
     { name: "currentRow", desc: "当前编辑的行数据", type: "json", default: "" },
