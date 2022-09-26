@@ -38,10 +38,17 @@ export default function() {
 				//页面打开时默认弹出查询框
 				//this.searchModel = true;
 			},
-			
+
 			//审核操作：
 			//1、实现rowButtons方法返回审批按钮（注意表必须有AuditStatus字段int类型）
 			rowButtons(rowindex, row) {
+				//没有审核权限按钮的不显示
+				// let hasAudit = this.permission.some(x => {
+				// 	return x.tableName == 'SellOrder' && x.permission.indexOf('Audit') != -1
+				// });
+				// if (!hasAudit) {
+				// 	return [];
+				// }
 				//AuditStatus === 0审核中的数据
 				if (row.AuditStatus === 0) {
 					return [{
