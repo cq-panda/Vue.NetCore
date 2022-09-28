@@ -693,7 +693,7 @@
 				this.initSource();
 			}
 			uni.getSystemInfo({
-				success: function(res)=> {
+				success: (res)=> {
 					this.maxHeight = res.screenHeight * 0.82;
 				}
 			});
