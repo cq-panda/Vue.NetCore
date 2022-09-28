@@ -1,5 +1,5 @@
 <template>
-	<view class="view-grid">
+	<view class="view-grid" v-if="isCreated">
 		<slot name="gridHeader"></slot>
 		<!-- 	表格数据 -->
 		<vol-table :class="[className]" :url="tableUrl" @cellClick="gridCellClick" @rowButtons="getRowButtons"
@@ -193,7 +193,8 @@
 				sortSelectModel: false, //排序弹出框
 				tableUrl: "", //table加载的url地址
 				tableAction: "", //指定表名的权限
-				showDel: false
+				showDel: false,
+				isCreated: false
 			}
 		},
 		methods: {
@@ -649,6 +650,8 @@
 			}
 		},
 		async created() {
+			await this.initPermission();
+			this.isCreated = true;
 			_$this = this;
 			uni.getSystemInfo({
 				success: function(res) {
@@ -660,7 +663,7 @@
 			}) || {}).field;
 			this.tableUrl = 'api' + this.options.table.url + 'getPageData';
 
-			await this.initPermission();
+
 
 			let extend;
 			// #ifdef MP-WEIXIN
@@ -683,7 +686,6 @@
 				this.onInited();
 				this.initSource();
 			}
-
 		},
 		mounted() {
 			if (this.isWx) {
