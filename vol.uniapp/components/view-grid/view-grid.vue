@@ -693,8 +693,8 @@
 				this.initSource();
 			}
 			uni.getSystemInfo({
-				success: function(res) {
-					_$this.maxHeight = res.screenHeight * 0.82;
+				success: function(res)=> {
+					this.maxHeight = res.screenHeight * 0.82;
 				}
 			});
 		},
