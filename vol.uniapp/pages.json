@@ -183,6 +183,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/order/SellOrder/SellOrderAduit",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "审核",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": { //设置要与第一个pages的path相同
 		"color": "#7A7E83",
