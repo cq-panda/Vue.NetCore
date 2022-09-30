@@ -135,7 +135,6 @@
 </template>
 
 <script>
-	let _$this;
 	export default {
 		name: "view-grid",
 		props: {
@@ -205,32 +204,32 @@
 				this.onInited();
 			},
 			cellFormatter(row, column, index, callback) {
-				if (_$this.formatter) {
-					return callback(_$this.formatter(row, column, index));
+				if (this.formatter) {
+					return callback(this.formatter(row, column, index));
 				}
 				return callback(row[column.field]);
 			},
 			gridRowClick(index, row, columns) {
-				_$this.currentRow = row;
-				_$this.currentAction = 'Update';
-				_$this.hiddenDelButton(false)
+				this.currentRow = row;
+				this.currentAction = 'Update';
+				this.hiddenDelButton(false)
 				//this.editFormFields.Name=Math.random();
-				if (_$this.$refs.form) {
-					_$this.$refs.form.reset(row);
+				if (this.$refs.form) {
+					this.$refs.form.reset(row);
 				} else {
-					_$this.resetEditForm(row)
+					this.resetEditForm(row)
 				}
 
 				// Object.assign(this.editFormFields, row);
-				if (_$this.rowClick && !_$this.rowClick(index, row, columns)) {
+				if (this.rowClick && !this.rowClick(index, row, columns)) {
 					return;
 				};
-				if (_$this.modelOpenBefore(row) && _$this.modelOpenAfter(row)) {
-					_$this.model = true;
+				if (this.modelOpenBefore(row) && this.modelOpenAfter(row)) {
+					this.model = true;
 				}
 			},
 			gridCellClick(index, row, column) {
-				if (_$this.cellClick && !_$this.cellClick(index, row, column)) {
+				if (this.cellClick && !this.cellClick(index, row, column)) {
 					return;
 				};
 			},
@@ -652,7 +651,7 @@
 		async created() {
 			await this.initPermission();
 			this.isCreated = true;
-			_$this = this;
+			let _$this = this;
 			uni.getSystemInfo({
 				success: function(res) {
 					_$this.height = res.windowHeight - 10;
@@ -693,7 +692,7 @@
 				this.initSource();
 			}
 			uni.getSystemInfo({
-				success: (res)=> {
+				success: (res) => {
 					this.maxHeight = res.screenHeight * 0.82;
 				}
 			});
