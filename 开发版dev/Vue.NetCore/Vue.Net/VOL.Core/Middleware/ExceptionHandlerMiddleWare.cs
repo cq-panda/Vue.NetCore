@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Text;
@@ -30,19 +32,20 @@ namespace VOL.Core.Middleware
             }
             catch (Exception exception)
             {
-                //  (context.RequestServices.GetService(typeof(ActionObserver)) as ActionObserver).IsWrite = false;
-                string message = exception.Message
-                    + exception.InnerException
-                    ?.InnerException
-                    ?.Message
-                    + exception.InnerException
-                    + exception.StackTrace;
-                Console.WriteLine($"服务器处理出现异常:{message}");
+                var env = context.RequestServices.GetService(typeof(IWebHostEnvironment)) as IWebHostEnvironment;
+                string message = exception.Message + exception.StackTrace;
                 Logger.Error(LoggerType.Exception, message);
+                if (!env.IsDevelopment())
+                {
+                    message = "服务器处理异常";
+                }
+                else
+                {
+                    Console.WriteLine($"服务器处理出现异常:{message}");
+                }
                 context.Response.StatusCode = 500;
                 context.Response.ContentType = ApplicationContentType.JSON;
-                await context.Response.WriteAsync(new { message = "~服务器没有正确处理请求,请稍等再试!", status = false }.Serialize()
-                  , Encoding.UTF8);
+                await context.Response.WriteAsync(new { message, status = false }.Serialize(), Encoding.UTF8);
             }
         }
     }
