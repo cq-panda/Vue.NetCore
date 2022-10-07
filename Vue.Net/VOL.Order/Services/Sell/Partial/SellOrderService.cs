@@ -3,6 +3,7 @@
 */
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,6 @@ namespace VOL.Order.Services
         }
         //此SellOrderService.cs类由代码生成器生成，默认是没有任何代码，如果需要写业务代码，请在此类中实现
         //如果默认的增、删、改、查、导入、导出、审核满足不了业务，请参考下面的方法进行业务代码扩展(扩展代码是对ServiceFunFilter.cs的实现)
-
         WebResponseContent webResponse = new WebResponseContent();
         private IHttpContextAccessor _httpContextAccessor;
         private ISellOrderRepository _repository;
@@ -37,11 +37,10 @@ namespace VOL.Order.Services
         {
             _httpContextAccessor = httpContextAccessor;
             _repository = repository;
-            //  base.Init(_repository);
             //2020.08.15
-            //开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效
+            //开启数据隔离功能,开启后会对查询、导出、删除、编辑功能同时生效
             //如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置 IsMultiTenancy = true;
-           // IsMultiTenancy = true;
+            // IsMultiTenancy = true;
         }
         //查询
         public override PageGridData<SellOrder> GetPageData(PageDataOptions options)
@@ -179,18 +178,21 @@ namespace VOL.Order.Services
             // 在保存数据库前的操作，所有数据都验证通过了，这一步执行完就执行数据库保存
             AddOnExecuting = (SellOrder order, object list) =>
             {
-                //如果设置code=-1会强制返回，不再继续后面的操作,2021.07.04更新LambdaExtensions文件后才可以使用此属性
-                //webResponse.Code = "-1";
-                // webResponse.Message = "测试强制返回";
-                //return webResponse.OK();
-
+                //明细表对象
                 List<SellOrderList> orderLists = list as List<SellOrderList>;
+
+                //自定义逻辑
                 if (orderLists == null || orderLists.Count == 0)
                 {//如果没有界面上没有填写明细，则中断执行
                     return webResponse.Error("必须填写明细数据");
                 }
                 if (orderLists.Exists(x => x.Qty <= 20))
                     return webResponse.Error("明细数量必须大于20");
+
+                //设置webResponse.Code = "-1"会中止后面代码执行，与返回 webResponse.Error()一样，区别在于前端提示的是成功或失败
+                //webResponse.Code = "-1";
+                // webResponse.Message = "测试强制返回";
+                //return webResponse.OK("ok");
 
                 return webResponse.OK();
             };
@@ -199,10 +201,14 @@ namespace VOL.Order.Services
             // 在保存数据库后的操作，此时已进行数据提交，但未提交事务，如果返回false，则会回滚提交
             AddOnExecuted = (SellOrder order, object list) =>
             {
+                //明细表对象
+                // List<SellOrderList> orderLists = list as List<SellOrderList>;
+
                 if (order.Qty < 10)
                 {  //如果输入的销售数量<10，会回滚数据库
                     return webResponse.Error("销售数量必须大于1000");
                 }
+
                 return webResponse.OK("已新建成功,台AddOnExecuted方法返回的消息");
             };
 
@@ -221,7 +227,9 @@ namespace VOL.Order.Services
                 //var userInfo = repository.DbContext.Set<Sys_User>()
                 //                .Where(x => userIds.Contains(x.User_Id))
                 //                .Select(s => new { s.User_Id, s.UserTrueName, s.Email, s.PhoneNo }).ToList();
- 
+
+                //发送邮件方法
+                //MailHelper.Send()
             };
 
             return base.Add(saveDataModel);
@@ -233,6 +241,9 @@ namespace VOL.Order.Services
         /// <returns></returns>
         public override WebResponseContent Update(SaveModel saveModel)
         {
+            //注意：如果要给其他字段设置值，请在此处设置,如：（代码生成器上将字段编辑行设置为0，然后点生成model）
+            //saveModel.MainData["字段"] = "值";
+
             //此处saveModel是从前台提交的原生数据，可对数据进修改过滤
             UpdateOnExecute = (SaveModel model) =>
             {
@@ -246,8 +257,6 @@ namespace VOL.Order.Services
                 return webResponse.OK();
 
             };
-
-
 
             //编辑方法保存数据库前处理
             UpdateOnExecuting = (SellOrder order, object addList, object updateList, List<object> delKeys) =>
@@ -272,6 +281,11 @@ namespace VOL.Order.Services
                   List<SellOrderList> update = updateList as List<SellOrderList>;
                   //删除明细表Id
                   var guids = delKeys?.Select(x => (Guid)x);
+
+                  //设置webResponse.Code = "-1"会中止后面代码执行，与返回 webResponse.Error()一样，区别在于前端提示的是成功或失败
+                  //webResponse.Code = "-1";
+                  // webResponse.Message = "测试强制返回";
+                  //return webResponse.OK("ok");
 
                   return webResponse.OK();
               };
@@ -333,7 +347,7 @@ namespace VOL.Order.Services
                     //             .Where(x => nextUserIds.Contains(x.User_Id))
                     //             .Select(s => new { s.User_Id, s.UserTrueName, s.Email, s.PhoneNo }).ToList();
                 }
-                
+
 
                 //审批流程回退功能，回到第一个审批人重新审批(重新生成审批流程)
                 //if (status==AuditStatus.审核未通过||status==AuditStatus.驳回)
@@ -406,9 +420,31 @@ namespace VOL.Order.Services
             //如果不设置导入的字段DownLoadTemplateColumns,默认显示所有界面上所有可以看到的字段
             DownLoadTemplateColumns = x => new { x.SellNo, x.TranNo, x.Remark, x.CreateDate };
 
+
+            /// <summary>
+            /// 2022.06.20增加原生excel读取方法(导入时可以自定义读取excel内容)
+            /// string=当前读取的excel单元格的值
+            /// ExcelWorksheet=excel对象
+            /// ExcelRange当前excel单元格对象
+            /// int=当前读取的第几行
+            /// int=当前读取的第几列
+            /// string=返回的值
+            /// </summary>
+            ImportOnReadCellValue = (string value, ExcelWorksheet worksheet, ExcelRange excelRange, int rowIndex, int columnIndex) =>
+            {
+                string 表头列名 = worksheet.Cells[1, columnIndex].Value?.ToString();
+                //这里可以返回处理后的值，值最终写入到model字段上
+                return value;
+            };
+
             //导入保存前处理(可以对list设置新的值)
             ImportOnExecuting = (List<SellOrder> list) =>
             {
+                //设置webResponse.Code = "-1"会中止后面代码执行，与返回 webResponse.Error()一样，区别在于前端提示的是成功或失败
+                //webResponse.Code = "-1";
+                //webResponse.Message = "测试强制返回";
+                //return webResponse.OK("ok");
+
                 return webResponse.OK();
             };
 
@@ -418,6 +454,14 @@ namespace VOL.Order.Services
                 return webResponse.OK();
             };
             return base.Import(files);
+        }
+
+        public override WebResponseContent Upload(List<IFormFile> files)
+        {
+            //自定义上传文件路径(目前只支持配置相对路径，默认上传到wwwwroot下)
+            //2022.10.07更新ServiceBase.cs、ServiceFunFilter.cs后才能使用
+            UploadFolder = $"test/{DateTime.Now.ToString("yyyyMMdd")}";
+            return base.Upload(files);
         }
 
     }

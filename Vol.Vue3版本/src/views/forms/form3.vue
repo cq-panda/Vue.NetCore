@@ -78,7 +78,7 @@ export default {
         Variety: '',
         AgeRange: '',
         DateRange: ['', ''],
-        City: [],
+        City: [],//注意多选这里默认是数组
         AvgPrice: 8.88, //input标签如果是数字，此处注意区分不要写成字符串了
         Date: '',
         IsTop: 0,
@@ -86,6 +86,8 @@ export default {
         Source: [],
         Source1: '5',
         Remark: '',
+        cascader:[],//注意级联这里默认是数组
+        monthValue:this.base.getDate().substr(0,7),//'2022-10',
         phone: '',
         email: '',
         extra2: '',
@@ -93,17 +95,15 @@ export default {
         uploadFile: [
           {
             name: 'exceltest.xlsx',
-            path: 'https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/exceltest.xlsx'
+            path:
+              'https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/exceltest.xlsx'
           }
-          // {
-          //   name: "wordtest.docx",
-          //   path: "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx",
-          // },
         ],
         img: [
           {
             name: '060222.jpg',
-            path: 'http://api.volcore.xyz/Upload/Tables/App_Expert/202103061753415708/060222.jpg'
+            path:
+              'http://api.volcore.xyz/Upload/Tables/App_Expert/202103061753415708/060222.jpg'
           }
         ]
       },
@@ -143,7 +143,7 @@ export default {
           },
           {
             type: 'decimal',
-            title: '价格',
+            title: '数字',
             required: true,
             placeholder: '你可以自己定义placeholder显示的文字',
             field: 'AvgPrice'
@@ -229,7 +229,23 @@ export default {
             type: 'switch'
           }
         ],
-
+        [
+          {
+            title: '年月',
+            field: 'monthValue', 
+            placeholder: '年月',
+            type: 'month',
+          },
+          {
+            title: '级联',
+            field: 'cascader', //注意上面formFields属性cascader是数组
+            placeholder: '配置数据源后自动绑定级联',
+            checkStrictly: true, //是否可以选择任意一级
+            type: 'cascader',
+            dataKey:"tree_roles",//配置数据源(见菜单下拉框绑定设置中的级联角色自定义sql)
+            colSize: 8 //设置宽度100%
+          }
+        ],
         [
           {
             title: '备注',
@@ -246,21 +262,25 @@ export default {
           {
             colSize: 12,
             render: (h) => {
-              return h('div', { style: { 'padding-left': '48px','margin-bottom': '-14px' } }, [
-                h(
-                  'div',
-                  {
-                    style: {
-                      'border-left': '10px solid #3095ff',
-                      'line-height': '17px',
-                      'padding-left': '4px',
-                      'font-weight': 'bold',
-                      'font-size': '15px'
-                    }
-                  },
-                  '其他基础信息(通过render方法数据分栏)'
-                )
-              ]);
+              return h(
+                'div',
+                { style: { 'padding-left': '48px', 'margin-bottom': '-14px' } },
+                [
+                  h(
+                    'div',
+                    {
+                      style: {
+                        'border-left': '10px solid #3095ff',
+                        'line-height': '17px',
+                        'padding-left': '4px',
+                        'font-weight': 'bold',
+                        'font-size': '15px'
+                      }
+                    },
+                    '其他基础信息(通过render方法数据分栏)'
+                  )
+                ]
+              );
             }
           }
         ],

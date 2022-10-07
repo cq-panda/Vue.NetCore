@@ -1356,8 +1356,7 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
           name: "extend",
           content: [
             `<p>
-			<div style="padding:20px;font-size:18px;">此处是SellOrderService为例，如果框架生成的默认功能满足不了需求，请查看下面代码根据需要实现对应功能</div>
-	<p>
+			<div style="font-size:25px;">这里只是示例，每张生成的表都有一个service类，按需复制下面的方法实现</div>
 	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 		<div>
 			<span style="color:#9cdcfe;">public</span> <span style="color:#9cdcfe;">partial</span> <span style="color:#569cd6;">class</span> <span style="color:#4ec9b0;">SellOrderService</span>
@@ -1383,7 +1382,6 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		<div>
 			&nbsp; &nbsp; <span style="color:#6a9955;">//如果默认的增、删、改、查、导入、导出、审核满足不了业务，请参考下面的方法进行业务代码扩展(扩展代码是对ServiceFunFilter.cs的实现)</span>
 		</div>
-<br />
 		<div>
 			&nbsp; &nbsp; <span style="color:#9cdcfe;">WebResponseContent</span> <span style="color:#9cdcfe;">webResponse</span> = <span style="color:#569cd6;">new</span> <span style="color:#dcdcaa;">WebResponseContent</span>();
 		</div>
@@ -1412,19 +1410,16 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">_repository</span> = <span style="color:#9cdcfe;">repository</span>;
 		</div>
 		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp;base.Init(_repository);</span>
-		</div>
-		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//2020.08.15</span>
 		</div>
 		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//开启多租户功能,开启后会对查询、导出、删除、编辑功能同时生效</span>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//开启数据隔离功能,开启后会对查询、导出、删除、编辑功能同时生效</span>
 		</div>
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果只需要对某个功能生效，如编辑，则在重写编辑方法中设置 IsMultiTenancy = true;</span>
 		</div>
 		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">// IsMultiTenancy = true;</span>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// IsMultiTenancy = true;</span>
 		</div>
 		<div>
 			&nbsp; &nbsp; }
@@ -1805,20 +1800,14 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 			&nbsp; &nbsp; &nbsp; &nbsp; {
 		</div>
 		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果设置code=-1会强制返回，不再继续后面的操作,2021.07.04更新LambdaExtensions文件后才可以使用此属性</span>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//明细表对象</span>
 		</div>
 		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//webResponse.Code = "-1";</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// webResponse.Message = "测试强制返回";</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//return webResponse.OK();</span>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt; <span style="color:#9cdcfe;">orderLists</span> = <span style="color:#9cdcfe;">list</span> <span style="color:#c586c0;">as</span> <span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
 		</div>
 <br />
 		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SellOrderList</span>&gt; <span style="color:#9cdcfe;">orderLists</span> = <span style="color:#9cdcfe;">list</span> <span style="color:#c586c0;">as</span> <span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">SellOrderList</span>&gt;;
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//自定义逻辑</span>
 		</div>
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">orderLists</span> == <span style="color:#569cd6;">null</span> || <span style="color:#9cdcfe;">orderLists</span>.<span style="color:#9cdcfe;">Count</span> == <span style="color:#b5cea8;">0</span>)
@@ -1837,6 +1826,19 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		</div>
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">Error</span>(<span style="color:#ce9178;">"明细数量必须大于20"</span>);
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置webResponse.Code = "-1"会中止后面代码执行，与返回 webResponse.Error()一样，区别在于前端提示的是成功或失败</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//webResponse.Code = "-1";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// webResponse.Message = "测试强制返回";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//return webResponse.OK("ok");</span>
 		</div>
 <br />
 		<div>
@@ -1859,6 +1861,13 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 			&nbsp; &nbsp; &nbsp; &nbsp; {
 		</div>
 		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//明细表对象</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// List&lt;SellOrderList&gt; orderLists = list as List&lt;SellOrderList&gt;;</span>
+		</div>
+<br />
+		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">order</span>.<span style="color:#9cdcfe;">Qty</span> &lt; <span style="color:#b5cea8;">10</span>)
 		</div>
 		<div>
@@ -1870,6 +1879,7 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
 		</div>
+<br />
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>(<span style="color:#ce9178;">"已新建成功,台AddOnExecuted方法返回的消息"</span>);
 		</div>
@@ -1919,6 +1929,12 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		</div>
 <br />
 		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//发送邮件方法</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//MailHelper.Send()</span>
+		</div>
+		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; };
 		</div>
 <br />
@@ -1949,6 +1965,13 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		<div>
 			&nbsp; &nbsp; {
 		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//注意：如果要给其他字段设置值，请在此处设置,如：（代码生成器上将字段编辑行设置为0，然后点生成model）</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//saveModel.MainData["字段"] = "值";</span>
+		</div>
+<br />
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//此处saveModel是从前台提交的原生数据，可对数据进修改过滤</span>
 		</div>
@@ -1982,7 +2005,6 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; };
 		</div>
-<br />
 <br />
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//编辑方法保存数据库前处理</span>
@@ -2045,6 +2067,19 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		</div>
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">var</span> <span style="color:#9cdcfe;">guids</span> = <span style="color:#9cdcfe;">delKeys</span>?.<span style="color:#dcdcaa;">Select</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> (<span style="color:#9cdcfe;">Guid</span>)<span style="color:#9cdcfe;">x</span>);
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置webResponse.Code = "-1"会中止后面代码执行，与返回 webResponse.Error()一样，区别在于前端提示的是成功或失败</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//webResponse.Code = "-1";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// webResponse.Message = "测试强制返回";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//return webResponse.OK("ok");</span>
 		</div>
 <br />
 		<div>
@@ -2221,9 +2256,6 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
 		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-		</div>
 <br />
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//审批流程回退功能，回到第一个审批人重新审批(重新生成审批流程)</span>
@@ -2318,7 +2350,7 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//指定导出的字段(2020.05.07)</span>
 		</div>
 		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">ExportColumns</span> = <span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#569cd6;">new</span> { <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span>, <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>, <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">CreateDate</span> };
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">ExportColumns</span> = <span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#569cd6;">new</span> { x.<span style="color:#9cdcfe;">SellNo</span>, x.<span style="color:#9cdcfe;">TranNo</span>, x.<span style="color:#9cdcfe;">CreateDate</span> };
 		</div>
 <br />
 		<div>
@@ -2413,6 +2445,52 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		</div>
 <br />
 		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// 2022.06.20增加原生excel读取方法(导入时可以自定义读取excel内容)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// string=当前读取的excel单元格的值</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// ExcelWorksheet=excel对象</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// ExcelRange当前excel单元格对象</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// int=当前读取的第几行</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// int=当前读取的第几列</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// string=返回的值</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">ImportOnReadCellValue</span> = (<span style="color:#9cdcfe;">string</span> <span style="color:#9cdcfe;">value</span>, <span style="color:#9cdcfe;">ExcelWorksheet</span> <span style="color:#9cdcfe;">worksheet</span>, <span style="color:#9cdcfe;">ExcelRange</span> <span style="color:#9cdcfe;">excelRange</span>, <span style="color:#9cdcfe;">int</span> <span style="color:#9cdcfe;">rowIndex</span>, <span style="color:#9cdcfe;">int</span> <span style="color:#9cdcfe;">columnIndex</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">string</span> <span style="color:#9cdcfe;">表头列名</span> = <span style="color:#9cdcfe;">worksheet</span>.<span style="color:#9cdcfe;">Cells</span>[<span style="color:#b5cea8;">1</span>, <span style="color:#9cdcfe;">columnIndex</span>].<span style="color:#9cdcfe;">Value</span>?.<span style="color:#dcdcaa;">ToString</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//这里可以返回处理后的值，值最终写入到model字段上</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">value</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
+<br />
+		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//导入保存前处理(可以对list设置新的值)</span>
 		</div>
 		<div>
@@ -2421,6 +2499,19 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; {
 		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置webResponse.Code = "-1"会中止后面代码执行，与返回 webResponse.Error()一样，区别在于前端提示的是成功或失败</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//webResponse.Code = "-1";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//webResponse.Message = "测试强制返回";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//return webResponse.OK("ok");</span>
+		</div>
+<br />
 		<div>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">webResponse</span>.<span style="color:#dcdcaa;">OK</span>();
 		</div>
@@ -2451,13 +2542,34 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		</div>
 <br />
 		<div>
+			&nbsp; &nbsp; <span style="color:#569cd6;">public</span> <span style="color:#569cd6;">override</span> <span style="color:#9cdcfe;">WebResponseContent</span> <span style="color:#dcdcaa;">Upload</span>(<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">IFormFile</span>&gt; <span style="color:#9cdcfe;">files</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//自定义上传文件路径(目前只支持配置相对路径，默认上传到wwwwroot下)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//2022.10.07更新ServiceBase.cs、ServiceFunFilter.cs后才能使用</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">UploadFolder</span> = <span style="color:#9cdcfe;">$</span><span style="color:#ce9178;">"test/{DateTime.Now.ToString("</span><span style="color:#9cdcfe;">yyyyMMdd</span><span style="color:#ce9178;">")}"</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">Upload</span>(<span style="color:#9cdcfe;">files</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
+<br />
+		<div>
 			}
 		</div>
 	</div>
 </p>
 <p>
 	<br />
-</p>
 </p>`,
           ],
           tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`,
