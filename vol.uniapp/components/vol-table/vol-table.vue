@@ -310,6 +310,9 @@
 				if (this.base.isEmpty(imgs)) {
 					return []
 				}
+				if(imgs.indexOf('base64,') != -1){
+					 return [imgs];
+				}
 				let _imgs = imgs.split(',').map(x => {
 					if (x.startsWith('http')) {
 						return x;
