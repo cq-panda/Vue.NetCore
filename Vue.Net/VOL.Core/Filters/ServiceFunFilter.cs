@@ -234,5 +234,11 @@ namespace VOL.Core.Filters
         /// </summary>
         protected Func<string, ExcelWorksheet, ExcelRange, int, int, string> ImportOnReadCellValue;
 
+
+        /// <summary>
+        /// 自定义上传文件夹(2022.10.07)
+        /// </summary>
+        protected string UploadFolder = null;
+
     }
 }

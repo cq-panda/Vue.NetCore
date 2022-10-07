@@ -362,26 +362,28 @@ namespace VOL.Core.BaseProvider
         {
             if (files == null || files.Count == 0) return Response.Error("请上传文件");
 
-            //var limitFiles = files.Where(x => x.Length > LimitUpFileSizee * 1024 * 1024).Select(s => s.FileName);
-            //if (limitFiles.Count() > 0)
-            //{
-            //    return Response.Error($"文件大小不能超过：{ LimitUpFileSizee}M,{string.Join(",", limitFiles)}");
-            //}
-            string filePath = $"Upload/Tables/{typeof(T).GetEntityTableName()}/{DateTime.Now.ToString("yyyMMddHHmmsss") + new Random().Next(1000, 9999)}/";
+            string filePath;
+            if (!string.IsNullOrEmpty(UploadFolder))
+            {
+                filePath = UploadFolder;
+                if (!filePath.EndsWith("/")|| !filePath.EndsWith("\\"))
+                {
+                    filePath += "/";
+                }
+            }
+            else
+            {
+                filePath = $"Upload/Tables/{typeof(T).GetEntityTableName()}/{DateTime.Now.ToString("yyyMMddHHmmsss") + new Random().Next(1000, 9999)}/";
+            }
+
             string fullPath = filePath.MapPath(true);
             int i = 0;
-            //   List<string> fileNames = new List<string>();
             try
             {
                 if (!Directory.Exists(fullPath)) Directory.CreateDirectory(fullPath);
                 for (i = 0; i < files.Count; i++)
                 {
                     string fileName = files[i].FileName;
-                    //if (fileNames.Contains(fileName))
-                    //{
-                    //    fileName += $"({i}){fileName}";
-                    //}
-                    //fileNames.Add(fileName);
                     using (var stream = new FileStream(fullPath + fileName, FileMode.Create))
                     {
                         files[i].CopyTo(stream);
@@ -655,7 +657,7 @@ namespace VOL.Core.BaseProvider
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
         /// <param name="changeTableStatus">是否修改原表的审批状态</param>
-        protected void RewriteFlow(T entity,bool changeTableStatus = true) 
+        protected void RewriteFlow(T entity, bool changeTableStatus = true)
         {
             WorkFlowManager.AddProcese(entity, true, changeTableStatus);
         }
@@ -1212,7 +1214,7 @@ namespace VOL.Core.BaseProvider
                 {
                     return Response.OK(ResponseType.AuditSuccess);
                 }
-                return Response.Error(Response.Message??"审批失败");
+                return Response.Error(Response.Message ?? "审批失败");
             }
 
 
