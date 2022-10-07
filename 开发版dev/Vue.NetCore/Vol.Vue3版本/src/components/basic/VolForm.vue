@@ -1198,6 +1198,9 @@ export default defineComponent({
       );
     },
     getDateFormat(item) {
+      if (item.type == 'month') {
+        return 'YYYY-MM';
+      }
       //见https://day.js.org/docs/zh-CN/display/format
       return item.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
     },
@@ -1305,7 +1308,6 @@ export default defineComponent({
   height: 30px;
 }
 .el-form-item ::v-deep(.el-select-tags-wrapper) {
- position: absolute;
+  position: absolute;
 }
 </style>
-
