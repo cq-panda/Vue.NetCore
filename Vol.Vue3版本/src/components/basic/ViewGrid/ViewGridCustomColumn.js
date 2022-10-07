@@ -29,6 +29,12 @@ export default {
       let columns = localStorage.getItem(this.getViewCacheKey());
       if (!columns) return;
       columns = JSON.parse(columns);
+      if (columns.some(x=>{return !this.viewColumns.some(c=> {return c.field==x.field})})||
+          this.viewColumns.some(x=>{return !columns.some(c=> {return c.field==x.field})})
+      ) {
+          localStorage.removeItem(this.getViewCacheKey())
+          return;
+      }
       let sortTableColumns = [];
       //弹出框的列
       let _viewColumns = [];
