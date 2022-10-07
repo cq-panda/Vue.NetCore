@@ -24,6 +24,7 @@
       @row-dblclick="rowDbClick"
       @row-click="rowClick"
       @header-click="headerClick"
+      :highlight-current-row="highlightCurrentRow"
       ref="table"
       class="v-table"
       @sort-change="sortChange"
@@ -464,6 +465,11 @@ export default defineComponent({
     },
     columnIndex: {
       // 是否显示行号(2020..11.1)
+      type: Boolean,
+      default: true
+    },
+    highlightCurrentRow: {
+      //增加选中行高亮显示(2022.10.07)
       type: Boolean,
       default: true
     }
