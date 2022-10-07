@@ -1,5 +1,5 @@
 <template>
-	<view class="view-grid">
+	<view class="view-grid" v-if="isCreated">
 		<slot name="gridHeader"></slot>
 		<!-- 	表格数据 -->
 		<vol-table :class="[className]" :url="tableUrl" @cellClick="gridCellClick" @rowButtons="getRowButtons"
@@ -135,7 +135,6 @@
 </template>
 
 <script>
-	let _$this;
 	export default {
 		name: "view-grid",
 		props: {
@@ -193,7 +192,8 @@
 				sortSelectModel: false, //排序弹出框
 				tableUrl: "", //table加载的url地址
 				tableAction: "", //指定表名的权限
-				showDel: false
+				showDel: false,
+				isCreated: false
 			}
 		},
 		methods: {
@@ -204,32 +204,32 @@
 				this.onInited();
 			},
 			cellFormatter(row, column, index, callback) {
-				if (_$this.formatter) {
-					return callback(_$this.formatter(row, column, index));
+				if (this.formatter) {
+					return callback(this.formatter(row, column, index));
 				}
 				return callback(row[column.field]);
 			},
 			gridRowClick(index, row, columns) {
-				_$this.currentRow = row;
-				_$this.currentAction = 'Update';
-				_$this.hiddenDelButton(false)
+				this.currentRow = row;
+				this.currentAction = 'Update';
+				this.hiddenDelButton(false)
 				//this.editFormFields.Name=Math.random();
-				if (_$this.$refs.form) {
-					_$this.$refs.form.reset(row);
+				if (this.$refs.form) {
+					this.$refs.form.reset(row);
 				} else {
-					_$this.resetEditForm(row)
+					this.resetEditForm(row)
 				}
 
 				// Object.assign(this.editFormFields, row);
-				if (_$this.rowClick && !_$this.rowClick(index, row, columns)) {
+				if (this.rowClick && !this.rowClick(index, row, columns)) {
 					return;
 				};
-				if (_$this.modelOpenBefore(row) && _$this.modelOpenAfter(row)) {
-					_$this.model = true;
+				if (this.modelOpenBefore(row) && this.modelOpenAfter(row)) {
+					this.model = true;
 				}
 			},
 			gridCellClick(index, row, column) {
-				if (_$this.cellClick && !_$this.cellClick(index, row, column)) {
+				if (this.cellClick && !this.cellClick(index, row, column)) {
 					return;
 				};
 			},
@@ -649,7 +649,9 @@
 			}
 		},
 		async created() {
-			_$this = this;
+			await this.initPermission();
+			this.isCreated = true;
+			let _$this = this;
 			uni.getSystemInfo({
 				success: function(res) {
 					_$this.height = res.windowHeight - 10;
@@ -660,7 +662,7 @@
 			}) || {}).field;
 			this.tableUrl = 'api' + this.options.table.url + 'getPageData';
 
-			await this.initPermission();
+
 
 			let extend;
 			// #ifdef MP-WEIXIN
@@ -683,7 +685,6 @@
 				this.onInited();
 				this.initSource();
 			}
-
 		},
 		mounted() {
 			if (this.isWx) {
@@ -691,8 +692,8 @@
 				this.initSource();
 			}
 			uni.getSystemInfo({
-				success: function(res) {
-					_$this.maxHeight = res.screenHeight * 0.82;
+				success: (res) => {
+					this.maxHeight = res.screenHeight * 0.82;
 				}
 			});
 		},
