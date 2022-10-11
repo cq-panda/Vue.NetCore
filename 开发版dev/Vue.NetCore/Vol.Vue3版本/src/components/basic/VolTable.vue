@@ -234,7 +234,7 @@
                   style="text-decoration: none"
                   @click="extraClick(scope.row, column)"
                 >
-                  <i v-if="column.extra.icon" :clss="[column.extra.icon]" />
+                  <i v-if="column.extra.icon" :class="[column.extra.icon]" />
                   {{ column.extra.text }}
                 </a>
               </div>
@@ -681,7 +681,7 @@ export default defineComponent({
     },
     extraClick(row, column) {
       column.extra.click &&
-        column.extra.click(row, column, url ? rowData : tableData);
+        column.extra.click(row, column, this.url ? this.rowData : this.tableData);
     },
     headerClick(column, event) {
       if (this.clickEdit && this.edit.rowIndex != -1) {
