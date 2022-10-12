@@ -24,7 +24,7 @@
 ## 链接
 
 ## [vol框架视频](https://www.cctalk.com/m/group/90268531)
-## [iMES工厂管家](imes.625sc.com)
+## [iMES工厂管家](https://imes.625sc.com/)
 ## [NET视频教程(微软MVP-ACE录制)](https://space.bilibili.com/525836469)
 ## [元讯趣编程交流社区](https://www.qubcedu.com/)
 
