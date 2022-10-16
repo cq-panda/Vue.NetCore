@@ -43,9 +43,11 @@
 									:src="src" v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
 								</u--image>
 							</view>
-
 							<view class="vol-cell" v-else-if="column.bind">
 								{{rowFormatterValue(row,column)}}
+							</view>
+							<view v-else-if="column.type=='editor'">
+								<u-parse :content="row[column.field]"></u-parse>
 							</view>
 							<view class="vol-cell" v-else-if="column.type=='date'">
 								{{(row[column.field]||'').substr(0,10)}}
@@ -82,6 +84,9 @@
 								</view>
 								<view v-else-if="column.formatter">
 									<rich-text :nodes="rowFormatter(row,column)+''"></rich-text>
+								</view>
+								<view v-else-if="column.type=='editor'">
+									<u-parse :content="row[column.field]"></u-parse>
 								</view>
 								<view v-else-if="column.bind">
 									{{rowFormatterValue(row,column)}}
