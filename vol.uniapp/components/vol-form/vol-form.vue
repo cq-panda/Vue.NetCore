@@ -50,18 +50,18 @@
 						{{'请选择'+item.title}}
 					</view>
 					<view style="flex:1;">
-						<view style="font-size:15px;padding-right: 10rpx;">
+						<view style="font-size:15px;padding-right: 12rpx;">
 							{{item.type=='date'?(inFormFields[item.field]||'').substr(0,10):inFormFields[item.field]}}
 						</view>
 					</view>
-					<u-icon color="rgb(164 165 165)" name="arrow-right"></u-icon>
+					<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>
 				</view>
 			</template>
 
 			<view class="f-form-content f-form-content-select" @click="showActionSheet(item)"
 				v-else-if="['select','selectList','checkbox','radio','cascader'].indexOf(item.type)!=-1">
 				<view style="flex:1;">
-					<view style="color:rgb(192 196 204);font-size:15px;"
+					<view style="color:rgb(192 196 204);font-size:15px;padding-right: 12rpx;"
 						v-show="base.isEmpty(inFormFields[item.field],true)">
 						{{'请选择'+item.title}}
 					</view>
@@ -69,7 +69,7 @@
 						{{formatDicValue(item)}}
 					</view>
 				</view>
-				<u-icon name="arrow-right"></u-icon>
+				<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>
 			</view>
 			<view class="f-form-group-content" v-else-if="item.type=='group'">
 				{{item.title||''}}
@@ -133,7 +133,7 @@
 					<text class="vol-action-sheet-select-confirm" @click="actionConfirmClick">确定</text>
 				</view>
 				<!-- 	超过10个下拉框选项默认开启搜索 -->
-				<view class="vol-action-sheet-select-filter"
+			<!-- 	<view class="vol-action-sheet-select-filter"
 					v-show="actionSheetCurrentItem.data&&actionSheetCurrentItem.data.length>=10">
 					<view style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
 						<u--input placeholder="请输入关键字搜索" v-model="searchText">
@@ -142,7 +142,7 @@
 					<view class="search-btn">
 						<u-button type="primary" icon="trash" @click="searchText=''" size="small">清除</u-button>
 					</view>
-				</view>
+				</view> -->
 				<view class="vol-action-sheet-select-content">
 					<view :class="{'vol-action-sheet-select-actived':actionSheetModel&&isActionSelected(item)}"
 						@click="actionClick(item)"
