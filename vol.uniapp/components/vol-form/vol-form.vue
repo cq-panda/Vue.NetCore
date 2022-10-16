@@ -14,6 +14,9 @@
 				</view>
 				<text v-else> {{formatReadonlyValue(item)}}</text>
 			</view>
+			<view v-else-if="item.type=='editor'">
+				<u-parse :content="inFormFields[item.field]"></u-parse>
+			</view>
 			<template v-else-if="item.type=='date'||item.type=='datetime'">
 				<template v-if="item.range">
 					<view class="f-form-content f-form-content-select" @click="showPicker(item,0)">
@@ -42,7 +45,8 @@
 					</view>
 				</template>
 				<view v-else class="f-form-content f-form-content-select" @click="showPicker(item)">
-					<view style="color:rgb(192 196 204);font-size:15px;width: 100%;padding-right: 10rpx;" v-show="!inFormFields[item.field]">
+					<view style="color:rgb(192 196 204);font-size:15px;width: 100%;padding-right: 10rpx;"
+						v-show="!inFormFields[item.field]">
 						{{'请选择'+item.title}}
 					</view>
 					<view style="flex:1;">
@@ -742,7 +746,7 @@
 		}
 
 		.f-form-content-select {
-			    text-align: right;
+			text-align: right;
 			display: flex;
 		}
 
