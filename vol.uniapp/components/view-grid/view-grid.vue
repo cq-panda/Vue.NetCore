@@ -1,14 +1,16 @@
 <template>
-	<view class="view-grid" v-if="isCreated">
+	<view class="view-grid">
+
 		<slot name="gridHeader"></slot>
 		<!-- 	表格数据 -->
-		<vol-table :class="[className]" :url="tableUrl" @cellClick="gridCellClick" @rowButtons="getRowButtons"
-			@rowButtonClick="gridRowButtonClick" :rowClick="gridRowClick" :defaultLoadPage="load"
-			@loadBefore="loadGridTableBefore" :index="rowIndex" @loadAfter="loadGridTableAfter" ref="table"
-			:direction="direction" :titleField="titleField" :height="height" @formatter="cellFormatter"
-			:columns.sync="columns" :textInline="textInline">
-			<!-- 			<view style="height: 50rpx;"></view> -->
-			<!-- 		<view class="vol-table-title-buttons" slot="title">
+		<view class="view-grid-list">
+			<vol-table v-if="isCreated" :class="[className]" :url="tableUrl" @cellClick="gridCellClick"
+				@rowButtons="getRowButtons" @rowButtonClick="gridRowButtonClick" :rowClick="gridRowClick"
+				:defaultLoadPage="load" @loadBefore="loadGridTableBefore" :index="rowIndex"
+				@loadAfter="loadGridTableAfter" ref="table" :direction="direction" :titleField="titleField"
+				:height="height" @formatter="cellFormatter" :columns.sync="columns" :textInline="textInline">
+				<!-- 			<view style="height: 50rpx;"></view> -->
+				<!-- 		<view class="vol-table-title-buttons" slot="title">
 				<view @click.native.stop="gridRowClick()"  class="vol-table-title-buttons-del">
 					<u-icon size="20" color="#e64340" name="trash"></u-icon>
 				</view>
@@ -16,8 +18,9 @@
 					<u-icon size="20" name="edit-pen"></u-icon>
 				</view>
 			</view> -->
-		</vol-table>
-		<slot name="gridFooter"></slot>
+			</vol-table>
+			<slot name="gridFooter"></slot>
+		</view>
 		<!-- 		搜索 -->
 		<u-popup @touchmove.prevent :zIndex="999999" :show="searchModel" @close="searchModel=false">
 			<view style="background: #f7f7f7;" class="vol-action-sheet-select-container"
@@ -652,11 +655,11 @@
 			await this.initPermission();
 			this.isCreated = true;
 			let _$this = this;
-			uni.getSystemInfo({
-				success: function(res) {
-					_$this.height = res.windowHeight - 10;
-				}
-			});
+			// uni.getSystemInfo({
+			// 	success: function(res) {
+			// 		_$this.height = res.windowHeight - 10;
+			// 	}
+			// });
 			this.titleField = (this.columns.find(x => {
 				return x.link
 			}) || {}).field;
@@ -691,6 +694,18 @@
 				this.onInited();
 				this.initSource();
 			}
+			if (!this.height || this.height < 0) {
+				uni.getSystemInfo({
+					success: (resu) => {
+						var view = uni.createSelectorQuery().in(this).select(".view-grid-list");
+						view.boundingClientRect().exec(res => {
+							this.height = resu.windowHeight - res[0].top - (this.direction == 'list' ?
+								0 : 52);
+							console.log(this.height)
+						})
+					}
+				})
+			}
 			uni.getSystemInfo({
 				success: (res) => {
 					this.maxHeight = res.screenHeight * 0.82;
@@ -715,6 +730,7 @@
 	.view-grid {
 		height: 100%;
 		overflow: hidden;
+		background: #f9f9f9;
 		// background: #fbfbfb;
 	}
 

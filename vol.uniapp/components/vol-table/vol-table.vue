@@ -1,5 +1,5 @@
 <template>
-	<view :class="className">
+	<view class="vol-table" :class="className">
 		<!-- 		水平显示 -->
 		<view v-if="direction=='horizontal'">
 			<view class="vol-table-head">
@@ -72,7 +72,7 @@
 						<view class="vol-table-list-item-title-left">
 							<rich-text :nodes="getListTitleValue(row,index)+''"></rich-text>
 						</view>
-						<slot :data="row" name="title"></slot>
+					<!-- 	<slot :data="row" name="title"></slot> -->
 					</view>
 					<view @click="tableRowClick(rowindex,columns)" class="vol-table-list-item">
 						<view :key="cindex" class="vol-table-list-item-cell"
@@ -108,8 +108,7 @@
 					<view style="margin:10rpx 0 20rpx 10rpx" @click.stop>
 						<view :key="btnIndex" class="extent-button" v-for="(btn,btnIndex) in rowButtons(rowindex,row)">
 							<u-button :icon="btn.icon" :hairline="true" :shape="btn.shape" :disabled="btn.disabled"
-								:plain="btn.plain" :type="btn.type" style="height:60rpx;"
-								size="small"
+								:plain="btn.plain" :type="btn.type" style="height:60rpx;" size="small"
 								@click="rowBtnClick(btn,rowindex,row)" :text="btn.text">
 							</u-button>
 						</view>
@@ -141,6 +140,10 @@
 			height: {
 				type: Number,
 				default: 0
+			},
+			autoHeight: {
+				type: Boolean,
+				default: true
 			},
 			textInline: { //超出是否显示省略号
 				type: Boolean,
@@ -223,6 +226,9 @@
 					if (!status) return;
 					if (!data.rows.length || data.rows.length < param.rows) {
 						this.loaded = true;
+					}
+					for (var i = 0; i < 4; i++) {
+						data.rows.push(...JSON.parse(JSON.stringify(data.rows)))
 					}
 					this.rowsData.push(...data.rows);
 				})
@@ -315,8 +321,8 @@
 				if (this.base.isEmpty(imgs)) {
 					return []
 				}
-				if(imgs.indexOf('base64,') != -1){
-					 return [imgs];
+				if (imgs.indexOf('base64,') != -1) {
+					return [imgs];
 				}
 				let _imgs = imgs.split(',').map(x => {
 					if (x.startsWith('http')) {
@@ -374,32 +380,31 @@
 			if (this.loadKey) {
 				this.loadSource();
 			}
-			//判断有没有formatter属性，调用父组件的注册方法
-			//计算高度
 			this.tableHeight = this.height;
-			if (!this.tableHeight) {
-				let _this = this;
+
+		},
+		mounted() {
+			if (this.autoHeight && !this.height) {
 				uni.getSystemInfo({
-					success: function(res) {
-						// #ifdef MP-WEIXIN
-						_this.tableHeight = res.windowHeight - 60;
-						return
-						// #endif
-
-						_this.tableHeight = res.windowHeight - 60;
-
+					success: (resu) => {
+						var view = uni.createSelectorQuery().in(this).select(".vol-table");
+						view.boundingClientRect().exec(res => {
+							this.tableHeight = resu.windowHeight - res[0].top-(this.direction=='list'?0:52);
+							console.log(this.tableHeight)
+						})
 					}
-				});
+				})
 			}
 		},
 		watch: {
 			height(newVal) {
+				console.log(newVal)
 				this.tableHeight = newVal
 			},
 			// #ifdef MP-WEIXIN
 			inColumns: {
 				handler(newValue, oldValue) {
-					if(newValue&&newValue.length){
+					if (newValue && newValue.length) {
 						this.$emit('update:columns', newValue)
 					}
 				},
