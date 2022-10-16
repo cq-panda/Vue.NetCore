@@ -976,11 +976,13 @@ DISTINCT
 	            CASE
                         WHEN COLUMN_KEY <> '' THEN
                         1 ELSE 0
-                    END AS IsReadDataset
+                    END AS IsReadDataset,
+                ordinal_position
                 FROM
                     information_schema.COLUMNS
                 WHERE
-                    table_name = ?tableName {GetMysqlTableSchema()}";
+                    table_name = ?tableName {GetMysqlTableSchema()}
+               order by ordinal_position";
         }
 
         /// <summary>
@@ -1764,7 +1766,7 @@ DISTINCT
             //  "\\" + modelNameSpace + "\\DomainModels\\{0}\\", folderName
             //  )
             string modelPath = $"{mapPath}\\{modelNameSpace}\\DomainModels\\{folderName}\\";
-            FileHelper.WriteFile(modelPath, tableName + ".cs", domainContent);
+            FileHelper.WriteFile(  modelPath  , tableName + ".cs",  domainContent);
             //partialContent
             modelPath += "partial\\";
             if (!FileHelper.FileExists(modelPath + tableName + ".cs"))
