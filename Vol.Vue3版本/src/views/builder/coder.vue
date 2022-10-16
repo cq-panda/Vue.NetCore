@@ -222,9 +222,9 @@ export default {
     },
     add() {
       this.$refs.form.validate(() => {
-        this.layOutOptins.fields.tableName =
-          this.layOutOptins.fields.tableName.slice(0, 1).toUpperCase() +
-          this.layOutOptins.fields.tableName.slice(1);
+        // this.layOutOptins.fields.tableName =
+        //   this.layOutOptins.fields.tableName.slice(0, 1).toUpperCase() +
+        //   this.layOutOptins.fields.tableName.slice(1);
         if (!this.layOutOptins.fields.tableTrueName) {
           this.layOutOptins.fields.tableTrueName = this.layOutOptins.fields.tableName;
         }
