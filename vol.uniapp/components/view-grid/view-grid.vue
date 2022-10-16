@@ -699,8 +699,16 @@
 					success: (resu) => {
 						var view = uni.createSelectorQuery().in(this).select(".view-grid-list");
 						view.boundingClientRect().exec(res => {
-							this.height = resu.windowHeight - res[0].top - (this.direction == 'list' ?
-								0 : 52);
+							let h = 0;
+							if (this.columns.some(x => {
+									return x.summary
+								})) {
+								h = 49
+							}
+							this.height = resu.windowHeight - res[0].top - h ;
+							// - (this.direction ==
+							// 	'list' ?
+							// 	0 : 52)
 							console.log(this.height)
 						})
 					}

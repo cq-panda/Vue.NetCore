@@ -57,6 +57,20 @@
 					</view>
 					<slot></slot>
 				</u-list>
+				<!-- 	显示合计 -->
+				<view v-if="hasSummary" :key="rowindex" class="vol-table-body-rows vol-table-summary"
+					v-for="(row,rowindex) in summary">
+
+					<view class="cell-index" v-if="index">合计</view>
+					<view :style="{width:column.width+'px',flex:column.width?'unset':1}"
+						:class="{'text-inline':textInline}" :key="cindex" class="vol-table-body-cell"
+						v-if="!column.hidden" v-for="(column,cindex) in columns">
+
+						<view class="vol-cell"> {{base.isEmpty(row[column.field])?'':row[column.field]}}</view>
+					</view>
+
+
+				</view>
 			</view>
 		</view>
 		<!-- 		列表显示 -->
@@ -72,7 +86,7 @@
 						<view class="vol-table-list-item-title-left">
 							<rich-text :nodes="getListTitleValue(row,index)+''"></rich-text>
 						</view>
-					<!-- 	<slot :data="row" name="title"></slot> -->
+						<!-- 	<slot :data="row" name="title"></slot> -->
 					</view>
 					<view @click="tableRowClick(rowindex,columns)" class="vol-table-list-item">
 						<view :key="cindex" class="vol-table-list-item-cell"
@@ -185,7 +199,10 @@
 				tableHeight: 0,
 				inColumns: [],
 				page: 1,
-				loaded: false
+				loaded: false,
+				hasSummary: false,
+				lastHeight: 0,
+				summary: []
 			};
 		},
 		methods: {
@@ -227,9 +244,28 @@
 					if (!data.rows.length || data.rows.length < param.rows) {
 						this.loaded = true;
 					}
-					for (var i = 0; i < 4; i++) {
-						data.rows.push(...JSON.parse(JSON.stringify(data.rows)))
+					// for (var i = 0; i < 4; i++) {
+					// 	data.rows.push(...JSON.parse(JSON.stringify(data.rows)))
+					// }
+					//显示合计
+					if (data.summary) {
+						if (!this.summary.length) {
+							let summary = []
+							for (let key in data.summary) {
+								let obj = {};
+								obj[key] = data.summary[key];
+								summary.push(obj);
+							}
+							this.summary = summary;
+						} else {
+							this.summary.forEach(x => {
+								for (let key in data.summary) {
+									x[key] = data.summary[key];
+								}
+							})
+						}
 					}
+					console.log(this.summary)
 					this.rowsData.push(...data.rows);
 				})
 			},
@@ -372,9 +408,38 @@
 					urls: this.getImgSrc(urls),
 					longPressActions: {}
 				});
+			},
+			initSummary() {
+				if(this.summary.length){
+					this.hasSummary =true;
+					return;
+				}
+				this.summary = this.columns.filter(x => {
+					return x.summary
+				}).map(x => {
+					let obj = {};
+					obj[x.field] = 0;
+					return obj;
+				})
+				this.hasSummary = this.summary.length > 0
+			},
+			caclHeaderHeight() {
+				if (this.direction == 'list') {
+					return;
+				}
+				console.log('555')
+				var view = uni.createSelectorQuery().in(this).select(".vol-table-head");
+				view.boundingClientRect().exec(res => {
+					if (this.lastHeight > 0 && this.lastHeight == this.tableHeight) {
+						return;
+					}
+					this.tableHeight = this.tableHeight - res[0].height;
+					this.lastHeight = this.tableHeight;
+				})
 			}
 		},
 		created() {
+			this.initSummary();
 			this.getData();
 			this.inColumns = this.columns;
 			if (this.loadKey) {
@@ -384,28 +449,38 @@
 
 		},
 		mounted() {
-			if (this.autoHeight && !this.height) {
+			if (this.autoHeight && this.height <= 0) {
 				uni.getSystemInfo({
 					success: (resu) => {
 						var view = uni.createSelectorQuery().in(this).select(".vol-table");
 						view.boundingClientRect().exec(res => {
-							this.tableHeight = resu.windowHeight - res[0].top-(this.direction=='list'?0:52);
-							console.log(this.tableHeight)
+							this.tableHeight = resu.windowHeight - res[0].top;
+							if (this.hasSummary) {
+								this.tableHeight = this.tableHeight - 49;
+							}
+							this.caclHeaderHeight()
 						})
 					}
 				})
+			} else {
+				this.caclHeaderHeight()
 			}
 		},
 		watch: {
 			height(newVal) {
 				console.log(newVal)
-				this.tableHeight = newVal
+				if (newVal <= 0) {
+					return;
+				}
+				this.tableHeight = newVal;
+				this.caclHeaderHeight();
 			},
 			// #ifdef MP-WEIXIN
 			inColumns: {
 				handler(newValue, oldValue) {
 					if (newValue && newValue.length) {
 						this.$emit('update:columns', newValue)
+						this.initSummary();
 					}
 				},
 				immediate: true,
@@ -483,6 +558,15 @@
 				white-space: nowrap;
 			}
 		}
+	}
+
+	.vol-table-summary {
+		bottom: 0;
+		width: 100%;
+		background: #f3f3f3 !important;
+		z-index: 999;
+		position: absolute;
+		font-weight: bold;
 	}
 
 	.vol-table-body-rows:nth-child(even) {
