@@ -16,22 +16,26 @@ export default function() {
 
 				//设置table为水平显示或者list列表显示
 				//this.direction = 'horizontal'//list
+				this.direction = 'horizontal'//
 				//如果为list列表显示，指定list的标题列
 				//this.titleField="字段";
 
 				//设置自定义格式显示
-				//this.columns.forEach(column=>{
-				// 	if(column.field=='字段'){
-				//      //自定义格式化显示,在下面的formatter实现具体逻辑
-				// 		//column.formatter=true;
+				this.columns.forEach(column=>{
+					if(['Qty'].indexOf(column.field)!=-1){
+						column.summary=true;
+					}
+					if(column.field=='字段'){
+				     //自定义格式化显示,在下面的formatter实现具体逻辑
+						//column.formatter=true;
 
-				//      //指定字段为date类型不显示时分秒
-				//      //column.type="date";
+				     //指定字段为date类型不显示时分秒
+				     //column.type="date";
 
-				//      //设置列宽度
-				//      //column.width = 70;
-				// 	}
-				// })
+				     //设置列宽度
+				     //column.width = 70;
+					}
+				})
 
 				//页面打开时禁用加载数据
 				//this.load=false;
