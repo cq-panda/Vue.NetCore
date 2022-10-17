@@ -114,7 +114,7 @@
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view v-if="item.extra" @click="extraClick(item,inFormFields)">
-				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.clor||'#ffff'" size="20">
+				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.clor" :size="item.extra.size">
 				</u-icon>
 				<text :style="item.extra.style">{{item.extra.text}}</text>
 			</view>
@@ -795,5 +795,8 @@
 		font-weight: bold;
 
 		.f-form-group-content {}
+	}
+	/deep/ .u-icon {
+		display: inline-flex;
 	}
 </style>
