@@ -433,7 +433,7 @@
 					if (this.lastHeight > 0 && this.lastHeight == this.tableHeight) {
 						return;
 					}
-					this.tableHeight = this.tableHeight - res[0].height;
+					this.tableHeight = this.tableHeight - (res[0]||{height:0}).height;
 					this.lastHeight = this.tableHeight;
 				})
 			}
