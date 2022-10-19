@@ -71,7 +71,7 @@
 				</view>
 				<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>
 			</view>
-			<view class="f-form-group-content" v-else-if="item.type=='group'">
+			<view class="f-form-group-content" :style="item.style" v-else-if="item.type=='group'">
 				{{item.title||''}}
 			</view>
 
@@ -113,10 +113,10 @@
 					v-model="inFormFields[item.field]" border="none" :ref="item.field"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
-			<view v-if="item.extra" @click="extraClick(item,inFormFields)">
-				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.clor" :size="item.extra.size">
+			<view v-if="item.extra" :style="item.extra.style" style="display: flex;" @click="extraClick(item,inFormFields)">
+				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.color" :size="item.extra.size">
 				</u-icon>
-				<text :style="item.extra.style">{{item.extra.text}}</text>
+				<text>{{item.extra.text}}</text>
 			</view>
 		</view>
 		<slot></slot>
