@@ -5,7 +5,7 @@
 		<!-- 	表格数据 -->
 		<view class="view-grid-list">
 			<vol-table v-if="isCreated" :class="[className]" :url="tableUrl" @cellClick="gridCellClick"
-				@rowButtons="getRowButtons" @rowButtonClick="gridRowButtonClick" :rowClick="gridRowClick"
+				@rowButtons="getRowButtons" @rowButtonClick="gridRowButtonClick" @rowClick="gridRowClick"
 				:defaultLoadPage="load" @loadBefore="loadGridTableBefore" :index="rowIndex"
 				@loadAfter="loadGridTableAfter" ref="table" :direction="direction" :titleField="titleField"
 				:height="height" @formatter="cellFormatter" :columns.sync="columns" :textInline="textInline">
