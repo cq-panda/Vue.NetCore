@@ -2,12 +2,22 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace VOL.Core.Utilities
 {
     public static class VierificationCodeServices
     {        //验证码字体集合
-        private static readonly string[] fonts = { "Verdana", "Microsoft Sans Serif", "Comic Sans MS", "Arial", "宋体" };
+        private static readonly string[] fonts =initFonts();
+
+        private static string[] initFonts()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return new string[] {"Verdana", "Microsoft Sans Serif", "Comic Sans MS", "Arial", "宋体"};
+            }
+            return new string[] { "Arial", "Arial","宋体","宋体"};
+        }
         private static readonly SKColor[] colors = { SKColors.Black, SKColors.Green, SKColors.Brown };
 
         /// <summary>
@@ -33,6 +43,7 @@ namespace VOL.Core.Utilities
             for (int i = 0; i < code.Length; i++)
             {
                 pen.Color = random.GetRandom(colors);//随机颜色索引值
+              
                 pen.Typeface = SKTypeface.FromFamilyName(random.GetRandom(fonts), 700, 20, SKFontStyleSlant.Italic);//配置字体
                 var point = new SKPoint()
                 {
@@ -41,36 +52,37 @@ namespace VOL.Core.Utilities
 
                 };
                 canvas.DrawText(code.Substring(i, 1), point, pen);//绘制一个验证字符
+
             }
 
-            //绘制噪点
-            var points = Enumerable.Range(0, 100).Select(
-                _ => new SKPoint(random.Next(bitmap.Width), random.Next(bitmap.Height))
-            ).ToArray();
-            canvas.DrawPoints(
-                SKPointMode.Points,
-                points,
-                pen);
-
-            //绘制贝塞尔线条
-            for (int i = 0; i < 2; i++)
-            {
-                var p1 = new SKPoint(0, 0);
-                var p2 = new SKPoint(0, 0);
-                var p3 = new SKPoint(0, 0);
-                var p4 = new SKPoint(0, 0);
-
-                var touchPoints = new SKPoint[] { p1, p2, p3, p4 };
-
-                using var bPen = new SKPaint();
-                bPen.Color = random.GetRandom(colors);
-                bPen.Style = SKPaintStyle.Stroke;
-
-                using var path = new SKPath();
-                path.MoveTo(touchPoints[0]);
-                path.CubicTo(touchPoints[1], touchPoints[2], touchPoints[3]);
-                canvas.DrawPath(path, bPen);
-            }
+           // 绘制噪点
+             var points = Enumerable.Range(0, 100).Select(
+                 _ => new SKPoint(random.Next(bitmap.Width), random.Next(bitmap.Height))
+             ).ToArray();
+             canvas.DrawPoints(
+                 SKPointMode.Points,
+                 points,
+                 pen);
+            
+             //绘制贝塞尔线条
+             for (int i = 0; i < 2; i++)
+             {
+                 var p1 = new SKPoint(0, 0);
+                 var p2 = new SKPoint(0, 0);
+                 var p3 = new SKPoint(0, 0);
+                 var p4 = new SKPoint(0, 0);
+            
+                 var touchPoints = new SKPoint[] { p1, p2, p3, p4 };
+            
+                 using var bPen = new SKPaint();
+                 bPen.Color = random.GetRandom(colors);
+                 bPen.Style = SKPaintStyle.Stroke;
+            
+                 using var path = new SKPath();
+                 path.MoveTo(touchPoints[0]);
+                 path.CubicTo(touchPoints[1], touchPoints[2], touchPoints[3]);
+                 canvas.DrawPath(path, bPen);
+             }
             return bitmap.ToBase64String(SKEncodedImageFormat.Png);
         }
 
