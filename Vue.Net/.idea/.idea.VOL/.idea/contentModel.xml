@@ -1,0 +1,958 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.cache/JetBrains/Rider2020.2/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.cache/JetBrains/Rider2020.2/resharper-host/local/Transient/Rider/v202/SolutionCaches/_VOL.-849319341.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="VOL.AppManager" t="IncludeRecursive">
+        <e p="IRepositories" t="Include">
+          <e p="App" t="Include">
+            <e p="IApp_ExpertRepository.cs" t="Include" />
+            <e p="IApp_ReportPriceRepository.cs" t="Include" />
+            <e p="IApp_TransactionAvgPriceRepository.cs" t="Include" />
+            <e p="IApp_TransactionRepository.cs" t="Include" />
+            <e p="Itest2019Repository.cs" t="Include" />
+          </e>
+          <e p="News" t="Include">
+            <e p="IApp_NewsRepository.cs" t="Include" />
+          </e>
+        </e>
+        <e p="IServices" t="Include">
+          <e p="App" t="Include">
+            <e p="IApp_ExpertService.cs" t="Include" />
+            <e p="IApp_ReportPriceService.cs" t="Include" />
+            <e p="IApp_TransactionAvgPriceService.cs" t="Include" />
+            <e p="IApp_TransactionService.cs" t="Include" />
+            <e p="Itest2019Service.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="IApp_ExpertService.cs" t="Include" />
+              <e p="IApp_ReportPriceService.cs" t="Include" />
+              <e p="IApp_TransactionAvgPriceService.cs" t="Include" />
+              <e p="IApp_TransactionService.cs" t="Include" />
+              <e p="Itest2019Service.cs" t="Include" />
+            </e>
+          </e>
+          <e p="News" t="Include">
+            <e p="IApp_NewsService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="IApp_NewsService.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Repositories" t="Include">
+          <e p="App" t="Include">
+            <e p="App_ExpertRepository.cs" t="Include" />
+            <e p="App_ReportPriceRepository.cs" t="Include" />
+            <e p="App_TransactionAvgPriceRepository.cs" t="Include" />
+            <e p="App_TransactionRepository.cs" t="Include" />
+            <e p="test2019Repository.cs" t="Include" />
+          </e>
+          <e p="News" t="Include">
+            <e p="App_NewsRepository.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Services" t="Include">
+          <e p="App" t="Include">
+            <e p="App_ExpertService.cs" t="Include" />
+            <e p="App_ReportPriceService.cs" t="Include" />
+            <e p="App_TransactionAvgPriceService.cs" t="Include" />
+            <e p="App_TransactionService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="App_ExpertService.cs" t="Include" />
+              <e p="App_ReportPriceService.cs" t="Include" />
+              <e p="App_TransactionAvgPriceService.cs" t="Include" />
+              <e p="App_TransactionService.cs" t="Include" />
+              <e p="test2019Service.cs" t="Include" />
+            </e>
+            <e p="test2019Service.cs" t="Include" />
+          </e>
+          <e p="News" t="Include">
+            <e p="App_NewsService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="App_NewsService.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="VOL.AppManager.csproj" t="IncludeRecursive" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="VOL.AppManager.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="VOL.Builder" t="IncludeRecursive">
+        <e p="Class1.cs" t="Include" />
+        <e p="IRepositories" t="Include">
+          <e p="Core" t="Include">
+            <e p="ISys_TableInfoRepository.cs" t="Include" />
+          </e>
+        </e>
+        <e p="IServices" t="Include">
+          <e p="Core" t="Include">
+            <e p="ISys_TableInfoService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="ISys_TableInfoService.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Repositories" t="Include">
+          <e p="Core" t="Include">
+            <e p="Sys_TableInfoRepository.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Services" t="Include">
+          <e p="Core" t="Include">
+            <e p="Partial" t="Include">
+              <e p="Sys_TableInfoService.cs" t="Include" />
+            </e>
+            <e p="Sys_TableInfoService.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Utility" t="Include">
+          <e p="ProjectPath.cs" t="Include" />
+        </e>
+        <e p="VOL.Builder.csproj" t="IncludeRecursive" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="VOL.Builder.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="VOL.Core" t="IncludeRecursive">
+        <e p="BaseInterface" t="Include">
+          <e p="IServices.cs" t="Include" />
+        </e>
+        <e p="BaseProvider" t="Include">
+          <e p="DictionaryComponent" t="Include">
+            <e p="DictionaryViewComponent.cs" t="Include" />
+          </e>
+          <e p="IRepository.cs" t="Include" />
+          <e p="IService.cs" t="Include" />
+          <e p="RepositoryBase.cs" t="Include" />
+          <e p="ServerMapPath" t="Include">
+            <e p="PathProvider.cs" t="Include" />
+          </e>
+          <e p="ServiceBase.cs" t="Include" />
+        </e>
+        <e p="CacheManager" t="Include">
+          <e p="IService" t="Include">
+            <e p="ICacheService.cs" t="Include" />
+          </e>
+          <e p="Service" t="Include">
+            <e p="MemoryCacheService .cs" t="Include" />
+            <e p="RedisCacheService.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Configuration" t="Include">
+          <e p="AppSetting.cs" t="Include" />
+        </e>
+        <e p="Const" t="Include">
+          <e p="ApplicationContentType.cs" t="Include" />
+          <e p="DataBaseType.cs" t="Include" />
+          <e p="HtmlElementType.cs" t="Include" />
+          <e p="Secret.cs" t="Include" />
+          <e p="SqlDbTypeName.cs" t="Include" />
+        </e>
+        <e p="Controllers" t="Include">
+          <e p="Basic" t="Include">
+            <e p="ApiBaseController.cs" t="Include" />
+            <e p="BaseController.cs" t="Include" />
+            <e p="WebBaseController.cs" t="Include" />
+          </e>
+        </e>
+        <e p="DBManager" t="Include">
+          <e p="DBConnectionAttribute.cs" t="Include" />
+          <e p="DBServerProvider.cs" t="Include" />
+          <e p="DbName.cs" t="Include" />
+        </e>
+        <e p="Dapper" t="Include">
+          <e p="DapperParseGuidTypeHandler.cs" t="Include" />
+          <e p="ISqlDapper.cs" t="Include" />
+          <e p="SqlDapper.cs" t="Include" />
+        </e>
+        <e p="EFDbContext" t="Include">
+          <e p="EFLoggerProvider.cs" t="Include" />
+          <e p="VOLContext.cs" t="Include" />
+        </e>
+        <e p="Enums" t="Include">
+          <e p="ActionPermissionOptions.cs" t="Include" />
+          <e p="ApiMessage.cs" t="Include" />
+          <e p="ApiStatutsCode.cs" t="Include" />
+          <e p="CPrefix.cs" t="Include" />
+          <e p="DbCurrentType.cs" t="Include" />
+          <e p="LinqExpressionType.cs" t="Include" />
+          <e p="LoggerType.cs" t="Include" />
+          <e p="QueryOrderBy.cs" t="Include" />
+          <e p="ResponseType.cs" t="Include" />
+          <e p="UserAgent.cs" t="Include" />
+        </e>
+        <e p="Extensions" t="Include">
+          <e p="AuthorizationResponse.cs" t="Include" />
+          <e p="AutofacManager" t="Include">
+            <e p="AutofacContainerModule.cs" t="Include" />
+            <e p="AutofacContainerModuleExtension.cs" t="Include" />
+            <e p="IDependency.cs" t="Include" />
+          </e>
+          <e p="CacheKeyExtensions.cs" t="Include" />
+          <e p="ConvertJsonExtension.cs" t="Include" />
+          <e p="EntityProperties.cs" t="Include" />
+          <e p="GenericExtension.cs" t="Include" />
+          <e p="HtmlHelperViewExtensions.cs" t="Include" />
+          <e p="LambdaExtensions.cs" t="Include" />
+          <e p="ObjectExtension.cs" t="Include" />
+          <e p="RequestExtension.cs" t="Include" />
+          <e p="Response" t="Include">
+            <e p="ResponseMsg.cs" t="Include" />
+          </e>
+          <e p="SecurityEncDecryptExtension.cs" t="Include" />
+          <e p="ServerExtension.cs" t="Include" />
+          <e p="ServiceProviderManagerExtension.cs" t="Include" />
+          <e p="StaticFileExtensions.cs" t="Include" />
+          <e p="StaticHttpContextExtensions.cs" t="Include" />
+          <e p="StringExtension.cs" t="Include" />
+        </e>
+        <e p="Filters" t="Include">
+          <e p="ActionExecuteFilter.cs" t="Include" />
+          <e p="ActionPermissionAttribute.cs" t="Include" />
+          <e p="ActionPermissionFilter.cs" t="Include" />
+          <e p="ActionPermissionRequirement.cs" t="Include" />
+          <e p="ApiActionPermissionAttribute.cs" t="Include" />
+          <e p="ApiAuthorizeFilter.cs" t="Include" />
+          <e p="ApiTaskAttribute.cs" t="Include" />
+          <e p="FixedTokenAttribute.cs" t="Include" />
+          <e p="JWTAuthorize.cs" t="Include" />
+          <e p="ServiceFunFilter.cs" t="Include" />
+        </e>
+        <e p="Infrastructure" t="Include">
+          <e p="DictionaryHandler.cs" t="Include" />
+          <e p="DictionaryManager.cs" t="Include" />
+        </e>
+        <e p="KafkaManager" t="Include">
+          <e p="IService" t="Include">
+            <e p="IKafkaConsumer.cs" t="Include" />
+            <e p="IKafkaProducer.cs" t="Include" />
+          </e>
+          <e p="KafkaConfig.cs" t="Include" />
+          <e p="KafkaHelper.cs" t="Include" />
+          <e p="Service" t="Include">
+            <e p="KafkaConsumer.cs" t="Include" />
+            <e p="KafkaProducer.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Middleware" t="Include">
+          <e p="ExceptionHandlerMiddleWare.cs" t="Include" />
+          <e p="HttpRequestMiddleware.cs" t="Include" />
+        </e>
+        <e p="ModelBinder" t="Include">
+          <e p="BaseBinderProvider.cs" t="Include" />
+          <e p="BaseModelBinder.cs" t="Include" />
+          <e p="BinderObject.cs" t="Include" />
+        </e>
+        <e p="ObjectActionValidator" t="Include">
+          <e p="ExpressValidator" t="Include">
+            <e p="GeneralOptions.cs" t="Include" />
+            <e p="MethodsValidator.cs" t="Include" />
+            <e p="ObjectModelValidatorState.cs" t="Include" />
+          </e>
+          <e p="Filters" t="Include">
+            <e p="ObjectGeneralValidatorFilter.cs" t="Include" />
+            <e p="ObjectModelValidatorFilter.cs" t="Include" />
+          </e>
+          <e p="NullObjectModelValidator.cs" t="Include" />
+          <e p="ValidationContainer.cs" t="Include" />
+        </e>
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Quartz" t="Include">
+          <e p="HttpManager.cs" t="Include" />
+          <e p="HttpResultfulJob.cs" t="Include" />
+          <e p="IOCJobFactory.cs" t="Include" />
+          <e p="JobAction.cs" t="Include" />
+          <e p="QuartzAuthorization.cs" t="Include" />
+          <e p="QuartzFileHelper.cs" t="Include" />
+          <e p="QuartzNETExtension.cs" t="Include" />
+        </e>
+        <e p="Services" t="Include">
+          <e p="ActionExecutingLogger.cs" t="Include" />
+          <e p="Logger.cs" t="Include" />
+        </e>
+        <e p="Tenancy" t="Include">
+          <e p="TenancyManager.cs" t="Include" />
+        </e>
+        <e p="UserManager" t="Include">
+          <e p="RoleContext.cs" t="Include" />
+          <e p="UserContext.cs" t="Include" />
+        </e>
+        <e p="Utilities" t="Include">
+          <e p="ApiAuthorizeRequire.cs" t="Include" />
+          <e p="DateTimeExtension.cs" t="Include" />
+          <e p="DateTimeHelper.cs" t="Include" />
+          <e p="DynamicPropertyBag .cs" t="Include" />
+          <e p="EPPlusHelper.cs" t="Include" />
+          <e p="FileHelper.cs" t="Include" />
+          <e p="HttpContext.cs" t="Include" />
+          <e p="HttpManager.cs" t="Include" />
+          <e p="JwtHelper.cs" t="Include" />
+          <e p="MailHelper.cs" t="Include" />
+          <e p="NPOIHelper.cs" t="Include" />
+          <e p="PDFHelper" t="Include">
+            <e p="IPDFService.cs" t="Include" />
+            <e p="PDFService.cs" t="Include" />
+          </e>
+          <e p="Response" t="Include">
+            <e p="FilterResponse.cs" t="Include" />
+            <e p="WebResponseContent.cs" t="Include" />
+          </e>
+          <e p="SecurityEncDecrypt.cs" t="Include" />
+          <e p="VierificationCode.cs" t="Include" />
+          <e p="VierificationCodeServices.cs" t="Include" />
+          <e p="XmlHelper.cs" t="Include" />
+        </e>
+        <e p="VOL.Core.csproj" t="IncludeRecursive" />
+        <e p="WorkFlow" t="Include">
+          <e p="AuditStatus.cs" t="Include" />
+          <e p="WorkFlowContainer.cs" t="Include" />
+          <e p="WorkFlowManager.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="VOL.Core.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="VOL.Entity" t="IncludeRecursive">
+        <e p="AttributeManager" t="Include">
+          <e p="DBType.cs" t="Include" />
+          <e p="EntityAttribute.cs" t="Include" />
+          <e p="PermissionTableAttribute.cs" t="Include" />
+        </e>
+        <e p="BaseCore" t="Include">
+          <e p="MappingManager.cs" t="Include" />
+        </e>
+        <e p="Class1.cs" t="Include" />
+        <e p="DomainModels" t="Include">
+          <e p="ApiEntity" t="Include">
+            <e p="Input" t="Include">
+              <e p="ApiSys_UserInput.cs" t="Include" />
+            </e>
+            <e p="OutPut" t="Include">
+              <e p="ApiSys_UserOutput.cs" t="Include" />
+            </e>
+          </e>
+          <e p="App" t="Include">
+            <e p="App_Expert.cs" t="Include" />
+            <e p="App_ReportPrice.cs" t="Include" />
+            <e p="App_Transaction.cs" t="Include" />
+            <e p="App_TransactionAvgPrice.cs" t="Include" />
+            <e p="test2019.cs" t="Include" />
+            <e p="vProvinceCity.cs" t="Include" />
+          </e>
+          <e p="Appointment" t="Include">
+            <e p="App_Appointment.cs" t="Include" />
+          </e>
+          <e p="Core" t="Include">
+            <e p="LoadSingleDataModel.cs" t="Include" />
+            <e p="PageGridData.cs" t="Include" />
+            <e p="SaveDataModel.cs" t="Include" />
+            <e p="Sys_TableColumn.cs" t="Include" />
+            <e p="Sys_TableInfo.cs" t="Include" />
+          </e>
+          <e p="News" t="Include">
+            <e p="App_News.cs" t="Include" />
+          </e>
+          <e p="Order" t="Include">
+            <e p="SellOrderList.cs" t="Include" />
+          </e>
+          <e p="Quartz" t="Include">
+            <e p="Sys_QuartzLog.cs" t="Include" />
+            <e p="Sys_QuartzOptions.cs" t="Include" />
+            <e p="partial" t="Include">
+              <e p="Sys_QuartzLog.cs" t="Include" />
+              <e p="Sys_QuartzOptions.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Sell" t="Include">
+            <e p="SellOrder.cs" t="Include" />
+          </e>
+          <e p="System" t="Include">
+            <e p="LoginInfo.cs" t="Include" />
+            <e p="Permissions.cs" t="Include" />
+            <e p="RoleAuthor.cs" t="Include" />
+            <e p="Sys_Dictionary.cs" t="Include" />
+            <e p="Sys_DictionaryList.cs" t="Include" />
+            <e p="Sys_Log.cs" t="Include" />
+            <e p="Sys_Menu.cs" t="Include" />
+            <e p="Sys_Role.cs" t="Include" />
+            <e p="Sys_RoleAuth.cs" t="Include" />
+            <e p="Sys_User.cs" t="Include" />
+            <e p="TableColumnInfo.cs" t="Include" />
+            <e p="UserInfo.cs" t="Include" />
+            <e p="vSys_Dictionary.cs" t="Include" />
+          </e>
+          <e p="flow" t="Include">
+            <e p="Sys_WorkFlow.cs" t="Include" />
+            <e p="Sys_WorkFlowStep.cs" t="Include" />
+            <e p="Sys_WorkFlowTable.cs" t="Include" />
+            <e p="Sys_WorkFlowTableStep.cs" t="Include" />
+            <e p="partial" t="Include">
+              <e p="Sys_WorkFlow.cs" t="Include" />
+              <e p="Sys_WorkFlowStep.cs" t="Include" />
+              <e p="Sys_WorkFlowTable.cs" t="Include" />
+              <e p="Sys_WorkFlowTableStep.cs" t="Include" />
+            </e>
+          </e>
+          <e p="form" t="Include">
+            <e p="FormCollectionObject.cs" t="Include" />
+            <e p="FormDesignOptions.cs" t="Include" />
+          </e>
+        </e>
+        <e p="IBaseInterface.cs" t="Include" />
+        <e p="MappingConfiguration" t="Include">
+          <e p="App" t="Include">
+            <e p="App_ExpertMapConfig.cs" t="Include" />
+            <e p="App_ReportPriceMapConfig.cs" t="Include" />
+            <e p="App_TransactionAvgPriceMapConfig.cs" t="Include" />
+            <e p="App_TransactionMapConfig.cs" t="Include" />
+            <e p="test2019MapConfig.cs" t="Include" />
+            <e p="vProvinceCityMapConfig.cs" t="Include" />
+          </e>
+          <e p="Appointment" t="Include">
+            <e p="App_AppointmentMapConfig.cs" t="Include" />
+          </e>
+          <e p="MappingManager.cs" t="Include" />
+          <e p="News" t="Include">
+            <e p="App_NewsMapConfig.cs" t="Include" />
+          </e>
+          <e p="Order" t="Include">
+            <e p="SellOrderListMapConfig.cs" t="Include" />
+          </e>
+          <e p="Quartz" t="Include">
+            <e p="Sys_QuartzLogMapConfig.cs" t="Include" />
+            <e p="Sys_QuartzOptionsMapConfig.cs" t="Include" />
+          </e>
+          <e p="Sell" t="Include">
+            <e p="SellOrderMapConfig.cs" t="Include" />
+          </e>
+          <e p="System" t="Include">
+            <e p="Sys_DictionaryListMapConfig.cs" t="Include" />
+            <e p="Sys_DictionaryMapConfig.cs" t="Include" />
+            <e p="Sys_LogMapConfig.cs" t="Include" />
+            <e p="Sys_MenuMapConfig.cs" t="Include" />
+            <e p="Sys_RoleMapConfig.cs" t="Include" />
+            <e p="Sys_UserMapConfig.cs" t="Include" />
+            <e p="vSys_DictionaryMapConfig.cs" t="Include" />
+          </e>
+          <e p="flow" t="Include">
+            <e p="Sys_WorkFlowMapConfig.cs" t="Include" />
+            <e p="Sys_WorkFlowStepMapConfig.cs" t="Include" />
+            <e p="Sys_WorkFlowTableMapConfig.cs" t="Include" />
+            <e p="Sys_WorkFlowTableStepMapConfig.cs" t="Include" />
+          </e>
+          <e p="form" t="Include">
+            <e p="FormCollectionObjectMapConfig.cs" t="Include" />
+            <e p="FormDesignOptionsMapConfig.cs" t="Include" />
+          </e>
+        </e>
+        <e p="System" t="Include" />
+        <e p="SystemModels" t="Include">
+          <e p="BaseEntity.cs" t="Include" />
+          <e p="Sys_MenuRole.cs" t="Include" />
+        </e>
+        <e p="VOL.Entity.csproj" t="IncludeRecursive" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="VOL.Entity.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="VOL.Order" t="IncludeRecursive">
+        <e p="Class1.cs" t="Include" />
+        <e p="IRepositories" t="Include">
+          <e p="Appointment" t="Include">
+            <e p="IApp_AppointmentRepository.cs" t="Include" />
+          </e>
+          <e p="Order" t="Include">
+            <e p="ISellOrderListRepository.cs" t="Include" />
+          </e>
+          <e p="Sell" t="Include">
+            <e p="ISellOrderRepository.cs" t="Include" />
+          </e>
+        </e>
+        <e p="IServices" t="Include">
+          <e p="Appointment" t="Include">
+            <e p="IApp_AppointmentService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="IApp_AppointmentService.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Order" t="Include">
+            <e p="ISellOrderListService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="ISellOrderListService.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Sell" t="Include">
+            <e p="ISellOrderService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="ISellOrderService.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Repositories" t="Include">
+          <e p="Appointment" t="Include">
+            <e p="App_AppointmentRepository.cs" t="Include" />
+          </e>
+          <e p="Order" t="Include">
+            <e p="SellOrderListRepository.cs" t="Include" />
+          </e>
+          <e p="Sell" t="Include">
+            <e p="SellOrderRepository.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Services" t="Include">
+          <e p="Appointment" t="Include">
+            <e p="App_AppointmentService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="App_AppointmentService.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Order" t="Include">
+            <e p="Partial" t="Include">
+              <e p="SellOrderListService.cs" t="Include" />
+            </e>
+            <e p="SellOrderListService.cs" t="Include" />
+          </e>
+          <e p="Sell" t="Include">
+            <e p="Partial" t="Include">
+              <e p="SellOrderService.cs" t="Include" />
+            </e>
+            <e p="SellOrderService.cs" t="Include" />
+          </e>
+        </e>
+        <e p="VOL.Order.csproj" t="IncludeRecursive" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="VOL.Order.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="VOL.System" t="IncludeRecursive">
+        <e p="IRepositories" t="Include">
+          <e p="Quartz" t="Include">
+            <e p="ISys_QuartzLogRepository.cs" t="Include" />
+            <e p="ISys_QuartzOptionsRepository.cs" t="Include" />
+          </e>
+          <e p="System" t="Include">
+            <e p="ISys_DictionaryListRepository.cs" t="Include" />
+            <e p="ISys_DictionaryRepository.cs" t="Include" />
+            <e p="ISys_LogRepository.cs" t="Include" />
+            <e p="ISys_MenuRepository.cs" t="Include" />
+            <e p="ISys_RoleRepository.cs" t="Include" />
+            <e p="ISys_UserRepository.cs" t="Include" />
+            <e p="IvSys_DictionaryRepository.cs" t="Include" />
+          </e>
+          <e p="flow" t="Include">
+            <e p="ISys_WorkFlowRepository.cs" t="Include" />
+            <e p="ISys_WorkFlowStepRepository.cs" t="Include" />
+            <e p="ISys_WorkFlowTableRepository.cs" t="Include" />
+            <e p="ISys_WorkFlowTableStepRepository.cs" t="Include" />
+          </e>
+          <e p="form" t="Include">
+            <e p="IFormCollectionObjectRepository.cs" t="Include" />
+            <e p="IFormDesignOptionsRepository.cs" t="Include" />
+          </e>
+        </e>
+        <e p="IServices" t="Include">
+          <e p="Quartz" t="Include">
+            <e p="ISys_QuartzLogService.cs" t="Include" />
+            <e p="ISys_QuartzOptionsService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="ISys_QuartzLogService.cs" t="Include" />
+              <e p="ISys_QuartzOptionsService.cs" t="Include" />
+            </e>
+          </e>
+          <e p="System" t="Include">
+            <e p="ISys_DictionaryListService.cs" t="Include" />
+            <e p="ISys_DictionaryService.cs" t="Include" />
+            <e p="ISys_LogService.cs" t="Include" />
+            <e p="ISys_MenuService.cs" t="Include" />
+            <e p="ISys_RoleService.cs" t="Include" />
+            <e p="ISys_UserService.cs" t="Include" />
+            <e p="IvSys_DictionaryService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="ISys_DictionaryListService.cs" t="Include" />
+              <e p="ISys_DictionaryService.cs" t="Include" />
+              <e p="ISys_MenuService.cs" t="Include" />
+              <e p="ISys_RoleService.cs" t="Include" />
+              <e p="ISys_UserService.cs" t="Include" />
+            </e>
+          </e>
+          <e p="flow" t="Include">
+            <e p="ISys_WorkFlowService.cs" t="Include" />
+            <e p="ISys_WorkFlowStepService.cs" t="Include" />
+            <e p="ISys_WorkFlowTableService.cs" t="Include" />
+            <e p="ISys_WorkFlowTableStepService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="ISys_WorkFlowService.cs" t="Include" />
+              <e p="ISys_WorkFlowStepService.cs" t="Include" />
+              <e p="ISys_WorkFlowTableService.cs" t="Include" />
+              <e p="ISys_WorkFlowTableStepService.cs" t="Include" />
+            </e>
+          </e>
+          <e p="form" t="Include">
+            <e p="IFormCollectionObjectService.cs" t="Include" />
+            <e p="IFormDesignOptionsService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="IFormCollectionObjectService.cs" t="Include" />
+              <e p="IFormDesignOptionsService.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Repositories" t="Include">
+          <e p="Quartz" t="Include">
+            <e p="Sys_QuartzLogRepository.cs" t="Include" />
+            <e p="Sys_QuartzOptionsRepository.cs" t="Include" />
+          </e>
+          <e p="System" t="Include">
+            <e p="Partial" t="Include">
+              <e p="Sys_MenuRepository.cs" t="Include" />
+            </e>
+            <e p="Sys_DictionaryListRepository.cs" t="Include" />
+            <e p="Sys_DictionaryRepository.cs" t="Include" />
+            <e p="Sys_LogRepository.cs" t="Include" />
+            <e p="Sys_MenuRepository.cs" t="Include" />
+            <e p="Sys_RoleRepository.cs" t="Include" />
+            <e p="Sys_UserRepository.cs" t="Include" />
+            <e p="vSys_DictionaryRepository.cs" t="Include" />
+          </e>
+          <e p="flow" t="Include">
+            <e p="Sys_WorkFlowRepository.cs" t="Include" />
+            <e p="Sys_WorkFlowStepRepository.cs" t="Include" />
+            <e p="Sys_WorkFlowTableRepository.cs" t="Include" />
+            <e p="Sys_WorkFlowTableStepRepository.cs" t="Include" />
+          </e>
+          <e p="form" t="Include">
+            <e p="FormCollectionObjectRepository.cs" t="Include" />
+            <e p="FormDesignOptionsRepository.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Services" t="Include">
+          <e p="Quartz" t="Include">
+            <e p="Partial" t="Include">
+              <e p="Sys_QuartzLogService.cs" t="Include" />
+              <e p="Sys_QuartzOptionsService.cs" t="Include" />
+            </e>
+            <e p="Sys_QuartzLogService.cs" t="Include" />
+            <e p="Sys_QuartzOptionsService.cs" t="Include" />
+          </e>
+          <e p="System" t="Include">
+            <e p="Partial" t="Include">
+              <e p="Sys_DictionaryListService.cs" t="Include" />
+              <e p="Sys_DictionaryService.cs" t="Include" />
+              <e p="Sys_MenuService.cs" t="Include" />
+              <e p="Sys_RoleService.cs" t="Include" />
+              <e p="Sys_UserService.cs" t="Include" />
+            </e>
+            <e p="Sys_DictionaryListService.cs" t="Include" />
+            <e p="Sys_DictionaryService.cs" t="Include" />
+            <e p="Sys_LogService.cs" t="Include" />
+            <e p="Sys_MenuService.cs" t="Include" />
+            <e p="Sys_RoleService.cs" t="Include" />
+            <e p="Sys_UserService.cs" t="Include" />
+            <e p="vSys_DictionaryService.cs" t="Include" />
+          </e>
+          <e p="flow" t="Include">
+            <e p="Partial" t="Include">
+              <e p="Sys_WorkFlowService.cs" t="Include" />
+              <e p="Sys_WorkFlowStepService.cs" t="Include" />
+              <e p="Sys_WorkFlowTableService.cs" t="Include" />
+              <e p="Sys_WorkFlowTableStepService.cs" t="Include" />
+            </e>
+            <e p="Sys_WorkFlowService.cs" t="Include" />
+            <e p="Sys_WorkFlowStepService.cs" t="Include" />
+            <e p="Sys_WorkFlowTableService.cs" t="Include" />
+            <e p="Sys_WorkFlowTableStepService.cs" t="Include" />
+          </e>
+          <e p="form" t="Include">
+            <e p="FormCollectionObjectService.cs" t="Include" />
+            <e p="FormDesignOptionsService.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="FormCollectionObjectService.cs" t="Include" />
+              <e p="FormDesignOptionsService.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="VOL.System.csproj" t="IncludeRecursive" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="VOL.System.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="VOL.WebApi" t="IncludeRecursive">
+        <e p="Controllers" t="Include">
+          <e p="ApiHomeController.cs" t="Include" />
+          <e p="AppManager" t="Include">
+            <e p="App_ExpertController.cs" t="Include" />
+            <e p="App_NewsController.cs" t="Include" />
+            <e p="App_ReportPriceController.cs" t="Include" />
+            <e p="App_TransactionAvgPriceController.cs" t="Include" />
+            <e p="App_TransactionController.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="App_ExpertController.cs" t="Include" />
+              <e p="App_NewsController.cs" t="Include" />
+              <e p="App_ReportPriceController.cs" t="Include" />
+              <e p="App_TransactionAvgPriceController.cs" t="Include" />
+              <e p="App_TransactionController.cs" t="Include" />
+              <e p="test2019Controller.cs" t="Include" />
+            </e>
+            <e p="test2019Controller.cs" t="Include" />
+          </e>
+          <e p="Builder" t="Include">
+            <e p="BuilderController.cs" t="Include" />
+          </e>
+          <e p="Hubs" t="Include">
+            <e p="HomePageMessageHub.cs" t="Include" />
+          </e>
+          <e p="MqDataHandle" t="Include">
+            <e p="DataHandle.cs" t="Include" />
+          </e>
+          <e p="ObjectActionValidatorExampleController.cs" t="Include" />
+          <e p="Order" t="Include">
+            <e p="App_AppointmentController.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="App_AppointmentController.cs" t="Include" />
+              <e p="SellOrderController.cs" t="Include" />
+              <e p="SellOrderListController.cs" t="Include" />
+            </e>
+            <e p="SellOrderController.cs" t="Include" />
+            <e p="SellOrderListController.cs" t="Include" />
+            <e p="TestController.cs" t="Include" />
+          </e>
+          <e p="System" t="Include">
+            <e p="FormCollectionObjectController.cs" t="Include" />
+            <e p="FormDesignOptionsController.cs" t="Include" />
+            <e p="Partial" t="Include">
+              <e p="FormCollectionObjectController.cs" t="Include" />
+              <e p="FormDesignOptionsController.cs" t="Include" />
+              <e p="Sys_DictionaryController.cs" t="Include" />
+              <e p="Sys_DictionaryListController.cs" t="Include" />
+              <e p="Sys_MenuController.cs" t="Include" />
+              <e p="Sys_QuartzLogController.cs" t="Include" />
+              <e p="Sys_QuartzOptionsController.cs" t="Include" />
+              <e p="Sys_RoleController.cs" t="Include" />
+              <e p="Sys_UserController.cs" t="Include" />
+              <e p="Sys_WorkFlowController.cs" t="Include" />
+              <e p="Sys_WorkFlowStepController.cs" t="Include" />
+              <e p="Sys_WorkFlowTableController.cs" t="Include" />
+              <e p="Sys_WorkFlowTableStepController.cs" t="Include" />
+            </e>
+            <e p="Sys_DictionaryController.cs" t="Include" />
+            <e p="Sys_DictionaryListController.cs" t="Include" />
+            <e p="Sys_LogController.cs" t="Include" />
+            <e p="Sys_MenuController.cs" t="Include" />
+            <e p="Sys_QuartzLogController.cs" t="Include" />
+            <e p="Sys_QuartzOptionsController.cs" t="Include" />
+            <e p="Sys_RoleController.cs" t="Include" />
+            <e p="Sys_UserController.cs" t="Include" />
+            <e p="Sys_WorkFlowController.cs" t="Include" />
+            <e p="Sys_WorkFlowStepController.cs" t="Include" />
+            <e p="Sys_WorkFlowTableController.cs" t="Include" />
+            <e p="Sys_WorkFlowTableStepController.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Dockerfile" t="Include" />
+        <e p="Download" t="Include">
+          <e p="Logger" t="Include">
+            <e p="Queue" t="Include">
+              <e p="WriteError" t="Include">
+                <e p="20221023.txt" t="Include" />
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="PublishProfiles" t="Include">
+            <e p="FolderProfile.pubxml" t="Include" />
+          </e>
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+        <e p="Template" t="Include">
+          <e p="AppHtml" t="Include">
+            <e p="news.html" t="Include" />
+            <e p="productDesc.html" t="Include" />
+          </e>
+          <e p="Controller" t="Include">
+            <e p="Controller.html" t="Include" />
+            <e p="ControllerApi.html" t="Include" />
+            <e p="ControllerApiPartial.html" t="Include" />
+            <e p="ControllerPartial.html" t="Include" />
+          </e>
+          <e p="DomianModel" t="Include">
+            <e p="ApiInputDomainModel.html" t="Include" />
+            <e p="ApiOutputDomainModel.html" t="Include" />
+            <e p="DomainModel.html" t="Include" />
+            <e p="MappingConfiguration.html" t="Include" />
+          </e>
+          <e p="IRepositorys" t="Include">
+            <e p="BaseIRepositorie.html" t="Include" />
+          </e>
+          <e p="IServices" t="Include">
+            <e p="IServiceBase.html" t="Include" />
+            <e p="IServiceBasePartial.html" t="Include" />
+          </e>
+          <e p="Page" t="Include">
+            <e p="SearchPage.html" t="Include" />
+            <e p="Vue3SearchPage.html" t="Include" />
+            <e p="VueExtension.html" t="Include" />
+            <e p="VueSearchPage.html" t="Include" />
+            <e p="app" t="Include">
+              <e p="extension.html" t="Include" />
+              <e p="options.html" t="Include" />
+              <e p="page.html" t="Include" />
+            </e>
+            <e p="gridParameters.html" t="Include" />
+            <e p="router.html" t="Include" />
+          </e>
+          <e p="Repositorys" t="Include">
+            <e p="BaseRepository.html" t="Include" />
+            <e p="BaseRepositoryPartial.html" t="Include" />
+          </e>
+          <e p="Services" t="Include">
+            <e p="ServiceBase.html" t="Include" />
+            <e p="ServiceBasePartial.html" t="Include" />
+          </e>
+        </e>
+        <e p="Upload" t="Include">
+          <e p="1111.txt" t="Include" />
+          <e p="20221007" t="Include">
+            <e p="SellOrder" t="Include">
+              <e p="40ffe131-6ea0-4feb-a317-97f0e8393d00_销售订单.xlsx" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="VOL.WebApi.csproj" t="IncludeRecursive" />
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="builder_run.bat" t="Include" />
+        <e p="dev_run.bat" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="VOL.WebApi.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="quartz" t="Include">
+          <e p="error" t="Include">
+            <e p="2022-09-05.txt" t="Include" />
+            <e p="2022-09-06.txt" t="Include" />
+            <e p="2022-09-07.txt" t="Include" />
+            <e p="2022-09-09.txt" t="Include" />
+            <e p="2022-09-26.txt" t="Include" />
+          </e>
+        </e>
+        <e p="wwwroot" t="Include">
+          <e p="css" t="Include">
+            <e p="site.css" t="Include" />
+          </e>
+          <e p="favicon.ico" t="Include" />
+          <e p="js" t="Include">
+            <e p="site.js" t="Include" />
+          </e>
+          <e p="lib" t="Include">
+            <e p="bootstrap" t="Include">
+              <e p="LICENSE" t="Include" />
+              <e p="dist" t="Include">
+                <e p="css" t="Include">
+                  <e p="bootstrap-grid.css" t="Include" />
+                  <e p="bootstrap-grid.css.map" t="Include" />
+                  <e p="bootstrap-grid.min.css" t="Include" />
+                  <e p="bootstrap-grid.min.css.map" t="Include" />
+                  <e p="bootstrap-reboot.css" t="Include" />
+                  <e p="bootstrap-reboot.css.map" t="Include" />
+                  <e p="bootstrap-reboot.min.css" t="Include" />
+                  <e p="bootstrap-reboot.min.css.map" t="Include" />
+                  <e p="bootstrap.css" t="Include" />
+                  <e p="bootstrap.css.map" t="Include" />
+                  <e p="bootstrap.min.css" t="Include" />
+                  <e p="bootstrap.min.css.map" t="Include" />
+                </e>
+                <e p="js" t="Include">
+                  <e p="bootstrap.bundle.js" t="Include" />
+                  <e p="bootstrap.bundle.js.map" t="Include" />
+                  <e p="bootstrap.bundle.min.js" t="Include" />
+                  <e p="bootstrap.bundle.min.js.map" t="Include" />
+                  <e p="bootstrap.js" t="Include" />
+                  <e p="bootstrap.js.map" t="Include" />
+                  <e p="bootstrap.min.js" t="Include" />
+                  <e p="bootstrap.min.js.map" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="jquery" t="Include">
+              <e p="LICENSE.txt" t="Include" />
+              <e p="dist" t="Include">
+                <e p="jquery.js" t="Include" />
+                <e p="jquery.min.js" t="Include" />
+                <e p="jquery.min.map" t="Include" />
+              </e>
+            </e>
+            <e p="jquery-validation" t="Include">
+              <e p="LICENSE.md" t="Include" />
+              <e p="dist" t="Include">
+                <e p="additional-methods.js" t="Include" />
+                <e p="additional-methods.min.js" t="Include" />
+                <e p="jquery.validate.js" t="Include" />
+                <e p="jquery.validate.min.js" t="Include" />
+              </e>
+            </e>
+            <e p="jquery-validation-unobtrusive" t="Include">
+              <e p="LICENSE.txt" t="Include" />
+              <e p="jquery.validate.unobtrusive.js" t="Include" />
+              <e p="jquery.validate.unobtrusive.min.js" t="Include" />
+            </e>
+          </e>
+          <e p="test.txt" t="Include" />
+          <e p="新建文本文档.txt" t="Include" />
+        </e>
+      </e>
+      <e p="VOL.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
