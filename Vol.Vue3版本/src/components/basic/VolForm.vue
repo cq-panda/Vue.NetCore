@@ -869,6 +869,9 @@ export default defineComponent({
 
     // 远程搜索(打开弹出框时应该禁止搜索)
     remoteSearch(item, formFields, val) {
+      if (!item.remote && !item.url) {
+        return;
+      }
       if (
         val == '' ||
         (item.data.length == 1 &&
