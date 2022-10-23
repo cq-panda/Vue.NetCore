@@ -482,7 +482,7 @@ namespace VOL.Core.Utilities
             {
                 query = query.Where(x => x.IsDisplay == 1);
             }
-            List<CellOptions> cellOptions = query.Select(c => new CellOptions()
+            List<CellOptions> cellOptions = query.OrderByDescending(x=>x.OrderNo).Select(c => new CellOptions()
             {
                 ColumnName = c.ColumnName,
                 ColumnCNName = c.ColumnCnName,
