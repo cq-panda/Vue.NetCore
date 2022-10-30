@@ -77,7 +77,11 @@
               :multiple="item.type == 'select' ? false : true"
               :placeholder="item.placeholder ? item.placeholder : item.title"
               :allow-create="item.autocomplete"
-              @change="item.onChange"
+              @change="
+                (val) => {
+                  item.onChange(val, item.data);
+                }
+              "
               :remote="item.remote || item.url"
               clearable
               :remote-method="
@@ -1314,7 +1318,7 @@ export default defineComponent({
   position: absolute;
 }
 
- .el-form-item{
-      vertical-align: top !important;
- }
+.el-form-item {
+  vertical-align: top !important;
+}
 </style>
