@@ -2,12 +2,26 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace VOL.Core.Utilities
 {
     public static class VierificationCodeServices
     {        //验证码字体集合
-        private static readonly string[] fonts = { "Verdana", "Microsoft Sans Serif", "Comic Sans MS", "Arial", "宋体" };
+        private static readonly string[] fonts = null;
+
+        static VierificationCodeServices()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                fonts = new string[] { "Verdana", "Microsoft Sans Serif", "Comic Sans MS", "Arial", "宋体" };
+            }
+            else
+            {
+                fonts = new string[] { "Arial", "Arial", "宋体", "宋体" };
+            }
+        }
+
         private static readonly SKColor[] colors = { SKColors.Black, SKColors.Green, SKColors.Brown };
 
         /// <summary>
@@ -33,6 +47,7 @@ namespace VOL.Core.Utilities
             for (int i = 0; i < code.Length; i++)
             {
                 pen.Color = random.GetRandom(colors);//随机颜色索引值
+
                 pen.Typeface = SKTypeface.FromFamilyName(random.GetRandom(fonts), 700, 20, SKFontStyleSlant.Italic);//配置字体
                 var point = new SKPoint()
                 {
@@ -41,9 +56,10 @@ namespace VOL.Core.Utilities
 
                 };
                 canvas.DrawText(code.Substring(i, 1), point, pen);//绘制一个验证字符
+
             }
 
-            //绘制噪点
+            // 绘制噪点
             var points = Enumerable.Range(0, 100).Select(
                 _ => new SKPoint(random.Next(bitmap.Width), random.Next(bitmap.Height))
             ).ToArray();
