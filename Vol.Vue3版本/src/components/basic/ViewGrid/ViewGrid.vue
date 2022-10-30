@@ -161,6 +161,7 @@
             :label-width="labelWidth"
             :formRules="searchFormOptions"
             :formFields="searchFormFields"
+            :select2Count="select2Count"
           >
             <template #footer>
               <div v-if="!fiexdSearchForm" class="form-closex">
@@ -292,6 +293,7 @@
                   :label-width="boxOptions.labelWidth"
                   :formRules="editFormOptions"
                   :formFields="editFormFields"
+                  :select2Count="select2Count"
                 ></vol-form>
               </div>
               <!--明细body自定义组件-->
@@ -350,6 +352,7 @@
                   :column-index="detailOptions.columnIndex"
                   :ck="detailOptions.ck"
                   :text-inline="detailOptions.textInline"
+                  :select2Count="select2Count"
                 ></vol-table>
               </div>
               <!--明细footer自定义组件-->
@@ -445,6 +448,7 @@
           :column-index="columnIndex"
           :text-inline="textInline"
           :ck="ck"
+          :select2Count="select2Count"
         ></vol-table>
       </div>
     </div>
@@ -656,7 +660,8 @@ var vueParam = {
       },
       numberFields: [],
       //2022.09.26增加自定义导出文件名
-      downloadFileName: null
+      downloadFileName: null,
+      select2Count: 1 //超出数量显示select2组件
     };
   },
   methods: {},

@@ -66,40 +66,69 @@
               class="readonly-input"
               >{{ getText(formFields, item) }}</label
             >
-            <el-select
-              :disabled="item.readonly || item.disabled"
-              v-show="!item.hidden"
-              style="width: 100%"
-              :size="size"
+            <template
               v-else-if="['select', 'selectList'].indexOf(item.type) != -1"
-              v-model="formFields[item.field]"
-              filterable
-              :multiple="item.type == 'select' ? false : true"
-              :placeholder="item.placeholder ? item.placeholder : item.title"
-              :allow-create="item.autocomplete"
-              @change="
-                (val) => {
-                  item.onChange(val, item.data);
-                }
-              "
-              :remote="item.remote || item.url"
-              clearable
-              :remote-method="
-                (val) => {
-                  remoteSearch(item, formFields, val);
-                }
-              "
             >
-              <el-option
+              <el-select-v2
+                :disabled="item.readonly || item.disabled"
                 v-show="!item.hidden"
-                :disabled="item.disabled"
-                v-for="item in item.data"
-                :key="item.key"
-                :label="item.value"
-                :value="item.key"
+                style="width: 100%"
+                :size="size"
+                v-if="item.data.length > select2Count"
+                v-model="formFields[item.field]"
+                filterable
+                :multiple="item.type == 'select' ? false : true"
+                :placeholder="item.placeholder ? item.placeholder : item.title"
+                :allow-create="item.autocomplete"
+                :options="item.data"
+                @change="
+                  (val) => {
+                    item.onChange(val, item.data);
+                  }
+                "
+                clearable
               >
-              </el-option>
-            </el-select>
+                <template #default="{ item }">
+                  {{ item.label }}
+                </template>
+              </el-select-v2>
+
+              <el-select
+                :disabled="item.readonly || item.disabled"
+                v-show="!item.hidden"
+                style="width: 100%"
+                :size="size"
+                v-else
+                v-model="formFields[item.field]"
+                filterable
+                :multiple="item.type == 'select' ? false : true"
+                :placeholder="item.placeholder ? item.placeholder : item.title"
+                :allow-create="item.autocomplete"
+                @change="
+                  (val) => {
+                    item.onChange(val, item.data);
+                  }
+                "
+                :remote="item.remote || item.url"
+                clearable
+                :remote-method="
+                  (val) => {
+                    remoteSearch(item, formFields, val);
+                  }
+                "
+              >
+                <el-option
+                  v-show="!item.hidden"
+                  :disabled="item.disabled"
+                  v-for="item in item.data"
+                  :key="item.key"
+                  :label="item.value"
+                  :value="item.key"
+                >
+                </el-option>
+              </el-select>
+            </template>
+
             <el-switch
               v-show="!item.hidden"
               v-else-if="item.type == 'switch'"
@@ -477,6 +506,10 @@ export default defineComponent({
     size: {
       type: String, //large / default / small
       default: 'large'
+    },
+    select2Count:{ //超出数量显示select2组件
+      type:Number,
+      default:500 
     }
   },
   computed: {
@@ -579,6 +612,11 @@ export default defineComponent({
     };
     const bindOptions = (dic, binds) => {
       dic.forEach((d) => {
+        if (d.data.length > this.select2Count) {
+          d.data.forEach((item) => {
+            item.label = item.value;
+          });
+        }
         binds.forEach((x) => {
           if (x.key != d.dicNo) return true;
           // 如果有数据的则不查询
@@ -1309,6 +1347,9 @@ export default defineComponent({
 }
 .el-form-item ::v-deep(.el-select .el-select__tags > span) {
   display: flex;
+}
+.el-form-item ::v-deep(.el-select-v2__combobox-input) {
+  height: 30px;
 }
 .el-form-item ::v-deep(.el-select__tags) {
   overflow: hidden;

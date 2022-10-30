@@ -175,34 +175,62 @@
                   "
                 >
                 </el-switch>
-                <el-select
-                  size="default"
-                  style="width: 100%"
+                <template
                   v-else-if="
                     ['select', 'selectList'].indexOf(column.edit.type) != -1
                   "
-                  v-model="scope.row[column.field]"
-                  :filterable="
-                    column.filter || column.bind.data.length > 10 ? true : false
-                  "
-                  :multiple="column.edit.type == 'select' ? false : true"
-                  :placeholder="column.placeholder || column.title"
-                  :autocomplete="column.autocomplete"
-                  @change="
-                    column.onChange && column.onChange(scope.row, column)
-                  "
-                  clearable
                 >
-                  <el-option
-                    v-for="item in column.bind.data"
-                    :key="item.key"
-                    v-show="!item.hidden"
-                    :disabled="item.disabled"
-                    :label="item.value"
-                    :value="item.key"
-                    >{{ item.value }}
-                  </el-option>
-                </el-select>
+                  <el-select-v2
+                    size="default"
+                    style="width: 100%"
+                    :size="size"
+                    v-if="column.bind.data.length >= select2Count"
+                    v-model="scope.row[column.field]"
+                    filterable
+                    :multiple="column.edit.type == 'select' ? false : true"
+                    :placeholder="column.placeholder || column.title"
+                    :autocomplete="column.autocomplete"
+                    :options="column.bind.data"
+                    @change="
+                      column.onChange && column.onChange(scope.row, column)
+                    "
+                    clearable
+                  >
+                    <template #default="{ item }">
+                      {{ item.label }}
+                    </template>
+                  </el-select-v2>
+
+                  <el-select
+                    size="default"
+                    style="width: 100%"
+                    v-else
+                    v-model="scope.row[column.field]"
+                    :filterable="
+                      column.filter || column.bind.data.length > 10
+                        ? true
+                        : false
+                    "
+                    :multiple="column.edit.type == 'select' ? false : true"
+                    :placeholder="column.placeholder || column.title"
+                    :autocomplete="column.autocomplete"
+                    @change="
+                      column.onChange && column.onChange(scope.row, column)
+                    "
+                    clearable
+                  >
+                    <el-option
+                      v-for="item in column.bind.data"
+                      :key="item.key"
+                      v-show="!item.hidden"
+                      :disabled="item.disabled"
+                      :label="item.value"
+                      :value="item.key"
+                      >{{ item.value }}
+                    </el-option>
+                  </el-select>
+                </template>
+
                 <el-input
                   v-else-if="column.edit.type == 'textarea'"
                   type="textarea"
@@ -472,6 +500,11 @@ export default defineComponent({
       //增加选中行高亮显示(2022.10.07)
       type: Boolean,
       default: true
+    },
+    select2Count: {
+      //超出数量显示select2组件
+      type: Number,
+      default: 500
     }
   },
   data() {
@@ -610,6 +643,12 @@ export default defineComponent({
         .post('/api/Sys_Dictionary/GetVueDictionary', keys)
         .then((dic) => {
           dic.forEach((x) => {
+            if (x.data.length > this.select2Count) {
+              x.data.forEach((item) => {
+                item.label = item.value;
+                item.value = item.key;
+              });
+            }
             columnBind.forEach((c) => {
               // 转换数据源的类型与列的类型一致(2020.04.04)
               if (
@@ -681,7 +720,11 @@ export default defineComponent({
     },
     extraClick(row, column) {
       column.extra.click &&
-        column.extra.click(row, column, this.url ? this.rowData : this.tableData);
+        column.extra.click(
+          row,
+          column,
+          this.url ? this.rowData : this.tableData
+        );
     },
     headerClick(column, event) {
       if (this.clickEdit && this.edit.rowIndex != -1) {
@@ -1335,7 +1378,7 @@ export default defineComponent({
         // 2020.06.06修复单独使用table组件时,key为数字0时转换成文本失败的问题
         return x.key !== '' && x.key !== undefined && x.key + '' === val + '';
       });
-      if (source && source.length > 0) val = source[0].value;
+      if (source && source.length > 0) val = source[0].label || source[0].value;
       return val;
     },
     getSelectFormatter(column, val) {
@@ -1349,7 +1392,7 @@ export default defineComponent({
             x.key !== undefined &&
             x.key + '' == valArr[index] + ''
           ) {
-            valArr[index] = x.value;
+            valArr[index] = x.label || x.value;
           }
         });
       }

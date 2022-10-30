@@ -1226,6 +1226,12 @@ let methods = {
     //绑定下拉框的数据源
     //绑定后台的字典数据
     dic.forEach((d) => {
+      if (d.data.length >= (this.select2Count||500)) {
+        d.data.forEach((item) => {
+          item.label = item.value;
+          item.value=item.key;
+        });
+      }
       this.dicKeys.forEach((x) => {
         if (x.dicNo != d.dicNo) return true;
         //2020.10.26增加级联数据源绑定处理
