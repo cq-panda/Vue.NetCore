@@ -259,7 +259,7 @@
             <el-cascader
               :size="size"
               clearable
-              style="width: 100%"
+              style="width: 100%;margin-top: -3px;"
               v-model="formFields[item.field]"
               :disabled="item.readonly || item.disabled"
               v-else-if="item.type == 'cascader'"
@@ -1313,4 +1313,8 @@ export default defineComponent({
 .el-form-item ::v-deep(.el-select-tags-wrapper) {
   position: absolute;
 }
+
+ .el-form-item{
+      vertical-align: top !important;
+ }
 </style>
