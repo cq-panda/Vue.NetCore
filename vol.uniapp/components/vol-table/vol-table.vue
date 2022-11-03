@@ -94,7 +94,10 @@
 							<view class="cell-left"> {{column.title}}</view>
 							<view class="cell-right">
 								<view @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
-									{{row[column.field]}}
+									<view :style="column.style" v-if="column.formatter">
+										<rich-text :nodes="rowFormatter(row,column,rowindex)+''"></rich-text>
+									</view>
+									<view :style="column.style" v-else>{{row[column.field]}}</view>
 								</view>
 								<view v-else-if="column.formatter">
 									<rich-text :nodes="rowFormatter(row,column)+''"></rich-text>
@@ -410,8 +413,8 @@
 				});
 			},
 			initSummary() {
-				if(this.summary.length){
-					this.hasSummary =true;
+				if (this.summary.length) {
+					this.hasSummary = true;
 					return;
 				}
 				this.summary = this.columns.filter(x => {
@@ -433,7 +436,9 @@
 					if (this.lastHeight > 0 && this.lastHeight == this.tableHeight) {
 						return;
 					}
-					this.tableHeight = this.tableHeight - (res[0]||{height:0}).height;
+					this.tableHeight = this.tableHeight - (res[0] || {
+						height: 0
+					}).height;
 					this.lastHeight = this.tableHeight;
 				})
 			}
