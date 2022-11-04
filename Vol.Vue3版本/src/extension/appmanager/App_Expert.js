@@ -37,6 +37,9 @@ let extension = {
   },
 
   methods: { //事件扩展
+    click1(){
+      this.$message.success('点击了提示')
+    },
     onInited() {
       $this = this;
       //手动调度弹出框的高度
@@ -45,20 +48,19 @@ let extension = {
       this.height = this.height - 100;
     },
     onInit() {
-
       //选择数据源功能
       this.editFormOptions.forEach(x => {
         x.forEach(item => {
           if (item.field == 'CreateDate') {
             //给编辑表单设置[选择数据]操作,extra具体配置见volform组件api
-            item.extra = {
-              icon: "el-icon-zoom-out",
-              text: "选择数据",
-              style: "color:red;font-size: 12px;cursor: pointer;",
-              click: item => {
-                this.$refs.modelBody.openDemo();
-              }
-            }
+            // item.extra = {
+            //   icon: "el-icon-zoom-out",
+            //   text: "选择数据",
+            //   style: "color:red;font-size: 12px;cursor: pointer;",
+            //   click: item => {
+            //     this.$refs.modelBody.openDemo();
+            //   }
+            // }
           }
         })
       })
@@ -70,18 +72,19 @@ let extension = {
       this.continueAddName = "连续添加";
 
       //将编辑表单第一行第一列【名称】字段添加一个额外提示属性
-      this.editFormOptions[0][0].extra = {
-        render: h => {
-          return h(
-            resolveComponent("el-tooltip"),
-            {
-              content: "这里是提示的内容",
-              props: { effect: "dark", placement: "top-start" },
-              style: {}
-            }, [
-            h('a', { style: { color: '#2a92ff' } }, '提示信息')
-          ]
-          )
+      this.editFormOptions[0][0].extra =
+      {
+        render: (h) => {
+          return <el-popover
+            placement="top-start"
+            title="Title"
+            width="200"
+            trigger="hover"
+            content="this is content, this is content, this is content"
+          >
+            {/* 这里对应下面的#reference数据槽 */}
+            {{ reference: <i onClick={()=>{this.click1()}} class='el-icon-warning-outline'></i> }}
+          </el-popover>
         }
       }
 
@@ -137,22 +140,16 @@ let extension = {
         })
       })
 
-      //动态添加一行表单配置
-      this.editFormOptions[2].splice(0, 1, ...[{
-        colSize: 12,
-        render: h => {
-          return h(
-            'div', { style: { 'padding-left': '60px' } },
-            [h(resolveComponent('ElAlert'), {
-              style: {},
-              type: 'success',
-              'show-icon': true,
-              title: "这里是render动态渲染的内容",
-              closable: false,
-            }, [h('div', { style: { 'margin-top': '-20px' } }, '代码生成器中编辑类型选择file/excel/img类型文件上传,同时可以设置上传文件数量、大小等,具体见App_Expert.js配置')])]
-          )
-        }
-      }])
+      // //动态添加一行表单配置
+      // this.editFormOptions[2].splice(0, 1, ...[
+      //   {
+      //     colSize: 12,
+      //     render: (h) => {
+      //       return <el-alert title="这里是自定的提示信息" style={{ padding:0 }} type="success" >
+      //       </el-alert>
+      //     }
+      //   }
+      // ])
 
     },
   }
