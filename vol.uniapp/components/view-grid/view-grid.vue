@@ -494,7 +494,7 @@
 						hidden: true,
 						type: 'error',
 						onClick: () => {
-							_$this.gridDel();
+							this.gridDel();
 						}
 					})
 				}

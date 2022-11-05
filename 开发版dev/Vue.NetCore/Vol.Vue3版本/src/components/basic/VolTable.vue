@@ -181,7 +181,6 @@
                   "
                 >
                   <el-select-v2
-                    size="default"
                     style="width: 100%"
                     :size="size"
                     v-if="column.bind.data.length >= select2Count"

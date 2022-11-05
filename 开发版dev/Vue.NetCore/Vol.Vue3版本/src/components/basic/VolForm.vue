@@ -612,7 +612,7 @@ export default defineComponent({
     };
     const bindOptions = (dic, binds) => {
       dic.forEach((d) => {
-        if (d.data.length > this.select2Count) {
+        if (d.data.length > props.select2Count) {
           d.data.forEach((item) => {
             item.label = item.value;
           });
