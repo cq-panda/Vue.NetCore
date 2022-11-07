@@ -797,7 +797,13 @@ export default defineComponent({
       if (column.formatter) {
         return column.formatter(pathSring);
       }
-      let filePath = pathSring.replace(/\\/g, '/').split(',');
+      let filePath;
+      if (column.base64&&pathSring.indexOf('data')!=-1) {
+        filePath=(','+pathSring).split(',data').filter(x=>{return x}).map(m=>{return 'data'+m});
+      }else{
+        filePath=  pathSring.replace(/\\/g, '/').split(',');
+      }
+
       let fileInfo = [];
       for (let index = 0; index < filePath.length; index++) {
         let file = filePath[index];
@@ -806,7 +812,7 @@ export default defineComponent({
           fileInfo.push({
             name: '',
             path:
-              (file.indexOf('base64,') == -1 ? 'data:image/png;base64,' : '') +
+              (file.indexOf('data') == -1 ? 'data:image/png;base64,' : '') +
               file
           });
         } else if (file.indexOf('.') != -1) {
