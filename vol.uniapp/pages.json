@@ -116,108 +116,102 @@
 			"style": {
 				"navigationBarTitleText": "订单详情"
 			}
+		}, {
+			"path": "pages/form/form1",
+			"style": {
+				"navigationBarTitleText": "表单vol-form",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/form/form2",
+			"style": {
+				"navigationBarTitleText": "只读表单vol-form",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/table/table1/table1",
+			"style": {
+				"navigationBarTitleText": "table水平显示",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/table/table2/table2",
+			"style": {
+				"navigationBarTitleText": "table列表显示",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/table/table3/table3",
+			"style": {
+				"navigationBarTitleText": "table手动绑定数据",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/pagedemo/pagedemo",
+			"style": {
+				"navigationBarTitleText": "完整扩展页面",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/message/detail/detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/form/charts/chart1",
+			"style": {
+				"navigationBarTitleText": "图表",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/order/SellOrder/SellOrderAduit",
+			"style": {
+				"navigationBarTitleText": "审核",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/form/form1",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "表单vol-form",
-                "enablePullDownRefresh": false
-            }
-        } ,{
-            "path" : "pages/form/form2",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "只读表单vol-form",
-                "enablePullDownRefresh": false
-            }
-        }
-        ,{
-            "path" : "pages/table/table1/table1",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "table水平显示",
-                "enablePullDownRefresh": false
-            }   
-        }
-        ,{
-            "path" : "pages/table/table2/table2",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "table列表显示",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/table/table3/table3",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "table手动绑定数据",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/pagedemo/pagedemo",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "完整扩展页面",
-                "enablePullDownRefresh": false
-            }
-        },{
-            "path" : "pages/message/detail/detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/form/charts/chart1",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "图表",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/order/SellOrder/SellOrderAduit",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "审核",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
+	//底部图标库(需要授权的自行联系作者)：https://www.iconfont.cn/search/index
 	"tabBar": { //设置要与第一个pages的path相同
-		"color": "#7A7E83",
-		"selectedColor": "#F1A532",
-		"borderStyle": "black",
+		"color": "#535353",
+		"selectedColor": "#2f92f9",
+		"fontSize": "12px",
+		"borderStyle": "white", //"white",//#e8e8e8",// "black",
 		"backgroundColor": "#ffffff",
 		"list": [{
-				"pagePath": "pages/menu/menu",
-				"text": "菜单"
-			}, {
 				"pagePath": "pages/home/home",
-				// "iconPath": "static/assets/home.png",
-				// "selectedIconPath": "static/assets/home_actived.png",
+				"iconPath": "static/icons/home.png",
+				"selectedIconPath": "static/icons/home_active.png",
 				"text": "首页"
 			},
-
+			{
+				"pagePath": "pages/menu/menu",
+				"iconPath": "static/icons/menu.png",
+				"selectedIconPath": "static/icons/menu_active.png",
+				"text": "菜单"
+			},
 			{
 				"pagePath": "pages/form/form",
+				"iconPath": "static/icons/stats.png",
+				"selectedIconPath": "static/icons/stats_active.png",
 				"text": "统计"
 			},
 			{
 				"pagePath": "pages/message/message",
+				"iconPath": "static/icons/message.png",
+				"selectedIconPath": "static/icons/message_active.png",
 				"text": "消息"
 			},
 			{
 				"pagePath": "pages/user/user",
+				"iconPath": "static/icons/user.png",
+				"selectedIconPath": "static/icons/user_active.png",
 				"text": "消息"
 			}
 		]
