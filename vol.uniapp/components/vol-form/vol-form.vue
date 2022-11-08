@@ -113,8 +113,10 @@
 					v-model="inFormFields[item.field]" border="none" :ref="item.field"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
-			<view v-if="item.extra" :style="item.extra.style" style="display: flex;" @click="extraClick(item,inFormFields)">
-				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.color" :size="item.extra.size">
+			<view v-if="item.extra" :style="item.extra.style" style="display: flex;"
+				@click="extraClick(item,inFormFields)">
+				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.color"
+					:size="item.extra.size">
 				</u-icon>
 				<text>{{item.extra.text}}</text>
 			</view>
@@ -128,21 +130,20 @@
 		<!--  下拉框 -->
 		<u-popup @touchmove.prevent class="form-popup" :zIndex="999999" :show="actionSheetModel"
 			@close="actionSheetModel=false;">
-			<view class="vol-action-sheet-select-container" :style="{'max-height':(maxHeight+'px')}">
+			<view class="vol-action-sheet-select-container" :style="{'height':(popupHeight+'px')}">
 				<view class="vol-action-sheet-select-title">请选择{{actionSheetCurrentItem.title}}
 					<text class="vol-action-sheet-select-confirm" @click="actionConfirmClick">确定</text>
 				</view>
 				<!-- 	超过10个下拉框选项默认开启搜索 -->
-			<!-- 	<view class="vol-action-sheet-select-filter"
-					v-show="actionSheetCurrentItem.data&&actionSheetCurrentItem.data.length>=10">
-					<view style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
-						<u--input placeholder="请输入关键字搜索" v-model="searchText">
+				<view v-if="showFilter"  class="vol-action-sheet-select-filter" >
+					<view  style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
+						<u--input  placeholder="请输入关键字搜索" v-model="searchText">
 						</u--input>
 					</view>
 					<view class="search-btn">
-						<u-button type="primary" icon="trash" @click="searchText=''" size="small">清除</u-button>
+						<u-button :plain="true" :hairline="true" :customStyle="{padding:'10rpx 20rpx'}"  shape="circle" type="primary" icon="trash" @click="searchText=''" size="small">清除</u-button>
 					</view>
-				</view> -->
+				</view>
 				<view class="vol-action-sheet-select-content">
 					<view :class="{'vol-action-sheet-select-actived':actionSheetModel&&isActionSelected(item)}"
 						@click="actionClick(item)"
@@ -196,10 +197,12 @@
 		name: "vol-form",
 		data() {
 			return {
+				showFilter:false,
 				searchText: '', //搜索的内容
 				inFormFields: {},
 				inFormOptions: [],
 				maxHeight: 400,
+				popupHeight: 0,
 				pickerValue: '',
 				pickerModel: false, //日期组件
 				pickerCurrentItem: {}, //当前选项
@@ -270,7 +273,7 @@
 			var _this = this;
 			uni.getSystemInfo({
 				success: function(res) {
-					_this.maxHeight = res.screenHeight * 0.75;
+					_this.maxHeight = res.screenHeight * 0.85;
 				}
 			});
 		},
@@ -321,7 +324,9 @@
 						this.actionSheetSelectValues.push(value);
 					}
 				}
-
+				this.showFilter = item.data.length > 15;
+				let height = (item.data.length + 1+(this.showFilter?1:0)) * 50;
+				this.popupHeight = height > this.maxHeight ? this.maxHeight : height;
 				this.actionSheetModel = true;
 			},
 			actionClick(item) {
@@ -796,6 +801,7 @@
 
 		.f-form-group-content {}
 	}
+
 	/deep/ .u-icon {
 		display: inline-flex;
 	}
