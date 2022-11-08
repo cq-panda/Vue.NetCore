@@ -23,7 +23,6 @@
 				</view>
 			</view>
 		</view>
-		<vol-tabbar :index="4"></vol-tabbar>
 	</view>
 </template>
 
@@ -81,9 +80,6 @@
 			})
 		},
 		onShow() {
-			uni.hideTabBar({
-				animation: false
-			})
 			this.getUserInfo();
 		},
 		methods: {

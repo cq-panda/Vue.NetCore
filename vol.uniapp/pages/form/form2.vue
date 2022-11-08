@@ -155,6 +155,8 @@
 		},
 		methods: {
 			extraClick(item){
+				//点击后给表字段设置值
+				  this.editFormFields.customInput=~~(Math.random()*10000000)
 				  this.$toast('表单按钮点击:'+item.title)
 			},
 			onChange(field, value) { //日期与下拉框选择事件

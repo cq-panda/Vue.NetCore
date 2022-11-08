@@ -21,7 +21,6 @@
 			</view>
 
 		</view>
-		<vol-tabbar :index="1"></vol-tabbar>
 	</view>
 </template>
 
@@ -48,9 +47,6 @@
 			})
 		},
 		onShow() {
-			uni.hideTabBar({
-				animation: false
-			})
 		},
 		methods: {
 			getMenu() {
