@@ -919,7 +919,7 @@ const param = {
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'value'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'查询的值'</span>,
       </div>
       <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">//设置为模糊查询,其他不需要设置</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">//设置为模糊查询,其他类型见下面exportBefore方法displayType属性说明</span>
       </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]
@@ -1451,7 +1451,8 @@ const param = {
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'value'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'查询的值'</span>,
       </div>
       <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">//设置为模糊查询,其他不需要设置</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">
+        //可选类型text/like/selectList/thanorequal/lessorequal，like(模糊查询) ; selectList为多选,后台in查询，thanorequal>=,lessorequal<=</span>
       </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]
