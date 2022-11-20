@@ -249,7 +249,7 @@
               v-model="formFields[item.field]"
               :disabled="item.readonly || item.disabled"
               placeholder="请选择时间"
-              :value-format="getDateFormat(item)"
+              :value-format="item.format||'HH:mm:ss'"
               :format="item.format"
               style="width: 100%"
             >
@@ -1246,6 +1246,9 @@ export default defineComponent({
       if (item.type == 'month') {
         return 'YYYY-MM';
       }
+      // if (item.type=='time') {
+      //     return 'HH:mm:ss'
+      // }
       //见https://day.js.org/docs/zh-CN/display/format
       return item.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
     },

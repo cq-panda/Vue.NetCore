@@ -157,6 +157,17 @@
                   :value-format="getDateFormat(column)"
                 >
                 </el-date-picker>
+                <el-date-picker
+                  clearable
+                  size="default"
+                  style="width: 100%"
+                  v-if="column.edit.type == 'time'"
+                  v-model="scope.row[column.field]"
+                  @change="column.onChange"
+                  :placeholder="column.placeholder || column.title"
+                  :value-format="column.format || 'HH:mm:ss'"
+                >
+                </el-date-picker>
                 <el-switch
                   v-else-if="column.edit.type == 'switch'"
                   v-model="scope.row[column.field]"
@@ -524,13 +535,7 @@ export default defineComponent({
       formatConfig: {},
       // defaultColor: "",
       // 2020.09.06调整table列数据源的背景颜色
-      colors: [
-        '',
-        'warning',
-        'success',
-        'danger',
-        'info'
-      ],
+      colors: ['', 'warning', 'success', 'danger', 'info'],
       rule: {
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
@@ -793,10 +798,17 @@ export default defineComponent({
         return column.formatter(pathSring);
       }
       let filePath;
-      if (column.base64&&pathSring.indexOf('data')!=-1) {
-        filePath=(','+pathSring).split(',data').filter(x=>{return x}).map(m=>{return 'data'+m});
-      }else{
-        filePath=  pathSring.replace(/\\/g, '/').split(',');
+      if (column.base64 && pathSring.indexOf('data') != -1) {
+        filePath = (',' + pathSring)
+          .split(',data')
+          .filter((x) => {
+            return x;
+          })
+          .map((m) => {
+            return 'data' + m;
+          });
+      } else {
+        filePath = pathSring.replace(/\\/g, '/').split(',');
       }
 
       let fileInfo = [];
