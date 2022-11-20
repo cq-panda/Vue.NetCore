@@ -48,8 +48,8 @@ namespace VOL.Core.Filters
         /// </summary>
         protected bool LimitCurrentUserPermission { get; set; } = false;
 
-        ///默认导出最大数量5K数据
-        protected int Limit { get; set; } = 5000;
+        ///默认导出最大表数量：0不限制 
+        protected int Limit { get; set; } = 0;
 
         /// <summary>
         /// 默认上传文件大小限制3M
@@ -125,7 +125,7 @@ namespace VOL.Core.Filters
         /// 写入审批流程数据之后
         /// list:审批的人id
         /// </summary>
-        protected Action<T,List<int>> AddWorkFlowExecuted;
+        protected Action<T, List<int>> AddWorkFlowExecuted;
 
         /// <summary>
         /// 调用更新方法前处理(SaveModel为传入的原生数据)
@@ -191,7 +191,7 @@ namespace VOL.Core.Filters
         /// list:下一个节点的审批人id
         /// bool:当前数据是否为最后一个人审核
         /// </summary>
-        protected Func<T, AuditStatus,List<int>, bool, WebResponseContent> AuditWorkFlowExecuted;
+        protected Func<T, AuditStatus, List<int>, bool, WebResponseContent> AuditWorkFlowExecuted;
 
         /// <summary>
         ///导出前处理,DataTable导出的表数据

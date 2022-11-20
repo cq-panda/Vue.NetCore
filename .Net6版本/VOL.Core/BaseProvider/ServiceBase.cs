@@ -285,7 +285,12 @@ namespace VOL.Core.BaseProvider
             }
             if (options.Export)
             {
-                pageGridData.rows = queryable.GetIQueryableOrderBy(orderbyDic).Take(Limit).ToList();
+                queryable = queryable.GetIQueryableOrderBy(orderbyDic);
+                if (Limit > 0)
+                {
+                    queryable = queryable.Take(Limit);
+                }
+                pageGridData.rows = queryable.ToList();
             }
             else
             {
@@ -657,7 +662,7 @@ namespace VOL.Core.BaseProvider
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
         /// <param name="changeTableStatus">是否修改原表的审批状态</param>
-        protected void RewriteFlow(T entity,bool changeTableStatus = true) 
+        protected void RewriteFlow(T entity, bool changeTableStatus = true)
         {
             WorkFlowManager.AddProcese(entity, true, changeTableStatus);
         }
@@ -1214,7 +1219,7 @@ namespace VOL.Core.BaseProvider
                 {
                     return Response.OK(ResponseType.AuditSuccess);
                 }
-                return Response.Error(Response.Message??"审批失败");
+                return Response.Error(Response.Message ?? "审批失败");
             }
 
 

@@ -48,8 +48,8 @@ namespace VOL.Core.Filters
         /// </summary>
         protected bool LimitCurrentUserPermission { get; set; } = false;
 
-        ///默认导出最大数量5K数据
-        protected int Limit { get; set; } = 5000;
+        ///默认导出最大表数量：0不限制 
+        protected int Limit { get; set; } = 0;
 
         /// <summary>
         /// 默认上传文件大小限制3M

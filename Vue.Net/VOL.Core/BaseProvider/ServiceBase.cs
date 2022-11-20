@@ -285,7 +285,12 @@ namespace VOL.Core.BaseProvider
             }
             if (options.Export)
             {
-                pageGridData.rows = queryable.GetIQueryableOrderBy(orderbyDic).Take(Limit).ToList();
+                queryable= queryable.GetIQueryableOrderBy(orderbyDic);
+                if (Limit > 0)
+                {
+                    queryable = queryable.Take(Limit);
+                }
+                pageGridData.rows = queryable.ToList();
             }
             else
             {
