@@ -92,7 +92,7 @@ namespace VOL.Core.DBManager
             }
             if (dbCurrentType==DbCurrentType.MySql)
             {
-                return new MySql.Data.MySqlClient.MySqlConnection(connString);
+                return new MySqlConnection(connString);
             }
             if (dbCurrentType == DbCurrentType.PgSql)
             {
