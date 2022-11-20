@@ -122,9 +122,25 @@ namespace VOL.Core.Utilities
                             {
                                 return responseContent.Error($"[{options.ColumnCNName}]字段数字典编号[{options.DropNo}]缺失,请检查字典配置");
                             }
-                            string key = options.KeyValues.Where(x => x.Value == value)
-                                  .Select(s => s.Key)
-                                  .FirstOrDefault();
+                            string key = null;
+                            //2022.11.21增加导入多选的支持
+                            if ((options.EditType == "selectList" || options.EditType == "checkbox") && !string.IsNullOrEmpty(value))
+                            {
+                                var cellValues = value.Replace("，", ",").Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                                var keys = options.KeyValues.Where(x => cellValues.Contains(x.Value))
+                                    .Select(s => s.Key).ToArray();
+                                if (cellValues.Length == keys.Length)
+                                {
+                                    key = string.Join(",", keys);
+                                }
+                            }
+                            else
+                            {
+                                key = options.KeyValues.Where(x => x.Value == value)
+                                    .Select(s => s.Key)
+                                    .FirstOrDefault();
+                            }
+
                             if (key == null)//&& options.Requierd
                             {
                                 //小于20个字典项，直接提示所有可选value
