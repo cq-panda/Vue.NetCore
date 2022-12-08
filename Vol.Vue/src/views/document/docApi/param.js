@@ -309,7 +309,7 @@ const param = {
   },
   viewGrid: {
     attr: [
-      { name: "自定义扩展页面获取父组件(获取生成页面对象)", desc: "<span style='color:red;'>1、通过 this.$emit('parentCall', $parent => { //如：调用页面查询 $parent.search()  })可以访问父组件ViewGird中的任何属性、对象、方法<p>2、见上面示例【扩展弹出框按钮】</p></span>", type: "", default: "" },
+      { name: "自定义扩展页面获取父组件(获取生成页面对象)", desc: "<span styl`e='color:red;'>1、通过 this.$emit('parentCall', $parent => { //如：调用页面查询 $parent.search()  })可以访问父组件ViewGird中的任何属性、对象、方法<p>2、见上面示例【扩展弹出框按钮】</p></span>", type: "", default: "" },
       { name: "获取自定义扩展页面", desc: "this.$refs.gridHeader/gridBody/gridFooter/modelHeader/modelBody/modelFooter", type: "", default: "" },
       { name: "rowKey", desc: "<span style='color:red;'>树形table的主键字段,字段的值必须是唯一的(2021.05.02)</span>", type: "String", default: "" },
       { name: "columns", desc: "查询页面table表的配置,如果满足不了业务,可参照VolTable参数动态扩展", type: "array", default: "[]" },
@@ -334,6 +334,7 @@ const param = {
     },
     { name: "extend", desc: "扩展js中的所有对象,如:doc_viewGirdExtension.js整个js文件的对象", type: "json", default: "array" },
     { name: "single", desc: "查询界面的表是否只能单选", type: "bool", default: "false" },
+    { name: "downloadFileName", desc: "自定义导出文件名(2022.09.26更新前端组件后才能使用)", type: "string", default: "" },
     { name: "boxModel", desc: "弹出新建、编辑框状态", type: "bool", default: "false" },
     { name: "currentAction", desc: "当前操作的状态:如：Add,Update", type: "string", default: "" },
     { name: "currentRow", desc: "当前编辑的行数据", type: "json", default: "" },
@@ -918,7 +919,7 @@ const param = {
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'value'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'查询的值'</span>,
       </div>
       <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">//设置为模糊查询,其他不需要设置</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">//设置为模糊查询,其他类型见下面exportBefore方法displayType属性说明</span>
       </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]
@@ -1437,8 +1438,11 @@ const param = {
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">exportBefore</span>&nbsp;(<span style="color:#9cdcfe;">param</span>)&nbsp;{&nbsp;<span style="color:#6a9955;">//添加自定义导出查询条件</span>
       </div>
+      <div style="padding:10px 0;">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.downloadFileName='a.xlsx';//自定义导出的文件名(2022.09.12更新前端ViewGrid.vue才能使用)
+      </div>
       <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">wheres</span>&nbsp;=&nbsp;[{
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;"> let</span>&nbsp;<span style="color:#9cdcfe;">wheres</span>&nbsp;=&nbsp;[{
       </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'name'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'字段名'</span>,
@@ -1447,7 +1451,8 @@ const param = {
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'value'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'查询的值'</span>,
       </div>
       <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">//设置为模糊查询,其他不需要设置</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ce9178;">'displayType'</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'like'</span><span style="color:#6a9955;">
+        //可选类型text/like/selectList/thanorequal/lessorequal，like(模糊查询) ; selectList为多选,后台in查询，thanorequal>=,lessorequal<=</span>
       </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]
@@ -1465,7 +1470,7 @@ const param = {
         &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">rowClick</span>&nbsp;({&nbsp;<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">event</span>&nbsp;})&nbsp;{&nbsp;<span style="color:#6a9955;">//查询界面table点击行事件</span>
       </div>
       <div>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">//this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">clearRowSelection</span>(<span style="color:#9cdcfe;">row</span>)//清除当前选中当前行;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">//this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">clearSelection</span>(<span style="color:#9cdcfe;">row</span>)//清除当前选中当前行;
     </div>
       <div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">table</span>.<span style="color:#dcdcaa;">toggleRowSelection</span>(<span style="color:#9cdcfe;">row</span>)//单击行时选中当前行;
