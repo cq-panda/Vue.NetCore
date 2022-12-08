@@ -1,5 +1,5 @@
 <template>
-	<view :class="className">
+	<view class="vol-table" :class="className">
 		<!-- 		水平显示 -->
 		<view v-if="direction=='horizontal'">
 			<view class="vol-table-head">
@@ -43,9 +43,11 @@
 									:src="src" v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
 								</u--image>
 							</view>
-
 							<view class="vol-cell" v-else-if="column.bind">
 								{{rowFormatterValue(row,column)}}
+							</view>
+							<view v-else-if="column.type=='editor'">
+								<u-parse :content="row[column.field]"></u-parse>
 							</view>
 							<view class="vol-cell" v-else-if="column.type=='date'">
 								{{(row[column.field]||'').substr(0,10)}}
@@ -55,6 +57,20 @@
 					</view>
 					<slot></slot>
 				</u-list>
+				<!-- 	显示合计 -->
+				<view v-if="hasSummary" :key="rowindex" class="vol-table-body-rows vol-table-summary"
+					v-for="(row,rowindex) in summary">
+
+					<view class="cell-index" v-if="index">合计</view>
+					<view :style="{width:column.width+'px',flex:column.width?'unset':1}"
+						:class="{'text-inline':textInline}" :key="cindex" class="vol-table-body-cell"
+						v-if="!column.hidden" v-for="(column,cindex) in columns">
+
+						<view class="vol-cell"> {{base.isEmpty(row[column.field])?'':row[column.field]}}</view>
+					</view>
+
+
+				</view>
 			</view>
 		</view>
 		<!-- 		列表显示 -->
@@ -70,7 +86,7 @@
 						<view class="vol-table-list-item-title-left">
 							<rich-text :nodes="getListTitleValue(row,index)+''"></rich-text>
 						</view>
-						<slot :data="row" name="title"></slot>
+						<!-- 	<slot :data="row" name="title"></slot> -->
 					</view>
 					<view @click="tableRowClick(rowindex,columns)" class="vol-table-list-item">
 						<view :key="cindex" class="vol-table-list-item-cell"
@@ -78,10 +94,16 @@
 							<view class="cell-left"> {{column.title}}</view>
 							<view class="cell-right">
 								<view @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
-									{{row[column.field]}}
+									<view :style="column.style" v-if="column.formatter">
+										<rich-text :nodes="rowFormatter(row,column,rowindex)+''"></rich-text>
+									</view>
+									<view :style="column.style" v-else>{{row[column.field]}}</view>
 								</view>
 								<view v-else-if="column.formatter">
 									<rich-text :nodes="rowFormatter(row,column)+''"></rich-text>
+								</view>
+								<view v-else-if="column.type=='editor'">
+									<u-parse :content="row[column.field]"></u-parse>
 								</view>
 								<view v-else-if="column.bind">
 									{{rowFormatterValue(row,column)}}
@@ -103,8 +125,7 @@
 					<view style="margin:10rpx 0 20rpx 10rpx" @click.stop>
 						<view :key="btnIndex" class="extent-button" v-for="(btn,btnIndex) in rowButtons(rowindex,row)">
 							<u-button :icon="btn.icon" :hairline="true" :shape="btn.shape" :disabled="btn.disabled"
-								:plain="btn.plain" :type="btn.type" style="height:60rpx;"
-								size="small"
+								:plain="btn.plain" :type="btn.type" style="height:60rpx;" size="small"
 								@click="rowBtnClick(btn,rowindex,row)" :text="btn.text">
 							</u-button>
 						</view>
@@ -136,6 +157,10 @@
 			height: {
 				type: Number,
 				default: 0
+			},
+			autoHeight: {
+				type: Boolean,
+				default: true
 			},
 			textInline: { //超出是否显示省略号
 				type: Boolean,
@@ -177,7 +202,10 @@
 				tableHeight: 0,
 				inColumns: [],
 				page: 1,
-				loaded: false
+				loaded: false,
+				hasSummary: false,
+				lastHeight: 0,
+				summary: []
 			};
 		},
 		methods: {
@@ -219,6 +247,28 @@
 					if (!data.rows.length || data.rows.length < param.rows) {
 						this.loaded = true;
 					}
+					// for (var i = 0; i < 4; i++) {
+					// 	data.rows.push(...JSON.parse(JSON.stringify(data.rows)))
+					// }
+					//显示合计
+					if (data.summary) {
+						if (!this.summary.length) {
+							let summary = []
+							for (let key in data.summary) {
+								let obj = {};
+								obj[key] = data.summary[key];
+								summary.push(obj);
+							}
+							this.summary = summary;
+						} else {
+							this.summary.forEach(x => {
+								for (let key in data.summary) {
+									x[key] = data.summary[key];
+								}
+							})
+						}
+					}
+					console.log(this.summary)
 					this.rowsData.push(...data.rows);
 				})
 			},
@@ -310,6 +360,9 @@
 				if (this.base.isEmpty(imgs)) {
 					return []
 				}
+				if (imgs.indexOf('base64,') != -1) {
+					return [imgs];
+				}
 				let _imgs = imgs.split(',').map(x => {
 					if (x.startsWith('http')) {
 						return x;
@@ -358,41 +411,81 @@
 					urls: this.getImgSrc(urls),
 					longPressActions: {}
 				});
+			},
+			initSummary() {
+				if (this.summary.length) {
+					this.hasSummary = true;
+					return;
+				}
+				this.summary = this.columns.filter(x => {
+					return x.summary
+				}).map(x => {
+					let obj = {};
+					obj[x.field] = 0;
+					return obj;
+				})
+				this.hasSummary = this.summary.length > 0
+			},
+			caclHeaderHeight() {
+				if (this.direction == 'list') {
+					return;
+				}
+				console.log('555')
+				var view = uni.createSelectorQuery().in(this).select(".vol-table-head");
+				view.boundingClientRect().exec(res => {
+					if (this.lastHeight > 0 && this.lastHeight == this.tableHeight) {
+						return;
+					}
+					this.tableHeight = this.tableHeight - (res[0] || {
+						height: 0
+					}).height;
+					this.lastHeight = this.tableHeight;
+				})
 			}
 		},
 		created() {
+			this.initSummary();
 			this.getData();
 			this.inColumns = this.columns;
 			if (this.loadKey) {
 				this.loadSource();
 			}
-			//判断有没有formatter属性，调用父组件的注册方法
-			//计算高度
 			this.tableHeight = this.height;
-			if (!this.tableHeight) {
-				let _this = this;
+
+		},
+		mounted() {
+			if (this.autoHeight && this.height <= 0) {
 				uni.getSystemInfo({
-					success: function(res) {
-						// #ifdef MP-WEIXIN
-						_this.tableHeight = res.windowHeight - 60;
-						return
-						// #endif
-
-						_this.tableHeight = res.windowHeight - 60;
-
+					success: (resu) => {
+						var view = uni.createSelectorQuery().in(this).select(".vol-table");
+						view.boundingClientRect().exec(res => {
+							this.tableHeight = resu.windowHeight - res[0].top;
+							if (this.hasSummary) {
+								this.tableHeight = this.tableHeight - 49;
+							}
+							this.caclHeaderHeight()
+						})
 					}
-				});
+				})
+			} else {
+				this.caclHeaderHeight()
 			}
 		},
 		watch: {
 			height(newVal) {
-				this.tableHeight = newVal
+				console.log(newVal)
+				if (newVal <= 0) {
+					return;
+				}
+				this.tableHeight = newVal;
+				this.caclHeaderHeight();
 			},
 			// #ifdef MP-WEIXIN
 			inColumns: {
 				handler(newValue, oldValue) {
-					if(newValue&&newValue.length){
+					if (newValue && newValue.length) {
 						this.$emit('update:columns', newValue)
+						this.initSummary();
 					}
 				},
 				immediate: true,
@@ -470,6 +563,15 @@
 				white-space: nowrap;
 			}
 		}
+	}
+
+	.vol-table-summary {
+		bottom: 0;
+		width: 100%;
+		background: #f3f3f3 !important;
+		z-index: 999;
+		position: absolute;
+		font-weight: bold;
 	}
 
 	.vol-table-body-rows:nth-child(even) {

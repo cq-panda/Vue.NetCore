@@ -21,7 +21,6 @@
 				</u-grid-item>
 			</u-grid>
 		</view>
-		<vol-tabbar :index="0"></vol-tabbar>
 	</view>
 </template>
 
@@ -69,9 +68,6 @@
 			})
 		},
 		onShow() {
-			uni.hideTabBar({
-				animation: false
-			})
 		},
 		methods: {
 			getStyle(item) {

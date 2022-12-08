@@ -14,6 +14,9 @@
 				</view>
 				<text v-else> {{formatReadonlyValue(item)}}</text>
 			</view>
+			<view v-else-if="item.type=='editor'">
+				<u-parse :content="inFormFields[item.field]"></u-parse>
+			</view>
 			<template v-else-if="item.type=='date'||item.type=='datetime'">
 				<template v-if="item.range">
 					<view class="f-form-content f-form-content-select" @click="showPicker(item,0)">
@@ -42,22 +45,23 @@
 					</view>
 				</template>
 				<view v-else class="f-form-content f-form-content-select" @click="showPicker(item)">
-					<view style="color:rgb(192 196 204);font-size:15px;width: 100%;padding-right: 10rpx;" v-show="!inFormFields[item.field]">
+					<view style="color:rgb(192 196 204);font-size:15px;width: 100%;padding-right: 10rpx;"
+						v-show="!inFormFields[item.field]">
 						{{'请选择'+item.title}}
 					</view>
 					<view style="flex:1;">
-						<view style="font-size:15px;padding-right: 10rpx;">
+						<view style="font-size:15px;padding-right: 12rpx;">
 							{{item.type=='date'?(inFormFields[item.field]||'').substr(0,10):inFormFields[item.field]}}
 						</view>
 					</view>
-					<u-icon color="rgb(164 165 165)" name="arrow-right"></u-icon>
+					<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>
 				</view>
 			</template>
 
 			<view class="f-form-content f-form-content-select" @click="showActionSheet(item)"
 				v-else-if="['select','selectList','checkbox','radio','cascader'].indexOf(item.type)!=-1">
 				<view style="flex:1;">
-					<view style="color:rgb(192 196 204);font-size:15px;"
+					<view style="color:rgb(192 196 204);font-size:15px;padding-right: 12rpx;"
 						v-show="base.isEmpty(inFormFields[item.field],true)">
 						{{'请选择'+item.title}}
 					</view>
@@ -65,9 +69,9 @@
 						{{formatDicValue(item)}}
 					</view>
 				</view>
-				<u-icon name="arrow-right"></u-icon>
+				<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>
 			</view>
-			<view class="f-form-group-content" v-else-if="item.type=='group'">
+			<view class="f-form-group-content" :style="item.style" v-else-if="item.type=='group'">
 				{{item.title||''}}
 			</view>
 
@@ -109,10 +113,12 @@
 					v-model="inFormFields[item.field]" border="none" :ref="item.field"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
-			<view v-if="item.extra" @click="extraClick(item,inFormFields)">
-				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.clor||'#ffff'" size="20">
+			<view v-if="item.extra" :style="item.extra.style" style="display: flex;"
+				@click="extraClick(item,inFormFields)">
+				<u-icon v-if="item.extra.icon" :name="item.extra.icon" :color="item.extra.color"
+					:size="item.extra.size">
 				</u-icon>
-				<text :style="item.extra.style">{{item.extra.text}}</text>
+				<text>{{item.extra.text}}</text>
 			</view>
 		</view>
 		<slot></slot>
@@ -124,19 +130,18 @@
 		<!--  下拉框 -->
 		<u-popup @touchmove.prevent class="form-popup" :zIndex="999999" :show="actionSheetModel"
 			@close="actionSheetModel=false;">
-			<view class="vol-action-sheet-select-container" :style="{'max-height':(maxHeight+'px')}">
+			<view class="vol-action-sheet-select-container" :style="{'height':(popupHeight+'px')}">
 				<view class="vol-action-sheet-select-title">请选择{{actionSheetCurrentItem.title}}
 					<text class="vol-action-sheet-select-confirm" @click="actionConfirmClick">确定</text>
 				</view>
 				<!-- 	超过10个下拉框选项默认开启搜索 -->
-				<view class="vol-action-sheet-select-filter"
-					v-show="actionSheetCurrentItem.data&&actionSheetCurrentItem.data.length>=10">
-					<view style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
-						<u--input placeholder="请输入关键字搜索" v-model="searchText">
+				<view v-if="showFilter"  class="vol-action-sheet-select-filter" >
+					<view  style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
+						<u--input  placeholder="请输入关键字搜索" v-model="searchText">
 						</u--input>
 					</view>
 					<view class="search-btn">
-						<u-button type="primary" icon="trash" @click="searchText=''" size="small">清除</u-button>
+						<u-button :plain="true" :hairline="true" :customStyle="{padding:'10rpx 20rpx'}"  shape="circle" type="primary" icon="trash" @click="searchText=''" size="small">清除</u-button>
 					</view>
 				</view>
 				<view class="vol-action-sheet-select-content">
@@ -192,10 +197,12 @@
 		name: "vol-form",
 		data() {
 			return {
+				showFilter:false,
 				searchText: '', //搜索的内容
 				inFormFields: {},
 				inFormOptions: [],
 				maxHeight: 400,
+				popupHeight: 0,
 				pickerValue: '',
 				pickerModel: false, //日期组件
 				pickerCurrentItem: {}, //当前选项
@@ -266,7 +273,7 @@
 			var _this = this;
 			uni.getSystemInfo({
 				success: function(res) {
-					_this.maxHeight = res.screenHeight * 0.75;
+					_this.maxHeight = res.screenHeight * 0.85;
 				}
 			});
 		},
@@ -317,7 +324,9 @@
 						this.actionSheetSelectValues.push(value);
 					}
 				}
-
+				this.showFilter = item.data.length > 15;
+				let height = (item.data.length + 1+(this.showFilter?1:0)) * 50;
+				this.popupHeight = height > this.maxHeight ? this.maxHeight : height;
 				this.actionSheetModel = true;
 			},
 			actionClick(item) {
@@ -742,7 +751,7 @@
 		}
 
 		.f-form-content-select {
-			    text-align: right;
+			text-align: right;
 			display: flex;
 		}
 
@@ -791,5 +800,9 @@
 		font-weight: bold;
 
 		.f-form-group-content {}
+	}
+
+	/deep/ .u-icon {
+		display: inline-flex;
 	}
 </style>

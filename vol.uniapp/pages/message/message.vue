@@ -30,7 +30,6 @@
 				</u-list> -->
 			</u-skeleton>
 		</view>
-		<vol-tabbar :index="3"></vol-tabbar>
 	</view>
 </template>
 
@@ -68,9 +67,6 @@
 			}
 		},
 		async onLoad() {
-			uni.hideTabBar({
-				animation: false
-			})
 			let _this = this;
 			uni.getSystemInfo({
 				success: function(res) {
