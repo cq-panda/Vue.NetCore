@@ -654,7 +654,9 @@ var vueParam = {
         uploadImgUrl: '', //上传路径
         upload: null //上传方法
       },
-      numberFields: []
+      numberFields: [],
+      //2022.09.26增加自定义导出文件名
+      downloadFileName: null
     };
   },
   methods: {},
