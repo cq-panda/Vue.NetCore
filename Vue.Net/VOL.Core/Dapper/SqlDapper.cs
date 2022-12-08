@@ -767,7 +767,7 @@ namespace VOL.Core.Dapper
         private int MySqlBulkInsert(DataTable table, string tableName, string fileName = null, string tmpPath = null)
         {
             if (table.Rows.Count == 0) return 0;
-            tmpPath = tmpPath ?? FileHelper.GetCurrentDownLoadPath();
+           // tmpPath = tmpPath ?? FileHelper.GetCurrentDownLoadPath();
             int insertCount = 0;
             string csv = DataTableToCsv(table);
             string text = $"当前行:{table.Rows.Count}";

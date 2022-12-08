@@ -44,6 +44,7 @@ let detailMethods = {
   },
   addRow() {
     this.$refs.detail.addRow({});
+    this.$refs.detail.edit.rowIndex=-1;
     this.updateDetailTableSummaryTotal();
   },
   delRow() {

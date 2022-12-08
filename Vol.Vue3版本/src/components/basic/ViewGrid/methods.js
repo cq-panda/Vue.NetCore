@@ -1078,6 +1078,10 @@ let methods = {
     this.auditParam.model = true;
   },
   saveAudit() {
+    if (this.auditParam.status == -1 && this.auditParam.value == -1) {
+      this.$message.error('请选择审批状态');
+      return;
+    }
     //保存审核
     let keys = [this.editFormFields[this.table.key]];
     if (!this.auditBefore(keys, this.currentRow)) {
@@ -1226,6 +1230,18 @@ let methods = {
     //绑定下拉框的数据源
     //绑定后台的字典数据
     dic.forEach((d) => {
+      if (d.data.length >= (this.select2Count || 500)) {
+        if (
+          !this.dicKeys.some((x) => {
+            return x.dicNo == d.dicNo && x.type == 'cascader';
+          })
+        ) {
+          d.data.forEach((item) => {
+            item.label = item.value;
+            item.value = item.key;
+          });
+        }
+      }
       this.dicKeys.forEach((x) => {
         if (x.dicNo != d.dicNo) return true;
         //2020.10.26增加级联数据源绑定处理

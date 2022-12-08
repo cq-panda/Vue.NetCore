@@ -1,218 +1,21 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 120
+ Source Server         : 120.53.251.208
  Source Server Type    : MySQL
  Source Server Version : 50729
  Source Host           : 120.53.251.208:3306
- Source Schema         : netcoredev0819
+ Source Schema         : 1105
 
  Target Server Type    : MySQL
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 19/08/2022 16:31:28
+ Date: 06/11/2022 00:36:34
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for App_Appointment
--- ----------------------------
-DROP TABLE IF EXISTS `App_Appointment`;
-CREATE TABLE `App_Appointment`  (
-  `Id` varchar(36) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
-  `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Describe` varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `Modifier` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ModifyDate` datetime(0) NULL DEFAULT NULL,
-  `ModifyID` int(11) NULL DEFAULT NULL,
-  `Name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `PhoneNo` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Records of App_Appointment
--- ----------------------------
-INSERT INTO `App_Appointment` VALUES ('08d9fcbc-b5e9-4833-8bfb-3b3ce77bc704', '2022-03-03 10:22:48', 1, '超级管理员', '古埃及第十九王朝法老第三位法老，杰出的政治家、军事家、文学家、诗人、建筑家，其执政时期是埃及新王国最后的强盛年', '超级管理员', '2022-03-03 10:24:14', 1, '拉美西斯', '1388888888');
-INSERT INTO `App_Appointment` VALUES ('08d9fcbc-b5eb-4c1f-80bc-3c5029d935e7', '2022-03-03 10:22:48', 1, '超级管理员', '奈菲尔塔利（Nefertari ）是古埃及著名法老，拉美西斯二世八位王后中唯一一个拥有神庙的王后', '超级管理员', '2022-03-03 10:24:16', 1, '奈菲尔塔利', '1399999999');
-INSERT INTO `App_Appointment` VALUES ('08da0e85-17db-4da5-85ed-1400a5fce2c5', '2022-03-26 01:30:02', 1, '超级管理员', '人中吕布,马中赤兔,方天画戟,专杀义父', '超级管理员', '2022-03-26 01:32:55', 1, '人中吕布', '13777777777');
-INSERT INTO `App_Appointment` VALUES ('08da0e85-17db-4e08-8b4e-450a5f98f8ba', '2022-03-26 01:30:02', 1, '超级管理员', '非礼啊!非礼啊!非礼啊!', '超级管理员', '2022-03-26 01:32:57', 1, '貂蝉西施', '13666666666');
-
--- ----------------------------
--- Table structure for App_Expert
--- ----------------------------
-DROP TABLE IF EXISTS `App_Expert`;
-CREATE TABLE `App_Expert`  (
-  `ExpertId` int(11) NOT NULL AUTO_INCREMENT,
-  `AuditDate` datetime(0) NULL DEFAULT NULL,
-  `AuditId` int(11) NULL DEFAULT NULL,
-  `AuditStatus` int(11) NOT NULL,
-  `Auditor` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Certificate` varchar(2500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `City` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `Company` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
-  `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Education` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Enable` tinyint(4) NOT NULL,
-  `ExpertName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `HeadImageUrl` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `IDNumber` varchar(18) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Modifier` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ModifyDate` datetime(0) NULL DEFAULT NULL,
-  `ModifyID` int(11) NULL DEFAULT NULL,
-  `PhoneNo` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Professional` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ReallyName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Resume` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `SpecialField` varchar(800) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `UserName` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `UserTrueName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `User_Id` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`ExpertId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 288 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Records of App_Expert
--- ----------------------------
-INSERT INTO `App_Expert` VALUES (275, '2018-09-07 10:58:17', 1, 1, '测试超级管理员', NULL, '上海市', '中国农业大学', '2018-09-04 15:49:44', 3344, 'User31110458', '博士', 1, '宫本七号', 'Upload/Tables/App_Expert/202103061750152777/head2.jpg', '150124199911110116', '超级管理员', '2021-03-07 21:55:31', 1, '1388886666', '教授', '拉美西斯', '二十九岁,对于一个人男人而言不算老,可是对于爱情来说已是风烛残年', 'Upload/Tables/App_Expert/201911271400081947/启用图片支持 (1).xlsx', '13381277739', 'User31110458', 3344);
-INSERT INTO `App_Expert` VALUES (276, '2019-09-22 22:30:08', 3362, 1, 'zs', '', '北京市', '窦天宝传奇', '2018-09-18 17:45:54', 3358, '较瘦', '小学', 1, '榴莲', 'Upload/Tables/App_Expert/202109221608498894/c6dd920b17825b5801e97b400897ed03_t.gif', '250124123911110121', '超级管理员', '2021-09-24 11:09:48', 1, '1388887777', '演员', '木兰', '还没想好', 'Upload/Tables/App_Expert/201912111717154170/exceltest.xlsx', '17612519002', '较瘦', 3358);
-INSERT INTO `App_Expert` VALUES (280, NULL, NULL, 0, NULL, NULL, '北京市', NULL, '2021-03-06 17:52:07', 1, '超级管理员', NULL, 1, '女秘书', 'Upload/Tables/App_Expert/202103061753415708/060222.jpg', NULL, '超级管理员', '2021-12-30 11:26:21', 1, '1388888888', NULL, '女秘书', '嗯？嗯？嗯？嗯？嗯？', NULL, '17612519001', NULL, NULL);
-INSERT INTO `App_Expert` VALUES (287, NULL, NULL, 0, NULL, NULL, '北京市', NULL, '2022-08-15 05:02:14', 1, '超级管理员', NULL, 0, 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL);
-
--- ----------------------------
--- Table structure for App_News
--- ----------------------------
-DROP TABLE IF EXISTS `App_News`;
-CREATE TABLE `App_News`  (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Author` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `BigImageUrls` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
-  `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `DailyRecommend` tinyint(4) NOT NULL,
-  `DetailUrl` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Enable` tinyint(4) NULL DEFAULT NULL,
-  `ImageUrl` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Modifier` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ModifyDate` datetime(0) NULL DEFAULT NULL,
-  `ModifyID` int(11) NULL DEFAULT NULL,
-  `NewsType` int(11) NOT NULL,
-  `OrderNo` int(11) NULL DEFAULT NULL,
-  `ReleaseDate` datetime(0) NULL DEFAULT NULL,
-  `Title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `ViewCount` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 73804 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Records of App_News
--- ----------------------------
-INSERT INTO `App_News` VALUES (73799, NULL, NULL, '<p style=\"line-height:2;\"><br/></p><p style=\"line-height:2;\"><img src=\"https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2022%2F0419%2Fe8ae745dj00rakxnm0058d000rs00fnp.jpg&amp;thumbnail=660x2147483647&amp;quality=80&amp;type=jpg\"/><br/></p><p style=\"line-height:2;\">开发商Studio Wildcard宣布《方舟：终极幸存者版》将于2022年9月登录任天堂Switch，发售实体版和数字版，售价49.99美元，原版游戏所有者可以免费升级。</p><p style=\"line-height:2;\">《方舟：终极幸存者版》包含了本体《方舟：生存进化》及其所有大型扩展包Scorched Earth、Aberration、Extinction 和 Genesis Parts 1&amp;2，其中Scorched Earth扩展包将在游戏发售时发布，随后的扩展包将每隔两个月发布一次。</p><p style=\"line-height:2;\">拥有原版《方舟：生存进化》的玩家可能会记得，这款游戏自Switch版上线以来一直处于很糟糕的状态。幸运的是，Studio Wildcard已经与第三方开发商合作，重新编写了Switch上的整体代码，并在最新版本的虚幻4上进行开发。计划对功能、图形和优化进行完整的修改。此外，所有现有的Switch进度和存档数据将被保留至新版。</p><p style=\"line-height:2;\">不过最新新版游戏的质量如何，还是需要等发售之后实测才会知道，毕竟虚幻4引擎的游戏在switch上流畅运行，对于开发商来说真的是一个很大的挑战。</p>', '2022-04-20 01:49:23', 1, '超级管理员', 1, 'static/news/20220420/0949288120.html', 1, 'Upload/Tables/App_News/202204201140571762/20-05.png', '超级管理员', '2022-04-20 09:51:16', 1, 1, NULL, NULL, '重写代码可免费升级！《方舟终极版》9月登录Switch', NULL);
-INSERT INTO `App_News` VALUES (73800, NULL, NULL, '<p style=\"line-height:2.5;\"><span style=\"color: var(--el-text-color-regular);\"><br/></span></p><ul><li><span style=\"color: var(--el-text-color-regular);\">用框架之前尽量会一些简单vue基础语法，如果不会vue项目不复杂也不影响使用框架</span></li></ul><p><br/></p><ul><li>后台：会熟练写C#代码就没问题</li></ul><p><br/></p><ul><li>前端Vue语法学习方式，<span style=\"color: var(--el-text-color-regular);\">直接在框架上添加页面以脚手架的方式来学习Vue</span></li></ul><p><br/></p><p style=\"line-height:2.5;\"><b>刚入门前端的先学会这些就够了</b></p><p style=\"line-height:2.5;\"><span style=\"color: var(--el-text-color-regular);\">1.</span><span style=\"font-size: 14px; color: var(--el-text-color-regular);\">基础语法</span></p><p style=\"line-height:2.5;\"></p><p style=\"line-height:2.5;\">&nbsp; &nbsp; &nbsp; v-model  v-for  v-if  v-else-if  v-show&nbsp;</p><p style=\"line-height:2.5;\">&nbsp; &nbsp; &nbsp; @click  slot  ref  class  style\n</p><p style=\"line-height:2.5;\">2.子父组件传参</p><p style=\"line-height:2.5;\"><span style=\"color: var(--el-text-color-regular);\">&nbsp; &nbsp; &nbsp;props、$emit、$refs</span></p><p style=\"line-height:2.5;\">3、生命周期</p><p style=\"line-height:2.5;\">&nbsp; &nbsp; &nbsp;created、mounted、destroyed、activated<br/></p><p style=\"line-height:2.5;\">4、创建Vue页面、Vue组件(页面)引用</p>', '2022-04-21 10:36:28', 1, '超级管理员', 1, 'static/news/20220421/1044487732.html', 1, 'Upload/Tables/App_News/202204211047116801/v.png', '超级管理员', '2022-04-21 10:59:05', 1, 1, NULL, NULL, '前端Vue与后台学习方式与一些基础语法问题', NULL);
-INSERT INTO `App_News` VALUES (73801, NULL, NULL, '<div style=\"\"><br/></div><ul style=\"\"><li>202-05-03 11:41:43&nbsp;优化vue3版本权限分配页面区分app菜单</li><li>202-05-03 11:41:03&nbsp;优化vue2版本权限分配页面区分app菜单</li><li>202-05-03 11:13:08&nbsp;增加vue3版本volform输入框inputStyle属性</li><li>202-05-03 10:56:33&nbsp;增加vue3版本voltable组件textarea编辑类型</li><li>202-05-03 10:46:14&nbsp;移除多余设置默认值的操作</li><li>202-05-03 10:36:37&nbsp;优化移动端权限名不区分大小写</li><li>202-05-03 10:33:18&nbsp;优化移动端保存前方法</li><li>202-05-03 10:31:50&nbsp;增加移动端表单组件ref属性</li><li>202-05-03 10:29:44&nbsp;屏蔽代码生成器生成dto功能</li><li>202-05-03 03:50:26<p>vue3版本集成signalR(消息推送),更新文件:</p><p>package.json、router/index.js、views/index.vue、views/Home.vue、views/index/index.less、Startup.cs、appsettings.json、</p>Hubs/HomePageMessageHub.cs、views/index文件夹、views/signalR/Index.vue</li></ul>', '2022-05-06 15:46:30', 1, '超级管理员', 0, 'static/news/20220506/1546322571.html', 1, 'Upload/Tables/App_News/202205061555467266/vl.png', '超级管理员', '2022-05-06 15:56:56', 1, 1, NULL, NULL, '2022.05增加首页消息推送(signalr)功能可实时发送消息', NULL);
-INSERT INTO `App_News` VALUES (73802, NULL, NULL, '<div><br/></div><ul><li>增加自定义列显示与顺序、菜单右键关闭功能、tabs与菜单联功动能</li><li>具体见演示地址或更新日志</li></ul>', '2022-05-29 23:28:07', 1, '超级管理员', 1, NULL, 1, 'Upload/Tables/App_News/202205292342573890/QQ图片20220529233342.png', '超级管理员', '2022-05-29 23:30:51', 1, 1, NULL, NULL, '2022.05增加自定义列显示与顺序、菜单右键关闭功能、tabs与菜单联功动能', NULL);
-
--- ----------------------------
--- Table structure for App_ReportPrice
--- ----------------------------
-DROP TABLE IF EXISTS `App_ReportPrice`;
-CREATE TABLE `App_ReportPrice`  (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Age` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `AuditDate` datetime(0) NULL DEFAULT NULL,
-  `AuditId` int(11) NULL DEFAULT NULL,
-  `AuditStatus` int(11) NULL DEFAULT NULL,
-  `Auditor` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `City` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
-  `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Enable` tinyint(4) NULL DEFAULT NULL,
-  `Modifier` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ModifyDate` datetime(0) NULL DEFAULT NULL,
-  `ModifyID` int(11) NULL DEFAULT NULL,
-  `Price` decimal(10, 0) NOT NULL,
-  `Variety` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Records of App_ReportPrice
--- ----------------------------
-INSERT INTO `App_ReportPrice` VALUES (67, '12-16月龄', '2019-10-21 16:41:22', 1, 1, '超级管理员', '忻州市', '2018-09-10 10:12:50', 3344, '啊啊啊', 0, '超级管理员', '2021-11-10 10:04:43', 1, 29, '运动相机');
-INSERT INTO `App_ReportPrice` VALUES (74, '7-12月龄', '2019-10-21 16:41:22', 1, 1, '超级管理员', '唐山市', '2019-07-11 18:25:35', 1, '超级管理员', 0, '超级管理员', '2021-11-10 10:04:17', 1, 65, '数码相机');
-INSERT INTO `App_ReportPrice` VALUES (75, '7-12月龄', '2019-10-21 16:41:22', 1, 1, '超级管理员', '北京市', '2019-07-11 18:28:53', 1, '超级管理员', 1, '超级管理员', '2021-11-10 10:04:13', 1, 43, '单反相机');
-INSERT INTO `App_ReportPrice` VALUES (83, '12-16月龄', '2019-10-21 16:41:22', 1, 1, '超级管理员', '天津市', '2019-07-26 13:20:43', 1, '超级管理员', 1, '超级管理员', '2021-11-10 10:04:08', 1, 12, '运动相机');
-INSERT INTO `App_ReportPrice` VALUES (85, '0-2月龄', '2019-10-21 16:42:04', 1, 2, '超级管理员', '天津市', '2019-10-21 16:41:48', 1, '超级管理员', 1, '超级管理员', '2021-11-10 10:04:05', 1, 23, '影棚器材');
-
--- ----------------------------
--- Table structure for App_Transaction
--- ----------------------------
-DROP TABLE IF EXISTS `App_Transaction`;
-CREATE TABLE `App_Transaction`  (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `CowType` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
-  `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Describe` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `Enable` tinyint(4) NULL DEFAULT NULL,
-  `Modifier` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ModifyDate` datetime(0) NULL DEFAULT NULL,
-  `ModifyID` int(11) NULL DEFAULT NULL,
-  `Name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `PhoneNo` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `Quantity` int(11) NOT NULL,
-  `TransactionType` int(11) NOT NULL,
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Records of App_Transaction
--- ----------------------------
-INSERT INTO `App_Transaction` VALUES (4, '3', '2019-09-18 18:10:01', 1, '超级管理员', '寒江孤影，江湖故人....', NULL, '超级管理员', '2022-03-31 16:56:04', 1, '小小*鸭', '13419098123', 25, 0);
-INSERT INTO `App_Transaction` VALUES (5, '1', '2019-09-18 18:10:01', 1, '超级管理员', '闻着臭，吃着更臭。。。。。', NULL, '超级管理员', '2021-10-12 10:23:39', 1, '不爱`吃臭`豆腐', '13419098123', 25, 1);
-INSERT INTO `App_Transaction` VALUES (6, '3', '2019-09-18 18:22:25', 1, '超级管理员', '。。。', NULL, '超级管理员', '2022-04-13 10:13:43', 1, '同是天涯流落人', '13419444123', 199, 1);
-INSERT INTO `App_Transaction` VALUES (9, '3', '2020-09-19 23:22:19', 1, '超级管理员', '还没想好', NULL, '超级管理员', '2022-04-13 10:13:50', 1, '林子大了什么鸟都有', '13999999999', 100, 0);
-
--- ----------------------------
--- Table structure for App_TransactionAvgPrice
--- ----------------------------
-DROP TABLE IF EXISTS `App_TransactionAvgPrice`;
-CREATE TABLE `App_TransactionAvgPrice`  (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `AgeRange` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `AvgPrice` decimal(10, 2) NOT NULL,
-  `City` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
-  `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Date` date NOT NULL,
-  `Enable` tinyint(4) NULL DEFAULT NULL,
-  `IsTop` int(11) NOT NULL,
-  `Modifier` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ModifyDate` datetime(0) NULL DEFAULT NULL,
-  `ModifyID` int(11) NULL DEFAULT NULL,
-  `Variety` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Records of App_TransactionAvgPrice
--- ----------------------------
-INSERT INTO `App_TransactionAvgPrice` VALUES (3, '50-60', 18.00, '石家庄市', '2019-05-06 14:06:35', 1, '超级管理员', '2019-05-08', 0, 1, '超级管理员', '2022-03-26 02:19:25', 1, '数码相框,影棚器材');
-INSERT INTO `App_TransactionAvgPrice` VALUES (13, '20-30', 90.00, '北京市', '2020-11-16 23:14:23', 1, '超级管理员', '2020-11-16', NULL, 1, '超级管理员', '2022-03-26 02:19:09', 1, '户外器材');
-INSERT INTO `App_TransactionAvgPrice` VALUES (14, '30-40', 50.00, '天津市', '2020-11-16 23:14:40', 1, '超级管理员', '2020-11-16', NULL, 1, '超级管理员', '2022-03-26 02:19:05', 1, '户外器材');
-INSERT INTO `App_TransactionAvgPrice` VALUES (17, '40-50', 12.00, '石家庄市', '2020-11-16 23:15:47', 1, '超级管理员', '2020-11-16', NULL, 0, '超级管理员', '2022-07-06 15:06:49', 1, '影棚器材');
 
 -- ----------------------------
 -- Table structure for FormCollectionObject
@@ -408,66 +211,6 @@ CREATE TABLE `FormDesignOptions`  (
 -- ----------------------------
 INSERT INTO `FormDesignOptions` VALUES ('0431a578-bfc9-407f-b95e-321c350f10cb', '2021开发语言使用调查', '[{\"id\":5,\"name\":\"多种语言开发\",\"type\":\"radio\",\"icon\":\"el-icon-aim\",\"value\":0,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"key\":\"enable\",\"field\":\"field1640871905593\",\"width\":100,\"readonly\":false,\"required\":true,\"values\":[\"否\"]},{\"id\":3,\"name\":\"从什么时候开始做开发?\",\"type\":\"date\",\"icon\":\"el-icon-date\",\"value\":null,\"field\":\"field1640871902689\",\"width\":100,\"readonly\":false,\"required\":true},{\"id\":2,\"name\":\"说点什么\",\"type\":\"textarea\",\"value\":\"\",\"icon\":\"el-icon-document-copy\",\"field\":\"field1641207457900\",\"width\":100,\"readonly\":false,\"required\":false},{\"id\":9,\"name\":\"图片上传\",\"type\":\"img\",\"url\":\"\",\"maxSize\":3,\"fileInfo\":[],\"multiple\":false,\"autoUpload\":false,\"maxFile\":5,\"icon\":\"el-icon-picture-outline\",\"field\":\"field1641207424694\",\"width\":100,\"readonly\":false,\"required\":false}]', '{\"fields\":{\"field1640871905593\":[],\"field1640871902689\":null,\"field1641207457900\":null,\"field1641207424694\":null},\"formOptions\":[[{\"field\":\"field1640871905593\",\"title\":\"多种语言开发\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"}],[{\"field\":\"field1640871902689\",\"title\":\"从什么时候开始做开发?\",\"type\":\"date\",\"required\":true,\"readonly\":false,\"colSize\":12}],[{\"field\":\"field1641207457900\",\"title\":\"说点什么\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12}],[{\"field\":\"field1641207424694\",\"title\":\"图片上传\",\"type\":\"img\",\"required\":false,\"readonly\":false,\"colSize\":12,\"maxSize\":3,\"fileInfo\":[],\"multiple\":false,\"autoUpload\":false,\"maxFile\":5,\"url\":\"\"}]],\"tables\":[],\"tabs\":[]}', '[{\"field\":\"field1640871905593\",\"title\":\"多种语言开发\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"},{\"field\":\"field1640871902689\",\"title\":\"从什么时候开始做开发?\",\"type\":\"date\",\"required\":true,\"readonly\":false,\"colSize\":12},{\"field\":\"field1641207457900\",\"title\":\"说点什么\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12},{\"field\":\"field1641207424694\",\"title\":\"图片上传\",\"type\":\"img\",\"required\":false,\"readonly\":false,\"colSize\":12,\"maxSize\":3,\"fileInfo\":[],\"multiple\":false,\"autoUpload\":false,\"maxFile\":5,\"url\":\"\"}]', NULL, '[]', '2021-12-29 23:39:22', 1, '超级管理员', '超级管理员', '2022-08-03 15:58:37', 1);
 INSERT INTO `FormDesignOptions` VALUES ('8e6d9e7c-16c2-48b8-9d67-f1a1a19453da', '2021双减政策调查', '[{\"id\":5,\"name\":\"您的孩子放学后是否有学校布置的书面作业?\",\"type\":\"radio\",\"icon\":\"el-icon-aim\",\"value\":0,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"key\":\"enable\",\"field\":\"field1641205615398\",\"width\":100,\"readonly\":false,\"required\":true,\"values\":[\"否\"]},{\"id\":6,\"name\":\"您认为放学后作业对孩子的负担怎样?\",\"values\":[\"非常满意\"],\"type\":\"checkbox\",\"key\":\"满意度\",\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"icon\":\"el-icon-circle-check\",\"field\":\"field1641206170991\",\"width\":100,\"readonly\":false,\"required\":true},{\"id\":5,\"name\":\"作为家长,对当前双减政策是否满意？\",\"type\":\"radio\",\"icon\":\"el-icon-aim\",\"value\":0,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"key\":\"满意度\",\"field\":\"field1641205647957\",\"width\":100,\"readonly\":false,\"required\":true,\"values\":[\"非常满意\"]},{\"id\":2,\"name\":\"其他意见\",\"type\":\"textarea\",\"value\":\"\",\"icon\":\"el-icon-document-copy\",\"field\":\"field1641206608182\",\"width\":100,\"readonly\":false,\"required\":false}]', '{\"fields\":{\"field1641205615398\":[],\"field1641206170991\":[],\"field1641205647957\":[],\"field1641206608182\":null},\"formOptions\":[[{\"field\":\"field1641205615398\",\"title\":\"您的孩子放学后是否有学校布置的书面作业?\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"}],[{\"field\":\"field1641206170991\",\"title\":\"您认为放学后作业对孩子的负担怎样?\",\"type\":\"checkbox\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"}],[{\"field\":\"field1641205647957\",\"title\":\"作为家长,对当前双减政策是否满意？\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"}],[{\"field\":\"field1641206608182\",\"title\":\"其他意见\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12}]],\"tables\":[],\"tabs\":[]}', '[{\"field\":\"field1641205615398\",\"title\":\"您的孩子放学后是否有学校布置的书面作业?\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"0\",\"value\":\"否\"},{\"key\":\"2\",\"value\":\"xx11\"},{\"key\":\"1\",\"value\":\"是\"}],\"dataKey\":\"enable\"},{\"field\":\"field1641206170991\",\"title\":\"您认为放学后作业对孩子的负担怎样?\",\"type\":\"checkbox\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"},{\"field\":\"field1641205647957\",\"title\":\"作为家长,对当前双减政策是否满意？\",\"type\":\"radio\",\"required\":true,\"readonly\":false,\"colSize\":12,\"data\":[{\"key\":\"非常满意\",\"value\":\"非常满意\"},{\"key\":\"十分满意\",\"value\":\"十分满意\"},{\"key\":\"相当满意\",\"value\":\"相当满意\"}],\"dataKey\":\"满意度\"},{\"field\":\"field1641206608182\",\"title\":\"其他意见\",\"type\":\"textarea\",\"required\":false,\"readonly\":false,\"colSize\":12}]', NULL, '[]', '2021-12-30 21:45:16', 1, '超级管理员', '超级管理员', '2022-08-03 15:57:54', 1);
-
--- ----------------------------
--- Table structure for SellOrder
--- ----------------------------
-DROP TABLE IF EXISTS `SellOrder`;
-CREATE TABLE `SellOrder`  (
-  `Order_Id` char(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  `OrderType` int(11) NOT NULL,
-  `TranNo` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `SellNo` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `Qty` int(11) NOT NULL DEFAULT 0,
-  `AuditDate` datetime(0) NULL DEFAULT NULL,
-  `AuditStatus` int(4) NOT NULL,
-  `AuditId` int(11) NULL DEFAULT NULL,
-  `Auditor` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `Remark` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
-  `ModifyID` int(11) NULL DEFAULT NULL,
-  `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ModifyDate` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`Order_Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Records of SellOrder
--- ----------------------------
-INSERT INTO `SellOrder` VALUES ('47e41e06-cb4a-4763-9aeb-df66cd6615e1', 1, '20022208150002', '20022208150002', 200, NULL, 0, NULL, NULL, '2002220815000220022208150002', 1, '超级管理员', '2022-08-16 02:03:17', 1, '超级管理员', '2022-08-16 14:28:36');
-INSERT INTO `SellOrder` VALUES ('978ad775-77c0-49ca-be31-ba36bb6f8af8', 1, '20022208150003', '20022208150003', 10, NULL, 0, NULL, NULL, '20022208150003', 1, '超级管理员', '2022-08-17 23:27:48', NULL, NULL, NULL);
-INSERT INTO `SellOrder` VALUES ('ec217c01-42a2-435f-bdb6-70613b947bf9', 1, '20022208150001', '20022208150001', 200, NULL, 0, NULL, NULL, NULL, 3362, 'admin666', '2022-08-15 05:01:04', 1, '超级管理员', '2022-08-16 14:28:38');
-
--- ----------------------------
--- Table structure for SellOrderList
--- ----------------------------
-DROP TABLE IF EXISTS `SellOrderList`;
-CREATE TABLE `SellOrderList`  (
-  `OrderList_Id` char(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  `Order_Id` varchar(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `ProductName` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `MO` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `Qty` int(11) NOT NULL DEFAULT 0,
-  `Weight` decimal(11, 2) NULL DEFAULT NULL,
-  `Remark` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
-  `ModifyID` int(11) NULL DEFAULT NULL,
-  `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ModifyDate` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`OrderList_Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
-
--- ----------------------------
--- Records of SellOrderList
--- ----------------------------
-INSERT INTO `SellOrderList` VALUES ('08da7e38-19ce-4ca8-8410-49252fca5be5', 'ec217c01-42a2-435f-bdb6-70613b947bf9', '潮流', '11', 200, 200.00, NULL, 1, '超级管理员', '2022-08-15 05:01:04', 1, '超级管理员', '2022-08-16 14:28:38');
-INSERT INTO `SellOrderList` VALUES ('08da7ee8-6deb-4b27-83c4-4a29a041ba1a', '47e41e06-cb4a-4763-9aeb-df66cd6615e1', '家电', '120', 200, 200.00, NULL, 1, '超级管理员', '2022-08-16 02:03:17', 1, '超级管理员', '2022-08-16 14:28:36');
-INSERT INTO `SellOrderList` VALUES ('08da8065-0a6c-47ae-8875-0b8582aeb68c', '978ad775-77c0-49ca-be31-ba36bb6f8af8', '家电', '200', 200, 200.00, NULL, 1, '超级管理员', '2022-08-17 23:27:48', NULL, NULL, NULL);
-INSERT INTO `SellOrderList` VALUES ('fc332cef-c1eb-4063-b71c-6addf19a8e8b', '6efb65b8-585e-4be7-8b77-94c76e362412', '22', '2', 0, NULL, NULL, 1, '超级管理员', '2019-08-30 11:05:19', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_City
@@ -1162,6 +905,64 @@ INSERT INTO `Sys_Province` VALUES (35, 'thd', '桃花岛', '东北');
 INSERT INTO `Sys_Province` VALUES (43, '测试1', '测试1', '港澳台');
 
 -- ----------------------------
+-- Table structure for Sys_QuartzLog
+-- ----------------------------
+DROP TABLE IF EXISTS `Sys_QuartzLog`;
+CREATE TABLE `Sys_QuartzLog`  (
+  `LogId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `TaskName` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ElapsedTime` int(11) NULL DEFAULT NULL,
+  `StratDate` datetime(0) NULL DEFAULT NULL,
+  `EndDate` datetime(0) NULL DEFAULT NULL,
+  `Result` int(11) NULL DEFAULT NULL,
+  `ResponseContent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `ErrorMsg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `CreateID` int(11) NULL DEFAULT NULL,
+  `Creator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `CreateDate` datetime(0) NULL DEFAULT NULL,
+  `ModifyID` int(11) NULL DEFAULT NULL,
+  `Modifier` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ModifyDate` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`LogId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of Sys_QuartzLog
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for Sys_QuartzOptions
+-- ----------------------------
+DROP TABLE IF EXISTS `Sys_QuartzOptions`;
+CREATE TABLE `Sys_QuartzOptions`  (
+  `Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `TaskName` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `GroupName` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CronExpression` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ApiUrl` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `AuthKey` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `AuthValue` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `LastRunTime` datetime(0) NULL DEFAULT NULL,
+  `Status` int(11) NULL DEFAULT NULL,
+  `Describe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `PostData` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `TimeOut` int(11) NULL DEFAULT NULL,
+  `CreateID` int(11) NULL DEFAULT NULL,
+  `Creator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `CreateDate` datetime(0) NULL DEFAULT NULL,
+  `ModifyID` int(11) NULL DEFAULT NULL,
+  `Modifier` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ModifyDate` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of Sys_QuartzOptions
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for Sys_Role
 -- ----------------------------
 DROP TABLE IF EXISTS `Sys_Role`;
@@ -1673,7 +1474,7 @@ CREATE TABLE `Sys_User`  (
 -- ----------------------------
 -- Records of Sys_User
 -- ----------------------------
-INSERT INTO `Sys_User` VALUES (1, '北京市西城区', 0, '2019-08-18 00:54:06', 1, '超级管理员', '2012-06-10 11:10:03', NULL, NULL, NULL, 0, '283591387@qq.com', 1, 1, 'Upload/Tables/Sys_User/202006191408112343/1111s.jpg', 0, '2017-08-28 09:58:55', '2019-12-14 15:13:49', NULL, '超级管理员', '2020-06-19 14:08:12', 1, 0, 1, '超级管理员', '13888888888', '~还没想好...', NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', '超级管理员', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTY2MDg5NjEwNiIsIm5iZiI6IjE2NjA4OTYxMDYiLCJleHAiOiIxNjYwOTAzMzA2IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.6XVriAuqB2hkthnhC0pwWupJCKLQBz8XLVqHIhLUaX0');
+INSERT INTO `Sys_User` VALUES (1, '北京市西城区', 0, '2019-08-18 00:54:06', 1, '超级管理员', '2012-06-10 11:10:03', NULL, NULL, NULL, 0, '283591387@qq.com', 1, 1, 'Upload/Tables/Sys_User/202006191408112343/1111s.jpg', 0, '2017-08-28 09:58:55', '2019-12-14 15:13:49', NULL, '超级管理员', '2020-06-19 14:08:12', 1, 0, 1, '超级管理员', '13888888888', '~还没想好...', NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', '超级管理员', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTY2NzY2NjA4OSIsIm5iZiI6IjE2Njc2NjYwODkiLCJleHAiOiIxNjY3NjczMjg5IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.YNJMmbtmwkVSOEOHGVZquZqvOnhDQkqJkRlM2Sx-o2g');
 INSERT INTO `Sys_User` VALUES (3362, '北京市还没注册', NULL, '2019-08-18 00:54:06', 1, '超级管理员', '2019-08-13 14:24:27', NULL, NULL, NULL, NULL, NULL, 1, 0, 'Upload/Tables/Sys_User/202004241341311851/04.jpg', 0, NULL, '2019-09-22 23:12:33', '01012345678', '超级管理员', '2021-01-27 12:53:41', 1, NULL, 2, '测试管理员', NULL, NULL, NULL, 'admin666', 'j79rYYvCz4vdhcboB1Ausg==', '演示帐号', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzYyIiwiaWF0IjoiMTY2MDg5NTY1MiIsIm5iZiI6IjE2NjA4OTU2NTIiLCJleHAiOiIxNjYzNDg3NjUyIiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.h2-MxpKITk_YN7wkQMNQgZok_ioP5o-bY_PR0MPbT9U');
 INSERT INTO `Sys_User` VALUES (3378, NULL, NULL, NULL, NULL, NULL, '2021-09-27 15:50:22', 1, '超级管理员', NULL, NULL, NULL, 0, 0, 'Upload/Tables/Sys_User/202109271550212214/12313.jpg', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '小编', NULL, NULL, NULL, 'Admin888', 'al7ulHECMmQ_i6lA3dPKlg==', 'Admin888', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzc4IiwiaWF0IjoiMTY0NTQxODQ0NyIsIm5iZiI6IjE2NDU0MTg0NDciLCJleHAiOiIxNjQ1NDI1NjQ3IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.mbKyMF6dQMZEmOjnRy8MZwXjz3jsm2DsejSrkFWD3B4');
 
@@ -1815,101 +1616,4 @@ INSERT INTO `Sys_WorkFlowTableStep` VALUES ('e623c47c-e0f5-4052-a2be-baf85778449
 INSERT INTO `Sys_WorkFlowTableStep` VALUES ('f92d5a23-f572-446e-a3e4-e6063ee6dcdf', 'b4d10013-8297-421f-aad4-3147fdac2450', 'c016fa5e-6f44-4d59-a929-7391e82caf18', '1659276282115', '流程-节点B', 1, 3362, 2, 3362, NULL, NULL, NULL, NULL, '2022-08-16 02:03:17', NULL, NULL, 1, NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
-
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 120.53.251.208
- Source Server Type    : MySQL
- Source Server Version : 50729
- Source Host           : 120.53.251.208:3306
- Source Schema         : netcoredev
-
- Target Server Type    : MySQL
- Target Server Version : 50729
- File Encoding         : 65001
-
- Date: 07/09/2022 01:58:52
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for Sys_QuartzOptions
--- ----------------------------
-DROP TABLE IF EXISTS `Sys_QuartzOptions`;
-CREATE TABLE `Sys_QuartzOptions`  (
-  `Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `TaskName` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `GroupName` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `CronExpression` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `Method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `ApiUrl` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `AuthKey` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `AuthValue` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `LastRunTime` datetime(0) NULL DEFAULT NULL,
-  `Status` int(11) NULL DEFAULT NULL,
-  `Describe` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `PostData` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `TimeOut` int(11) NULL DEFAULT NULL,
-  `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
-  `ModifyID` int(11) NULL DEFAULT NULL,
-  `Modifier` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `ModifyDate` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
-
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 120.53.251.208
- Source Server Type    : MySQL
- Source Server Version : 50729
- Source Host           : 120.53.251.208:3306
- Source Schema         : netcoredev
-
- Target Server Type    : MySQL
- Target Server Version : 50729
- File Encoding         : 65001
-
- Date: 07/09/2022 01:58:59
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for Sys_QuartzLog
--- ----------------------------
-DROP TABLE IF EXISTS `Sys_QuartzLog`;
-CREATE TABLE `Sys_QuartzLog`  (
-  `LogId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `Id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `TaskName` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `ElapsedTime` int(11) NULL DEFAULT NULL,
-  `StratDate` datetime(0) NULL DEFAULT NULL,
-  `EndDate` datetime(0) NULL DEFAULT NULL,
-  `Result` int(11) NULL DEFAULT NULL,
-  `ResponseContent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `ErrorMsg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `CreateID` int(11) NULL DEFAULT NULL,
-  `Creator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `CreateDate` datetime(0) NULL DEFAULT NULL,
-  `ModifyID` int(11) NULL DEFAULT NULL,
-  `Modifier` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `ModifyDate` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`LogId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
-
-
 set global local_infile = 'ON';
-

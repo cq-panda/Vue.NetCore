@@ -24,6 +24,7 @@
       @row-dblclick="rowDbClick"
       @row-click="rowClick"
       @header-click="headerClick"
+      :highlight-current-row="highlightCurrentRow"
       ref="table"
       class="v-table"
       @sort-change="sortChange"
@@ -156,6 +157,17 @@
                   :value-format="getDateFormat(column)"
                 >
                 </el-date-picker>
+                <el-date-picker
+                  clearable
+                  size="default"
+                  style="width: 100%"
+                  v-if="column.edit.type == 'time'"
+                  v-model="scope.row[column.field]"
+                  @change="column.onChange"
+                  :placeholder="column.placeholder || column.title"
+                  :value-format="column.format || 'HH:mm:ss'"
+                >
+                </el-date-picker>
                 <el-switch
                   v-else-if="column.edit.type == 'switch'"
                   v-model="scope.row[column.field]"
@@ -174,34 +186,61 @@
                   "
                 >
                 </el-switch>
-                <el-select
-                  size="default"
-                  style="width: 100%"
+                <template
                   v-else-if="
                     ['select', 'selectList'].indexOf(column.edit.type) != -1
                   "
-                  v-model="scope.row[column.field]"
-                  :filterable="
-                    column.filter || column.bind.data.length > 10 ? true : false
-                  "
-                  :multiple="column.edit.type == 'select' ? false : true"
-                  :placeholder="column.placeholder || column.title"
-                  :autocomplete="column.autocomplete"
-                  @change="
-                    column.onChange && column.onChange(scope.row, column)
-                  "
-                  clearable
                 >
-                  <el-option
-                    v-for="item in column.bind.data"
-                    :key="item.key"
-                    v-show="!item.hidden"
-                    :disabled="item.disabled"
-                    :label="item.value"
-                    :value="item.key"
-                    >{{ item.value }}
-                  </el-option>
-                </el-select>
+                  <el-select-v2
+                    style="width: 100%"
+                    :size="size"
+                    v-if="column.bind.data.length >= select2Count"
+                    v-model="scope.row[column.field]"
+                    filterable
+                    :multiple="column.edit.type == 'select' ? false : true"
+                    :placeholder="column.placeholder || column.title"
+                    :autocomplete="column.autocomplete"
+                    :options="column.bind.data"
+                    @change="
+                      column.onChange && column.onChange(scope.row, column)
+                    "
+                    clearable
+                  >
+                    <template #default="{ item }">
+                      {{ item.label }}
+                    </template>
+                  </el-select-v2>
+
+                  <el-select
+                    size="default"
+                    style="width: 100%"
+                    v-else
+                    v-model="scope.row[column.field]"
+                    :filterable="
+                      column.filter || column.bind.data.length > 10
+                        ? true
+                        : false
+                    "
+                    :multiple="column.edit.type == 'select' ? false : true"
+                    :placeholder="column.placeholder || column.title"
+                    :autocomplete="column.autocomplete"
+                    @change="
+                      column.onChange && column.onChange(scope.row, column)
+                    "
+                    clearable
+                  >
+                    <el-option
+                      v-for="item in column.bind.data"
+                      :key="item.key"
+                      v-show="!item.hidden"
+                      :disabled="item.disabled"
+                      :label="item.value"
+                      :value="item.key"
+                      >{{ item.value }}
+                    </el-option>
+                  </el-select>
+                </template>
+
                 <el-input
                   v-else-if="column.edit.type == 'textarea'"
                   type="textarea"
@@ -233,7 +272,7 @@
                   style="text-decoration: none"
                   @click="extraClick(scope.row, column)"
                 >
-                  <i v-if="column.extra.icon" :clss="[column.extra.icon]" />
+                  <i v-if="column.extra.icon" :class="[column.extra.icon]" />
                   {{ column.extra.text }}
                 </a>
               </div>
@@ -466,6 +505,16 @@ export default defineComponent({
       // 是否显示行号(2020..11.1)
       type: Boolean,
       default: true
+    },
+    highlightCurrentRow: {
+      //增加选中行高亮显示(2022.10.07)
+      type: Boolean,
+      default: true
+    },
+    select2Count: {
+      //超出数量显示select2组件
+      type: Number,
+      default: 500
     }
   },
   data() {
@@ -486,18 +535,7 @@ export default defineComponent({
       formatConfig: {},
       // defaultColor: "",
       // 2020.09.06调整table列数据源的背景颜色
-      colors: [
-        '',
-        'warning',
-        'success',
-        'green',
-        'info'
-        // "magenta",
-        // "geekblue",
-        // "gold",
-        // "orange",
-        // "default",
-      ],
+      colors: ['', 'warning', 'success', 'danger', 'info'],
       rule: {
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
@@ -604,6 +642,12 @@ export default defineComponent({
         .post('/api/Sys_Dictionary/GetVueDictionary', keys)
         .then((dic) => {
           dic.forEach((x) => {
+            if (x.data.length > this.select2Count) {
+              x.data.forEach((item) => {
+                item.label = item.value;
+                item.value = item.key;
+              });
+            }
             columnBind.forEach((c) => {
               // 转换数据源的类型与列的类型一致(2020.04.04)
               if (
@@ -675,7 +719,11 @@ export default defineComponent({
     },
     extraClick(row, column) {
       column.extra.click &&
-        column.extra.click(row, column, url ? rowData : tableData);
+        column.extra.click(
+          row,
+          column,
+          this.url ? this.rowData : this.tableData
+        );
     },
     headerClick(column, event) {
       if (this.clickEdit && this.edit.rowIndex != -1) {
@@ -749,7 +797,20 @@ export default defineComponent({
       if (column.formatter) {
         return column.formatter(pathSring);
       }
-      let filePath = pathSring.replace(/\\/g, '/').split(',');
+      let filePath;
+      if (column.base64 && pathSring.indexOf('data') != -1) {
+        filePath = (',' + pathSring)
+          .split(',data')
+          .filter((x) => {
+            return x;
+          })
+          .map((m) => {
+            return 'data' + m;
+          });
+      } else {
+        filePath = pathSring.replace(/\\/g, '/').split(',');
+      }
+
       let fileInfo = [];
       for (let index = 0; index < filePath.length; index++) {
         let file = filePath[index];
@@ -758,7 +819,7 @@ export default defineComponent({
           fileInfo.push({
             name: '',
             path:
-              (file.indexOf('base64,') == -1 ? 'data:image/png;base64,' : '') +
+              (file.indexOf('data') == -1 ? 'data:image/png;base64,' : '') +
               file
           });
         } else if (file.indexOf('.') != -1) {
@@ -1329,7 +1390,7 @@ export default defineComponent({
         // 2020.06.06修复单独使用table组件时,key为数字0时转换成文本失败的问题
         return x.key !== '' && x.key !== undefined && x.key + '' === val + '';
       });
-      if (source && source.length > 0) val = source[0].value;
+      if (source && source.length > 0) val = source[0].label || source[0].value;
       return val;
     },
     getSelectFormatter(column, val) {
@@ -1343,7 +1404,7 @@ export default defineComponent({
             x.key !== undefined &&
             x.key + '' == valArr[index] + ''
           ) {
-            valArr[index] = x.value;
+            valArr[index] = x.label || x.value;
           }
         });
       }

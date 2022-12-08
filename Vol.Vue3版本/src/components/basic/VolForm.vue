@@ -66,36 +66,69 @@
               class="readonly-input"
               >{{ getText(formFields, item) }}</label
             >
-            <el-select
-              :disabled="item.readonly || item.disabled"
-              v-show="!item.hidden"
-              style="width: 100%"
-              :size="size"
+            <template
               v-else-if="['select', 'selectList'].indexOf(item.type) != -1"
-              v-model="formFields[item.field]"
-              filterable
-              :multiple="item.type == 'select' ? false : true"
-              :placeholder="item.placeholder ? item.placeholder : item.title"
-              :allow-create="item.autocomplete"
-              @change="item.onChange"
-              :remote="item.remote || item.url"
-              clearable
-              :remote-method="
-                (val) => {
-                  remoteSearch(item, formFields, val);
-                }
-              "
             >
-              <el-option
+              <el-select-v2
+                :disabled="item.readonly || item.disabled"
                 v-show="!item.hidden"
-                :disabled="item.disabled"
-                v-for="item in item.data"
-                :key="item.key"
-                :label="item.value"
-                :value="item.key"
+                style="width: 100%"
+                :size="size"
+                v-if="item.data.length > select2Count"
+                v-model="formFields[item.field]"
+                filterable
+                :multiple="item.type == 'select' ? false : true"
+                :placeholder="item.placeholder ? item.placeholder : item.title"
+                :allow-create="item.autocomplete"
+                :options="item.data"
+                @change="
+                  (val) => {
+                    item.onChange(val, item.data);
+                  }
+                "
+                clearable
               >
-              </el-option>
-            </el-select>
+                <template #default="{ item }">
+                  {{ item.label }}
+                </template>
+              </el-select-v2>
+
+              <el-select
+                :disabled="item.readonly || item.disabled"
+                v-show="!item.hidden"
+                style="width: 100%"
+                :size="size"
+                v-else
+                v-model="formFields[item.field]"
+                filterable
+                :multiple="item.type == 'select' ? false : true"
+                :placeholder="item.placeholder ? item.placeholder : item.title"
+                :allow-create="item.autocomplete"
+                @change="
+                  (val) => {
+                    item.onChange(val, item.data);
+                  }
+                "
+                :remote="item.remote || item.url"
+                clearable
+                :remote-method="
+                  (val) => {
+                    remoteSearch(item, formFields, val);
+                  }
+                "
+              >
+                <el-option
+                  v-show="!item.hidden"
+                  :disabled="item.disabled"
+                  v-for="item in item.data"
+                  :key="item.key"
+                  :label="item.value"
+                  :value="item.key"
+                >
+                </el-option>
+              </el-select>
+            </template>
+
             <el-switch
               v-show="!item.hidden"
               v-else-if="item.type == 'switch'"
@@ -216,7 +249,7 @@
               v-model="formFields[item.field]"
               :disabled="item.readonly || item.disabled"
               placeholder="请选择时间"
-              :value-format="getDateFormat(item)"
+              :value-format="item.format || 'HH:mm:ss'"
               :format="item.format"
               style="width: 100%"
             >
@@ -259,7 +292,7 @@
             <el-cascader
               :size="size"
               clearable
-              style="width: 100%"
+              style="width: 100%; margin-top: -3px"
               v-model="formFields[item.field]"
               :disabled="item.readonly || item.disabled"
               v-else-if="item.type == 'cascader'"
@@ -473,6 +506,11 @@ export default defineComponent({
     size: {
       type: String, //large / default / small
       default: 'large'
+    },
+    select2Count: {
+      //超出数量显示select2组件
+      type: Number,
+      default: 500
     }
   },
   computed: {
@@ -575,6 +613,17 @@ export default defineComponent({
     };
     const bindOptions = (dic, binds) => {
       dic.forEach((d) => {
+        if (d.data.length > props.select2Count) {
+          if (
+            !binds.some((x) => {
+              return x.key == d.dicNo && x.type == 'cascader';
+            })
+          ) {
+            d.data.forEach((item) => {
+              item.label = item.value;
+            });
+          }
+        }
         binds.forEach((x) => {
           if (x.key != d.dicNo) return true;
           // 如果有数据的则不查询
@@ -667,7 +716,13 @@ export default defineComponent({
           appContext.config.globalProperties.$message.error('数据验证未通过!');
           result = false;
         } else if (typeof callback === 'function') {
-          callback(valid);
+          try {
+            callback(valid);
+          } catch (error) {
+            let msg = `表单验证回调方法异常：${error.message}`;
+            appContext.config.globalProperties.$message.error(msg);
+            console.log(msg);
+          }
         }
       });
       return result;
@@ -869,6 +924,9 @@ export default defineComponent({
 
     // 远程搜索(打开弹出框时应该禁止搜索)
     remoteSearch(item, formFields, val) {
+      if (!item.remote && !item.url) {
+        return;
+      }
       if (
         val == '' ||
         (item.data.length == 1 &&
@@ -1198,6 +1256,12 @@ export default defineComponent({
       );
     },
     getDateFormat(item) {
+      if (item.type == 'month') {
+        return 'YYYY-MM';
+      }
+      // if (item.type=='time') {
+      //     return 'HH:mm:ss'
+      // }
       //见https://day.js.org/docs/zh-CN/display/format
       return item.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
     },
@@ -1300,12 +1364,18 @@ export default defineComponent({
 .el-form-item ::v-deep(.el-select .el-select__tags > span) {
   display: flex;
 }
+.el-form-item ::v-deep(.el-select-v2__combobox-input) {
+  height: 30px;
+}
 .el-form-item ::v-deep(.el-select__tags) {
   overflow: hidden;
   height: 30px;
 }
 .el-form-item ::v-deep(.el-select-tags-wrapper) {
- position: absolute;
+  position: absolute;
+}
+
+.el-form-item {
+  vertical-align: top !important;
 }
 </style>
-
