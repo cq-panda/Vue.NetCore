@@ -14,7 +14,7 @@ using VOL.Core.Extensions;
 
 namespace VOL.Core.DBManager
 {
-    public class DBServerProvider
+    public partial class DBServerProvider
     {
         private static Dictionary<string, string> ConnectionPool = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 

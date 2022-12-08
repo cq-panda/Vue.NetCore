@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +14,22 @@ using VOL.Core.ManageUser;
 using VOL.Core.Services;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
+using VOL.System.IRepositories;
 
 namespace VOL.System.Services
 {
     public partial class Sys_UserService
     {
+        private Microsoft.AspNetCore.Http.HttpContext _context;
+        private ISys_UserRepository _repository;
+        [ActivatorUtilitiesConstructor]
+        public Sys_UserService(IHttpContextAccessor httpContextAccessor, ISys_UserRepository repository)
+            : base(repository)
+        {
+            _context = httpContextAccessor.HttpContext;
+            _repository = repository;
+        }
+        WebResponseContent webResponse = new WebResponseContent();
         /// <summary>
         /// WebApi登陆
         /// </summary>
@@ -25,18 +39,17 @@ namespace VOL.System.Services
         public async Task<WebResponseContent> Login(LoginInfo loginInfo, bool verificationCode = true)
         {
             string msg = string.Empty;
-            WebResponseContent responseContent = new WebResponseContent();
             //   2020.06.12增加验证码
-            IMemoryCache memoryCache = HttpContext.Current.GetService<IMemoryCache>();
+            IMemoryCache memoryCache = _context.GetService<IMemoryCache>();
             string cacheCode = (memoryCache.Get(loginInfo.UUID) ?? "").ToString();
             if (string.IsNullOrEmpty(cacheCode))
             {
-                return responseContent.Error("验证码已失效");
+                return webResponse.Error("验证码已失效");
             }
             if (cacheCode.ToLower() != loginInfo.VerificationCode.ToLower())
             {
                 memoryCache.Remove(loginInfo.UUID);
-                return responseContent.Error("验证码不正确");
+                return webResponse.Error("验证码不正确");
             }
             try
             {
@@ -44,7 +57,7 @@ namespace VOL.System.Services
                     .FirstOrDefaultAsync();
 
                 if (user == null || loginInfo.Password.Trim().EncryptDES(AppSetting.Secret.User) != (user.UserPwd ?? ""))
-                    return responseContent.Error(ResponseType.LoginError);
+                    return webResponse.Error(ResponseType.LoginError);
 
                 string token = JwtHelper.IssueJwt(new UserInfo()
                 {
@@ -53,23 +66,27 @@ namespace VOL.System.Services
                     Role_Id = user.Role_Id
                 });
                 user.Token = token;
-                responseContent.Data = new { token, userName = user.UserTrueName, img = user.HeadImageUrl };
+                webResponse.Data = new { token, userName = user.UserTrueName, img = user.HeadImageUrl };
                 repository.Update(user, x => x.Token, true);
                 UserContext.Current.LogOut(user.User_Id);
 
                 loginInfo.Password = string.Empty;
 
-                return responseContent.OK(ResponseType.LoginSuccess);
+                return webResponse.OK(ResponseType.LoginSuccess);
             }
             catch (Exception ex)
             {
                 msg = ex.Message + ex.StackTrace;
-                return responseContent.Error(ResponseType.ServerError);
+                if (_context.GetService<Microsoft.AspNetCore.Hosting.IWebHostEnvironment>().IsDevelopment())
+                {
+                    throw new Exception(ex.Message + ex.StackTrace);
+                }
+                return webResponse.Error(ResponseType.ServerError);
             }
             finally
             {
                 memoryCache.Remove(loginInfo.UUID);
-                Logger.Info(LoggerType.Login, loginInfo.Serialize(), responseContent.Message, msg);
+                Logger.Info(LoggerType.Login, loginInfo.Serialize(), webResponse.Message, msg);
             }
         }
 
@@ -79,16 +96,15 @@ namespace VOL.System.Services
         /// <returns></returns>
         public async Task<WebResponseContent> ReplaceToken()
         {
-            WebResponseContent responseContent = new WebResponseContent();
             string error = "";
             UserInfo userInfo = null;
             try
             {
-                string requestToken = HttpContext.Current.Request.Headers[AppSetting.TokenHeaderName];
+                string requestToken = _context.Request.Headers[AppSetting.TokenHeaderName];
                 requestToken = requestToken?.Replace("Bearer ", "");
-                if (UserContext.Current.Token != requestToken) return responseContent.Error("Token已失效!");
+                if (UserContext.Current.Token != requestToken) return webResponse.Error("Token已失效!");
 
-                if (JwtHelper.IsExp(requestToken)) return responseContent.Error("Token已过期!");
+                if (JwtHelper.IsExp(requestToken)) return webResponse.Error("Token已过期!");
 
                 int userId = UserContext.Current.UserId;
                 userInfo = await
@@ -102,26 +118,26 @@ namespace VOL.System.Services
                          RoleName = s.RoleName
                      });
 
-                if (userInfo == null) return responseContent.Error("未查到用户信息!");
+                if (userInfo == null) return webResponse.Error("未查到用户信息!");
 
                 string token = JwtHelper.IssueJwt(userInfo);
                 //移除当前缓存
                 base.CacheContext.Remove(userId.GetUserIdKey());
                 //只更新的token字段
                 repository.Update(new Sys_User() { User_Id = userId, Token = token }, x => x.Token, true);
-                responseContent.OK(null, token);
+                webResponse.OK(null, token);
             }
             catch (Exception ex)
             {
                 error = ex.Message + ex.StackTrace + ex.Source;
-                responseContent.Error("token替换出错了..");
+                webResponse.Error("token替换出错了..");
             }
             finally
             {
                 Logger.Info(LoggerType.ReplaceToeken, ($"用户Id:{userInfo?.User_Id},用户{userInfo?.UserTrueName}")
-                    + (responseContent.Status ? "token替换成功" : "token替换失败"), null, error);
+                    + (webResponse.Status ? "token替换成功" : "token替换失败"), null, error);
             }
-            return responseContent;
+            return webResponse;
         }
 
         /// <summary>
@@ -134,7 +150,6 @@ namespace VOL.System.Services
             oldPwd = oldPwd?.Trim();
             newPwd = newPwd?.Trim();
             string message = "";
-            WebResponseContent webResponse = new WebResponseContent();
             try
             {
                 if (string.IsNullOrEmpty(oldPwd)) return webResponse.Error("旧密码不能为空");
@@ -200,7 +215,7 @@ namespace VOL.System.Services
                     s.CreateDate
                 })
                 .FirstOrDefaultAsync();
-            return new WebResponseContent().OK(null, data);
+            return webResponse.OK(null, data);
         }
 
         /// <summary>
@@ -250,7 +265,6 @@ namespace VOL.System.Services
         /// <returns></returns>
         public override WebResponseContent Add(SaveModel saveModel)
         {
-            WebResponseContent responseData = new WebResponseContent();
             saveModel.MainData["RoleName"] = "无";
             base.AddOnExecute = (SaveModel userModel) =>
             {
@@ -259,9 +273,9 @@ namespace VOL.System.Services
                 {
                     string roleName = GetChildrenName(roleId);
                     if ((roleId == 1) || string.IsNullOrEmpty(roleName))
-                        return responseData.Error("不能选择此角色");
+                        return webResponse.Error("不能选择此角色");
                 }
-                return responseData.OK();
+                return webResponse.OK();
             };
 
 
@@ -272,15 +286,15 @@ namespace VOL.System.Services
             {
                 user.UserName = user.UserName.Trim();
                 if (repository.Exists(x => x.UserName == user.UserName))
-                    return responseData.Error("用户名已经被注册");
+                    return webResponse.Error("用户名已经被注册");
                 user.UserPwd = pwd.EncryptDES(AppSetting.Secret.User);
                 //设置默认头像
-                return responseData.OK();
+                return webResponse.OK();
             };
 
             base.AddOnExecuted = (Sys_User user, object list) =>
             {
-                return responseData.OK($"用户新建成功.帐号{user.UserName}密码{pwd}");
+                return webResponse.OK($"用户新建成功.帐号{user.UserName}密码{pwd}");
             };
             return base.Add(saveModel); ;
         }
@@ -311,11 +325,11 @@ namespace VOL.System.Services
                      .ToArray();
                     if (userNames.Count() > 0)
                     {
-                        return new WebResponseContent().Error($"没有权限删除用户：{string.Join(',', userNames)}");
+                        return webResponse.Error($"没有权限删除用户：{string.Join(',', userNames)}");
                     }
                 }
 
-                return new WebResponseContent().OK();
+                return webResponse.OK();
             };
             base.DelOnExecuted = (object[] userIds) =>
             {
@@ -344,7 +358,6 @@ namespace VOL.System.Services
         /// <returns></returns>
         public override WebResponseContent Update(SaveModel saveModel)
         {
-            WebResponseContent responseContent = new WebResponseContent();
             UserInfo userInfo = UserContext.Current.UserInfo;
             saveModel.MainData["RoleName"] = "无";
             //禁止修改用户名
@@ -357,17 +370,17 @@ namespace VOL.System.Services
                     saveInfo.MainData.TryAdd("RoleName", roleName);
                     if (UserContext.IsRoleIdSuperAdmin(userInfo.Role_Id))
                     {
-                        return responseContent.OK();
+                        return webResponse.OK();
                     }
-                    if (string.IsNullOrEmpty(roleName)) return responseContent.Error("不能选择此角色");
+                    if (string.IsNullOrEmpty(roleName)) return webResponse.Error("不能选择此角色");
                 }
 
-                return responseContent.OK();
+                return webResponse.OK();
             };
             base.UpdateOnExecuting = (Sys_User user, object obj1, object obj2, List<object> list) =>
             {
                 if (user.User_Id == userInfo.User_Id && user.Role_Id != userInfo.Role_Id)
-                    return responseContent.Error("不能修改自己的角色");
+                    return webResponse.Error("不能修改自己的角色");
 
                 var _user = repository.Find(x => x.User_Id == user.User_Id,
                     s => new { s.UserName, s.UserPwd })
@@ -375,7 +388,7 @@ namespace VOL.System.Services
                 user.UserName = _user.UserName;
                 //Sys_User实体的UserPwd用户密码字段的属性不是编辑，此处不会修改密码。但防止代码生成器将密码字段的修改成了可编辑造成密码被修改
                 user.UserPwd = _user.UserPwd;
-                return responseContent.OK();
+                return webResponse.OK();
             };
             //用户信息被修改后，将用户的缓存信息清除
             base.UpdateOnExecuted = (Sys_User user, object obj1, object obj2, List<object> List) =>

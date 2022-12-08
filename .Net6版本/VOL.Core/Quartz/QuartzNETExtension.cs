@@ -60,6 +60,33 @@ namespace VOL.Core.Quartz
         }
 
 
+        private static async Task<bool> CheckTask(Sys_QuartzOptions taskOptions, ISchedulerFactory schedulerFactory)
+        {
+            string groupName = "group";
+            string taskName = taskOptions.Id.ToString();
+            IScheduler scheduler = await schedulerFactory.GetScheduler();
+            List<JobKey> jobKeys =(await scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(groupName))).ToList();
+            if (jobKeys == null || jobKeys.Count() == 0)
+            {
+                return false;
+            }
+            JobKey jobKey = jobKeys.Where(s => scheduler.GetTriggersOfJob(s).Result
+                            .Any(x => (x as CronTriggerImpl).Name == taskName))
+                            .FirstOrDefault();
+            if (jobKey == null)
+            {
+                return false;
+            }
+            var triggers = await scheduler.GetTriggersOfJob(jobKey);
+            ITrigger trigger = triggers?.Where(x => (x as CronTriggerImpl).Name == taskName).FirstOrDefault();
+
+            if (trigger == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         /// <summary>
         /// 添加作业
         /// </summary>
@@ -72,9 +99,14 @@ namespace VOL.Core.Quartz
             string msg = null;
             try
             {
+                if (await CheckTask(taskOptions,schedulerFactory))
+                {
+                  await  schedulerFactory.TriggerAction(JobAction.开启, taskOptions);
+                    return new { status = true };
+                }
                 if (!_taskList.Exists(x => x.Id == taskOptions.Id))
                 {
-                    _taskList.Add(taskOptions);
+                    _taskList.Add(taskOptions); 
                 }
                 else
                 {
