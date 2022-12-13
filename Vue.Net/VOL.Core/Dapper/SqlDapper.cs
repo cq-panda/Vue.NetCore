@@ -786,12 +786,10 @@ namespace VOL.Core.Dapper
                         {
                             LineTerminator = "\n",
                             TableName = tableName,
-                            CharacterSet = "UTF8"
+                            CharacterSet = "UTF8",
+                            FieldQuotationCharacter = '"',
+                            FieldQuotationOptional = true
                         };
-                        if (csv.IndexOf("\n")>0)
-                        {
-                            csv = csv.Replace("\n", " ");
-                        }
                         var array = Encoding.UTF8.GetBytes(csv);
                         using (stream = new MemoryStream(array))
                         {
@@ -833,9 +831,10 @@ namespace VOL.Core.Dapper
                 {
                     colum = table.Columns[i];
                     if (i != 0) sb.Append("\t");
-                    if (colum.DataType == typeString && row[colum].ToString().Contains(","))
+                    if (colum.DataType == typeString)
                     {
-                        sb.Append(row[colum].ToString());
+                        var data = $"\"{row[colum].ToString().Replace("\"", "\"\"")}\"";
+                        sb.Append(data);
                     }
                     else if (colum.DataType == typeDate)
                     {
