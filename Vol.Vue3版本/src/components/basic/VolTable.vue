@@ -157,17 +157,17 @@
                   :value-format="getDateFormat(column)"
                 >
                 </el-date-picker>
-                <el-date-picker
+                 <el-time-picker
                   clearable
                   size="default"
                   style="width: 100%"
-                  v-if="column.edit.type == 'time'"
+                  v-else-if="column.edit.type == 'time'"
                   v-model="scope.row[column.field]"
                   @change="column.onChange"
                   :placeholder="column.placeholder || column.title"
                   :value-format="column.format || 'HH:mm:ss'"
                 >
-                </el-date-picker>
+                </el-time-picker>
                 <el-switch
                   v-else-if="column.edit.type == 'switch'"
                   v-model="scope.row[column.field]"
