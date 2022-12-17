@@ -122,7 +122,7 @@
 							</view>
 						</view>
 					</view>
-					<view style="margin:10rpx 0 20rpx 10rpx" @click.stop>
+					<view class="extent-button-item" @click.stop>
 						<view :key="btnIndex" class="extent-button" v-for="(btn,btnIndex) in rowButtons(rowindex,row)">
 							<u-button :icon="btn.icon" :hairline="true" :shape="btn.shape" :disabled="btn.disabled"
 								:plain="btn.plain" :type="btn.type" style="height:60rpx;" size="small"
@@ -648,11 +648,22 @@
 		}
 	}
 
+	.extent-button-item {
+		display: flex;
+		justify-content: flex-end;
+		margin: 0rpx 16rpx;
+		padding: 10rpx;
+		top: -10rpx;
+		position: relative;
+		background: #ffff;
+	}
+
 	.extent-button {
-		display: inline-block;
-		float: right;
-		min-width: 20%;
-		margin-right: 20rpx;
-		margin-bottom: 20rpx;
+		padding: 10rpx 10rpx;
+		// display: inline-block;
+		// float: right;
+		// min-width: 20%;
+		// margin-right: 20rpx;
+		// margin-bottom: 20rpx;
 	}
 </style>
