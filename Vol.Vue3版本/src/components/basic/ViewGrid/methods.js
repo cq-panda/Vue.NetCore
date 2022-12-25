@@ -517,7 +517,7 @@ let methods = {
             });
             if (treeDic && treeDic.orginData && treeDic.orginData.length) {
               if (typeof treeDic.orginData[0].id == 'number') {
-                newVal = ~~newVal;
+                newVal = newVal*1||0;
               } else {
                 newVal = newVal + '';
               }
