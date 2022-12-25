@@ -1188,7 +1188,8 @@ let methods = {
             d,
             this.dicKeys.filter((f) => {
               return f.dicNo == d.dataKey;
-            })[0]
+            })[0],
+            {type:d.type}
           );
         }
       });
