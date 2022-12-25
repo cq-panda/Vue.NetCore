@@ -157,7 +157,7 @@
                   :value-format="getDateFormat(column)"
                 >
                 </el-date-picker>
-                 <el-time-picker
+                <el-time-picker
                   clearable
                   size="default"
                   style="width: 100%"
@@ -366,7 +366,6 @@
 </template>
 <script>
 import VolTableRender from './VolTable/VolTableRender';
-var $vue;
 let _errMsg;
 import { defineComponent } from 'vue';
 export default defineComponent({
@@ -682,9 +681,6 @@ export default defineComponent({
     if (keyColumn) {
       this.key = keyColumn.field;
     }
-    // 如果下拉框，判断bind或edit.data是否有数据源，妱果没有则获取数据源bind
-    $vue = this;
-    // this.$emit
     this.defaultLoadPage && this.load();
   },
   computed: {
@@ -701,7 +697,7 @@ export default defineComponent({
     watchRowSelectChange(newLen, oldLen) {
       if (newLen < oldLen && this.selectRows.length) {
         this.selectRows = [];
-        $vue.$refs.table.clearSelection();
+        this.$refs.table.clearSelection();
       }
     },
     switchChange(val, row, column) {
@@ -1194,6 +1190,7 @@ export default defineComponent({
               }
             });
           });
+          this.$emit('dicInited', dic);
         });
     },
     load(query, isResetPage) {
