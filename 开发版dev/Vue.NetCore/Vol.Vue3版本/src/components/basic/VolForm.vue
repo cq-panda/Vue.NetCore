@@ -525,7 +525,7 @@ export default defineComponent({
     }
   },
   setup(props, context) {
-    const { appContext } = getCurrentInstance();
+    const { appContext,proxy } = getCurrentInstance();
     const remoteCall = ref(true);
     const span = ref(1);
     const rangeFields = toRefs([]);
@@ -609,6 +609,7 @@ export default defineComponent({
         .post('/api/Sys_Dictionary/GetVueDictionary', keys)
         .then((dic) => {
           bindOptions(dic, binds);
+           proxy.$emit('dicInited', dic);
         });
     };
     const bindOptions = (dic, binds) => {
