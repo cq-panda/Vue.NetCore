@@ -84,40 +84,40 @@
             :align="columnChildren.align"
             :label="columnChildren.title"
           >
-            <template #scope1>
+            <template  #default="scopeChildren">
               <a
                 href="javascript:void(0)"
                 style="text-decoration: none"
-                @click="link(scope1.row, columnChildren, $event)"
+                @click="link(scopeChildren.row, columnChildren, $event)"
                 v-if="column.link"
-                v-text="scope1.row[columnChildren.field]"
+                v-text="scopeChildren.row[columnChildren.field]"
               ></a>
               <div
                 v-else-if="columnChildren.formatter"
                 @click="
                   columnChildren.click &&
                     columnChildren.click(
-                      scope1.row,
+                      scopeChildren.row,
                       columnChildren,
-                      scope1.$index
+                      scopeChildren.$index
                     )
                 "
                 v-html="
                   columnChildren.formatter(
-                    scope1.row,
+                    scopeChildren.row,
                     columnChildren,
-                    scope1.$index
+                    scopeChildren.$index
                   )
                 "
               ></div>
               <div v-else-if="column.bind">
-                {{ formatter(scope1.row, columnChildren, true) }}
+                {{ formatter(scopeChildren.row, columnChildren, true) }}
               </div>
               <span v-else-if="column.type == 'date'">{{
-                formatterDate(scope1.row, columnChildren)
+                formatterDate(scopeChildren.row, columnChildren)
               }}</span>
               <template v-else>
-                {{ scope1.row[columnChildren.field] }}
+                {{ scopeChildren.row[columnChildren.field] }}
               </template>
             </template>
           </el-table-column>
