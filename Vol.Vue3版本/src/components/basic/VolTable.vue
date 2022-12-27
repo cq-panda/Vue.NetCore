@@ -155,6 +155,7 @@
                   :placeholder="column.placeholder || column.title"
                   :disabledDate="(val) => getDateOptions(val, column)"
                   :value-format="getDateFormat(column)"
+                  :disabled="column.isdisabled?column.isdisabled(scope.row, column):false"
                 >
                 </el-date-picker>
                 <el-time-picker
@@ -166,6 +167,7 @@
                   @change="column.onChange"
                   :placeholder="column.placeholder || column.title"
                   :value-format="column.format || 'HH:mm:ss'"
+                  :disabled="column.isdisabled?column.isdisabled(scope.row, column):false"
                 >
                 </el-time-picker>
                 <el-switch
@@ -184,6 +186,7 @@
                   :inactive-value="
                     typeof scope.row[column.field] == 'boolean' ? false : 0
                   "
+                  :disabled="column.isdisabled?column.isdisabled(scope.row, column):false"
                 >
                 </el-switch>
                 <template
@@ -205,6 +208,7 @@
                       column.onChange && column.onChange(scope.row, column)
                     "
                     clearable
+                    :disabled="column.isdisabled?column.isdisabled(scope.row, column):false"
                   >
                     <template #default="{ item }">
                       {{ item.label }}
@@ -228,6 +232,7 @@
                       column.onChange && column.onChange(scope.row, column)
                     "
                     clearable
+                    :disabled="column.isdisabled?column.isdisabled(scope.row, column):false"
                   >
                     <el-option
                       v-for="item in column.bind.data"
@@ -246,12 +251,14 @@
                   type="textarea"
                   :placeholder="column.placeholder || column.title"
                   v-model="scope.row[column.field]"
+                  :disabled="column.isdisabled?column.isdisabled(scope.row, column):false"
                 >
                 </el-input>
                 <input
                   class="table-input"
                   v-else-if="!column.summary && !column.onKeyPress"
                   v-model.lazy="scope.row[column.field]"
+                  :disabled="column.isdisabled?column.isdisabled(scope.row, column):false"
                 />
                 <el-input
                   v-else
@@ -261,6 +268,7 @@
                   size="default"
                   v-model="scope.row[column.field]"
                   :placeholder="column.placeholder || column.title"
+                  :disabled="column.isdisabled?column.isdisabled(scope.row, column):false"
                 ></el-input>
               </div>
               <div
