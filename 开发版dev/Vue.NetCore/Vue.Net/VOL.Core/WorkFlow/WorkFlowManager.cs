@@ -178,7 +178,7 @@ namespace VOL.Core.WorkFlow
             WebResponseContent webResponse = new WebResponseContent(true);
             if (init)
             {
-                if (WorkFlowContainer.Exists<T>())
+                if (!WorkFlowContainer.Exists<T>())
                 {
                     return webResponse;
                 }
@@ -201,8 +201,12 @@ namespace VOL.Core.WorkFlow
                 {
                     return webResponse;
                 }
-                int stepType = workFlow.Sys_WorkFlowTableStep.Where(x => x.OrderId == 1).Select(s => s.StepType).FirstOrDefault() ?? 0;
-                initInvoke?.Invoke(entity, GetAuditUserIds(stepType));
+                var step = workFlow.Sys_WorkFlowTableStep.Where(x => x.OrderId == 1).Select(s => new { s.StepType, s.StepValue }).FirstOrDefault();
+                if (step!=null)
+                {
+                    initInvoke?.Invoke(entity, GetAuditUserIds(step.StepType??0, step.StepValue??0));
+                }
+                
                 return webResponse;
             }
 
@@ -269,7 +273,7 @@ namespace VOL.Core.WorkFlow
             dbContext.Entry(workFlow).State = EntityState.Detached;
             if (workFlowExecuted != null)
             {
-                webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0), isLast);
+                webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0, nextStep.StepValue??0), isLast);
             }
             return webResponse;
         }
@@ -278,7 +282,7 @@ namespace VOL.Core.WorkFlow
         /// </summary>
         /// <param name="stepType"></param>
         /// <returns></returns>
-        private static List<int> GetAuditUserIds(int stepType)
+        private static List<int> GetAuditUserIds(int stepType,int nextId=0)
         {
             List<int> userIds = new List<int>();
             if (stepType == (int)AuditType.角色审批)
@@ -292,7 +296,7 @@ namespace VOL.Core.WorkFlow
             //}
             else
             {
-                userIds.Add(UserContext.Current.UserId);
+                userIds.Add(nextId);
             }
             return userIds;
         }

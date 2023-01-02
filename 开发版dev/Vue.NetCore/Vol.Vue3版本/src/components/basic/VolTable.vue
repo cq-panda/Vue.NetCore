@@ -84,40 +84,40 @@
             :align="columnChildren.align"
             :label="columnChildren.title"
           >
-            <template #scope1>
+            <template  #default="scopeChildren">
               <a
                 href="javascript:void(0)"
                 style="text-decoration: none"
-                @click="link(scope1.row, columnChildren, $event)"
+                @click="link(scopeChildren.row, columnChildren, $event)"
                 v-if="column.link"
-                v-text="scope1.row[columnChildren.field]"
+                v-text="scopeChildren.row[columnChildren.field]"
               ></a>
               <div
                 v-else-if="columnChildren.formatter"
                 @click="
                   columnChildren.click &&
                     columnChildren.click(
-                      scope1.row,
+                      scopeChildren.row,
                       columnChildren,
-                      scope1.$index
+                      scopeChildren.$index
                     )
                 "
                 v-html="
                   columnChildren.formatter(
-                    scope1.row,
+                    scopeChildren.row,
                     columnChildren,
-                    scope1.$index
+                    scopeChildren.$index
                   )
                 "
               ></div>
               <div v-else-if="column.bind">
-                {{ formatter(scope1.row, columnChildren, true) }}
+                {{ formatter(scopeChildren.row, columnChildren, true) }}
               </div>
               <span v-else-if="column.type == 'date'">{{
-                formatterDate(scope1.row, columnChildren)
+                formatterDate(scopeChildren.row, columnChildren)
               }}</span>
               <template v-else>
-                {{ scope1.row[columnChildren.field] }}
+                {{ scopeChildren.row[columnChildren.field] }}
               </template>
             </template>
           </el-table-column>
@@ -157,7 +157,7 @@
                   :value-format="getDateFormat(column)"
                 >
                 </el-date-picker>
-                 <el-time-picker
+                <el-time-picker
                   clearable
                   size="default"
                   style="width: 100%"
@@ -366,7 +366,6 @@
 </template>
 <script>
 import VolTableRender from './VolTable/VolTableRender';
-var $vue;
 let _errMsg;
 import { defineComponent } from 'vue';
 export default defineComponent({
@@ -682,9 +681,6 @@ export default defineComponent({
     if (keyColumn) {
       this.key = keyColumn.field;
     }
-    // 如果下拉框，判断bind或edit.data是否有数据源，妱果没有则获取数据源bind
-    $vue = this;
-    // this.$emit
     this.defaultLoadPage && this.load();
   },
   computed: {
@@ -701,7 +697,7 @@ export default defineComponent({
     watchRowSelectChange(newLen, oldLen) {
       if (newLen < oldLen && this.selectRows.length) {
         this.selectRows = [];
-        $vue.$refs.table.clearSelection();
+        this.$refs.table.clearSelection();
       }
     },
     switchChange(val, row, column) {
@@ -1194,6 +1190,7 @@ export default defineComponent({
               }
             });
           });
+          this.$emit('dicInited', dic);
         });
     },
     load(query, isResetPage) {
