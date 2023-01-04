@@ -272,6 +272,14 @@
               style="width: 100%"
             >
             </el-time-picker>
+            
+            <el-scrollbar
+              style="border: 1px solid #c7d8db; border-radius: 5px"
+              :height="item.height || 150"
+              v-else-if="item.type == 'editor' && (item.readonly || item.disabled)"
+            >
+              <div ref="editor" v-html="formFields[item.field]"></div>
+            </el-scrollbar>
 
             <vol-wang-editor
               ref="editor"
