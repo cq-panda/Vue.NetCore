@@ -41,7 +41,7 @@ namespace VOL.Core.WorkFlow
                    .FirstOrDefault();
         }
 
-        private static void Rewrite<T>(T entity, Sys_WorkFlow workFlow,bool changeTableStatus) where T:class
+        private static void Rewrite<T>(T entity, Sys_WorkFlow workFlow, bool changeTableStatus) where T : class
         {
             var autditProperty = typeof(T).GetProperties().Where(x => x.Name.ToLower() == "auditstatus").FirstOrDefault();
             if (autditProperty == null)
@@ -103,7 +103,7 @@ namespace VOL.Core.WorkFlow
         /// <param name="entity"></param>
         /// <param name="rewrite">是否重新生成流程</param>
         /// <param name="changeTableStatus">是否修改原表的审批状态</param>
-        public static void AddProcese<T>(T entity, bool rewrite = false,bool changeTableStatus=true) where T:class
+        public static void AddProcese<T>(T entity, bool rewrite = false, bool changeTableStatus = true) where T : class
         {
             string workTable = typeof(T).GetEntityTableName();
 
@@ -116,7 +116,7 @@ namespace VOL.Core.WorkFlow
             //重新生成流程
             if (rewrite)
             {
-                Rewrite(entity, workFlow,changeTableStatus);
+                Rewrite(entity, workFlow, changeTableStatus);
                 return;
             }
 
@@ -202,11 +202,11 @@ namespace VOL.Core.WorkFlow
                     return webResponse;
                 }
                 var step = workFlow.Sys_WorkFlowTableStep.Where(x => x.OrderId == 1).Select(s => new { s.StepType, s.StepValue }).FirstOrDefault();
-                if (step!=null)
+                if (step != null)
                 {
-                    initInvoke?.Invoke(entity, GetAuditUserIds(step.StepType??0, step.StepValue??0));
+                    initInvoke?.Invoke(entity, GetAuditUserIds(step.StepType ?? 0, step.StepValue ?? 0));
                 }
-                
+
                 return webResponse;
             }
 
@@ -273,7 +273,7 @@ namespace VOL.Core.WorkFlow
             dbContext.Entry(workFlow).State = EntityState.Detached;
             if (workFlowExecuted != null)
             {
-                webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0, nextStep.StepValue??0), isLast);
+                webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0, nextStep?.StepValue ?? 0), isLast);
             }
             return webResponse;
         }
@@ -282,9 +282,13 @@ namespace VOL.Core.WorkFlow
         /// </summary>
         /// <param name="stepType"></param>
         /// <returns></returns>
-        private static List<int> GetAuditUserIds(int stepType,int nextId=0)
+        private static List<int> GetAuditUserIds(int stepType, int nextId = 0)
         {
             List<int> userIds = new List<int>();
+            if (stepType == 0 || nextId == 0)
+            {
+                return userIds;
+            }
             if (stepType == (int)AuditType.角色审批)
             {
                 userIds = DBServerProvider.DbContext.Set<Sys_User>().Where(s => s.Role_Id == stepType).Take(50).Select(s => s.User_Id).ToList();
