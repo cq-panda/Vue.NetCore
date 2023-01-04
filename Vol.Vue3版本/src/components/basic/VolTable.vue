@@ -48,6 +48,7 @@
         v-if="ck"
         type="selection"
         :fixed="fixed"
+        :selectable="selectable"
         width="55"
       ></el-table-column>
 
@@ -523,6 +524,12 @@ export default defineComponent({
       type: Number,
       default: 500,
     },
+    selectable: {
+      type: Function,
+      default: (row, index) => {
+        return true;
+      }
+    }
   },
   data() {
     return {
@@ -1331,6 +1338,8 @@ export default defineComponent({
           this.selectRows = [_row];
         }
       }
+      // 将selectionchange暴露出去
+      this.$emit("selectionChange", selection);
     },
     getColor(row, column) {
       let val = row[column.field];
