@@ -662,7 +662,7 @@ var vueParam = {
       numberFields: [],
       //2022.09.26增加自定义导出文件名
       downloadFileName: null,
-      select2Count: 2 //超出500数量显示select2组件
+      select2Count: 500 //超出500数量显示select2组件
     };
   },
   methods: {},
