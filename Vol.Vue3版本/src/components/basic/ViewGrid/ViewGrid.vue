@@ -157,6 +157,7 @@
           <!-- 2020.09.13增加formFileds拼写错误兼容处理 -->
           <vol-form
             ref="searchForm"
+            :load-key="false"
             style="padding: 0 15px"
             :label-width="labelWidth"
             :formRules="searchFormOptions"
@@ -661,7 +662,7 @@ var vueParam = {
       numberFields: [],
       //2022.09.26增加自定义导出文件名
       downloadFileName: null,
-      select2Count: 500 //超出500数量显示select2组件
+      select2Count: 2 //超出500数量显示select2组件
     };
   },
   methods: {},
