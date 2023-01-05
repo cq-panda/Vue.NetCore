@@ -648,6 +648,7 @@ export default defineComponent({
           ) {
             d.data.forEach((item) => {
               item.label = item.value;
+              item.value = item.key;
             });
           }
         }
