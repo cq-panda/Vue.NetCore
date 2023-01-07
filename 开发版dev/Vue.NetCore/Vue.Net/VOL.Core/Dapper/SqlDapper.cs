@@ -663,44 +663,22 @@ namespace VOL.Core.Dapper
             return ExcuteNonQuery(sql, null, CommandType.Text, beginTransaction);
         }
 
-        public int DelWithKey<T>(bool beginTransaction = false, params object[] keys)
-        {
-            Type entityType = typeof(T);
-            var keyProperty = entityType.GetKeyProperty();
-            if (keyProperty == null || keys == null || keys.Length == 0) return 0;
 
-            IEnumerable<(bool, string, object)> validation = keyProperty.ValidationValueForDbType(keys);
-            if (validation.Any(x => !x.Item1))
-            {
-                throw new Exception($"主键类型【{validation.Where(x => !x.Item1).Select(s => s.Item3).FirstOrDefault()}】不正确");
-            }
-            string tKey = entityType.GetKeyProperty().Name;
-            FieldType fieldType = entityType.GetFieldType();
-            string joinKeys = (fieldType == FieldType.Int || fieldType == FieldType.BigInt)
-                 ? string.Join(",", keys)
-                 : $"'{string.Join("','", keys)}'";
-            string sql;
-            // 2020.08.06增加pgsql删除功能
-            if (DBType.Name == DbCurrentType.PgSql.ToString())
-            {
-                sql = $"DELETE FROM \"public\".\"{entityType.GetEntityTableName()}\" where \"{tKey}\" in ({joinKeys});";
-            }
-            else
-            {
-                sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
-            }
-
-            return ExcuteNonQuery(sql, null);
-        }
         /// <summary>
         /// 使用key批量删除
+        /// 调用方式：
+        ///    List<int> keys = new List<int>();
+        ///    DBServerProvider.SqlDapper.DelWithKey<Sys_Log, int>(keys);
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="keys"></param>
         /// <returns></returns>
-        public int DelWithKey<T>(params object[] keys)
+        public int DelWithKey<T, KeyType>(IEnumerable<KeyType> keys)
         {
-            return DelWithKey<T>(false, keys);
+            Type entityType = typeof(T);
+            var keyProperty = entityType.GetKeyProperty();
+            string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {keyProperty.Name} in @keys ";
+            return ExcuteNonQuery(sql, new { keys }).GetInt();
         }
         /// <summary>
         /// 通过Bulk批量插入

@@ -123,8 +123,16 @@ namespace VOL.Core.Dapper
         /// <returns></returns>
         int UpdateRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false);
 
-        int DelWithKey<T>(params object[] keys);
-        int DelWithKey<T>(bool beginTransaction = false, params object[] keys);
+        /// <summary>
+        /// 使用key批量删除
+        /// 调用方式：
+        ///    List<int> keys = new List<int>();
+        ///    DBServerProvider.SqlDapper.DelWithKey<Sys_Log, int>(keys);
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keys"></param>
+        /// <returns></returns>
+        int DelWithKey<T, KeyType>(IEnumerable<KeyType> keys);
         /// <summary>
         ///  sqlserver批量写入
         /// 使用时DataTable table表字段顺序要和数据库字段顺序一致

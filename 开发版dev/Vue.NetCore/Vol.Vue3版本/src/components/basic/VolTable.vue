@@ -5,7 +5,7 @@
     :class="[
       textInline ? 'text-inline' : '',
       fxRight ? 'fx-right' : '',
-      isChrome ? 'chrome' : ''
+      isChrome ? 'chrome' : '',
     ]"
   >
     <div class="mask" v-show="loading"></div>
@@ -84,7 +84,7 @@
             :align="columnChildren.align"
             :label="columnChildren.title"
           >
-            <template  #default="scopeChildren">
+            <template #default="scopeChildren">
               <a
                 href="javascript:void(0)"
                 style="text-decoration: none"
@@ -136,8 +136,8 @@
           <div
             v-else-if="
               column.edit &&
-                !column.readonly &&
-                (column.edit.keep || edit.rowIndex == scope.$index)
+              !column.readonly &&
+              (column.edit.keep || edit.rowIndex == scope.$index)
             "
             class="edit-el"
           >
@@ -155,6 +155,7 @@
                   :placeholder="column.placeholder || column.title"
                   :disabledDate="(val) => getDateOptions(val, column)"
                   :value-format="getDateFormat(column)"
+                  :disabled="initColumnDisabled(scope.row, column)"
                 >
                 </el-date-picker>
                 <el-time-picker
@@ -166,6 +167,7 @@
                   @change="column.onChange"
                   :placeholder="column.placeholder || column.title"
                   :value-format="column.format || 'HH:mm:ss'"
+                  :disabled="initColumnDisabled(scope.row, column)"
                 >
                 </el-time-picker>
                 <el-switch
@@ -184,6 +186,7 @@
                   :inactive-value="
                     typeof scope.row[column.field] == 'boolean' ? false : 0
                   "
+                  :disabled="initColumnDisabled(scope.row, column)"
                 >
                 </el-switch>
                 <template
@@ -205,6 +208,7 @@
                       column.onChange && column.onChange(scope.row, column)
                     "
                     clearable
+                    :disabled="initColumnDisabled(scope.row, column)"
                   >
                     <template #default="{ item }">
                       {{ item.label }}
@@ -228,6 +232,7 @@
                       column.onChange && column.onChange(scope.row, column)
                     "
                     clearable
+                    :disabled="initColumnDisabled(scope.row, column)"
                   >
                     <el-option
                       v-for="item in column.bind.data"
@@ -246,12 +251,14 @@
                   type="textarea"
                   :placeholder="column.placeholder || column.title"
                   v-model="scope.row[column.field]"
+                  :disabled="initColumnDisabled(scope.row, column)"
                 >
                 </el-input>
                 <input
                   class="table-input"
                   v-else-if="!column.summary && !column.onKeyPress"
                   v-model.lazy="scope.row[column.field]"
+                  :disabled="initColumnDisabled(scope.row, column)"
                 />
                 <el-input
                   v-else
@@ -261,6 +268,7 @@
                   size="default"
                   v-model="scope.row[column.field]"
                   :placeholder="column.placeholder || column.title"
+                  :disabled="initColumnDisabled(scope.row, column)"
                 ></el-input>
               </div>
               <div
@@ -365,156 +373,156 @@
   </div>
 </template>
 <script>
-import VolTableRender from './VolTable/VolTableRender';
+import VolTableRender from "./VolTable/VolTableRender";
 let _errMsg;
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 export default defineComponent({
   //https://github.com/element-plus/element-plus/issues/1483
   //没有原先的selection属性了，看issue上使用select/selectall获取
   //监听数组长度，如果删除了数据，现在只能被迫清除所有选中的行
   watch: {
-    'tableData.length': {
+    "tableData.length": {
       handler(newLen, oldLen) {
         this.watchRowSelectChange(newLen, oldLen);
-      }
+      },
     },
-    'rowData.length': {
+    "rowData.length": {
       handler(newLen, oldLen) {
         this.watchRowSelectChange(newLen, oldLen);
-      }
-    }
+      },
+    },
   },
-  components: { 'table-render': VolTableRender },
+  components: { "table-render": VolTableRender },
   props: {
     rowKey: {
       // 树形结构的主键字段，如果设置值默认会开启树形table；注意rowKey字段的值必须是唯一（2021.05.02）
       typeof: String,
-      default: undefined
+      default: undefined,
     },
     loadTreeChildren: {
       // 树形结构加载子节点
       type: Function,
       default: (tree, treeNode, resolve) => {
         return resolve([]);
-      }
+      },
     },
     textInline: {
       // 表格内容超出后是否换行显示（2020.01.16）
       type: Boolean,
-      default: true
+      default: true,
     },
     tableData: {
       // 表数据源,配置了url就不用传这个参数了
       type: Array,
       default: () => {
         return [];
-      }
+      },
     },
     columns: {
       type: Array,
-      default: []
+      default: [],
     },
     height: {
       type: Number,
-      default: 0
+      default: 0,
     },
     maxHeight: {
       type: Number,
-      default: 0
+      default: 0,
     },
     linkView: {
       type: Function,
-      default: function() {
+      default: function () {
         return 1;
-      }
+      },
     },
     pagination: {
       type: Object,
-      default: function() {
-        return { total: 0, size: 30, sortName: '' };
-      }
+      default: function () {
+        return { total: 0, size: 30, sortName: "" };
+      },
     },
     url: {
       type: String,
-      default: ''
+      default: "",
     },
     paginationHide: {
       type: Boolean,
-      default: true
+      default: true,
     },
     color: {
       type: Boolean,
-      default: true
+      default: true,
     },
     index: {
       // 是否创建索引号,如果需要表格编辑功能，这里需要设置为true
       type: Boolean,
-      default: false
+      default: false,
     },
     allowEmpty: {
       // 表格数据为空时是否默认为--
       type: Boolean,
-      default: true
+      default: true,
     },
     defaultLoadPage: {
       // 传入了url，是否默认加载表格数据
       type: Boolean,
-      default: true
+      default: true,
     },
     loadKey: {
       // 是否自动从后台加载数据源
       type: Boolean,
-      default: true
+      default: true,
     },
     single: {
       type: Boolean, // 是否单选
-      default: false
+      default: false,
     },
     doubleEdit: {
       type: Boolean, // 是否双击启用编辑功能
-      default: true
+      default: true,
     },
     beginEdit: {
       // 编辑开始
       type: Function,
-      default: function(row, column, index) {
+      default: function (row, column, index) {
         return true;
-      }
+      },
     },
     endEditBefore: {
       // 结束编辑前
       type: Function,
-      default: function(row, column, index) {
+      default: function (row, column, index) {
         return true;
-      }
+      },
     },
     endEditAfter: {
       // 结束编辑前
       type: Function,
-      default: function(row, column, index) {
+      default: function (row, column, index) {
         return true;
-      }
+      },
     },
     ck: {
       // 是否显示checkbox
       type: Boolean,
-      default: true
+      default: true,
     },
     columnIndex: {
       // 是否显示行号(2020..11.1)
       type: Boolean,
-      default: true
+      default: true,
     },
     highlightCurrentRow: {
       //增加选中行高亮显示(2022.10.07)
       type: Boolean,
-      default: true
+      default: true,
     },
     select2Count: {
       //超出数量显示select2组件
       type: Number,
-      default: 500
-    }
+      default: 500,
+    },
   },
   data() {
     return {
@@ -522,39 +530,39 @@ export default defineComponent({
       clickEdit: true, //2021.07.17设置为点击行结束编辑
       randomTableKey: 1,
       visiblyColumns: [],
-      key: '',
+      key: "",
       realHeight: 0,
       realMaxHeight: 0,
       enableEdit: false, // 是否启表格用编辑功能
-      empty: this.allowEmpty ? '' : '--',
-      defaultImg: 'this.src="' + require('@/assets/imgs/error.png') + '"',
+      empty: this.allowEmpty ? "" : "--",
+      defaultImg: 'this.src="' + require("@/assets/imgs/error.png") + '"',
       loading: false,
       footer: {},
       total: 0,
       formatConfig: {},
       // defaultColor: "",
       // 2020.09.06调整table列数据源的背景颜色
-      colors: ['', 'warning', 'success', 'danger', 'info'],
+      colors: ["", "warning", "success", "danger", "info"],
       rule: {
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
-        number: /(^[\-0-9][0-9]*([0-9]+)?)$/
+        number: /(^[\-0-9][0-9]*([0-9]+)?)$/,
       },
       columnNames: [],
       rowData: [],
       paginations: {
-        sort: '',
-        order: 'desc',
-        Foots: '',
+        sort: "",
+        order: "desc",
+        Foots: "",
         total: 0,
         // 2020.08.29增加自定义分页条大小
         sizes: [30, 60, 100, 120],
         size: 30, // 默认分页大小
         Wheres: [],
         page: 1,
-        rows: 30
+        rows: 30,
       },
-      errorFiled: '',
+      errorFiled: "",
       edit: { columnIndex: -1, rowIndex: -1 }, // 当前双击编辑的行与列坐标
       editStatus: {},
       summary: false, // 是否显示合计
@@ -565,7 +573,7 @@ export default defineComponent({
       cellStyleColumns: {}, // 有背景颜色的配置
       fxRight: false, //是否有右边固定表头
       selectRows: [], //当前选中的行
-      isChrome: false
+      isChrome: false,
     };
   },
   created() {
@@ -579,12 +587,12 @@ export default defineComponent({
     this.realHeight = this.getHeight();
     this.realMaxHeight = this.getMaxHeight();
     this.fxRight = this.columns.some((x) => {
-      return x.fixed == 'right';
+      return x.fixed == "right";
     });
     //2021.09.21移除强制固定行号与checkbox列
     if (
       this.columns.some((x) => {
-        return x.fixed && x.fixed != 'right';
+        return x.fixed && x.fixed != "right";
       })
     ) {
       this.fixed = true;
@@ -606,9 +614,9 @@ export default defineComponent({
     // 从后台加下拉框的[是否启用的]数据源
     let keys = [];
     let columnBind = [];
-    this.summaryData.push('合计');
+    this.summaryData.push("合计");
     if (this.columnIndex) {
-      this.summaryData.push(' ');
+      this.summaryData.push(" ");
     }
     this.columns.forEach((x, _index) => {
       if (x.cellStyle) {
@@ -617,7 +625,7 @@ export default defineComponent({
       if (!x.hidden) {
         // this.summaryIndex[x.field] = _index;
         // 2020.10.11修复求和列错位的问题
-        this.summaryData.push('');
+        this.summaryData.push("");
         this.summaryIndex[x.field] = this.summaryData.length - 1;
       }
       // 求和
@@ -638,7 +646,7 @@ export default defineComponent({
     });
     if (keys.length > 0) {
       this.http
-        .post('/api/Sys_Dictionary/GetVueDictionary', keys)
+        .post("/api/Sys_Dictionary/GetVueDictionary", keys)
         .then((dic) => {
           dic.forEach((x) => {
             if (x.data.length > this.select2Count) {
@@ -651,7 +659,7 @@ export default defineComponent({
               // 转换数据源的类型与列的类型一致(2020.04.04)
               if (
                 c.key == x.dicNo &&
-                (c.valueTyoe == 'int' || c.valueTyoe == 'sbyte')
+                (c.valueTyoe == "int" || c.valueTyoe == "sbyte")
               ) {
                 x.data.forEach((d) => {
                   // 2020.09.01增加对数字类型的二次判断
@@ -673,7 +681,7 @@ export default defineComponent({
       this.paginations.rows = this.pagination.size;
     }
     this.enableEdit = this.columns.some((x) => {
-      return x.hasOwnProperty('edit');
+      return x.hasOwnProperty("edit");
     });
     let keyColumn = this.columns.find((x) => {
       return x.isKey;
@@ -691,7 +699,7 @@ export default defineComponent({
         }
         return !x.hidden;
       });
-    }
+    },
   },
   methods: {
     watchRowSelectChange(newLen, oldLen) {
@@ -738,7 +746,7 @@ export default defineComponent({
     },
     rowDbClick(row, column, event) {
       //2021.05.23增加双击行事件
-      this.$emit('rowDbClick', { row, column, event });
+      this.$emit("rowDbClick", { row, column, event });
     },
     rowClick(row, column, event) {
       //2022.02.20增加点击时表格参数判断
@@ -747,7 +755,7 @@ export default defineComponent({
       }
       //正在编辑时，禁止出发rowClick事件
       if (this.edit.rowIndex == -1) {
-        this.$emit('rowClick', { row, column, event });
+        this.$emit("rowClick", { row, column, event });
       }
       // 点击行事件(2020.11.07)
 
@@ -780,7 +788,7 @@ export default defineComponent({
         file.path,
         file.name,
         {
-          Authorization: this.$store.getters.getToken()
+          Authorization: this.$store.getters.getToken(),
         },
         this.http.ipAddress
       );
@@ -794,17 +802,17 @@ export default defineComponent({
         return column.formatter(pathSring);
       }
       let filePath;
-      if (column.base64 && pathSring.indexOf('data') != -1) {
-        filePath = (',' + pathSring)
-          .split(',data')
+      if (column.base64 && pathSring.indexOf("data") != -1) {
+        filePath = ("," + pathSring)
+          .split(",data")
           .filter((x) => {
             return x;
           })
           .map((m) => {
-            return 'data' + m;
+            return "data" + m;
           });
       } else {
-        filePath = pathSring.replace(/\\/g, '/').split(',');
+        filePath = pathSring.replace(/\\/g, "/").split(",");
       }
 
       let fileInfo = [];
@@ -813,17 +821,17 @@ export default defineComponent({
         // 2020.12.19增加base64图片显示
         if (column.base64) {
           fileInfo.push({
-            name: '',
+            name: "",
             path:
-              (file.indexOf('data') == -1 ? 'data:image/png;base64,' : '') +
-              file
+              (file.indexOf("data") == -1 ? "data:image/png;base64," : "") +
+              file,
           });
-        } else if (file.indexOf('.') != -1) {
-          let splitFile = file.split('/');
+        } else if (file.indexOf(".") != -1) {
+          let splitFile = file.split("/");
           if (splitFile.length > 0) {
             fileInfo.push({
               name: splitFile[splitFile.length - 1],
-              path: this.base.isUrl(file) ? file : this.http.ipAddress + file
+              path: this.base.isUrl(file) ? file : this.http.ipAddress + file,
             });
           }
         }
@@ -845,7 +853,7 @@ export default defineComponent({
           this.paginations.wheres.splice(0);
         }
       }
-      this.errorFiled = '';
+      this.errorFiled = "";
       this.edit.columnIndex = -1;
       this.edit.rowIndex = -1;
     },
@@ -921,13 +929,13 @@ export default defineComponent({
         if (
           //不能编辑的字段、switch，点击不开启启编辑功能
           !_row.edit ||
-          (_row.edit.keep && _row.edit.type == 'switch')
+          (_row.edit.keep && _row.edit.type == "switch")
         ) {
           return;
         }
       }
       if (!this.enableEdit) return;
-      _errMsg = '';
+      _errMsg = "";
       // 编辑前
       this.columns
         .filter((x) => {
@@ -935,21 +943,21 @@ export default defineComponent({
         })
         .forEach((column) => {
           let val = row[column.field];
-          if (typeof column.bind.data[0].key == 'string') {
-            if (typeof val == 'number') {
-              row[column.field] = row[column.field] + '';
+          if (typeof column.bind.data[0].key == "string") {
+            if (typeof val == "number") {
+              row[column.field] = row[column.field] + "";
             }
           } else {
-            if (typeof val == 'string' && val) {
+            if (typeof val == "string" && val) {
               let _val = val * 1;
-              if (_val + '' === val) {
+              if (_val + "" === val) {
                 row[column.field] = _val;
               }
             }
           }
         });
       if (!this.beginEdit(row, column, row.elementIndex)) return;
-      if (row.hasOwnProperty('elementIndex')) {
+      if (row.hasOwnProperty("elementIndex")) {
         if (this.edit.rowIndex == row.elementIndex) {
           return;
         }
@@ -1009,16 +1017,16 @@ export default defineComponent({
         this.$message.error(option1.title + _errMsg);
         return false;
       }
-      this.errorFiled = '';
+      this.errorFiled = "";
       return true;
     },
     validateColum(option, data) {
       if (option.hidden || option.bind) return true;
       let val = data[option.field];
       if (option.require || option.required) {
-        if (val != '0' && (val === '' || val === undefined)) {
+        if (val != "0" && (val === "" || val === undefined)) {
           if (!this.errorFiled) {
-            _errMsg = '不能为空';
+            _errMsg = "不能为空";
           }
           return false;
         }
@@ -1028,52 +1036,52 @@ export default defineComponent({
       }
       let editType = option.edit.type;
       // 验证数字
-      if (editType == 'int' || editType == 'decimal' || editType == 'number') {
-        if (val == '' || val == undefined) return true;
-        if (editType == 'decimal') {
+      if (editType == "int" || editType == "decimal" || editType == "number") {
+        if (val == "" || val == undefined) return true;
+        if (editType == "decimal") {
           if (!this.rule.decimal.test(val)) {
-            _errMsg = '只能是数字';
+            _errMsg = "只能是数字";
             return false;
           }
         } else if (!this.rule.decimal.test(val)) {
-          _errMsg = '只能是数字';
+          _errMsg = "只能是数字";
           return false;
         }
         if (
           option.edit.min != undefined &&
-          typeof option.edit.min === 'number' &&
+          typeof option.edit.min === "number" &&
           val < option.edit.min
         ) {
-          _errMsg = '不能小于' + option.edit.min;
+          _errMsg = "不能小于" + option.edit.min;
           return false;
         }
         if (
           option.edit.max != undefined &&
-          typeof option.edit.max === 'number' &&
+          typeof option.edit.max === "number" &&
           val > option.edit.max
         ) {
-          _errMsg = '不能大于' + option.edit.max;
+          _errMsg = "不能大于" + option.edit.max;
           return false;
         }
         return true;
       }
 
       // 验证字符串
-      if (val && (editType == 'text' || editType == 'string')) {
+      if (val && (editType == "text" || editType == "string")) {
         if (
           option.edit.min != undefined &&
-          typeof option.edit.min === 'number' &&
+          typeof option.edit.min === "number" &&
           val.length < option.edit.min
         ) {
-          _errMsg = '至少' + option.edit.min + '个字符';
+          _errMsg = "至少" + option.edit.min + "个字符";
           return false;
         }
         if (
           option.edit.max != undefined &&
-          typeof option.edit.max === 'number' &&
+          typeof option.edit.max === "number" &&
           val.length > option.edit.max
         ) {
-          _errMsg = '最多' + option.edit.max + '个字符';
+          _errMsg = "最多" + option.edit.max + "个字符";
           return false;
         }
       }
@@ -1081,7 +1089,7 @@ export default defineComponent({
     },
     delRow() {
       let rows = this.getSelected();
-      if (rows.length == 0) return this.$Message.error('请选择要删除的行!');
+      if (rows.length == 0) return this.$Message.error("请选择要删除的行!");
 
       let data = this.url ? this.rowData : this.tableData;
       let indexArr = this.getSelectedIndex();
@@ -1121,8 +1129,8 @@ export default defineComponent({
         // 2022.05.06 添加行时，如果列有编辑属性，设置开启编辑(避免关闭编辑后，无法再次启用编辑)??
         //x.readonly = false;
         if (!row.hasOwnProperty(x.field)) {
-          if (x.edit && x.edit.type == 'switch') {
-            row[x.field] = x.type == 'bool' ? false : 0;
+          if (x.edit && x.edit.type == "switch") {
+            row[x.field] = x.type == "bool" ? false : 0;
           } else if (!row.hidden) {
             // 2020.09.06添加行时，设置默认字段
             row[x.field] = undefined;
@@ -1167,7 +1175,7 @@ export default defineComponent({
         let key = column.bind.key;
         let data = [];
         rows.forEach((row) => {
-          if (row[column.field] || row[column.field] == '0') {
+          if (row[column.field] || row[column.field] == "0") {
             if (data.indexOf(row[column.field]) == -1) {
               data.push(row[column.field]);
             }
@@ -1180,7 +1188,7 @@ export default defineComponent({
       if (remoteInfo.length == 0) return;
       // ha= Object.assign([], ha, hb)
       this.http
-        .post('/api/Sys_Dictionary/GetTableDictionary', remoteInfo)
+        .post("/api/Sys_Dictionary/GetTableDictionary", remoteInfo)
         .then((dic) => {
           dic.forEach((x) => {
             this.remoteColumns.forEach((column) => {
@@ -1190,7 +1198,7 @@ export default defineComponent({
               }
             });
           });
-          this.$emit('dicInited', dic);
+          this.$emit("dicInited", dic);
         });
     },
     load(query, isResetPage) {
@@ -1204,7 +1212,7 @@ export default defineComponent({
         rows: this.paginations.rows,
         sort: this.paginations.sort,
         order: this.paginations.order,
-        wheres: [] // 查询条件，格式为[{ name: "字段", value: "xx" }]
+        wheres: [], // 查询条件，格式为[{ name: "字段", value: "xx" }]
       };
       let status = true;
       // 合并查询信息(包查询分页、排序、查询条件等)
@@ -1217,7 +1225,7 @@ export default defineComponent({
           callBack(true);
         })
       */
-      this.$emit('loadBefore', param, (result) => {
+      this.$emit("loadBefore", param, (result) => {
         status = result;
       });
       if (!status) return;
@@ -1237,7 +1245,7 @@ export default defineComponent({
           // 查询返回结果后处理
           // 2020.10.30增加查询后返回所有的查询信息
           this.$emit(
-            'loadAfter',
+            "loadAfter",
             data.rows || [],
             (result) => {
               status = result;
@@ -1265,11 +1273,11 @@ export default defineComponent({
       this.summaryData.splice(0);
       // 开启了行号的，+1
       if (this.columnIndex) {
-        this.summaryData.push('');
+        this.summaryData.push("");
       }
       // 如果有checkbox，应该算作是第一行
       if (this.ck) {
-        this.summaryData.push('');
+        this.summaryData.push("");
       }
 
       this.columns.forEach((col) => {
@@ -1277,16 +1285,16 @@ export default defineComponent({
           if (data.summary.hasOwnProperty(col.field)) {
             let sum = data.summary[col.field];
             if (sum) {
-              sum = (sum * 1.0).toFixed(2).replace('.00', '') * 1.0;
+              sum = (sum * 1.0).toFixed(2).replace(".00", "") * 1.0;
             }
             this.summaryData.push(sum);
           } else {
-            this.summaryData.push('');
+            this.summaryData.push("");
           }
         }
       });
-      if (this.summaryData.length > 0 && this.summaryData[0] == '') {
-        this.summaryData[0] = '合计';
+      if (this.summaryData.length > 0 && this.summaryData[0] == "") {
+        this.summaryData[0] = "合计";
       }
     },
     getInputChangeSummaries() {},
@@ -1301,7 +1309,7 @@ export default defineComponent({
     },
     sortChange(sort) {
       this.paginations.sort = sort.prop;
-      this.paginations.order = sort.order == 'ascending' ? 'asc' : 'desc';
+      this.paginations.order = sort.order == "ascending" ? "asc" : "desc";
       this.load();
     },
     resetPage() {
@@ -1315,7 +1323,7 @@ export default defineComponent({
       this.selectRows = selection;
       if (this.single) {
         if (selection.length == 1) {
-          this.$emit('rowChange', selection[0]);
+          this.$emit("rowChange", selection[0]);
         }
         if (selection.length > 1) {
           let _row = selection[selection.length - 1];
@@ -1326,14 +1334,14 @@ export default defineComponent({
     },
     getColor(row, column) {
       let val = row[column.field];
-      if (column.getColor && typeof column.getColor === 'function') {
+      if (column.getColor && typeof column.getColor === "function") {
         let _color = column.getColor(row, column);
         if (_color) {
           return _color;
         }
       }
-      if (!val && val != '0') {
-        return '';
+      if (!val && val != "0") {
+        return "";
       }
       if (!this.formatConfig[column.field]) {
         this.formatConfig[column.field] = [val];
@@ -1344,7 +1352,7 @@ export default defineComponent({
         return this.colors[index];
       }
       if (this.formatConfig[column.field].length > 5) {
-        return '';
+        return "";
       }
 
       if (index == -1) {
@@ -1354,58 +1362,58 @@ export default defineComponent({
       return this.colors[index];
     },
     formatterDate(row, column) {
-      return (row[column.field] || '').substr(0, 10);
+      return (row[column.field] || "").substr(0, 10);
     },
     formatter(row, column, template) {
       if (!template) return row[column.property];
       let val = row[column.field];
       if (!val && val != 0) return val;
       // 是否值
-      if (column.edit && column.edit.type == 'switch') {
-        return val ? '是' : '否';
+      if (column.edit && column.edit.type == "switch") {
+        return val ? "是" : "否";
       }
       if (!column.bind || !column.bind.data) {
         return row[column.field];
       }
 
-      if (column.edit && column.edit.type == 'selectList') {
+      if (column.edit && column.edit.type == "selectList") {
         if (!Array.isArray(val)) {
-          row[column.field] = val.split(',');
+          row[column.field] = val.split(",");
         } else {
-          val = val.join(',');
+          val = val.join(",");
         }
         return this.getSelectFormatter(column, val);
       }
       // 编辑多选table显示
-      if (column.bind.type == 'selectList' || column.bind.type == 'checkbox') {
-        if (typeof val === 'string' && val.indexOf(',') != -1) {
+      if (column.bind.type == "selectList" || column.bind.type == "checkbox") {
+        if (typeof val === "string" && val.indexOf(",") != -1) {
           return this.getSelectFormatter(column, val);
         }
       }
       let source = column.bind.data.filter((x) => {
         // return x.key != "" && x.key == val;
         // 2020.06.06修复单独使用table组件时,key为数字0时转换成文本失败的问题
-        return x.key !== '' && x.key !== undefined && x.key + '' === val + '';
+        return x.key !== "" && x.key !== undefined && x.key + "" === val + "";
       });
       if (source && source.length > 0) val = source[0].label || source[0].value;
       return val;
     },
     getSelectFormatter(column, val) {
       // 编辑多选table显示
-      let valArr = val.split(',');
+      let valArr = val.split(",");
       for (let index = 0; index < valArr.length; index++) {
         column.bind.data.forEach((x) => {
           // 2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
           if (
-            x.key !== '' &&
+            x.key !== "" &&
             x.key !== undefined &&
-            x.key + '' == valArr[index] + ''
+            x.key + "" == valArr[index] + ""
           ) {
             valArr[index] = x.label || x.value;
           }
         });
       }
-      return valArr.join(',');
+      return valArr.join(",");
     },
     onChange(scope, val, event, column) {
       // 2020.09.03修复onChange不触发的问题
@@ -1429,7 +1437,7 @@ export default defineComponent({
         }
       });
       if (sum) {
-        sum = (sum * 1.0).toFixed(2).replace('.00', '') * 1.0;
+        sum = (sum * 1.0).toFixed(2).replace(".00", "") * 1.0;
       }
       this.summaryData[this.summaryIndex[column.field]] = sum;
     },
@@ -1455,7 +1463,7 @@ export default defineComponent({
       }
       return (
         date1.valueOf() <
-        (typeof date2 == 'number' ? date2 : new Date(date2).valueOf())
+        (typeof date2 == "number" ? date2 : new Date(date2).valueOf())
       );
     },
     getDateOptions(date, item) {
@@ -1463,9 +1471,9 @@ export default defineComponent({
       if ((!item.min && !item.max) || !date) {
         return false;
       }
-      if (item.min && item.min.indexOf(' ') == -1) {
+      if (item.min && item.min.indexOf(" ") == -1) {
         //不设置时分秒，后面会自动加上 08:00
-        item.min = item.min + ' 00:00:000';
+        item.min = item.min + " 00:00:000";
       }
       return (
         this.compareDate(date, item.min) || !this.compareDate(date, item.max)
@@ -1473,19 +1481,19 @@ export default defineComponent({
     },
     getDateFormat(column) {
       //见https://day.js.org/docs/zh-CN/display/format
-      return column.edit.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
+      return column.edit.type == "date" ? "YYYY-MM-DD" : "YYYY-MM-DD HH:mm:ss";
     },
     userSelect(selection, row) {
       this.selectRows = selection;
       if (!this.single) {
-        this.$emit('rowChange', { row, selection });
+        this.$emit("rowChange", { row, selection });
       }
     },
     isEmptyTag(row, column) {
-      if (!row[column.field] && row[column.field] != '0') {
-        return 'empty-tag';
+      if (!row[column.field] && row[column.field] != "0") {
+        return "empty-tag";
       }
-      return '';
+      return "";
     },
     filterChildrenColumn(children) {
       if (!children) {
@@ -1494,8 +1502,11 @@ export default defineComponent({
       return children.filter((x) => {
         return !x.hidden;
       });
-    }
-  }
+    },
+    initColumnDisabled(row, column) {
+      return column.getDisabled && column.getDisabled(row, column);
+    },
+  },
 });
 </script>
 <style lang="less" scoped>
