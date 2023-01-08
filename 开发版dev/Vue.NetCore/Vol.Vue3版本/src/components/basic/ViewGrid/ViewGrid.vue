@@ -157,6 +157,7 @@
           <!-- 2020.09.13增加formFileds拼写错误兼容处理 -->
           <vol-form
             ref="searchForm"
+            :load-key="false"
             style="padding: 0 15px"
             :label-width="labelWidth"
             :formRules="searchFormOptions"
