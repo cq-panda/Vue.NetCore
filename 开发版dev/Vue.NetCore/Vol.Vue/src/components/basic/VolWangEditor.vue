@@ -3,66 +3,72 @@
 </template>
 
 <script>
-import E from 'wangeditor';
+import E from "wangeditor";
 export default {
   props: {
     content: {
       type: String,
-      default: ''
+      default: "",
     },
     url: {
       //上传图片的url
       type: String,
-      default: ''
+      default: "",
     },
     upload: {
       //上传方法
       type: Function,
-      default: (file) => {}
+      default: (file) => {},
     },
     uploadCount: {
       //最多可以上传(图片)的数量
       type: Number,
-      default: 3
+      default: 3,
     },
-    modelValue: '',
+    modelValue: "",
     value: {
       type: String,
-      default: ''
+      default: "",
     },
     width: {
       type: String,
-      default: '100%'
+      default: "100%",
     },
     height: {
       type: Number,
-      default: 250
+      default: 250,
     },
     minWidth: {
       type: Number,
-      default: 650
+      default: 650,
     },
     minHeight: {
       type: Number,
-      default: 100
-    }
+      default: 100,
+    },
   },
-  name: 'wang-editor',
+  name: "wang-editor",
   data() {
     return {
+      lastHtml: "",
       change: false,
-      outChange: false,
-      editor: null
+      editor: null,
+      init: false,
     };
   },
   watch: {
-    value(newVal) {
-      if (!this.change) {
-        this.outChange = true;
+    value(newVal, val) {
+      if (
+        (newVal !== val &&
+          this.lastHtml !== "" &&
+          val === this.lastHtml &&
+          this.editor.txt.html() === this.lastHtml) ||
+        this.editor.txt.html() === ""
+      ) {
         this.editor.txt.html(newVal);
       }
-      this.change = false;
-    }
+      this.lastHtml = newVal;
+    },
   },
   destroyed() {
     this.editor = null;
@@ -74,22 +80,14 @@ export default {
     let $this = this;
     editor.config.height = this.height;
     editor.config.onchange = (html) => {
-      this.change = false;
-      if (!html || html == this.modelValue) {
-        return;
+      if (!this.init && this.lastHtml === "") {
+        this.lastHtml = html;
+        this.init = true;
       }
-      this.change = true;
-      this.outChange = false;
-      this.$emit('input', html);
-
+      this.$emit("input", html);
+      //this.change = !this.change;
       // this.$emit("update:content", html);
     };
-    // editor.config.uploadFileName = "fileInput";
-    // //设置header
-    // editor.config.uploadImgHeaders = {
-    //   Accept: "application/json",
-    //   Authorization: this.$store.getters.getToken(),
-    // };
     //上传地址
     editor.config.uploadImgServer = this.http.ipAddress + this.url;
     // console.log(editor.config.uploadImgServer);
@@ -97,11 +95,11 @@ export default {
       let formData = new FormData();
       let nameArr = [];
       resultFiles.forEach(function (file) {
-        formData.append('fileInput', file, file.name);
+        formData.append("fileInput", file, file.name);
         nameArr.push(file.name);
       });
       if (!$this.url) {
-        $this.$message.error('未配置url');
+        $this.$message.error("未配置url");
         return;
       }
       $this.http.post($this.url, formData, true).then((x) => {
@@ -112,13 +110,13 @@ export default {
           .map((m) => {
             return $this.http.ipAddress + x.data + m;
           })
-          .join(',');
+          .join(",");
         insertImgFn(imgs);
       });
     };
     editor.create();
     editor.txt.html(this.value);
-  }
+  },
 };
 </script>
 
