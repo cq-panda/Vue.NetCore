@@ -31,7 +31,7 @@ module.exports = {
     config.plugins.delete('prefetch');
     //自下定义title
     config.plugin('html').tap((args) => {
-      args[0].title = 'vol3.0版本';
+      args[0].title = 'vol开发框架';
       return args;
     });
 
