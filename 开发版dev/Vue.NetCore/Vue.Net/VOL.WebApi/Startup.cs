@@ -120,43 +120,17 @@ namespace VOL.WebApi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                foreach (var controller in GetControllers())
-                {
-                    var apiSetting = controller.GetCustomAttribute(typeof(ApiExplorerSettingsAttribute));
-                    if (apiSetting==null)
-                    {
-                        c.SwaggerDoc(controller.Name, new OpenApiInfo
-                        {
-                            Version = "v1",
-                            Title = controller.Name,
-                            Description = "VOL.Core后台Api"
-                        });
-                    }
-                   else if (!(((ApiExplorerSettingsAttribute) apiSetting)!).IgnoreApi)
-                    {
-                        var groupName = GetSwaggerGroupName(controller);
+                //分为2份接口文档
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VOL.Core后台Api", Version = "v1", Description = "这是对文档的描述。。" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "VOL.Core对外三方Api", Version = "v2", Description = "xxx接口文档" });  //控制器里使用[ApiExplorerSettings(GroupName = "v2")]              
+                                                                                                                             //启用中文注释功能
+                                                                                                                             // var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                                                                                                                             //  var xmlPath = Path.Combine(basePath, "VOL.WebApi.xml");
+                                                                                                                             //   c.IncludeXmlComments(xmlPath, true);//显示控制器xml注释内容
+                                                                                                                             //添加过滤器 可自定义添加对控制器的注释描述
+                                                                                                                             //c.DocumentFilter<SwaggerDocTag>();
 
-                        c.SwaggerDoc(groupName, new OpenApiInfo
-                        {
-                            Version = "v1",
-                            Title = groupName,
-                            Description = "VOL.Core后台Api"
-                        });
-                    }
-                }
-                foreach (var name in Directory.GetFiles(AppContext.BaseDirectory, "*.*",
-                             SearchOption.AllDirectories).Where(f => Path.GetExtension(f).ToLower() == ".xml"))
-                {
-                    c.IncludeXmlComments(name, includeControllerXmlComments: true);
-                }
-
-                c.CustomOperationIds(apiDesc =>
-                {  
-                    var controllerAction = apiDesc.ActionDescriptor as ControllerActionDescriptor;
-                    return controllerAction?.ControllerName + "-" + controllerAction?.ActionName;
-                });
-                var security = new Dictionary<string, IEnumerable<string>>
-                { { AppSetting.Secret.Issuer, new string[] { } }};
+                var security = new Dictionary<string, IEnumerable<string>> { { AppSetting.Secret.Issuer, new string[] { } } };
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Description = "JWT授权token前面需要加上字段Bearer与一个空格,如Bearer token",
@@ -181,7 +155,7 @@ namespace VOL.WebApi
                     }
                 });
             })
-             .AddControllers()
+              .AddControllers()
             .ConfigureApiBehaviorOptions(options =>
             {
                 options.SuppressConsumesConstraintForFormFileParameters = true;
@@ -248,26 +222,11 @@ namespace VOL.WebApi
             app.UseStaticHttpContext();
 
             app.UseSwagger();
-            app.UseKnife4UI(c =>
+            app.UseSwaggerUI(c =>
             {
-                foreach (var controller in GetControllers())
-                {
-                    var apiSetting = controller.GetCustomAttribute(typeof(ApiExplorerSettingsAttribute));
-                    if (apiSetting==null)
-                    {
-                        c.SwaggerEndpoint($"/swagger/{controller.Name}/swagger.json", controller.Name);
-                    }
-                    else  if (!(((ApiExplorerSettingsAttribute) apiSetting)!).IgnoreApi)
-                    {
-                        var groupName = GetSwaggerGroupName(controller);
-                        c.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName);
-                    }
-                }
-                c.DocExpansion(DocExpansion.List); //默认展开列表
-                c.OAuthClientId("VOL.WebApi"); //oauth客户端名称
                 //2个下拉框选项  选择对应的文档
-                // c.SwaggerEndpoint("/swagger/v1/swagger.json", "VOL.Core后台Api");
-                // c.SwaggerEndpoint("/swagger/v2/swagger.json", "测试第三方Api");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "VOL.Core后台Api");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "Api");
                 c.RoutePrefix = "";
             });
             app.UseRouting();
