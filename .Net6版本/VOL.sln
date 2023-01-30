@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOL.Order", "VOL.Order\VOL.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOL.WebApi", "VOL.WebApi\VOL.WebApi.csproj", "{4DB3C91B-93FE-4937-8B58-DDD3F57D4607}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOL.Mall", "VOL.Mall\VOL.Mall.csproj", "{16DA9C0B-A82B-4DD4-A872-C0D7A570AA2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{4DB3C91B-93FE-4937-8B58-DDD3F57D4607}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DB3C91B-93FE-4937-8B58-DDD3F57D4607}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DB3C91B-93FE-4937-8B58-DDD3F57D4607}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16DA9C0B-A82B-4DD4-A872-C0D7A570AA2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16DA9C0B-A82B-4DD4-A872-C0D7A570AA2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16DA9C0B-A82B-4DD4-A872-C0D7A570AA2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16DA9C0B-A82B-4DD4-A872-C0D7A570AA2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

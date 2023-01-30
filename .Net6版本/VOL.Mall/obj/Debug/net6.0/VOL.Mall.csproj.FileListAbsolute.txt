@@ -1,0 +1,17 @@
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\bin\Debug\net6.0\VOL.Mall.deps.json
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\bin\Debug\net6.0\VOL.Mall.dll
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\bin\Debug\net6.0\VOL.Mall.pdb
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\bin\Debug\net6.0\VOL.Core.dll
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\bin\Debug\net6.0\VOL.Entity.dll
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\bin\Debug\net6.0\VOL.Core.pdb
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\bin\Debug\net6.0\VOL.Entity.pdb
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\obj\Debug\net6.0\VOL.Mall.csproj.AssemblyReference.cache
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\obj\Debug\net6.0\VOL.Mall.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\obj\Debug\net6.0\VOL.Mall.AssemblyInfoInputs.cache
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\obj\Debug\net6.0\VOL.Mall.AssemblyInfo.cs
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\obj\Debug\net6.0\VOL.Mall.csproj.CoreCompileInputs.cache
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\obj\Debug\net6.0\VOL.Mall.csproj.CopyComplete
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\obj\Debug\net6.0\VOL.Mall.dll
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\obj\Debug\net6.0\refint\VOL.Mall.dll
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\obj\Debug\net6.0\VOL.Mall.pdb
+D:\GitHub\Vue.NetCore\.Net6版本\VOL.Mall\obj\Debug\net6.0\ref\VOL.Mall.dll
