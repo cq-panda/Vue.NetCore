@@ -215,6 +215,9 @@ let base = {
   convertTree(data, callback) {
     var treeIds = [];
     var root_data = [];
+    if (data.length>100) {
+      data = JSON.parse(JSON.stringify(data));
+    }
     data.forEach((x) => {
       // if (!x.children) {
       //   x.children = []
@@ -248,7 +251,9 @@ let base = {
     if (!(data instanceof Array)) {
       return nodes;
     }
-
+    if (data.length>100) {
+      data = JSON.parse(JSON.stringify(data));
+    }
     data.forEach((x) => {
       if (x.id === x.parentId) {
         x.parentId = 0;
@@ -287,7 +292,9 @@ let base = {
     if (!(data instanceof Array)) {
       return nodes;
     }
-
+    if (data.length>100) {
+      data = JSON.parse(JSON.stringify(data));
+    }
     var _child = data.find((x) => {
       return x.id === id;
     });
