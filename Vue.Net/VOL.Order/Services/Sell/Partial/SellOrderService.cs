@@ -52,7 +52,7 @@ namespace VOL.Order.Services
         ///// <returns></returns>
         //public override PageGridData<SellOrder> GetPageData(PageDataOptions options)
         //{
-        //    Expression<Func<SellOrder, bool>> orFilter = null;
+        //    System.Linq.Expressions.Expression<Func<SellOrder, bool>> orFilter = null;
         //    QueryRelativeList = (List<SearchParameters> parameters) =>
         //    {
         //        //方式1：动态生成or查询条件
@@ -79,17 +79,6 @@ namespace VOL.Order.Services
         //                }
         //            }
         //        }
-
-        //    QueryRelativeExpression = (IQueryable<SellOrder> queryable) =>
-        //    {
-        //        if (orFilter != null)
-        //        {
-        //            queryable = queryable.Where(orFilter);
-        //        }
-        //        return queryable;
-        //    };
-
-
         //        ///方式2：原生sql查询,需要自己处理sql注入问题(不建议使用此方法)
         //        //string sql = null;
         //        //foreach (var item in parameters)
@@ -118,7 +107,14 @@ namespace VOL.Order.Services
         //        //QuerySql = "select * from sellorder " + sql;
         //    };
 
-
+        //    QueryRelativeExpression = (IQueryable<SellOrder> queryable) =>
+        //    {
+        //        if (orFilter != null)
+        //        {
+        //            queryable = queryable.Where(orFilter);
+        //        }
+        //        return queryable;
+        //    };
         //    return base.GetPageData(options);
         //}
 
