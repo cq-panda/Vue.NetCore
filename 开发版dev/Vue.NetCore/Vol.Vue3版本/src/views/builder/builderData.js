@@ -14,7 +14,8 @@ let dataType = [
   { "key": "selectList", "value": "select多选" },
   { "key": "date", "value": "date" },
   { "key": "datetime", "value": "datetime" },
-  { "key": "month", "value": "年月日期格式" },
+  { "key": "month", "value": "年月日" },
+  { "key": "rate", "value": "rate评分" },
   { "key": "time", "value": "time" },
   { "key": "checkbox", "value": "checkbox" },
   // 2021.05.16集成iview radio组件
