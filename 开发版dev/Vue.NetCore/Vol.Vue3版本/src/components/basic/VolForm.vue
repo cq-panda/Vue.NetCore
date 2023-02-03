@@ -329,6 +329,16 @@
               @change="item.onChange"
             >
             </el-cascader>
+            <el-rate
+              v-else-if="item.type == 'rate'"
+              @change="
+                (val) => {
+                  item.onChange && item.onChange(val);
+                }
+              "
+              :max="item.max"
+              v-model="formFields[item.field]"
+            />
             <div
               style="display: flex"
               v-else-if="item.type == 'range' || item.range"
