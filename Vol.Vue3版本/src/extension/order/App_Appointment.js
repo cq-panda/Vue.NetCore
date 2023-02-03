@@ -51,6 +51,25 @@ let extension = {
         }
       })
 
+      //表格显示Tooltip提示
+      this.columns.forEach(col => {
+        if (col.field == 'Describe') {
+          col.title = "单元格Tooltip(鼠标放上来看效果)";
+          col.render = (h, { row, column, index }) => {
+            return <el-popover
+              placement="top-start"
+              title="提示信息"
+              width={350}
+              trigger="hover"
+              content={row.Describe+",这里是用render渲染的表格提示,示例见:App_Appointment.js"}
+            >
+              {{ reference: <span>{row.Describe}</span> }}
+            </el-popover>
+          }
+        }
+      })
+
+
       //增加弹出框提示信息
       //https://cn.vuejs.org/guide/extras/render-function.html#passing-slots
       //自定义提示
