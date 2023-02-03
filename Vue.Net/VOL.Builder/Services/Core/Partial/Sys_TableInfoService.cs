@@ -1212,17 +1212,17 @@ DISTINCT
         {
             columns.ForEach(x =>
             {
-                if (x.ColumnName == "DateTime")
+                if (x.ColumnType.ToLower() == "datetime")
                 {
                     x.ColumnWidth = 150;
                 }
-                else if (x.ColumnName == "Modifier" || x.ColumnName == "Creator")
+                else if (x.ColumnName.ToLower() == "modifier" || x.ColumnName.ToLower() == "creator")
                 {
-                    x.ColumnWidth = 130;
+                    x.ColumnWidth = 100;
                 }
-                else if (x.ColumnName == "CreateID" || x.ColumnName == "ModifyID")
+                else if (x.ColumnName.ToLower() == "modifyid" || x.ColumnName.ToLower() == "createid")
                 {
-                    x.ColumnWidth = 80;
+                    x.ColumnWidth = 100;
                 }
                 else if (x.Maxlength > 200)
                 {
@@ -1766,7 +1766,7 @@ DISTINCT
             //  "\\" + modelNameSpace + "\\DomainModels\\{0}\\", folderName
             //  )
             string modelPath = $"{mapPath}\\{modelNameSpace}\\DomainModels\\{folderName}\\";
-            FileHelper.WriteFile(  modelPath  , tableName + ".cs",  domainContent);
+            FileHelper.WriteFile(modelPath, tableName + ".cs", domainContent);
             //partialContent
             modelPath += "partial\\";
             if (!FileHelper.FileExists(modelPath + tableName + ".cs"))
