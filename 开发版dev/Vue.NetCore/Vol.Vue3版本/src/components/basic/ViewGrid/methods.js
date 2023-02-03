@@ -441,6 +441,11 @@ let methods = {
       this.$refs.detail.reset();
     }
     this.resetForm('form', sourceObj);
+    if (this.$refs.form && this.$refs.form.volform) {
+     setTimeout(() => {
+      this.$refs.form.$refs.volform.clearValidate();
+     }, 100);
+    }
   },
   getKeyValueType(formData, isEditForm) {
     try {
@@ -517,7 +522,7 @@ let methods = {
             });
             if (treeDic && treeDic.orginData && treeDic.orginData.length) {
               if (typeof treeDic.orginData[0].id == 'number') {
-                newVal = newVal*1||0;
+                newVal = newVal * 1 || 0;
               } else {
                 newVal = newVal + '';
               }
@@ -610,7 +615,7 @@ let methods = {
       } else if (typeof this.editFormFields[key] == 'function') {
         try {
           editFormFields[key] = this.editFormFields[key]();
-        } catch (error) {}
+        } catch (error) { }
       } else {
         //2021.05.30修复下拉框清除数据后后台不能保存的问题
         if (
@@ -967,7 +972,7 @@ let methods = {
     );
     let elink = this.$refs.export;
     xmlResquest.responseType = 'blob';
-    xmlResquest.onload = function(oEvent) {
+    xmlResquest.onload = function (oEvent) {
       if (xmlResquest.status != 200) {
         this.$error('下载文件出错了..');
         return;
@@ -1189,7 +1194,7 @@ let methods = {
             this.dicKeys.filter((f) => {
               return f.dicNo == d.dataKey;
             })[0],
-            {type:d.type}
+            { type: d.type }
           );
         }
       });
@@ -1509,7 +1514,7 @@ let methods = {
     }
     if (refreshBtn) {
       refreshBtn.name = '重 置';
-      refreshBtn.onClick = function() {
+      refreshBtn.onClick = function () {
         this.resetSearch();
       };
     }
@@ -1616,9 +1621,8 @@ let methods = {
   },
   getWorkFlowSteps(row) {
     let table = this.table.url.replaceAll('/', '');
-    let url = `api/Sys_WorkFlow/getSteps?tableName=${table}&id=${
-      row[this.table.key]
-    }`;
+    let url = `api/Sys_WorkFlow/getSteps?tableName=${table}&id=${row[this.table.key]
+      }`;
     this.http.get(url, {}, true).then((result) => {
       this.workFlowSteps.splice(0);
       //有可能没有配置审批流程
