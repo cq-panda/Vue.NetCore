@@ -49,7 +49,87 @@ export default {
     return {
       active: 0,
       log: [
+        { date: "2023.02", type: "month" },
+        { date: "2023-02-03 19:04:12", desc: "增加or查询示例" },
+        { date: "2023-02-03 18:58:53", desc: "增加or查询示例" },
+        {
+          date: "2023-02-03 17:25:20",
+          desc: "增加vue3版本代码生成器volform表单生成评分rate组件(更新前端volform.vue、builderData.js文件)",
+        },
+        {
+          date: "2023-02-03 17:24:24",
+          desc: "集成vue3版本volform表单评分rate组件",
+        },
+        {
+          date: "2023-02-03 17:14:15",
+          desc: "优化代码生成器日期字段表格默认宽度",
+        },
+        {
+          date: "2023-02-03 17:05:55",
+          desc: "集成vue3版本voltable方法selectionchagned(by @kevin100702)",
+        },
+        {
+          date: "2023-02-03 17:00:40",
+          desc: "Merge pull request #305 from kevin100702/master",
+        },
+        {
+          date: "2023-02-03 16:59:32",
+          desc: "修复vue3版本白色主题菜单栏背景颜色没有变化的问题",
+        },
+        {
+          date: "2023-02-03 16:50:06",
+          desc: "增加vue3版本表格Tooltip显示提示示例",
+        },
+        {
+          date: "2023-02-03 16:32:51",
+          desc: "修复vue3版本volform动态切换表单为只读或label显示时表单校验不正确的问题",
+        },
+        {
+          date: "2023-02-03 16:31:44",
+          desc: "修复vue3版本编辑框打开时某些情况显示了表单校验的问题",
+        },
+        { date: "2023-02-03 14:14:53", desc: "优化vue3版本级联递归性能" },
         { date: "2023.01", type: "month" },
+        {
+          date: "2023-01-17 15:01:55",
+          desc: "修复vue3版本编辑器可能异常的问题",
+        },
+        { date: "2023-01-17 15:00:58", desc: "修改开发版SwaggerUI" },
+        {
+          date: "2023-01-17 09:58:51",
+          desc: "Merge pull request #2 from cq-panda/master",
+        },
+        { date: "2023-01-13 14:13:25", desc: "1" },
+        {
+          date: "2023-01-11 13:41:03",
+          desc: "修复vue2版本编辑器某些情况不能重置内容的问题",
+        },
+        {
+          date: "2023-01-08 21:10:57",
+          desc: "Merge pull request #1 from cq-panda/master",
+        },
+        {
+          date: "2023-01-05 16:32:42",
+          desc: "修复vue3版本volform组件select2数据源key没有转换的问题",
+        },
+        {
+          date: "2023-01-05 16:32:00",
+          desc: "优化vue3版本viewgrid组件数据源复用",
+        },
+        {
+          date: "2023-01-05 16:30:19",
+          desc: "优化vue3版本viewgrid组件数据源复用",
+        },
+        {
+          date: "2023-01-04 17:47:01",
+          desc: "暴露selectionchagned 和 selectable",
+        },
+        {
+          date: "2023-01-04 14:39:46",
+          desc: "修复sqldapper方法DelWithKey删除异常的问题",
+        },
+        { date: "2023-01-04 11:11:47", desc: "完善文档" },
+        { date: "2023-01-04 11:00:37", desc: "增加vue3版本v" },
         {
           date: "2023-01-04 11:00:37",
           desc: "增加vue3版本volform编辑器只读时以标签显示(by @ying)",
