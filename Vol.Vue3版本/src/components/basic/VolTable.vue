@@ -182,10 +182,12 @@
                     }
                   "
                   :active-value="
-                    typeof scope.row[column.field] == 'boolean' ? true : 1
+                    typeof scope.row[column.field] == 'boolean' ? true :
+                      (typeof scope.row[column.field] == 'string'? '1': 1)
                   "
                   :inactive-value="
-                    typeof scope.row[column.field] == 'boolean' ? false : 0
+                    typeof scope.row[column.field] == 'boolean' ? false :
+                      (typeof scope.row[column.field] == 'string'? '0': 0)
                   "
                   :disabled="initColumnDisabled(scope.row, column)"
                 >
