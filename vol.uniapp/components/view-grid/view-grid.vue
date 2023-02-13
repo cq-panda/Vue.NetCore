@@ -98,7 +98,7 @@
 				</view>
 				<slot name="modelHeader"></slot>
 				<view class="vol-action-sheet-select-content">
-					<vol-form :load-key="false" @onChange="editGirdFormOnChange" ref="form" @extraClick="gridExtraClick"
+					<vol-form :labelWidth="labelWidth" :load-key="false" @onChange="editGirdFormOnChange" ref="form" @extraClick="gridExtraClick"
 						:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
 					</vol-form>
 				</view>
@@ -196,7 +196,8 @@
 				tableUrl: "", //table加载的url地址
 				tableAction: "", //指定表名的权限
 				showDel: false,
-				isCreated: false
+				isCreated: false,
+				labelWidth:80 //编辑弹出框表单标签的宽度
 			}
 		},
 		methods: {
