@@ -177,7 +177,7 @@
 				currentRow: {}, //当前编辑的行
 				maxHeight: 0,
 				model: false, //新建编辑弹出框
-				showFabButons: false,
+				showFabButons: true,
 				showButtons: true, //是否显示浮动按钮
 				textInline: true, //超出是否换行显示
 				columns: this.options.columns,
