@@ -222,13 +222,13 @@
 				}
 				let status = true;
 				if (reset) {
-					this.rowsData.splice(0);
+					//this.rowsData.splice(0);
 					this.page = 1;
 					this.loaded = false;
 				}
 				let param = {
 					page: this.page,
-					rows: 30,
+					rows: 3,
 					sort: this.sort,
 					order: this.order || "desc",
 					wheres: [], // 查询条件，格式为[{ name: "字段", value: "xx" }]
@@ -269,6 +269,9 @@
 						}
 					}
 					console.log(this.summary)
+					if (reset) {
+						this.rowsData.splice(0);
+					}
 					this.rowsData.push(...data.rows);
 				})
 			},
