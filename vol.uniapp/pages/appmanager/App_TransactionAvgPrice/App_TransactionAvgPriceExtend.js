@@ -17,7 +17,7 @@ export default function() {
 				//this.direction = 'horizontal'//list
 				//如果为list列表显示，指定list的标题列
 				this.titleField="CreateDate";
-	            this.height=this.height-65;
+	            //this.height=this.height-65;
 				//设置自定义格式显示
 				//this.columns.forEach(column=>{
 				// 	if(column.field=='字段'){
