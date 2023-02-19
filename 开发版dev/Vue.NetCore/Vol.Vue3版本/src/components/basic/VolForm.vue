@@ -1421,4 +1421,14 @@ export default defineComponent({
 .el-form-item {
   vertical-align: top !important;
 }
+.form-file-list{
+  a{
+    color:#3ea9ff;
+    
+  }
+  a:hover{
+    cursor:pointer;
+    color:#0281e7;
+  }
+}
 </style>
