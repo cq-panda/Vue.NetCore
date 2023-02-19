@@ -44,79 +44,83 @@ namespace VOL.Order.Services
         }
 
 
-        ///// <summary>
-        ///// 2023.02.03增加or查询条件示例
-        ///// 注意：如果有导出功能，GetPageData方法内的代码在下面的export方法里需要同样的复制一份
-        ///// </summary>
-        ///// <param name="options"></param>
-        ///// <returns></returns>
-        //public override PageGridData<SellOrder> GetPageData(PageDataOptions options)
-        //{
-        //    System.Linq.Expressions.Expression<Func<SellOrder, bool>> orFilter = null;
-        //    QueryRelativeList = (List<SearchParameters> parameters) =>
-        //    {
-        //        //方式1：动态生成or查询条件
-        //        foreach (var item in parameters)
-        //        {
-        //            if (!string.IsNullOrEmpty(item.Value))
-        //            {
-        //                //注意:这里只需要判断or查询的字段，其他的字段不需要处理
-        //                //这里必须拷贝value值
-        //                string value = item.Value;
-        //                if (item.Name == "TranNo")
-        //                {
-        //                    //进行or模糊查询
-        //                    orFilter = orFilter.Or(x => x.TranNo.Contains(value));
-        //                    //清空原来的数据
-        //                    item.Value = null;
-        //                }
-        //                else if (item.Name == "SellNo")
-        //                {
-        //                    //进行or等于查询
-        //                    orFilter = orFilter.Or(x => x.SellNo == value);
-        //                    //清空原来的数据
-        //                    item.Value = null;
-        //                }
-        //            }
-        //        }
-        //        ///方式2：原生sql查询,需要自己处理sql注入问题(不建议使用此方法)
-        //        //string sql = null;
-        //        //foreach (var item in parameters)
-        //        //{
-        //        //    if (!string.IsNullOrEmpty(item.Value))
-        //        //    {
-        //        //        if (sql == null)
-        //        //        {
-        //        //            sql = "where 1=2";
-        //        //        }
-        //        //        string value = item.Value;
-        //        //        //清空原来的数据
-        //        //        item.Value = null;
-        //        //        if (item.Name == "TranNo")
-        //        //        {
-        //        //            sql += $" or TranNo='{value}'";
-        //        //            //清空原来的数据
-        //        //            item.Value = null;
-        //        //        }
-        //        //        else if (item.Name == "SellNo")
-        //        //        {
-        //        //            sql += $" or SellNo='{value}'";
-        //        //        }
-        //        //    }
-        //        //}
-        //        //QuerySql = "select * from sellorder " + sql;
-        //    };
+        /// <summary>
+        /// 2023.02.03增加or查询条件示例
+        /// 注意：如果有导出功能，GetPageData方法内的代码在下面的export方法里需要同样的复制一份
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public override PageGridData<SellOrder> GetPageData(PageDataOptions options)
+        {
+            System.Linq.Expressions.Expression<Func<SellOrder, bool>> orFilter = null;
+            QueryRelativeList = (List<SearchParameters> parameters) =>
+            {
+                //方式1：动态生成or查询条件
+                foreach (var item in parameters)
+                {
+                    if (!string.IsNullOrEmpty(item.Value))
+                    {
+                        if (orFilter==null)
+                        {
+                            orFilter = x => false;
+                        }
+                        //注意:这里只需要判断or查询的字段，其他的字段不需要处理
+                        //这里必须拷贝value值
+                        string value = item.Value;
+                        if (item.Name == "TranNo")
+                        {
+                            //进行or模糊查询
+                            orFilter = orFilter.Or(x => x.TranNo.Contains(value));
+                            //清空原来的数据
+                            item.Value = null;
+                        }
+                        else if (item.Name == "SellNo")
+                        {
+                            //进行or等于查询
+                            orFilter = orFilter.Or(x => x.SellNo == value);
+                            //清空原来的数据
+                            item.Value = null;
+                        }
+                    }
+                }
+                ///方式2：原生sql查询,需要自己处理sql注入问题(不建议使用此方法)
+                //string sql = null;
+                //foreach (var item in parameters)
+                //{
+                //    if (!string.IsNullOrEmpty(item.Value))
+                //    {
+                //        if (sql == null)
+                //        {
+                //            sql = "where 1=2";
+                //        }
+                //        string value = item.Value;
+                //        //清空原来的数据
+                //        item.Value = null;
+                //        if (item.Name == "TranNo")
+                //        {
+                //            sql += $" or TranNo='{value}'";
+                //            //清空原来的数据
+                //            item.Value = null;
+                //        }
+                //        else if (item.Name == "SellNo")
+                //        {
+                //            sql += $" or SellNo='{value}'";
+                //        }
+                //    }
+                //}
+                //QuerySql = "select * from sellorder " + sql;
+            };
 
-        //    QueryRelativeExpression = (IQueryable<SellOrder> queryable) =>
-        //    {
-        //        if (orFilter != null)
-        //        {
-        //            queryable = queryable.Where(orFilter);
-        //        }
-        //        return queryable;
-        //    };
-        //    return base.GetPageData(options);
-        //}
+            QueryRelativeExpression = (IQueryable<SellOrder> queryable) =>
+            {
+                if (orFilter != null)
+                {
+                    queryable = queryable.Where(orFilter);
+                }
+                return queryable;
+            };
+            return base.GetPageData(options);
+        }
 
 
         //查询
