@@ -31,7 +31,8 @@ let extension = {
       $e.stopPropagation()
       this.$message.success('点击了按钮')
     },
-    dropdownClick(value) {
+    dropdownClick(value,row,column) {
+      console.log(row)
       this.$message.success(value)
     },
     //事件扩展
@@ -54,9 +55,9 @@ let extension = {
             <el-dropdown onClick={(value) => { this.dropdownClick(value) }} trigger="click" v-slots={{
               dropdown: () => (
                 <el-dropdown-menu>
-                  <el-dropdown-item><div onClick={() => { this.dropdownClick('京酱肉丝') }}>京酱肉丝</div></el-dropdown-item>
-                  <el-dropdown-item><div onClick={() => { this.dropdownClick('驴肉火烧') }}>驴肉火烧</div></el-dropdown-item>
-                  <el-dropdown-item><div onClick={() => { this.dropdownClick('吊炉烤鸭') }}>吊炉烤鸭</div></el-dropdown-item>
+                  <el-dropdown-item><div onClick={() => { this.dropdownClick('京酱肉丝',row,column) }}>京酱肉丝</div></el-dropdown-item>
+                  <el-dropdown-item><div onClick={() => { this.dropdownClick('驴肉火烧',row,column) }}>驴肉火烧</div></el-dropdown-item>
+                  <el-dropdown-item><div onClick={() => { this.dropdownClick('吊炉烤鸭',row,column) }}>吊炉烤鸭</div></el-dropdown-item>
                 </el-dropdown-menu>
               )
             }}
