@@ -1,6 +1,15 @@
 <template>
 	<view class="view-grid">
-
+		<view class="fx-height"></view>
+		<view class="fx-header">
+			<view class="fx-header-total">
+				<text>共</text><text class="fx-header-row-total">{{rowTotal}}</text><text>条数据</text>
+			</view>
+			<view @click="griFabBtnClick(btn)" v-if="btn.hidden===false||btn.hidden===undefined" class="btn-item" v-for="(btn,index) in fabButtons" :key="index">
+				<u-icon :name="btn.icon" :size="btn.size||18"></u-icon>
+				<view>{{btn.name}}</view>
+			</view>
+		</view>
 		<slot name="gridHeader"></slot>
 		<!-- 	表格数据 -->
 		<view class="view-grid-list">
@@ -98,8 +107,9 @@
 				</view>
 				<slot name="modelHeader"></slot>
 				<view class="vol-action-sheet-select-content">
-					<vol-form :labelWidth="labelWidth" :load-key="false" @onChange="editGirdFormOnChange" ref="form" @extraClick="gridExtraClick"
-						:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
+					<vol-form :labelWidth="labelWidth" :load-key="false" @onChange="editGirdFormOnChange" ref="form"
+						@extraClick="gridExtraClick" :form-options.sync="editFormOptions"
+						:formFields.sync="editFormFields">
 					</vol-form>
 				</view>
 				<slot name="modelBody"></slot>
@@ -117,17 +127,17 @@
 			</view>
 		</u-popup>
 		<!-- 	↑↓ 表格排序，查询最后面增加一个排序字段选择-->
-		<view class="fab-buttons">
+		<!-- 	<view class="fab-buttons">
 			<view class="icon-item" v-show="showFabButons" v-for="(btn,index) in fabButtons" :key="index"
 				style="background-color: #ffff;">
-				<!--这里小程序上有问题 	 -->
+			
 				<u-icon :color="btn.color" @click="griFabBtnClick(btn)" :name="btn.icon" size="20"></u-icon>
 			</view>
-			<!-- 		浮动控制按钮 -->
+		
 			<view class="switch-btn" v-show="showButtons" @click="showFabButons=!showFabButons">
 				<u-icon color="#1890FF" name="list-dot" size="20"></u-icon>
 			</view>
-		</view>
+		</view> -->
 		<view class="grid-u-model">
 			<u-modal :show="showDel" cancelText="取消" :showCancelButton="true" :showConfirmButton="true"
 				@cancel="cancelDel" @confirm="confirmDel" title="警告">
@@ -165,6 +175,7 @@
 		},
 		data() {
 			return {
+				rowTotal: 0,
 				isWx: false,
 				className: 'vol-table-888888',
 				rowIndex: false, //是否显示table的行号
@@ -197,7 +208,7 @@
 				tableAction: "", //指定表名的权限
 				showDel: false,
 				isCreated: false,
-				labelWidth:80 //编辑弹出框表单标签的宽度
+				labelWidth: 80 //编辑弹出框表单标签的宽度
 			}
 		},
 		methods: {
@@ -387,6 +398,7 @@
 				callback(true)
 			},
 			loadGridTableAfter(data, callback) { //查询后
+				this.rowTotal = data.total;
 				if (this.searchAfter && !this.searchAfter(data.rows, data)) {
 					return callback(false);
 				}
@@ -530,26 +542,32 @@
 				}
 				//table界面浮动按钮
 				let fabButtons = [{
-					icon: "search",
-					value: "search",
-					hidden: false,
-					color: 'rgb(7 185 14)',
-					onClick: () => {
-						this.showSearch();
-					}
-				}, {
 					icon: "reload", //刷新
 					value: "search",
+					name: "刷新",
+					size: '18',
 					hidden: false,
 					color: '#009688',
 					onClick: () => {
 						this.refresh();
 					}
+				}, {
+					icon: "search",
+					value: "search",
+					name: "查询",
+					hidden: false,
+					size: '20',
+					color: 'rgb(7 185 14)',
+					onClick: () => {
+						this.showSearch();
+					}
 				}]
 				if (_permission.indexOf("Add") != -1) {
-					fabButtons.push({
+					fabButtons.unshift({
 						icon: "plus", //添加
 						hidden: false,
+						name: "添加",
+						size: '17',
 						color: 'rgb(2, 171, 255)',
 						onClick: () => {
 							this.gridAdd();
@@ -706,7 +724,7 @@
 								})) {
 								h = 49
 							}
-							this.height = resu.windowHeight - res[0].top - h ;
+							this.height = resu.windowHeight - res[0].top - h;
 							// - (this.direction ==
 							// 	'list' ?
 							// 	0 : 52)
@@ -740,7 +758,48 @@
 		height: 100%;
 		overflow: hidden;
 		background: #f9f9f9;
+
+		.fx-height {
+			height: 70rpx;
+
+		}
+
+
+
 		// background: #fbfbfb;
+		.fx-header {
+			padding: 0 20rpx;
+			box-sizing: border-box;
+			top: 0;
+			position: absolute;
+			display: flex;
+			width: 100%;
+			height: 70rpx;
+			z-index: 99;
+			background: #f7f7f7;
+			align-items: center;
+
+			.btn-item {
+				height: 100%;
+				align-items: center;
+				display: flex;
+				font-size: 28rpx;
+				margin-left: 18rpx;
+			}
+		}
+
+		.fx-header-total {
+			flex: 1;
+			font-size: 28rpx;
+			color: #555;
+			box-sizing: border-box;
+
+			.fx-header-row-total {
+				font-weight: bolder;
+				font-size: 30rpx;
+				margin: 0 6rpx;
+			}
+		}
 	}
 
 	.vol-action-sheet-select-container {
