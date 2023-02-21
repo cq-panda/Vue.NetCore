@@ -237,7 +237,7 @@
 				}
 				let param = {
 					page: this.page,
-					rows: 3,
+					rows: 30,
 					sort: this.sort,
 					order: this.order || "desc",
 					wheres: [], // 查询条件，格式为[{ name: "字段", value: "xx" }]
