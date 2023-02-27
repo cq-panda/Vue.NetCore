@@ -182,10 +182,12 @@
                     }
                   "
                   :active-value="
-                    typeof scope.row[column.field] == 'boolean' ? true : 1
+                    typeof scope.row[column.field] == 'boolean' ? true :
+                      (typeof scope.row[column.field] == 'string'? '1': 1)
                   "
                   :inactive-value="
-                    typeof scope.row[column.field] == 'boolean' ? false : 0
+                    typeof scope.row[column.field] == 'boolean' ? false :
+                      (typeof scope.row[column.field] == 'string'? '0': 0)
                   "
                   :disabled="initColumnDisabled(scope.row, column)"
                 >
@@ -786,6 +788,11 @@ export default defineComponent({
         }
         if (this.rowEndEdit(row, event && event.property ? event : column)) {
           this.edit.rowIndex = -1;
+        }
+        //当正在编辑，且点击到其他行时，在原编辑的行结束编辑后，触发新行的rowClick事件
+        //正在编辑时，禁止出发rowClick事件
+        if (this.edit.rowIndex == -1) {
+          this.$emit('rowClick', { row, column, event });
         }
       }
       this.rowBeginEdit(row, column);

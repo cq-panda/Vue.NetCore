@@ -156,10 +156,12 @@
               @change="item.onChange"
               inactive-color="rgb(194 194 194)"
               :active-value="
-                typeof formFields[item.field] == 'boolean' ? true : 1
+                typeof formFields[item.field] == 'boolean' ? true :
+                   (typeof scope.row[column.field] == 'string'? '1': 1)
               "
               :inactive-value="
-                typeof formFields[item.field] == 'boolean' ? false : 0
+                typeof formFields[item.field] == 'boolean' ? false :
+                  (typeof scope.row[column.field] == 'string'? '0': 0)
               "
             >
             </el-switch>

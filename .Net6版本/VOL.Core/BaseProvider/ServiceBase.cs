@@ -218,7 +218,7 @@ namespace VOL.Core.BaseProvider
         /// <param name="options"></param>
         /// <param name="queryable"></param>
         /// <returns></returns>
-        private PageDataOptions ValidatePageOptions(PageDataOptions options, out IQueryable<T> queryable)
+        protected PageDataOptions ValidatePageOptions(PageDataOptions options, out IQueryable<T> queryable)
         {
             options = options ?? new PageDataOptions();
 
