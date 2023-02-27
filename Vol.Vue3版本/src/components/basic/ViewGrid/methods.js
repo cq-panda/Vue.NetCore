@@ -441,7 +441,7 @@ let methods = {
       this.$refs.detail.reset();
     }
     this.resetForm('form', sourceObj);
-    if (this.$refs.form && this.$refs.form.volform) {
+    if (this.$refs.form && this.$refs.form.$refs.volform) {
      setTimeout(() => {
       this.$refs.form.$refs.volform.clearValidate();
      }, 100);
