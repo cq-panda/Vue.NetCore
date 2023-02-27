@@ -36,7 +36,7 @@ namespace VOL.Builder.Services
             {
                 if (startName == "")
                 {
-                    startName = WebProject.Substring(0, webProject.IndexOf('.'));
+                    startName = WebProject.Substring(0, webProject.LastIndexOf('.'));
                 }
                 return startName;
             }
