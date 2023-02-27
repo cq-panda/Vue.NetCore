@@ -413,8 +413,9 @@ namespace VOL.Core.BaseProvider
             string message = "";
             if (updateDetail)
             {
+                string detailTypeName = typeof(List<Detail>).FullName;
                 PropertyInfo[] properties = typeof(TEntity).GetProperties();
-                PropertyInfo detail = properties.Where(x => x.PropertyType.Name == "List`1").ToList().FirstOrDefault();
+                PropertyInfo detail = properties.Where(x => x.PropertyType.FullName == detailTypeName).ToList().FirstOrDefault();
                 if (detail != null)
                 {
                     PropertyInfo key = properties.GetKeyProperty();

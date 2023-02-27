@@ -31,6 +31,10 @@ let extension = {
       $e.stopPropagation()
       this.$message.success('点击了按钮')
     },
+    dropdownClick(value,row,column) {
+      console.log(row)
+      this.$message.success(value)
+    },
     //事件扩展
     onInit() {
 
@@ -47,9 +51,43 @@ let extension = {
           return <div >
             <el-button onClick={($e) => { this.btn1Click(row, $e) }} type="primary" plain size="small" style="padding: 10px !important;">查看</el-button>
             <el-button onClick={($e) => { this.btn2Click(row, $e) }} type="success" plain size="small" style="padding: 10px !important;">按钮</el-button>
+
+            <el-dropdown onClick={(value) => { this.dropdownClick(value) }} trigger="click" v-slots={{
+              dropdown: () => (
+                <el-dropdown-menu>
+                  <el-dropdown-item><div onClick={() => { this.dropdownClick('京酱肉丝',row,column) }}>京酱肉丝</div></el-dropdown-item>
+                  <el-dropdown-item><div onClick={() => { this.dropdownClick('驴肉火烧',row,column) }}>驴肉火烧</div></el-dropdown-item>
+                  <el-dropdown-item><div onClick={() => { this.dropdownClick('吊炉烤鸭',row,column) }}>吊炉烤鸭</div></el-dropdown-item>
+                </el-dropdown-menu>
+              )
+            }}
+            >
+              <span style="font-size: 13px;color: #409eff;margin: 5px 0 0 10px;" class="el-dropdown-link">
+                更多<i class="el-icon-arrow-right"></i>
+              </span>
+            </el-dropdown>
           </div>
         }
       })
+
+      //表格显示Tooltip提示
+      this.columns.forEach(col => {
+        if (col.field == 'Describe') {
+          col.title = "单元格Tooltip(鼠标放上来看效果)";
+          col.render = (h, { row, column, index }) => {
+            return <el-popover
+              placement="top-start"
+              title="提示信息"
+              width={350}
+              trigger="hover"
+              content={row.Describe + ",这里是用render渲染的表格提示,示例见:App_Appointment.js"}
+            >
+              {{ reference: <span>{row.Describe}</span> }}
+            </el-popover>
+          }
+        }
+      })
+
 
       //增加弹出框提示信息
       //https://cn.vuejs.org/guide/extras/render-function.html#passing-slots

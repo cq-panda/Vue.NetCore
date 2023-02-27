@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<view-grid ref="grid" :index="true" :options="options">
+		<view-grid ref="grid" @delTest="delTest" :index="true" :options="options">
 			<!-- 自定义slot -->
-			<view @click="viewClick" slot="gridHeader" class="grid-header">
+			<view slot="gridHeader" class="grid-header">
 				{{gridHeaderText}}
 				<vol-alert>
 					<view>1、页面由代码生成器生成,自动控制前后端权限</view>
@@ -10,6 +10,9 @@
 				</vol-alert>
 			</view>
 		</view-grid>
+
+	
+
 	</view>
 </template>
 
@@ -27,15 +30,14 @@
 		data() {
 			return {
 				gridHeaderText: "", //随便输入字符后可以显示出来
-				options: _options
+				options: _options,
+				show: false,
+				row: {}
 			}
 		},
 		onShow() {},
 		methods: {
-			viewClick() {
-				//获取生成页面grid的对象
-				console.log(this.$refs.grid.searchFormFields)
-			}
+			
 		}
 	}
 </script>

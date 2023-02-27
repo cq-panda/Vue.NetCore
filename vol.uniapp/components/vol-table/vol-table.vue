@@ -91,7 +91,7 @@
 					<view @click="tableRowClick(rowindex,columns)" class="vol-table-list-item">
 						<view :key="cindex" class="vol-table-list-item-cell"
 							v-if="!column.hidden&&column.field!=titleField" v-for="(column,cindex) in columns">
-							<view class="cell-left"> {{column.title}}</view>
+							<view class="cell-left" :style="{width:(column.width||90)+'px'}"> {{column.title}}</view>
 							<view class="cell-right">
 								<view @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
 									<view :style="column.style" v-if="column.formatter">
@@ -135,6 +135,14 @@
 			</u-list>
 
 		</view>
+
+		<u-overlay :opacity="0" :show="showOverlay" @click="showOverlay = false">
+			<view class="loading-warp">
+				<u-loading-icon text="加载中..." textSize="16"></u-loading-icon>
+
+				<!-- 		<view class="loading-warp-msg" @tap.stop>正在加载</view> -->
+			</view>
+		</u-overlay>
 	</view>
 </template>
 
@@ -195,6 +203,7 @@
 		},
 		data() {
 			return {
+				showOverlay: false,
 				className: 'vol-table-' + (~~(Math.random() * 1000000)),
 				rowsData: [],
 				sort: '',
@@ -222,7 +231,7 @@
 				}
 				let status = true;
 				if (reset) {
-					this.rowsData.splice(0);
+					//this.rowsData.splice(0);
 					this.page = 1;
 					this.loaded = false;
 				}
@@ -239,7 +248,9 @@
 
 				if (!status) return;
 				param.wheres = JSON.stringify(param.wheres);
-				this.http.post(this.url, param, true).then(data => {
+				this.showOverlay = true;
+				this.http.post(this.url, param, false).then(data => {
+					this.showOverlay = false;
 					this.$emit("loadAfter", data, (result) => {
 						status = result;
 					});
@@ -269,6 +280,9 @@
 						}
 					}
 					console.log(this.summary)
+					if (reset) {
+						this.rowsData.splice(0);
+					}
 					this.rowsData.push(...data.rows);
 				})
 			},
@@ -665,5 +679,24 @@
 		// min-width: 20%;
 		// margin-right: 20rpx;
 		// margin-bottom: 20rpx;
+	}
+
+	.loading-warp {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+
+		.loading-warp-msg {
+			min-width: 120px;
+			height: 40px;
+			justify-content: center;
+			background-color: #414141;
+			align-items: center;
+			text-align: center;
+			line-height: 40px;
+			border-radius: 5px;
+			color: #fff;
+		}
 	}
 </style>

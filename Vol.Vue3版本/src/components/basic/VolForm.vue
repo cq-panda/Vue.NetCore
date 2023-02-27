@@ -331,6 +331,16 @@
               @change="item.onChange"
             >
             </el-cascader>
+            <el-rate
+              v-else-if="item.type == 'rate'"
+              @change="
+                (val) => {
+                  item.onChange && item.onChange(val);
+                }
+              "
+              :max="item.max"
+              v-model="formFields[item.field]"
+            />
             <div
               style="display: flex"
               v-else-if="item.type == 'range' || item.range"
@@ -549,6 +559,11 @@ export default defineComponent({
           ruleResult[item.field] = [this.getRule(item, this.formFields)];
         });
       });
+      if( this.$refs.volform){
+        setTimeout(()=>{
+          this.$refs.volform.clearValidate();
+        },100)
+      }
       return ruleResult;
     },
   },
@@ -1078,7 +1093,7 @@ export default defineComponent({
 
         return {
           required: item.required,
-          message: item.title,
+          message: item.title+"只能是数字",
           title: item.title,
           trigger: "blur",
           min: item.min,
@@ -1087,12 +1102,11 @@ export default defineComponent({
           validator: (ruleObj, value, callback) => {
             if (!ruleObj.min && !ruleObj.max) {
               if (ruleObj.required) {
-                if (value == "") {
-                  formFields[rule.field] = 0;
-                  return callback();
+                if (!value&&value!="0"||!rule.decimal.test(value)) {
+                  return callback(new Error("只能是数字"));
                 }
               }
-              if (value === "" || value === undefined) return callback();
+              return callback();
             }
             if (this.isReadonly(item)) return callback();
             if (ruleObj.type == "number") {
@@ -1408,5 +1422,15 @@ export default defineComponent({
 
 .el-form-item {
   vertical-align: top !important;
+}
+.form-file-list{
+  a{
+    color:#3ea9ff;
+    
+  }
+  a:hover{
+    cursor:pointer;
+    color:#0281e7;
+  }
 }
 </style>

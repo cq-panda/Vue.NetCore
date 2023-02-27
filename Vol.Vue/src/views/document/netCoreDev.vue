@@ -1395,6 +1395,8 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		<div>
 			&nbsp; &nbsp; }
 		</div>
+
+		
 		<div>
 			&nbsp; &nbsp; <span style="color:#6a9955;">//查询</span>
 		</div>
@@ -1580,6 +1582,233 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 		<div>
 			&nbsp; &nbsp; }
 		</div>
+		<p></p>
+		<p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// 2023.02.03增加or查询条件示例</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// 注意：如果有导出功能，GetPageData方法内的代码在下面的export方法里需要同样的复制一份</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;/summary&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;param name="options"&gt;&lt;/param&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;returns&gt;&lt;/returns&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">public</span> <span style="color:#9cdcfe;">override</span> <span style="color:#dcdcaa;">PageGridData</span>&lt;<span style="color:#4ec9b0;">SellOrder</span>&gt; <span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">PageDataOptions</span> <span style="color:#9cdcfe;">options</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">System</span>.<span style="color:#9cdcfe;">Linq</span>.<span style="color:#9cdcfe;">Expressions</span>.<span style="color:#9cdcfe;">Expression</span>&lt;<span style="color:#9cdcfe;">Func</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>, <span style="color:#9cdcfe;">bool</span>&gt;&gt; <span style="color:#9cdcfe;">orFilter</span> = <span style="color:#569cd6;">null</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">QueryRelativeList</span> = (<span style="color:#9cdcfe;">List</span>&lt;<span style="color:#9cdcfe;">SearchParameters</span>&gt; <span style="color:#9cdcfe;">parameters</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//方式1：动态生成or查询条件</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">foreach</span> (<span style="color:#9cdcfe;">var</span> <span style="color:#9cdcfe;">item</span> <span style="color:#569cd6;">in</span> <span style="color:#9cdcfe;">parameters</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (!<span style="color:#9cdcfe;">string</span>.<span style="color:#dcdcaa;">IsNullOrEmpty</span>(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">Value</span>))
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//注意:这里只需要判断or查询的字段，其他的字段不需要处理</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//这里必须拷贝value值</span>
+		</div>
+			<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;"> if (orFilter==null){ orFilter = x => false; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">string</span> <span style="color:#9cdcfe;">value</span> = <span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">Value</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">Name</span> == <span style="color:#ce9178;">"TranNo"</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//进行or模糊查询</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">orFilter</span> = <span style="color:#9cdcfe;">orFilter</span>.<span style="color:#dcdcaa;">Or</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">TranNo</span>.<span style="color:#dcdcaa;">Contains</span>(<span style="color:#9cdcfe;">value</span>));
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//清空原来的数据</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">Value</span> = <span style="color:#569cd6;">null</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">else</span> <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">Name</span> == <span style="color:#ce9178;">"SellNo"</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//进行or等于查询</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">orFilter</span> = <span style="color:#9cdcfe;">orFilter</span>.<span style="color:#dcdcaa;">Or</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">SellNo</span> == <span style="color:#9cdcfe;">value</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//清空原来的数据</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">Value</span> = <span style="color:#569cd6;">null</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">///方式2：原生sql查询,需要自己处理sql注入问题(不建议使用此方法)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//string sql = null;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//foreach (var item in parameters)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//{</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp;if (!string.IsNullOrEmpty(item.Value))</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp;{</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;if (sql == null)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;{</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;sql = "where 1=2";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;}</span>
+		</div>
+	
+	
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;string value = item.Value;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;//清空原来的数据</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;item.Value = null;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;if (item.Name == "TranNo")</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;{</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;sql += $" or TranNo='{value}'";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//清空原来的数据</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;item.Value = null;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;}</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;else if (item.Name == "SellNo")</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;{</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;sql += $" or SellNo='{value}'";</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp; &nbsp;}</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp;}</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//}</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//QuerySql = "select * from sellorder " + sql;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">QueryRelativeExpression</span> = (<span style="color:#9cdcfe;">IQueryable</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">queryable</span>) <span style="color:#569cd6;">=&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">orFilter</span> != <span style="color:#569cd6;">null</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">queryable</span> = <span style="color:#9cdcfe;">queryable</span>.<span style="color:#dcdcaa;">Where</span>(<span style="color:#9cdcfe;">orFilter</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">queryable</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">GetPageData</span>(<span style="color:#9cdcfe;">options</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+	</div>
+</p>
 		<div>
 			&nbsp; &nbsp; <span style="color:#6a9955;">/// &lt;summary&gt;</span>
 		</div>
