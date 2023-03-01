@@ -175,6 +175,13 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/map/map",
+			"style": {
+				"navigationBarTitleText": "地图",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	],
 	//底部图标库(需要授权的自行联系作者)：https://www.iconfont.cn/search/index
