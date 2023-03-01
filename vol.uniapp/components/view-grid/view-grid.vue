@@ -350,7 +350,7 @@
 					}
 					let displayType = this.getSearchItem(key);
 					//联级只保留选中节点的最后一个值
-					if (displayType == "cascader") {
+					if (displayType == "cascader"&&Array.isArray(value)) {
 						//查询下面所有的子节点，如：选中的是父节点，应该查询下面所有的节点数据--待完
 						value = value.length ? (value[value.length - 1] + "") : "";
 					}

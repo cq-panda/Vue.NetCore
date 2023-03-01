@@ -58,6 +58,7 @@
 				</view>
 			</template>
 
+
 			<view class="f-form-content f-form-content-select" @click="showActionSheet(item)"
 				v-else-if="['select','selectList','checkbox','radio','cascader'].indexOf(item.type)!=-1">
 				<view style="flex:1;">
@@ -135,13 +136,14 @@
 					<text class="vol-action-sheet-select-confirm" @click="actionConfirmClick">确定</text>
 				</view>
 				<!-- 	超过10个下拉框选项默认开启搜索 -->
-				<view v-if="showFilter"  class="vol-action-sheet-select-filter" >
-					<view  style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
-						<u--input  placeholder="请输入关键字搜索" v-model="searchText">
+				<view v-if="showFilter" class="vol-action-sheet-select-filter">
+					<view style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
+						<u--input placeholder="请输入关键字搜索" v-model="searchText">
 						</u--input>
 					</view>
 					<view class="search-btn">
-						<u-button :plain="true" :hairline="true" :customStyle="{padding:'10rpx 20rpx'}"  shape="circle" type="primary" icon="trash" @click="searchText=''" size="small">清除</u-button>
+						<u-button :plain="true" :hairline="true" :customStyle="{padding:'10rpx 20rpx'}" shape="circle"
+							type="primary" icon="trash" @click="searchText=''" size="small">清除</u-button>
 					</view>
 				</view>
 				<view class="vol-action-sheet-select-content">
@@ -154,6 +156,12 @@
 				</view>
 			</view>
 		</u-popup>
+
+		<!--  树形级联组件 -->
+		<vol-tree ref="cascader" :data="actionSascaderCurrentItem.data" :title="'请选择'+actionSascaderCurrentItem.title"
+		:checkStrictly="actionSascaderCurrentItem.checkStrictly"	@cancel="actionSascaderCurrentItem.cancel" @confirm="cascaderConfirm">
+		</vol-tree>
+
 		<!-- 		数字键盘 -->
 		<!-- 	<u-keyboard ref="uKeyboard" @change="numberChange" @backspace="numberBackspace"
 			:dotDisabled="numberCurrentItem.type=='decimal'" :z-index='999999999' mode="number" :show="numberModel">
@@ -197,7 +205,7 @@
 		name: "vol-form",
 		data() {
 			return {
-				showFilter:false,
+				showFilter: false,
 				searchText: '', //搜索的内容
 				inFormFields: {},
 				inFormOptions: [],
@@ -208,6 +216,14 @@
 				pickerCurrentItem: {}, //当前选项
 				pickerCurrentRangeIndex: 0,
 				actionSheetModel: false,
+				actionSascaderCurrentItem: {
+					title: "",
+					field: '',
+					checkStrictly:false,//是否只能选择最后一个节点
+					cancel: () => {},
+					confirm: () => {},
+					data: []
+				},
 				actionSheetCurrentItem: {
 					min: 633715200000,
 					max: 0
@@ -308,7 +324,20 @@
 				})
 				this.$emit('dicInited', result);
 			},
+			cascaderConfirm(value, parentIds) {
+				this.inFormFields[this.actionSascaderCurrentItem.field] = value;
+			},
 			showActionSheet(item) {
+				if (item.type == 'cascader') {
+					this.actionSascaderCurrentItem.field = item.field;
+					this.actionSascaderCurrentItem.data.splice(0);
+					this.actionSascaderCurrentItem.checkStrictly=item.checkStrictly||false;//是否只能选择最后一个节点
+					this.actionSascaderCurrentItem.data.push(...item.data);
+					this.$refs.cascader.show(this.inFormFields[item.field]);
+					//this.actionSascaderCurrentItem.cancel = item.cancel;
+					//this.actionSascaderCurrentItem.confirm = item.confirm;
+					return;
+				}
 				this.searchText = '';
 				this.actionSheetSelectValues = [];
 				this.actionSheetCurrentItem = item;
@@ -325,7 +354,7 @@
 					}
 				}
 				this.showFilter = item.data.length > 15;
-				let height = (item.data.length + 1+(this.showFilter?1:0)) * 50;
+				let height = (item.data.length + 1 + (this.showFilter ? 1 : 0)) * 50;
 				this.popupHeight = height > this.maxHeight ? this.maxHeight : height;
 				this.actionSheetModel = true;
 			},
@@ -405,15 +434,62 @@
 				})
 				return _textArr.join(",");
 			},
+			getAllParentId(id, data) {
+				if (id === null || id === '' || id === undefined) {
+					return []
+				}
+				if (data.some((x) => {
+						return typeof(x.id) == 'string'
+					})) {
+					id = id + '';
+				} else {
+					id = id * 1;
+				}
+				let ids = [id];
+
+				for (let index = 0; index < ids.length; index++) {
+					var node = data.find((x) => {
+						return x.id === ids[index]
+					});
+					if (!node || (node.parentId === null && node.parentId === undefined)) {
+						return ids;
+					}
+					if (data.some(x => {
+							return x.id === node.parentId
+						})) {
+						ids.push(node.parentId);
+					}
+				}
+
+				return ids.reverse();
+			},
+			getCascaderNames(value,item) {
+				let ids = this.getAllParentId(value, item.data);
+				let names = [];
+				for (let i = 0; i < ids.length; i++) {
+					let obj = item.data.find(x => {
+						return x.id === ids[i]
+					});
+					if (obj) {
+						names.push(obj.value || obj.name)
+					} else {
+						names.push(ids[i])
+					}
+				}
+				return names.join('/');
+			},
 			formatDicValue(item) {
-				var value = this.inFormFields[item.field];
+				let value = this.inFormFields[item.field];
 				if (this.base.isEmpty(value)) {
 					return '';
+				}
+				if (item.type == 'cascader') {
+					return this.getCascaderNames(value,item);
 				}
 				if (this.isMultiSelect(item)) {
 					return this.formatDicValueList(item);
 				}
-				var _kv = item.data.find(x => {
+				let _kv = item.data.find(x => {
 					return x.key + '' == value + ''
 				});
 				if (!_kv) {
@@ -626,6 +702,9 @@
 			},
 			extraClick(item, inFormFields) {
 				this.$emit('extraClick', item, inFormFields)
+			},
+			showCascaderSheet(item) {
+				this.$refs[item.field][0].show();
 			}
 		},
 		// #ifdef MP-WEIXIN
