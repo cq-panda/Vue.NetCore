@@ -157,11 +157,11 @@
               inactive-color="rgb(194 194 194)"
               :active-value="
                 typeof formFields[item.field] == 'boolean' ? true :
-                   (typeof scope.row[column.field] == 'string'? '1': 1)
+                   (typeof formFields[item.field]  == 'string'? '1': 1)
               "
               :inactive-value="
                 typeof formFields[item.field] == 'boolean' ? false :
-                  (typeof scope.row[column.field] == 'string'? '0': 0)
+                (typeof formFields[item.field]  == 'string'? '0': 0)
               "
             >
             </el-switch>
