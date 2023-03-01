@@ -57,7 +57,7 @@
 					{
 						name: "表单",
 						data: [{
-							name: "基础表单",
+							name: "表单(级联)",
 							icon: "file-text",
 							bg: "color5",
 							path: "/pages/form/form2"
@@ -84,7 +84,7 @@
 							name: "地图地位",
 							icon: "map",
 							bg: "color4",
-							path: ""
+							path: "/pages/map/map"
 						}, {
 							name: "地图轨迹",
 							icon: "play-circle",
