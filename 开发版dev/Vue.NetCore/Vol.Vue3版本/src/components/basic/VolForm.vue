@@ -1208,6 +1208,7 @@ export default defineComponent({
       if (
         item.type == "date" ||
         item.type == "datetime" ||
+        item.type == "month"||
         item.type == "time"
       ) {
         return {
