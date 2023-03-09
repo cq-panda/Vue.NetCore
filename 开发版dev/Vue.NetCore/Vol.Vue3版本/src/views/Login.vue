@@ -176,6 +176,7 @@ import store from "../store/index";
 import http from "@/../src/api/http.js";
 export default defineComponent({
   setup(props, context) {
+    store.commit("clearUserInfo", "");
     const loading = ref(false);
     const codeImgSrc = ref("");
     const userInfo = reactive({
