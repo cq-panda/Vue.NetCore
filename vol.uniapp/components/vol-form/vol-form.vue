@@ -19,8 +19,9 @@
 			</view>
 			<template v-else-if="item.type=='date'||item.type=='datetime'">
 				<template v-if="item.range">
-					<view style="flex: 1;max-width: 30rpx;"></view>
-					<view class="f-form-content f-form-content-select" style="text-align: left;" @click="showPicker(item,0)">
+					<view style="flex: 1;" :style="{'max-width': item.type=='date'?'120rpx':'30rpx'}"></view>
+					<view class="f-form-content f-form-content-select" style="text-align: left;"
+						@click="showPicker(item,0)">
 						<view style="color:rgb(192 196 204);font-size:15px;" v-show="!inFormFields[item.field][0]">
 							开始时间
 						</view>
@@ -59,6 +60,24 @@
 				</view>
 			</template>
 
+			<template v-else-if="item.range">
+				<view style="flex: 1;max-width: 120rpx;"></view>
+				<view class="f-form-content f-form-content-select" style="text-align: left;">
+					<view style="flex:1;">
+						<view style="font-size:15px;">
+							<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
+								v-model="inFormFields[item.field][0]" border="none" :ref="item.field"
+								:placeholder="item.placeholder||('请输入'+item.title)"></input>
+						</view>
+					</view>
+				</view>
+				<text style="margin:0 0rpx;">-</text>
+				<view class="f-form-content f-form-content-select">
+					<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="number"
+						v-model="inFormFields[item.field][1]" border="none" :ref="item.field"
+						:placeholder="item.placeholder||('请输入'+item.title)"></input>
+				</view>
+			</template>
 
 			<view class="f-form-content f-form-content-select" @click="showActionSheet(item)"
 				v-else-if="['select','selectList','checkbox','radio','cascader'].indexOf(item.type)!=-1">
@@ -296,8 +315,8 @@
 			});
 		},
 		methods: {
-			inputConfirm(field,e){
-				 this.$emit('input-confirm',field,e);
+			inputConfirm(field, e) {
+				this.$emit('input-confirm', field, e);
 			},
 			convertImgArr(formFields) {
 				if (!this.imgFields) {
