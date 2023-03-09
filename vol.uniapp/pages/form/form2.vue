@@ -3,8 +3,8 @@
 		<vol-alert>
 			<view>vol-form封装了事件绑定、下拉框自动绑定数据源、级联组件、多选、单选、日期、日期范围选择等常用组件操作,见form2.vue文件</view>
 		</vol-alert>
-		<vol-form @extraClick="extraClick" @onChange="onChange" :load-key="true" ref="form"
-			:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
+		<vol-form @input-confirm="inputConfirm" @extraClick="extraClick" @onChange="onChange" :load-key="true"
+			ref="form" :form-options.sync="editFormOptions" :formFields.sync="editFormFields">
 		</vol-form>
 
 		<view class="btns">
@@ -23,9 +23,10 @@
 		data() {
 			return {
 				editFormFields: {
-					inputText: "这是必填输入框",
+					inputText: "",
+					inputText2: "",
 					customInput: "",
-					textarea: "这里的文字有点长这里的文字有点长这里的文字有点长。。",
+					textarea: "这里的文字有点长文字有点长。。",
 					pwd: "12345",
 					readonlyText: "只读输入框",
 					cascader1: null,
@@ -36,6 +37,10 @@
 					dateValue: "2022-03-27",
 					datetimeValue: "2022-03-27 20:15",
 					dateRange: ["2022-03-10", "2022-06-20"], //数组 
+					inputRange: [100000000, 900000000], //区间是数组
+
+					inputDecimal: null, //小数
+					inputNumber: null, //数字
 					switchValue: 1,
 					selectClickValue: "",
 					dateClickValue: null,
@@ -50,6 +55,7 @@
 						"required": true,
 						"field": "inputText"
 					},
+
 					{
 						"title": "自定义按钮",
 						"field": "customInput",
@@ -60,6 +66,16 @@
 							color: "#ffff",
 							size: 12
 						}
+					},
+					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "选中输入框,键盘点击搜索或者扫描枪扫描触发回车事件"
+					},
+					{
+						"title": "回车事件",
+						"required": false,
+						"field": "inputText2"
 					},
 					{
 						"title": "表单字段定义按钮及点击事件,示例见form2.vue",
@@ -178,9 +194,32 @@
 					{
 						"title": "日期范围",
 						"type": "date",
-						range: true,
+						range: true, //区间输入
 						"field": "dateRange"
-					}, {
+					},
+					{
+						"title": "区间输入",
+						"type": "decimal", //number数字，text文本输入
+						range: true, //区间输入
+						"field": "inputRange"
+					},
+					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "只能输入小数与整数(在手机上查看)"
+					},
+					{
+						"title": "小数",
+						"type": "decimal",
+						field: "inputDecimal" //只能输入小数
+
+					},
+					{
+						"title": "整数",
+						"type": "number",
+						field: "inputNumber" //只能输入数字 
+					},
+					{
 						type: "group" //表单分组
 					},
 					{
@@ -237,6 +276,10 @@
 			reset() {
 				this.$refs.form.reset();
 				this.$toast("表单已重置")
+			},
+			inputConfirm(field, e) {
+				this.$toast(`字段${field}回车事件`)
+				console.log(field)
 			}
 		},
 		onShow() {
