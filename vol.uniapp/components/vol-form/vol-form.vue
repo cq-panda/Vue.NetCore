@@ -4,7 +4,7 @@
 		<view :style="{padding:padding+'rpx',display:item.hidden?'none':''}"
 			:class="[labelPosition=='left'?'left-form-item':'top-form-item',item.type=='group'?'f-form-group':'']"
 			class="f-form-item" v-for="(item,index) in formOptions" :key="index">
-			<view class="f-form-label" v-if="item.type!='group'" :style="{width:labelWidth+'px'}">
+			<view class="f-form-label" v-if="item.type!='group'" :style="{maxWidth:labelWidth+'px'}">
 				<text class="f-form-label-required" v-if="item.require||item.required">*</text>
 				<text>{{item.title}}</text>
 			</view>
@@ -19,7 +19,8 @@
 			</view>
 			<template v-else-if="item.type=='date'||item.type=='datetime'">
 				<template v-if="item.range">
-					<view class="f-form-content f-form-content-select" @click="showPicker(item,0)">
+					<view style="flex: 1;max-width: 30rpx;"></view>
+					<view class="f-form-content f-form-content-select" style="text-align: left;" @click="showPicker(item,0)">
 						<view style="color:rgb(192 196 204);font-size:15px;" v-show="!inFormFields[item.field][0]">
 							开始时间
 						</view>
@@ -111,8 +112,8 @@
 			</view>
 			<view class="f-form-content" v-else>
 				<input :focus="item.focus" placeholder-style="color:rgb(192 196 204);font-size:15px;" type="text"
-					v-model="inFormFields[item.field]" border="none" :ref="item.field"
-					:placeholder="item.placeholder||('请输入'+item.title)"></input>
+					@confirm="(e)=>{inputConfirm(item.field,e)}" v-model="inFormFields[item.field]" border="none"
+					:ref="item.field" :placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
 			<view v-if="item.extra" :style="item.extra.style" style="display: flex;"
 				@click="extraClick(item,inFormFields)">
@@ -159,7 +160,8 @@
 
 		<!--  树形级联组件 -->
 		<vol-tree ref="cascader" :data="actionSascaderCurrentItem.data" :title="'请选择'+actionSascaderCurrentItem.title"
-		:checkStrictly="actionSascaderCurrentItem.checkStrictly"	@cancel="actionSascaderCurrentItem.cancel" @confirm="cascaderConfirm">
+			:checkStrictly="actionSascaderCurrentItem.checkStrictly" @cancel="actionSascaderCurrentItem.cancel"
+			@confirm="cascaderConfirm">
 		</vol-tree>
 
 		<!-- 		数字键盘 -->
@@ -191,7 +193,7 @@
 			},
 			labelWidth: {
 				type: Number,
-				default: 80
+				default: 150
 			},
 			labelPosition: {
 				type: String,
@@ -219,7 +221,7 @@
 				actionSascaderCurrentItem: {
 					title: "",
 					field: '',
-					checkStrictly:false,//是否只能选择最后一个节点
+					checkStrictly: false, //是否只能选择最后一个节点
 					cancel: () => {},
 					confirm: () => {},
 					data: []
@@ -294,6 +296,9 @@
 			});
 		},
 		methods: {
+			inputConfirm(field,e){
+				 this.$emit('input-confirm',field,e);
+			},
 			convertImgArr(formFields) {
 				if (!this.imgFields) {
 					return;
@@ -331,7 +336,7 @@
 				if (item.type == 'cascader') {
 					this.actionSascaderCurrentItem.field = item.field;
 					this.actionSascaderCurrentItem.data.splice(0);
-					this.actionSascaderCurrentItem.checkStrictly=item.checkStrictly||false;//是否只能选择最后一个节点
+					this.actionSascaderCurrentItem.checkStrictly = item.checkStrictly || false; //是否只能选择最后一个节点
 					this.actionSascaderCurrentItem.data.push(...item.data);
 					this.$refs.cascader.show(this.inFormFields[item.field]);
 					//this.actionSascaderCurrentItem.cancel = item.cancel;
@@ -463,7 +468,7 @@
 
 				return ids.reverse();
 			},
-			getCascaderNames(value,item) {
+			getCascaderNames(value, item) {
 				let ids = this.getAllParentId(value, item.data);
 				let names = [];
 				for (let i = 0; i < ids.length; i++) {
@@ -484,7 +489,7 @@
 					return '';
 				}
 				if (item.type == 'cascader') {
-					return this.getCascaderNames(value,item);
+					return this.getCascaderNames(value, item);
 				}
 				if (this.isMultiSelect(item)) {
 					return this.formatDicValueList(item);

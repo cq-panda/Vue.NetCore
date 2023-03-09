@@ -107,7 +107,7 @@
 				</view>
 				<slot name="modelHeader"></slot>
 				<view class="vol-action-sheet-select-content">
-					<vol-form :labelWidth="labelWidth" :load-key="false" @onChange="editGirdFormOnChange" ref="form"
+					<vol-form @input-confirm="inputConfirm" :labelWidth="labelWidth" :load-key="false" @onChange="editGirdFormOnChange" ref="form"
 						@extraClick="gridExtraClick" :form-options.sync="editFormOptions"
 						:formFields.sync="editFormFields">
 					</vol-form>
@@ -668,6 +668,9 @@
 			},
 			gridExtraClick(option, fields) {
 				this.extraClick && this.extraClick(option, fields);
+			},
+			inputConfirm(field,e){ //input回车事件
+				console.log(field)
 			}
 		},
 		async created() {
