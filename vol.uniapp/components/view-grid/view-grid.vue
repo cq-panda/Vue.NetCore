@@ -5,7 +5,8 @@
 			<view class="fx-header-total">
 				<text>共</text><text class="fx-header-row-total">{{rowTotal}}</text><text>条数据</text>
 			</view>
-			<view @click="griFabBtnClick(btn)" v-if="btn.hidden===false||btn.hidden===undefined" class="btn-item" v-for="(btn,index) in fabButtons" :key="index">
+			<view @click="griFabBtnClick(btn)" v-if="btn.hidden===false||btn.hidden===undefined" class="btn-item"
+				v-for="(btn,index) in fabButtons" :key="index">
 				<u-icon :name="btn.icon" :size="btn.size||18"></u-icon>
 				<view>{{btn.name}}</view>
 			</view>
@@ -107,9 +108,9 @@
 				</view>
 				<slot name="modelHeader"></slot>
 				<view class="vol-action-sheet-select-content">
-					<vol-form @input-confirm="inputConfirm" :labelWidth="labelWidth" :load-key="false" @onChange="editGirdFormOnChange" ref="form"
-						@extraClick="gridExtraClick" :form-options.sync="editFormOptions"
-						:formFields.sync="editFormFields">
+					<vol-form @input-confirm="inputConfirm" :labelWidth="labelWidth" :load-key="false"
+						@onChange="editGirdFormOnChange" ref="form" @extraClick="gridExtraClick"
+						:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
 					</vol-form>
 				</view>
 				<slot name="modelBody"></slot>
@@ -350,7 +351,7 @@
 					}
 					let displayType = this.getSearchItem(key);
 					//联级只保留选中节点的最后一个值
-					if (displayType == "cascader"&&Array.isArray(value)) {
+					if (displayType == "cascader" && Array.isArray(value)) {
 						//查询下面所有的子节点，如：选中的是父节点，应该查询下面所有的节点数据--待完
 						value = value.length ? (value[value.length - 1] + "") : "";
 					}
@@ -669,11 +670,12 @@
 			gridExtraClick(option, fields) {
 				this.extraClick && this.extraClick(option, fields);
 			},
-			inputConfirm(field,e){ //input回车事件
+			inputConfirm(field, e) { //input回车事件
 				console.log(field)
 			}
 		},
 		async created() {
+			this.initSearchFormDateRange();
 			await this.initPermission();
 			this.isCreated = true;
 			let _$this = this;
@@ -705,7 +707,7 @@
 					Object.assign(_$this, extend.methods)
 				}
 			}
-			this.initSearchFormDateRange();
+
 			if (!this.isWx) {
 				this.onInited();
 				this.initSource();
