@@ -41,7 +41,7 @@
           </div>
         </div>
         <el-button v-else @click="handleClick"
-          >选择{{ img ? "图片" : "文件" }}</el-button
+          >选择{{ img ? '图片' : '文件' }}</el-button
         >
 
         <el-button
@@ -83,6 +83,7 @@
   </div>
 </template>
 <script>
+let OSS = require('ali-oss');
 export default {
   components: {},
   props: {
@@ -90,62 +91,62 @@ export default {
       //是否显示默认介绍
       //是否多选
       type: Boolean,
-      default: false,
+      default: false
     },
     fileInfo: {
       //用于接收上传的文件，也可以加以默认值，显示已上传的文件，用户上传后会覆盖默认值
       type: Array,
       default: () => {
         return [];
-      }, //格式[{name:'1.jpg',path:'127.0.01/1.jpg'}]
+      } //格式[{name:'1.jpg',path:'127.0.01/1.jpg'}]
     },
     downLoad: {
       //是否可以点击文件下载
       type: Boolean,
-      default: true,
+      default: true
     },
     multiple: {
       //是否多选
       type: Boolean,
-      default: false,
+      default: false
     },
     maxFile: {
       //最多可选文件数量，必须multiple=true，才会生效
       type: Number,
-      default: 5,
+      default: 5
     },
     maxSize: {
       //文件限制大小3M
       type: Number,
-      default: 50,
+      default: 50
     },
 
     autoUpload: {
       //选择文件后是否自动上传
       type: Boolean,
-      default: true,
+      default: true
     },
     img: {
       //图片类型  img>excel>fileTypes三种文件类型优先级
       type: Boolean,
-      default: false,
+      default: false
     },
     excel: {
       //excel文件
       type: Boolean,
-      default: false,
+      default: false
     },
     fileTypes: {
       //指定上传文件的类型
       type: Array,
       default: () => {
         return [];
-      },
+      }
     },
     url: {
       //上传的url
       type: String,
-      default: "",
+      default: ''
     },
     uploadBefore: {
       //返回false会中止执行
@@ -153,7 +154,7 @@ export default {
       type: Function,
       default: (files) => {
         return true;
-      },
+      }
     },
     uploadAfter: {
       //返回false会中止执行
@@ -161,14 +162,14 @@ export default {
       type: Function,
       default: (result, files) => {
         return true;
-      },
+      }
     },
     onChange: {
       //选择文件时  //返回false会中止执行
       type: Function,
       default: (files) => {
         return true;
-      },
+      }
     },
     // clear: {
     //   //上传完成后是否清空文件列表
@@ -178,48 +179,48 @@ export default {
     fileList: {
       //是否显示选择的文件列表
       type: Boolean,
-      default: true,
+      default: true
     },
     fileClick: {
       //点击文件事件
       type: Function,
       default: (index, file, files) => {
         return true;
-      },
+      }
     },
     removeBefore: {
       //移除文件事件
       type: Function,
       default: (index, file, files) => {
         return true;
-      },
+      }
     },
     append: {
       //此属性已废弃，多文件上传，默认追加文件
       type: Boolean,
-      default: false,
+      default: false
     },
     compress: {
       //开启图片压缩,后面根据需要再完善
       type: Boolean,
-      default: true,
+      default: true
     },
     compressMinSize: {
       //压缩的最小比例
       type: Number,
-      default: 0.1,
-    },
+      default: 0.1
+    }
   },
   data() {
     return {
-      errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
+      errorImg: 'this.src="' + require('@/assets/imgs/error-img.png') + '"',
       changed: false, //手动上传成功后禁止重复上传，必须重新选择
       model: true,
       files: [],
-      bigImg: "",
-      imgTypes: ["gif", "jpg", "jpeg", "png", "bmp", "webp", "jfif"],
+      bigImg: '',
+      imgTypes: ['gif', 'jpg', 'jpeg', 'png', 'bmp', 'webp', 'jfif'],
       loadingStatus: false,
-      loadText: "上传文件",
+      loadText: '上传文件'
     };
   },
   created() {
@@ -234,23 +235,23 @@ export default {
       handler(files) {
         this.cloneFile(files);
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     cloneFile(files) {
       this.files = files.map((x) => {
         return {
           name: x.name || this.getFileName(x.path),
-          path: x.path,
+          path: x.path
         };
       });
     },
     getFileName(path) {
       if (!path) {
-        return "未定义文件名";
+        return '未定义文件名';
       }
-      let _index = path.lastIndexOf("/");
+      let _index = path.lastIndexOf('/');
       return path.substring(_index + 1);
     },
     previewImg(index) {
@@ -260,20 +261,20 @@ export default {
     },
     getSelector() {
       if (this.autoUpload) {
-        return "auto-selector";
+        return 'auto-selector';
       }
-      return "submit-selector";
+      return 'submit-selector';
     },
     getImgSrc(file, index) {
-      if (file.hasOwnProperty("path")) {
+      if (file.hasOwnProperty('path')) {
         if (this.base.isUrl(file.path)) {
           return file.path;
         }
         //2020.12.27增加base64图片操作
-        if (file.path.indexOf("/9j/") != -1) {
-          return "data:image/jpeg;base64," + file.path;
+        if (file.path.indexOf('/9j/') != -1) {
+          return 'data:image/jpeg;base64,' + file.path;
         }
-        if (file.path.substr(0, 1) == "/") {
+        if (file.path.substr(0, 1) == '/') {
           file.path = file.path.substr(1);
         }
         return this.http.ipAddress + file.path;
@@ -289,23 +290,23 @@ export default {
         return;
       }
       if (!file.path) {
-        this.$message.error("请先上传文件");
+        this.$message.error('请先上传文件');
         return;
       }
       this.base.dowloadFile(
         file.path,
         file.name,
         {
-          Authorization: this.$store.getters.getToken(),
+          Authorization: this.$store.getters.getToken()
         },
         this.http.ipAddress
       );
     },
     getText() {
       if (this.img) {
-        return "只能上传图片,";
+        return '只能上传图片,';
       } else if (this.excel) {
-        return "只能上传excel文件,";
+        return '只能上传excel文件,';
       }
     },
     handleClick() {
@@ -359,9 +360,9 @@ export default {
       return this.files;
     },
     convertToFile(dataurl, filename) {
-      let arr = dataurl.split(",");
+      let arr = dataurl.split(',');
       let mime = arr[0].match(/:(.*?);/)[1];
-      let suffix = mime.split("/")[1];
+      let suffix = mime.split('/')[1];
       let bstr = atob(arr[1]);
       let n = bstr.length;
       let u8arr = new Uint8Array(n);
@@ -372,7 +373,7 @@ export default {
       // 第三个参数是 要放到文件中的内容的 MIME 类型
       return new File([u8arr], `${filename}.${suffix}`, {
         type: mime,
-        input: true,
+        input: true
       });
     },
     async compressImg(file) {
@@ -384,14 +385,14 @@ export default {
           let img = new Image();
           img.src = e.target.result;
           let _this = this;
-          img.onload = function () {
+          img.onload = function() {
             //默认按比例压缩
             let w = this.width;
             let h = this.height;
-            let canvas = document.createElement("canvas");
-            let ctx = canvas.getContext("2d");
-            canvas.setAttribute("width", w);
-            canvas.setAttribute("height", h);
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+            canvas.setAttribute('width', w);
+            canvas.setAttribute('height', h);
             ctx.drawImage(this, 0, 0, w, h);
             let rate = 0.3;
             if (fileSize > 2) {
@@ -403,54 +404,111 @@ export default {
               rate = _this.compressMinSize;
             }
             // rate=1;
-            let base64 = canvas.toDataURL("image/jpeg", rate);
+            let base64 = canvas.toDataURL('image/jpeg', rate);
             resolve(_this.convertToFile(base64, file.name));
           };
         };
       });
     },
+    async uploadOSS() {
+      this.http.get('api/alioss/getAccessToken', {}, false).then(async (x) => {
+        if (!x.status) return this.$Message.error(x.message);
+        let client = new OSS({
+          // yourRegion填写Bucket所在地域。以华东1（杭州）为例，Region填写为oss-cn-hangzhou。
+          region: x.data.region,
+          // 从STS服务获取的临时访问密钥（AccessKey ID和AccessKey Secret）。
+          accessKeyId: x.data.accessKeyId,
+          accessKeySecret: x.data.accessKeySecret,
+          // 从STS服务获取的安全令牌（SecurityToken）。
+          stsToken: x.data.securityToken,
+          // 填写Bucket名称。
+          bucket: x.data.bucket
+        });
+        console.log(this.files);
+        for (let index = 0; index < this.files.length; index++) {
+          const file = this.files[index];
+          if (file.input) {
+            let result = await client.put(
+              x.data.bucketFolder + '/' + x.data.unique + file.name,
+              file
+            );
+            file.path = result.url;
+            file.newName = x.data.unique + file.name;
+          }
+        }
+
+        this.fileInfo.splice(0);
+        // }
+        let _files = this.files.map((file) => {
+          return {
+            name: file.newName || file.name,
+            path: file.path
+          };
+        });
+        this.fileInfo.push(..._files);
+        //2021.09.25修复文件上传后不能同时下载的问题
+        this.files = _files;
+      });
+      return;
+    },
     async upload(vail) {
       if (vail && !this.checkFile()) return false;
       if (!this.url) {
-        return this.$message.error("没有配置好Url");
+        return this.$message.error('没有配置好Url');
       }
       if (!this.files || this.files.length == 0) {
-        return this.$message.error("请选择文件");
+        return this.$message.error('请选择文件');
       }
       if (!this.uploadBefore(this.files)) {
         return;
       }
+
+      this.loadingStatus = true;
+      this.loadText = '上传中..';
+      if (window.oss && window.oss.ali.use) {
+        await this.uploadOSS();
+        this.loadingStatus = false;
+        this.loadText = '上传文件';
+        if (!this.uploadAfter({status:true}, this.files)) {
+          this.changed = false;
+          return;
+        } else {
+          this.changed = true;
+        }
+        this.$message.success('上传成功');
+        return;
+      }
+
       var forms = new FormData();
       for (let index = 0; index < this.files.length; index++) {
         let file = this.files[index];
         if (file.input) {
-          let name = file.name.split(".");
+          let name = file.name.split('.');
           name = name[name.length - 1].toLocaleLowerCase();
           let isImg = this.imgTypes.indexOf(name) != -1;
-          if (isImg && (name == "jpg" || name == "jpeg")) {
+          if (isImg && (name == 'jpg' || name == 'jpeg')) {
             //>200KB的开启压缩
             if (isImg && file.size / 1024 / 1024 > 0.2) {
-               console.log("压缩前" + file.size);
+              console.log('压缩前' + file.size);
               file = await this.compressImg(file);
               file.compress = true;
               this.files[index] = file;
               this.files[index].input = true;
-               console.log("压缩后" + file.size);
+              console.log('压缩后' + file.size);
             }
           }
-          forms.append("fileInput", file, file.name);
+          forms.append('fileInput', file, file.name);
         }
       }
       // forms.append("fileInput", this.files);
-      this.loadingStatus = true;
-      this.loadText = "上传中..";
+
       this.http
-        .post(this.url, forms, this.autoUpload ? "正在上传文件" : "")
+        .post(this.url, forms, this.autoUpload ? '正在上传文件' : '')
         .then(
           (x) => {
             // this.$refs.uploadFile.clearFiles();
             this.loadingStatus = false;
-            this.loadText = "上传文件";
+            this.loadText = '上传文件';
             if (!this.uploadAfter(x, this.files)) {
               this.changed = false;
               return;
@@ -470,7 +528,7 @@ export default {
             let _files = this.files.map((file) => {
               return {
                 name: file.name,
-                path: file.path || x.data + file.name,
+                path: file.path || x.data + file.name
               };
             });
             this.fileInfo.push(..._files);
@@ -478,14 +536,18 @@ export default {
             this.files = _files;
           },
           (error) => {
-            this.loadText = "上传文件";
+            this.loadText = '上传文件';
             this.loadingStatus = false;
           }
         );
     },
     format(file, checkFileType) {
-      const format = file.name.split(".").pop().toLocaleLowerCase() || "";
-      let fileIcon = "el-icon-document";
+      const format =
+        file.name
+          .split('.')
+          .pop()
+          .toLocaleLowerCase() || '';
+      let fileIcon = 'el-icon-document';
       if (this.fileTypes.length > 0 && checkFileType != undefined) {
         if (this.fileTypes.indexOf(format) != -1) {
           return true;
@@ -495,8 +557,8 @@ export default {
       if (
         checkFileType &&
         !(checkFileType instanceof Array) &&
-        checkFileType != "img" &&
-        checkFileType != "excel"
+        checkFileType != 'img' &&
+        checkFileType != 'excel'
       ) {
         if (checkFileType.indexOf(format) > -1) {
           return true;
@@ -505,41 +567,41 @@ export default {
         }
       }
 
-      if (checkFileType == "img" || this.imgTypes.indexOf(format) > -1) {
-        if (checkFileType == "img") {
+      if (checkFileType == 'img' || this.imgTypes.indexOf(format) > -1) {
+        if (checkFileType == 'img') {
           if (this.imgTypes.indexOf(format) > -1) {
             return true;
           } else {
             return false;
           }
         }
-        fileIcon = "el-icon-picture-outline";
+        fileIcon = 'el-icon-picture-outline';
       }
       if (
-        ["mp4", "m3u8", "rmvb", "avi", "swf", "3gp", "mkv", "flv"].indexOf(
+        ['mp4', 'm3u8', 'rmvb', 'avi', 'swf', '3gp', 'mkv', 'flv'].indexOf(
           format
         ) > -1
       ) {
-        fileIcon = "el-icon-document";
+        fileIcon = 'el-icon-document';
       }
-      if (["mp3", "wav", "wma", "ogg", "aac", "flac"].indexOf(format) > -1) {
-        fileIcon = "el-icon-document";
+      if (['mp3', 'wav', 'wma', 'ogg', 'aac', 'flac'].indexOf(format) > -1) {
+        fileIcon = 'el-icon-document';
       }
-      if (["doc", "txt", "docx", "pages", "epub", "pdf"].indexOf(format) > -1) {
-        fileIcon = "el-icon-document";
+      if (['doc', 'txt', 'docx', 'pages', 'epub', 'pdf'].indexOf(format) > -1) {
+        fileIcon = 'el-icon-document';
       }
       if (
-        checkFileType == "excel" ||
-        ["numbers", "csv", "xls", "xlsx"].indexOf(format) > -1
+        checkFileType == 'excel' ||
+        ['numbers', 'csv', 'xls', 'xlsx'].indexOf(format) > -1
       ) {
-        if (checkFileType == "excel") {
-          if (["numbers", "csv", "xls", "xlsx"].indexOf(format) > -1) {
+        if (checkFileType == 'excel') {
+          if (['numbers', 'csv', 'xls', 'xlsx'].indexOf(format) > -1) {
             return true;
           } else {
             return false;
           }
         }
-        fileIcon = "el-icon-document";
+        fileIcon = 'el-icon-document';
       }
       return fileIcon;
     },
@@ -552,11 +614,11 @@ export default {
         files.length + (inputFiles || []).length > (this.maxFile || 5)
       ) {
         this.$message.error(
-          "最多只能选【" +
+          '最多只能选【' +
             (this.maxFile || 5) +
-            "】" +
-            (this.img ? "张图片" : "个文件") +
-            ""
+            '】' +
+            (this.img ? '张图片' : '个文件') +
+            ''
         );
         return false;
       }
@@ -569,15 +631,15 @@ export default {
       for (let index = 0; index < inputFiles.length; index++) {
         const file = inputFiles[index];
         if (names.indexOf(file.name) != -1) {
-          file.name = "(" + index + ")" + file.name;
+          file.name = '(' + index + ')' + file.name;
         }
         names.push(file.name);
-        if (this.img && !this.format(file, "img")) {
-          this.$message.error("选择的文件【" + file.name + "】只能是图片格式");
+        if (this.img && !this.format(file, 'img')) {
+          this.$message.error('选择的文件【' + file.name + '】只能是图片格式');
           return false;
         }
-        if (this.excel && !this.format(file, "excel")) {
-          this.$message.error("选择的文件【" + file.name + "】只能是excel文件");
+        if (this.excel && !this.format(file, 'excel')) {
+          this.$message.error('选择的文件【' + file.name + '】只能是excel文件');
           return false;
         }
         if (
@@ -586,28 +648,28 @@ export default {
           !this.format(file, this.fileTypes)
         ) {
           this.$message.error(
-            "选择的文件【" +
+            '选择的文件【' +
               file.name +
-              "】只能是【" +
-              this.fileTypes.join(",") +
-              "】格式"
+              '】只能是【' +
+              this.fileTypes.join(',') +
+              '】格式'
           );
           return false;
         }
         if (file.size > (this.maxSize || 50) * 1024 * 1024) {
           this.$message.error(
-            "选择的文件【" +
+            '选择的文件【' +
               file.name +
-              "】不能超过:" +
+              '】不能超过:' +
               (this.maxSize || 50) +
-              "M"
+              'M'
           );
           return false;
         }
       }
       return true;
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="less" scoped>

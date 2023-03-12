@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@microsoft/signalr": "^6.0.4",
+    "ali-oss": "^6.17.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "echarts": "^5.0.2",
