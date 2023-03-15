@@ -156,15 +156,20 @@
 					<text class="vol-action-sheet-select-confirm" @click="actionConfirmClick">确定</text>
 				</view>
 				<!-- 	超过10个下拉框选项默认开启搜索 -->
+			<!-- 	 -->
 				<view v-if="showFilter" class="vol-action-sheet-select-filter">
-					<view style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
+					<u-search @custom="searchText=''" placeholder="请输入关键字搜索" :showAction="true" actionText="清除"
+						:animation="false" v-model="searchText">
+					</u-search>
+					<!-- @search="search" @custom="searchClick" -->
+				<!-- 	<view style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
 						<u--input placeholder="请输入关键字搜索" v-model="searchText">
 						</u--input>
 					</view>
 					<view class="search-btn">
 						<u-button :plain="true" :hairline="true" :customStyle="{padding:'10rpx 20rpx'}" shape="circle"
 							type="primary" icon="trash" @click="searchText=''" size="small">清除</u-button>
-					</view>
+					</view> -->
 				</view>
 				<view class="vol-action-sheet-select-content">
 					<view :class="{'vol-action-sheet-select-actived':actionSheetModel&&isActionSelected(item)}"
@@ -814,7 +819,7 @@
 			// height: 0;
 			// overflow: scroll;
 			.vol-action-sheet-select-item {
-				border-bottom: 1px solid rgb(243 243 243);
+			    border-bottom: 1px solid rgb(247 247 247);
 				padding: 26rpx;
 				text-align: center;
 				position: relative;
