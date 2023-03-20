@@ -17,6 +17,22 @@
 			<view v-else-if="item.type=='editor'">
 				<u-parse :content="inFormFields[item.field]"></u-parse>
 			</view>
+			
+			
+			<view class="f-form-content f-form-content-select" @click="showCitySheet(item)"
+				v-else-if="item.type=='city'">
+				<view style="flex:1;">
+					<view style="color:rgb(192 196 204);font-size:15px;padding-right: 12rpx;"
+						v-show="base.isEmpty(inFormFields[item.field],true)">
+						{{'请选择'+item.title}}
+					</view>
+					<view style="font-size:15px;" v-show="!base.isEmpty(inFormFields[item.field],true)">
+						{{inFormFields[item.field].replaceAll(',','')}}
+					</view>
+				</view>
+				<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>
+			</view>
+			
 			<template v-else-if="item.type=='date'||item.type=='datetime'">
 				<template v-if="item.range">
 					<view style="flex: 1;" :style="{'max-width': item.type=='date'?'120rpx':'30rpx'}"></view>
@@ -92,6 +108,8 @@
 				</view>
 				<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>
 			</view>
+
+
 			<view class="f-form-group-content" :style="item.style" v-else-if="item.type=='group'">
 				{{item.title||''}}
 			</view>
@@ -156,13 +174,13 @@
 					<text class="vol-action-sheet-select-confirm" @click="actionConfirmClick">确定</text>
 				</view>
 				<!-- 	超过10个下拉框选项默认开启搜索 -->
-			<!-- 	 -->
+				<!-- 	 -->
 				<view v-if="showFilter" class="vol-action-sheet-select-filter">
 					<u-search @custom="searchText=''" placeholder="请输入关键字搜索" :showAction="true" actionText="清除"
 						:animation="false" v-model="searchText">
 					</u-search>
 					<!-- @search="search" @custom="searchClick" -->
-				<!-- 	<view style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
+					<!-- 	<view style="padding-left:20rpx;flex:1;font-size: 22px;color: #909399;background: white;">
 						<u--input placeholder="请输入关键字搜索" v-model="searchText">
 						</u--input>
 					</view>
@@ -192,12 +210,16 @@
 		<!-- 	<u-keyboard ref="uKeyboard" @change="numberChange" @backspace="numberBackspace"
 			:dotDisabled="numberCurrentItem.type=='decimal'" :z-index='999999999' mode="number" :show="numberModel">
 		</u-keyboard> -->
-
+		<lotus-address v-on:choseVal="onCitySelect" :lotusAddressData="lotusAddressData"></lotus-address>
 	</view>
 </template>
 
 <script>
+	import lotusAddress from "./../Winglau14-lotusAddress/Winglau14-lotusAddress.vue";
 	export default {
+		components:{
+			lotusAddress
+		},
 		props: {
 			formOptions: {
 				type: Array,
@@ -231,6 +253,16 @@
 		name: "vol-form",
 		data() {
 			return {
+				lotusAddressData: {
+					visible: false,
+					provinceName: '',
+					cityName: '',
+					townName: '',
+				},
+				cityItem: {
+					field: ""
+				},
+				region: '',
 				showFilter: false,
 				searchText: '', //搜索的内容
 				inFormFields: {},
@@ -734,6 +766,28 @@
 			},
 			showCascaderSheet(item) {
 				this.$refs[item.field][0].show();
+			},
+			onCitySelect(res) {
+				//res数据源包括已选省市区与省市区code
+				console.log(res);
+				this.lotusAddressData.visible = res.visible; //visible为显示与关闭组件标识true显示false隐藏
+				//res.isChose = 1省市区已选 res.isChose = 0;未选
+				if (res.isChose) {
+					this.lotusAddressData.provinceName = res.province; //省
+					this.lotusAddressData.cityName = res.city; //市
+					this.lotusAddressData.townName = res.town; //区
+					this.inFormFields[this.cityItem.field] = res.province + ',' + res.city + ',' + res.town
+					//this.region = `${res.province}${res.city}${res.town}`; //region为已选的省市区的值
+				}
+			},
+			showCitySheet(item) {
+
+				this.cityItem = item;
+				const arr = (this.inFormFields[item.field] || '').split(',');
+				this.lotusAddressData.provinceName = arr[0] || ''; //省
+				this.lotusAddressData.cityName = arr[1] || ''; //市
+				this.lotusAddressData.townName = arr[2] || ''; //区
+				this.lotusAddressData.visible = true;
 			}
 		},
 		// #ifdef MP-WEIXIN
@@ -819,7 +873,7 @@
 			// height: 0;
 			// overflow: scroll;
 			.vol-action-sheet-select-item {
-			    border-bottom: 1px solid rgb(247 247 247);
+				border-bottom: 1px solid rgb(247 247 247);
 				padding: 26rpx;
 				text-align: center;
 				position: relative;
