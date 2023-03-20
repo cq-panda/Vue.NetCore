@@ -6,6 +6,15 @@
 				<vol-alert>
 					<view>1、移动端同样支持编辑/新建/查询数据源自动绑定。</view>
 					<view>2、开发与配置方式与PC端相同,都由代码生成器完成。</view>
+					<view>3、[城市]字段省市区县选择</view>
+					<view>4、2023.03.20更新components文件夹后才能使用</view>
+					<view>5、省市区县见App_TransactionAvgPriceExtend.js</view>
+				</vol-alert>
+			</view>
+
+			<view slot="searchHeader">
+				<vol-alert>
+					<view>页面已增加省市区县选择</view>
 				</vol-alert>
 			</view>
 		</view-grid>
@@ -18,8 +27,8 @@
 	//  *QQ：283591387
 	//  *自定义业务逻辑扩展
 	//************************************************
-    import extend from './App_TransactionAvgPriceExtend.js'
-    import options from './App_TransactionAvgPriceOptions.js';
+	import extend from './App_TransactionAvgPriceExtend.js'
+	import options from './App_TransactionAvgPriceOptions.js';
 	let _options = options();
 	_options.extend = extend;
 	export default {
@@ -28,8 +37,7 @@
 				options: _options
 			}
 		},
-		onShow() {
-		},
+		onShow() {},
 		methods: {
 			viewClick() {
 				//获取生成页面grid的对象

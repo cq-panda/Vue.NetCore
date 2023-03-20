@@ -38,7 +38,10 @@
 					datetimeValue: "2022-03-27 20:15",
 					dateRange: ["2022-03-10", "2022-06-20"], //数组 
 					inputRange: [100000000, 900000000], //区间是数组
-
+                    
+					
+					province:"北京市,北京市,海淀区",//省市区县值必须以逗号隔开
+					
 					inputDecimal: null, //小数
 					inputNumber: null, //数字
 					switchValue: 1,
@@ -96,6 +99,16 @@
 						"field": "readonlyText",
 						"type": "text",
 						readonly: true
+					},
+					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "省市区县type设置city(2023.03.20更新components文件夹)"
+					},
+					{
+						"title": "省市区县",
+						"field": "province",
+						type: "city"//type必须为city
 					},
 					{
 						type: "group", //表单分组
