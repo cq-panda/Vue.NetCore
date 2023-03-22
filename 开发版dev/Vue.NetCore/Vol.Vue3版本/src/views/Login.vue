@@ -140,7 +140,7 @@
         >京ICP备19056538号-1</a
       >
       <a @click="openUrl('http://v2.volcore.xyz/')"> Vue2版本 </a>
-      <a>QQ2群：913189178</a>
+      <a href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M" target="_blank">QQ3群：743852316</a>
       
                <a
         href="https://dotnet9.com/"

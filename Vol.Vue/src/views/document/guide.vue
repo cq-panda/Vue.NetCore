@@ -18,7 +18,7 @@
         <a target="_blank" href="https://www.cctalk.com/m/group/90268531">
           <Icon type="ios-ionic" /><br />框架视频</a
         >
-        <a style="padding-top: 25px">QQ1群:45221949 <br />QQ2群:913189178</a>
+        <a style="padding-top: 25px">QQ2群:913189178 <br />QQ3群:743852316</a>
         <a target="_blank" href="https://github.com/cq-panda/Vue.NetCore">
           <Icon type="logo-github" /><br />GitHub</a
         >
