@@ -266,7 +266,7 @@
         <li style="padding-left: 26px; list-style: none">
           <span style="color: #03a9f4"
             >1、(run.bat如果闪退,说明环境没配置好，请使用cmd切换至
-            ../VOL.Vue目录下执行npm run dev看异常信息)</span
+            ../VOL.Vue目录下执行npm run dev(vue3的执行npm run serve)看异常信息)</span
           >
                <div style="color: #03a9f4"
             >2、使用cmd命令切换到../VOL.Vue目录下执行npm cache clear --force或者安装node.js版本14.15.1</div

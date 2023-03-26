@@ -3768,6 +3768,49 @@ export default {
           tips: ``,
           img: ''
         },
+		{
+          title: '编辑输入设置焦点foucs',
+		  content: [
+		  `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		&nbsp; &nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span> () {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//弹出框打开后给某个字段设置焦点</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#dcdcaa;">setTimeout</span>(()<span style="color:#569cd6;">=&gt;</span>{
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">form</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">字段名</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#dcdcaa;">foucs</span>()
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp;},<span style="color:#b5cea8;">200</span>)
+	</div>
+	<div>
+		&nbsp; &nbsp; }
+	</div>
+</div>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;">
+	<div>
+		<span style="color:#808080;">
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;">
+			<div>
+				<span style="color:#dcdcaa;"><span style="font-family:Consolas, &quot;font-size:14px;line-height:19px;background-color:#1E1E1E;color:#DCDCAA;"></span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;line-height:19px;background-color:#1E1E1E;"></span></span>
+			</div>
+			<div>
+				<span style="color:#2C3E50;font-family:Consolas, Menlo, Courier, monospace;background-color:#FFFFFF;"></span>
+			</div>
+			<div>
+			</div>
+		</div>
+</span> 
+	</div>
+</div>`
+		  ],
+		  tips: ``,
+          img: ''
+		  },
         {
           title: '编辑表单输入框回车事件、输入事件',
           content: [

@@ -710,7 +710,77 @@ VolElementMenuChild.vue(新增) 、VolElementMenu.vue(新增) 、Index.vue 、co
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
 	</div>
+	<p>
+	<br />
+</p>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+			<br />
+			<div>
+				&nbsp; &nbsp; &nbsp;
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//dapper使用第二种方式，2023.03.26更新后才能使用</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">var</span> <span style="color:#9cdcfe;">dapper</span> = <span style="color:#9cdcfe;">DBServerProvider</span>.<span style="color:#9cdcfe;">SqlDapper</span>;
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">try</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">dapper</span>.<span style="color:#dcdcaa;">BeginTrans</span>();
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">string</span> <span style="color:#9cdcfe;">sql</span> = <span style="color:#ce9178;">"update &nbsp;table set [xxx]=@address where fieldxx=@value"</span>;
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">var</span> <span style="color:#9cdcfe;">data</span> = <span style="color:#9cdcfe;">dapper</span>.<span style="color:#dcdcaa;">ExcuteNonQuery</span>(<span style="color:#9cdcfe;">sql</span>, <span style="color:#569cd6;">new</span> { <span style="color:#9cdcfe;">xxx</span> = <span style="color:#ce9178;">"666"</span>, <span style="color:#9cdcfe;">value</span>=<span style="color:#ce9178;">"124"</span> });
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">sql</span> = <span style="color:#ce9178;">"update &nbsp;table set [xxx]=@address where fieldxx=@value"</span>;
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">var</span> <span style="color:#9cdcfe;">list</span> = <span style="color:#9cdcfe;">dapper</span>.<span style="color:#dcdcaa;">ExcuteNonQuery</span>(<span style="color:#9cdcfe;">sql</span>, <span style="color:#569cd6;">new</span> { <span style="color:#9cdcfe;">xxx</span> = <span style="color:#ce9178;">"777"</span>, <span style="color:#9cdcfe;">value</span> = <span style="color:#ce9178;">"xxxx"</span> });
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">dapper</span>.<span style="color:#dcdcaa;">Commit</span>();
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">catch</span> (<span style="color:#9cdcfe;">Exception</span> <span style="color:#9cdcfe;">ex</span>)
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Console</span>.<span style="color:#dcdcaa;">WriteLine</span>(<span style="color:#9cdcfe;">ex</span>.<span style="color:#9cdcfe;">Message</span>);
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">dapper</span>.<span style="color:#dcdcaa;">Rollback</span>();
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+			</div>
+<br />
+		</div>
+	</div>
 </div>
+<p>
+	<br />
+</p>
+</div>
+
+
 <br />`,
           ],
           tips: "",

@@ -345,112 +345,126 @@ var codeString = {
   </div>
 </div></script>`,
   box3: `<p>
-	<br />
-</p>
-<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
-	<div>
-		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"default"</span>&nbsp;<span style="color:#9CDCFE;">size</span>=<span style="color:#CE9178;">"mini"</span>&nbsp;@<span style="color:#9CDCFE;">click</span>="<span style="color:#9CDCFE;">model</span>=<span style="color:#569CD6;">true</span>"<span style="color:#808080;">&gt;</span>打开弹出框<span style="color:#808080;">&lt;/</span><span style="color:#569CD6;">el-button</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">vol-box</span>&nbsp;:<span style="color:#9cdcfe;">lazy</span>="<span style="color:#569cd6;">true</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">v-model</span>="<span style="color:#9cdcfe;">model</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"弹出框3"</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">height</span>="<span style="color:#b5cea8;">400</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">width</span>="<span style="color:#b5cea8;">700</span>"
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">15</span>"<span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>弹出框内容<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span>&nbsp;#<span style="color:#9cdcfe;">footer</span><span style="color:#808080;">&gt;</span>&nbsp;
-	</div>
-	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"primary"</span>&nbsp;&nbsp;<span style="color:#9CDCFE;">size</span>=<span style="color:#CE9178;">"mini"</span>&nbsp; @<span style="color:#9CDCFE;">click</span>="<span style="color:#9CDCFE;">$Message</span>.<span style="color:#DCDCAA;">error</span>(<span style="color:#CE9178;">'点击确认'</span>)"<span style="color:#808080;">&gt;</span>确认<span style="color:#808080;">&lt;/</span><span style="color:#569CD6;">el-button</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span>&nbsp;<span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"default"</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"mini"</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">model</span>=<span style="color:#569cd6;">false</span>"<span style="color:#808080;">&gt;</span>点击关闭弹出框<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">vol-box</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
-	</div>
-	<div>
-		<span style="color:#c586c0;">import</span>&nbsp;<span style="color:#9cdcfe;">VolBox</span>&nbsp;<span style="color:#c586c0;">from</span>&nbsp;<span style="color:#ce9178;">"@/components/basic/VolBox.vue"</span>;
-	</div>
-	<div>
-		<span style="color:#6a9955;">//这里使用的vue2语法，也可以写成vue3语法</span>
-	</div>
-	<div>
-		<span style="color:#c586c0;">export</span>&nbsp;<span style="color:#c586c0;">default</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;<span style="color:#9cdcfe;">components</span><span style="color:#9cdcfe;">:</span>&nbsp;{&nbsp;<span style="color:#ce9178;">"vol-box"</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#9cdcfe;">VolBox</span>&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;<span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span>&nbsp;{},
-	</div>
-	<div>
-		&nbsp;&nbsp;<span style="color:#dcdcaa;">data</span>()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">model</span><span style="color:#9cdcfe;">:</span><span style="color:#569cd6;">false</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;};
-	</div>
-	<div>
-		&nbsp;&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;<span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;},
-	</div>
-	<div>
-		};
-	</div>
-	<div>
-		<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
-	</div>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			&nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"default"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"mini"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">model</span> = <span style="color:#569cd6;">true</span>"
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#808080;">&gt;</span>打开弹出框<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span>
+		</div>
+		<div>
+			&nbsp; <span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			&nbsp; <span style="color:#808080;">&lt;</span><span style="color:#4ec9b0;">vol-box</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; :<span style="color:#9cdcfe;">lazy</span>="<span style="color:#569cd6;">true</span>"
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#9cdcfe;">v-model</span>="<span style="color:#9cdcfe;">model</span>"
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#9cdcfe;">title</span>=<span style="color:#ce9178;">"弹出框3"</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; :<span style="color:#9cdcfe;">height</span>="<span style="color:#b5cea8;">400</span>"
+		</div>
+		<div>
+			&nbsp; &nbsp; :<span style="color:#9cdcfe;">width</span>="<span style="color:#b5cea8;">700</span>"
+		</div>
+		<div>
+			&nbsp; &nbsp; :<span style="color:#9cdcfe;">padding</span>="<span style="color:#b5cea8;">5</span>"
+		</div>
+		<div>
+			&nbsp; &nbsp; :<span style="color:#9cdcfe;">onModelClose</span>="<span style="color:#dcdcaa;">onModelClose</span>"
+		</div>
+		<div>
+			&nbsp; <span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>弹出框内容<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">template</span> #<span style="color:#9cdcfe;">footer</span><span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"primary"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"small"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">$Message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">'点击确认'</span>)"<span style="color:#808080;">&gt;</span>确认<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span> <span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;</span><span style="color:#569cd6;">el-button</span> <span style="color:#9cdcfe;">type</span>=<span style="color:#ce9178;">"default"</span> <span style="color:#9cdcfe;">size</span>=<span style="color:#ce9178;">"small"</span> @<span style="color:#9cdcfe;">click</span>="<span style="color:#9cdcfe;">model</span> = <span style="color:#569cd6;">false</span>" <span style="color:#808080;">&gt;</span>点击关闭弹出框<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">el-button</span> <span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">div</span><span style="color:#808080;">&gt;&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			&nbsp; <span style="color:#808080;">&lt;/</span><span style="color:#4ec9b0;">vol-box</span><span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">template</span><span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			<span style="color:#808080;">&lt;</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+		</div>
+		<div>
+			<span style="color:#c586c0;">import</span> <span style="color:#9cdcfe;">VolBox</span> <span style="color:#c586c0;">from</span> <span style="color:#ce9178;">'@/components/basic/VolBox.vue'</span>;
+		</div>
+		<div>
+			<span style="color:#6a9955;">//这里使用的vue2语法，也可以写成vue3语法</span>
+		</div>
+		<div>
+			<span style="color:#c586c0;">export</span> <span style="color:#c586c0;">default</span> {
+		</div>
+		<div>
+			&nbsp; <span style="color:#9cdcfe;">components</span><span style="color:#9cdcfe;">:</span> { <span style="color:#ce9178;">'vol-box'</span><span style="color:#9cdcfe;">:</span> <span style="color:#9cdcfe;">VolBox</span> },
+		</div>
+		<div>
+			&nbsp; <span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span> {},
+		</div>
+		<div>
+			&nbsp; <span style="color:#dcdcaa;">data</span>() {
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#c586c0;">return</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">model</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">false</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; };
+		</div>
+		<div>
+			&nbsp; },
+		</div>
+		<div>
+			&nbsp; <span style="color:#9cdcfe;">methods</span><span style="color:#9cdcfe;">:</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">onModelClose</span>(){
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#dcdcaa;">alert</span>(<span style="color:#ce9178;">'弹出框右上角点击x关闭事件'</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; }
+		</div>
+		<div>
+			};
+		</div>
+		<div>
+			<span style="color:#808080;">&lt;/</span><span style="color:#569cd6;">script</span><span style="color:#808080;">&gt;</span>
+		</div>
 <br />
-</div>
-<p>
-	<br />
+	</div>
 </p>
 <p>
 	<br />
