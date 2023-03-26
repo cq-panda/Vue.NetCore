@@ -59,7 +59,6 @@
           </div>
           <div class="user">
             <span>{{ userName }}</span>
-            <br />
             <span id="index-date"></span>
           </div>
           <div class="settings">
