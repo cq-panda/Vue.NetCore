@@ -362,7 +362,7 @@
 			},
 			getData() {
 				if (!this.url) {
-					this.rowsData.push(...this.tableData)
+					//this.rowsData.push(...this.tableData)
 					return
 				}
 				if (!this.defaultLoadPage) {
