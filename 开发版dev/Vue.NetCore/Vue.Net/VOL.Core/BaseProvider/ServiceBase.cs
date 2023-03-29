@@ -218,7 +218,7 @@ namespace VOL.Core.BaseProvider
         /// <param name="options"></param>
         /// <param name="queryable"></param>
         /// <returns></returns>
-        private PageDataOptions ValidatePageOptions(PageDataOptions options, out IQueryable<T> queryable)
+        protected PageDataOptions ValidatePageOptions(PageDataOptions options, out IQueryable<T> queryable)
         {
             options = options ?? new PageDataOptions();
 
@@ -285,7 +285,7 @@ namespace VOL.Core.BaseProvider
             }
             if (options.Export)
             {
-                queryable = queryable.GetIQueryableOrderBy(orderbyDic);
+                queryable= queryable.GetIQueryableOrderBy(orderbyDic);
                 if (Limit > 0)
                 {
                     queryable = queryable.Take(Limit);
@@ -371,7 +371,7 @@ namespace VOL.Core.BaseProvider
             if (!string.IsNullOrEmpty(UploadFolder))
             {
                 filePath = UploadFolder;
-                if (!filePath.EndsWith("/") || !filePath.EndsWith("\\"))
+                if (!filePath.EndsWith("/")|| !filePath.EndsWith("\\"))
                 {
                     filePath += "/";
                 }
@@ -951,16 +951,18 @@ namespace VOL.Core.BaseProvider
             PropertyInfo mainKeyProperty = type.GetKeyProperty();
             //验证明细
             Type detailType = null;
-            if (saveModel.DetailData != null || saveModel.DelKeys != null)
+            if (saveModel.DetailData != null || (saveModel.DelKeys != null && saveModel.DelKeys.Count > 0))
             {
-                saveModel.DetailData = saveModel.DetailData == null
-                    ? new List<Dictionary<string, object>>()
-                    : saveModel.DetailData.Where(x => x.Count > 0).ToList();
-
                 detailType = GetRealDetailType();
+                if (detailType != null)
+                {
+                    saveModel.DetailData = saveModel.DetailData == null
+                                           ? new List<Dictionary<string, object>>()
+                                           : saveModel.DetailData.Where(x => x.Count > 0).ToList();
 
-                result = detailType.ValidateDicInEntity(saveModel.DetailData, true, false, new string[] { mainKeyProperty.Name });
-                if (result != string.Empty) return Response.Error(result);
+                    result = detailType.ValidateDicInEntity(saveModel.DetailData, true, false, new string[] { mainKeyProperty.Name });
+                    if (result != string.Empty) return Response.Error(result);
+                }
 
                 //主从关系指定外键,即从表的外键可以不是主键的主表,还需要改下代码生成器设置属性外键,功能预留后面再开发(2020.04.25)
                 //string foreignKey = type.GetTypeCustomValue<System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute>(x => new { x.Name });
