@@ -482,7 +482,7 @@ DISTINCT
                 }
                 apiPath += $"\\Controllers\\{projectName}\\";
                 //生成Partial Api控制器
-                if (!File.Exists($"{apiPath}Partial\\{tableName}Controller.cs"))
+                if (!FileHelper.FileExists($"{apiPath}Partial\\{tableName}Controller.cs"))
                 {
                     string partialController = FileHelper.ReadFile(@"Template\\Controller\\ControllerApiPartial.html")
                        .Replace("{Namespace}", nameSpace).Replace("{TableName}", tableName).Replace("{StartName}", StratName);
@@ -511,7 +511,7 @@ DISTINCT
             string fileName = "I" + tableName + "Service.cs";
 
             //生成Partial  IService类
-            if (!File.Exists(path + "Partial\\" + fileName))
+            if (!FileHelper.FileExists(path + "Partial\\" + fileName))
             {
                 domainContent = FileHelper.ReadFile("Template\\IServices\\IServiceBasePartial.html").Replace("{Namespace}", nameSpace).Replace("{TableName}", tableName).Replace("{StartName}", StratName);
                 FileHelper.WriteFile(path + "Partial\\", fileName, domainContent);
@@ -526,7 +526,7 @@ DISTINCT
             fileName = tableName + "Service.cs";
             //生成Partial Service类
             domainContent = FileHelper.ReadFile("Template\\Services\\ServiceBasePartial.html").Replace("{Namespace}", nameSpace).Replace("{TableName}", tableName).Replace("{StartName}", StratName);
-            if (!File.Exists(path + "Partial\\" + fileName))
+            if (!FileHelper.FileExists(path + "Partial\\" + fileName))
             {
                 domainContent = FileHelper.ReadFile("Template\\Services\\ServiceBasePartial.html").Replace("{Namespace}", nameSpace).Replace("{TableName}", tableName).Replace("{StartName}", StratName);
                 FileHelper.WriteFile(path + "Partial\\", fileName, domainContent);
@@ -544,7 +544,7 @@ DISTINCT
                 path = $"{frameworkFolder}\\{nameSpace}\\Controllers\\{ foldername}\\";
                 fileName = tableName + "Controller.cs";
                 //生成Partial web控制器
-                if (!File.Exists(path + "Partial\\" + fileName))
+                if (!FileHelper.FileExists(path + "Partial\\" + fileName))
                 {
                     domainContent = FileHelper.ReadFile("Template\\Controller\\ControllerPartial.html").Replace("{Namespace}", nameSpace).Replace("{TableName}", tableName).Replace("{BaseOptions}", baseOptions).Replace("{StartName}", StratName);
                     FileHelper.WriteFile(path + "Partial\\", tableName + "Controller.cs", domainContent);
@@ -1286,7 +1286,7 @@ DISTINCT
             }
 
             SetMaxLength(columns);
-            var result= base.Add<Sys_TableColumn>(tableInfo, columns, false);
+            var result = base.Add<Sys_TableColumn>(tableInfo, columns, false);
             if (!result.Status)
             {
                 throw new Exception($"加载表结构写入异常：{result.Message}");
