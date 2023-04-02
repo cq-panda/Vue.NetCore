@@ -607,7 +607,7 @@ export default defineComponent({
   },
   created() {
     try {
-      this.useTag = this.FWConfig.table.useTag;
+      this.useTag = this.$global.table.useTag;
     } catch (error) {
       console.log(error.message);
     }

@@ -19,7 +19,11 @@ app.config.globalProperties.http = http;
 app.config.globalProperties.$tabs = {};
 app.config.globalProperties.permission = permission;
 app.config.globalProperties.$global = { 
-    signalR: false //是否开启signalR
+    signalR: false, //是否开启signalR
+    table:{
+        //vol-table带数据源的单元格是否启用tag标签(下拉框等单元格以tag标签显示)
+        useTag:true
+    }
 }
 //2023.03.13，
 //修改见：volupload.vue，后台AliOSSController.cs，阿里云OSS配置.doc
@@ -38,10 +42,3 @@ app.use(store)
     .mount('#app');
 app.config.globalProperties.$Message = app.config.globalProperties.$message;
 
-//全局配置
-app.config.globalProperties.FWConfig={
-    table:{
-        //vol-table带数据源的单元格是否启用tag标签(下拉框等单元格以tag标签显示)
-        useTag:true
-    }
-}
