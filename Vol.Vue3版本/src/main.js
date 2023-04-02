@@ -37,3 +37,11 @@ app.use(store)
     .use(viewgird)
     .mount('#app');
 app.config.globalProperties.$Message = app.config.globalProperties.$message;
+
+//全局配置
+app.config.globalProperties.FWConfig={
+    table:{
+        //vol-table带数据源的单元格是否启用tag标签(下拉框等单元格以tag标签显示)
+        useTag:true
+    }
+}

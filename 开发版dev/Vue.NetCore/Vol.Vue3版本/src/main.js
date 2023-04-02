@@ -21,9 +21,27 @@ app.config.globalProperties.permission = permission;
 app.config.globalProperties.$global = { 
     signalR: false //是否开启signalR
 }
+//2023.03.13，
+//修改见：volupload.vue，后台AliOSSController.cs，阿里云OSS配置.doc
+window.oss={
+    ali:{ //阿里云
+        use:false,//使用阿里云上传文件
+        //阿里缩略图压缩大小
+        //.aliyuncs.com
+        small:"?x-oss-process=image/resize,m_lfit,w_200"
+    }
+}
 app.use(store)
     .use(ElementPlus, { size: 'default' })
     .use(router)
     .use(viewgird)
     .mount('#app');
 app.config.globalProperties.$Message = app.config.globalProperties.$message;
+
+//全局配置
+app.config.globalProperties.FWConfig={
+    table:{
+        //vol-table带数据源的单元格是否启用tag标签(下拉框等单元格以tag标签显示)
+        useTag:true
+    }
+}

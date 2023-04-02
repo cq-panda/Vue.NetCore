@@ -49,8 +49,8 @@ let extension = {
         align: "center",
         render: (h, { row, column, index }) => {
           return <div >
-            <el-button onClick={($e) => { this.btn1Click(row, $e) }} type="primary" plain size="small" style="padding: 10px !important;">查看</el-button>
-            <el-button onClick={($e) => { this.btn2Click(row, $e) }} type="success" plain size="small" style="padding: 10px !important;">按钮</el-button>
+            <el-button onClick={($e) => { this.btn1Click(row, $e) }} type="primary" plain size="small" style="height:26px; padding: 10px !important;">查看</el-button>
+            <el-button onClick={($e) => { this.btn2Click(row, $e) }} type="success" plain size="small" style="height:26px;padding: 10px !important;">按钮</el-button>
 
             <el-dropdown onClick={(value) => { this.dropdownClick(value) }} trigger="click" v-slots={{
               dropdown: () => (
