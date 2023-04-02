@@ -34,14 +34,14 @@
 					cascader3: '004',
 					selectVal: "",
 					selectListVal: [], //多选这里的值是数组 
-					dateValue: "2022-03-27",
+					dateValue:this.base.getDate(),//设置默认日期为当天
 					datetimeValue: "2022-03-27 20:15",
 					dateRange: ["2022-03-10", "2022-06-20"], //数组 
 					inputRange: [100000000, 900000000], //区间是数组
-                    
-					
-					province:"北京市,北京市,海淀区",//省市区县值必须以逗号隔开
-					
+
+
+					province: "北京市,北京市,海淀区", //省市区县值必须以逗号隔开
+
 					inputDecimal: null, //小数
 					inputNumber: null, //数字
 					switchValue: 1,
@@ -108,7 +108,7 @@
 					{
 						"title": "省市区县",
 						"field": "province",
-						type: "city"//type必须为city
+						type: "city" //type必须为city
 					},
 					{
 						type: "group", //表单分组
@@ -194,10 +194,23 @@
 						type: "group" //表单分组
 					},
 					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "日期设置min与max属性限制选择范围"
+					},
+					{
 						"title": "日期",
 						"required": true,
 						"type": "date",
-						"field": "dateValue"
+						"field": "dateValue",
+						//设置时间选择范围，如果日期是datetim类型，时间后面加上时分秒
+						//2023.04.02更新util->common.js才能使用获取日期的方法
+						// min:'2023-04-01',
+						// max:'2023-07-02'
+						
+						//设置只能选择半个月内的数据
+						min: this.base.addDay(this.base.getDate(), -15),
+						max: this.base.getDate()
 					},
 					{
 						"title": "日期时分秒",
