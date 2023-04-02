@@ -17,7 +17,7 @@
 				</view>
 			</view>
 			<view class="vol-table-body">
-				<u-empty mode="list" v-if="!rowsData.length" text="无数据"
+				<u-empty mode="list" v-if="!rowsData.length&&page>0" text="无数据"
 					icon="http://cdn.uviewui.com/uview/empty/list.png"></u-empty>
 				<u-list :upperThreshold="-999" v-if="tableHeight" :height="tableHeight" @scrolltolower="scrolltolower">
 					<view @click="tableRowClick(rowindex,columns)" :key="rowindex" class="vol-table-body-rows"
@@ -77,7 +77,7 @@
 		<view v-else class="vol-table-list">
 			<!-- 		{{JSON.stringify(columns)}} -->
 			<u-list :upperThreshold="-999" v-if="tableHeight" :height="tableHeight" @scrolltolower="scrolltolower">
-				<u-empty mode="list" v-if="!rowsData.length" text="无数据"
+				<u-empty mode="list" v-if="!rowsData.length&&page>0" text="无数据"
 					icon="http://cdn.uviewui.com/uview/empty/list.png">
 				</u-empty>
 				<view :key="rowindex" v-for="(row,rowindex) in rowsData">
