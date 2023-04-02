@@ -10,7 +10,7 @@
 			</view>
 			<view v-if="item.readonly" style="flex: 1;font-size: 15px;text-align: right;">
 				<view v-if="item.type=='img'" class="readonly-imgs">
-					<image v-for="(src,imgIndex) in getImgSrcs(item)" :key="imgIndex" :src="src"></image>
+					<image v-for="(src,imgIndex) in getImgSrcs(item)" :key="imgIndex" :src="src.url"></image>
 				</view>
 				<text v-else> {{formatReadonlyValue(item)}}</text>
 			</view>
