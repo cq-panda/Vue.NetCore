@@ -37,10 +37,10 @@
 							<view class="vol-cell" v-else-if="column.formatter">
 								<rich-text :nodes="rowFormatter(row,column,rowindex)+''"></rich-text>
 							</view>
-							<view @click.stop="previewImage(row[column.field])" class="vol-cell"
-								v-else-if="column.type=='img'">
-								<u--image style="float:left;margin-left:5px;" width="40px" height="40px" radius="4px"
-									:src="src" v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
+							<view class="vol-cell" v-else-if="column.type=='img'">
+								<u--image @click="previewImage(row[column.field],index)" style="float:left;margin-left:5px;"
+									width="40px" height="40px" radius="4px" :src="src"
+									v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
 								</u--image>
 							</view>
 							<view class="vol-cell" v-else-if="column.bind">
@@ -108,11 +108,13 @@
 								<view v-else-if="column.bind">
 									{{rowFormatterValue(row,column)}}
 								</view>
-								<view @click.stop="previewImage(row[column.field])" v-else-if="column.type=='img'">
-									<view style="float: right;margin-left:10px;" width="50px" height="50px"
-										v-for="(src,index) in getImgSrc(row[column.field])">
-										<u--image width="50px" height="50px" radius="4px" :src="src" :key="index">
-										</u--image>
+								<view style="display: flex;justify-content: flex-end;" v-else-if="column.type=='img'">
+									<view @click.stop="previewImage(row[column.field],index)" style="margin-left:10px;"
+										width="50px" height="50px" v-for="(src,index) in getImgSrc(row[column.field])">
+										<view>
+											<u--image width="50px" height="50px" radius="4px" :src="src" :key="index">
+											</u--image>
+										</view>
 									</view>
 								</view>
 								<view v-else-if="column.type=='date'">
@@ -420,8 +422,9 @@
 			rowBtnClick(btn, rowindex, row) {
 				this.$emit('rowButtonClick', btn, rowindex, row);
 			},
-			previewImage(urls) {
+			previewImage(urls, index) {
 				uni.previewImage({
+					current: index,
 					urls: this.getImgSrc(urls),
 					longPressActions: {}
 				});
