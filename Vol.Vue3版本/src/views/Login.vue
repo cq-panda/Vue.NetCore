@@ -214,7 +214,7 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   background: rgb(246, 247, 252);
-  justify-content: right;
+  justify-content: flex-end;
   align-items: center;
 }
 .login-form {
