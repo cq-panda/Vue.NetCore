@@ -182,6 +182,20 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/table/table4/table4",
+			"style": {
+				"navigationBarTitleText": "自定义table内容一",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/table/table5/table5",
+			"style": {
+				"navigationBarTitleText": "自定义table内容二",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	],
 	//底部图标库(需要授权的自行联系作者)：https://www.iconfont.cn/search/index

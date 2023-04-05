@@ -26,7 +26,7 @@
 		data() {
 			return {
 				grid: [{
-						name: "Table表格",
+						name: "volt-able表格",
 						data: [{
 							name: "水平显示",
 							icon: "file-text",
@@ -37,21 +37,20 @@
 							icon: "list-dot",
 							bg: "color2",
 							path: "/pages/table/table2/table2"
-						}, {
-							name: "绑定数据源",
-							icon: "list",
-							bg: "color3",
-							path: ""
-						}, {
-							name: "格式化显示",
+						}]
+					},
+					{
+						name: "volt-able表格自定义内容",
+						data: [{
+							name: "自定内容表一",
 							icon: "order",
 							bg: "color4",
-							path: ""
+							path: "/pages/table/table4/table4"
 						}, {
-							name: "行点击事件",
+							name: "自定内容表二",
 							icon: "more-circle",
 							bg: "color5",
-							path: ""
+							path: "/pages/table/table5/table5"
 						}]
 					},
 					{
@@ -183,9 +182,9 @@
 			left: 0;
 			right: 0;
 			margin: auto;
-			    justify-content: center;
-			    align-items: center;
-			    display: flex;
+			justify-content: center;
+			align-items: center;
+			display: flex;
 		}
 
 		.color1 {
