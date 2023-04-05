@@ -102,7 +102,7 @@
   height: 100%;
 }
 
-.header-info>div {
+.header-info > div {
   float: left;
   height: 100%;
 }
@@ -123,7 +123,8 @@
   line-height: 60px;
   padding: 0 50px 0 20px;
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
+  letter-spacing: 1px;
 }
 
 .header-text {
@@ -140,11 +141,13 @@
 
 .vol-header .user {
   text-align: left;
-  padding: 12px;
+  padding: 0 12px;
   position: relative;
-  display: inline-block;
   height: 100%;
-
+  display: flex;
+  flex-direction: column;
+  // height: 60px;
+  justify-content: center;
   span:last-child {
     font-size: 12px;
   }

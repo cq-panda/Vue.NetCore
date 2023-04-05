@@ -43,7 +43,7 @@ namespace VOL.Core.Dapper
 
         Task<int> ExcuteNonQueryAsync(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
 
-        IDataReader ExecuteReader(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
+        //IDataReader ExecuteReader(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
         SqlMapper.GridReader QueryMultiple(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
 
         Task<(IEnumerable<T1>, IEnumerable<T2>)> QueryMultipleAsync<T1, T2>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
@@ -159,5 +159,23 @@ namespace VOL.Core.Dapper
         int BulkInsert<T>(List<T> entities, string tableName = null,
             Expression<Func<T, object>> columns = null,
             SqlBulkCopyOptions? sqlBulkCopyOptions = null);
+
+        /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+         ISqlDapper BeginTrans();
+
+        /// <summary>
+        /// 提交
+        /// </summary>
+         void Commit();
+      
+        /// <summary>
+        /// 回滚
+        /// </summary>
+        void Rollback();
+
+        DataTable QueryDataTable(string sql, object dbParameter, CommandType commandType = CommandType.StoredProcedure);
     }
 }

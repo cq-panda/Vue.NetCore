@@ -38,8 +38,12 @@
  - http://120.48.115.252:9990/
 ## App/H5开发
  - http://v2.volcore.xyz/app/guide
-## 框架移动端（uniapp）已发布,同样全自动生成代码
+## 框架移动端（uniapp）已发布,同样全自动生成代码,扫描小程序二维码即可查看
+
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/qrcode.png)  
+
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/app-01.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/app-02.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/m001.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/m002.png)  
 ## 框架已支持Vue3版本
@@ -113,8 +117,9 @@ excel导入整个页面都由代码生成器生成，导入的字段、字段是
  - 框架内置了大量的通用组件可直接使用,并内置了基于本框架定制开发的代码生成器，尽量避免重复性代码编写。
  - 框架不仅仅是快速开发，更多的是倾向于业务代码扩展的编写与代码规范。
  - 如果有什么问题或建议，提issue或加QQ：283591387
- - QQ1群：45221949
+
  - QQ2群：913189178
+ - QQ3群：743852316
  - 
  - vue3地址：http://www.volcore.xyz
  - vue2地址：http://v2.volcore.xyz

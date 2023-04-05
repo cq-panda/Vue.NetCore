@@ -36,7 +36,7 @@ namespace VOL.Builder.Services
             {
                 if (startName == "")
                 {
-                    startName = WebProject.Substring(0, webProject.IndexOf('.'));
+                    startName = WebProject.Substring(0, webProject.LastIndexOf('.'));
                 }
                 return startName;
             }
@@ -1286,7 +1286,11 @@ DISTINCT
             }
 
             SetMaxLength(columns);
-            base.Add<Sys_TableColumn>(tableInfo, columns, false);
+            var result= base.Add<Sys_TableColumn>(tableInfo, columns, false);
+            if (!result.Status)
+            {
+                throw new Exception($"加载表结构写入异常：{result.Message}");
+            }
             return tableInfo.Table_Id;
         }
 

@@ -211,6 +211,17 @@ namespace VOL.Core.BaseProvider
                 } };
         }
 
+        /// <summary>
+        /// 前端查询条件转换为EF查询Queryable(2023.04.02)
+        /// </summary>
+        /// <param name="options">前端查询参数</param>
+        /// <param name="useTenancy">是否使用数据隔离</param>
+        /// <returns></returns>
+        public IQueryable<T> GetPageDataQueryFilter(PageDataOptions options, bool useTenancy = true)
+        {
+            ValidatePageOptions(options, out IQueryable<T> queryable, useTenancy);
+            return queryable;
+        }
 
         /// <summary>
         /// 验证排序与查询字段合法性
@@ -218,24 +229,37 @@ namespace VOL.Core.BaseProvider
         /// <param name="options"></param>
         /// <param name="queryable"></param>
         /// <returns></returns>
-        protected PageDataOptions ValidatePageOptions(PageDataOptions options, out IQueryable<T> queryable)
+        protected PageDataOptions ValidatePageOptions(PageDataOptions options, out IQueryable<T> queryable, bool useTenancy = true)
         {
             options = options ?? new PageDataOptions();
 
             List<SearchParameters> searchParametersList = new List<SearchParameters>();
-            if (!string.IsNullOrEmpty(options.Wheres))
+            if (options.Filter != null && options.Filter.Count > 0)
+            {
+                searchParametersList.AddRange(searchParametersList);
+            }
+            else if (!string.IsNullOrEmpty(options.Wheres))
             {
                 try
                 {
                     searchParametersList = options.Wheres.DeserializeObject<List<SearchParameters>>();
+                    options.Filter = searchParametersList;
                 }
                 catch { }
             }
             QueryRelativeList?.Invoke(searchParametersList);
+            if (useTenancy)
+            {
+                queryable = GetSearchQueryable();
+            }
+            else
+            {
+                queryable = repository.DbContext.Set<T>();
+            }
             //  Connection
             // queryable = repository.DbContext.Set<T>();
             //2020.08.15添加自定义原生查询sql或多租户
-            queryable = GetSearchQueryable();
+
 
             //判断列的数据类型数字，日期的需要判断值的格式是否正确
             for (int i = 0; i < searchParametersList.Count; i++)
@@ -951,16 +975,18 @@ namespace VOL.Core.BaseProvider
             PropertyInfo mainKeyProperty = type.GetKeyProperty();
             //验证明细
             Type detailType = null;
-            if (saveModel.DetailData != null || saveModel.DelKeys != null)
+            if (saveModel.DetailData != null || (saveModel.DelKeys != null && saveModel.DelKeys.Count > 0))
             {
-                saveModel.DetailData = saveModel.DetailData == null
-                    ? new List<Dictionary<string, object>>()
-                    : saveModel.DetailData.Where(x => x.Count > 0).ToList();
-
                 detailType = GetRealDetailType();
+                if (detailType != null)
+                {
+                    saveModel.DetailData = saveModel.DetailData == null
+                                           ? new List<Dictionary<string, object>>()
+                                           : saveModel.DetailData.Where(x => x.Count > 0).ToList();
 
-                result = detailType.ValidateDicInEntity(saveModel.DetailData, true, false, new string[] { mainKeyProperty.Name });
-                if (result != string.Empty) return Response.Error(result);
+                    result = detailType.ValidateDicInEntity(saveModel.DetailData, true, false, new string[] { mainKeyProperty.Name });
+                    if (result != string.Empty) return Response.Error(result);
+                }
 
                 //主从关系指定外键,即从表的外键可以不是主键的主表,还需要改下代码生成器设置属性外键,功能预留后面再开发(2020.04.25)
                 //string foreignKey = type.GetTypeCustomValue<System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute>(x => new { x.Name });

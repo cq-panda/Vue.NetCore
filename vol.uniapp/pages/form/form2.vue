@@ -1,10 +1,10 @@
 <template>
 	<view class="form-test">
 		<vol-alert>
-			<view>vol-form封装了事件绑定、下拉框自动绑定数据源、多选、单选、日期、日期范围选择等常用组件操作</view>
+			<view>vol-form封装了事件绑定、下拉框自动绑定数据源、级联组件、多选、单选、日期、日期范围选择等常用组件操作,见form2.vue文件</view>
 		</vol-alert>
-		<vol-form @extraClick="extraClick" @onChange="onChange" :load-key="true" ref="form" :form-options.sync="editFormOptions"
-			:formFields.sync="editFormFields">
+		<vol-form @input-confirm="inputConfirm" @extraClick="extraClick" @onChange="onChange" :load-key="true"
+			ref="form" :form-options.sync="editFormOptions" :formFields.sync="editFormFields">
 		</vol-form>
 
 		<view class="btns">
@@ -23,16 +23,27 @@
 		data() {
 			return {
 				editFormFields: {
-					inputText: "这是必填输入框",
+					inputText: "",
+					inputText2: "",
 					customInput: "",
-					textarea: "这里的文字有点长这里的文字有点长这里的文字有点长。。",
+					textarea: "这里的文字有点长文字有点长。。",
 					pwd: "12345",
 					readonlyText: "只读输入框",
+					cascader1: null,
+					cascader2: null,
+					cascader3: '004',
 					selectVal: "",
 					selectListVal: [], //多选这里的值是数组 
-					dateValue: "2022-03-27",
+					dateValue:this.base.getDate(),//设置默认日期为当天
 					datetimeValue: "2022-03-27 20:15",
 					dateRange: ["2022-03-10", "2022-06-20"], //数组 
+					inputRange: [100000000, 900000000], //区间是数组
+
+
+					province: "北京市,北京市,海淀区", //省市区县值必须以逗号隔开
+
+					inputDecimal: null, //小数
+					inputNumber: null, //数字
 					switchValue: 1,
 					selectClickValue: "",
 					dateClickValue: null,
@@ -47,10 +58,11 @@
 						"required": true,
 						"field": "inputText"
 					},
+
 					{
 						"title": "自定义按钮",
 						"field": "customInput",
-						 extra: {
+						extra: {
 							style: "background: #00aaff;margin-left:16rpx;border-radius: 30rpx;font-size: 24rpx;padding: 4rpx 16rpx;color: #ffff;",
 							text: "按钮",
 							icon: "map",
@@ -59,10 +71,20 @@
 						}
 					},
 					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "选中输入框,键盘点击搜索或者扫描枪扫描触发回车事件"
+					},
+					{
+						"title": "回车事件",
+						"required": false,
+						"field": "inputText2"
+					},
+					{
 						"title": "表单字段定义按钮及点击事件,示例见form2.vue",
-						style:"padding-left:16rpx;font-weight: 500;color: #9e9e9e;font-size: 26rpx;",
+						style: "padding-left:16rpx;font-weight: 500;color: #9e9e9e;font-size: 26rpx;",
 						type: "group"
-					}, 
+					},
 					{
 						"title": "多文本",
 						"field": "textarea",
@@ -79,7 +101,78 @@
 						readonly: true
 					},
 					{
-						type: "group" //表单分组
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "省市区县type设置city(2023.03.20更新components文件夹)"
+					},
+					{
+						"title": "省市区县",
+						"field": "province",
+						type: "city" //type必须为city
+					},
+					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "设置checkStrictly=true,只能选择最后一级节点"
+					},
+					{
+						"title": "树形级联",
+						"field": "cascader1",
+						type: "cascader",
+						"required": true,
+						checkStrictly: true, //是否只能选择最后一个节点,默认可以选择任意节点
+						data: [],
+						key: "tree_roles"
+					},
+
+					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "设置checkStrictly=false,可以选择任意节点"
+					},
+					{
+						"title": "树形级联2",
+						"field": "cascader2",
+						type: "cascader",
+						"required": true,
+						checkStrictly: false, //是否只能选择最后一个节点,默认可以选择任意节点
+						data: [],
+						key: "tree_roles"
+					},
+
+					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "自定义级联data数据源，格式见：form2.vue文件"
+					},
+					{
+						"title": "自定义级联",
+						"field": "cascader3",
+						type: "cascader",
+						"required": true,
+						checkStrictly: false, //是否只能选择最后一个节点,默认可以选择任意节点
+						data: [{
+							id: "001",
+							parentId: null,
+							name: "一级节点"
+						}, {
+							id: "002",
+							parentId: "001",
+							name: "二级节点"
+						}, {
+							id: "003",
+							parentId: null,
+							name: "三级节点"
+						}, {
+							id: "004",
+							parentId: "003",
+							name: "四级节点"
+						}]
+					},
+					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "下拉框绑定"
 					},
 					{
 						"title": "下拉框",
@@ -101,10 +194,23 @@
 						type: "group" //表单分组
 					},
 					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "日期设置min与max属性限制选择范围"
+					},
+					{
 						"title": "日期",
 						"required": true,
 						"type": "date",
-						"field": "dateValue"
+						"field": "dateValue",
+						//设置时间选择范围，如果日期是datetim类型，时间后面加上时分秒
+						//2023.04.02更新util->common.js才能使用获取日期的方法
+						// min:'2023-04-01',
+						// max:'2023-07-02'
+						
+						//设置只能选择半个月内的数据
+						min: this.base.addDay(this.base.getDate(), -15),
+						max: this.base.getDate()
 					},
 					{
 						"title": "日期时分秒",
@@ -114,9 +220,32 @@
 					{
 						"title": "日期范围",
 						"type": "date",
-						range: true,
+						range: true, //区间输入
 						"field": "dateRange"
-					}, {
+					},
+					{
+						"title": "区间输入",
+						"type": "decimal", //number数字，text文本输入
+						range: true, //区间输入
+						"field": "inputRange"
+					},
+					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "只能输入小数与整数(在手机上查看)"
+					},
+					{
+						"title": "小数",
+						"type": "decimal",
+						field: "inputDecimal" //只能输入小数
+
+					},
+					{
+						"title": "整数",
+						"type": "number",
+						field: "inputNumber" //只能输入数字 
+					},
+					{
 						type: "group" //表单分组
 					},
 					{
@@ -126,6 +255,7 @@
 					},
 					{
 						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
 						title: "注册选择事件,见onChange方法说明"
 					},
 					{
@@ -154,10 +284,10 @@
 			}
 		},
 		methods: {
-			extraClick(item){
+			extraClick(item) {
 				//点击后给表字段设置值
-				  this.editFormFields.customInput=~~(Math.random()*10000000)
-				  this.$toast('表单按钮点击:'+item.title)
+				this.editFormFields.customInput = ~~(Math.random() * 10000000)
+				this.$toast('表单按钮点击:' + item.title)
 			},
 			onChange(field, value) { //日期与下拉框选择事件
 				if (field == "selectClickValue" || field == "dateClickValue") {
@@ -172,6 +302,10 @@
 			reset() {
 				this.$refs.form.reset();
 				this.$toast("表单已重置")
+			},
+			inputConfirm(field, e) {
+				this.$toast(`字段${field}回车事件`)
+				console.log(field)
 			}
 		},
 		onShow() {
@@ -182,8 +316,9 @@
 
 <style lang="less" scoped>
 	.form-test {
+		height: auto;
 		margin-top: -20rpx;
-		background: #fbfbfb;
+		background: #f6f6f6;
 		padding-top: 20rpx;
 	}
 

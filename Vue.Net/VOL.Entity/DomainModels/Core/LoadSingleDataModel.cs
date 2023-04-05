@@ -21,11 +21,16 @@ namespace VOL.Entity.DomainModels
         public string Wheres { get; set; }
         public bool Export { get; set; }
         public object Value { get; set; }
+        /// <summary>
+        /// 查询条件
+        /// </summary>
+        public List<SearchParameters> Filter { get; set; }
     }
     public class SearchParameters
     {
         public string Name { get; set; }
         public string Value { get; set; }
+        //查询类型：LinqExpressionType
         public string DisplayType { get; set; }
     }
 

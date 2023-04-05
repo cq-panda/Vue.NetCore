@@ -156,10 +156,12 @@
               @change="item.onChange"
               inactive-color="rgb(194 194 194)"
               :active-value="
-                typeof formFields[item.field] == 'boolean' ? true : 1
+                typeof formFields[item.field] == 'boolean' ? true :
+                   (typeof formFields[item.field]  == 'string'? '1': 1)
               "
               :inactive-value="
-                typeof formFields[item.field] == 'boolean' ? false : 0
+                typeof formFields[item.field] == 'boolean' ? false :
+                (typeof formFields[item.field]  == 'string'? '0': 0)
               "
             >
             </el-switch>
@@ -1206,6 +1208,7 @@ export default defineComponent({
       if (
         item.type == "date" ||
         item.type == "datetime" ||
+        item.type == "month"||
         item.type == "time"
       ) {
         return {

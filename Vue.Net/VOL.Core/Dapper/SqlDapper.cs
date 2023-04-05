@@ -53,7 +53,6 @@ namespace VOL.Core.Dapper
             return this;
         }
 
-
         private T Execute<T>(Func<IDbConnection, IDbTransaction, T> func, bool beginTransaction = false)
         {
             if (_transaction)
@@ -282,13 +281,13 @@ namespace VOL.Core.Dapper
                 return conn.Execute(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout);
             }, beginTransaction);
         }
-        public IDataReader ExecuteReader(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
-        {
-            return Execute<IDataReader>((conn, dbTransaction) =>
-            {
-                return conn.ExecuteReader(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout);
-            }, beginTransaction);
-        }
+        //public IDataReader ExecuteReader(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
+        //{
+        //    return Execute<IDataReader>((conn, dbTransaction) =>
+        //    {
+        //        return conn.ExecuteReader(cmd, param, dbTransaction, commandType: commandType ?? CommandType.Text, commandTimeout: commandTimeout);
+        //    }, beginTransaction);
+        //}
 
 
         public SqlMapper.GridReader QueryMultiple(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false)
@@ -745,7 +744,7 @@ namespace VOL.Core.Dapper
         private int MySqlBulkInsert(DataTable table, string tableName, string fileName = null, string tmpPath = null)
         {
             if (table.Rows.Count == 0) return 0;
-           // tmpPath = tmpPath ?? FileHelper.GetCurrentDownLoadPath();
+            // tmpPath = tmpPath ?? FileHelper.GetCurrentDownLoadPath();
             int insertCount = 0;
             string csv = DataTableToCsv(table);
             string text = $"当前行:{table.Rows.Count}";
@@ -855,6 +854,100 @@ namespace VOL.Core.Dapper
                     }
                     writer.Complete();
                 }
+            }
+        }
+
+
+
+
+
+        public DataTable QueryDataTable(string sql, object dbParameter, CommandType commandType = CommandType.Text)
+        {
+            return Execute<DataTable>((conn, dbTransaction) =>
+            {
+                using var dataReader = conn.ExecuteReader(sql, dbParameter, dbTransaction, commandType: commandType, commandTimeout: commandTimeout);
+                DataTable datatable = new DataTable();
+
+                for (int i = 0; i < dataReader.FieldCount; i++)
+                {
+                    DataColumn myDataColumn = new DataColumn();
+                    myDataColumn.ColumnName = dataReader.GetName(i);
+                    datatable.Columns.Add(myDataColumn);
+                }
+                while (dataReader.Read())
+                {
+                    DataRow myDataRow = datatable.NewRow();
+                    for (int i = 0; i < dataReader.FieldCount; i++)
+                    {
+                        try
+                        {
+                            myDataRow[i] = dataReader[i].ToString();
+                        }
+                        catch (Exception ex)
+                        {
+
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                    datatable.Rows.Add(myDataRow);
+                    myDataRow = null;
+                }
+                return datatable;
+            }, false);
+        }
+        /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+        public ISqlDapper BeginTrans()
+        {
+            _transaction = true;
+            _transactionConnection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType);
+            _transactionConnection.Open();
+            dbTransaction = _transactionConnection.BeginTransaction();
+            return this;
+        }
+
+        /// <summary>
+        /// 提交
+        /// </summary>
+        public void Commit()
+        {
+            try
+            {
+                _transaction = false;
+                dbTransaction.Commit();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                _transactionConnection?.Dispose();
+                dbTransaction?.Dispose();
+            }
+
+        }
+        /// <summary>
+        /// 回滚
+        /// </summary>
+        public void Rollback()
+        {
+            try
+            {
+                _transaction = false;
+                dbTransaction?.Rollback();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally {
+                _transactionConnection?.Dispose();
+                dbTransaction?.Dispose();
             }
         }
 

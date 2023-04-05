@@ -9,11 +9,11 @@
     </div>
     <div class="list">
       <Alert type="success" show-icon>
-        关于组件
-        <span slot="desc" >所有组件都是基于iviewui组件、table表使用element-ui进行的二次封装，目前使用只需要配置好JSON格式即可使用..</span>
+        <span slot="desc" >所有组件都是基于<a href="https://element.eleme.cn/#/zh-CN/component/installation" target="_blank">element-ui(vue2版本)</a>、
+        <a href="https://element-plus.gitee.io/zh-CN/component/button.html" target="_blank">element-plus(vue3)</a>二次封装，目前使用只需要配置好JSON格式即可使用..</span>
       </Alert>
       <Alert  style="padding: 10px;" >
-          <h2>此页面需要从首页点击【框架文档】进来<a href="http://v2.volcore.xyz/login">点击登陆</a>,否则看不了下面：VolTable组件、代码生成页面ViewGrid这两个组件文档 </h2>
+          <h2>此页面需要从首页点击【框架文档】进来<a style="font-size: 30px;margin:0 10px;" href="http://v2.volcore.xyz/login">点击登陆</a>,否则看不了下面：VolTable组件、代码生成页面ViewGrid这两个组件文档 </h2>
       </Alert>
 
       <component v-bind:is="currentComponent"></component>
