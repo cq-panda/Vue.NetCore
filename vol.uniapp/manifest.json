@@ -82,6 +82,7 @@
         "setting" : {
             "urlCheck" : false
         },
+		"scopedSlotsCompiler":"legacy",
         "usingComponents" : true
     },
     "mp-alipay" : {
@@ -89,7 +90,7 @@
     },
     "mp-baidu" : {
         "usingComponents" : true
-    },
+    }, 
     "mp-toutiao" : {
         "usingComponents" : true
     },

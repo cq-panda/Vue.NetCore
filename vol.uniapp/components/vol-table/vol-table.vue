@@ -1,7 +1,16 @@
 <template>
 	<view class="vol-table" :class="className">
+		<!--     自定义显示 -->
+		<view v-if="custom">
+			<u-list :upperThreshold="-999" v-if="tableHeight" :height="tableHeight" @scrolltolower="scrolltolower">
+				<!-- 小程序不支持标签里面调用方法。manifest.json并且要配置	"scopedSlotsCompiler":"legacy",属性 -->
+				<view v-for="(row,dataIndex) in rowsData" :key="dataIndex">
+					<slot name="row" :row="row" :column="inColumns" :index="dataIndex" :page="page"></slot>
+				</view>
+			</u-list>
+		</view>
 		<!-- 		水平显示 -->
-		<view v-if="direction=='horizontal'">
+		<view v-else-if="direction=='horizontal'">
 			<view class="vol-table-head">
 				<view class="cell-index" v-if="index">
 					#
@@ -38,9 +47,9 @@
 								<rich-text :nodes="rowFormatter(row,column,rowindex)+''"></rich-text>
 							</view>
 							<view class="vol-cell" v-else-if="column.type=='img'">
-								<u--image @click="previewImage(row[column.field],index)" style="float:left;margin-left:5px;"
-									width="40px" height="40px" radius="4px" :src="src"
-									v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
+								<u--image @click="previewImage(row[column.field],index)"
+									style="float:left;margin-left:5px;" width="40px" height="40px" radius="4px"
+									:src="src" v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
 								</u--image>
 							</view>
 							<view class="vol-cell" v-else-if="column.bind">
@@ -152,6 +161,14 @@
 	export default {
 		name: "vol-table",
 		props: {
+			custom: { //自定义显示table
+				type: Boolean,
+				default: false
+			},
+			size: {
+				type: Number,
+				default: 30 //分页大小
+			},
 			loadKey: {
 				type: Boolean,
 				default: true
@@ -221,6 +238,9 @@
 		},
 		methods: {
 			scrolltolower() {
+				if (!this.url) {
+					this.$emit('scrolltolower');
+				}
 				if (this.loaded) {
 					return;
 				}
@@ -239,7 +259,7 @@
 				}
 				let param = {
 					page: this.page,
-					rows: 30,
+					rows: this.size,
 					sort: this.sort,
 					order: this.order || "desc",
 					wheres: [], // 查询条件，格式为[{ name: "字段", value: "xx" }]
