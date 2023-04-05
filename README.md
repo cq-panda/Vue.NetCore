@@ -38,7 +38,9 @@
  - http://120.48.115.252:9990/
 ## App/H5开发
  - http://v2.volcore.xyz/app/guide
-## 框架移动端（uniapp）已发布,同样全自动生成代码
+## 框架移动端（uniapp）已发布,同样全自动生成代码,扫描上面小程序二维码即可查看
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/app-01.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/app-02.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/qrcode.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/m001.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/m002.png)  
