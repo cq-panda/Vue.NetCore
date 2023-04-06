@@ -21,13 +21,13 @@ export default function() {
 				//设置自定义格式显示
 				//this.columns.forEach(column=>{
 				// 	if(column.field=='字段'){
-                //      //自定义格式化显示,在下面的formatter实现具体逻辑
+				//      //自定义格式化显示,在下面的formatter实现具体逻辑
 				// 		//column.formatter=true;
 
-                //      //指定字段为date类型不显示时分秒
-                //      //column.type="date";
+				//      //指定字段为date类型不显示时分秒
+				//      //column.type="date";
 
-                //      //设置列宽度
+				//      //设置列宽度
 				//      //column.width = 70;
 				// 	}
 				// })
@@ -36,7 +36,7 @@ export default function() {
 				//this.load=false;
 				//页面打开时默认弹出查询框
 				//this.searchModel = true;
-				this.height=this.height-65;
+				this.height = this.height - 65;
 			},
 			formatter(row, column) { //自定义格式化
 				// if(column.field=='xx'){
@@ -50,10 +50,23 @@ export default function() {
 			updateBefore(formData) { //更新保存前操作
 				return true;
 			},
-			addBefore(formData) {//新建保存前操作
+			addBefore(formData) { //新建保存前操作
 				return true;
 			},
-			searchBefore(params){ //查询前
+			searchInputClick(searchText) {
+				//这里设置的是动态属性，searchText名字可以自己随便写
+				this.searchText = searchText;
+				this.search();
+			},
+			searchBefore(params) { //查询前
+				//界面上的扫描或者搜索框操作,与上面的searchInputClick配合使用
+				if (this.searchText) {
+					params.wheres.push({
+						name: "PhoneNo",
+						value: this.searchText,
+						displayType: "like"
+					})
+				}
 				return true;
 			}
 		}

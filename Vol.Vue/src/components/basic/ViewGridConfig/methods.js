@@ -86,7 +86,7 @@ let methods = {
         name: '重 置',
         icon: 'md-refresh',
         class: '',
-        value:"reset",
+        value: "reset",
         hidden: true,
         type: 'success',
         onClick: function () {
@@ -696,9 +696,15 @@ let methods = {
       // this.refresh();
     });
   },
-  del() {
+  del(rows) {
+    if (rows) {
+      if (!Array.isArray(rows)) {
+        rows = [rows];
+      }
+    } else {
+      rows = this.$refs.table.getSelected();
+    }
     //删除数据
-    let rows = this.$refs.table.getSelected();
     if (rows.length == 0) return this.$error('请选择要删除的行!');
     let delKeys = rows.map((x) => {
       return x[this.table.key];
@@ -823,10 +829,17 @@ let methods = {
     this.modelOpenProcess();
     // this.modelOpenAfter();
   },
-  async edit() {
+  async edit(rows) {
+    if (rows) {
+      if (!Array.isArray(rows)) {
+        rows = [rows];
+      }
+    } else {
+      rows = this.$refs.table.getSelected();
+    }
     //编辑
     this.currentAction = this.const.EDIT;
-    let rows = this.$refs.table.getSelected();
+
     if (rows.length == 0) {
       return this.$error('请选择要编辑的行!');
     }
@@ -1430,9 +1443,9 @@ let methods = {
   setFiexdSearchForm(visiable) {
     //2020.09.011增加固定查询表单功能,visiable=true默认将查询表单展开
     this.fiexdSearchForm = true;
-    this.buttons.forEach(btn=>{
-      if(btn.value=='reset'){
-        btn.hidden=!btn.hidden;
+    this.buttons.forEach(btn => {
+      if (btn.value == 'reset') {
+        btn.hidden = !btn.hidden;
       }
     })
     let refreshBtn = this.buttons.find((x) => x.name == '刷 新');

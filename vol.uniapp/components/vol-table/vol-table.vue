@@ -1,7 +1,16 @@
 <template>
 	<view class="vol-table" :class="className">
+		<!--     自定义显示 -->
+		<view v-if="custom">
+			<u-list :upperThreshold="-999" v-if="tableHeight" :height="tableHeight" @scrolltolower="scrolltolower">
+				<!-- 小程序不支持标签里面调用方法。manifest.json并且要配置	"scopedSlotsCompiler":"legacy",属性 -->
+				<view v-for="(row,dataIndex) in rowsData" :key="dataIndex">
+					<slot name="row" :row="row" :column="inColumns" :index="dataIndex" :page="page"></slot>
+				</view>
+			</u-list>
+		</view>
 		<!-- 		水平显示 -->
-		<view v-if="direction=='horizontal'">
+		<view v-else-if="direction=='horizontal'">
 			<view class="vol-table-head">
 				<view class="cell-index" v-if="index">
 					#
@@ -17,7 +26,7 @@
 				</view>
 			</view>
 			<view class="vol-table-body">
-				<u-empty mode="list" v-if="!rowsData.length" text="无数据"
+				<u-empty mode="list" v-if="!rowsData.length&&page>0" text="无数据"
 					icon="http://cdn.uviewui.com/uview/empty/list.png"></u-empty>
 				<u-list :upperThreshold="-999" v-if="tableHeight" :height="tableHeight" @scrolltolower="scrolltolower">
 					<view @click="tableRowClick(rowindex,columns)" :key="rowindex" class="vol-table-body-rows"
@@ -37,9 +46,9 @@
 							<view class="vol-cell" v-else-if="column.formatter">
 								<rich-text :nodes="rowFormatter(row,column,rowindex)+''"></rich-text>
 							</view>
-							<view @click.stop="previewImage(row[column.field])" class="vol-cell"
-								v-else-if="column.type=='img'">
-								<u--image style="float:left;margin-left:5px;" width="40px" height="40px" radius="4px"
+							<view class="vol-cell" v-else-if="column.type=='img'">
+								<u--image @click="previewImage(row[column.field],index)"
+									style="float:left;margin-left:5px;" width="40px" height="40px" radius="4px"
 									:src="src" v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
 								</u--image>
 							</view>
@@ -77,7 +86,7 @@
 		<view v-else class="vol-table-list">
 			<!-- 		{{JSON.stringify(columns)}} -->
 			<u-list :upperThreshold="-999" v-if="tableHeight" :height="tableHeight" @scrolltolower="scrolltolower">
-				<u-empty mode="list" v-if="!rowsData.length" text="无数据"
+				<u-empty mode="list" v-if="!rowsData.length&&page>0" text="无数据"
 					icon="http://cdn.uviewui.com/uview/empty/list.png">
 				</u-empty>
 				<view :key="rowindex" v-for="(row,rowindex) in rowsData">
@@ -91,7 +100,7 @@
 					<view @click="tableRowClick(rowindex,columns)" class="vol-table-list-item">
 						<view :key="cindex" class="vol-table-list-item-cell"
 							v-if="!column.hidden&&column.field!=titleField" v-for="(column,cindex) in columns">
-							<view class="cell-left"> {{column.title}}</view>
+							<view class="cell-left" :style="{width:(column.width||90)+'px'}"> {{column.title}}</view>
 							<view class="cell-right">
 								<view @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
 									<view :style="column.style" v-if="column.formatter">
@@ -108,11 +117,13 @@
 								<view v-else-if="column.bind">
 									{{rowFormatterValue(row,column)}}
 								</view>
-								<view @click.stop="previewImage(row[column.field])" v-else-if="column.type=='img'">
-									<view style="float: right;margin-left:10px;" width="50px" height="50px"
-										v-for="(src,index) in getImgSrc(row[column.field])">
-										<u--image width="50px" height="50px" radius="4px" :src="src" :key="index">
-										</u--image>
+								<view style="display: flex;justify-content: flex-end;" v-else-if="column.type=='img'">
+									<view @click.stop="previewImage(row[column.field],index)" style="margin-left:10px;"
+										width="50px" height="50px" v-for="(src,index) in getImgSrc(row[column.field])">
+										<view>
+											<u--image width="50px" height="50px" radius="4px" :src="src" :key="index">
+											</u--image>
+										</view>
 									</view>
 								</view>
 								<view v-else-if="column.type=='date'">
@@ -122,7 +133,7 @@
 							</view>
 						</view>
 					</view>
-					<view style="margin:10rpx 0 20rpx 10rpx" @click.stop>
+					<view class="extent-button-item" @click.stop>
 						<view :key="btnIndex" class="extent-button" v-for="(btn,btnIndex) in rowButtons(rowindex,row)">
 							<u-button :icon="btn.icon" :hairline="true" :shape="btn.shape" :disabled="btn.disabled"
 								:plain="btn.plain" :type="btn.type" style="height:60rpx;" size="small"
@@ -135,6 +146,14 @@
 			</u-list>
 
 		</view>
+
+		<u-overlay :opacity="0" :show="showOverlay" @click="showOverlay = false">
+			<view class="loading-warp">
+				<u-loading-icon text="加载中..." textSize="16"></u-loading-icon>
+
+				<!-- 		<view class="loading-warp-msg" @tap.stop>正在加载</view> -->
+			</view>
+		</u-overlay>
 	</view>
 </template>
 
@@ -142,6 +161,14 @@
 	export default {
 		name: "vol-table",
 		props: {
+			custom: { //自定义显示table
+				type: Boolean,
+				default: false
+			},
+			size: {
+				type: Number,
+				default: 30 //分页大小
+			},
 			loadKey: {
 				type: Boolean,
 				default: true
@@ -195,6 +222,7 @@
 		},
 		data() {
 			return {
+				showOverlay: false,
 				className: 'vol-table-' + (~~(Math.random() * 1000000)),
 				rowsData: [],
 				sort: '',
@@ -210,6 +238,9 @@
 		},
 		methods: {
 			scrolltolower() {
+				if (!this.url) {
+					this.$emit('scrolltolower');
+				}
 				if (this.loaded) {
 					return;
 				}
@@ -222,13 +253,13 @@
 				}
 				let status = true;
 				if (reset) {
-					this.rowsData.splice(0);
+					//this.rowsData.splice(0);
 					this.page = 1;
 					this.loaded = false;
 				}
 				let param = {
 					page: this.page,
-					rows: 30,
+					rows: this.size,
 					sort: this.sort,
 					order: this.order || "desc",
 					wheres: [], // 查询条件，格式为[{ name: "字段", value: "xx" }]
@@ -239,7 +270,9 @@
 
 				if (!status) return;
 				param.wheres = JSON.stringify(param.wheres);
-				this.http.post(this.url, param, true).then(data => {
+				this.showOverlay = true;
+				this.http.post(this.url, param, false).then(data => {
+					this.showOverlay = false;
 					this.$emit("loadAfter", data, (result) => {
 						status = result;
 					});
@@ -269,6 +302,9 @@
 						}
 					}
 					console.log(this.summary)
+					if (reset) {
+						this.rowsData.splice(0);
+					}
 					this.rowsData.push(...data.rows);
 				})
 			},
@@ -348,7 +384,7 @@
 			},
 			getData() {
 				if (!this.url) {
-					this.rowsData.push(...this.tableData)
+					//this.rowsData.push(...this.tableData)
 					return
 				}
 				if (!this.defaultLoadPage) {
@@ -406,8 +442,9 @@
 			rowBtnClick(btn, rowindex, row) {
 				this.$emit('rowButtonClick', btn, rowindex, row);
 			},
-			previewImage(urls) {
+			previewImage(urls, index) {
 				uni.previewImage({
+					current: index,
 					urls: this.getImgSrc(urls),
 					longPressActions: {}
 				});
@@ -648,11 +685,41 @@
 		}
 	}
 
+	.extent-button-item {
+		display: flex;
+		justify-content: flex-end;
+		margin: 0rpx 16rpx;
+		padding: 10rpx;
+		top: -10rpx;
+		position: relative;
+		background: #ffff;
+	}
+
 	.extent-button {
-		display: inline-block;
-		float: right;
-		min-width: 20%;
-		margin-right: 20rpx;
-		margin-bottom: 20rpx;
+		padding: 10rpx 10rpx;
+		// display: inline-block;
+		// float: right;
+		// min-width: 20%;
+		// margin-right: 20rpx;
+		// margin-bottom: 20rpx;
+	}
+
+	.loading-warp {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+
+		.loading-warp-msg {
+			min-width: 120px;
+			height: 40px;
+			justify-content: center;
+			background-color: #414141;
+			align-items: center;
+			text-align: center;
+			line-height: 40px;
+			border-radius: 5px;
+			color: #fff;
+		}
 	}
 </style>

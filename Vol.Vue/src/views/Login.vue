@@ -197,7 +197,7 @@
         <!-- <Icon type="logo-github" /> -->
         GitHub
       </a>
-      <a>QQ群：45221949</a>
+      <a href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M" target="_blank">QQ3群：743852316</a>
     </div>
   </div>
 </template>

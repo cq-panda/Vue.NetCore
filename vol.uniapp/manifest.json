@@ -82,6 +82,7 @@
         "setting" : {
             "urlCheck" : false
         },
+        "scopedSlotsCompiler" : "legacy",
         "usingComponents" : true
     },
     "mp-alipay" : {

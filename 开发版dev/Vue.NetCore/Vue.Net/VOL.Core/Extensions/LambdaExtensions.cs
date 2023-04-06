@@ -203,6 +203,12 @@ namespace VOL.Core.Extensions
             ConstantExpression constant = proType.ToString() == "System.String"
                 ? Expression.Constant(propertyValue) : Expression.Constant(propertyValue.ToString().ChangeType(proType));
 
+            // DateTime只选择了日期的时候自动在结束日期加一天，修复DateTime类型使用日期区间查询无法查询到结束日期的问题
+            if ((proType == typeof(DateTime) || proType == typeof(DateTime?)) && expressionType == LinqExpressionType.LessThanOrEqual && propertyValue.ToString().Length == 10)
+            {
+                constant = Expression.Constant(Convert.ToDateTime(propertyValue.ToString()).AddDays(1));
+            }
+
             UnaryExpression member = Expression.Convert(memberProperty, constant.Type);
             Expression<Func<T, bool>> expression;
             switch (expressionType)
@@ -278,7 +284,7 @@ namespace VOL.Core.Extensions
                  (QueryOrderBy)(
                  exp.Arguments[1] as ConstantExpression != null
                   ? (exp.Arguments[1] as ConstantExpression).Value
-                  //2021.07.04增加自定排序按条件表达式
+                 //2021.07.04增加自定排序按条件表达式
                  : Expression.Lambda<Func<QueryOrderBy>>(exp.Arguments[1] as Expression).Compile()()
                  ));
             }

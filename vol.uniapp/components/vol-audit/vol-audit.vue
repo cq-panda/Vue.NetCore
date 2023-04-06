@@ -84,7 +84,7 @@
 				if (!data) {
 					return '-';
 				}
-				return data.text;
+				return data.value;
 			},
 			save() {
 				if (!this.formFields.auditStatus) {

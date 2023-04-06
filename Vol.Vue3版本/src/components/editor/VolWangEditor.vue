@@ -3,44 +3,44 @@
 </template>
 
 <script>
-import E from 'wangeditor';
+import E from "wangeditor";
 export default {
   props: {
     url: {
       //上传图片的url
       type: String,
-      default: ''
+      default: "",
     },
     upload: {
       //上传方法
       type: Function,
       // (file, insertImgFn) => {}
-      default: null
+      default: null,
     },
     uploadCount: {
       //最多可以上传(图片)的数量
       type: Number,
-      default: 3
+      default: 3,
     },
-    modelValue: '',
+    modelValue: "",
     width: {
       type: String,
-      default: '100%'
+      default: "100%",
     },
     height: {
       type: Number,
-      default: 250
+      default: 250,
     },
     minWidth: {
       type: Number,
-      default: 650
+      default: 650,
     },
     minHeight: {
       type: Number,
-      default: 100
-    }
+      default: 100,
+    },
   },
-  name: 'wang-editor',
+  name: "wang-editor",
   data() {
     return {
       editor: null,
@@ -91,9 +91,9 @@ export default {
     // console.log(editor.config.uploadImgServer);
     editor.config.customUploadImg = function (resultFiles, insertImgFn) {
       // 自定义上传
-      if ($this.upload){
+      if ($this.upload) {
         console.log("调用自定义的上传方法");
-        console.log(resultFiles)
+        console.log(resultFiles);
         // resultFiles 是 input 中选中的文件列表
         // insertImgFn 是获取图片 url 后，插入到编辑器的方法
         //有可能会上传多张图片,上传多张图片就需要进行遍历
@@ -105,11 +105,11 @@ export default {
         let formData = new FormData();
         let nameArr = [];
         resultFiles.forEach(function (file) {
-          formData.append('fileInput', file, file.name);
+          formData.append("fileInput", file, file.name);
           nameArr.push(file.name);
         });
         if (!$this.url) {
-          $this.$message.error('未配置url');
+          $this.$message.error("未配置url");
           return;
         }
         $this.http.post($this.url, formData, true).then((x) => {
@@ -120,15 +120,14 @@ export default {
             .map((m) => {
               return $this.http.ipAddress + x.data + m;
             })
-            .join(',');
+            .join(",");
           insertImgFn(imgs);
         });
       }
-
     };
     editor.create();
     editor.txt.html(this.modelValue);
-  }
+  },
 };
 </script>
 

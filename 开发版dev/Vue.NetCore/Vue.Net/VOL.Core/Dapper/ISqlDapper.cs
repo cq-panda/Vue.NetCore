@@ -43,7 +43,7 @@ namespace VOL.Core.Dapper
 
         Task<int> ExcuteNonQueryAsync(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
 
-        IDataReader ExecuteReader(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
+        //IDataReader ExecuteReader(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
         SqlMapper.GridReader QueryMultiple(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
 
         Task<(IEnumerable<T1>, IEnumerable<T2>)> QueryMultipleAsync<T1, T2>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
@@ -123,8 +123,16 @@ namespace VOL.Core.Dapper
         /// <returns></returns>
         int UpdateRange<T>(IEnumerable<T> entities, Expression<Func<T, object>> updateFileds = null, bool beginTransaction = false);
 
-        int DelWithKey<T>(params object[] keys);
-        int DelWithKey<T>(bool beginTransaction = false, params object[] keys);
+        /// <summary>
+        /// 使用key批量删除
+        /// 调用方式：
+        ///    List<int> keys = new List<int>();
+        ///    DBServerProvider.SqlDapper.DelWithKey<Sys_Log, int>(keys);
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keys"></param>
+        /// <returns></returns>
+        int DelWithKey<T, KeyType>(IEnumerable<KeyType> keys);
         /// <summary>
         ///  sqlserver批量写入
         /// 使用时DataTable table表字段顺序要和数据库字段顺序一致
@@ -151,5 +159,23 @@ namespace VOL.Core.Dapper
         int BulkInsert<T>(List<T> entities, string tableName = null,
             Expression<Func<T, object>> columns = null,
             SqlBulkCopyOptions? sqlBulkCopyOptions = null);
+
+        /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+         ISqlDapper BeginTrans();
+
+        /// <summary>
+        /// 提交
+        /// </summary>
+         void Commit();
+      
+        /// <summary>
+        /// 回滚
+        /// </summary>
+        void Rollback();
+
+        DataTable QueryDataTable(string sql, object dbParameter, CommandType commandType = CommandType.StoredProcedure);
     }
 }

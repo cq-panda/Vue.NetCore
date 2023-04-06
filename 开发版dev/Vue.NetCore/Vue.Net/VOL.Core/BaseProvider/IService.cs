@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using VOL.Core.CacheManager;
 using VOL.Core.Utilities;
@@ -15,6 +16,14 @@ namespace VOL.Core.BaseProvider
 
         ICacheService CacheContext { get; }
         Microsoft.AspNetCore.Http.HttpContext Context { get; }
+
+        /// <summary>
+        /// 前端查询条件转换为EF查询Queryable(2023.04.02)
+        /// </summary>
+        /// <param name="options">前端查询参数</param>
+        /// <param name="useTenancy">是否使用数据隔离</param>
+        /// <returns></returns>
+        IQueryable<T> GetPageDataQueryFilter(PageDataOptions options, bool useTenancy = true);
         /// <summary>
         /// 查询
         /// </summary>

@@ -157,6 +157,7 @@
           <!-- 2020.09.13增加formFileds拼写错误兼容处理 -->
           <vol-form
             ref="searchForm"
+            :load-key="false"
             style="padding: 0 15px"
             :label-width="labelWidth"
             :formRules="searchFormOptions"
@@ -335,7 +336,7 @@
                   @rowClick="detailRowOnClick"
                   :url="detailOptions.url"
                   :load-key="false"
-                  :index="detailOptions.edit"
+                  :index="true"
                   :tableData="detailOptions.data"
                   :columns="detailOptions.columns"
                   :pagination="detailOptions.pagination"
@@ -343,7 +344,6 @@
                   :single="detailOptions.single"
                   :pagination-hide="false"
                   :defaultLoadPage="detailOptions.load"
-                  :doubleEdit="detailOptions.doubleEdit"
                   :beginEdit="detailOptions.beginEdit"
                   :endEditBefore="detailOptions.endEditBefore"
                   :endEditAfter="detailOptions.endEditAfter"
