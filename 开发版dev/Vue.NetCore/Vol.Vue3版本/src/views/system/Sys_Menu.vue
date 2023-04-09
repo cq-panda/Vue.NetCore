@@ -446,7 +446,6 @@ export default defineComponent({
                   style: { padding: "0px 9px" },
                   type: "primary",
                   plain: true,
-                  icon: "el-icon-search",
                   onClick: () => {
                     model.value = true;
                   },
