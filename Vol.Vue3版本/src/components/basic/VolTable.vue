@@ -48,6 +48,7 @@
         v-if="ck"
         type="selection"
         :fixed="fixed"
+        :selectable="selectable"
         width="55"
       ></el-table-column>
 
@@ -84,40 +85,40 @@
             :align="columnChildren.align"
             :label="columnChildren.title"
           >
-            <template #scope1>
+            <template #default="scopeChildren">
               <a
                 href="javascript:void(0)"
                 style="text-decoration: none"
-                @click="link(scope1.row, columnChildren, $event)"
+                @click="link(scopeChildren.row, columnChildren, $event)"
                 v-if="column.link"
-                v-text="scope1.row[columnChildren.field]"
+                v-text="scopeChildren.row[columnChildren.field]"
               ></a>
               <div
                 v-else-if="columnChildren.formatter"
                 @click="
                   columnChildren.click &&
                     columnChildren.click(
-                      scope1.row,
+                      scopeChildren.row,
                       columnChildren,
-                      scope1.$index
+                      scopeChildren.$index
                     )
                 "
                 v-html="
                   columnChildren.formatter(
-                    scope1.row,
+                    scopeChildren.row,
                     columnChildren,
-                    scope1.$index
+                    scopeChildren.$index
                   )
                 "
               ></div>
               <div v-else-if="column.bind">
-                {{ formatter(scope1.row, columnChildren, true) }}
+                {{ formatter(scopeChildren.row, columnChildren, true) }}
               </div>
               <span v-else-if="column.type == 'date'">{{
-                formatterDate(scope1.row, columnChildren)
+                formatterDate(scopeChildren.row, columnChildren)
               }}</span>
               <template v-else>
-                {{ scope1.row[columnChildren.field] }}
+                {{ scopeChildren.row[columnChildren.field] }}
               </template>
             </template>
           </el-table-column>
@@ -155,19 +156,21 @@
                   :placeholder="column.placeholder || column.title"
                   :disabledDate="(val) => getDateOptions(val, column)"
                   :value-format="getDateFormat(column)"
+                  :disabled="initColumnDisabled(scope.row, column)"
                 >
                 </el-date-picker>
-                <el-date-picker
+                <el-time-picker
                   clearable
                   size="default"
                   style="width: 100%"
-                  v-if="column.edit.type == 'time'"
+                  v-else-if="column.edit.type == 'time'"
                   v-model="scope.row[column.field]"
                   @change="column.onChange"
                   :placeholder="column.placeholder || column.title"
                   :value-format="column.format || 'HH:mm:ss'"
+                  :disabled="initColumnDisabled(scope.row, column)"
                 >
-                </el-date-picker>
+                </el-time-picker>
                 <el-switch
                   v-else-if="column.edit.type == 'switch'"
                   v-model="scope.row[column.field]"
@@ -179,11 +182,20 @@
                     }
                   "
                   :active-value="
-                    typeof scope.row[column.field] == 'boolean' ? true : 1
+                    typeof scope.row[column.field] == 'boolean'
+                      ? true
+                      : typeof scope.row[column.field] == 'string'
+                      ? '1'
+                      : 1
                   "
                   :inactive-value="
-                    typeof scope.row[column.field] == 'boolean' ? false : 0
+                    typeof scope.row[column.field] == 'boolean'
+                      ? false
+                      : typeof scope.row[column.field] == 'string'
+                      ? '0'
+                      : 0
                   "
+                  :disabled="initColumnDisabled(scope.row, column)"
                 >
                 </el-switch>
                 <template
@@ -205,6 +217,7 @@
                       column.onChange && column.onChange(scope.row, column)
                     "
                     clearable
+                    :disabled="initColumnDisabled(scope.row, column)"
                   >
                     <template #default="{ item }">
                       {{ item.label }}
@@ -228,6 +241,7 @@
                       column.onChange && column.onChange(scope.row, column)
                     "
                     clearable
+                    :disabled="initColumnDisabled(scope.row, column)"
                   >
                     <el-option
                       v-for="item in column.bind.data"
@@ -246,6 +260,7 @@
                   type="textarea"
                   :placeholder="column.placeholder || column.title"
                   v-model="scope.row[column.field]"
+                  :disabled="initColumnDisabled(scope.row, column)"
                 >
                 </el-input>
                 <input
@@ -328,19 +343,29 @@
               {{ formatter(scope.row, column, true) }}
             </div>
             <div
-              v-else-if="column.click"
+              v-else-if="column.click && !column.bind"
               @click="formatterClick(scope.row, column)"
             >
               {{ scope.row[column.field] }}
             </div>
-            <template v-else-if="column.bind">
+            <div
+              @click="
+                () => {
+                  olumn.click && formatterClick(scope.row, column);
+                }
+              "
+              v-else-if="column.bind"
+            >
               <el-tag
                 :class="[isEmptyTag(scope.row, column)]"
                 :type="getColor(scope.row, column)"
                 :effect="column.effect"
                 >{{ formatter(scope.row, column, true) }}</el-tag
               >
-            </template>
+              <template v-else>{{
+                formatter(scope.row, column, true)
+              }}</template>
+            </div>
 
             <span v-else>{{ formatter(scope.row, column, true) }}</span>
           </template>
@@ -366,7 +391,6 @@
 </template>
 <script>
 import VolTableRender from './VolTable/VolTableRender';
-var $vue;
 let _errMsg;
 import { defineComponent } from 'vue';
 export default defineComponent({
@@ -515,6 +539,12 @@ export default defineComponent({
       //超出数量显示select2组件
       type: Number,
       default: 500
+    },
+    selectable: {
+      type: Function,
+      default: (row, index) => {
+        return true;
+      }
     }
   },
   data() {
@@ -566,7 +596,7 @@ export default defineComponent({
       cellStyleColumns: {}, // 有背景颜色的配置
       fxRight: false, //是否有右边固定表头
       selectRows: [], //当前选中的行
-      isChrome: false
+      isChrome: false,
     };
   },
   created() {
@@ -682,9 +712,6 @@ export default defineComponent({
     if (keyColumn) {
       this.key = keyColumn.field;
     }
-    // 如果下拉框，判断bind或edit.data是否有数据源，妱果没有则获取数据源bind
-    $vue = this;
-    // this.$emit
     this.defaultLoadPage && this.load();
   },
   computed: {
@@ -701,7 +728,7 @@ export default defineComponent({
     watchRowSelectChange(newLen, oldLen) {
       if (newLen < oldLen && this.selectRows.length) {
         this.selectRows = [];
-        $vue.$refs.table.clearSelection();
+        this.$refs.table.clearSelection();
       }
     },
     switchChange(val, row, column) {
@@ -775,6 +802,11 @@ export default defineComponent({
         }
         if (this.rowEndEdit(row, event && event.property ? event : column)) {
           this.edit.rowIndex = -1;
+        }
+        //当正在编辑，且点击到其他行时，在原编辑的行结束编辑后，触发新行的rowClick事件
+        //正在编辑时，禁止出发rowClick事件
+        if (this.edit.rowIndex == -1) {
+          this.$emit('rowClick', { row, column, event });
         }
       }
       this.rowBeginEdit(row, column);
@@ -1194,6 +1226,7 @@ export default defineComponent({
               }
             });
           });
+          this.$emit('dicInited', dic);
         });
     },
     load(query, isResetPage) {
@@ -1326,6 +1359,8 @@ export default defineComponent({
           this.selectRows = [_row];
         }
       }
+      // 将selectionchange暴露出去
+      this.$emit('selectionChange', selection);
     },
     getColor(row, column) {
       let val = row[column.field];
@@ -1497,6 +1532,9 @@ export default defineComponent({
       return children.filter((x) => {
         return !x.hidden;
       });
+    },
+    initColumnDisabled(row, column) {
+      return column.getDisabled && column.getDisabled(row, column);
     }
   }
 });

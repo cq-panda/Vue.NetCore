@@ -7,6 +7,7 @@
           :url="url"
           :upload-before="uploadBefore"
           :upload-after="uploadAfter"
+          :fileInfo="fileInfo5"
           :on-change="onChange"
         >
           <div>单文件自动上传</div>
@@ -18,6 +19,7 @@
           :multiple="true"
           :max-file="2"
           :excel="true"
+          :fileInfo="fileInfo4"
           :url="url"
           :upload-before="uploadBefore"
           :upload-after="uploadAfter"
@@ -48,6 +50,7 @@
           :img="true"
           :multiple="true"
           :max-size="null"
+          :fileInfo="fileInfo2"
           :upload-before="uploadBefore"
           :upload-after="uploadAfter"
           :on-change="onChange"
@@ -64,6 +67,7 @@
           :img="true"
           :upload-before="uploadBefore"
           :upload-after="uploadAfter"
+          :fileInfo="fileInfo3"
           :on-change="onChange"
         >
           <div>单文件手动上传,只能上传图片</div>
@@ -92,6 +96,10 @@ export default {
             "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/github/wordtest.docx"
         }
       ],
+      fileInfo2:[],
+      fileInfo3:[],
+      fileInfo4:[],
+      fileInfo5:[],
       loadingStatus: false
     };
   },

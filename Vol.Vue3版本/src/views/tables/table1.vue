@@ -238,7 +238,7 @@ export default {
           field: "CreateDate",
           title: "日期",
           type: "date",
-          width: 140,
+          width: 100,
           align: "left",
           edit: { type: "date" }
         },
@@ -258,61 +258,37 @@ export default {
           width: 120,
           fixed: "right",
           align: "center",
+
           render: (h, { row, column, index }) => {
-            return h("div", { style: {} }, [
-              h("div", {}, [
-                h(
-                  "span",
-                  {
-                    class: [
-                      "el-icon-edit el-tag el-tag--success el-tag--light",
-                    ],
-                    style: {
-                      cursor: "pointer",
-                      "margin-right": "8px",
-                    },
-                    onClick: (e) => {
-                      e.stopPropagation();
-                      //开启编辑
-                      let _index = this.$refs.table.edit.rowIndex;
-                      if (_index != -1) {
-                        return this.$message.error(
-                          "请先完成第" +
-                            (_index + 1) +
-                            "行的编辑,点击表头可完成编辑"
-                        );
-                      }
-                      this.$refs.table.rowBeginEdit(row, column);
-                    },
-                  },
-                  "编辑"
-                ),
-                h(
-                  "span",
-                  {
-                    class: [
-                      "el-icon-delete el-tag el-tag--danger el-tag--light",
-                    ],
-                    style: {
-                      cursor: "pointer",
-                    },
-                    onClick: (e) => {
-                      e.stopPropagation();
-                      //删除行
-                      this.tableData.splice(index, 1);
-                      this.$message.success("删除成功");
-                    },
-                  },
-                  "删除"
-                ),
-              ]),
-            ]);
-          },
-        },
+            return <div onClick={($e) => {  $e.stopPropagation();}}>
+            <el-button onClick={($e) => {   this.tableData.splice(index, 1); }} type="primary" plain size="small" style="padding: 10px !important;">删除</el-button>
+            <el-button onClick={($e) => { this.editClick(row, column) }} type="success" plain size="small" style="padding: 10px !important;">编辑</el-button>
+
+            <el-dropdown  trigger="click" 
+              v-slots={{
+                dropdown: () => (
+                <el-dropdown-menu>
+                  <el-dropdown-item><div onClick={($e) => {  this.dropdownClick('京酱肉丝') }}>京酱肉丝</div></el-dropdown-item>
+                  <el-dropdown-item><div onClick={($e) => {   this.dropdownClick('驴肉火烧') }}>驴肉火烧</div></el-dropdown-item>
+                  <el-dropdown-item><div onClick={($e) => { this.dropdownClick('吊炉烤鸭') }}>吊炉烤鸭</div></el-dropdown-item>
+                </el-dropdown-menu>
+              )
+            }}
+            >
+              <span style="font-size: 13px;color: #409eff;margin: 5px 0 0 10px;" class="el-dropdown-link">
+                更多<i class="el-icon-arrow-right"></i>
+              </span>
+            </el-dropdown>
+          </div>
+          }
+        }
       ],
     };
   },
   methods: {
+    dropdownClick(value) {
+      this.$message.success(value)
+    },
     rowChange(row) {
       //选中checkbox事件
       return this.$message.success("点击checkbox,第" + row.elementIndex + "行");
@@ -332,6 +308,17 @@ export default {
     endEditAfter(row, column, index) {
       console.log("结束编辑后" + JSON.stringify(row));
       return true;
+    },
+    editClick(row,column){
+      let _index = this.$refs.table.edit.rowIndex;
+                      if (_index != -1) {
+                        return this.$message.error(
+                          "请先完成第" +
+                            (_index + 1) +
+                            "行的编辑,点击表头可完成编辑"
+                        );
+                      }
+                      this.$refs.table.rowBeginEdit(row, column);
     },
     del() {
       let rows = this.$refs.table.getSelected();

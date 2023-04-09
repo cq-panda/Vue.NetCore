@@ -1,0 +1,107 @@
+.lotus-address-picker {
+  font-size: 26rpx;
+  padding-top: 30rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  line-height: normal;
+  padding-right: 30rpx;
+  box-sizing: border-box;
+}
+.lotus-address-picker-box {
+  /*display: -webkit-box;
+  display: -webkit-flex;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+}
+.lotus-address-picker-box-item {
+  height: 600upx;
+  overflow-y: auto;
+  width: 33.333%;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  box-sizing: border-box;
+}
+.lotus-address-picker2 {
+  color: #e93b3d;
+  position: relative;
+}
+/* .lotus-address-picker2:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 65%;
+  transform: translateY(-35%) rotate(-45deg);
+  width: 20rpx;
+  height: 10rpx;
+  border-left-width: 4rpx;
+  border-bottom-width: 4rpx;
+  border-left-style: solid;
+  border-bottom-style: solid;
+  border-left-color: #e93b3d;
+  border-bottom-color: #e93b3d;
+} */
+.lotus-address-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.5);
+}
+.lotus-address-box {
+  background: #fff;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+}
+.lotus-address-action {
+  font-size: 30rpx;
+  /*display: -webkit-box;
+  display: -webkit-flex;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+  padding: 25rpx 30rpx;
+  position: relative;
+}
+.lotus-address-action:after {
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px solid #eee;
+  color: #eee;
+  transform-origin: 0 0;
+  transform: scaleY(0.5);
+}
+.lotus-address-action:before {
+  content: " ";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 1px;
+  border-bottom: 1px solid #eee;
+  color: #eee;
+  transform-origin: 0 100%;
+  transform: scaleY(0.5);
+}
+.lotus-address-action-cancel {
+  color: #969696;
+}
+.lotus-address-action-affirm {
+  color: #e93b3d;
+}

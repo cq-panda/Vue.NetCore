@@ -43,19 +43,25 @@ export default {
   name: "wang-editor",
   data() {
     return {
-      editor: null,
+      lastHtml: "",
       change: false,
-      outChange: false
+      editor: null,
+      init: false,
     };
   },
   watch: {
-    modelValue(newVal) {
-      if (!this.change) {
-        this.outChange = true;
+    modelValue(newVal, val) {
+      if (
+        (newVal !== val &&
+          this.lastHtml !== "" &&
+          val === this.lastHtml &&
+          this.editor.txt.html() === this.lastHtml) ||
+        this.editor.txt.html() === ""
+      ) {
         this.editor.txt.html(newVal);
       }
-      this.change = false;
-    }
+      this.lastHtml = newVal;
+    },
   },
   destroyed() {
     this.editor = null;
@@ -68,17 +74,11 @@ export default {
     editor.config.zIndex = 500;
     editor.config.height = this.height;
     editor.config.onchange = (html) => {
-      this.change = false;
-      if (!html || html == this.modelValue) {
-        return;
+      if (!this.init && this.lastHtml === "") {
+        this.lastHtml = html;
+        this.init = true;
       }
-      if (this.outChange) {
-        this.outChange = false;
-        return;
-      }
-      this.change = true;
-      this.outChange = false;
-      this.$emit('update:modelValue', html);
+      this.$emit("update:modelValue", html);
     };
     // editor.config.uploadFileName = "fileInput";
     // //设置header

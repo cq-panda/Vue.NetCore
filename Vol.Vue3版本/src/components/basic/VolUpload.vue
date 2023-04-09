@@ -83,6 +83,7 @@
   </div>
 </template>
 <script>
+let OSS = require('ali-oss');
 export default {
   components: {},
   props: {
@@ -202,8 +203,13 @@ export default {
     compress: {
       //开启图片压缩,后面根据需要再完善
       type: Boolean,
-      default: false,
+      default: true
     },
+    compressMinSize: {
+      //压缩的最小比例
+      type: Number,
+      default: 0.1
+    }
   },
   data() {
     return {
@@ -211,7 +217,8 @@ export default {
       changed: false, //手动上传成功后禁止重复上传，必须重新选择
       model: true,
       files: [],
-      bigImg: "",
+      bigImg: '',
+      imgTypes: ['gif', 'jpg', 'jpeg', 'png', 'bmp', 'webp', 'jfif'],
       loadingStatus: false,
       loadText: '上传文件'
     };
@@ -352,7 +359,99 @@ export default {
     getFiles() {
       return this.files;
     },
-    upload(vail) {
+    convertToFile(dataurl, filename) {
+      let arr = dataurl.split(',');
+      let mime = arr[0].match(/:(.*?);/)[1];
+      let suffix = mime.split('/')[1];
+      let bstr = atob(arr[1]);
+      let n = bstr.length;
+      let u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      // new File返回File对象 第一个参数是 ArraryBuffer 或 Bolb 或Arrary 第二个参数是文件名
+      // 第三个参数是 要放到文件中的内容的 MIME 类型
+      return new File([u8arr], `${filename}.${suffix}`, {
+        type: mime,
+        input: true
+      });
+    },
+    async compressImg(file) {
+      let fileSize = file.size / 1024 / 1024;
+      let read = new FileReader();
+      read.readAsDataURL(file);
+      return new Promise((resolve, reject) => {
+        read.onload = (e) => {
+          let img = new Image();
+          img.src = e.target.result;
+          let _this = this;
+          img.onload = function() {
+            //默认按比例压缩
+            let w = this.width;
+            let h = this.height;
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+            canvas.setAttribute('width', w);
+            canvas.setAttribute('height', h);
+            ctx.drawImage(this, 0, 0, w, h);
+            let rate = 0.3;
+            if (fileSize > 2) {
+              rate = 0.1;
+            } else if (fileSize > 1) {
+              rate = 0.1;
+            }
+            if (_this.compressMinSize > rate) {
+              rate = _this.compressMinSize;
+            }
+            // rate=1;
+            let base64 = canvas.toDataURL('image/jpeg', rate);
+            resolve(_this.convertToFile(base64, file.name));
+          };
+        };
+      });
+    },
+    async uploadOSS() {
+      this.http.get('api/alioss/getAccessToken', {}, false).then(async (x) => {
+        if (!x.status) return this.$Message.error(x.message);
+        let client = new OSS({
+          // yourRegion填写Bucket所在地域。以华东1（杭州）为例，Region填写为oss-cn-hangzhou。
+          region: x.data.region,
+          // 从STS服务获取的临时访问密钥（AccessKey ID和AccessKey Secret）。
+          accessKeyId: x.data.accessKeyId,
+          accessKeySecret: x.data.accessKeySecret,
+          // 从STS服务获取的安全令牌（SecurityToken）。
+          stsToken: x.data.securityToken,
+          // 填写Bucket名称。
+          bucket: x.data.bucket
+        });
+        console.log(this.files);
+        for (let index = 0; index < this.files.length; index++) {
+          const file = this.files[index];
+          if (file.input) {
+            let result = await client.put(
+              x.data.bucketFolder + '/' + x.data.unique + file.name,
+              file
+            );
+            file.path = result.url;
+            file.newName = x.data.unique + file.name;
+          }
+        }
+
+        this.fileInfo.splice(0);
+        // }
+        let _files = this.files.map((file) => {
+          return {
+            name: file.newName || file.name,
+            path: file.path
+          };
+        });
+        this.fileInfo.push(..._files);
+        //2021.09.25修复文件上传后不能同时下载的问题
+        this.files = _files;
+      });
+      return;
+    },
+    async upload(vail) {
       if (vail && !this.checkFile()) return false;
       if (!this.url) {
         return this.$message.error('没有配置好Url');
@@ -363,15 +462,46 @@ export default {
       if (!this.uploadBefore(this.files)) {
         return;
       }
-      var forms = new FormData();
-      this.files.forEach(function (file) {
-        if (file.input) {
-          forms.append("fileInput", file, file.name);
-        }
-      });
-      // forms.append("fileInput", this.files);
+
       this.loadingStatus = true;
-      this.loadText = "上传中..";
+      this.loadText = '上传中..';
+      if (window.oss && window.oss.ali.use) {
+        await this.uploadOSS();
+        this.loadingStatus = false;
+        this.loadText = '上传文件';
+        if (!this.uploadAfter({status:true}, this.files)) {
+          this.changed = false;
+          return;
+        } else {
+          this.changed = true;
+        }
+        this.$message.success('上传成功');
+        return;
+      }
+
+      var forms = new FormData();
+      for (let index = 0; index < this.files.length; index++) {
+        let file = this.files[index];
+        if (file.input) {
+          let name = file.name.split('.');
+          name = name[name.length - 1].toLocaleLowerCase();
+          let isImg = this.imgTypes.indexOf(name) != -1;
+          if (isImg && (name == 'jpg' || name == 'jpeg')) {
+            //>200KB的开启压缩
+            if (isImg && file.size / 1024 / 1024 > 0.2) {
+              console.log('压缩前' + file.size);
+              file = await this.compressImg(file);
+              file.compress = true;
+              this.files[index] = file;
+              this.files[index].input = true;
+              console.log('压缩后' + file.size);
+            }
+          }
+          forms.append('fileInput', file, file.name);
+        }
+      }
+      // forms.append("fileInput", this.files);
+
       this.http
         .post(this.url, forms, this.autoUpload ? '正在上传文件' : '')
         .then(
@@ -437,14 +567,9 @@ export default {
         }
       }
 
-      if (
-        checkFileType == "img" ||
-        ["gif", "jpg", "jpeg", "png", "bmp", "webp"].indexOf(format) > -1
-      ) {
-        if (checkFileType == "img") {
-          if (
-            ["gif", "jpg", "jpeg", "png", "bmp", "webp"].indexOf(format) > -1
-          ) {
+      if (checkFileType == 'img' || this.imgTypes.indexOf(format) > -1) {
+        if (checkFileType == 'img') {
+          if (this.imgTypes.indexOf(format) > -1) {
             return true;
           } else {
             return false;
