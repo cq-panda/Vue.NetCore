@@ -50,10 +50,35 @@ export default {
       active: 0,
       log: [
         { date: "2023.04", type: "month" },
+        { date: "2022-04-10 00:33:56", desc: "增加后台文件上传大小限制配置"},
+        { date: "2022-04-10 00:31:19", desc: "完善文档"},
+        { date: "2022-04-10 00:26:43", desc: "优化vue3版本首页tab导航右键列表jfoi"},
+        { date: "2022-04-10 00:25:57", desc: "增加vue3版本查询界面按钮组dropdonw，见演示第三个菜单第一个页面,更新viewgrid.vue文件"},
+        { date: "2022-04-10 00:24:35", desc: "优化vue3版本前端权限按钮判断"},
+        { date: "2022-04-10 00:24:01", desc: "优化vue3版本菜单设置页面按钮"},
+        { date: "2022-04-10 00:22:10", desc: "增加查询界面按钮组示例"},
+        { date: "2022-04-09 23:23:33", desc: "优化字典过滤"},
+        { date: "2022-04-09 23:18:03", desc: "增加移动端自定义按钮示例"},
+        { date: "2022-04-09 23:11:59", desc: "优化移动端volform表单"},
+        { date: "2022-04-09 13:58:59", desc: "优化移动端vol-table表格null值显示"},
+        { date: "2022-04-09 13:58:20", desc: "优化移动端保存后方法"},
+        { date: "2022-04-05 22:05:44", desc: "优化vue3版本login页面"},
+        { date: "2022-04-05 18:39:37", desc: "增加截图"},
+        { date: "2022-04-05 18:18:30", desc: "重写登录页面"},
+        { date: "2022-04-05 16:28:59", desc: "1"},
+        { date: "2022-04-05 16:26:40", desc: "增加移动端vol-table自定义表格内容示例"},
+        { date: "2022-04-05 16:25:28", desc: "增加移动端vol-table组件完全自定义内容数据槽"},
+        { date: "2022-04-02 13:45:31", desc: "完善文档"},
         {
           date: "2023-04-02 13:35:52",
+          style:"color:red",
           desc:
-            "开放后台将前端查询条件转换为EF查询GetPageDataQueryFilter方法，增加查询对象属性Filter(更新文件IService.cs, ServiceBase.cs,PageDataOptions.cs)"
+            `开放后台将前端查询条件转换为EF查询GetPageDataQueryFilter方法，增加查询对象属性Filter(更新文件IService.cs, ServiceBase.cs,PageDataOptions.cs)<br>
+            使用方式：<br>
+            //options为前端table提交的参数，PageDataOptions <br>
+            //SellOrderService.Instance.GetPageDataQueryFilter(options) <br>
+            //如果是在表Service类中使用，直接base.Instance.GetPageDataQueryFilter(options)
+            `
         },
         {
           date: "2023-04-02 13:32:39",
@@ -88,6 +113,8 @@ export default {
           date: "2023-04-02 12:13:44",
           desc: "修复移动端vol-table多图显示与预览模式顺序不一致的问题"
         },
+     
+        { date: "2023.03", type: "month" },
         { date: "2023-03-30 01:13:38", desc: "优化后台明细表校验" },
         {
           date: "2023-03-26 21:43:04",
@@ -103,7 +130,6 @@ export default {
           date: "2023-03-26 20:09:57",
           desc: "增加dapper手动开启事务与获取datatable方法"
         },
-        { date: "2023.03", type: "month" },
         { date: "2023-03-20 16:40:22", desc: "增加.net6 docker配置" },
         { date: "2023-03-20 15:59:20", desc: "增加移动端表单省市区县选择示例" },
         {
