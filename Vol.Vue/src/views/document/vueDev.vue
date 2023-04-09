@@ -262,6 +262,99 @@ export default {
           tips: ` this.buttons来源：ViewGrid.vue组件data->buttons属性`,
           img: 'https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/01.png?imageMogr2/thumbnail/!35p'
         },
+
+
+		{
+          title: '查询界面按钮组Dropdown',
+          content: [
+            `<p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//查询界面按钮组,2023.04.10更新ViewGrid.vue文件后才能使用</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//按钮图标这里找https://element.eleme.cn/#/zh-CN/component/icon</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//第二个按钮后面添加按钮组</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">buttons</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#b5cea8;">2</span>, <span style="color:#b5cea8;">1</span>, {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'按钮组'</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">"primary"</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">plain</span><span style="color:#9cdcfe;">:</span><span style="color:#569cd6;">true</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">color</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">"#009688"</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">data</span><span style="color:#9cdcfe;">:</span> [
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'按钮一'</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">"el-icon-plus"</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span> () <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#ce9178;">'按钮一'</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'按钮二'</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">"el-icon-zoom-out"</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span> () <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">info</span>(<span style="color:#ce9178;">'按钮二'</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; ]
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; });
+		</div>
+	</div>
+</p>
+<p>
+	<br />
+</p>`
+          ],
+          tips: ` `,
+          img: 'https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/04-09-01.png?imageMogr2/thumbnail/!35p'
+        },
+
+
         {
           title: '查询界面--默认排序',
           content: [
@@ -270,10 +363,17 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.<span style="color:#9cdcfe;">sortName</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"排序字字段"</span>;&nbsp;&nbsp;<span style="color:#6a9955;">//设置排序字段</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.<span style="color:#9cdcfe;">sortName</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"排序字字段"</span>;&nbsp;&nbsp;<span style="color:#6a9955;">//设置排序字段,多个字段排序用逗号隔开,如:a,b,c</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.<span style="color:#9cdcfe;">order</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"desc"</span>&nbsp;;&nbsp;<span style="color:#6a9955;">//排序方式desc或者asc</span>
+	</div>
+
+	<div style="margin-top:20px">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.detailOptions.<span style="color:#9cdcfe;">sortName</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"明细表排序字字段"</span>;&nbsp;&nbsp;<span style="color:#6a9955;">//明细表排序字字段</span>
+	</div>
+	<div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.detailOptions.<span style="color:#9cdcfe;">order</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"desc"</span>&nbsp;;&nbsp;<span style="color:#6a9955;">//明细表排序方式desc或者asc</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;},
@@ -3729,7 +3829,7 @@ export default {
           img: ''
         },
         {
-          title: '编辑表单标签文字太长',
+          title: '编辑表单文字标签宽度',
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;">
 	<div>
@@ -3769,7 +3869,7 @@ export default {
           img: ''
         },
 		{
-          title: '编辑输入设置焦点foucs',
+          title: '编辑输入设置焦点focus',
 		  content: [
 		  `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 	<div>
@@ -3782,7 +3882,7 @@ export default {
 		&nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#dcdcaa;">setTimeout</span>(()<span style="color:#569cd6;">=&gt;</span>{
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">form</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">字段名</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#dcdcaa;">foucs</span>()
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">form</span>.<span style="color:#9cdcfe;">$refs</span>.<span style="color:#9cdcfe;">字段名</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#dcdcaa;">focus</span>()
 	</div>
 	<div>
 		&nbsp; &nbsp; &nbsp; &nbsp;},<span style="color:#b5cea8;">200</span>)
