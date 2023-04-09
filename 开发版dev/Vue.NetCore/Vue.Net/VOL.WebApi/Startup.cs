@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -171,6 +173,17 @@ namespace VOL.WebApi
             Services.AddTransient<HttpResultfulJob>();
             Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
             Services.AddSingleton<Quartz.Spi.IJobFactory, IOCJobFactory>();
+
+
+            //设置文件上传大小限制
+            services.Configure<FormOptions>(x =>
+            {
+                x.MultipartBodyLengthLimit = 1024 * 1024 * 100;//100M
+            });
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.Limits.MaxRequestBodySize = 1024 * 1024 * 100;//100<
+            });
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
