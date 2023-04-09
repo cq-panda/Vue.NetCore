@@ -1670,13 +1670,108 @@ export default {
           tips: `后面扩展实现覆盖了常用业务，请根据需要实现对应方法`,
         },
         {
-          title: "接口禁用驼峰规则",
+          title: "接口字段大小写(禁用驼峰规则)",
           content: [
             `框架接口数据默认都使用的小驼峰规则，如果需要原样返回数据（2020-11-21更新vol.core->controller下的文件夹才可以使用），请在控制器方法使用 return JsonNormal();`,
           ],
           tips: ` 还没想好`,
           img: "",
         },
+		{
+          title: "序列化与反序列化",
+          content: [
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//1、对象转换为字符串</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">Sys_User</span> <span style="color:#9cdcfe;">user</span> = <span style="color:#569cd6;">new</span> <span style="color:#dcdcaa;">Sys_User</span>();
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">string</span> <span style="color:#9cdcfe;">userText</span>= &nbsp;<span style="color:#9cdcfe;">user</span>.<span style="color:#dcdcaa;">Serialize</span>();
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//2、字符串转换为对象(上面的json字符串userText转换为对象)</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">user</span> = <span style="color:#9cdcfe;">userText</span>.<span style="color:#dcdcaa;">DeserializeObject</span>&lt;<span style="color:#4ec9b0;">Sys_User</span>&gt;();
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//list对象序列化与反序列化</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">List</span>&lt;<span style="color:#4ec9b0;">Sys_User</span>&gt; <span style="color:#9cdcfe;">list</span> = <span style="color:#569cd6;">new</span> <span style="color:#dcdcaa;">List</span>&lt;<span style="color:#4ec9b0;">Sys_User</span>&gt;();
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">list</span>.Add(new <span style="color:#dcdcaa;">Sys_User</span>() { <span style="color:#9cdcfe;">UserName</span> = <span style="color:#ce9178;">"test"</span> });
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">userText</span> = <span style="color:#9cdcfe;">list</span>.<span style="color:#dcdcaa;">Serialize</span>();
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//字符串转换为对象(上面的json字符串userText转换为对象)</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">list</span> = <span style="color:#9cdcfe;">userText</span>.<span style="color:#dcdcaa;">DeserializeObject</span>&lt;<span style="color:#4ec9b0;">List</span>&lt;<span style="color:#4ec9b0;">Sys_User</span>&gt;&gt;();
+	</div>
+</div>`,
+          ],
+          tips: ` 还没想好`,
+          img: "",
+        },
+		{
+
+			title: "前端table组件提交的查询参数转换为EF查询表达式",
+          content: [
+            `<p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//将前端table组件提交的查询参数转换为表达式</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; public <span style="color:#dcdcaa;">IQueryable</span>&lt;<span style="color:#4ec9b0;">SellOrder</span>&gt; <span style="color:#dcdcaa;">Test</span>(<span style="color:#9cdcfe;">PageDataOptions</span> <span style="color:#9cdcfe;">options</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//options.Wheres;为前端提交的查询条件</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//手动获取查询条件</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//List&lt;SearchParameters&gt; parameters= options.Wheres.DeserializeObject&lt;List&lt;SearchParameters&gt;&gt;();</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">IQueryable</span>&lt;<span style="color:#9cdcfe;">SellOrder</span>&gt; <span style="color:#9cdcfe;">query</span> = <span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">GetPageDataQueryFilter</span>(<span style="color:#9cdcfe;">options</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//或者调用其他表的转换</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//SellOrderService.Instance.GetPageDataQueryFilter(options);</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">query</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+	</div>
+</p>
+<p>
+	<br />
+</p>`,
+          ],
+          tips: ` 还没想好`,
+          img: "",
+		},
 		     {
           title: "定时任务接口配置",
           content: [
