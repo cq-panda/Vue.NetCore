@@ -267,6 +267,7 @@
                   class="table-input"
                   v-else-if="!column.summary && !column.onKeyPress"
                   v-model.lazy="scope.row[column.field]"
+                  :disabled="initColumnDisabled(scope.row, column)"
                 />
                 <el-input
                   v-else
@@ -276,6 +277,7 @@
                   size="default"
                   v-model="scope.row[column.field]"
                   :placeholder="column.placeholder || column.title"
+                  :disabled="initColumnDisabled(scope.row, column)"
                 ></el-input>
               </div>
               <div
@@ -357,6 +359,7 @@
               v-else-if="column.bind"
             >
               <el-tag
+                v-if="useTag"
                 :class="[isEmptyTag(scope.row, column)]"
                 :type="getColor(scope.row, column)"
                 :effect="column.effect"
@@ -597,9 +600,17 @@ export default defineComponent({
       fxRight: false, //是否有右边固定表头
       selectRows: [], //当前选中的行
       isChrome: false,
+      //vol-table带数据源的单元格是否启用tag标签(下拉框等单元格以tag标签显示)
+      //2023.04.02更新voltable与main.js
+      useTag: true
     };
   },
   created() {
+    try {
+      this.useTag = this.$global.table.useTag;
+    } catch (error) {
+      console.log(error.message);
+    }
     //2021.06.19判断谷歌内核浏览重新计算table高度
     // if (
     //   navigator.userAgent.indexOf('Chrome') != -1 ||

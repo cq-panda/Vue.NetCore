@@ -126,12 +126,12 @@ namespace VOL.Core.Utilities
                             //2022.11.21增加导入多选的支持
                             if ((options.EditType == "selectList" || options.EditType == "checkbox") && !string.IsNullOrEmpty(value))
                             {
-                                var cellValues = value.Replace("，", ",").Split(",").Where(x=>!string.IsNullOrEmpty(x)).ToArray();
+                                var cellValues = value.Replace("，", ",").Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
                                 var keys = options.KeyValues.Where(x => cellValues.Contains(x.Value))
                                     .Select(s => s.Key).ToArray();
-                                if (cellValues.Length==keys.Length)
+                                if (cellValues.Length == keys.Length)
                                 {
-                                    key = string.Join(",",keys);
+                                    key = string.Join(",", keys);
                                 }
                             }
                             else
@@ -341,9 +341,19 @@ namespace VOL.Core.Utilities
             //如果指定了导出的标题列，忽略的标题列不再起作用
             if (exportColumns != null && exportColumns.Count() > 0)
             {
-                propertyInfo =
-                   typeof(T).GetProperties()
-                  .Where(x => exportColumns.Select(g => g.ToLower()).Contains(x.Name.ToLower())).ToList();
+                propertyInfo = new List<PropertyInfo>();
+                var properties = typeof(T).GetProperties();
+                foreach (var name in exportColumns)
+                {
+                    var property = properties.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault();
+                    if (property != null)
+                    {
+                        propertyInfo.Add(property);
+                    }
+                }
+                //propertyInfo =
+                //   typeof(T).GetProperties()
+                //  .Where(x => exportColumns.Select(g => g.ToLower()).Contains(x.Name.ToLower())).ToList();
                 //.Where(x => cellOptions.Select(s => s.ColumnName) //获取代码生成器配置的列
                 //.Contains(x.Name)).ToList();
             }

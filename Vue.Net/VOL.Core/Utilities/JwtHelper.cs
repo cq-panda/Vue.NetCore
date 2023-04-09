@@ -85,6 +85,8 @@ namespace VOL.Core.Utilities
         {
             try
             {
+                if (jwtStr.IsNullOrEmpty()) return 0;
+                jwtStr = jwtStr.Replace("Bearer ", "");
                 return new JwtSecurityTokenHandler().ReadJwtToken(jwtStr).Id.GetInt();
             }
             catch
