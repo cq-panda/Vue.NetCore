@@ -61,7 +61,7 @@
 							<view class="vol-cell" v-else-if="column.type=='date'">
 								{{(row[column.field]||'').substr(0,10)}}
 							</view>
-							<view class="vol-cell" v-else> {{row[column.field]}}</view>
+							<view class="vol-cell" v-else> {{row[column.field]===null?'':row[column.field]}}</view>
 						</view>
 					</view>
 					<slot></slot>
