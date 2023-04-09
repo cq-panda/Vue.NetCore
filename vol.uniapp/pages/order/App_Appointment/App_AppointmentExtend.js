@@ -37,6 +37,10 @@ export default function() {
 				//页面打开时默认弹出查询框
 				//this.searchModel = true;
 				this.height = this.height - 65;
+				
+				this.fabButtons.push({name:"测试按钮",icon:"search",onClick:()=>{
+					  this.$emit('testBtnClick',{value:"测试"})
+				}})
 			},
 			formatter(row, column) { //自定义格式化
 				// if(column.field=='xx'){
