@@ -23,10 +23,10 @@
       <h2>组件结构图</h2>
     </div>
     <pre class="bg-ms">
-        <code>
-        还没画好;
-        </code>
-    </pre>
+          <code>
+          还没画好;
+          </code>
+      </pre>
     <!-- ViewGird使用方法 -->
     <DocViewGird></DocViewGird>
     <br />
@@ -48,14 +48,7 @@
         </div>
       </div>
     </docParamTable>
-    <VolBox
-      icon="ios-chatbubbles"
-      :model.sync="viewCode"
-      title="viewgrid代码"
-      :height="550"
-      :width="1000"
-      :padding="15"
-    >
+    <VolBox icon="ios-chatbubbles" :model.sync="viewCode" title="viewgrid代码" :height="550" :width="1000" :padding="15">
       <div>
         <Tabs value="name1">
           <TabPane label="doc_viewGird.vue" name="name1">
@@ -83,20 +76,52 @@ import docParamTable from "./doc_ParamTable.vue";
 import VolBox from "@/components/basic/VolBox.vue";
 export default {
   components: { DocViewGird, docParamTable, VolBox },
-  created(){
-      this.http.get( "api/menu/getTreeMenu",{},true).then(data=>{
-         data.forEach((d) => {
-          if (!d.icon) d.icon = "ios-aperture";
-          d.path = (d.url || "").replace("/Manager", "");
-          d.to = (d.url || "").replace("/Manager", "");
-        });
-        this.$store.dispatch("setPermission", data);
-        this.inited=true;
-      })
+  created() {
+    this.$store.dispatch("setPermission", [{
+      "id": 75,
+      "name": "主从一对一(1)",
+      "url": "/SellOrder",
+      "path": "/SellOrder",
+      "parentId": 74,
+      "icon": "",
+      "enable": 1,
+      "tableName": "SellOrder",
+      "permission": [
+        "Search",
+        "Add",
+        "Delete",
+        "Update",
+        "Import",
+        "Export",
+        "Upload",
+        "Audit"
+      ]
+    },{
+      "id": 75,
+      "name": "主从一对一(1)",
+      "url": "/App_Transaction",
+      "path": "/App_Transaction",
+      "parentId": 74,
+      "icon": "",
+      "enable": 1,
+      "tableName": "SellOrder",
+      "permission": [
+        "Search",
+        "Add",
+        "Delete",
+        "Update",
+        "Import",
+        "Export",
+        "Upload",
+        "Audit"
+      ]
+    },]);
+    this.inited = true;
+
   },
-  data () {
+  data() {
     return {
-      inited:false,
+      inited: false,
       viewCode: false,
       sourceCode: [`<div class="cnblogs_code">
 <pre>&lt;template&gt;
