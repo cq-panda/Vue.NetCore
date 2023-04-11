@@ -178,7 +178,7 @@ const param = {
       name: "onChange",
       desc: `<div class="cnblogs_Highlighter">
         <div>select、switch、date、datetime组件选择事件(只对编辑生效)</div>
-        <div>为date、datetime时onChange(date,option)只有这两个参数，2020.07.24</div>
+        <div>为date、datetime时onChange(row,column,date)只有这三个参数，2023.04.11以前的代码需要更新voltable.vue文件</div>
         <div>onChange:(column,row,tableData,value)=&gt;{</div>
         <pre class="brush:javascript;gutter:true;"><em id="__mceDel">             this.$Message.error(row["test2"]);
                     },
