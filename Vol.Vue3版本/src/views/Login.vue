@@ -37,12 +37,16 @@
 
       <!-- 账号信息 -->
       <div class="account-info">
-        <p>演示账号：admin666 密码:123456</p>
-        <p>本地账号：admin &nbsp; &nbsp; &nbsp; 密码:123456</p>
-        <p style="text-align: center;"><a href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M" style="text-decoration: none" target="_blank">QQ3群:743852316</a></p>
+        <p>演示账号：admin666 &nbsp; &nbsp;密码:123456</p>
+        <p>本地账号：admin &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;密码:123456</p>
+        <p><a href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M" style="text-decoration: none"
+            target="_blank">QQ3群:743852316</a>
+          &nbsp; &nbsp;&nbsp; &nbsp;
+          <a href="http://v2.volcore.xyz/document/guide" style="text-decoration: none" target="_blank">框架文档</a>
+        </p>
       </div>
       <!-- 链接位置 -->
-      <div class="app-link">
+      <div class="app-link" >
         <a href="#" style="text-decoration: none">移动端扫码</a>
         <a>
           <i class="el-icon-chat-dot-round"></i> 小程序
@@ -286,7 +290,7 @@ export default defineComponent({
   // font-weight: bolder;
   text-align: center;
   padding-top: 5px;
-  font-size: 14px;
+  font-size: 12px;
   width: 400px;
   padding-left: 40px;
   display: flex;
@@ -297,7 +301,7 @@ export default defineComponent({
     cursor: pointer;
     width: 70px;
     color: #666666;
-    margin: 20px 20px 0 0;
+    margin: 2px 10px 0 0;
   }
 
   img {
