@@ -178,13 +178,18 @@ namespace VOL.WebApi
             Services.AddSingleton<Quartz.Spi.IJobFactory, IOCJobFactory>();
 
             //设置文件上传大小限制
+            //设置文件上传大小限制
             services.Configure<FormOptions>(x =>
             {
                 x.MultipartBodyLengthLimit = 1024 * 1024 * 100;//100M
             });
             services.Configure<KestrelServerOptions>(options =>
             {
-                options.Limits.MaxRequestBodySize = 1024 * 1024 * 100;//100<
+                options.Limits.MaxRequestBodySize = 1024 * 1024 * 100;//100M
+            });
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = 1024 * 1024 * 100;//100M
             });
         }
         public void ConfigureContainer(ContainerBuilder builder)
