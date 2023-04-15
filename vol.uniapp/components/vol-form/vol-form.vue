@@ -17,8 +17,8 @@
 			<view v-else-if="item.type=='editor'">
 				<u-parse :content="inFormFields[item.field]"></u-parse>
 			</view>
-			
-			
+
+
 			<view class="f-form-content f-form-content-select" @click="showCitySheet(item)"
 				v-else-if="item.type=='city'">
 				<view style="flex:1;">
@@ -32,7 +32,7 @@
 				</view>
 				<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>
 			</view>
-			
+
 			<template v-else-if="item.type=='date'||item.type=='datetime'">
 				<template v-if="item.range">
 					<view style="flex: 1;" :style="{'max-width': item.type=='date'?'120rpx':'30rpx'}"></view>
@@ -217,7 +217,7 @@
 <script>
 	import lotusAddress from "./../Winglau14-lotusAddress/Winglau14-lotusAddress.vue";
 	export default {
-		components:{
+		components: {
 			lotusAddress
 		},
 		props: {
@@ -795,16 +795,19 @@
 		watch: {
 			inFormFields: {
 				handler(val) {
+					if (!val || !Object.keys(val).length) {
+						return;
+					}
 					console.log('inFormFields')
 					this.$emit('update:form-fields', val);
-					console.log("wc")
+					//console.log("wc")
 				},
 				immediate: true,
 				deep: true
 			},
 			formFields: {
 				handler(val) {
-					console.log('formFields')
+					// console.log('formFields')
 					this.convertImgArr(val)
 					this.inFormFields = val;
 				},
@@ -813,7 +816,9 @@
 			},
 			inFormOptions: {
 				handler(newValue, oldValue) {
-					console.log('inFormOptions')
+					if (!newValue || !newValue.length) {
+						return;
+					}
 					this.convertImgArr(newValue)
 					this.$emit('update:formOptions', newValue)
 				},

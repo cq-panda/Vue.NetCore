@@ -211,18 +211,47 @@
           <!-- 2020.11.29增加查询界面hidden属性 -->
 
           <div class="btn-group">
-            <el-button
-              v-for="(btn, bIndex) in buttons.slice(0, maxBtnLength)"
+            <template
               :key="bIndex"
-              :type="btn.type"
-              size="small"
-              :class="btn.class"
-              :plain="btn.plain"
-              v-show="!btn.hidden"
-              @click="onClick(btn.onClick)"
+              v-for="(btn, bIndex) in buttons.slice(0, maxBtnLength)"
             >
-              <i :class="btn.icon"></i> {{ btn.name }}
-            </el-button>
+              <el-dropdown size="small" v-if="btn.data" :split-button="false">
+                <el-button
+                  :color="btn.color"
+                  :dark="false"
+                  :type="btn.type"
+                  :plain="btn.plain"
+                >
+                  {{ btn.name }}<i class="el-icon-arrow-down el-icon--right"></i
+                ></el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item
+                      v-for="(item, index) in btn.data"
+                      :key="index"
+                    >
+                      <div @click="onClick(item.onClick)">
+                        <i :class="item.icon"></i>
+                        {{ item.name }}
+                      </div>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+              <el-button
+                v-else
+                :type="btn.type"
+                size="small"
+                :color="btn.color"
+                :dark="false"
+                :class="btn.class"
+                :plain="btn.plain"
+                v-show="!btn.hidden"
+                @click="onClick(btn.onClick)"
+              >
+                <i :class="btn.icon"></i> {{ btn.name }}
+              </el-button>
+            </template>
             <el-button
               type="default"
               style="padding: 0px 10px"

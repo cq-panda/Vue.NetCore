@@ -13,45 +13,23 @@
         <div class="login-text-small">WELCOME TO LOGIN</div>
         <div class="item">
           <div class="input-icon el-icon-user"></div>
-          <input
-            type="text"
-            v-focus
-            v-model="userInfo.userName"
-            placeholder="请输入账号"
-          />
+          <input type="text" v-focus v-model="userInfo.userName" placeholder="请输入账号" />
         </div>
         <div class="item">
           <div class="input-icon el-icon-lock"></div>
-          <input
-            type="password"
-            v-focus
-            v-model="userInfo.password"
-            placeholder="请输入密码"
-          />
+          <input type="password" v-focus v-model="userInfo.password" placeholder="请输入密码" />
         </div>
         <div class="item">
           <div class="input-icon el-icon-mobile"></div>
 
-          <input
-            v-focus
-            type="text"
-            v-model="userInfo.verificationCode"
-            placeholder="输入验证码"
-          />
+          <input v-focus type="text" v-model="userInfo.verificationCode" placeholder="输入验证码" />
           <div class="code" @click="getVierificationCode">
             <img v-show="codeImgSrc != ''" :src="codeImgSrc" />
           </div>
         </div>
       </div>
       <div class="loging-btn">
-        <el-button
-          size="large"
-          :loading="loading"
-          color="#3a6cd1"
-          :dark="true"
-          @click="login"
-          long
-        >
+        <el-button size="large" :loading="loading" color="#3a6cd1" :dark="true" @click="login" long>
           <span v-if="!loading">登录</span>
           <span v-else>正在登录...</span>
         </el-button>
@@ -59,69 +37,40 @@
 
       <!-- 账号信息 -->
       <div class="account-info">
-        <p>演示账号：admin666 密码:123456</p>
-          <p>本地账号：admin &nbsp; &nbsp; &nbsp; 密码:123456</p>
+        <p>演示账号：admin666 &nbsp; &nbsp;密码:123456</p>
+        <p>本地账号：admin &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;密码:123456</p>
+        <p><a href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M" style="text-decoration: none"
+            target="_blank">QQ3群:743852316</a>
+          &nbsp; &nbsp;&nbsp; &nbsp;
+          <a href="http://v2.volcore.xyz/document/guide" style="text-decoration: none" target="_blank">框架文档</a>
+        </p>
       </div>
       <!-- 链接位置 -->
-      <div class="app-link">
+      <div class="app-link" >
         <a href="#" style="text-decoration: none">移动端扫码</a>
         <a>
           <i class="el-icon-chat-dot-round"></i> 小程序
-          <img
-            src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg"
-        /></a>
+          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg" /></a>
         <a>
           <i class="el-icon-apple"></i>
           Android
-          <img
-            src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png"
-        /></a>
+          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png" /></a>
         <a>
           <i class="el-icon-document"></i>
           H5
-          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png"
-        /></a>
+          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png" /></a>
       </div>
     </div>
 
     <!-- 页面底部 -->
     <div class="login-footer">
-      <div>
-        <a
-          style="text-decoration: none"
-          href="https://beian.miit.gov.cn/"
-          target="_blank"
-          >京ICP备19056538号-1</a
-        >
-        <a
-          href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M"
-          style="text-decoration: none"
-          target="_blank"
-          >QQ3群：743852316</a
-        >
-        <a
-          href="https://www.cctalk.com/m/group/90268531"
-          style="text-decoration: none"
-          target="blank"
-          >VOL框架视频</a
-        >
-      </div>
-      <div>
-        <a style="padding-left: 52px;"> 友情链接</a>
-        <a @click="openUrl('http://v2.volcore.xyz/')"> Vue2版本 </a>
-        <a
-          href="https://dotnet9.com/"
-          style="text-decoration: none"
-          target="blank"
-          >Dotnet9</a
-        >
-        <a
-          href="https://space.bilibili.com/525836469"
-          style="text-decoration: none"
-          target="blank"
-          >NET视频教程(微软MVP-ACE录制)</a
-        >
-      </div>
+      <a style="text-decoration: none" href="https://beian.miit.gov.cn/" target="_blank">京ICP备19056538号-1</a>
+
+
+      <a href="https://dotnet9.com/" style="text-decoration: none" target="blank">Dotnet9</a>
+      <a href="https://space.bilibili.com/525836469" style="text-decoration: none" target="blank">NET视频教程(微软MVP-ACE录制)</a>
+      <a href="https://www.cctalk.com/m/group/90268531" style="text-decoration: none" target="blank">VOL框架视频</a>
+      <a href="http://120.48.115.252:9990" style="text-decoration: none" target="blank">视频演示地址</a>
     </div>
 
     <img class="login-bg" src="/static/login_bg.png" />
@@ -201,7 +150,7 @@ export default defineComponent({
   },
   directives: {
     focus: {
-      inserted: function(el) {
+      inserted: function (el) {
         el.focus();
       }
     }
@@ -217,6 +166,7 @@ export default defineComponent({
   justify-content: flex-end;
   align-items: center;
 }
+
 .login-form {
   align-items: center;
   width: 50%;
@@ -224,6 +174,7 @@ export default defineComponent({
   flex-direction: column;
   // margin-right: 150px;
   z-index: 999;
+
   .form-user {
     // margin: 25px 0;
 
@@ -241,8 +192,9 @@ export default defineComponent({
         position: relative;
         cursor: pointer;
         width: 74px;
-        padding:5px 10px 0 0;
+        padding: 5px 10px 0 0;
       }
+
       .input-icon {
         line-height: 45px;
         color: #7a7a7a;
@@ -250,10 +202,12 @@ export default defineComponent({
       }
     }
   }
+
   input:-webkit-autofill {
     box-shadow: 0 0 0px 1000px white inset;
     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
   }
+
   input {
     background: white;
     display: block;
@@ -271,19 +225,23 @@ export default defineComponent({
     line-height: 20px;
   }
 }
+
 .form-user,
 .loging-btn {
   width: 400px;
 }
+
 .loging-btn {
   box-shadow: 2px 4px 11px #a4c2ff;
   margin-top: 10px;
+
   button {
     padding: 21px;
     font-size: 14px !important;
     width: 100%;
   }
 }
+
 .login-text {
   font-weight: bolder;
   font-size: 20px;
@@ -291,6 +249,7 @@ export default defineComponent({
 
   position: relative;
   display: flex;
+
   .login-line {
     z-index: -1;
     padding: 5px;
@@ -300,11 +259,13 @@ export default defineComponent({
     background-image: linear-gradient(to right, #6598ff, white);
   }
 }
+
 .login-text-small {
   margin-bottom: 20px;
   font-size: 13px;
   color: #7d7c7c;
 }
+
 .login-bg {
   left: 0;
   position: absolute;
@@ -312,6 +273,7 @@ export default defineComponent({
   width: 50%;
   z-index: 0;
 }
+
 .project-name {
   position: absolute;
   top: 40px;
@@ -329,23 +291,27 @@ export default defineComponent({
   // font-weight: bolder;
   text-align: center;
   padding-top: 5px;
-  font-size: 14px;
+  font-size: 12px;
   width: 400px;
   padding-left: 40px;
   display: flex;
+
   a {
     flex: 1;
     position: relative;
     cursor: pointer;
     width: 70px;
     color: #666666;
-    margin: 20px 20px 0 0;
+    margin: 2px 10px 0 0;
   }
+
   img {
     display: none;
   }
+
   a:hover {
     color: #0545f6 !important;
+
     img {
       display: block;
       position: absolute;
@@ -358,28 +324,33 @@ export default defineComponent({
     }
   }
 }
+
 .login-footer {
   position: absolute;
   width: 50%;
-  bottom: 0;
-  font-size: 14px;
+  bottom: 0.5rem;
+  font-size: 12px;
   text-align: center;
   padding-bottom: 10px;
   color: #4f4f4f;
+
   a {
-    margin-right: 20px;
-    font-size: 14px;
+    margin-right: 10px;
+    font-size: 12px;
     color: #4f4f4f;
   }
-  div{
+
+  div {
     margin-bottom: 5px;
   }
-  a:hover{
+
+  a:hover {
     cursor: pointer;
     color: #0540e3 !important;
   }
 }
-.account-info{
+
+.account-info {
   font-size: 12px;
   color: #636363;
   margin-top: 15px;
@@ -388,17 +359,26 @@ export default defineComponent({
 
 <style lang="less" scoped>
 @media screen and (max-width: 700px) {
-  .login-bg,.account-info,.app-link,.login-footer,.project-name{
+
+  .login-bg,
+  .account-info,
+  .app-link,
+  .login-footer,
+  .project-name {
     display: none;
   }
-  .login-container{
+
+  .login-container {
     padding: 2rem;
     justify-content: center;
   }
-  .login-form{
+
+  .login-form {
     width: 100%;
   }
-  .form-user,.loging-btn{
+
+  .form-user,
+  .loging-btn {
     width: 100%;
   }
 }

@@ -98,7 +98,7 @@
             class="contextMenu"
           >
             <li v-show="visibleItem.all">
-              <el-button type="text" @click="closeTabs()" size="small">
+              <el-button link @click="closeTabs()">
                 <i class="el-icon-close"></i>
                 {{
                   navigation.length == 2 ? "关闭菜单" : "关闭所有"
@@ -106,18 +106,18 @@
               >
             </li>
             <li v-show="visibleItem.left">
-              <el-button type="text" @click="closeTabs('left')" size="small"
+              <el-button link @click="closeTabs('left')" 
                 ><i class="el-icon-back"></i>关闭左边</el-button
               >
             </li>
             <li v-show="visibleItem.right">
-              <el-button type="text" @click="closeTabs('right')" size="small">
+              <el-button link @click="closeTabs('right')" >
                 <i class="el-icon-right"></i>关闭右边</el-button
               >
             </li>
             <li v-show="visibleItem.other">
               <el-button
-                type="text"
+              link
                 @click="closeTabs('other')"
              
                 ><i class="el-icon-right"></i>关闭其他
@@ -751,7 +751,7 @@ function showTime() {
 
 .contextMenu li {
   margin: 0;
-  padding: 0px 17px;
+  padding: 5px 17px;
 }
 
 .contextMenu li:hover {

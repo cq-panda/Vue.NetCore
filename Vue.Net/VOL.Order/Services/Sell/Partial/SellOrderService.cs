@@ -43,6 +43,37 @@ namespace VOL.Order.Services
             // IsMultiTenancy = true;
         }
 
+        //将前端table组件提交的查询参数转换为表达式
+        public IQueryable<SellOrder> Test(PageDataOptions options)
+        {
+
+            ////1、对象转换为字符串
+            //Sys_User user = new Sys_User();
+            //string userText=  user.Serialize();
+
+            ////2、字符串转换为对象(上面的json字符串userText转换为对象)
+            //user = userText.DeserializeObject<Sys_User>();
+
+
+            ////list对象序列化与反序列化
+            //List<Sys_User> list = new List<Sys_User>();
+            //list.Add(new Sys_User() { UserName = "test" });
+
+            //userText = list.Serialize();
+
+            ////字符串转换为对象(上面的json字符串userText转换为对象)
+            //list = userText.DeserializeObject<List<Sys_User>>();
+
+
+            //options.Wheres;为前端提交的查询条件
+            //手动获取查询条件
+            //List<SearchParameters> parameters= options.Wheres.DeserializeObject<List<SearchParameters>>();
+
+            IQueryable<SellOrder> query = base.GetPageDataQueryFilter(options);
+            //或者调用其他表的转换
+            //SellOrderService.Instance.GetPageDataQueryFilter(options);
+            return query;
+        }
 
         /// <summary>
         /// 2023.02.03增加or查询条件示例
@@ -60,10 +91,8 @@ namespace VOL.Order.Services
         //        {
         //            if (!string.IsNullOrEmpty(item.Value))
         //            {
-        //                if (orFilter==null)
-        //                {
-        //                    orFilter = x => false;
-        //                }
+        //                if (orFilter == null&&(item.Name == "TranNo"|| item.Name == "SellNo")){ orFilter = x => false; }
+
         //                //注意:这里只需要判断or查询的字段，其他的字段不需要处理
         //                //这里必须拷贝value值
         //                string value = item.Value;

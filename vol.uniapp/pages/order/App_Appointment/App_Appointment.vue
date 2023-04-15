@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view-grid ref="grid" @delTest="delTest" :index="true" :options="options">
+		<view-grid ref="grid" @testBtnClick="testBtnClick" :index="true" :options="options">
 			<!-- 自定义slot -->
 			<view slot="gridHeader" class="grid-header">
 				<vol-alert>
@@ -49,6 +49,9 @@
 						this.searchInputClick();
 					}
 				})
+			},
+			testBtnClick(){
+				 this.$toast('测试按钮');
 			},
 			searchInputClick() { //点击搜索
 				//生成页面的搜索功能，见App_AppointmentExtend.js中searchInputClick操作

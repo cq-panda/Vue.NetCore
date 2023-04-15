@@ -178,7 +178,7 @@ const param = {
       name: "onChange",
       desc: `<div class="cnblogs_Highlighter">
         <div>select、switch、date、datetime组件选择事件(只对编辑生效)</div>
-        <div>为date、datetime时onChange(date,option)只有这两个参数，2020.07.24</div>
+        <div>为date、datetime时onChange(row,column,date)只有这三个参数，2023.04.11以前的代码需要更新voltable.vue文件</div>
         <div>onChange:(column,row,tableData,value)=&gt;{</div>
         <pre class="brush:javascript;gutter:true;"><em id="__mceDel">             this.$Message.error(row["test2"]);
                     },
@@ -343,7 +343,7 @@ const param = {
     { name: "ck", desc: "<span  style='color:red'>是否显示checkbox(2020.11.01)</span>", type: "bool", default: "true" },
     { name: "columnIndex", desc: "是否显示index序号(2020.11.01)", type: "bool", default: "false" },
     { name: "textInline", desc: "<span style='color:red'>table内容超出后自动换行(2021.01.16)</span>", type: "bool", default: "true" },
-    { name: "(获取焦点)获取表单原生dom标签", desc: "this.$refs.form.$refs.字段名<br>使用场景:新建/编辑时设置input标签设置焦点：this.$refs.form.$refs.字段名[0].foucs()<br>(2022.09.12更新volform.vue文件后才能使用)", param: "" },
+    { name: "(获取焦点)获取表单原生dom标签", desc: "this.$refs.form.$refs.字段名<br>使用场景:新建/编辑时设置input标签设置焦点：this.$refs.form.$refs.字段名[0].focus()<br>(2022.09.12更新volform.vue文件后才能使用)", param: "" },
     {
       name: "buttons", desc: `查询界面的所有按钮，[{<br />
           &nbsp; &nbsp; name: "刷 新",//按钮名称<br />

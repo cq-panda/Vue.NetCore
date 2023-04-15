@@ -22,6 +22,10 @@
 	export default {
 		data() {
 			return {
+				test: {
+					a: 1,
+					b: 2
+				},
 				editFormFields: {
 					inputText: "",
 					inputText2: "",
@@ -34,7 +38,7 @@
 					cascader3: '004',
 					selectVal: "",
 					selectListVal: [], //多选这里的值是数组 
-					dateValue:this.base.getDate(),//设置默认日期为当天
+					dateValue: this.base.getDate(), //设置默认日期为当天
 					datetimeValue: "2022-03-27 20:15",
 					dateRange: ["2022-03-10", "2022-06-20"], //数组 
 					inputRange: [100000000, 900000000], //区间是数组
@@ -207,7 +211,7 @@
 						//2023.04.02更新util->common.js才能使用获取日期的方法
 						// min:'2023-04-01',
 						// max:'2023-07-02'
-						
+
 						//设置只能选择半个月内的数据
 						min: this.base.addDay(this.base.getDate(), -15),
 						max: this.base.getDate()
@@ -309,6 +313,13 @@
 			}
 		},
 		onShow() {
+
+		},
+		onReady() {
+			//设置表单默认值请写在onReady中
+			this.editFormFields.inputText = 'vol框架';
+		},
+		onLoad() {
 
 		}
 	}

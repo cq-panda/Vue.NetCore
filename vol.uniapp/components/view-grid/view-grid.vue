@@ -478,18 +478,15 @@
 					if (!result.status) {
 						return;
 					}
-					this.model = false;
-					//刷新页面，如果是编辑不刷新页面，直接更新表格数据(但小程序上有问题)
 					this.refresh();
 					if (this.currentAction == 'Add') {
 						if (this.addAfter && !this.addAfter(this.editFormFields)) {
 							return;
 						}
+					} else if (this.updateAfter && !this.updateAfter(this.editFormFields)) {
 						return;
 					}
-					if (this.updateAfter && !this.updateAfter(this.editFormFields)) {
-						return;
-					}
+					this.model = false;
 				})
 			},
 			initPermissionButtons() { //初始化按钮权限
