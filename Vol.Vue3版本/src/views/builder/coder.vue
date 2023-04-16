@@ -175,7 +175,6 @@ export default {
   },
   watch: {
     'layOutOptins.fields.vuePath'(val) {
-      // localStorage.setItem('vuePath', val);
       localStorage.setItem(this.appName+'_vuePath', val);
     },
     deep: true
@@ -336,16 +335,14 @@ export default {
     ceateVuePage(isApp) {
       this.validateTableInfo(() => {
         let vuePath;
-        if (!isApp) {
-          // vuePath = localStorage.getItem('vuePath');
+        if (!isApp) {          
           vuePath = localStorage.getItem(this.appName+'_vuePath');          
           if (!vuePath) {
             return this.$message.error(
               '请先设置Vue项目对应Views的绝对路径,然后再保存!'
             );
           }
-        } else {
-          // vuePath = localStorage.getItem('appPath');
+        } else {          
           vuePath = localStorage.getItem(this.appName+'_appPath');
           if (!vuePath) {
             return this.$message.error('请先设置app路径,然后再保存!');
@@ -410,8 +407,6 @@ export default {
     ceateController() {},
     checkSortName() {},
     save() {
-      // localStorage.setItem('vuePath', this.layOutOptins.fields.vuePath || '');
-      // localStorage.setItem('appPath', this.layOutOptins.fields.appPath || '');
       localStorage.setItem(this.appName+'__vuePath', this.layOutOptins.fields.vuePath || '');
       localStorage.setItem(this.appName+'_appPath', this.layOutOptins.fields.appPath || '');
 
@@ -514,8 +509,6 @@ export default {
         column.bind.data = data;
       });
 
-    // builderData.form.fields.vuePath = this.getVuePath('vuePath');
-    // builderData.form.fields.appPath = this.getVuePath('appPath');
     builderData.form.fields.vuePath = this.getVuePath(this.appName+'_vuePath');
     builderData.form.fields.appPath = this.getVuePath(this.appName+'_appPath');
     this.http.post('/api/builder/GetTableTree', {}, false).then((x) => {
