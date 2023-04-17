@@ -12,7 +12,6 @@ namespace VOL.System.Controllers
 {
     [Route("api/Sys_User")]
     [PermissionTable(Name = "Sys_User")]
-    [ApiExplorerSettings(GroupName = "用户管理_SysUser")]
     public partial class Sys_UserController : ApiBaseController<ISys_UserService>
     {
         public Sys_UserController(ISys_UserService service)

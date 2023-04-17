@@ -13,7 +13,6 @@ namespace VOL.System.Controllers
 {
     [Route("api/Sys_Role")]
     [PermissionTable(Name = "Sys_Role")]
-    [ApiExplorerSettings(GroupName = "角色管理_SysRole")]
     public partial class Sys_RoleController : ApiBaseController<ISys_RoleService>
     {
         public Sys_RoleController(ISys_RoleService service)

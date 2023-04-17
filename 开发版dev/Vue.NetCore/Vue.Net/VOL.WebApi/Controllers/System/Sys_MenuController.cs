@@ -10,7 +10,6 @@ namespace VOL.System.Controllers
 {
     [Route("api/menu")]
     [ApiController, JWTAuthorize()]
-    [ApiExplorerSettings(GroupName = "菜单管理_SysMenu")]
     public partial class Sys_MenuController : ApiBaseController<ISys_MenuService>
     {
         private ISys_MenuService _service { get; set; }

@@ -10,7 +10,6 @@ using VOL.System.IServices;
 namespace VOL.System.Controllers
 {
     [Route("api/Sys_Log")]
-    [ApiExplorerSettings(GroupName = "日志管理_SysLog")]
     public partial class Sys_LogController : ApiBaseController<ISys_LogService>
     {
         public Sys_LogController(ISys_LogService service)
