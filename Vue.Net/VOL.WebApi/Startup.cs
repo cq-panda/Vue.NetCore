@@ -185,7 +185,11 @@ namespace VOL.WebApi
             });
             services.Configure<KestrelServerOptions>(options =>
             {
-                options.Limits.MaxRequestBodySize = 1024 * 1024 * 100;//100<
+                options.Limits.MaxRequestBodySize = 1024 * 1024 * 100;//100M
+            });
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = 1024 * 1024 * 100;//100M
             });
 
         }
