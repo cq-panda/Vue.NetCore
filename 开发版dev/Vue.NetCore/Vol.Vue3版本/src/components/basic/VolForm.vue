@@ -909,7 +909,8 @@ export default defineComponent({
     convertArrayValue(data, val) {
       // 2020.12.13增加表单多选只转换字典
       // 编辑多选table显示
-      let valArr = val instanceof Array ? val : val.split(",");
+      //2023.04.20修复只读为label时原数据被字典替换了的问题
+      let valArr = Array.isArray(val) ? val.map(x=>{return x}) : val.split(",");
       for (let index = 0; index < valArr.length; index++) {
         var _item = data.find((x) => {
           return x.key && x.key != "0" && x.key + "" == valArr[index] + "";
