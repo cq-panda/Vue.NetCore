@@ -468,7 +468,11 @@ export default {
       if (Object.keys(params).length) {
         paramText="?1=1";
         for (const key in params) {
-          paramText=`&${key}=${JSON.stringify(params[key])}`
+          let value=params[key];
+          if(typeof(value)=='object'){
+            value=JSON.stringify(value)
+          }
+          paramText+=`&${key}=${value}`
         }
       }
 
