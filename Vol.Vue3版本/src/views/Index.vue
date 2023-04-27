@@ -129,20 +129,20 @@
       <div class="vol-main" id="vol-main">
         <el-scrollbar style="height: 100%" v-if="permissionInited">
           <loading v-show="$store.getters.isLoading()"></loading>
-          <router-view
-            v-if="
-              !$route.meta ||
-              ($route.meta && !$route.meta.hasOwnProperty('keepAlive'))
-            "
-            v-slot="{ Component }"
-          >
+          <router-view v-slot="{ Component }">
             <keep-alive>
-              <component :is="Component" />
+              <component
+                :is="Component"
+                :key="$route.name"
+                v-if="!$route.meta ||($route.meta && !$route.meta.hasOwnProperty('keepAlive'))"
+              />
             </keep-alive>
+            <component
+              :is="Component"
+              :key="$route.name"
+              v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"
+            />
           </router-view>
-          <router-view
-            v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"
-          ></router-view>
         </el-scrollbar>
       </div>
     </div>
