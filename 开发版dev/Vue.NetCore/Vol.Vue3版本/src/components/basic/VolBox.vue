@@ -13,7 +13,7 @@
       </template>
     </el-dialog> -->
 
-    <el-dialog v-model="vmodel" :align-center="true" :close-on-click-modal="false" :close-on-press-escape="false"
+    <el-dialog v-model="vmodel" :close-on-click-modal="false" :close-on-press-escape="false"
       :width="width" :draggable="draggable" :modal="modal" :before-close="handleClose">
       <template #header> <i :class="icon"></i> {{ title }} </template>
       <el-scrollbar :max-height="contentHeight">
