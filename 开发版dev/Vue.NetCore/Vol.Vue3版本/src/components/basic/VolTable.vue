@@ -1478,7 +1478,7 @@ export default defineComponent({
         }
       });
       if (sum) {
-        sum = (sum * 1.0).toFixed(2).replace('.00', '') * 1.0;
+        sum = (sum * 1.0).toFixed(column.numberLength||2).replace('.00', '') * 1.0;
       }
       this.summaryData[this.summaryIndex[column.field]] = sum;
     },
