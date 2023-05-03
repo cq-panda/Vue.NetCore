@@ -63,7 +63,7 @@
                  v-html="line"></p>
             </div>
           </div>
-          <Alert type="success"
+          <Alert v-if="item.tips" type="success"
                  show-icon>{{item.tips}}</Alert>
         </div>
       </div>
@@ -217,12 +217,37 @@ export default {
           tips: ` repository.DapperContext或DBServerProvider.SqlDapper可直接使用dapper，内部已封装好常用功能`,
         },
 		{
+          title: "控制器不能使用System.IO问题",
+          name: "extend",
+          content: [
+		  `请在类的最上面添加using Sys = System;  方法中使用Sys.IO即可`
+		  ],
+		  tips: ``
+		  },
+		{
+          title: "读取配置文件appsettings.json",
+          name: "extend",
+          content: [
+		  `<div>1、读取单个配置属性： AppSetting.GetSettingString("key");</div>
+		   <div>2、读取多个配置属性： AppSetting.GetSection("key1")["key2"];</div>`
+		  ],
+		  tips: ``
+		  },
+		  {
+          title: "获取项目绝对路径",
+          name: "extend",
+          content: [
+		  `"文件夹名/".MapPath(); 或者"".MapPath();//多线程中不能使用此方法，请使用AppSetting.CurrentPath获取项目所在磁盘路径`
+		  ],
+		  tips: ``
+		  },
+		{
           title: "后台基础代码扩展实现",
           name: "extend",
           content: [
             `<p>
-			<div style="font-size:15px;">1、此示例列举的是后台表对应的service类,所有基础操作增删改查导入导出上传等操作都在service类按需自定义重写实现</div>
-			<div style="font-size:15px;">2、每张生成的表都有一个service类,如Sell表对应有一个SellOrderService类，按需复制下面的方法实现</div>
+			<div style="font-size:20px;color:red;">1、此列举的是后台表对应的service类,所有基础操作增删改查导入导出上传等操作都在service类按需自定义重写实现</div>
+			<div style="font-size:20px;color:red;">2、每张生成的表都有一个service类,如Sell表对应有一个SellOrderService类，按需复制下面的方法实现</div>
 	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 		<div>
 			<span style="color:#9cdcfe;">public</span> <span style="color:#9cdcfe;">partial</span> <span style="color:#569cd6;">class</span> <span style="color:#4ec9b0;">SellOrderService</span>

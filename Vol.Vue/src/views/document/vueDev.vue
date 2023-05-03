@@ -243,6 +243,224 @@ export default {
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121302.png?imageMogr2/thumbnail/!35p"
         },
+		{
+          title: "http请求",
+          content: [
+            `<p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp;//第一个参数:url</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第二个参数：请求的参数</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第三个参数：是否显示发起请求时的提示信息(默认否)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">url</span>=<span style="color:#ce9178;">'api/表名/方法名'</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//如果参数很少后台又不想创建model,将参数放url上</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//let url=''api/表名/方法名?a=1&amp;b=2'</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#569cd6;">true</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//第4个参数自定义配置信息,具体更多配置见axios官方文档</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>,{
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">timeout</span><span style="color:#9cdcfe;">:</span><span style="color:#b5cea8;">10000</span>,<span style="color:#6a9955;">//设置过期时间10秒</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">headers</span><span style="color:#9cdcfe;">:</span>{<span style="color:#9cdcfe;">token</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">'1231'</span>,<span style="color:#9cdcfe;">responeType</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">"text/html"</span>} <span style="color:#6a9955;">//配置其他请求头信息</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; }).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//下载后台返回的流文件(excel、pdf文件等)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>, <span style="color:#9cdcfe;">param</span>,<span style="color:#569cd6;">true</span>, { <span style="color:#9cdcfe;">responseType</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'blob'</span> })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; .<span style="color:#dcdcaa;">then</span>((<span style="color:#9cdcfe;">content</span>) <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">blob</span> = <span style="color:#569cd6;">new</span> <span style="color:#4ec9b0;">Blob</span>([<span style="color:#9cdcfe;">content</span>]);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">elink</span> = <span style="color:#9cdcfe;">document</span>.<span style="color:#dcdcaa;">createElement</span>(<span style="color:#ce9178;">'a'</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">download</span> = <span style="color:#9cdcfe;">fileName</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">style</span>.<span style="color:#9cdcfe;">display</span> = <span style="color:#ce9178;">'none'</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">href</span> = <span style="color:#4ec9b0;">URL</span>.<span style="color:#dcdcaa;">createObjectURL</span>(<span style="color:#4fc1ff;">blob</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">document</span>.<span style="color:#9cdcfe;">body</span>.<span style="color:#dcdcaa;">appendChild</span>(<span style="color:#4fc1ff;">elink</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#dcdcaa;">click</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4ec9b0;">URL</span>.<span style="color:#dcdcaa;">revokeObjectURL</span>(<span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">href</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">document</span>.<span style="color:#9cdcfe;">body</span>.<span style="color:#dcdcaa;">removeChild</span>(<span style="color:#4fc1ff;">elink</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; });
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.http.get同上</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果需要同步调用(注意需要将当前方法标识为async与C#用法基本类似)：</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">await</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>();
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//或者使用使用this.ajax做同步请求</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">ajax</span>({
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">url</span><span style="color:#9cdcfe;">:</span> <span style="color:#9cdcfe;">url</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">json</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">success</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">function</span> (<span style="color:#9cdcfe;">data</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"post"</span>,<span style="color:#6a9955;">//get</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">async</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">false</span> <span style="color:#6a9955;">//是否异步请求，false为同步请求</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; });
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果写的是vue3语法</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//在scrpit的第一行引入: import http from './api/http'</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// http.post() //其他操作同上</span>
+		</div>
+	</div>
+</p>
+<p>
+	<br />
+</p>`
+          ],
+          tips: `无`,
+          img: ""
+        },
+		{
+          title: "日期操作",
+          content: [`<p>
+	<br />
+</p>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		&nbsp; &nbsp; &nbsp;&nbsp; <span style="color:#6a9955;">//获取当前时间</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">date1</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">getDate</span>();
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//获取当前时间带时分秒</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">date2</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">getDate</span>(<span style="color:#569cd6;">true</span>);
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//日期减15天</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">date3</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">addDays</span>(<span style="color:#ce9178;">"2023-05-04"</span>, <span style="color:#b5cea8;">15</span>);
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//日期减15天</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">date4</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">addDays</span>(<span style="color:#ce9178;">"2023-05-04"</span>, -<span style="color:#b5cea8;">15</span>);
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//当天日期减15天</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">date5</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">addDays</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">getDate</span>(), -<span style="color:#b5cea8;">15</span>);
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果写的是vue3语法</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//在scrpit的第一行引入: import base from './uitils/common'</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// base.getDate() //其他操作同上</span>
+	</div>
+</div>
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>`],
+		  tips: `无`,
+          img: ""
+		},
         {
           title: "查询界面操作",
           type: "line"
@@ -397,16 +615,76 @@ export default {
 	</div>
 
 	<div style="margin-top:20px">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.detailOptions.<span style="color:#9cdcfe;">sortName</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"明细表排序字字段"</span>;&nbsp;&nbsp;<span style="color:#6a9955;">//明细表排序字字段</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.pagination.<span style="color:#9cdcfe;">sortName</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"明细表排序字字段"</span>;&nbsp;&nbsp;<span style="color:#6a9955;">//明细表排序字字段</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.detailOptions.<span style="color:#9cdcfe;">order</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"desc"</span>&nbsp;;&nbsp;<span style="color:#6a9955;">//明细表排序方式desc或者asc</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.pagination.<span style="color:#9cdcfe;">order</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"desc"</span>&nbsp;;&nbsp;<span style="color:#6a9955;">//明细表排序方式desc或者asc</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
 </div>
 <p style="margin-top:32px;margin-bottom:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;color:#404040;text-align:center;white-space:normal;background-color:#FFFFFF;padding:0px;">
+	<br />
+</p>`
+          ],
+          tips: "",
+          img: ""
+        },
+		{
+          title: "查询界面--禁止checkbox选中",
+          content: [
+            `<p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<br />
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">//2023.05.03更新ViewGrid.vue、serviceFilter.js、detailMethods.js后才能使用</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">selectable</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">index</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置界面CheckBox是否可以勾选</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//判断字段=xx的checkbox不能选中</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">字段</span> == <span style="color:#ce9178;">"值"</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">false</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">detailSelectable</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">index</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//明细表CheckBox 是否可以勾选</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//操作同上</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp;
+		</div>
+	</div>
+</p>
+<p>
 	<br />
 </p>`
           ],
@@ -3056,7 +3334,7 @@ export default {
         },
 
         {
-          title: "table显示合计",
+          title: "table显示合计(求合、平均值)",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
 	<div>
@@ -3090,7 +3368,9 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Qty'</span>)&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">summary</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">summary</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>; 
+		<div style="padding-left:100px;">//计算平均值 x.summary = 'avg';//2023.05.03更新voltable文件后才能使用</div>
+		<div style="padding-left:100px;">//设置小数显示位数(默认2位) x.numberLength = 4;</div>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -6147,68 +6427,6 @@ export default {
         {
           title: "其他分类",
           type: "line"
-        },
-        {
-          title: "http请求",
-          content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第一个参数:url</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第二个参数：请求的参数</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第三个参数：是否显示发起请求时的提示信息(默认否)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#ce9178;">"url"</span>,{},<span style="color:#569cd6;">true</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#ce9178;">"url"</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
-	</div>
-<br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第4个参数配置信息,具体更多配置见axios官方文档</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#ce9178;">"url"</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>,{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">timeout:</span><span style="color:#b5cea8;">10000</span>,<span style="color:#6a9955;">//设置过期时间10秒</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">headers:</span>{<span style="color:#9cdcfe;">token:</span><span style="color:#ce9178;">'1231'</span>,<span style="color:#9cdcfe;">responeType:</span><span style="color:#ce9178;">"text/html"</span>}&nbsp;<span style="color:#6a9955;">//配置其他请求头信息</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-	</div>
-<br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.http.get同上</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果需要同步调用(注意需要将当前方法标识为async与C#用法基本类似)：</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">await</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;或者使用使用this.ajax,ajax使用见index.vue获取菜单的方法</span>
-	</div>
-</div>`
-          ],
-          tips: `无`,
-          img: ""
         },
         {
           title: "主从表一对一",

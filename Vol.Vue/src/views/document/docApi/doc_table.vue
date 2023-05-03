@@ -188,28 +188,28 @@
       <table3></table3>
     </div>
     <div>
-        <Button
-          type="info"
-          @click="
-            () => {
-              this.viewCode = true;
-              this.code = this.sourceCode.searchTable;
-            }
-          "
-          >查看代码</Button
-        >
-        <Button
-          type="info"
-          @click="
-            () => {
-              this.viewCode = true;
-              this.code = this.sourceCode.searchTable3;
-            }
-          "
-          >查看vue3代码</Button
-        >
-      </div>
-      <docParamTable name="voltable"></docParamTable>
+      <Button
+        type="info"
+        @click="
+          () => {
+            this.viewCode = true;
+            this.code = this.sourceCode.searchTable;
+          }
+        "
+        >查看代码</Button
+      >
+      <Button
+        type="info"
+        @click="
+          () => {
+            this.viewCode = true;
+            this.code = this.sourceCode.searchTable3;
+          }
+        "
+        >查看vue3代码</Button
+      >
+    </div>
+    <docParamTable name="voltable"></docParamTable>
     <br />
     <br />
     <VolBox
@@ -267,7 +267,7 @@ let doc_options = {
       searchFields: {
         CreateDate1: "",
         CreateDate2: "",
-        UserName: "",
+        UserName: ""
       },
       url2: "api/App_Expert/getPageData",
       url: "/api/app_news/upload", //使用后台自带的上传文件方法，也可以自定义方法上传
@@ -276,7 +276,7 @@ let doc_options = {
       model: false,
       editTableOptions: {
         data: editTable.data,
-        columns: [],
+        columns: []
       },
       clickEditTableOptions: {
         data: [
@@ -288,7 +288,7 @@ let doc_options = {
             EventClick: "不午休的猫",
             FormatString: "2019-11-08",
             Enable: 0,
-            CreateDate: "2018-09-18 17:45:54",
+            CreateDate: "2018-09-18 17:45:54"
           },
           {
             ExpertId: 276,
@@ -297,8 +297,8 @@ let doc_options = {
             EventClick: "此单元格不能编辑",
             FormatString: "2019-11-09",
             Enable: 1,
-            CreateDate: "2020-22-18 17:45:54",
-          },
+            CreateDate: "2020-22-18 17:45:54"
+          }
         ],
         columns: [
           //表配置
@@ -306,7 +306,7 @@ let doc_options = {
             field: "ExpertId", //数据库表字段,必须和数据库一样，并且大小写一样
             title: "主键ID", //表头显示的名称
             isKey: true, //是否为主键字段
-            hidden: true, //是否显示
+            hidden: true //是否显示
           },
           {
             field: "NotNull",
@@ -314,7 +314,7 @@ let doc_options = {
             width: 70,
             required: true,
             edit: { type: "text" },
-            sortable: true, //是否排序(目前第一个字段为排序字段，其他字段排序开发中)
+            sortable: true //是否排序(目前第一个字段为排序字段，其他字段排序开发中)
           },
           {
             field: "LimitNumber",
@@ -322,7 +322,7 @@ let doc_options = {
             summary: true, //设置求和，并可以实时计算
             width: 70,
             require: true,
-            edit: { type: "number", min: 3, max: 5 },
+            edit: { type: "number", min: 3, max: 5 }
           },
           {
             field: "EventClick",
@@ -334,20 +334,20 @@ let doc_options = {
               if (row.EventClick == "不午休的猫") {
                 return { background: "#2196F3", color: "#ffff" };
               }
-            },
+            }
           },
           {
             field: "FormatString",
             title: "格式化日期",
             width: 90,
             require: true,
-            formatter: (row) => {
+            formatter: row => {
               //对单元格的数据格式化处理
               if (!row.FormatString) {
                 return;
               }
               return row.FormatString.replace(/-/g, ".");
-            },
+            }
           },
           {
             field: "Enable",
@@ -355,16 +355,16 @@ let doc_options = {
             type: "byte",
             bind: { key: "enable", data: [] }, //此处值为data空数据，自行从后台字典数据源加载
             width: 110,
-            edit: { type: "switch" },
+            edit: { type: "switch" }
           },
           {
             field: "CreateDate",
             title: "日期",
             type: "datetime",
             width: 110,
-            edit: { type: "datetime" },
-          },
-        ],
+            edit: { type: "datetime" }
+          }
+        ]
       },
       viewModel: false,
       viewCode: false,
@@ -377,8 +377,8 @@ let doc_options = {
         pagination: {
           total: 0, //分页总数量
           size: 30, //分页大小,30,60,100.
-          sortName: "CreateDate", //从后加载数据分页时的排序字段
-        },
+          sortName: "CreateDate" //从后加载数据分页时的排序字段
+        }
       },
       icon: "md-male",
       text: "主题名称",
@@ -389,15 +389,15 @@ let doc_options = {
             imgs:
               "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
             enable: 1,
-            date: "2020-03-18 17:45:54",
+            date: "2020-03-18 17:45:54"
           },
           {
             userName: "梁什么伟",
             imgs:
               "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/x2.jpg",
             enable: 0,
-            date: "2020-03-20 12:20:30",
-          },
+            date: "2020-03-20 12:20:30"
+          }
         ],
         columns: [
           {
@@ -405,13 +405,13 @@ let doc_options = {
             title: "用户名",
             require: true,
             edit: { type: "text", keep: true },
-            width: 150,
+            width: 150
           },
           {
             field: "imgs",
             title: "图文介绍",
             type: "img",
-            width: 200,
+            width: 200
           },
           {
             field: "upload",
@@ -432,7 +432,7 @@ let doc_options = {
                 }
               }
               this.model = true;
-            },
+            }
           },
           {
             field: "enable",
@@ -443,20 +443,17 @@ let doc_options = {
             bind: {
               //如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上
               key: "audit",
-              data: [
-                { key: 0, value: "否" },
-                { key: 1, value: "是" },
-              ],
+              data: [{ key: 0, value: "否" }, { key: 1, value: "是" }]
             },
             onChange: (row, column, data, value) => {
               this.$Message.info(value ? "是" : "否");
-            },
+            }
           },
           {
             field: "date",
             title: "日期",
             edit: { type: "datetime", keep: true },
-            width: 150,
+            width: 150
           },
           {
             field: "save",
@@ -467,9 +464,9 @@ let doc_options = {
             },
             click: (row, column, event) => {
               this.$Message.info("当前保存的行数据：" + JSON.stringify(row));
-            },
-          },
-        ],
+            }
+          }
+        ]
       },
       /////////////////////////button编辑配置///////////////////
       eidtWithButton: {
@@ -479,15 +476,15 @@ let doc_options = {
             test2: "1",
             test3: "789",
             test4: "2018-09-18 17:45:54",
-            test5: "123",
+            test5: "123"
           },
           {
             test1: "123x",
             test2: "0",
             test3: "789x",
             test4: "2020-01-18 13:24:26",
-            test5: "123x",
-          },
+            test5: "123x"
+          }
         ],
         columns: [
           {
@@ -502,9 +499,9 @@ let doc_options = {
               click: (column, row, tableData) => {
                 //  this.getRows();
                 this.$Message.error("点击标签触发的事件");
-              },
+              }
             },
-            width: 80,
+            width: 80
           },
           {
             field: "test2",
@@ -517,17 +514,14 @@ let doc_options = {
             bind: {
               //如果后面返回的数据为数据源的数据，请配置此bind属性，可以从后台字典数据源加载，也只以直接写上
               key: "audit",
-              data: [
-                { key: "0", value: "否" },
-                { key: "1", value: "是" },
-              ],
+              data: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
             },
-            width: 130,
+            width: 130
           },
           {
             field: "test3",
             title: "测试3",
-            width: 160,
+            width: 160
           },
           {
             title: "render动态生成组件",
@@ -537,35 +531,35 @@ let doc_options = {
                 h(
                   "a",
                   {
-                    props: { },
+                    props: {},
                     style: {},
                     on: {
-                      click: (e) => {
+                      click: e => {
                         e.stopPropagation();
                         //弹出框编辑
                         this.$Notice.open({
                           title: "当前操作的行",
-                          desc: JSON.stringify(row),
+                          desc: JSON.stringify(row)
                         });
-                      },
-                    },
+                      }
+                    }
                   },
                   "render按钮"
                 ),
                 h(
                   "a",
                   {
-                    props: { },
+                    props: {},
                     style: { "margin-left": "10px" },
                     on: {
-                      click: (e) => {
+                      click: e => {
                         e.stopPropagation();
                         this.$Notice.open({
                           title: "当前操作的行",
-                          desc: JSON.stringify(row),
+                          desc: JSON.stringify(row)
                         });
-                      },
-                    },
+                      }
+                    }
                   },
                   "审核"
                 ),
@@ -573,42 +567,38 @@ let doc_options = {
                   "Dropdown",
                   {
                     props: {
-                      transfer: true,
+                      transfer: true
                     },
                     style: {
-                      "margin-left": "10px",
+                      "margin-left": "10px"
                     },
                     on: {
-                      "on-click": (name) => {
+                      "on-click": name => {
                         this.$Message.info(name);
-                      },
-                    },
+                      }
+                    }
                   },
                   [
                     h("a", {}, [
                       "更多",
-                      h("Icon", { props: { type: "ios-arrow-down" } }),
+                      h("Icon", { props: { type: "ios-arrow-down" } })
                     ]),
                     h("DropdownMenu", { slot: "list" }, [
                       h("DropdownItem", { props: { name: "明细" } }, "明细"),
                       h("DropdownItem", { props: { name: "签收" } }, "签收"),
-                      h(
-                        "DropdownItem",
-                        { props: { name: "bubu.." } },
-                        "bubu.."
-                      ),
-                    ]),
+                      h("DropdownItem", { props: { name: "bubu.." } }, "bubu..")
+                    ])
                   ]
-                ),
+                )
               ]);
-            },
+            }
           },
           {
             field: "test5",
             title: "测试5",
-            width: 300,
-          },
-        ],
+            width: 300
+          }
+        ]
       },
       columns: [
         //表配置
@@ -618,32 +608,32 @@ let doc_options = {
           type: "int", //数据类型
           isKey: true, //是否为主键字段
           hidden: true, //是否显示
-          align: "left", //文字显示位置
+          align: "left" //文字显示位置
         },
         {
           field: "HeadImageUrl",
           title: "头像",
           type: "img",
-          width: 160,
+          width: 160
         },
         {
           field: "UserName",
           title: "申请人帐号",
           width: 120,
-          sort: true,
+          sort: true
         },
         {
           field: "UserTrueName",
           title: "申请人",
           sort: true,
-          width: 120,
+          width: 120
         },
         {
           field: "Enable",
           title: "是否启用",
           sort: true,
           bind: { key: "enable", data: [] }, //此处值为data空数据，自行从后台字典数据源加载
-          width: 80,
+          width: 80
         },
         {
           field: "ReallyName",
@@ -661,15 +651,15 @@ let doc_options = {
           formatter: () => {
             //对单元格的数据格式化处理
             return "<a>点我</a>";
-          },
+          }
         },
         {
           field: "CreateDate",
           title: "申请时间",
           sort: true,
-          width: 150,
-        },
-      ],
+          width: 150
+        }
+      ]
     };
   },
 
@@ -746,7 +736,7 @@ let doc_options = {
     uploadAfter(result, files) {
       if (!result.status) return true;
       let imgs = [];
-      files.forEach((x) => {
+      files.forEach(x => {
         imgs.push(result.data + x.name);
       });
       // //将图片填写表格中
@@ -779,19 +769,19 @@ let doc_options = {
         {
           name: "UserName",
           value: this.searchFields.UserName,
-          displayType: "like",
+          displayType: "like"
         },
         //设置日期查询>=、<=
         {
           name: "CreateDate",
           value: this.searchFields.CreateDate1,
-          displayType: "thanorequal",
+          displayType: "thanorequal"
         },
         {
           name: "CreateDate",
           value: this.searchFields.CreateDate2,
-          displayType: "lessorequal",
-        },
+          displayType: "lessorequal"
+        }
       ];
       callBack(true); //此处必须进行回调，返回处理结果，如果是false，则不会执行后台查询
     },
@@ -823,8 +813,8 @@ let doc_options = {
       this.text = "当前选中的行数据：" + JSON.stringify(rows);
       this.viewModel = true;
       return rows;
-    },
-  },
+    }
+  }
 };
 export default doc_options;
 </script>
