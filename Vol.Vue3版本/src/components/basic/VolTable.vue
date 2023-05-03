@@ -151,7 +151,12 @@
                   style="width: 100%"
                   v-if="['date', 'datetime'].indexOf(column.edit.type) != -1"
                   v-model="scope.row[column.field]"
-                  @change="(val)=>{column.onChange && column.onChange(scope.row, column,val)}"
+                  @change="
+                    (val) => {
+                      column.onChange &&
+                        column.onChange(scope.row, column, val);
+                    }
+                  "
                   :type="column.edit.type"
                   :placeholder="column.placeholder || column.title"
                   :disabledDate="(val) => getDateOptions(val, column)"
@@ -165,7 +170,12 @@
                   style="width: 100%"
                   v-else-if="column.edit.type == 'time'"
                   v-model="scope.row[column.field]"
-                  @change="(val)=>{column.onChange && column.onChange(scope.row, column,val)}"
+                  @change="
+                    (val) => {
+                      column.onChange &&
+                        column.onChange(scope.row, column, val);
+                    }
+                  "
                   :placeholder="column.placeholder || column.title"
                   :value-format="column.format || 'HH:mm:ss'"
                   :disabled="initColumnDisabled(scope.row, column)"
@@ -1320,20 +1330,31 @@ export default defineComponent({
       }
 
       this.columns.forEach((col) => {
-        if (!col.hidden) {
-          if (data.summary.hasOwnProperty(col.field)) {
-            let sum = data.summary[col.field];
-            if (sum) {
-              sum = (sum * 1.0).toFixed(2).replace('.00', '') * 1.0;
-            }
-            this.summaryData.push(sum);
-          } else {
-            this.summaryData.push('');
-          }
+        if (col.children && col.children.length) {
+          col.children.forEach((item) => {
+            this.getColumnSummaries(item, data);
+          });
+        } else {
+          this.getColumnSummaries(col, data);
         }
       });
       if (this.summaryData.length > 0 && this.summaryData[0] == '') {
         this.summaryData[0] = '合计';
+      }
+    },
+    getColumnSummaries(col, data) {
+      if (!col.hidden) {
+        if (data.summary.hasOwnProperty(col.field)) {
+          let sum = data.summary[col.field];
+          if (sum) {
+            sum =
+              (sum * 1.0).toFixed(column.numberLength || 2).replace('.00', '') *
+              1.0;
+          }
+          this.summaryData.push(sum);
+        } else {
+          this.summaryData.push('');
+        }
       }
     },
     getInputChangeSummaries() {},
@@ -1470,18 +1491,20 @@ export default defineComponent({
       // column列设置了summary属性的才计算值
       if (!column.summary) return;
       let sum = 0;
-    //  let _index = 0;
+      //  let _index = 0;
       (this.url ? this.rowData : this.tableData).forEach((x, index) => {
         if (x.hasOwnProperty(column.field) && !isNaN(x[column.field])) {
-         // _index = index;
+          // _index = index;
           sum += x[column.field] * 1;
         }
       });
       if (sum) {
-        if (column.summary=='avg') {
-          sum=sum/(this.rowData.length|| this.tableData.length||1)
+        if (column.summary == 'avg') {
+          sum = sum / (this.rowData.length || this.tableData.length || 1);
         }
-        sum = (sum * 1.0).toFixed(column.numberLength||2).replace('.00', '') * 1.0;
+        sum =
+          (sum * 1.0).toFixed(column.numberLength || 2).replace('.00', '') *
+          1.0;
       }
       this.summaryData[this.summaryIndex[column.field]] = sum;
     },
