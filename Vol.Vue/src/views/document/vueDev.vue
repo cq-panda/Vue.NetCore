@@ -461,6 +461,92 @@ export default {
 		  tips: `无`,
           img: ""
 		},
+		{
+          title: "手动打开/关闭tabs页面",
+          content: [
+            ` <p>
+	<br />
+</p>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+			<div>
+				&nbsp;<span style="color:#6a9955;">//注意，如果需要每次打开tabs页面获取参数，请配置禁用页面缓存，见上面:禁用页面缓存keepAlive</span>
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/*打开tabs实际也是执行的路由跳转，需要打开的tabs必须是一个路由页面*/</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//手动打开tabs,</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/*</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; * text打开的tab显示的名称</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; * path路由path</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; * query跳转的参数，可选，如果需要建议使用query</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; */</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$tabs</span>.<span style="color:#dcdcaa;">open</span>({
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">text</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"个人中心"</span>,
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">path</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"/userinfo"</span>,
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">query</span><span style="color:#9cdcfe;">:</span> {},
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; });
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; <span style="color:#6a9955;">//手动关闭tabs,参数为路由path</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$tabs</span>.<span style="color:#dcdcaa;">close</span>(<span style="color:#ce9178;">"/userinfo"</span>);
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; <span style="color:#6a9955;">//如果写的是vue3语法，请在script里第一行代码加上</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#6a9955;">//import {getCurrentInstance} from 'vue';</span>
+			</div>
+			<div>
+				&nbsp; &nbsp;
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#6a9955;">//使用vue3语法调用</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">$tabs</span>= <span style="color:#9cdcfe;">getCurrentInstance</span>.<span style="color:#9cdcfe;">appContext</span>.<span style="color:#9cdcfe;">config</span>.<span style="color:#9cdcfe;">globalProperties</span>.<span style="color:#9cdcfe;">$tabs</span>;
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp;<span style="color:#4fc1ff;">$tabs</span>.<span style="color:#dcdcaa;">open</span>({})<span style="color:#6a9955;">//参数同上</span>
+			</div>
+		</div>
+	</div>
+</div>
+<p>
+	<br />
+</p>
+`
+          ],
+          tips: `还没想好`,
+          img: ""
+        },
         {
           title: "查询界面操作",
           type: "line"
@@ -737,7 +823,7 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/0922.png?imageMogr2/thumbnail/!35p"
         },
         {
-          title: "查询界面--第二种布局",
+          title: "查询界面--显示所有查询条件",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<span style="display:none;"></span><span style="font-size:12px;color:#99BB00;">&nbsp; &nbsp;//调用</span><span style="color:#DCDCAA;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:normal;background-color:#1E1E1E;"><span style="font-size:12px;color:#99BB00;">setFiexdSearchForm方法后，即可开启第二种查询布局</span><span style="display:none;"></span></span><br />
@@ -763,25 +849,62 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/35.png?imageMogr2/thumbnail/!35p"
         },
         {
-          title: "查询界面--默认查询值",
+          title: "查询界面--查询默认值",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-	<div>
-		&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+            `<p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			&nbsp; &nbsp;<span style="color:#dcdcaa;">onInit</span>() {
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//日期查询默认30天内的数据</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//true参数为获取时间是否带时分秒，如果查询类型代码生成器选择的datetime这里也必须传true日期带时分秒</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">dateNow</span>= <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">getDate</span>(<span style="color:#569cd6;">true</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//当前日期-30天</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">beginDate</span>= <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">addDays</span>(<span style="color:#9cdcfe;">dateNow</span>,-<span style="color:#b5cea8;">30</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFields</span>.<span style="color:#9cdcfe;">CreateDate</span>=[<span style="color:#9cdcfe;">beginDate</span>,<span style="color:#9cdcfe;">dateNow</span>];
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//或者固定日期</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果查询类型代码生成器选择的datetime这里必须设置时分秒分</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFields</span>.<span style="color:#9cdcfe;">CreateDate</span>=[<span style="color:#ce9178;">'2023-03-01 00:00:00'</span>,<span style="color:#ce9178;">'2023-03-31 23:59:57'</span>]
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//其他字段设置默认查询的值</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFields</span>.<span style="color:#9cdcfe;">Name</span> = <span style="color:#ce9178;">"林"</span>;
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//更多查询前设置，见组件api-&gt;代码生成页面ViewGrid-&gt;searchBefore方法</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; },
+		</div>
 	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//代码生成器中可以设置字段的查询类型为like进行模糊查询</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//d页面初始化时，设置默认的查值</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFields</span>.<span style="color:#9cdcfe;">Name</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"林"</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-</div>`
+</p>
+<p>
+	<br />
+</p>`
           ],
           tips: ` 还没想好`,
           img:
@@ -1572,59 +1695,7 @@ export default {
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/06.png?imageMogr2/thumbnail/!35p"
         },
-        {
-          title: "手动打开/关闭tabs",
-          content: [
-            `<div style='color:red;'>2020.08.01(需要更新文件：index.vue 、main.js标注了更新位置)</div>
-			<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*打开tabs实际也是执行的路由跳转，需要打开的tabs必须是一个路由页面*/<span style="display:none;"></span></span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//手动打开tabs,</span> 
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*</span> 
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;text打开的tab显示的名称</span> 
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;path路由path</span> 
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;query跳转的参数，可选，如果需要建议使用query</span> 
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span> 
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$tabs</span>.<span style="color:#dcdcaa;">open</span>({
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">text:</span>&nbsp;<span style="color:#ce9178;">"个人中心"</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">path:</span>&nbsp;<span style="color:#ce9178;">"/userinfo"</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">query:</span>&nbsp;{},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;});
-	</div>
-<br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//手动关闭tabs,参数为路由path</span> 
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$tabs</span>.<span style="color:#dcdcaa;">close</span>(<span style="color:#ce9178;">"/userinfo"</span>);
-	</div>
-</div>`
-          ],
-          tips: `还没想好`,
-          img: ""
-        },
+       
         {
           title: "页面显示扩展",
           content: [
