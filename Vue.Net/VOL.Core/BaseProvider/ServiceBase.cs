@@ -468,7 +468,7 @@ namespace VOL.Core.BaseProvider
             try
             {
                 //2022.06.20增加原生excel读取方法(导入时可以自定义读取excel内容)
-                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate(), readValue: ImportOnReadCellValue);
+                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate(), readValue: ImportOnReadCellValue,ignoreSelectValidationColumns: ImportIgnoreSelectValidationColumns);
             }
             catch (Exception ex)
             {

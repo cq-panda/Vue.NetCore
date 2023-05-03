@@ -125,7 +125,7 @@ namespace VOL.Core.Filters
         /// 写入审批流程数据之后
         /// list:审批的人id
         /// </summary>
-        protected Action<T, List<int>> AddWorkFlowExecuted;
+        protected Action<T,List<int>> AddWorkFlowExecuted;
 
         /// <summary>
         /// 调用更新方法前处理(SaveModel为传入的原生数据)
@@ -191,7 +191,7 @@ namespace VOL.Core.Filters
         /// list:下一个节点的审批人id
         /// bool:当前数据是否为最后一个人审核
         /// </summary>
-        protected Func<T, AuditStatus, List<int>, bool, WebResponseContent> AuditWorkFlowExecuted;
+        protected Func<T, AuditStatus,List<int>, bool, WebResponseContent> AuditWorkFlowExecuted;
 
         /// <summary>
         ///导出前处理,DataTable导出的表数据
@@ -213,6 +213,7 @@ namespace VOL.Core.Filters
         /// </summary>
         protected Expression<Func<T, object>> DownLoadTemplateColumns { get; set; }
 
+ 
         /// <summary>
         /// 导入保存后
         /// </summary>
@@ -222,6 +223,11 @@ namespace VOL.Core.Filters
         /// 导入保存前
         /// </summary>
         protected Func<List<T>, WebResponseContent> ImportOnExecuting;
+
+        /// <summary>
+        /// 导入时不验证下拉框数据源的字段值2023.05.03
+        /// </summary>
+        protected Expression<Func<T, object>> ImportIgnoreSelectValidationColumns;
 
         /// <summary>
         /// 2022.06.20增加原生excel读取方法(导入时可以自定义读取excel内容)

@@ -213,6 +213,7 @@ namespace VOL.Core.Filters
         /// </summary>
         protected Expression<Func<T, object>> DownLoadTemplateColumns { get; set; }
 
+ 
         /// <summary>
         /// 导入保存后
         /// </summary>
@@ -222,6 +223,11 @@ namespace VOL.Core.Filters
         /// 导入保存前
         /// </summary>
         protected Func<List<T>, WebResponseContent> ImportOnExecuting;
+
+        /// <summary>
+        /// 导入时不验证下拉框数据源的字段值2023.05.03
+        /// </summary>
+        protected Expression<Func<T, object>> ImportIgnoreSelectValidationColumns;
 
         /// <summary>
         /// 2022.06.20增加原生excel读取方法(导入时可以自定义读取excel内容)
