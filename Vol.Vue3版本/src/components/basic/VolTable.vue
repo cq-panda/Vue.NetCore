@@ -1470,14 +1470,17 @@ export default defineComponent({
       // column列设置了summary属性的才计算值
       if (!column.summary) return;
       let sum = 0;
-      let _index = 0;
+    //  let _index = 0;
       (this.url ? this.rowData : this.tableData).forEach((x, index) => {
         if (x.hasOwnProperty(column.field) && !isNaN(x[column.field])) {
-          _index = index;
+         // _index = index;
           sum += x[column.field] * 1;
         }
       });
       if (sum) {
+        if (column.summary=='avg') {
+          sum=sum/(this.rowData.length|| this.tableData.length||1)
+        }
         sum = (sum * 1.0).toFixed(column.numberLength||2).replace('.00', '') * 1.0;
       }
       this.summaryData[this.summaryIndex[column.field]] = sum;
