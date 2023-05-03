@@ -92,6 +92,10 @@ let detailMethods = {
         }
       });
     }
+  },
+  detailSelectable(row, index){
+    //明细表CheckBox 是否可以勾选
+       return true;
   }
 };
 

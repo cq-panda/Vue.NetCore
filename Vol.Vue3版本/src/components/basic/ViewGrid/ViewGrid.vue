@@ -382,6 +382,7 @@
                   :ck="detailOptions.ck"
                   :text-inline="detailOptions.textInline"
                   :select2Count="select2Count"
+                  :selectable="detailSelectable"
                 ></vol-table>
               </div>
               <!--明细footer自定义组件-->
@@ -478,6 +479,7 @@
           :text-inline="textInline"
           :ck="ck"
           :select2Count="select2Count"
+          :selectable="selectable"
         ></vol-table>
       </div>
     </div>

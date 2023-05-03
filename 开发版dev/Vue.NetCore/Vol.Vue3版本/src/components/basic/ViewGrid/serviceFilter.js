@@ -100,7 +100,10 @@ let serviceFilter = {
     //如果返回 false不会关闭弹出框 
     //return false;
     this.boxModel=false;
+  },
+  selectable(row, index){
+    //表CheckBox 是否可以勾选
+       return true;
   }
-
 }
 export default serviceFilter;
