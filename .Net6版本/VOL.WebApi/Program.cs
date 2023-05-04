@@ -18,6 +18,8 @@ namespace VOL.WebApi
     {
         public static void Main(string[] args)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
             //CreateHostBuilder(args).Build().Run();
             var host = CreateHostBuilder(args).Build();
             #region kafka¶©ÔÄÏûÏ¢

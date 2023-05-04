@@ -14,8 +14,6 @@ using VOL.Core.Const;
 using VOL.Core.DBManager;
 using VOL.Core.Enums;
 using VOL.Core.Extensions;
-using VOL.Core.Utilities;
-
 
 namespace VOL.Core.Dapper
 {
@@ -103,7 +101,7 @@ namespace VOL.Core.Dapper
             {
                 return await ExecuteTransactionAsync(funcAsync);
             }
-            using (var connection = DBServerProvider.GetDbConnection(_connectionString))
+            using (var connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
             {
                 T reslutT = await funcAsync(connection, dbTransaction);
                 if (!_transaction && dbTransaction != null)
@@ -116,7 +114,7 @@ namespace VOL.Core.Dapper
 
         private async Task<T> ExecuteTransactionAsync<T>(Func<IDbConnection, IDbTransaction, Task<T>> funcAsync)
         {
-            using (var connection = DBServerProvider.GetDbConnection(_connectionString))
+            using (var connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
             {
                 try
                 {
@@ -945,7 +943,8 @@ namespace VOL.Core.Dapper
 
                 throw ex;
             }
-            finally {
+            finally
+            {
                 _transactionConnection?.Dispose();
                 dbTransaction?.Dispose();
             }
