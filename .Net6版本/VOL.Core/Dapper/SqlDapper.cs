@@ -1,4 +1,4 @@
-﻿
+
 using Dapper;
 using MySqlConnector;
 using System;
@@ -103,7 +103,7 @@ namespace VOL.Core.Dapper
             {
                 return await ExecuteTransactionAsync(funcAsync);
             }
-            using (var connection = DBServerProvider.GetDbConnection(_connectionString))
+            using (var connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
             {
                 T reslutT = await funcAsync(connection, dbTransaction);
                 if (!_transaction && dbTransaction != null)
@@ -116,7 +116,7 @@ namespace VOL.Core.Dapper
 
         private async Task<T> ExecuteTransactionAsync<T>(Func<IDbConnection, IDbTransaction, Task<T>> funcAsync)
         {
-            using (var connection = DBServerProvider.GetDbConnection(_connectionString))
+            using (var connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
             {
                 try
                 {
