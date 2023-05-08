@@ -1348,7 +1348,7 @@ export default defineComponent({
           let sum = data.summary[col.field];
           if (sum) {
             sum =
-              (sum * 1.0).toFixed(column.numberLength || 2).replace('.00', '') *
+              (sum * 1.0).toFixed(col.numberLength || 2).replace('.00', '') *
               1.0;
           }
           this.summaryData.push(sum);
