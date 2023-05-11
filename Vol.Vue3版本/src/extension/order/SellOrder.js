@@ -11,7 +11,7 @@
 //8、获取子组件gridHeader、gridBody、gridFooter、modelHeader、modelBody、modelFooter则使用
 //this.$refs.gridHeader获取gridHeader为自己扩展的对象
 //9、在子组件gridHeader、gridBody、gridFooter、modelHeader、modelBody、modelFooter的方法中调用并获得父组件
-// this.$emit("parentCall", $vue => {}) //$vue为父组件对象，具体使用参考order->GridHeaderExtend.vue文件
+// this.$emit("parentCall", $vue => {}) //$vue为父组件对象，具体使用参考order->GridHeader.vue文件
 
 //10、子父件传参除8、9方式，另可使用已封装的vuex,使用方式:this.$store.getters.data().xxx = this;使用实例：App_News.js
 
@@ -20,8 +20,8 @@
 //所的文件都最终会合并到ViewGrid.vue文件中
 
 import { h, resolveComponent } from 'vue';
-import gridHeader from "./SellOrderComponents/GridHeaderExtend.vue"
-import gridFooter from "./SellOrderComponents/GridFooterExtend.vue"
+import gridHeader from "./SellOrderComponents/GridHeader.vue"
+import gridFooter from "./SellOrderComponents/GridFooter.vue"
 import modelFooter from "./SellOrderComponents/ModelFooter.vue"
 import modelBody from "./SellOrderComponents/ModelBody.vue"
 let extension = {
@@ -50,29 +50,7 @@ let extension = {
   buttons: { //根据需要自行实现扩展按钮
     //注：没有编辑或新建权限的情况下，是不会显示此处添加的扩展按钮，如果仍需要显示此处的按钮，可以把按钮在methods的onInited方法中添加,如：this.boxButtons.push(...)
     view: [//ViewGrid查询界面按钮
-      {
-        name: "点我",
-        icon: 'md-create',
-        value: 'Edit',
-        class: '',
-        type: 'primary',
-        index: 1,//显示的位置
-        onClick: function () { //扩展按钮执行事件
-          //this可以获取所有属性，包括this.$refs.gridHeader/gridBody等获取扩展组件对象
-          // this.$message("测试扩展按钮");
-          this.$refs.gridHeader.model = true;
-        }
-      }, {
-        name: "调用后台",
-        icon: 'md-create',
-        value: 'Edit',
-        class: '',
-        type: 'primary',
-        index: 1,//显示的位置
-        onClick: function () { //扩展按钮执行事件
-          this.getServiceDate();
-        }
-      }
+      
     ],
     box: //新建、编辑弹出框按钮
       [//ViewGrid查询界面按钮
@@ -113,6 +91,33 @@ let extension = {
     },
     //方式1,通过select选择触发显示与隐藏
     onInit() {
+
+     this.buttons.splice(1,0,...[
+      {
+        name: "点我弹出框",
+        icon: 'md-create',
+        value: 'Edit',
+        class: '',
+        type: 'primary',
+        index: 1,//显示的位置
+        onClick: function () { //扩展按钮执行事件
+          //this可以获取所有属性，包括this.$refs.gridHeader/gridBody等获取扩展组件对象
+          // this.$message("测试扩展按钮");
+          this.$refs.gridHeader.open1();
+        }
+      }, {
+        name: "调用后台",
+        icon: 'md-create',
+        value: 'Edit',
+        class: '',
+        type: 'primary',
+        index: 1,//显示的位置
+        onClick: function () { //扩展按钮执行事件
+          this.getServiceDate();
+        }
+      }
+     ])
+
       //获取订单类型select配置，当前订单类型select改变值时，动态设置Remark,SellNo两个字段是否显示 
       var orderTypeOption = this.getFormOption("OrderType");
       orderTypeOption.onChange = (val) => {
@@ -146,10 +151,10 @@ let extension = {
       this.columns.forEach(x => {
         if (x.field == "Qty") {
           x.formatter = (row) => {
-            return '<a>' + row.Qty + "(弹出框)" + '</a>'
+            return '<a style="color:#2196F3;">' + row.Qty + "(弹出框)" + '</a>'
           }
           x.click = (row, column, event) => {
-            this.$refs.gridHeader.model = true;
+            this.$refs.gridHeader.open2(row)
           }
         }
       })
