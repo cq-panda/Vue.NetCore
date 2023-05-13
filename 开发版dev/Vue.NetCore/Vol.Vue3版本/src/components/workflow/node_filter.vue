@@ -12,7 +12,7 @@
                     + 添加字段</el-button></div>
         </div>
 
-        <table>
+        <div>
             <tr>
                 <td>字段</td>
                 <td style="width:90px">条件</td>
@@ -43,7 +43,7 @@
                 </td>
                 <td @click="delItem(index)" class="item-del"><i class="el-icon-delete"></i></td>
             </tr>
-        </table>
+        </div>
         <!-- <div>
             <label>自定义sql</label>
             <div><el-input type="textarea" v-model="customSql"></el-input></div>
@@ -53,9 +53,8 @@
 
 <script>
 let _this = this;
-import table from '../../views/forms/table.vue'
 export default {
-    components: { table },
+    components: {  },
     props: {
         tableName: {
             type: String,

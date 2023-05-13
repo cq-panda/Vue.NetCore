@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import FlowPanel from '@/components/ef/panel'
+import FlowPanel from '@/components/workflow/panel'
 import VolBox from '@/components/basic/VolBox.vue';
 export default {
   name: 'App',
@@ -215,108 +215,6 @@ export default {
 
       })
 
-      //       ALTER TABLE dbo.Sys_WorkFlowStep ALTER COLUMN StepValue VARCHAR(500)
-      // ALTER TABLE Sys_WorkFlowStep ALTER COLUMN StepId VARCHAR(100)
-
-      // ALTER TABLE Sys_WorkFlowStep add  NextStepIds VARCHAR(500)
-      // ALTER TABLE dbo.Sys_WorkFlowStep ADD ParentId  VARCHAR(2000)
-      // ALTER TABLE Sys_WorkFlowStep ADD  AuditRefuse INT 
-      // ALTER TABLE Sys_WorkFlowStep ADD  AuditRefuse INT 
-      // ALTER TABLE Sys_WorkFlowStep ADD  AuditBack INT 
-      // ALTER TABLE Sys_WorkFlowStep ADD  AuditMethod INT 
-      // ALTER TABLE Sys_WorkFlowStep ADD  SendMail INT 
-      // ALTER TABLE Sys_WorkFlowStep ADD  StepAttrType VARCHAR(50) 
-
-      // ALTER TABLE Sys_WorkFlowStep ADD  Filters NVARCHAR(4000) 
-      //ALTER TABLE Sys_WorkFlow ADD AuditingEdit INT 
-      //ALTER TABLE dbo.Sys_WorkFlowTableStep ALTER COLUMN StepValue VARCHAR(500)
-      //ALTER TABLE dbo.Sys_WorkFlowTableStep ADD  StepAttrType VARCHAR(50) 
-      // ALTER TABLE Sys_WorkFlowTable ADD CurrentStepId NVARCHAR(100)
-      // ALTER TABLE Sys_WorkFlowTableStep ADD StepId  NVARCHAR(100)
-      // ALTER TABLE Sys_WorkFlowTableStep ALTER COLUMN StepValue VARCHAR(500)
-      // ALTER TABLE Sys_WorkFlowTableStep ADD  ParentId VARCHAR(2000)
-      // ALTER TABLE Sys_WorkFlowTableStep ADD  NextStepId VARCHAR(100)
-      //ALTER TABLE Sys_WorkFlow ADD Weight INT 
-
-      // ALTER TABLE Sys_WorkFlowTableStep ADD Weight INT 
-
-      // ALTER TABLE Sys_WorkFlowStep ADD Weight INT 
-      //步骤名称
-        // ALTER TABLE Sys_WorkFlowTable ADD  StepName NVARCHAR(500)
-
-    //调整用户表(修改用户表在代码生成器需要点同步表结构、生成model、生成页面)
-    //ALTER TABLE dbo.Sys_User ALTER COLUMN RoleName NVARCHAR(200)
-
-    // ALTER TABLE dbo.Sys_User ALTER COLUMN HeadImageUrl NVARCHAR(500)
-
-    // ALTER TABLE  Sys_User  ALTER COLUMN IsRegregisterPhone INT 
-
-    // --增加部门字段
-    // ALTER TABLE  Sys_User ADD DeptIds NVARCHAR(2000)
-    
-    //以上表结构修改后，代码生成器点同步表结构、生成model、生成页面
-
-      
-    //下面新增三个张需要生成完整代码
-
-      //审核记录表（生成代码时选system类库、文件夹输入flow）
-      // CREATE TABLE Sys_WorkFlowTableAuditLog
-      // (
-      //   Id UNIQUEIDENTIFIER PRIMARY KEY,
-      //   WorkFlowTable_Id UNIQUEIDENTIFIER,
-      //   WorkFlowTableStep_Id UNIQUEIDENTIFIER,
-      //   StepId NVARCHAR(100),
-      //   StepName NVARCHAR(200),
-      //   AuditId INT,
-      //   Auditor  NVARCHAR(100),
-      //   AuditStatus  int,
-      //   AuditResult  NVARCHAR(1000),
-      //   AuditDate DATETIME ,
-      //   Remark    NVARCHAR(1000),
-      //   CreateDate datetime
-      // )
-     
-      //下拉框绑定设置页面修改:【审核状态】数据源配置，参照演示环境配置
-
-
-      //增加组织架构(部门表)、这两张表需要生成代码，（生成代码时选system类库、文件夹输入system）
-      //CREATE TABLE [dbo].[Sys_Department](
-      // 	[DepartmentId] [uniqueidentifier] NOT NULL PRIMARY KEY ,
-      // 	[DepartmentName] [nvarchar](200) NOT NULL,
-      // 	[DepartmentCode] [nvarchar](50) NULL,
-      // 	[ParentId] [uniqueidentifier] NULL,
-      // 	[DepartmentType] [nvarchar](50) NULL,
-      // 	[Enable] [int] NULL,
-      // 	[Remark] [nvarchar](500) NULL,
-      // 	[CreateID] [int] NULL,
-      // 	[Creator] [nvarchar](30) NULL,
-      // 	[CreateDate] [datetime] NULL,
-      // 	[ModifyID] [int] NULL,
-      // 	[Modifier] [nvarchar](30) NULL,
-      // 	[ModifyDate] [datetime] NULL
-      // )    
-
-    //增加用户所属部门表(一个用户可以有多个部门)（生成代码时选system类库、文件夹输入system）
-    // CREATE TABLE [dbo].[Sys_UserDepartment](
-    //   [Id] [uniqueidentifier] NOT NULL PRIMARY KEY ,
-    //   [UserId] [int] NOT NULL,
-    //   [DepartmentId] [uniqueidentifier] NOT NULL,
-    //   [Enable] [int] NOT NULL,
-    //   [CreateID] [int] NULL,
-    //   [Creator] [nvarchar](255) NULL,
-    //   [CreateDate] [datetime] NULL,
-    //   [ModifyID] [int] NULL,
-    //   [Modifier] [nvarchar](255) NULL,
-    //   [ModifyDate] [datetime] NULL
-    //   )  
-
-
-    //更新后台文件
-    //增加DepartmentContext.cs文件、更新UserContext.cs、UserInfo.cs、
-    //Sys_WorkFlowController.cs、Sys_WorkFlowTableService.cs、ServiceBase、cs(或者整个vol.core类库)
-    //Startup.cs中ConfigureContainer方法、vol.core类库下WorkFlow文件夹、Logger.cs
-
-    //前端文件：components文件夹、main.js、package.json(需要重新执行npm installl),builderData.js
 
       for (let index = 0; index < rootNode.length; index++) {
         const step = rootNode[index];
