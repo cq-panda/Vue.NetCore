@@ -49,7 +49,6 @@ import FlowNodeForm from './node_form'
 import lodash from 'lodash'
 // import { getDataA } from './data_A'
 import VolForm from '@/components/basic/VolForm.vue';
-import options from '../../views/charts/chartOptions';
 export default {
     data() {
         return {
