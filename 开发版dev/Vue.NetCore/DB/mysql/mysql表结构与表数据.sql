@@ -767,7 +767,7 @@ INSERT INTO `Sys_Dictionary` VALUES (50, '{\r\n valueField: \'Enable\',\r\n text
 INSERT INTO `Sys_Dictionary` VALUES (59, '{\r\n valueField: \'IsRegregisterPhone\',\r\n textField: \'IsRegregisterPhone\',\r\n  containField:null \r\n}', '2018-08-29 15:54:21', 1, '测试超级管理员', NULL, NULL, '手机用户', 'isphone', 1, '超级管理员', '2020-11-20 23:05:48', 1, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (64, NULL, '2019-09-18 19:25:47', 1, '超级管理员', NULL, NULL, '订单类型', 'ordertype', 1, '超级管理员', '2019-11-01 10:04:21', 1, NULL, 0, 'xxxxx');
 INSERT INTO `Sys_Dictionary` VALUES (65, NULL, '2019-09-19 10:07:23', 1, '超级管理员', NULL, NULL, '商品名称', 'pn', 1, '超级管理员', '2022-07-12 23:28:41', 1, 2, 0, NULL);
-INSERT INTO `Sys_Dictionary` VALUES (66, NULL, '2020-11-20 23:03:56', 1, '超级管理员', NULL, 'SELECT Role_Id AS id,parentId,Role_Id AS [key],RoleName AS value FROM Sys_Role', '级联角色', 'tree_roles', 1, '超级管理员', '2020-11-20 23:08:03', 1, NULL, 0, NULL);
+INSERT INTO `Sys_Dictionary` VALUES (66, NULL, '2020-11-20 23:03:56', 1, '超级管理员', NULL, 'SELECT Role_Id AS id,parentId,Role_Id AS 'key',RoleName AS value FROM Sys_Role', '级联角色', 'tree_roles', 1, '超级管理员', '2020-11-20 23:08:03', 1, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (67, NULL, '2020-12-29 21:41:16', 1, '超级管理员', NULL, NULL, 'nav', 'nav', 1, NULL, NULL, NULL, NULL, 0, NULL);
 INSERT INTO `Sys_Dictionary` VALUES (68, NULL, '2022-01-03 18:29:14', 1, '超级管理员', NULL, NULL, '满意度', '满意度', 1, '超级管理员', '2022-06-27 00:52:40', 1, NULL, 0, '表单设计使用');
 INSERT INTO `Sys_Dictionary` VALUES (70, NULL, '2022-09-06 00:48:10', 1, '超级管理员', NULL, NULL, '请求方式', '请求方式', 1, NULL, NULL, NULL, NULL, 0, NULL);
