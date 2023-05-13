@@ -25,7 +25,7 @@ app.config.globalProperties.http = http;
 app.config.globalProperties.$tabs = {};
 app.config.globalProperties.permission = permission;
 app.config.globalProperties.$global = {
-    signalR: true, //是否开启signalR
+    signalR: false, //是否开启signalR
     table: {
         //vol-table带数据源的单元格是否启用tag标签(下拉框等单元格以tag标签显示)
         useTag: true

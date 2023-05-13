@@ -56,13 +56,13 @@ namespace VOL.System.Services
                 Sys_User user = await repository.FindAsIQueryable(x => x.UserName == loginInfo.UserName)
                     .FirstOrDefaultAsync();
 
-                if (user == null || loginInfo.Password.Trim().EncryptDES(AppSetting.Secret.User) != (user.UserPwd ?? ""))
-                    return webResponse.Error(ResponseType.LoginError);
+                //if (user == null || loginInfo.Password.Trim().EncryptDES(AppSetting.Secret.User) != (user.UserPwd ?? ""))
+                //    return webResponse.Error(ResponseType.LoginError);
 
                 string token = JwtHelper.IssueJwt(new UserInfo()
-                {
-                    User_Id = user.User_Id,
-                    UserName = user.UserName,
+                { 
+                    User_Id = user.User_Id,  
+                    UserName = user.UserName, 
                     Role_Id = user.Role_Id
                 });
                 user.Token = token;

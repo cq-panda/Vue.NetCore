@@ -5,6 +5,6 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.WebApi\bin\Release\netcoreapp3.1\netcoreapp3.1\publish\</_PublishTargetUrl>
-    <History>True|2023-04-18T07:35:05.6365202Z;True|2023-04-17T11:57:25.8432514+08:00;</History>
+    <History>True|2023-05-13T12:05:25.8957521Z;True|2023-05-13T20:04:29.4754890+08:00;True|2023-04-18T15:35:05.6365202+08:00;True|2023-04-17T11:57:25.8432514+08:00;</History>
   </PropertyGroup>
 </Project>
