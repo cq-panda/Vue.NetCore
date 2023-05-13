@@ -40,7 +40,7 @@
  - http://v2.volcore.xyz/app/guide
 
 ## 2023.05.13增加审批流程分支、条件功能
-![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow1.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow2.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow3.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow4.png)  
