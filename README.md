@@ -43,7 +43,7 @@
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow2.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow3.png)  
-![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow4.png)  
+
 
 ## 框架移动端（uniapp）已发布,同样全自动生成代码,扫描小程序二维码即可查看
 
