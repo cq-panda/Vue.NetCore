@@ -71,7 +71,7 @@ namespace VOL.Core.EFDbContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = DBServerProvider.GetConnectionString(null);
+            string connectionString = DBServerProvider.GetConnectionString(DataBaseName);
             if (Const.DBType.Name == Enums.DbCurrentType.MySql.ToString())
             {
                 optionsBuilder.UseMySql(connectionString);

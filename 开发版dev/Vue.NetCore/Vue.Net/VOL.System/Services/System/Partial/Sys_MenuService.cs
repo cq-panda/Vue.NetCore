@@ -258,8 +258,8 @@ namespace VOL.System.Services
 
         public async Task<WebResponseContent> DelMenu(int menuId)
         {
-            WebResponseContent webResponse = new WebResponseContent();
-
+            WebResponseContent webResponse =new  WebResponseContent();
+      
             if (await repository.ExistsAsync(x => x.ParentId == menuId))
             {
                 return webResponse.Error("当前菜单存在子菜单,请先删除子菜单!");

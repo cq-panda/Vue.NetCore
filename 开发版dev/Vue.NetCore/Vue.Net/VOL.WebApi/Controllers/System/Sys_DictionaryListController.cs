@@ -10,7 +10,6 @@ namespace VOL.System.Controllers
 {
     [Route("api/Sys_DictionaryList")]
     [PermissionTable(Name = "Sys_DictionaryList")]
-    [ApiExplorerSettings(GroupName = "字典明细管理_SysDictionaryList")]
     public partial class Sys_DictionaryListController : ApiBaseController<ISys_DictionaryListService>
     {
         public Sys_DictionaryListController(ISys_DictionaryListService service)

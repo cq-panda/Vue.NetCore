@@ -1,12 +1,12 @@
 <template>
-  <div class="vol-tabs">
+  <div class="vol-tabs" style="height:390px ;">
     <el-tabs
       type="border-card"
       style="
         min-height: 370px;
         box-shadow: none;
         border-bottom: 0;
-        border-top: 10px solid #eee;
+        border-top: 1px solid #eee;
       "
     >
       <el-tab-pane>
@@ -17,32 +17,29 @@
         <div>
           <el-button
             type="primary"
-            icon="el-icon-close"
-            size="mini"
-            ghost
+            icon="Close"
+            link
             @click="del"
             >删除行</el-button
           >
           <el-button
             type="success"
-            icon="el-icon-plus"
-            size="mini"
-            ghost
+            icon="Plus"
+            link
             @click="add"
             >添加行</el-button
           >
           <el-button
             type="warning"
-            icon="el-icon-check"
-            size="mini"
-            ghost
+            icon="Check"
+            link
             @click="getRows"
             >获取选中的行</el-button
           >
           <el-button
             type="info"
-            icon="el-icon-refresh"
-            size="mini"
+            icon="Refresh"
+            link
             @click="$refs.table1.load()"
             >刷新</el-button
           >
@@ -61,7 +58,7 @@
           :loadKey="true"
           :columns="tableColumns1"
           :pagination-hide="false"
-          :height="230"
+          :height="205"
           :url="table1Url"
           :index="true"
           :defaultLoadPage="false"
@@ -79,15 +76,14 @@
         <div style="padding-bottom: 10px">
           <el-button
             type="primary"
-            size="mini"
-            ghost
-            icon="el-icon-plus"
+             link
+            icon="Plus"
             @click="$refs.table2.addRow({})"
             >添加行</el-button
           >
           <el-button
-            icon="el-icon-close"
-            size="mini"
+            icon="Close"
+            link
             type="success"
             ghost
             @click="$refs.table2.load()"
@@ -261,7 +257,8 @@ export default {
       this.$refs.table1.reset();
     },
     add() {
-      this.$refs.table1.addRow({});
+    //  this.$refs.table1.addRow({});
+    this.$refs.table1.rowData.unshift({title:"测试....."});
     },
     getRows() {
       //获取选中的行

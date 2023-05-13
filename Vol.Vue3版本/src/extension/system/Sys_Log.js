@@ -19,7 +19,7 @@ let extension = {
       this.setFiexdSearchForm(true);
     },
     onInited() {
-      this.height = this.height - 195;
+      this.height = this.height - 170;
     }
   }
 };

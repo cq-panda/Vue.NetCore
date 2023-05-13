@@ -9,13 +9,15 @@
       :width="width"
       :padding="0"
     >
+     <div :style="{height: height+'px'}">
       <VolFormDraggable
         ref="form"
         :showTips="false"
-        :style="{ height: height + 'px' }"
+        style="height:500px"
         @save="save"
         :userComponents="userComponents"
       ></VolFormDraggable>
+     </div>
       <template #footer>
         <el-button type="default" size="small" @click="model = false"
           >关闭</el-button

@@ -11,6 +11,7 @@ using VOL.Core.DBManager;
 using VOL.Core.Enums;
 using VOL.Core.Extensions;
 using VOL.Core.Extensions.AutofacManager;
+using VOL.Core.UserManager;
 using VOL.Entity;
 using VOL.Entity.DomainModels;
 
@@ -89,7 +90,7 @@ namespace VOL.Core.ManageUser
             if (_userInfo != null && _userInfo.User_Id > 0) return _userInfo;
 
             _userInfo = DBServerProvider.DbContext.Set<Sys_User>()
-                .Where(x => x.User_Id == userId).Select(s => new UserInfo()
+                .Where(x => x.User_Id == userId).Select(s => new
                 {
                     User_Id = userId,
                     Role_Id = s.Role_Id.GetInt(),
@@ -99,7 +100,17 @@ namespace VOL.Core.ManageUser
                     Token = s.Token,
                     UserName = s.UserName,
                     UserTrueName = s.UserTrueName,
-                    Enable = s.Enable
+                    Enable = s.Enable,
+                    DeptIds= s.DeptIds
+                }).ToList().Select(s => new UserInfo()
+                {
+                    User_Id = userId,
+                    Role_Id = s.Role_Id,
+                    Token = s.Token,
+                    UserName = s.UserName,
+                    UserTrueName = s.UserTrueName,
+                    Enable = 1,
+                    DeptIds = string.IsNullOrEmpty(s.DeptIds) ? new List<Guid>() : s.DeptIds.Split(",").Select(x => (Guid)x.GetGuid()).ToList(),
                 }).FirstOrDefault();
 
             if (_userInfo != null && _userInfo.User_Id > 0)
@@ -362,6 +373,18 @@ namespace VOL.Core.ManageUser
         public int RoleId
         {
             get { return UserInfo.Role_Id; }
+        }
+        public List<Guid> DeptIds
+        {
+            get { return UserInfo.DeptIds; }
+        }
+        /// <summary>
+        /// 获取所有子部门
+        /// </summary>
+        /// <returns></returns>
+        public List<Guid> GetAllChildrenDeptIds()
+        {
+            return DepartmentContext.GetAllChildrenIds(DeptIds);
         }
 
         public void LogOut(int userId)

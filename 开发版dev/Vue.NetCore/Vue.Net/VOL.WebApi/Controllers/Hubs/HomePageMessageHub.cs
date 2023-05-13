@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace VOL.WebApi.Controllers.Hubs
             //可自行调用下线业务处理方法...
             await UserOffline();
             //发送下线消息
-         //   await Clients.All.SendAsync("ReceiveHomePageMessage", 4, new { title = "系统消息", content = $"{Context.ConnectionId} 离线" });
+            //   await Clients.All.SendAsync("ReceiveHomePageMessage", 4, new { title = "系统消息", content = $"{Context.ConnectionId} 离线" });
             await base.OnDisconnectedAsync(ex);
         }
 
@@ -87,9 +88,13 @@ namespace VOL.WebApi.Controllers.Hubs
         /// <returns></returns>
         public async Task<bool> SendHomeMessage(string username, string title, string message)
         {
+            if (_connectionIds[Context.ConnectionId]!="admin")
+            {
+                return false;
+            }
             await Clients.Clients(GetCnnectionIds(username).ToArray()).SendAsync("ReceiveHomePageMessage", new
             {
-             //   username,
+                //   username,
                 title,
                 message,
                 date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss")

@@ -90,18 +90,18 @@ namespace VOL.Core.Utilities
             return bitmap.ToBase64String(SKEncodedImageFormat.Png);
         }
 
-        //   public static T GetRandom<T>(this Random random, T[] tArray)
+        //public static T GetRandom<T>(this Random random, T[] tArray)
         //{
         //    if (random == null) random = new Random();
         //    return tArray[random.Next(tArray.Length)];
         //}
 
-        ///// <summary>
-        ///// SKBitmap转Base64String
-        ///// </summary>
-        ///// <param name="bitmap"></param>
-        ///// <param name="format"></param>
-        ///// <returns></returns>
+        /// <summary>
+        /// SKBitmap转Base64String
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
         //public static string ToBase64String(this SKBitmap bitmap, SKEncodedImageFormat format)
         //{
         //    using var memStream = new MemoryStream();

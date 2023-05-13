@@ -363,7 +363,7 @@
             <div
               @click="
                 () => {
-                  olumn.click && formatterClick(scope.row, column);
+                  column.click && formatterClick(scope.row, column);
                 }
               "
               v-else-if="column.bind"

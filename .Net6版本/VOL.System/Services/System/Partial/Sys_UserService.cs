@@ -251,10 +251,6 @@ namespace VOL.System.Services
                 }
                 return queryable.Where(x => roleIds.Contains(x.Role_Id));
             };
-            base.OrderByExpression = x => new Dictionary<object, Core.Enums.QueryOrderBy>() {
-                { x.CreateDate, Core.Enums.QueryOrderBy.Desc },
-                { x.User_Id,Core.Enums.QueryOrderBy.Desc}
-            };
             return base.GetPageData(pageData);
         }
 

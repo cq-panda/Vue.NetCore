@@ -57,7 +57,7 @@
               }}</a>
             </div>
           </div>
-
+          
           <div v-else :class="{ 'form-item-extra': item.extra }">
             <!-- 只读属性 -->
             <label
@@ -66,6 +66,22 @@
               class="readonly-input"
               >{{ getText(formFields, item) }}</label
             >
+          <!-- 20223.05.13集成el-tree-select -->
+          <!-- :filter-method="(value)=>{filterMethod(value,item.data)}" -->
+          <!-- :filterable="true" -->
+            <el-tree-select
+              style="width: 100%"
+              v-else-if="item.type == 'treeSelect'"
+              v-model="formFields[item.field]"
+              :data="item.data"
+              :multiple="item.multiple"
+              :render-after-expand="false"
+              show-checkbox
+              :check-strictly="item.checkStrictly"
+              check-on-click-node
+              node-key="key"
+              :props="{ label: 'label' }"
+            />
             <template
               v-else-if="['select', 'selectList'].indexOf(item.type) != -1"
             >
@@ -673,20 +689,19 @@ export default defineComponent({
           if (x.key != d.dicNo) return true;
           // 如果有数据的则不查询
           if (x.data.length > 0) return true;
-          //2022.03.13增加级联数据源自动转换
-          if (x.type == "cascader") {
+        //2022.03.13增加级联数据源自动转换
+        if (x.type == 'cascader' || x.type == 'treeSelect') {
             let _data = JSON.parse(JSON.stringify(d.data));
-            let cascaderArr =
-              appContext.config.globalProperties.base.convertTree(
-                _data,
-                (node, data, isRoot) => {
-                  if (!node.inited) {
-                    node.inited = true;
-                    node.label = node.value;
-                    node.value = node.key;
-                  }
+            let cascaderArr = appContext.config.globalProperties.base.convertTree(
+              _data,
+              (node, data, isRoot) => {
+                if (!node.inited) {
+                  node.inited = true;
+                  node.label = node.value;
+                  node.value = node.key;
                 }
-              );
+              }
+            );
             props.formRules.forEach((option) => {
               option.forEach((item) => {
                 if (item.dataKey == x.key) {
@@ -787,7 +802,13 @@ export default defineComponent({
     };
   },
   created() {
-    //this.initFormRules(true);
+     this.formRules.forEach(rules=>{
+        rules.forEach(option=>{
+            if (option.type=="treeSelect"&&option.multiple===undefined) {
+              option.multiple=true;
+            }
+        })
+     })
   },
 
   data() {
@@ -1248,9 +1269,10 @@ export default defineComponent({
       }
 
       if (
-        ["select", "selectList", "checkbox", "cascader"].indexOf(item.type) !=
+        ["select", "selectList", "checkbox", "cascader","treeSelect"].indexOf(item.type) !=
         -1
       ) {
+        
         let _rule = {
           type: item.type == "select" ? "string" : "array",
           required: true,
@@ -1263,7 +1285,7 @@ export default defineComponent({
             if (value == undefined || value === "") {
               return callback(new Error(rule.message));
             } else if (
-              (item.type == "checkbox" || item.type == "selectList") &&
+              (item.type == "checkbox" || item.type == "selectList"||item.type=='treeSelect') &&
               (!(value instanceof Array) || !value.length)
             ) {
               return callback(new Error(rule.message));
@@ -1325,6 +1347,9 @@ export default defineComponent({
       }
       item.onKeyPress($event);
     },
+    filterMethod (value, data){
+      return  data.label.includes(value);
+    }
   },
 });
 </script>

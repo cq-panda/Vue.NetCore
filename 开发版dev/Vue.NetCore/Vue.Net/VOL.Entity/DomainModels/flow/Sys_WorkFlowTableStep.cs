@@ -67,8 +67,9 @@ namespace VOL.Entity.DomainModels
        ///节点类型(1=按用户审批,2=按角色审批)
        /// </summary>
        [Display(Name ="节点类型(1=按用户审批,2=按角色审批)")]
-       [Column(TypeName="int")]
-       public int? StepValue { get; set; }
+       [MaxLength(500)]
+       [Column(TypeName="varchar(500)")]
+       public string StepValue { get; set; }
 
        /// <summary>
        ///审批顺序
@@ -164,6 +165,37 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="审核时间")]
        [Column(TypeName="datetime")]
        public DateTime? AuditDate { get; set; }
+
+       /// <summary>
+       ///节点属性(start、node、end))
+       /// </summary>
+       [Display(Name ="节点属性(start、node、end))")]
+       [MaxLength(50)]
+       [Column(TypeName="varchar(50)")]
+       public string StepAttrType { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="ParentId")]
+       [MaxLength(2000)]
+       [Column(TypeName="varchar(2000)")]
+       public string ParentId { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="NextStepId")]
+       [MaxLength(100)]
+       [Column(TypeName="varchar(100)")]
+       public string NextStepId { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="Weight")]
+       [Column(TypeName="int")]
+       public int? Weight { get; set; }
 
        
     }

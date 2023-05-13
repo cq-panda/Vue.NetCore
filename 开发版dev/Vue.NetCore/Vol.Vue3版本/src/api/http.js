@@ -24,6 +24,8 @@ else if (process.env.NODE_ENV == 'production') {
 if (!axios.defaults.baseURL.endsWith('/')) {
     axios.defaults.baseURL+="/";
 }
+
+
 let ipAddress = axios.defaults.baseURL;
 axios.interceptors.request.use((config) => {
     return config;

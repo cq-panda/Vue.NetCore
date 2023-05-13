@@ -30,6 +30,8 @@
           :key="index1"
         >
           <span class="date">{{ list.date }}</span>
+          <div v-if="list.title" style="font-weight: bolder;">{{list.title}}</div>
+          <div v-if="list.title2" style="font-weight:500;line-height: 1.7;margin-top: 10px;" v-html="list.title2"></div>
           <div :style="list.style" v-if="list.style" v-html="list.desc"></div>
           <span v-else>{{ list.desc }}</span>
         </li>
@@ -49,7 +51,139 @@ export default {
     return {
       active: 0,
       log: [
+
+      { date: "2023-05-03 23:39:09", title: "增加审批流分支、条件、组织构架、代码生成器树形级联组件等功能",
+      title2:`<p>
+	1、增加审批流分支、与条件(目前审批流程全程缓存通过动态表达式直接匹配流程表数据,见后台workflow文件夹)<br />
+2、增加审批流部门(组织构架审批)、角色审批<br />
+3、增加审批流可以配置多个流程(现在不限制流程数量)<br />
+4、增加组织构架功能(部门管理)、见演示菜单<br />
+5、增加代码生成器生成树形tree-select组件，见：用户管理组界面织构架字段<br />
+6、增加用户组织构架功能，支持用户所属多个组织<br />
+7、优化RoleContext角色缓存性能<br />
+8、增加组织构架缓存文件DepartmentContext.cs<br />
+9、完善日志功能<br />
+10、增加mysql数据库自动开启set global local_infile = 'ON';功能<br />
+11、增加表单树形tree-select组件，见volform.vue组件<br />
+12、优化vol-box弹出框高度自动计算及移除标题背景颜色<br />
+13、重写审批界面，支持流程审批与批量非流程审批<br />
+14、此次更新还有好多功能，不再列出来了，列出写起来太麻烦，自己看git提交日志
+</p>
+<p>
+	<br />
+</p>`,
+      style:"color:red",
+    desc:`<p>
+	// ALTER TABLE dbo.Sys_WorkFlowStep ALTER COLUMN StepValue VARCHAR(500)<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowStep ALTER COLUMN StepId VARCHAR(100)<br />
+<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowStep add&nbsp; NextStepIds VARCHAR(500)<br />
+<span> </span>// ALTER TABLE dbo.Sys_WorkFlowStep ADD ParentId&nbsp; VARCHAR(2000)<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; AuditRefuse INT<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; AuditRefuse INT<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; AuditBack INT<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; AuditMethod INT<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; SendMail INT<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; StepAttrType VARCHAR(50)<br />
+<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; Filters NVARCHAR(4000)<br />
+<span> </span>//ALTER TABLE Sys_WorkFlow ADD AuditingEdit INT<br />
+<span> </span>//ALTER TABLE dbo.Sys_WorkFlowTableStep ALTER COLUMN StepValue VARCHAR(500)<br />
+<span> </span>//ALTER TABLE dbo.Sys_WorkFlowTableStep ADD&nbsp; StepAttrType VARCHAR(50)<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowTable ADD CurrentStepId NVARCHAR(100)<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowTableStep ADD StepId&nbsp; NVARCHAR(100)<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowTableStep ALTER COLUMN StepValue VARCHAR(500)<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowTableStep ADD&nbsp; ParentId VARCHAR(2000)<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowTableStep ADD&nbsp; NextStepId VARCHAR(100)<br />
+<span> </span>//ALTER TABLE Sys_WorkFlow ADD Weight INT<br />
+<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowTableStep ADD Weight INT<br />
+<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowStep ADD Weight INT<br />
+<span> </span>//步骤名称<br />
+<span> </span>// ALTER TABLE Sys_WorkFlowTable ADD&nbsp; StepName NVARCHAR(500)<br />
+<br />
+<span> </span>//调整用户表(修改用户表在代码生成器需要点同步表结构、生成model、生成页面)<br />
+<span> </span>//ALTER TABLE dbo.Sys_User ALTER COLUMN RoleName NVARCHAR(200)<br />
+<br />
+<span> </span>// ALTER TABLE dbo.Sys_User ALTER COLUMN HeadImageUrl NVARCHAR(500)<br />
+<br />
+<span> </span>// ALTER TABLE&nbsp; Sys_User&nbsp; ALTER COLUMN IsRegregisterPhone INT<br />
+<br />
+<span> </span>// --增加部门字段<br />
+<span> </span>// ALTER TABLE&nbsp; Sys_User ADD DeptIds NVARCHAR(2000)<br />
+<br />
+<span> </span>//以上表结构修改后，代码生成器点同步表结构、生成model、生成页面<br />
+<br />
+<br />
+<span> </span>//下面新增三个张需要生成完整代码<br />
+<br />
+<span> </span>//审核记录表（生成代码时选system类库、文件夹输入flow）<br />
+<span> </span>// CREATE TABLE Sys_WorkFlowTableAuditLog<br />
+<span> </span>// (<br />
+<span> </span>//&nbsp; &nbsp;Id UNIQUEIDENTIFIER PRIMARY KEY,<br />
+<span> </span>//&nbsp; &nbsp;WorkFlowTable_Id UNIQUEIDENTIFIER,<br />
+<span> </span>//&nbsp; &nbsp;WorkFlowTableStep_Id UNIQUEIDENTIFIER,<br />
+<span> </span>//&nbsp; &nbsp;StepId NVARCHAR(100),<br />
+<span> </span>//&nbsp; &nbsp;StepName NVARCHAR(200),<br />
+<span> </span>//&nbsp; &nbsp;AuditId INT,<br />
+<span> </span>//&nbsp; &nbsp;Auditor&nbsp; NVARCHAR(100),<br />
+<span> </span>//&nbsp; &nbsp;AuditStatus&nbsp; int,<br />
+<span> </span>//&nbsp; &nbsp;AuditResult&nbsp; NVARCHAR(1000),<br />
+<span> </span>//&nbsp; &nbsp;AuditDate DATETIME ,<br />
+<span> </span>//&nbsp; &nbsp;Remark&nbsp; &nbsp; NVARCHAR(1000),<br />
+<span> </span>//&nbsp; &nbsp;CreateDate datetime<br />
+<span> </span>// )<br />
+<br />
+<span> </span>//下拉框绑定设置页面修改:【审核状态】数据源配置，参照演示环境配置<br />
+<br />
+<span> </span>//增加组织架构(部门表)、这两张表需要生成代码，（生成代码时选system类库、文件夹输入system）<br />
+<span> </span>//CREATE TABLE [dbo].[Sys_Department](<br />
+<span> </span>//&nbsp; [DepartmentId] [uniqueidentifier] NOT NULL PRIMARY KEY ,<br />
+<span> </span>//&nbsp; [DepartmentName] [nvarchar](200) NOT NULL,<br />
+<span> </span>//&nbsp; [DepartmentCode] [nvarchar](50) NULL,<br />
+<span> </span>//&nbsp; [ParentId] [uniqueidentifier] NULL,<br />
+<span> </span>//&nbsp; [DepartmentType] [nvarchar](50) NULL,<br />
+<span> </span>//&nbsp; [Enable] [int] NULL,<br />
+<span> </span>//&nbsp; [Remark] [nvarchar](500) NULL,<br />
+<span> </span>//&nbsp; [CreateID] [int] NULL,<br />
+<span> </span>//&nbsp; [Creator] [nvarchar](30) NULL,<br />
+<span> </span>//&nbsp; [CreateDate] [datetime] NULL,<br />
+<span> </span>//&nbsp; [ModifyID] [int] NULL,<br />
+<span> </span>//&nbsp; [Modifier] [nvarchar](30) NULL,<br />
+<span> </span>//&nbsp; [ModifyDate] [datetime] NULL<br />
+<span> </span>// )&nbsp; &nbsp;&nbsp;<br />
+<br />
+<span> </span>//增加用户所属部门表(一个用户可以有多个部门)（生成代码时选system类库、文件夹输入system）<br />
+<span> </span>// CREATE TABLE [dbo].[Sys_UserDepartment](<br />
+<span> </span>//&nbsp; &nbsp;[Id] [uniqueidentifier] NOT NULL PRIMARY KEY ,<br />
+<span> </span>//&nbsp; &nbsp;[UserId] [int] NOT NULL,<br />
+<span> </span>//&nbsp; &nbsp;[DepartmentId] [uniqueidentifier] NOT NULL,<br />
+<span> </span>//&nbsp; &nbsp;[Enable] [int] NOT NULL,<br />
+<span> </span>//&nbsp; &nbsp;[CreateID] [int] NULL,<br />
+<span> </span>//&nbsp; &nbsp;[Creator] [nvarchar](255) NULL,<br />
+<span> </span>//&nbsp; &nbsp;[CreateDate] [datetime] NULL,<br />
+<span> </span>//&nbsp; &nbsp;[ModifyID] [int] NULL,<br />
+<span> </span>//&nbsp; &nbsp;[Modifier] [nvarchar](255) NULL,<br />
+<span> </span>//&nbsp; &nbsp;[ModifyDate] [datetime] NULL<br />
+<span> </span>//&nbsp; &nbsp;)&nbsp;&nbsp;<br />
+<br />
+<span> </span>//更新后台文件<br />
+<span> </span>//增加DepartmentContext.cs文件、更新UserContext.cs、UserInfo.cs、<br />
+<span> </span>//Sys_WorkFlowController.cs、Sys_WorkFlowTableService.cs、ServiceBase、cs(或者整个vol.core类库)<br />
+<span> </span>//Startup.cs中ConfigureContainer方法、vol.core类库下WorkFlow文件夹、Logger.cs<br />
+<br />
+<span> </span>//前端文件：components文件夹、main.js、package.json,builderData.js<br />
+<span> </span>//前端需要重新执行npm installl，或者文件夹的install.bat双击执行下<br />
+	<div>
+		<br />
+	</div>
+</p>
+<p>
+	<br />
+</p>`},
         { date: "2023.05", type: "month" },
+        { date: "2023-05-04 23:35:34", desc: "修正部分函数不能使用自定义数据库连接问题(by @kevin100702)"},
         { date: "2023-05-03 23:39:09", desc: "完善文档"},
 { date: "2023-05-03 23:19:00", desc: "增加日期操作、 http请求、读取配置文件、获取项目绝对路径等文档"},
 { date: "2023-05-03 23:17:54", desc: "增加vue3版本设置界面表格CheckBox是否可以勾选,更新ViewGrid.vue、serviceFilter.js、detailMethods.js,见前端开发文档或组件api的viewgrid上使用"},

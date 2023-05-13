@@ -23,16 +23,11 @@
       </div>
       <template #footer>
         <el-button
-          type="priarmy"
-          size="mini"
-          icon="md-checkmark-circle"
+          type="primary"
           @click="savePwd()"
           >修改密码</el-button
         >
         <el-button
-          type="priarmy"
-          size="mini"
-          icon="md-close"
           @click="model = false"
           >关闭</el-button
         >

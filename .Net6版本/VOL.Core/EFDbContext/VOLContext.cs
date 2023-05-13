@@ -74,7 +74,7 @@ namespace VOL.Core.EFDbContext
             string connectionString = DBServerProvider.GetConnectionString(null);
             if (Const.DBType.Name == Enums.DbCurrentType.MySql.ToString())
             {
-                optionsBuilder.UseMySql(connectionString,new MySqlServerVersion(new Version(8,0,11)));
+                optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 11)));
             }
             else if (Const.DBType.Name == Enums.DbCurrentType.PgSql.ToString())
             {
@@ -113,7 +113,7 @@ namespace VOL.Core.EFDbContext
                         .ToList().ForEach(t =>
                         {
                             modelBuilder.Entity(t);
-                          //  modelBuilder.Model.AddEntityType(t);
+                            //  modelBuilder.Model.AddEntityType(t);
                         });
                 }
                 //modelBuilder.AddEntityConfigurationsFromAssembly(GetType().Assembly);

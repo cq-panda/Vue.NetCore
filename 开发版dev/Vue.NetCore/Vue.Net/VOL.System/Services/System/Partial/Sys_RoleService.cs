@@ -158,50 +158,13 @@ namespace VOL.System.Services
 
         private List<RoleNodes> GetAllChildrenNodes(int roleId)
         {
-            if (UserContext.IsRoleIdSuperAdmin(roleId)) return roles;
-            Dictionary<int, bool> completedRoles = new Dictionary<int, bool>();
-            rolesChildren = GetChildren(roleId, completedRoles);
-            //2021.07.11增加无限递归异常数据移除当前节点
-            if (rolesChildren.Any(x => x.Id == roleId))
-            {
-                return rolesChildren.Where(x => x.Id != roleId).ToList();
-            }
-            return rolesChildren;
+            return RoleContext.GetAllChildren(roleId);
         }
         /// <summary>
         /// 递归获取所有子节点权限
         /// </summary>
         /// <param name="roleId"></param>
-        private List<RoleNodes> GetChildren(int roleId, Dictionary<int, bool> completedRoles)
-        {
-            roles.ForEach(x =>
-            {
-                if (x.ParentId == roleId)
-                {
-                    if (completedRoles.TryGetValue(x.Id, out bool isWrite))
-                    {
-                        if (!isWrite)
-                        {
-                            roles.Where(x => x.Id == roleId).FirstOrDefault().ParentId = 0;
-                            Logger.Error($"sys_roleservice获取子角色异常RoleContext,角色id:{x.Id}");
-                            Console.WriteLine($"sys_roleservice获取子角色异常RoleContext,角色id:{x.Id}");
-                            completedRoles[x.Id] = true;
-                        }
-                        return;
-                    }
-                    rolesChildren.Add(x);
 
-                    completedRoles[x.Id] = false;
-
-
-                    if (x.Id != x.ParentId)
-                    {
-                        GetChildren(x.Id, completedRoles);
-                    }
-                }
-            });
-            return rolesChildren;
-        }
 
         /// <summary>
         /// 保存角色权限
@@ -367,12 +330,7 @@ namespace VOL.System.Services
         }
     }
 
-    public class RoleNodes
-    {
-        public int Id { get; set; }
-        public int ParentId { get; set; }
-        public string RoleName { get; set; }
-    }
+
     public class UserPermissions
     {
         public int Id { get; set; }

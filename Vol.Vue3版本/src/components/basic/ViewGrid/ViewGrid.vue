@@ -28,9 +28,12 @@
         </div>
       </template>
     </vol-box>
+    <ViewGridAudit @auditClick="saveAudit" :option="table" ref="audit">
+
+    </ViewGridAudit>
     <!--开启懒加载2020.12.06 -->
     <!--审核(异步点击按钮时才加载待完)-->
-    <vol-box
+    <!-- <vol-box
       v-model="auditParam.model"
       :height="auditParam.height"
       :width="750"
@@ -117,7 +120,7 @@
           >
         </div>
       </template>
-    </vol-box>
+    </vol-box> -->
 
     <!--导入excel功能-->
     <!--2020.10.31添加导入前的方法-->
@@ -458,7 +461,7 @@
           @loadAfter="loadTableAfter"
           @rowChange="rowOnChange"
           @rowClick="rowOnClick"
-          @row-dbclick="rowOnDbClick"
+          @rowDbClick="rowOnDbClick"
           :tableData="[]"
           :linkView="linkData"
           :columns="columns"
@@ -534,7 +537,7 @@ var vueParam = {
       import('./ViewGridCustomColumn.vue')
     ),
     'vol-header': defineAsyncComponent(() => import('./../VolHeader.vue')),
-    'audit-his': defineAsyncComponent(() => import('./AuditHis.vue'))
+     ViewGridAudit: defineAsyncComponent(() => import('./ViewGridAudit.vue'))
   },
   props: {},
   setup(props) {
@@ -697,12 +700,9 @@ var vueParam = {
   },
   methods: {},
   activated() {
+     this.initFlowQuery();
     //2020.06.25增加activated方法
     this.onActivated && this.onActivated();
-    if (this._inited && this.isViewFlow()) {
-      this.resetSearch();
-      this.search();
-    }
     if (!this._inited) {
       this._inited = true;
       return;
@@ -799,101 +799,5 @@ export default defineComponent(vueParam);
     border-top: 0;
     box-shadow: 0 7px 18px -12px #bdc0bb;
   }
-}
-</style>
-
-<style lang="less" scoped>
-.step-item {
-  background: #fff;
-  display: flex;
-}
-.left-item {
-  min-width: 180px;
-  text-align: right;
-  padding-right: 25px;
-  padding-top: 8px;
-  .left-date {
-    font-size: 13px;
-    padding-top: 7px;
-    color: #6c6c6c;
-  }
-}
-.right-item {
-  cursor: pointer;
-  position: relative;
-  border-bottom: 1px solid #f3f3f3;
-  padding: 5px 0 5px 5px;
-}
-.left-item,
-.right-item {
-  padding-bottom: 10px;
-}
-.right-item:last-child {
-  border-bottom: 0;
-}
-
-.step-line {
-  top: 16px;
-  left: -10px;
-  width: 1px;
-  height: 100%;
-  position: absolute;
-  background-color: #ebedf0;
-}
-
-.step-circle {
-  position: absolute;
-  top: 17px;
-  left: -9px;
-  z-index: 2;
-  font-size: 12px;
-  line-height: 1;
-  transform: translate(-50%, -50%);
-  width: 7px;
-  height: 7px;
-  background-color: #a1a1a1;
-  border-radius: 50%;
-}
-
-.right-item::before {
-  content: '';
-}
-
-.step-content {
-  padding-top: 2px;
-  font-size: 14px;
-  color: #828282;
-  line-height: 1.5;
-}
-.step-title {
-  font-weight: bold;
-  padding-top: 3px;
-}
-
-.step-text {
-  font-size: 13px;
-  color: #999999;
-  padding-top: 6px;
-}
-.step-current {
-  * {
-    color: #2f95ff !important;
-  }
-  .step-circle {
-    background: #2f95ff !important;
-  }
-  // border-radius: 5px;
-  // border: 1px solid #d6eaff;
-  font-size: 13px;
-  padding-top: 6px;
-  // background-color: #eff7ffd9;
-  color: black;
-}
-.audit-content {
-  background: #f9f9f9;
-  padding: 10px;
-  border-radius: 4px;
-  margin-top: 22px;
-  border: 1px solid #eee;
 }
 </style>

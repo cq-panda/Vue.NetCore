@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using VOL.Core.Controllers.Basic;
@@ -10,7 +11,7 @@ namespace VOL.System.Controllers
 {
     public partial class Sys_DictionaryController
     {
-        [HttpPost, Route("GetVueDictionary")]
+        [HttpPost, Route("GetVueDictionary"), AllowAnonymous]
         [ApiActionPermission()]
         public IActionResult GetVueDictionary([FromBody] string[] dicNos)
         {
@@ -31,7 +32,7 @@ namespace VOL.System.Controllers
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        [HttpPost, Route("getSearchDictionary")]
+        [HttpPost, Route("getSearchDictionary"), AllowAnonymous]
         public IActionResult GetSearchDictionary(string dicNo, string value)
         {
             return Json(Service.GetSearchDictionary(dicNo, value));
@@ -43,7 +44,7 @@ namespace VOL.System.Controllers
         /// <param name="dicNo"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        [HttpPost, Route("getRemoteDefaultKeyValue")]
+        [HttpPost, Route("getRemoteDefaultKeyValue"), AllowAnonymous]
         public async Task<IActionResult> GetRemoteDefaultKeyValue(string dicNo, string key)
         {
             return Json(await Service.GetRemoteDefaultKeyValue(dicNo, key));

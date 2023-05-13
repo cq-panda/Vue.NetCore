@@ -128,12 +128,12 @@ namespace VOL.WebApi
                 //分为2份接口文档
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VOL.Core后台Api", Version = "v1", Description = "这是对文档的描述。。" });
                 c.SwaggerDoc("v2", new OpenApiInfo { Title = "VOL.Core对外三方Api", Version = "v2", Description = "xxx接口文档" });  //控制器里使用[ApiExplorerSettings(GroupName = "v2")]              
-                //启用中文注释功能
-               // var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-              //  var xmlPath = Path.Combine(basePath, "VOL.WebApi.xml");
-             //   c.IncludeXmlComments(xmlPath, true);//显示控制器xml注释内容
-                //添加过滤器 可自定义添加对控制器的注释描述
-                //c.DocumentFilter<SwaggerDocTag>();
+                                                                                                                             //启用中文注释功能
+                                                                                                                             // var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                                                                                                                             //  var xmlPath = Path.Combine(basePath, "VOL.WebApi.xml");
+                                                                                                                             //   c.IncludeXmlComments(xmlPath, true);//显示控制器xml注释内容
+                                                                                                                             //添加过滤器 可自定义添加对控制器的注释描述
+                                                                                                                             //c.DocumentFilter<SwaggerDocTag>();
 
                 var security = new Dictionary<string, IEnumerable<string>> { { AppSetting.Secret.Issuer, new string[] { } } };
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -198,7 +198,14 @@ namespace VOL.WebApi
             Services.AddModule(builder, Configuration);
 
             //初始化流程表，表里面必须有AuditStatus字段
-            WorkFlowContainer.Instance.Use<App_Expert>().Use<SellOrder>();
+            WorkFlowContainer.Instance
+                //name= 流程实例名称
+                //filterFields流程实例名称
+                .Use<SellOrder>(name: "订单管理", filterFields: x => new { x.OrderType, x.Qty, x.CreateID, x.SellNo })
+
+                .Use<App_Expert>()
+                //run方法必须写在最后位置
+                .Run();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -207,7 +214,8 @@ namespace VOL.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            else {
+            else
+            {
                 app.UseQuartz(env);
             }
             app.UseMiddleware<ExceptionHandlerMiddleWare>();

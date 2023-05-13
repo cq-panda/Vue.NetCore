@@ -156,9 +156,10 @@ let methods = {
         });
       });
       //没有新增编辑权限的，弹出框都设置为只读
-      this.detail.columns.forEach((row) => {
-        if (row.hasOwnProperty('edit')) {
-          row['edit'] = false;
+      this.detail.columns.forEach((column) => {
+        if (column.hasOwnProperty('edit')) {
+          column.readonly = true;
+          // row['edit'] = false;
         }
       });
       //弹出框扩展按钮
@@ -353,12 +354,21 @@ let methods = {
     if (query) {
       param = Object.assign(param, query);
     }
-    if (this.isViewFlow() && this.$route.query.id) {
+
+    if (this.$route.query.viewflow && this.$route.query.id) {
       param.wheres.push({
         name: this.table.key,
         value: this.$route.query.id
       });
     }
+    // if (this.isViewFlow() && data && data.length) {
+    //   let query = JSON.parse(JSON.stringify(this.$route.query));
+    //   query.viewflow = 0;
+    //   this.$router.replace({ path: this.$route.path, query: query });
+    //   this.$nextTick(() => {
+    //     this.getWorkFlowSteps(data[0]);
+    //   });
+    // }
     let status = this.searchBefore(param);
     callBack(status);
   },
@@ -369,14 +379,6 @@ let methods = {
     let status = this.searchAfter(data, result);
     callBack(status);
     //自动弹出框审批详情
-    if (this.isViewFlow() && data && data.length) {
-      let query = JSON.parse(JSON.stringify(this.$route.query));
-      query.viewflow = 0;
-      this.$router.replace({ path: this.$route.path, query: query });
-      this.$nextTick(() => {
-        this.getWorkFlowSteps(data[0]);
-      });
-    }
   },
   loadDetailTableBefore(param, callBack) {
     //明细查询前
@@ -442,9 +444,9 @@ let methods = {
     }
     this.resetForm('form', sourceObj);
     if (this.$refs.form && this.$refs.form.$refs.volform) {
-     setTimeout(() => {
-      this.$refs.form.$refs.volform.clearValidate();
-     }, 100);
+      setTimeout(() => {
+        this.$refs.form.$refs.volform.clearValidate();
+      }, 100);
     }
   },
   getKeyValueType(formData, isEditForm) {
@@ -512,28 +514,47 @@ let methods = {
         if (
           kv_type == 'selectList' ||
           kv_type == 'checkbox' ||
-          kv_type == 'cascader'
+          kv_type == 'cascader' ||
+          kv_type == 'treeSelect'
         ) {
           // 2020.05.31增加iview组件Cascader
           // 2020.11.01增加iview组件Cascader表单重置时查询所有的父节点
-          if (kv_type == 'cascader') {
+          if (kv_type == 'cascader' || kv_type == 'treeSelect') {
             var treeDic = this.dicKeys.find((dic) => {
               return dic.fileds && dic.fileds.indexOf(key) != -1;
             });
+
             if (treeDic && treeDic.orginData && treeDic.orginData.length) {
-              if (typeof treeDic.orginData[0].id == 'number') {
-                newVal = newVal * 1 || 0;
+              let keyIsNum = typeof treeDic.orginData[0].id == 'number';
+
+              if (kv_type == 'cascader') {
+                newVal = keyIsNum ? newVal * 1 || 0 : newVal + '';
+                if (kv_type == 'cascader') {
+                  _cascaderParentTree = this.base.getTreeAllParent(
+                    newVal,
+                    treeDic.orginData
+                  );
+                  if (_cascaderParentTree) {
+                    newVal = _cascaderParentTree.map((x) => {
+                      return x.id;
+                    });
+                  }
+                }
               } else {
-                newVal = newVal + '';
-              }
-              _cascaderParentTree = this.base.getTreeAllParent(
-                newVal,
-                treeDic.orginData
-              );
-              if (_cascaderParentTree) {
-                newVal = _cascaderParentTree.map((x) => {
-                  return x.id;
-                });
+                if (newVal === null || newVal === undefined) {
+                  newVal = [];
+                } else if (typeof newVal == 'string') {
+                  newVal = newVal.split(',');
+                }
+                if (keyIsNum) {
+                  if (Array.isArray(newVal)) {
+                    newVal = newVal.map((x) => {
+                      return x * 1 || 0;
+                    });
+                  }
+                } else if (typeof newVal == 'number') {
+                  newVal = [newVal + ''];
+                }
               }
             } else {
               newVal = [newVal];
@@ -1075,42 +1096,31 @@ let methods = {
     //审核弹出框
     let rows = this.$refs.table.getSelected();
     if (rows.length == 0) return this.$error('请选择要审核的行!');
-    let checkStatus = rows.every((x) => {
-      return x.AuditStatus > 0;
-    });
-    if (checkStatus) return this.$error('只能选择审核中的数据!');
-    this.auditParam.rows = rows.length;
-    this.auditParam.model = true;
+    let auditStatus = Object.keys(rows[0]).find(x => { return x.toLowerCase() === 'auditstatus' });
+    if (!auditStatus) {
+      return this.$message.error(`表必须包括审核字段【AuditStatus】,并且是int类型`)
+    }
+    // let checkStatus = rows.every((x) => {
+    //   return this.$global.audit.status.some(c => { return c === x[auditStatus] || !x[auditStatus] })
+    // });
+    // if (!checkStatus) return this.$error('只能选择待审批或审核中的数据!');
+    this.$refs.audit.open(rows);
   },
-  saveAudit() {
-    if (this.auditParam.status == -1 && this.auditParam.value == -1) {
-      this.$message.error('请选择审批状态');
-      return;
-    }
+  saveAudit(params, rows, callback) {
+
     //保存审核
-    let keys = [this.editFormFields[this.table.key]];
-    if (!this.auditBefore(keys, this.currentRow)) {
+    let keys = rows.map(x => { return x[this.table.key] });
+    if (!this.auditBefore(keys, rows)) {
       return;
     }
-    let url =
-      this.getUrl(this.const.AUDIT) +
-      '?auditReason=' +
-      this.auditParam.reason +
-      '&auditStatus=' +
-      (this.auditParam.status < 0
-        ? this.auditParam.value
-        : this.auditParam.status);
+    let url = `${this.getUrl(this.const.AUDIT)}?auditReason=${params.reason}&auditStatus=${params.value}`
     this.http.post(url, keys, '审核中....').then((x) => {
       if (!this.auditAfter(x, keys)) {
         return;
       }
       if (!x.status) return this.$error(x.message);
-      this.auditParam.rows = 0;
-      this.auditParam.status = -1;
-      this.auditParam.value = -1;
-      this.auditParam.reason = '';
-      this.auditParam.model = false;
-      this.boxModel = false;
+
+      callback && callback(x);
       this.$success(x.message);
       this.refresh();
     });
@@ -1223,7 +1233,7 @@ let methods = {
         keys.push(key);
       }
       //2020.11.01增加级联处理
-      if (dic[0].type == 'cascader') {
+      if (dic[0].type == 'cascader' || dic[0].type == 'treeSelect') {
         item.bind = { data: dic[0].orginData, type: 'select', key: key };
       } else {
         item.bind = dic[0];
@@ -1239,7 +1249,10 @@ let methods = {
       if (d.data.length >= (this.select2Count || 500)) {
         if (
           !this.dicKeys.some((x) => {
-            return x.dicNo == d.dicNo && x.type == 'cascader';
+            return (
+              x.dicNo == d.dicNo &&
+              (x.type == 'cascader' || x.type == 'treeSelect')
+            );
           })
         ) {
           d.data.forEach((item) => {
@@ -1251,7 +1264,7 @@ let methods = {
       this.dicKeys.forEach((x) => {
         if (x.dicNo != d.dicNo) return true;
         //2020.10.26增加级联数据源绑定处理
-        if (x.type == 'cascader') {
+        if (x.type == 'cascader' || x.type == 'treeSelect') {
           // x.data=d.data;
           //生成tree结构
           let _data = JSON.parse(JSON.stringify(d.data));
@@ -1282,7 +1295,10 @@ let methods = {
           //2021.10.17修复级联不能二级刷新的问题
           this.editFormOptions.forEach((editOption) => {
             editOption.forEach((_option) => {
-              if (_option.type == 'cascader' && _option.dataKey == x.dicNo) {
+              if (
+                (_option.type == 'cascader' || _option.type == 'treeSelect') &&
+                _option.dataKey == x.dicNo
+              ) {
                 _option.data = arr;
                 _option.orginData = d.data;
               }
@@ -1587,37 +1603,7 @@ let methods = {
     this.onModelClose(iconClick);
   },
   initAuditColumn() {
-    let _btn = this.buttons.find((x) => {
-      return x.value == 'Audit';
-    });
-    let auditField = this.columns
-      .map((m) => {
-        return m.field;
-      })
-      .find((name) => {
-        return (name || '').toLowerCase() == 'auditstatus';
-      });
-    if (!_btn || !auditField) return;
 
-    _btn.hidden = true;
-    this.columns.push({
-      field: '操作',
-      title: '操作',
-      width: 70,
-      fixed: 'right',
-      align: 'center',
-      formatter: (row) => {
-        return (
-          '<i style="cursor: pointer;color: #2d8cf0;"' +
-          (row[auditField]
-            ? 'class="el-icon-view">查看</i>'
-            : 'class="el-icon-edit">审核</i>')
-        );
-      },
-      click: (row) => {
-        this.getWorkFlowSteps(row);
-      }
-    });
   },
   getWorkFlowSteps(row) {
     let table = this.table.url.replaceAll('/', '');
@@ -1681,8 +1667,10 @@ let methods = {
     }
     return data.text;
   },
-  isViewFlow() {
-    return this.$route.query.viewflow == '1';
+  initFlowQuery() {
+    if (this.$route.query.viewflow) {
+      this.$refs.table && this.search();
+    }
   }
 };
 import customColumns from './ViewGridCustomColumn.js';

@@ -1,0 +1,1 @@
+git log --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'"%h","%an","%ad","%s"' > E:/log.txt

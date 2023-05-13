@@ -23,20 +23,32 @@ let extension = {
   methods: {
     //下面这些方法可以保留也可以删除
     onInit() {
+
+      //表格上添加自定义按钮
       this.columns.push({
+        title: '操作',
         field: '操作',
-        title: '查看',
-        width: 100,
+        width: 60,
         align: 'center',
-        formatter: (row) => {
-          return '<a style="font-size: 14px;border-bottom: 1px solid #3a8ee6;color: #3a8ee6; padding-bottom: 2px;  cursor: pointer;">查看详情</a>';
-        },
-        click: (row) => {
-          this.$tabs.open({
-            text: row.WorkTableName,
-            path: '/' + row.WorkTable,
-            query: { id: row.WorkTableKey, viewflow: 1 }
-          });
+        render: (h, { row, column, index }) => {
+          return (
+
+            <el-button
+              onClick={($e) => {
+                this.$tabs.open({
+                 text: row.WorkTableName||row.WorkName,
+                  path: '/' + row.WorkTable,
+                  query: { id: row.WorkTableKey, viewflow: 1 }
+                });
+              }}
+              type="primary"
+              plain
+              size="small"
+              style="height:26px; padding: 10px !important;"
+            >
+              查看
+            </el-button>
+          )
         }
       });
     },

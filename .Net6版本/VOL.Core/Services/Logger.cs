@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using VOL.Core.Configuration;
+using VOL.Core.Const;
 using VOL.Core.DBManager;
 using VOL.Core.Enums;
 using VOL.Core.Extensions;
@@ -28,7 +29,23 @@ namespace VOL.Core.Services
         private static string _loggerPath = AppSetting.DownLoadPath + "Logger\\Queue\\";
         static Logger()
         {
-            Task.Run(() => { Start(); });
+
+            Task.Run(() =>
+            {
+                Start();
+                if (DBType.Name != "MySql")
+                {
+                    return;
+                }
+                try
+                {
+                    DBServerProvider.SqlDapper.ExcuteNonQuery("set global local_infile = 'ON';", null);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"日志启动调用mysql数据库异常：{ex.Message},{ex.StackTrace}");
+                }
+            });
         }
 
         public static void Info(string message)
@@ -68,7 +85,31 @@ namespace VOL.Core.Services
         {
             Add(loggerType, requestParam, resposeParam, ex, LoggerStatus.Error);
         }
-
+        /// <summary>
+        /// 多线程调用日志
+        /// </summary>
+        /// <param name="message"></param>
+        public static void AddAsync(string message, string ex = null)
+        {
+            AddAsync(LoggerType.Info, null, message, ex, ex != null ? LoggerStatus.Error : LoggerStatus.Info);
+        }
+        public static void AddAsync(LoggerType loggerType, string requestParameter, string responseParameter, string ex, LoggerStatus status)
+        {
+            //var log = new Sys_Log()
+            //{
+            //    BeginDate = DateTime.Now,
+            //    EndDate = DateTime.Now,
+            //    User_Id = 0,
+            //    UserName = "",
+            //    //  Role_Id = ,
+            //    LogType = loggerType.ToString(),
+            //    ExceptionInfo = ex,
+            //    RequestParameter = requestParameter,
+            //    ResponseParameter = responseParameter,
+            //    Success = (int)status
+            //};
+            //loggerQueueData.Enqueue(log);
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -120,6 +161,8 @@ namespace VOL.Core.Services
             }
             loggerQueueData.Enqueue(log);
         }
+
+
 
         private static void Start()
         {
@@ -229,7 +272,7 @@ namespace VOL.Core.Services
             log.ServiceIP = context.Connection.LocalIpAddress.MapToIPv4().ToString() + ":" + context.Connection.LocalPort;
 
             log.BrowserType = context.Request.Headers["User-Agent"];
-            if (log.BrowserType!=null&&log.BrowserType.Length>190)
+            if (log.BrowserType != null && log.BrowserType.Length > 190)
             {
                 log.BrowserType = log.BrowserType.Substring(0, 190);
             }

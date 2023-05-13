@@ -236,7 +236,7 @@ namespace VOL.Core.BaseProvider
             List<SearchParameters> searchParametersList = new List<SearchParameters>();
             if (options.Filter != null && options.Filter.Count > 0)
             {
-                searchParametersList.AddRange(searchParametersList);
+                searchParametersList.AddRange(options.Filter);
             }
             else if (!string.IsNullOrEmpty(options.Wheres))
             {
@@ -468,7 +468,7 @@ namespace VOL.Core.BaseProvider
             try
             {
                 //2022.06.20增加原生excel读取方法(导入时可以自定义读取excel内容)
-                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate(), readValue: ImportOnReadCellValue,ignoreSelectValidationColumns: ImportIgnoreSelectValidationColumns);
+                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate(), readValue: ImportOnReadCellValue, ignoreSelectValidationColumns: ImportIgnoreSelectValidationColumns);
             }
             catch (Exception ex)
             {
@@ -700,7 +700,7 @@ namespace VOL.Core.BaseProvider
                 }
                 //写入流程
                 WorkFlowManager.AddProcese<T>(entity);
-                WorkFlowManager.Audit<T>(entity, AuditStatus.审核中, null, null, null, null, init: true, initInvoke: AddWorkFlowExecuted);
+             //   WorkFlowManager.Audit<T>(entity, AuditStatus.待审核, null, null, null, null, init: true, initInvoke: AddWorkFlowExecuted);
             }
         }
 
@@ -1233,9 +1233,10 @@ namespace VOL.Core.BaseProvider
                 }
 
                 AuditStatus status = (AuditStatus)Enum.Parse(typeof(AuditStatus), auditStatus.ToString());
-                if (auditProperty.GetValue(entity).GetInt() != (int)AuditStatus.审核中)
+                int val = auditProperty.GetValue(entity).GetInt();
+                if (!(val == (int)AuditStatus.待审核 || val == (int)AuditStatus.审核中))
                 {
-                    return Response.Error("只能审批审核中的数据");
+                    return Response.Error("只能审批[待审核或审核中]的数据");
                 }
                 Response = repository.DbContextBeginTransaction(() =>
                 {

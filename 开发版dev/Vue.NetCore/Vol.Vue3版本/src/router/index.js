@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import form from './form'
+import formsMulti from './formsMulti'
+import tables from './tables'
 import viewgird from './viewGird'
 import store from '../store/index'
 import redirect from './redirect'
+import charts from './charts'
 const routes = [
   {
     path: '/',
@@ -9,8 +13,12 @@ const routes = [
     component: () => import('@/views/Index'),
     redirect: '/home',
     children: [
+      ...form,//Demo表单路由
+      ...formsMulti,
+      ...tables,//tables
       ...viewgird,
       ...redirect,
+      ...charts,
       {
         path: '/home',
         name: 'home',
@@ -51,11 +59,19 @@ const routes = [
         }
       },
       {
-        path: '/signalR',  //消息推送
+        path: '/signalR', 
         name: 'signalR',
         component: () => import('@/views/signalR/Index.vue'),
         meta:{
           keepAlive:false
+        }
+      },
+      {
+        path: '/flowdemo', //发起流程示例
+        name: 'flowdemo',
+        component: () => import('@/views/system/flow/FlowDemo.vue'),
+        meta: {
+          keepAlive: false
         }
       }
     ]
@@ -67,6 +83,22 @@ const routes = [
     meta:{
         anonymous:true
       }
+  },
+  {
+    path: '/app/guide',
+    name: 'apphome',
+    meta: {
+      anonymous: true
+    },
+    component: () => import('@/views/h5/Guide.vue'),
+  },
+  {
+    path: '/bigdata',
+    name: 'bigdata',
+    component: () => import('@/views/charts/bigdata.vue'),
+    meta: {
+      keepAlive: false
+    }
   }
 ]
 

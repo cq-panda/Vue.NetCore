@@ -21,6 +21,7 @@ let dataType = [
   // 2021.05.16集成iview radio组件
   { "key": "radio", "value": "radio" },
   { "key": "cascader", "value": "级联" },//2020.11.01增加级联选择
+  { "key": "treeSelect", "value": "树形级联tree-select" },//2020.11.01增加级联选择
   { "key": "editor", "value": "富文本编辑器" },
   { "key": "mail", "value": "mail" },
   { "key": "number", "value": "number" },

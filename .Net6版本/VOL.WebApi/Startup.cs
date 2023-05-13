@@ -27,8 +27,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
-using VOL.Core.KafkaManager.IService;
-using VOL.Core.KafkaManager.Service;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
 using VOL.Core.Quartz;

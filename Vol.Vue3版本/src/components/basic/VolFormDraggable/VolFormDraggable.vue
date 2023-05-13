@@ -445,7 +445,7 @@
     :close="false"
     title="预览"
   >
-    <preview :options="viewFormData"></preview>
+    <preview style="height:600px" :options="viewFormData"></preview>
   </vol-box>
 
   <vol-box
@@ -457,6 +457,7 @@
     :title="currentItem.name"
   >
     <template #content>
+      <div style="height:600px" >
       <el-alert title="关于table配置" type="info" :closable="false" show-icon>
         此处table是对框架voltable基本操作的配置,如果需要事件触发、数据加载等更多功能，请在生成后的代码添加需要的功能，完整配置见文档<a
           href="http://v2.volcore.xyz/document/api"
@@ -498,6 +499,7 @@
         :column-index="true"
         :ck="true"
       ></vol-table>
+    </div>
     </template>
     <template #footer>
       <div style="text-align: center">

@@ -19,8 +19,8 @@ using VOL.Core.DBManager;
 using VOL.Core.EFDbContext;
 using VOL.Core.Enums;
 using VOL.Core.Extensions.AutofacManager;
-using VOL.Core.KafkaManager.IService;
-using VOL.Core.KafkaManager.Service;
+//using VOL.Core.KafkaManager.IService;
+//using VOL.Core.KafkaManager.Service;
 using VOL.Core.ManageUser;
 using VOL.Core.ObjectActionValidator;
 using VOL.Core.Services;
@@ -80,11 +80,12 @@ namespace VOL.Core.Extensions
             {
                 services.AddDbContextPool<VOLContext>(optionsBuilder => { optionsBuilder.UseNpgsql(connectionString); }, 64);
             }
+            else
             {
                 services.AddDbContextPool<VOLContext>(optionsBuilder => { optionsBuilder.UseSqlServer(connectionString); }, 64);
-            } 
+            }
             //启用缓存
-            if (AppSetting.UseRedis)    
+            if (AppSetting.UseRedis)
             {
                 builder.RegisterType<RedisCacheService>().As<ICacheService>().SingleInstance();
             }
@@ -93,10 +94,10 @@ namespace VOL.Core.Extensions
                 builder.RegisterType<MemoryCacheService>().As<ICacheService>().SingleInstance();
             }
             //kafka注入
-            if (AppSetting.Kafka.UseConsumer)
-                builder.RegisterType<KafkaConsumer<string, string>>().As<IKafkaConsumer<string, string>>().SingleInstance();
-            if (AppSetting.Kafka.UseProducer)
-                builder.RegisterType<KafkaProducer<string, string>>().As<IKafkaProducer<string, string>>().SingleInstance();
+            //if (AppSetting.Kafka.UseConsumer)
+            //    builder.RegisterType<KafkaConsumer<string, string>>().As<IKafkaConsumer<string, string>>().SingleInstance();
+            //if (AppSetting.Kafka.UseProducer)
+            //    builder.RegisterType<KafkaProducer<string, string>>().As<IKafkaProducer<string, string>>().SingleInstance();
             return services;
         }
 

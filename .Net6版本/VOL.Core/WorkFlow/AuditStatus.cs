@@ -6,10 +6,11 @@ namespace VOL.Core.WorkFlow
 {
     public enum AuditStatus
     {
-        审核中 = 0,
+        待审核 = 0,
         审核通过 = 1,
-        审核未通过 = 2,
-        驳回 = 3
+        审核中 = 2,
+        审核未通过 = 3,
+        驳回 = 4
     }
 
     public enum AuditType

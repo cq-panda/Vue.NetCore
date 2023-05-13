@@ -65,7 +65,10 @@ let viewgird = [
   {
     path: '/App_TransactionAvgPrice',
     name: 'App_TransactionAvgPrice',
-    component:  () => import('@/views/appmanager/App_TransactionAvgPrice.vue' )
+    component:  () => import('@/views/appmanager/App_TransactionAvgPrice.vue' ),
+    meta: {
+      keepAlive: false
+    }
   }
   , {
     path: '/App_Expert',
@@ -122,6 +125,10 @@ let viewgird = [
         path: '/Sys_QuartzLog',
         name: 'Sys_QuartzLog',
         component: () => import('@/views/system/quartz/Sys_QuartzLog.vue')
+    }    ,{
+        path: '/Sys_Department',
+        name: 'Sys_Department',
+        component: () => import('@/views/system/system/Sys_Department.vue')
     }]
 
 export default viewgird

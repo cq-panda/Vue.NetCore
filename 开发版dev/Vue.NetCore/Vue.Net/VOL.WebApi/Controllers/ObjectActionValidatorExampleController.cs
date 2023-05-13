@@ -21,7 +21,6 @@ namespace VOL.WebApi.Controllers
     /// </summary>
     [JWTAuthorize, ApiController]
     [Route("validatorExample")]
-    [ApiExplorerSettings(IgnoreApi = true)]
     public class ObjectActionValidatorExampleController: Controller
     {
         public ObjectActionValidatorExampleController()

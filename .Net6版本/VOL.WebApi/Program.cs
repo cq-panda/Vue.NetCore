@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using VOL.Core.Configuration;
-using VOL.Core.KafkaManager.IService;
+
 using VOL.WebApi.Controllers.MqDataHandle;
 
 namespace VOL.WebApi
@@ -23,19 +23,19 @@ namespace VOL.WebApi
             //CreateHostBuilder(args).Build().Run();
             var host = CreateHostBuilder(args).Build();
             #region kafka订阅消息
-            if (AppSetting.Kafka.UseConsumer)
-            {
-                using var scope = host.Services.CreateScope();
-                var testConsumer = scope.ServiceProvider.GetService<IKafkaConsumer<string, string>>();
-                testConsumer.Consume(res =>
-                {
-                    Console.WriteLine($"recieve:{DateTime.Now.ToLongTimeString()}  value:{res.Message.Value}");
-                    //静态方法 数据处理 入库等操作
-                    bool bl = DataHandle.AlarmData(res.Message.Value);
-                    //回调函数需返回便于执行Commit
-                    return bl;
-                }, AppSetting.Kafka.Topics.TestTopic);
-            }
+            //if (AppSetting.Kafka.UseConsumer)
+            //{
+            //    using var scope = host.Services.CreateScope();
+            //    var testConsumer = scope.ServiceProvider.GetService<IKafkaConsumer<string, string>>();
+            //    testConsumer.Consume(res =>
+            //    {
+            //        Console.WriteLine($"recieve:{DateTime.Now.ToLongTimeString()}  value:{res.Message.Value}");
+            //        //静态方法 数据处理 入库等操作
+            //        bool bl = DataHandle.AlarmData(res.Message.Value);
+            //        //回调函数需返回便于执行Commit
+            //        return bl;
+            //    }, AppSetting.Kafka.Topics.TestTopic);
+            //}
             #endregion
             host.Run();
         }

@@ -1,59 +1,21 @@
 <template>
-  <VolBox
-    v-model="model"
-    :lazy="true"
-    title="选择数据"
-    :height="450"
-    :width="800"
-    :padding="15"
-  >
+  <VolBox v-model="model" :lazy="true" title="选择数据" :height="450" :width="800" :padding="15">
     <!-- 设置查询条件 -->
     <div style="padding-bottom: 10px">
       <span style="margin-right: 20px">请选择数据</span>
-      <el-input
-      
-        placeholder="名称"
-        style="width: 200px"
-        v-model="expertName"
-      />
-      <el-button
-        type="primary"
-        style="margin-left:10px"
-        size="medium"
-        icon="el-icon-zoom-out"
-        @click="search"
-        >搜索</el-button
-      >
+      <el-input placeholder="名称" style="width: 200px" v-model="expertName" />
+      <el-button type="primary" style="margin-left:10px" size="small" icon="Search" @click="search">搜索</el-button>
     </div>
 
     <!-- vol-table配置的这些属性见VolTable组件api文件 -->
-    <vol-table
-      ref="mytable"
-      :loadKey="true"
-      :columns="columns"
-      :pagination="pagination"
-      :pagination-hide="false"
-      :max-height="380"
-      :url="url"
-      :index="true"
-      :single="true"
-      :defaultLoadPage="defaultLoadPage"
-      @loadBefore="loadTableBefore"
-      @loadAfter="loadTableAfter"
-    ></vol-table>
+    <vol-table ref="mytable" :loadKey="true" :columns="columns" :pagination="pagination" :pagination-hide="false"
+      :max-height="380" :url="url" :index="true" :single="true" :defaultLoadPage="defaultLoadPage"
+      @loadBefore="loadTableBefore" @loadAfter="loadTableAfter"></vol-table>
     <!-- 设置弹出框的操作按钮 -->
     <template #footer>
       <div>
-        <el-button
-          size="mini"
-          type="primary"
-          icon="el-icon-plus"
-          @click="addRow()"
-          >添加选择的数据</el-button
-        >
-        <el-button size="mini" icon="el-icon-close" @click="model = false"
-          >关闭</el-button
-        >
+        <el-button size="small" type="primary" icon="el-icon-plus" @click="addRow()">添加选择的数据</el-button>
+        <el-button size="mini" icon="Close" @click="model = false">关闭</el-button>
       </div>
     </template>
   </VolBox>
@@ -76,7 +38,7 @@ export default {
         { field: "expertId", title: "主键id", width: 90, hidden: true },
         { field: "expertName", title: "名称", width: 120 },
         { field: "headImageUrl", type: "img", title: "头像", width: 120 },
-        { field: "resume", title: "个人简介", width: 90 },
+        { field: "resume", title: "简介", width: 90 },
         {
           field: "enable",
           title: "是否启用",
@@ -91,9 +53,9 @@ export default {
     openDemo(row) {
       this.model = true;
       //打开弹出框时，加载table数据
-      this.$nextTick(() => {
-        this.$refs.mytable.load();
-      });
+
+      this.$refs.mytable && this.$refs.mytable.load();
+
     },
     search() {
       //点击搜索
@@ -117,7 +79,7 @@ export default {
       this.model = false;
     },
     //这里是从api查询后返回数据的方法
-    loadTableAfter(row) {},
+    loadTableAfter(row) { },
     loadTableBefore(params) {
       //查询前，设置查询条件
       if (this.expertName) {

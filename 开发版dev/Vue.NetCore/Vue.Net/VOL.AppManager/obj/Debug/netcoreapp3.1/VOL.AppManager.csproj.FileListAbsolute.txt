@@ -1,0 +1,17 @@
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\bin\Debug\netcoreapp3.1\VOL.AppManager.deps.json
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\bin\Debug\netcoreapp3.1\VOL.AppManager.dll
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\bin\Debug\netcoreapp3.1\VOL.AppManager.pdb
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\bin\Debug\netcoreapp3.1\VOL.Core.dll
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\bin\Debug\netcoreapp3.1\VOL.Entity.dll
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\bin\Debug\netcoreapp3.1\VOL.System.dll
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\bin\Debug\netcoreapp3.1\VOL.System.pdb
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\bin\Debug\netcoreapp3.1\VOL.Core.pdb
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\bin\Debug\netcoreapp3.1\VOL.Entity.pdb
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\obj\Debug\netcoreapp3.1\VOL.AppManager.csproj.AssemblyReference.cache
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\obj\Debug\netcoreapp3.1\VOL.AppManager.GeneratedMSBuildEditorConfig.editorconfig
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\obj\Debug\netcoreapp3.1\VOL.AppManager.AssemblyInfoInputs.cache
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\obj\Debug\netcoreapp3.1\VOL.AppManager.AssemblyInfo.cs
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\obj\Debug\netcoreapp3.1\VOL.AppManager.csproj.CoreCompileInputs.cache
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\obj\Debug\netcoreapp3.1\VOL.AppManager.csproj.CopyComplete
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\obj\Debug\netcoreapp3.1\VOL.AppManager.dll
+E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.AppManager\obj\Debug\netcoreapp3.1\VOL.AppManager.pdb

@@ -36,7 +36,6 @@ namespace VOL.Core.Utilities
         /// <param name="list">收件人</param>
         public static void Send(string title, string content, params string[] list)
         {
-            Console.WriteLine(AppSetting.GetSection("ModifyMember")["DateUTCField"]);
             MailMessage message = new MailMessage
             {
                 From = new MailAddress(address, name)//发送人邮箱

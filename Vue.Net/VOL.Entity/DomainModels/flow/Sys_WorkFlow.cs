@@ -55,6 +55,14 @@ namespace VOL.Entity.DomainModels
        public string WorkTableName { get; set; }
 
        /// <summary>
+       ///权重(相同条件权重大的优先匹配)
+       /// </summary>
+       [Display(Name ="权重(相同条件权重大的优先匹配)")]
+       [Column(TypeName="int")]
+       [Editable(true)]
+       public int? Weight { get; set; }
+
+       /// <summary>
        ///是否启用
        /// </summary>
        [Display(Name ="是否启用")]
@@ -130,6 +138,14 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="修改时间")]
        [Column(TypeName="datetime")]
        public DateTime? ModifyDate { get; set; }
+
+       /// <summary>
+       ///审核中数据是否可以编辑
+       /// </summary>
+       [Display(Name ="审核中数据是否可以编辑")]
+       [Column(TypeName="int")]
+       [Editable(true)]
+       public int? AuditingEdit { get; set; }
 
        [Display(Name ="审批步骤")]
        [ForeignKey("WorkFlow_Id")]

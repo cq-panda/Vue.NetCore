@@ -116,12 +116,15 @@ export default {
           if (!x.status) {
             return $this.$message.error(x.message);
           }
-          let imgs = nameArr
-            .map((m) => {
-              return $this.http.ipAddress + x.data + m;
-            })
-            .join(",");
-          insertImgFn(imgs);
+          nameArr.forEach(m=>{
+            insertImgFn($this.http.ipAddress + x.data + m);
+          })
+          // let imgs = nameArr
+          //   .map((m) => {
+          //     return $this.http.ipAddress + x.data + m;
+          //   })
+          //   .join(",");
+          // insertImgFn(imgs);
         });
       }
     };

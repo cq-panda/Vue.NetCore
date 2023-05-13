@@ -9,7 +9,6 @@ namespace VOL.WebApi.Controllers.Builder
 {
     [JWTAuthorize]
     [Route("/api/Builder")]
-    [ApiExplorerSettings(IgnoreApi = true,GroupName = "代码生成器_Builder")]
     public class BuilderController : Controller
     {
         private ISys_TableInfoService Service;

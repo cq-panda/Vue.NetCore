@@ -112,16 +112,16 @@ namespace VOL.Core.DBManager
         }
         public static VOLContext GetEFDbContext(string dbName)
         {
-            VOLContext beefContext = Utilities.HttpContext.Current.RequestServices.GetService(typeof(VOLContext)) as VOLContext;
+            VOLContext context = Utilities.HttpContext.Current.RequestServices.GetService(typeof(VOLContext)) as VOLContext;
             if (dbName != null)
             {
                 if (!ConnectionPool.ContainsKey(dbName))
                 {
                     throw new Exception("数据库连接名称错误");
                 }
-                beefContext.Database.GetDbConnection().ConnectionString = ConnectionPool[dbName];
+                context.Database.GetDbConnection().ConnectionString = ConnectionPool[dbName];
             }
-            return beefContext;
+            return context;
         }
 
         public static void SetDbContextConnection(VOLContext beefContext, string dbName)

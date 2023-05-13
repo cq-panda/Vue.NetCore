@@ -48,13 +48,14 @@ namespace VOL.System.Services
             {
                 var user = UserContext.Current.UserInfo;
                 //显示当前用户需要审批的数据
-                var stepQuery = _stepRepository.FindAsIQueryable(x => (x.StepType == (int)AuditType.用户审批 && x.StepValue == user.User_Id)
-                  || (x.StepType == (int)AuditType.角色审批 && x.StepValue == user.Role_Id)
-                  || (x.StepType == (int)AuditType.部门审批 && x.StepValue == user.DeptId)
+                var deptIds = user.DeptIds.Select(s => s.ToString());
+                var stepQuery = _stepRepository.FindAsIQueryable(x => (x.StepType == (int)AuditType.用户审批 && x.StepValue == user.User_Id.ToString())
+                  || (x.StepType == (int)AuditType.角色审批 && x.StepValue == user.Role_Id.ToString())
+                  || (x.StepType == (int)AuditType.部门审批 && deptIds.Contains(x.StepValue))
                    );
                 QueryRelativeExpression = (IQueryable<Sys_WorkFlowTable> queryable) =>
                 {
-                    return queryable.Where(x => stepQuery.Any(c => x.WorkFlowTable_Id == c.WorkFlowTable_Id && (x.CurrentOrderId == c.OrderId || c.AuditId == user.User_Id)));
+                    return queryable.Where(x => stepQuery.Any(c => x.WorkFlowTable_Id == c.WorkFlowTable_Id));
                 };
             }
             return base.GetPageData(options);

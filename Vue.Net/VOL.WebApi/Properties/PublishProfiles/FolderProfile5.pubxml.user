@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>E:\jxx\vue.netcore2022\Vue.NetCore\Vue.Net\VOL.WebApi\bin\Release\netcoreapp3.1\netcoreapp3.1\publish\</_PublishTargetUrl>
+    <History>True|2023-04-11T06:04:16.2884574Z;True|2023-04-11T13:44:59.3278953+08:00;True|2023-04-11T13:43:04.7227890+08:00;True|2023-04-11T13:38:34.7653312+08:00;True|2023-04-11T13:35:05.8355994+08:00;True|2023-04-11T11:51:42.3871326+08:00;True|2023-04-11T11:49:07.3340785+08:00;True|2023-04-11T11:47:14.3121985+08:00;True|2023-04-11T11:42:49.5938006+08:00;</History>
+  </PropertyGroup>
+</Project>

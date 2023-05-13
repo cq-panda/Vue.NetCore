@@ -1,30 +1,18 @@
 <template>
   <div class="vol-dialog">
-    <!-- <el-dialog v-model="vmodel" :title="title" align-center :close-on-click-modal="false" :close-on-press-escape="false"
-      :width="width" :draggable="draggable" :modal="modal" :before-close="handleClose">
-      <span>Open the dialog from the center from the screen</span>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="centerDialogVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="centerDialogVisible = false">
-            Confirm
-          </el-button>
-        </span>
-      </template>
-    </el-dialog> -->
 
     <el-dialog v-model="vmodel" :close-on-click-modal="false" :close-on-press-escape="false"
       :width="width" :draggable="draggable" :modal="modal" :before-close="handleClose">
       <template #header> <i :class="icon"></i> {{ title }} </template>
       <el-scrollbar :max-height="contentHeight">
 
-        <div v-if="inited" class="srcoll-content" :style="{ padding: padding + 'px' }">
+        <div v-if="inited" style="min-height: 50px;" class="srcoll-content" :style="{ padding: padding + 'px' }">
           <slot name="content"></slot>
           <slot></slot>
         </div>
       </el-scrollbar>
       <template #footer>
-        <div class="dia-footer">
+        <div class="dia-footer" v-if="footer">
           <slot name="footer"></slot>
           <el-button type="primary" v-if="!footer" size="mini" @click="handleClose()"><i
               class="el-icon-close"></i>关闭</el-button>
@@ -83,6 +71,10 @@ export default defineComponent({
       default: (iconClick) => {
         return true;
       }
+    },
+    footer:{ //是否显示底部按钮
+      type: Boolean,
+      default: true
     }
 
   },
@@ -104,12 +96,13 @@ export default defineComponent({
       done && done();
     };
     const calcHeight = (val) => {
-      if (props.height > clientHeight) {
-        contentHeight.value = clientHeight - 56;
+    //  if (props.height > clientHeight) {
+    //  if(true){
+        contentHeight.value = clientHeight - 30;
         return clientHeight / -2 + 'px';
-      }
-      contentHeight.value = val || props.height;
-      return (props.height + 56) / -2 + 'px';
+    //  }
+      // contentHeight.value = val || props.height;
+      // return (props.height + 56) / -2 + 'px';
     };
 
     top.value = calcHeight();
@@ -169,11 +162,11 @@ export default defineComponent({
   line-height: 53px;
   border-bottom: 1px solid #e6e6e6;
   height: 50px;
-  color: white;
+  color: rgb(79, 79, 79);
   font-weight: bold;
   font-size: 14px;
   margin: 0;
-  background-image: linear-gradient(135deg, #0cd7bd 10%, #50c3f7);
+  // background-image: linear-gradient(135deg, #0cd7bd 10%, #50c3f7);
 }
 
 .vol-dialog ::v-deep(.el-dialog__footer),
@@ -186,7 +179,7 @@ export default defineComponent({
   padding-top: 8px;
   height: 50px;
 }
-.vol-dialog ::v-deep(.el-dialog__headerbtn .el-dialog__close) {
-  color: #fff;
-}
+// .vol-dialog ::v-deep(.el-dialog__headerbtn .el-dialog__close) {
+//   color: #fff;
+// }
 </style>

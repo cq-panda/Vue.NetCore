@@ -14,16 +14,15 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Table("Sys_User")]
-    [Entity(ApiInput = typeof(ApiSys_UserInput),ApiOutput = typeof(ApiSys_UserOutput))]
-    public class Sys_User:BaseEntity
+    [Entity(TableCnName = "用户管理",TableName = "Sys_User",ApiInput = typeof(ApiSys_UserInput),ApiOutput = typeof(ApiSys_UserOutput))]
+    public partial class Sys_User:BaseEntity
     {
         /// <summary>
-       ///用户名
+       ///帐号
        /// </summary>
-       [Display(Name ="用户名")]
-       [MaxLength(200)]
-       [Column(TypeName="nvarchar(200)")]
+       [Display(Name ="帐号")]
+       [MaxLength(100)]
+       [Column(TypeName="nvarchar(100)")]
        [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string UserName { get; set; }
@@ -49,24 +48,24 @@ namespace VOL.Entity.DomainModels
        ///头像
        /// </summary>
        [Display(Name ="头像")]
-       [MaxLength(400)]
-       [Column(TypeName="nvarchar(400)")]
+       [MaxLength(500)]
+       [Column(TypeName="nvarchar(500)")]
        [Editable(true)]
        public string HeadImageUrl { get; set; }
 
        /// <summary>
-       ///
+       ///不用
        /// </summary>
-       [Display(Name ="Dept_Id")]
+       [Display(Name ="不用")]
        [Column(TypeName="int")]
        public int? Dept_Id { get; set; }
 
        /// <summary>
-       ///部门
+       ///不用
        /// </summary>
-       [Display(Name ="部门")]
-       [MaxLength(300)]
-       [Column(TypeName="nvarchar(300)")]
+       [Display(Name ="不用")]
+       [MaxLength(150)]
+       [Column(TypeName="nvarchar(150)")]
        [Editable(true)]
        public string DeptName { get; set; }
 
@@ -80,38 +79,46 @@ namespace VOL.Entity.DomainModels
        public int Role_Id { get; set; }
 
        /// <summary>
-       ///
+       ///不用
        /// </summary>
-       [Display(Name ="RoleName")]
-       [MaxLength(300)]
-       [Column(TypeName="nvarchar(300)")]
+       [Display(Name ="不用")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
        [Editable(true)]
-       [Required(AllowEmptyStrings=false)]
        public string RoleName { get; set; }
 
        /// <summary>
        ///Token
        /// </summary>
        [Display(Name ="Token")]
-       [MaxLength(1000)]
-       [Column(TypeName="nvarchar(1000)")]
+       [MaxLength(500)]
+       [Column(TypeName="nvarchar(500)")]
        [Editable(true)]
        public string Token { get; set; }
 
        /// <summary>
-       ///登陆设备类型
+       ///类型
        /// </summary>
-       [Display(Name ="登陆设备类型")]
+       [Display(Name ="类型")]
        [Column(TypeName="int")]
        [Editable(true)]
        public int? AppType { get; set; }
 
        /// <summary>
-       ///用户真实姓名
+       ///组织构架
        /// </summary>
-       [Display(Name ="用户真实姓名")]
-       [MaxLength(40)]
-       [Column(TypeName="nvarchar(40)")]
+       [Display(Name ="组织构架")]
+       [MaxLength(2000)]
+       [Column(TypeName="nvarchar(2000)")]
+       [Editable(true)]
+       public string DeptIds { get; set; }
+
+       /// <summary>
+       ///姓名
+       /// </summary>
+       [Display(Name ="姓名")]
+       [MaxLength(20)]
+       [Column(TypeName="nvarchar(20)")]
        [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string UserTrueName { get; set; }
@@ -120,9 +127,9 @@ namespace VOL.Entity.DomainModels
        ///密码
        /// </summary>
        [Display(Name ="密码")]
-       [MaxLength(400)]
+       [MaxLength(200)]
        [JsonIgnore]
-       [Column(TypeName="nvarchar(400)")]
+       [Column(TypeName="nvarchar(200)")]
        public string UserPwd { get; set; }
 
        /// <summary>
@@ -130,32 +137,29 @@ namespace VOL.Entity.DomainModels
        /// </summary>
        [Display(Name ="注册时间")]
        [Column(TypeName="datetime")]
-       [Editable(true)]
        public DateTime? CreateDate { get; set; }
 
        /// <summary>
-       ///是否手机用户
+       ///手机用户
        /// </summary>
-       [Display(Name ="是否手机用户")]
+       [Display(Name ="手机用户")]
        [Column(TypeName="int")]
-       [Editable(true)]
-       [Required(AllowEmptyStrings=false)]
-       public int IsRegregisterPhone { get; set; }
+       public int? IsRegregisterPhone { get; set; }
 
        /// <summary>
        ///手机号
        /// </summary>
        [Display(Name ="手机号")]
-       [MaxLength(22)]
-       [Column(TypeName="nvarchar(22)")]
+       [MaxLength(11)]
+       [Column(TypeName="nvarchar(11)")]
        public string PhoneNo { get; set; }
 
        /// <summary>
        ///
        /// </summary>
        [Display(Name ="Tel")]
-       [MaxLength(40)]
-       [Column(TypeName="nvarchar(40)")]
+       [MaxLength(20)]
+       [Column(TypeName="nvarchar(20)")]
        public string Tel { get; set; }
 
        /// <summary>
@@ -169,9 +173,8 @@ namespace VOL.Entity.DomainModels
        ///创建人
        /// </summary>
        [Display(Name ="创建人")]
-       [MaxLength(400)]
-       [Column(TypeName="nvarchar(400)")]
-       [Editable(true)]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
        public string Creator { get; set; }
 
        /// <summary>
@@ -194,8 +197,8 @@ namespace VOL.Entity.DomainModels
        ///修改人
        /// </summary>
        [Display(Name ="修改人")]
-       [MaxLength(400)]
-       [Column(TypeName="nvarchar(400)")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
        public string Modifier { get; set; }
 
        /// <summary>
@@ -216,8 +219,8 @@ namespace VOL.Entity.DomainModels
        ///审核人
        /// </summary>
        [Display(Name ="审核人")]
-       [MaxLength(400)]
-       [Column(TypeName="nvarchar(400)")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
        public string Auditor { get; set; }
 
        /// <summary>
@@ -245,8 +248,8 @@ namespace VOL.Entity.DomainModels
        ///地址
        /// </summary>
        [Display(Name ="地址")]
-       [MaxLength(400)]
-       [Column(TypeName="nvarchar(400)")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
        [Editable(true)]
        public string Address { get; set; }
 
@@ -254,8 +257,8 @@ namespace VOL.Entity.DomainModels
        ///电话
        /// </summary>
        [Display(Name ="电话")]
-       [MaxLength(200)]
-       [Column(TypeName="nvarchar(200)")]
+       [MaxLength(100)]
+       [Column(TypeName="nvarchar(100)")]
        [Editable(true)]
        public string Mobile { get; set; }
 
@@ -263,8 +266,8 @@ namespace VOL.Entity.DomainModels
        ///Email
        /// </summary>
        [Display(Name ="Email")]
-       [MaxLength(200)]
-       [Column(TypeName="nvarchar(200)")]
+       [MaxLength(100)]
+       [Column(TypeName="nvarchar(100)")]
        [Editable(true)]
        public string Email { get; set; }
 
@@ -272,8 +275,8 @@ namespace VOL.Entity.DomainModels
        ///备注
        /// </summary>
        [Display(Name ="备注")]
-       [MaxLength(400)]
-       [Column(TypeName="nvarchar(400)")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
        [Editable(true)]
        public string Remark { get; set; }
 

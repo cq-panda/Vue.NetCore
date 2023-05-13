@@ -22,7 +22,7 @@ let extension = {
               'show-icon': true,
               type: 'success',
               closable: false,
-              title: '流程设计器根据easy-flow修改'
+              title: '流程设计器根据easy-flow修改,表必须包括审批字段AuditStatus,具体见示例表SellOrder;后台startup需要注入审批流程'
             },
             ''
           )

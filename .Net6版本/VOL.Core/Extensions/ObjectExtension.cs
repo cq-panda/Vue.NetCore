@@ -540,46 +540,6 @@ namespace VOL.Core.Extensions
             }
             return info;
         }
-
-        public static byte[] ToBytes(this object obj)
-        {
-            if (obj == null)
-                return null;
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
-        }
-
-        public static object ToObject(this byte[] source)
-        {
-            using (var memStream = new MemoryStream())
-            {
-                var bf = new BinaryFormatter();
-                memStream.Write(source, 0, source.Length);
-                memStream.Seek(0, SeekOrigin.Begin);
-                var obj = bf.Deserialize(memStream);
-                return obj;
-            }
-        }
-
-        /// <summary>
-        /// 将object转换为char类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>char。</returns>
-        public static char ToChar(this object o, char t = default(char))
-        {
-            if (!char.TryParse(o.ToString(string.Empty), out char info))
-            {
-                info = t;
-            }
-            return info;
-        }
-
         /// <summary>
         /// 将object转换为int类型信息。
         /// </summary>

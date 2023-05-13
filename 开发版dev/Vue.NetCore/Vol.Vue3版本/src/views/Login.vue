@@ -77,7 +77,8 @@
   </div>
 </template>
 
-<script>
+
+<script >
 import {
   defineComponent,
   ref,

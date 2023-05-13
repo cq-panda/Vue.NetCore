@@ -29,7 +29,7 @@ namespace VOL.Core.Utilities
 			{
 				vDate = "昨天";
 			}
-			else if (DateTime.Now.AddDays(2).ToString("yyyy-MM-dd") == strDate)
+			else if (DateTime.Now.AddDays(-2).ToString("yyyy-MM-dd") == strDate)
 			{
 				vDate = "前天";
 			}
