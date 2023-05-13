@@ -290,6 +290,8 @@ namespace VOL.System.Services
 
             base.AddOnExecuted = (Sys_User user, object list) =>
             {
+                var deptIds = user.DeptIds?.Split(",").Select(s => s.GetGuid()).Where(x => x != null).Select(s => (Guid)s).ToArray();
+                SaveDepartment(deptIds, user.User_Id);
                 return webResponse.OK($"用户新建成功.帐号{user.UserName}密码{pwd}");
             };
             return base.Add(saveModel); ;
@@ -390,9 +392,77 @@ namespace VOL.System.Services
             base.UpdateOnExecuted = (Sys_User user, object obj1, object obj2, List<object> List) =>
             {
                 base.CacheContext.Remove(user.User_Id.GetUserIdKey());
+                var deptIds = user.DeptIds?.Split(",").Select(s => s.GetGuid()).Where(x => x != null).Select(s => (Guid)s).ToArray();
+                SaveDepartment(deptIds, user.User_Id);
                 return new WebResponseContent(true);
             };
             return base.Update(saveModel);
+        }
+
+
+        /// <summary>
+        /// 保存部门
+        /// </summary>
+        /// <param name="deptIds"></param>
+        /// <param name="userId"></param>
+        public void SaveDepartment(Guid[] deptIds, int userId)
+        {
+
+            if (userId <= 0)
+            {
+                return;
+            }
+            if (deptIds == null)
+            {
+                deptIds = new Guid[] { };
+            }
+
+            //如果需要判断当前角色是否越权，再调用一下获取当前部门下的所有子角色判断即可
+
+            var roles = repository.DbContext.Set<Sys_UserDepartment>().Where(x => x.UserId == userId)
+              .Select(s => new { s.DepartmentId, s.Enable, s.Id })
+              .ToList();
+            //没有设置部门
+            if (deptIds.Length == 0 && !roles.Exists(x => x.Enable == 1))
+            {
+                return;
+            }
+
+            UserInfo user = UserContext.Current.UserInfo;
+            //新设置的部门
+            var add = deptIds.Where(x => !roles.Exists(r => r.DepartmentId == x)).Select(s => new Sys_UserDepartment()
+            {
+                DepartmentId = s,
+                UserId = userId,
+                Enable = 1,
+                CreateDate = DateTime.Now,
+                Creator = user.UserTrueName,
+                CreateID = user.User_Id
+            }).ToList();
+
+            //删除的部门
+            var update = roles.Where(x => !deptIds.Contains(x.DepartmentId) && x.Enable == 1).Select(s => new Sys_UserDepartment()
+            {
+                Id = s.Id,
+                Enable = 0,
+                ModifyDate = DateTime.Now,
+                Modifier = user.UserTrueName,
+                ModifyID = user.User_Id
+            }).ToList();
+
+            //之前设置过的部门重新分配 
+            update.AddRange(roles.Where(x => deptIds.Contains(x.DepartmentId) && x.Enable != 1).Select(s => new Sys_UserDepartment()
+            {
+                Id = s.Id,
+                Enable = 1,
+                ModifyDate = DateTime.Now,
+                Modifier = user.UserTrueName,
+                ModifyID = user.User_Id
+            }).ToList());
+            repository.AddRange(add);
+
+            repository.UpdateRange(update, x => new { x.Enable, x.ModifyDate, x.Modifier, x.ModifyID });
+            repository.SaveChanges();
         }
 
         /// <summary>
