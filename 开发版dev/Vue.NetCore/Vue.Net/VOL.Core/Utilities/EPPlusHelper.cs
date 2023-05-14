@@ -86,10 +86,14 @@ namespace VOL.Core.Utilities
                 {
                     return responseContent.Error("导入文件列必须与导入模板相同");
                 }
-                string[] ignoreSelectValidationFiedls =null;
+                string[] ignoreSelectValidationFields =null;
                 if (ignoreSelectValidationColumns!=null)
                 {
-                    ignoreSelectValidationFiedls = ignoreSelectValidationColumns.GetExpressionToArray();
+                    ignoreSelectValidationFields = ignoreSelectValidationColumns.GetExpressionToArray();
+                }
+                else
+                {
+                    ignoreSelectValidationFields = new string[0];
                 }
 
                 PropertyInfo[] propertyInfos = typeof(T).GetProperties()
@@ -124,9 +128,7 @@ namespace VOL.Core.Utilities
 
                         //验证字典数据
                         //2020.09.20增加判断数据源是否有值
-                        if (!string.IsNullOrEmpty(options.DropNo) && !string.IsNullOrEmpty(value)
-                            &&ignoreSelectValidationFiedls!=null
-                            &&!ignoreSelectValidationFiedls.Contains(property.Name))
+                        if (!string.IsNullOrEmpty(options.DropNo) && !string.IsNullOrEmpty(value)&&!ignoreSelectValidationFields.Contains(property.Name))
                         {
                             if (options.KeyValues == null)
                             {
