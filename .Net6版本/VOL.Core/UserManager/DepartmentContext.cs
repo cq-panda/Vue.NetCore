@@ -10,7 +10,7 @@ using VOL.Entity.DomainModels;
 
 namespace VOL.Core.UserManager
 {
-   public static class DepartmentContext
+    public static class DepartmentContext
     {
         static DepartmentContext()
         {
@@ -84,7 +84,7 @@ namespace VOL.Core.UserManager
                 var list = _depts.Where(x => x.parentId == id && !ids.Contains(x.id)).Select(s => s.id).Distinct().ToList();
                 if (list.Count > 0)
                 {
-                    ids.AddRange(ids);
+                    ids.AddRange(list);
                 }
             }
 
