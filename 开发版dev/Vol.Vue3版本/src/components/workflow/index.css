@@ -1,0 +1,258 @@
+/*画布容器*/
+.efContainer {
+  position: relative;
+  overflow: scroll;
+  flex: 1;
+}
+.tools {
+    position: absolute;
+    left: 220px;
+    /* background: #fff; */
+    /* border: 1px solid #d8d7d7; */
+    /* border-radius: 5px; */
+    padding: 5px 5px;
+    display: flex;
+    z-index: 99;
+    background: #fcfcfc;
+}
+
+/*顶部工具栏*/
+.ef-tooltar {
+  padding-left: 10px;
+  box-sizing: border-box;
+  height: 42px;
+  line-height: 42px;
+  z-index: 3;
+  border-bottom: 1px solid #dadce0;
+}
+
+.jtk-overlay {
+  cursor: pointer;
+  color: #4a4a4a;
+}
+
+.ef-node-pmenu-item {
+  padding: 10px;
+  background: #f8f8f8;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+/*节点菜单*/
+.ef-node-pmenu {
+  cursor: pointer;
+  height: 32px;
+  line-height: 32px;
+  width: 225px;
+  display: block;
+  font-weight: bold;
+  color: #4a4a4a;
+  padding-left: 5px;
+}
+
+.ef-node-pmenu:hover {
+  background-color: #e0e0e0;
+}
+.ef-node-menu-item {
+  padding: 10px;
+}
+.ef-node-menu-li {
+  cursor: move;
+  border: 1px solid #eee;
+  padding: 2px 13px;
+  text-align: left;
+  line-height: 28px;
+  margin: 4px;
+  border-radius: 3px;
+  background: #f0f9eb;
+  font-size: 12px;
+  float: left;
+  width: 98px;
+
+}
+
+.ef-node-menu-li  > div:first-child{
+  display: inline-block;
+  padding: 4px;
+}
+
+.ef-node-menu-li:hover {
+  /* 设置移动样式*/
+  cursor: move;
+  border: 1px dashed #787be8;
+  color: #787be8;
+  /* background-color: #F0F7FF;
+    border: 1px dashed #1879FF;
+    border-left: 4px solid #1879FF;
+    padding-left: 5px; */
+}
+
+.ef-node-menu-ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+/*节点的最外层容器*/
+.ef-node-container {
+  position: absolute;
+  display: flex;
+  width: 170px;
+  height: 32px;
+  border: 1px solid #e0e3e7;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.ef-node-container:hover {
+  /* 设置移动样式*/
+  cursor: move;
+  background-color: #f0f7ff;
+  /*box-shadow: #1879FF 0px 0px 12px 0px;*/
+  background-color: #f0f7ff;
+  border: 1px dashed #1879ff;
+}
+
+/*节点激活样式*/
+.ef-node-active {
+  background-color: #f0f7ff;
+  /*box-shadow: #1879FF 0px 0px 12px 0px;*/
+  background-color: #f0f7ff;
+  border: 1px solid #1879ff;
+}
+
+/*节点左侧的竖线*/
+.ef-node-left {
+  width: 4px;
+  background-color: #1879ff;
+  border-radius: 4px 0 0 4px;
+}
+
+/*节点左侧的图标*/
+.ef-node-left-ico {
+  line-height: 32px;
+  margin-left: 8px;
+}
+
+.ef-node-left-ico:hover {
+  /* 设置拖拽的样式 */
+  cursor: crosshair;
+}
+
+/*节点显示的文字*/
+.ef-node-text {
+  color: #565758;
+  font-size: 12px;
+  line-height: 32px;
+  margin-left: 8px;
+  width: 100px;
+  /* 设置超出宽度文本显示方式*/
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/*节点右侧的图标*/
+.ef-node-right-ico {
+  line-height: 32px;
+  position: absolute;
+  right: 5px;
+  color: #84cf65;
+  cursor: default;
+}
+
+/*节点的几种状态样式*/
+.el-node-state-success {
+  line-height: 32px;
+  position: absolute;
+  right: 5px;
+  color: #84cf65;
+  cursor: default;
+}
+
+.el-node-state-error {
+  line-height: 32px;
+  position: absolute;
+  right: 5px;
+  color: #f56c6c;
+  cursor: default;
+}
+
+.el-node-state-warning {
+  line-height: 32px;
+  position: absolute;
+  right: 5px;
+  color: #e6a23c;
+  cursor: default;
+}
+
+.el-node-state-running {
+  line-height: 32px;
+  position: absolute;
+  right: 5px;
+  color: #84cf65;
+  cursor: default;
+}
+
+/*node-form*/
+.ef-node-form-header {
+  height: 32px;
+  border-top: 1px solid #dce3e8;
+  border-bottom: 1px solid #dce3e8;
+  background: #f1f3f4;
+  color: #000;
+  line-height: 32px;
+  padding-left: 12px;
+  font-size: 14px;
+}
+
+.ef-node-form-body {
+  margin-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 20px;
+}
+
+/* 连线中的label 样式*/
+.jtk-overlay.flowLabel:not(.aLabel) {
+  /* padding: 4px 10px; */
+  padding: 1px 8px 2px 8px;
+  background-color: white;
+  color: #a9aaaa !important;
+  border: 1px solid #e0e3e7;
+  border-radius: 3px;
+}
+
+/* label 为空的样式 */
+.emptyFlowLabel {
+}
+
+.ef-dot {
+  background-color: #1879ff;
+  border-radius: 10px;
+}
+
+.ef-dot-hover {
+  background-color: red;
+}
+
+.ef-rectangle {
+  background-color: #1879ff;
+}
+
+.ef-rectangle-hover {
+  background-color: red;
+}
+
+.ef-img {
+}
+
+.ef-img-hover {
+}
+
+.ef-drop-hover {
+  border: 1px dashed #1879ff;
+}
