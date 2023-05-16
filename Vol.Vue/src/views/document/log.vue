@@ -80,7 +80,6 @@ export default {
 <span> </span>// ALTER TABLE Sys_WorkFlowStep add&nbsp; NextStepIds VARCHAR(500)<br />
 <span> </span>// ALTER TABLE dbo.Sys_WorkFlowStep ADD ParentId&nbsp; VARCHAR(2000)<br />
 <span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; AuditRefuse INT<br />
-<span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; AuditRefuse INT<br />
 <span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; AuditBack INT<br />
 <span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; AuditMethod INT<br />
 <span> </span>// ALTER TABLE Sys_WorkFlowStep ADD&nbsp; SendMail INT<br />
@@ -167,6 +166,10 @@ export default {
 <span> </span>//&nbsp; &nbsp;[Modifier] [nvarchar](255) NULL,<br />
 <span> </span>//&nbsp; &nbsp;[ModifyDate] [datetime] NULL<br />
 <span> </span>//&nbsp; &nbsp;)&nbsp;&nbsp;<br />
+<br />
+
+<span> </span>//以上脚本修改完成后，代码生成器里面选择同步表结构与生成model,新加的字段编辑行的值也一定要设置,再替换下Sys_DepartmentService.cs与Sys_DepartmentController.cs文件<br />
+<br />
 <br />
 <span> </span>//更新后台文件<br />
 <span> </span>//增加DepartmentContext.cs文件、更新UserContext.cs、UserInfo.cs、<br />
