@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -541,6 +540,9 @@ namespace VOL.Core.BaseProvider
 
             saveDataModel.DetailData = saveDataModel.DetailData?.Where(x => x.Count > 0).ToList();
             Type type = typeof(T);
+            // 修改为与Update一致，先设置默认值再进行实体的校验
+            UserInfo userInfo = UserContext.Current.UserInfo;
+            saveDataModel.SetDefaultVal(AppSetting.CreateMember, userInfo);
 
             string validReslut = type.ValidateDicInEntity(saveDataModel.MainData, true, UserIgnoreFields);
 
@@ -548,10 +550,7 @@ namespace VOL.Core.BaseProvider
 
             if (saveDataModel.MainData.Count == 0)
                 return Response.Error("保存的数据为空，请检查model是否配置正确!");
-
-            UserInfo userInfo = UserContext.Current.UserInfo;
-            saveDataModel.SetDefaultVal(AppSetting.CreateMember, userInfo);
-
+                
             PropertyInfo keyPro = type.GetKeyProperty();
             if (keyPro.PropertyType == typeof(Guid))
             {
