@@ -51,6 +51,7 @@ namespace VOL.Core.WorkFlow
                         type = LinqExpressionType.ThanOrEqual;
                         break;
                     case "小于":
+                    case "<":
                         type = LinqExpressionType.LessThan;
                         break;
                     case "<=":
