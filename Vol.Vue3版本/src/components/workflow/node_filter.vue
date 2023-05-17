@@ -13,36 +13,41 @@
         </div>
 
         <div>
-            <tr>
-                <td>字段</td>
-                <td style="width:90px">条件</td>
-                <td class="value">值</td>
-                <td style="width: 40px;">操作</td>
-            </tr>
-            <tr v-for="(item, index) in filters" :key="index">
+            <table>
+                <tr>
+                    <td>字段</td>
+                    <td style="width:90px">条件</td>
+                    <td class="value">值</td>
+                    <td style="width: 40px;">操作</td>
+                </tr>
+                <tr v-for="(item, index) in filters" :key="index">
 
-                <td><el-select @change="(field) => { fieldChange(field, index) }" size="small" v-model="item.field"
-                        placeholder="请选择">
-                        <el-option v-for="data in fieldsOptions" :key="data.field" :label="data.name" :value="data.field" />
-                    </el-select></td>
-                <td><el-select size="small" v-model="item.filterType" placeholder="请选择">
-                        <el-option v-for="data in filterType" :key="data.value" :label="data.name" :value="data.value" />
-                    </el-select></td>
-                <td>
-                    <template v-if="item.data">
-                        <el-select v-if="item.data.length >= 300" multiple size="small" v-model="item.value"
+                    <td><el-select @change="(field) => { fieldChange(field, index) }" size="small" v-model="item.field"
                             placeholder="请选择">
-                            <el-option v-for="data in item.data" :key="data.key" :label="data.value" :value="data.key" />
-                        </el-select>
-                        <el-select-v2 style="width: 100%;" v-else multiple size="small" :options="item.data"
-                            v-model="item.value" placeholder="请选择">
+                            <el-option v-for="data in fieldsOptions" :key="data.field" :label="data.name"
+                                :value="data.field" />
+                        </el-select></td>
+                    <td><el-select size="small" v-model="item.filterType" placeholder="请选择">
+                            <el-option v-for="data in filterType" :key="data.value" :label="data.name"
+                                :value="data.value" />
+                        </el-select></td>
+                    <td>
+                        <template v-if="item.data">
+                            <el-select v-if="item.data.length >= 300" multiple size="small" v-model="item.value"
+                                placeholder="请选择">
+                                <el-option v-for="data in item.data" :key="data.key" :label="data.value"
+                                    :value="data.key" />
+                            </el-select>
+                            <el-select-v2 style="width: 100%;" v-else multiple size="small" :options="item.data"
+                                v-model="item.value" placeholder="请选择">
 
-                        </el-select-v2>
-                    </template>
-                    <el-input v-else v-model="item.value" size="small"></el-input>
-                </td>
-                <td @click="delItem(index)" class="item-del"><i class="el-icon-delete"></i></td>
-            </tr>
+                            </el-select-v2>
+                        </template>
+                        <el-input v-else v-model="item.value" size="small"></el-input>
+                    </td>
+                    <td @click="delItem(index)" class="item-del"><i class="el-icon-delete"></i></td>
+                </tr>
+            </table>
         </div>
         <!-- <div>
             <label>自定义sql</label>
@@ -52,9 +57,10 @@
 </template>
 
 <script>
+import Table from '../../views/forms/table.vue';
 let _this = this;
 export default {
-    components: {  },
+    components: {Table},
     props: {
         tableName: {
             type: String,
@@ -191,5 +197,4 @@ export default {
     }
 
     .node-filter-item {}
-}
-</style>
+}</style>
