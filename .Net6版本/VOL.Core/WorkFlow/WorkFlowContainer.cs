@@ -75,7 +75,8 @@ namespace VOL.Core.WorkFlow
                     }
                     foreach (var item in list.GroupBy(x => x.WorkTable))
                     {
-                        InitOptions(_types.Where(x => x.Name == item.Key).FirstOrDefault(), list);
+                        Type type = _types.Where(x => x.Name == item.Key).FirstOrDefault();
+                        InitOptions(type, item.ToList());
                     }
                 }
                 catch (Exception ex)
