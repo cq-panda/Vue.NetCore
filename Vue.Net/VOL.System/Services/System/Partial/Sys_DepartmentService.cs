@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Http;
 using VOL.System.IRepositories;
 using System.Collections.Generic;
 using VOL.Core.ManageUser;
+using VOL.Core.UserManager;
 
 namespace VOL.System.Services
 {
@@ -72,7 +73,7 @@ namespace VOL.System.Services
             {
                 return webResponse.OK();
             };
-            return base.Add(saveDataModel);
+            return base.Add(saveDataModel).Reload();
         }
         public override WebResponseContent Update(SaveModel saveModel)
         {
@@ -88,7 +89,12 @@ namespace VOL.System.Services
                 }
                 return webResponse.OK();
             };
-            return base.Update(saveModel);
+            return base.Update(saveModel).Reload();
+        }
+
+        public override WebResponseContent Del(object[] keys, bool delList = true)
+        {
+            return base.Del(keys, delList).Reload();
         }
     }
 

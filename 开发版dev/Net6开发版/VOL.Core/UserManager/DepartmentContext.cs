@@ -6,11 +6,12 @@ using System.Text;
 using VOL.Core.CacheManager;
 using VOL.Core.DBManager;
 using VOL.Core.Extensions.AutofacManager;
+using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
 
 namespace VOL.Core.UserManager
 {
-    public static class DepartmentContext
+   public static class DepartmentContext
     {
         static DepartmentContext()
         {
@@ -77,13 +78,13 @@ namespace VOL.Core.UserManager
             {
                 return new List<Guid>() { Guid.NewGuid() };
             }
-
+             
             for (int i = 0; i < ids.Count(); i++)
             {
                 Guid id = ids[i];
                 var list = _depts.Where(x => x.parentId == id && !ids.Contains(x.id)).Select(s => s.id).Distinct().ToList();
                 if (list.Count > 0)
-                {
+                { 
                     ids.AddRange(list);
                 }
             }
@@ -95,9 +96,13 @@ namespace VOL.Core.UserManager
             return GetAllChildrenIds(new List<Guid>() { id });
         }
 
-        public static void Reload()
+        public static WebResponseContent Reload(this WebResponseContent webResponse)
         {
-            AutofacContainerModule.GetService<ICacheService>().Remove(_deptCacheKey);
+            if (webResponse.Status)
+            {
+                CacheContext.Remove(_deptCacheKey);
+            }
+            return webResponse;
         }
     }
 

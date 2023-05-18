@@ -6,6 +6,7 @@ using System.Text;
 using VOL.Core.CacheManager;
 using VOL.Core.DBManager;
 using VOL.Core.Extensions.AutofacManager;
+using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
 
 namespace VOL.Core.UserManager
@@ -95,9 +96,13 @@ namespace VOL.Core.UserManager
             return GetAllChildrenIds(new List<Guid>() { id });
         }
 
-        public static void Reload()
+        public static WebResponseContent Reload(this WebResponseContent webResponse)
         {
-            AutofacContainerModule.GetService<ICacheService>().Remove(_deptCacheKey);
+            if (webResponse.Status)
+            {
+                CacheContext.Remove(_deptCacheKey);
+            }
+            return webResponse;
         }
     }
 
