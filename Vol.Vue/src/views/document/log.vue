@@ -176,7 +176,7 @@ export default {
 <span> </span>//Sys_WorkFlowController.cs、Sys_WorkFlowTableService.cs、ServiceBase、cs(或者整个vol.core类库)<br />
 <span> </span>//Startup.cs中ConfigureContainer方法、vol.core类库下WorkFlow文件夹、Logger.cs<br />
 <br />
-<span> </span>//前端文件：components文件夹、main.js、package.json,builderData.js<br />
+<span> </span>//前端文件：components文件夹、main.js、package.json,builderData.js、WorkFlowGridHeader.vue<br />
 <span> </span>//前端需要重新执行npm installl，或者文件夹的install.bat双击执行下<br />
 	<div>
 		<br />
