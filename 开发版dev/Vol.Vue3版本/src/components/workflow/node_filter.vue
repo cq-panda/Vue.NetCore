@@ -57,10 +57,8 @@
 </template>
 
 <script>
-import Table from '../../views/forms/table.vue';
 let _this = this;
 export default {
-    components: {Table},
     props: {
         tableName: {
             type: String,
