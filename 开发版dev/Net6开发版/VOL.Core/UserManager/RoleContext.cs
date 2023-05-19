@@ -31,7 +31,7 @@ namespace VOL.Core.UserManager
                 if (_RoleVersionn != "" && _roles != null && _RoleVersionn == cacheService.Get(Key)) return _roles;
                 _roles = DBServerProvider.DbContext
                   .Set<Sys_Role>()
-                   .Where(x => x.Enable == 1)
+                   .Where(x =>true)
                    .Select(s => new RoleNodes() { Id = s.Role_Id, ParentId = s.ParentId, RoleName = s.RoleName })
              .ToList();
 
@@ -55,7 +55,7 @@ namespace VOL.Core.UserManager
         }
         /// <summary>
         /// 
-        /// 获取当前角色下的所有角色(不包括自己的角色)
+        /// 获取当前角色下的所有角色(包括自己的角色)
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
@@ -66,10 +66,10 @@ namespace VOL.Core.UserManager
             if (UserContext.IsRoleIdSuperAdmin(roleId)) return roles;
 
             var list = GetChildren(roles, roleId);
-            if (list.Any(x => x.Id == roleId))
-            {
-                return list.Where(x => x.Id != roleId).ToList();
-            }
+            //if (list.Any(x => x.Id == roleId))
+            //{
+            //    return list.Where(x => x.Id != roleId).ToList();
+            //}
             return list;
         }
         public static List<int> GetAllChildrenIds(int roleId)

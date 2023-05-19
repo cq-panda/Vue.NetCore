@@ -280,6 +280,10 @@ namespace VOL.System.Services
         {
             AddOnExecuting = (Sys_Role role, object obj) =>
             {
+                if (!UserContext.Current.IsSuperAdmin && role.ParentId > 0 && !RoleContext.GetAllChildrenIds(UserContext.Current.RoleId).Contains(role.ParentId))
+                {
+                    return _responseContent.Error("不能添加此角色");
+                }
                 return ValidateRoleName(role, x => x.RoleName == role.RoleName);
             };
             return RemoveCache(base.Add(saveDataModel));
@@ -287,6 +291,16 @@ namespace VOL.System.Services
 
         public override WebResponseContent Del(object[] keys, bool delList = true)
         {
+            if (!UserContext.Current.IsSuperAdmin)
+            {
+                var roleIds = RoleContext.GetAllChildrenIds(UserContext.Current.RoleId);
+                var _keys = keys.Select(s => s.GetInt());
+                if (_keys.Any(x => !roleIds.Contains(x)))
+                {
+                    return _responseContent.Error("没有权限删除此角色");
+                }
+            }
+        
             return RemoveCache(base.Del(keys, delList));
         }
 
@@ -315,6 +329,22 @@ namespace VOL.System.Services
                 if (repository.Exists(x => x.Role_Id == role.ParentId && x.ParentId == role.Role_Id))
                 {
                     return _responseContent.Error($"不能选择此上级角色，选择的上级角色与当前角色形成依赖关系");
+                }
+                if (!UserContext.Current.IsSuperAdmin)
+                {
+                    var roleIds = RoleContext.GetAllChildrenIds(UserContext.Current.RoleId);
+                    if (role.ParentId > 0)
+                    {
+                        if (!roleIds.Contains(role.ParentId))
+                        {
+                            return _responseContent.Error($"不能选择此角色");
+                        }
+                    }
+                    if (!roleIds.Contains(role.Role_Id))
+                    {
+                        return _responseContent.Error($"不能选择此角色");
+                    }
+                    return _responseContent.OK("");
                 }
                 return ValidateRoleName(role, x => x.RoleName == role.RoleName && x.Role_Id != role.Role_Id);
             };
