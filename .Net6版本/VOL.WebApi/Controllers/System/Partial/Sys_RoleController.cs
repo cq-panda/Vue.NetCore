@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +15,7 @@ using VOL.Core.UserManager;
 using VOL.Core.Utilities;
 using VOL.Entity.AttributeManager;
 using VOL.Entity.DomainModels;
+using VOL.System.IRepositories;
 using VOL.System.IServices;
 using VOL.System.Repositories;
 using VOL.System.Services;
@@ -22,6 +25,24 @@ namespace VOL.System.Controllers
     [Route("api/role")]
     public partial class Sys_RoleController
     {
+        private readonly ISys_RoleService _service;//访问业务代码
+        private readonly ISys_RoleRepository _repository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        [ActivatorUtilitiesConstructor]
+        public Sys_RoleController(
+            ISys_RoleService service,
+            ISys_RoleRepository repository,
+            IHttpContextAccessor httpContextAccessor
+        )
+        : base(service)
+        {
+            _service = service;
+            _repository = repository;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+
         [HttpPost, Route("getCurrentTreePermission")]
         [ApiActionPermission(ActionPermissionOptions.Search)]
         public async Task<IActionResult> GetCurrentTreePermission()
@@ -60,7 +81,7 @@ namespace VOL.System.Controllers
                 return Json(WebResponseContent.Instance.OK(null, data));
             }
             //不是超级管理，将自己的角色查出来，在树形菜单上作为根节点
-            var self = Sys_RoleRepository.Instance.FindAsIQueryable(x => x.Role_Id == roleId)
+            var self = _repository.FindAsIQueryable(x => x.Role_Id == roleId)
                  .Select(s => new VOL.Core.UserManager.RoleNodes()
                  {
                      Id = s.Role_Id,
@@ -99,11 +120,22 @@ namespace VOL.System.Controllers
         public async Task<ActionResult> GetTreeTableRootData([FromBody] PageDataOptions options)
         {
             //页面加载根节点数据条件x => x.ParentId == 0,自己根据需要设置
-            var query = Sys_RoleRepository.Instance.FindAsIQueryable(x => x.ParentId == 0);
+            var query = _repository.FindAsIQueryable(x => true);
+            if (UserContext.Current.IsSuperAdmin)
+            {
+                query = query.Where(x => x.ParentId == 0);
+            }
+            else
+            {
+                int roleId = UserContext.Current.RoleId;
+                query = query.Where(x => x.Role_Id == roleId);
+            }
+            var queryChild = _repository.FindAsIQueryable(x => true);
             var rows = await query.TakeOrderByPage(options.Page, options.Rows)
                 .OrderBy(x => x.Role_Id).Select(s => new
                 {
                     s.Role_Id,
+                    //   ParentId=0,
                     s.ParentId,
                     s.RoleName,
                     s.DeptName,
@@ -114,7 +146,7 @@ namespace VOL.System.Controllers
                     s.Modifier,
                     s.ModifyDate,
                     s.OrderNo,
-                    hasChildren = true
+                    hasChildren = queryChild.Any(x => x.ParentId == s.Role_Id)
                 }).ToListAsync();
             return JsonNormal(new { total = await query.CountAsync(), rows });
         }
@@ -127,6 +159,10 @@ namespace VOL.System.Controllers
         [ApiActionPermission(ActionPermissionOptions.Search)]
         public async Task<ActionResult> GetTreeTableChildrenData(int roleId)
         {
+            if (!UserContext.Current.IsSuperAdmin && roleId != UserContext.Current.RoleId && !RoleContext.GetAllChildren(UserContext.Current.RoleId).Any(x => x.Id == roleId))
+            {
+                return JsonNormal(new { rows = new object[] { } });
+            }
             //点击节点时，加载子节点数据
             var roleRepository = Sys_RoleRepository.Instance.FindAsIQueryable(x => true);
             var rows = await roleRepository.Where(x => x.ParentId == roleId)
