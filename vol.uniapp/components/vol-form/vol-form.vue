@@ -9,8 +9,8 @@
 				<text>{{item.title}}</text>
 			</view>
 			<view v-if="item.readonly" style="flex: 1;font-size: 15px;text-align: right;">
-				<view v-if="item.type=='img'" class="readonly-imgs">
-					<image v-for="(src,imgIndex) in getImgSrcs(item)" :key="imgIndex" :src="src.url"></image>
+				<view  v-if="item.type=='img'" class="readonly-imgs">
+					<image style="width: 70px;height: 70px;margin-left: 20rpx;border-radius: 10rpx;" @click="previewImage(item,imgIndex)" v-for="(src,imgIndex) in getImgSrcs(item)" :key="imgIndex" :src="src.url"></image>
 				</view>
 				<text v-else> {{formatReadonlyValue(item)}}</text>
 			</view>
@@ -781,14 +781,22 @@
 				}
 			},
 			showCitySheet(item) {
-
 				this.cityItem = item;
 				const arr = (this.inFormFields[item.field] || '').split(',');
 				this.lotusAddressData.provinceName = arr[0] || ''; //省
 				this.lotusAddressData.cityName = arr[1] || ''; //市
 				this.lotusAddressData.townName = arr[2] || ''; //区
 				this.lotusAddressData.visible = true;
-			}
+			},
+			 previewImage(item,imgIndex){
+				const imgs= this.getImgSrcs(item).map(x=>{
+					return x.url
+				})
+				uni.previewImage({
+					urls:imgs,
+					current:imgIndex
+				})
+			 }
 		},
 		// #ifdef MP-WEIXIN
 		// 小程序不要使用循环生成表单,否则这里会死循环,与初始化的时候设置默认值有关,后面再处理
