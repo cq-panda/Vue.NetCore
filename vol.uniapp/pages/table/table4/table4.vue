@@ -1,6 +1,6 @@
 <template>
 	<view class="table-demo">
-		<view style="padding: 10rpx;">
+		<view style="padding:20rpx 20rpx 10rpx 20rpx;">
 			<vol-alert>
 				<view>1、完全自定义vol-table列表内容及样式,见:table4.vue</view>
 				<view>2、内部已处理高度自适应、自动分页、数据源自动加载</view>
@@ -11,8 +11,8 @@
 		<vol-table @loadBefore="loadBefore" @loadAfter="loadAfter" custom ref="table" :url="dataUrl"
 			:columns.sync="columns">
 			<!-- 	自定义内容 -->
-			<template v-slot:row="{row,columns, index,page }">
-				<view @click="rowClick(row,index)" class="grid-item">
+			<template v-slot:data="{rows}">
+				<view @click="rowClick(row,index)" v-for="(row,index) in rows" class="grid-item">
 					<view class="grid-img">
 						<u--image width="85px" height="85px" radius="5px" :src="row.HeadImageUrl">
 						</u--image>
@@ -97,14 +97,12 @@
 
 <style lang="less" scoped>
 	.table-demo {
-		background: #f4f4f4;
-		padding: 10rpx;
-		
+		background: #f4f4f4;	
 	}
 
 	.grid-item {
-		margin: 10rpx;
-		padding: 16rpx;
+		margin: 10rpx 20rpx;
+		padding:16rpx;
 		border-radius: 8rpx;
 		display: flex;
 		background: #ffff;

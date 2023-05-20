@@ -1,6 +1,6 @@
 <template>
 	<view class="table-demo">
-		<view style="padding: 10rpx;">
+		<view style="padding:20rpx 20rpx 10rpx 20rpx;">
 			<vol-alert>
 				<view>1、完全自定义vol-table列表内容及样式,见:table4.vue</view>
 				<view>2、内部已处理高度自适应、自动分页、数据源自动加载</view>
@@ -10,8 +10,8 @@
 
 		<vol-table @scrolltolower="scrolltolower" :tableData="tableData" custom ref="table" :columns.sync="columns">
 			<!-- 	自定义内容 -->
-			<template v-slot:row="{row,columns, index,page }">
-				<view class="grid-item">
+			<template v-slot:data="{rows}">
+				<view @click="rowClick(row,index)" v-for="(row,index) in rows" class="grid-item">
 					<view class="grid-content">
 						<view class="grid-title">{{index+1}}、{{row.title}}</view>
 						<view class="grid-bottom">
@@ -50,7 +50,8 @@
 			</template>
 		</vol-table>
 
-		<u-modal showCancelButton @confirm="confirm" @cancel="show=false" :show="show" title="警告" content='确定要删除数据吗'></u-modal>
+		<u-modal showCancelButton @confirm="confirm" @cancel="show=false" :show="show" title="警告" content='确定要删除数据吗'>
+		</u-modal>
 	</view>
 </template>
 
@@ -125,14 +126,14 @@
 				return this.$toast('点击了第' + index + '行');
 			},
 			delClick(row, index) {
-			   this.row=row;
-			   this.index=index;
-			   this.show=true;
+				this.row = row;
+				this.index = index;
+				this.show = true;
 			},
-			confirm(){
-				 this.tableData.splice(this.index,1);
-				 this.show=false;
-				 this.$toast('删除成功')
+			confirm() {
+				this.tableData.splice(this.index, 1);
+				this.show = false;
+				this.$toast('删除成功')
 			}
 		}
 	}
@@ -141,12 +142,10 @@
 <style lang="less" scoped>
 	.table-demo {
 		background: #f4f4f4;
-		padding: 10rpx;
-
 	}
 
 	.grid-item {
-		margin: 10rpx;
+		margin: 10rpx 20rpx;
 		padding: 16rpx;
 		border-radius: 8rpx;
 		display: flex;

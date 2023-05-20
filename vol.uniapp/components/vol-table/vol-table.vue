@@ -4,9 +4,10 @@
 		<view v-if="custom">
 			<u-list :upperThreshold="-999" v-if="tableHeight" :height="tableHeight" @scrolltolower="scrolltolower">
 				<!-- 小程序不支持标签里面调用方法。manifest.json并且要配置	"scopedSlotsCompiler":"legacy",属性 -->
-				<view v-for="(row,dataIndex) in rowsData" :key="dataIndex">
+				<!-- 	<view v-for="(row,dataIndex) in rowsData" :key="dataIndex">
 					<slot name="row" :row="row" :column="inColumns" :index="dataIndex" :page="page"></slot>
-				</view>
+				</view> -->
+				<slot name="data" :rows="rowsData" :column="inColumns" :page="page"></slot>
 			</u-list>
 		</view>
 		<!-- 		水平显示 -->
