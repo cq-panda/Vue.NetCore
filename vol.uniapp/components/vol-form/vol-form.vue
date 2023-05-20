@@ -4,13 +4,15 @@
 		<view :style="{padding:padding+'rpx',display:item.hidden?'none':''}"
 			:class="[labelPosition=='left'?'left-form-item':'top-form-item',item.type=='group'?'f-form-group':'']"
 			class="f-form-item" v-for="(item,index) in formOptions" :key="index">
-			<view class="f-form-label" v-if="item.type!='group'" :style="{maxWidth:labelWidth+'px'}">
+			<view class="f-form-label" v-if="item.type!='group'" :style="{maxWidth:labelWidth+'px',minWidth:'80px'}">
 				<text class="f-form-label-required" v-if="item.require||item.required">*</text>
 				<text>{{item.title}}</text>
 			</view>
 			<view v-if="item.readonly" style="flex: 1;font-size: 15px;text-align: right;">
-				<view  v-if="item.type=='img'" class="readonly-imgs">
-					<image style="width: 70px;height: 70px;margin-left: 20rpx;border-radius: 10rpx;" @click="previewImage(item,imgIndex)" v-for="(src,imgIndex) in getImgSrcs(item)" :key="imgIndex" :src="src.url"></image>
+				<view v-if="item.type=='img'" class="readonly-imgs">
+					<image style="width: 70px;height: 70px;margin-left: 20rpx;border-radius: 10rpx;"
+						@click="previewImage(item,imgIndex)" v-for="(src,imgIndex) in getImgSrcs(item)" :key="imgIndex"
+						:src="src.url"></image>
 				</view>
 				<text v-else> {{formatReadonlyValue(item)}}</text>
 			</view>
@@ -96,7 +98,7 @@
 			</template>
 
 			<view class="f-form-content f-form-content-select" @click="showActionSheet(item)"
-				v-else-if="['select','selectList','checkbox','radio','cascader'].indexOf(item.type)!=-1">
+				v-else-if="['select','selectList','checkbox','cascader'].indexOf(item.type)!=-1">
 				<view style="flex:1;">
 					<view style="color:rgb(192 196 204);font-size:15px;padding-right: 12rpx;"
 						v-show="base.isEmpty(inFormFields[item.field],true)">
@@ -124,8 +126,18 @@
 					type="digit" v-model="formFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
+			<view class="f-form-content" v-else-if="item.type=='radio'">
+				<!--  <view> -->
+				<u-radio-group :placement="item.placement" v-model="formFields[item.field]">
+					<u-radio v-for="(option,opIndex) in item.data"
+						:customStyle="{'margin-bottom':item.placement=='column'?'30rpx':0,'margin-right':item.placement=='column'?'0':'30rpx'}" :label="option.value"
+						:name="option.key">
+					</u-radio>
+				</u-radio-group>
+				<!-- 	  </view> -->
+			</view>
 			<view class="f-form-content" v-else-if="item.type=='switch'">
-				<u-radio-group v-model="formFields[item.field]" placement="row">
+				<u-radio-group :placement="item.placement" v-model="formFields[item.field]" placement="row">
 					<u-radio :customStyle="{'margin-right': '40rpx'}" label="是" :name="1">
 					</u-radio>
 					<u-radio label="否" :name="0">
@@ -788,15 +800,15 @@
 				this.lotusAddressData.townName = arr[2] || ''; //区
 				this.lotusAddressData.visible = true;
 			},
-			 previewImage(item,imgIndex){
-				const imgs= this.getImgSrcs(item).map(x=>{
+			previewImage(item, imgIndex) {
+				const imgs = this.getImgSrcs(item).map(x => {
 					return x.url
 				})
 				uni.previewImage({
-					urls:imgs,
-					current:imgIndex
+					urls: imgs,
+					current: imgIndex
 				})
-			 }
+			}
 		},
 		// #ifdef MP-WEIXIN
 		// 小程序不要使用循环生成表单,否则这里会死循环,与初始化的时候设置默认值有关,后面再处理
