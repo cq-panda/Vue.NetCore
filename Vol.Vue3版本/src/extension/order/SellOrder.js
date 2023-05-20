@@ -129,6 +129,7 @@ let extension = {
       //点击单元格编辑与结束编辑(默认是点击单元格编辑，鼠标离开结束编辑)
       this.detailOptions.clickEdit = true;
 
+  
       //设置主表合计
       this.summary = true;
       //设置明细表合计
@@ -164,9 +165,11 @@ let extension = {
 
     },
     onInited() {
+      this.detailOptions.columnIndex=false;
+      this.detailOptions.ck=true;
       //设置主表求字段，后台需要实现SummaryExpress方法
       this.columns.forEach(x => {
-        if (x.field == 'Qty') {
+        if (x.field == 'Qty'||x.field=='Weight') {
           x.summary = true;
         }
       })
