@@ -1462,20 +1462,16 @@ export default defineComponent({
     },
     getSelectFormatter(column, val) {
       // 编辑多选table显示
-      let valArr = val.split(',');
+      let valArr = val.split(",");
       for (let index = 0; index < valArr.length; index++) {
-        column.bind.data.forEach((x) => {
+        (column.bind.orginData||column.bind.data).forEach((x) => {
           // 2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
-          if (
-            x.key !== '' &&
-            x.key !== undefined &&
-            x.key + '' == valArr[index] + ''
-          ) {
-            valArr[index] = x.label || x.value;
+          if (x.key !== "" && x.key !== undefined && x.key + "" == valArr[index] + "") {
+            valArr[index] = x.label || this.$ts(x.value);
           }
         });
       }
-      return valArr.join(',');
+      return valArr.join(",");
     },
     onChange(scope, val, event, column) {
       // 2020.09.03修复onChange不触发的问题
