@@ -1438,7 +1438,7 @@ export default defineComponent({
         return row[column.field];
       }
 
-      if (column.edit && column.edit.type == 'selectList') {
+      if (column.edit && (column.edit.type == 'selectList'||column.edit.type=='treeSelect')) {
         if (!Array.isArray(val)) {
           row[column.field] = val.split(',');
         } else {
@@ -1447,7 +1447,7 @@ export default defineComponent({
         return this.getSelectFormatter(column, val);
       }
       // 编辑多选table显示
-      if (column.bind.type == 'selectList' || column.bind.type == 'checkbox') {
+      if (column.bind.type == 'selectList' || column.bind.type == 'checkbox'||column.bind.type=='treeSelect') {
         if (typeof val === 'string' && val.indexOf(',') != -1) {
           return this.getSelectFormatter(column, val);
         }
