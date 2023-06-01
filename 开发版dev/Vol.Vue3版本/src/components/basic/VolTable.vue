@@ -1448,9 +1448,9 @@ export default defineComponent({
       }
       // 编辑多选table显示
       if (column.bind.type == 'selectList' || column.bind.type == 'checkbox'||column.bind.type=='treeSelect') {
-        if (typeof val === 'string' && val.indexOf(',') != -1) {
-          return this.getSelectFormatter(column, val);
-        }
+       // if (typeof val === 'string' && val.indexOf(',') != -1) {
+          return this.getSelectFormatter(column, val+'');
+      //  }
       }
       let source = column.bind.data.filter((x) => {
         // return x.key != "" && x.key == val;
@@ -1467,7 +1467,7 @@ export default defineComponent({
         (column.bind.orginData||column.bind.data).forEach((x) => {
           // 2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
           if (x.key !== "" && x.key !== undefined && x.key + "" == valArr[index] + "") {
-            valArr[index] = x.label || this.$ts(x.value);
+            valArr[index] = x.label || x.value;
           }
         });
       }
