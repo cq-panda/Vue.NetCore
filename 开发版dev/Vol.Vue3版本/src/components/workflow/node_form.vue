@@ -12,11 +12,11 @@
             <div class="ef-node-form-body">
                 <div class="form-info">
                     <VolForm ref="form" style="padding:0 10px;" :label-width="130" :loadKey="false" :formFields="node"
-                        :formRules="formRules">
+                        :formRules="formRules" :disabled="disabled">
                     </VolForm>
                 </div>
                 <div>
-                    <node-filter :filters="node.filters" :tableName="tableName" ref="filter">
+                    <node-filter :filters="node.filters" :disabled="disabled" :tableName="tableName" ref="filter">
                     </node-filter>
                 </div>
             </div>
@@ -35,6 +35,10 @@ export default {
         'node-filter': nodeFilter
     },
     props: {
+        disabled:{
+            typeof:Boolean,
+            default:false
+        }
         // node: {
         //     type: Object,
         //     default: () => {
@@ -67,7 +71,7 @@ export default {
     },
     data() {
         return {
-            tableName:"",
+            tableName: "",
             index: 1,
             visible: true,
             // node 或 line
@@ -197,7 +201,7 @@ export default {
                             { key: 1, value: '是' },
                             { key: 0, value: '否' }
                         ],
-                        type: 'radio'
+                        type: 'switch'
                     }
                 ],
             ],
@@ -212,8 +216,8 @@ export default {
          * @param data
          * @param id
          */
-        nodeInit(data, id,tableName) {
-            this.tableName=tableName;
+        nodeInit(data, id, tableName) {
+            this.tableName = tableName;
             this.type = 'node'
             this.data = data;
             // this.tableName=data.
@@ -227,7 +231,7 @@ export default {
                         })
                     })
                     if (!node.filters) {
-                        node.filters=[];
+                        node.filters = [];
                     }
                     this.node = node;// cloneDeep(node)
                     if (node.type != 'start' && node.type != 'end') {
