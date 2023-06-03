@@ -1,329 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 120pgsql
- Source Server Type    : PostgreSQL
- Source Server Version : 110019
- Source Host           : 120.48.115.252:5432
- Source Catalog        : netcoredev
- Source Schema         : public
-
- Target Server Type    : PostgreSQL
- Target Server Version : 110019
- File Encoding         : 65001
-
- Date: 13/05/2023 19:16:56
-*/
-
-
--- ----------------------------
--- Sequence structure for app_expert_id_seq1
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."app_expert_id_seq1";
-CREATE SEQUENCE "public"."app_expert_id_seq1" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 100
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for app_news111seq_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."app_news111seq_id_seq";
-CREATE SEQUENCE "public"."app_news111seq_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 10
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for app_news_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."app_news_id_seq";
-CREATE SEQUENCE "public"."app_news_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for app_reportprice_id1_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."app_reportprice_id1_seq";
-CREATE SEQUENCE "public"."app_reportprice_id1_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 100
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for app_reportprice_id2_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."app_reportprice_id2_seq";
-CREATE SEQUENCE "public"."app_reportprice_id2_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 100
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for app_reportprice_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."app_reportprice_id_seq";
-CREATE SEQUENCE "public"."app_reportprice_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for app_transaction_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."app_transaction_id_seq";
-CREATE SEQUENCE "public"."app_transaction_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for app_transactionavgprice_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."app_transactionavgprice_id_seq";
-CREATE SEQUENCE "public"."app_transactionavgprice_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for appnews_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."appnews_id_seq";
-CREATE SEQUENCE "public"."appnews_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for apptest_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."apptest_id_seq";
-CREATE SEQUENCE "public"."apptest_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for city_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."city_id_seq";
-CREATE SEQUENCE "public"."city_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for dic_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."dic_id_seq";
-CREATE SEQUENCE "public"."dic_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sellorder_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sellorder_id_seq";
-CREATE SEQUENCE "public"."sellorder_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sellorderlist_id1_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sellorderlist_id1_seq";
-CREATE SEQUENCE "public"."sellorderlist_id1_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sellorderlist_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sellorderlist_id_seq";
-CREATE SEQUENCE "public"."sellorderlist_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_dictionary_id_seq1
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_dictionary_id_seq1";
-CREATE SEQUENCE "public"."sys_dictionary_id_seq1" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 100
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_dictionarylist_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_dictionarylist_id_seq";
-CREATE SEQUENCE "public"."sys_dictionarylist_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 500
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_log_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_log_id_seq";
-CREATE SEQUENCE "public"."sys_log_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_menu_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_menu_id_seq";
-CREATE SEQUENCE "public"."sys_menu_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 100
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_province1_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_province1_id_seq";
-CREATE SEQUENCE "public"."sys_province1_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 500
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_province_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_province_id_seq";
-CREATE SEQUENCE "public"."sys_province_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 100
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_role_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_role_id_seq";
-CREATE SEQUENCE "public"."sys_role_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 100
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_role_id_seq1
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_role_id_seq1";
-CREATE SEQUENCE "public"."sys_role_id_seq1" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_roleauth_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_roleauth_id_seq";
-CREATE SEQUENCE "public"."sys_roleauth_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 100
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_roleauthdata_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_roleauthdata_id_seq";
-CREATE SEQUENCE "public"."sys_roleauthdata_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 100
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_tablecolumn_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_tablecolumn_id_seq";
-CREATE SEQUENCE "public"."sys_tablecolumn_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 800
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_tableinfo_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_tableinfo_id_seq";
-CREATE SEQUENCE "public"."sys_tableinfo_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 100
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for sys_user_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."sys_user_id_seq";
-CREATE SEQUENCE "public"."sys_user_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
 -- ----------------------------
 -- Table structure for App_Appointment
 -- ----------------------------
@@ -382,6 +56,19 @@ CREATE TABLE "public"."App_Expert" (
 ;
 
 -- ----------------------------
+-- Sequence structure for app_expert_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_expert_id_seq";
+CREATE SEQUENCE "public"."app_expert_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 10
+CACHE 1;
+
+ALTER TABLE "public"."App_Expert" ALTER COLUMN "ExpertId" SET DEFAULT nextval('app_expert_id_seq');
+
+-- ----------------------------
 -- Records of App_Expert
 -- ----------------------------
 INSERT INTO "public"."App_Expert" VALUES (1, '2018-09-07 10:58:17', 1, 1, '测试超级管理员', NULL, '上海市', '中国农业大学', '2018-09-04 15:49:44', 3344, 'User31110458', '博士', 1, '宫本七号', 'Upload/Tables/App_Expert/202103061750152777/head2.jpg', '150124199911110116', '超级管理员', '2021-03-07 21:55:31', 1, '1388886666', '教授', '拉美西斯', '二十九岁,对于一个人男人而言不算老,可是对于爱情来说已是风烛残年', 'Upload/Tables/App_Expert/201911271400081947/启用图片支持 (1).xlsx', '13381277739', 'User31110458', 3344);
@@ -415,6 +102,18 @@ CREATE TABLE "public"."App_News" (
   "ViewCount" int4
 )
 ;
+
+-- ----------------------------
+-- Sequence structure for app_news_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_news_id_seq";
+CREATE SEQUENCE "public"."app_news_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 10
+CACHE 1;
+ALTER TABLE "public"."App_News" ALTER COLUMN "Id" SET DEFAULT nextval('app_news_id_seq');
 
 -- ----------------------------
 -- Records of App_News
@@ -451,6 +150,18 @@ CREATE TABLE "public"."App_ReportPrice" (
 ;
 
 -- ----------------------------
+-- Sequence structure for app_reportprice_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_reportprice_id_seq";
+CREATE SEQUENCE "public"."app_reportprice_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 10
+CACHE 1;
+ALTER TABLE "public"."App_ReportPrice" ALTER COLUMN "Id" SET DEFAULT nextval('app_reportprice_id_seq');
+
+-- ----------------------------
 -- Records of App_ReportPrice
 -- ----------------------------
 INSERT INTO "public"."App_ReportPrice" VALUES (81, '30', '2019-07-18 11:41:20', 1, 2, '超级管理员', '石家庄市', '2019-07-18 11:17:34', 1, '超级管理员', 1, '超级管理员', '2023-05-13 11:18:20', 1, 1900.00, '单反相机');
@@ -477,6 +188,18 @@ CREATE TABLE "public"."App_Transaction" (
   "TransactionType" int4 NOT NULL
 )
 ;
+
+-- ----------------------------
+-- Sequence structure for app_transaction_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_transaction_id_seq";
+CREATE SEQUENCE "public"."app_transaction_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 10
+CACHE 1;
+ALTER TABLE "public"."App_Transaction" ALTER COLUMN "Id" SET DEFAULT nextval('app_transaction_id_seq');
 
 -- ----------------------------
 -- Records of App_Transaction
@@ -508,6 +231,18 @@ CREATE TABLE "public"."App_TransactionAvgPrice" (
 ;
 
 -- ----------------------------
+-- Sequence structure for app_transactionavgprice_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."app_transactionavgprice_id_seq";
+CREATE SEQUENCE "public"."app_transactionavgprice_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 20
+CACHE 1;
+ALTER TABLE "public"."App_TransactionAvgPrice" ALTER COLUMN "Id" SET DEFAULT nextval('app_transactionavgprice_id_seq');
+
+-- ----------------------------
 -- Records of App_TransactionAvgPrice
 -- ----------------------------
 INSERT INTO "public"."App_TransactionAvgPrice" VALUES (12, '20', 2000.00, '北京市', '2022-06-20 02:09:49', 1, '超级管理员', '2022-06-19', NULL, 1, '超级管理员', '2023-05-13 10:49:07', 1, '单反相机');
@@ -518,8 +253,8 @@ INSERT INTO "public"."App_TransactionAvgPrice" VALUES (13, '30', 1200.00, '天�
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."FormCollectionObject";
 CREATE TABLE "public"."FormCollectionObject" (
-  "FormCollectionId" char(36) COLLATE "pg_catalog"."default" NOT NULL,
-  "FormId" char(36) COLLATE "pg_catalog"."default",
+  "FormCollectionId" uuid NOT NULL,
+  "FormId" uuid,
   "Title" text COLLATE "pg_catalog"."default",
   "FormData" text COLLATE "pg_catalog"."default",
   "CreateDate" timestamp(6),
@@ -544,7 +279,7 @@ INSERT INTO "public"."FormCollectionObject" VALUES ('E913389C-E11A-4675-B8EB-A25
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."FormDesignOptions";
 CREATE TABLE "public"."FormDesignOptions" (
-  "FormId" char(36) COLLATE "pg_catalog"."default" NOT NULL,
+  "FormId" uuid NOT NULL,
   "Title" text COLLATE "pg_catalog"."default" NOT NULL,
   "DaraggeOptions" text COLLATE "pg_catalog"."default",
   "FormOptions" text COLLATE "pg_catalog"."default",
@@ -571,7 +306,7 @@ INSERT INTO "public"."FormDesignOptions" VALUES ('8E6D9E7C-16C2-48B8-9D67-F1A1A1
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."SellOrder";
 CREATE TABLE "public"."SellOrder" (
-  "Order_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
+  "Order_Id" uuid NOT NULL,
   "OrderType" int4 NOT NULL,
   "TranNo" varchar(100) COLLATE "pg_catalog"."default" NOT NULL,
   "SellNo" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
@@ -604,7 +339,7 @@ INSERT INTO "public"."SellOrder" VALUES ('B67B7EC0-136C-4439-A530-CD6DD4D69A9C',
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."SellOrderList";
 CREATE TABLE "public"."SellOrderList" (
-  "OrderList_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
+  "OrderList_Id" uuid NOT NULL,
   "Order_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
   "ProductName" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
   "MO" varchar(255) COLLATE "pg_catalog"."default",
@@ -643,6 +378,18 @@ CREATE TABLE "public"."Sys_City" (
   "ProvinceCode" varchar(20) COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Sequence structure for sys_city_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_city_id_seq";
+CREATE SEQUENCE "public"."sys_city_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 500
+CACHE 1;
+ALTER TABLE "public"."Sys_City" ALTER COLUMN "CityId" SET DEFAULT nextval('sys_city_id_seq');
 
 -- ----------------------------
 -- Records of Sys_City
@@ -998,10 +745,10 @@ INSERT INTO "public"."Sys_City" VALUES (345, '659000', '省直辖行政单位', 
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_Department";
 CREATE TABLE "public"."Sys_Department" (
-  "DepartmentId" char(36) COLLATE "pg_catalog"."default" NOT NULL,
+  "DepartmentId" uuid NOT NULL,
   "DepartmentName" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
   "DepartmentCode" varchar(50) COLLATE "pg_catalog"."default",
-  "ParentId" char(36) COLLATE "pg_catalog"."default",
+  "ParentId" uuid,
   "DepartmentType" varchar(50) COLLATE "pg_catalog"."default",
   "Enable" int4,
   "Remark" text COLLATE "pg_catalog"."default",
@@ -1029,6 +776,321 @@ INSERT INTO "public"."Sys_Department" VALUES ('EAE332DC-4AF8-4EBF-804A-E3D6C6D00
 INSERT INTO "public"."Sys_Department" VALUES ('EC238385-F907-44DE-B99B-0EDDCFFA6750', '产品部', 'A0003', '41B96EA8-5475-4775-845D-FD66370C75AE', NULL, NULL, NULL, 1, '超级管理员', '2023-05-13 09:20:26', NULL, NULL, NULL);
 
 -- ----------------------------
+-- Table structure for Sys_Province
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."Sys_Province";
+CREATE TABLE "public"."Sys_Province" (
+  "ProvinceId" int4 NOT NULL,
+  "ProvinceCode" varchar(20) COLLATE "pg_catalog"."default" NOT NULL,
+  "ProvinceName" varchar(30) COLLATE "pg_catalog"."default" NOT NULL,
+  "RegionCode" varchar(20) COLLATE "pg_catalog"."default"
+)
+;
+-- ----------------------------
+-- Sequence structure for sys_province_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_province_id_seq";
+CREATE SEQUENCE "public"."sys_province_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+ALTER TABLE "public"."Sys_Province" ALTER COLUMN "ProvinceId" SET DEFAULT nextval('sys_province_id_seq');
+
+-- ----------------------------
+-- Records of Sys_Province
+-- ----------------------------
+INSERT INTO "public"."Sys_Province" VALUES (1, '110000', '北京市', '华北');
+INSERT INTO "public"."Sys_Province" VALUES (2, '120000', '天津市', '华北');
+INSERT INTO "public"."Sys_Province" VALUES (3, '130000', '河北省', '华北');
+INSERT INTO "public"."Sys_Province" VALUES (4, '140000', '山西省', '华北');
+INSERT INTO "public"."Sys_Province" VALUES (5, '150000', '内蒙古自治区', '华北');
+INSERT INTO "public"."Sys_Province" VALUES (6, '210000', '辽宁省', '东北');
+INSERT INTO "public"."Sys_Province" VALUES (7, '220000', '吉林省', '东北');
+INSERT INTO "public"."Sys_Province" VALUES (8, '230000', '黑龙江省', '东北');
+INSERT INTO "public"."Sys_Province" VALUES (9, '310000', '上海市', '华东');
+INSERT INTO "public"."Sys_Province" VALUES (10, '320000', '江苏省', '华东');
+INSERT INTO "public"."Sys_Province" VALUES (11, '330000', '浙江省', '华东');
+INSERT INTO "public"."Sys_Province" VALUES (12, '340000', '安徽省', '华东');
+INSERT INTO "public"."Sys_Province" VALUES (13, '350000', '福建省', '华东');
+INSERT INTO "public"."Sys_Province" VALUES (14, '360000', '江西省', '华东');
+INSERT INTO "public"."Sys_Province" VALUES (15, '370000', '山东省', '华东');
+INSERT INTO "public"."Sys_Province" VALUES (16, '410000', '河南省', '华中');
+INSERT INTO "public"."Sys_Province" VALUES (17, '420000', '湖北省', '华中');
+INSERT INTO "public"."Sys_Province" VALUES (18, '430000', '湖南省', '华中');
+INSERT INTO "public"."Sys_Province" VALUES (19, '440000', '广东省', '华南');
+INSERT INTO "public"."Sys_Province" VALUES (20, '450000', '广西壮族自治区', '华南');
+INSERT INTO "public"."Sys_Province" VALUES (21, '460000', '海南省', '华南');
+INSERT INTO "public"."Sys_Province" VALUES (22, '500000', '重庆市', '西南');
+INSERT INTO "public"."Sys_Province" VALUES (23, '510000', '四川省', '西南');
+INSERT INTO "public"."Sys_Province" VALUES (24, '520000', '贵州省', '西南');
+INSERT INTO "public"."Sys_Province" VALUES (25, '530000', '云南省', '西南');
+INSERT INTO "public"."Sys_Province" VALUES (26, '540000', '西藏自治区', '西南');
+INSERT INTO "public"."Sys_Province" VALUES (27, '610000', '陕西省', '西北');
+INSERT INTO "public"."Sys_Province" VALUES (28, '620000', '甘肃省', '西北');
+INSERT INTO "public"."Sys_Province" VALUES (29, '630000', '青海省', '西北');
+INSERT INTO "public"."Sys_Province" VALUES (30, '640000', '宁夏回族自治区', '西北');
+INSERT INTO "public"."Sys_Province" VALUES (31, '650000', '新疆维吾尔自治区', '西北');
+INSERT INTO "public"."Sys_Province" VALUES (32, '710000', '台湾省', '港澳台');
+INSERT INTO "public"."Sys_Province" VALUES (33, '810000', '香港特别行政区', '港澳台');
+INSERT INTO "public"."Sys_Province" VALUES (34, '820000', '澳门特别行政区', '港澳台');
+INSERT INTO "public"."Sys_Province" VALUES (35, 'thd', '桃花岛', '东北');
+INSERT INTO "public"."Sys_Province" VALUES (43, '测试1', '测试1', '港澳台');
+
+-- ----------------------------
+-- Table structure for Sys_Role
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."Sys_Role";
+CREATE TABLE "public"."Sys_Role" (
+  "Role_Id" int4 NOT NULL,
+  "CreateDate" timestamp(6),
+  "Creator" varchar(50) COLLATE "pg_catalog"."default",
+  "DeleteBy" varchar(50) COLLATE "pg_catalog"."default",
+  "DeptName" varchar(50) COLLATE "pg_catalog"."default",
+  "Dept_Id" int4,
+  "Enable" int2,
+  "Modifier" varchar(50) COLLATE "pg_catalog"."default",
+  "ModifyDate" timestamp(6),
+  "OrderNo" int4,
+  "ParentId" int4 NOT NULL,
+  "RoleName" varchar(50) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Sequence structure for sys_role_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_role_id_seq";
+CREATE SEQUENCE "public"."sys_role_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 10
+CACHE 1;
+ALTER TABLE "public"."Sys_Role" ALTER COLUMN "Role_Id" SET DEFAULT nextval('sys_role_id_seq');
+
+-- ----------------------------
+-- Records of Sys_Role
+-- ----------------------------
+INSERT INTO "public"."Sys_Role" VALUES (1, '2018-08-23 11:46:06', '超级管理员', NULL, '无', 0, 1, '测试超级管理员', '2018-09-06 17:08:35', 1000, 0, '超级管理员');
+INSERT INTO "public"."Sys_Role" VALUES (2, '2018-08-23 11:46:52', '超级管理员', NULL, '1', 0, 1, '超级管理员', '2022-04-17 20:11:05', NULL, 1, '测试管理员');
+INSERT INTO "public"."Sys_Role" VALUES (4, '2018-08-23 11:47:41', '超级管理员', NULL, '无  ', 0, 1, '超级管理员', '2019-12-08 21:11:11', NULL, 2, '信息员');
+
+-- ----------------------------
+-- Table structure for Sys_RoleAuth
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."Sys_RoleAuth";
+CREATE TABLE "public"."Sys_RoleAuth" (
+  "Auth_Id" int4 NOT NULL,
+  "AuthValue" text COLLATE "pg_catalog"."default" NOT NULL,
+  "CreateDate" timestamp(6),
+  "Creator" text COLLATE "pg_catalog"."default",
+  "Menu_Id" int4 NOT NULL,
+  "Modifier" text COLLATE "pg_catalog"."default",
+  "ModifyDate" timestamp(6),
+  "Role_Id" int4,
+  "User_Id" int4
+)
+;
+
+-- ----------------------------
+-- Sequence structure for sys_roleauth_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_roleauth_id_seq";
+CREATE SEQUENCE "public"."sys_roleauth_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+ALTER TABLE "public"."Sys_RoleAuth" ALTER COLUMN "Auth_Id" SET DEFAULT nextval('sys_roleauth_id_seq');
+
+-- ----------------------------
+-- Records of Sys_RoleAuth
+-- ----------------------------
+INSERT INTO "public"."Sys_RoleAuth" VALUES (1, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 9, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (2, 'Search,Add,Delete,Update,Import,Export', '2020-05-05 13:23:11', '超级管理员', 53, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (3, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 50, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (4, 'Search', '2020-05-05 13:23:11', '超级管理员', 40, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (5, 'Search,Add,Delete,Update,Export', '2020-05-05 13:23:11', '超级管理员', 3, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (6, 'Search', '2020-05-05 13:23:11', '超级管理员', 37, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (7, 'Search,Add,Delete,Update,Export', '2020-05-05 13:23:11', '超级管理员', 51, '超级管理员', '2022-08-22 01:13:38', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (8, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 59, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (9, 'Search,Add,Delete,Update', '2020-05-05 13:23:11', '超级管理员', 13, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (10, '', '2020-05-05 13:23:11', '超级管理员', 44, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (11, '', '2020-05-05 13:23:11', '超级管理员', 24, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (12, '', '2020-05-05 13:23:11', '超级管理员', 35, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (13, 'Search', '2020-05-05 13:23:11', '超级管理员', 60, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (14, 'Search', '2020-05-05 13:23:11', '超级管理员', 58, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (15, 'Search,Add,Delete,Update,Export,Audit', '2020-05-05 13:23:11', '超级管理员', 68, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (16, 'Search,Add,Delete,Update,Import,Export', '2020-05-05 13:23:11', '超级管理员', 52, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (17, 'Search,Add,Delete,Update', '2020-05-05 13:23:11', '超级管理员', 65, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (18, 'Search', '2020-05-05 13:23:11', '超级管理员', 62, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (19, 'Search,Add,Delete,Update,Export', '2020-05-05 13:23:11', '超级管理员', 63, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (20, '', '2020-05-05 13:23:11', '超级管理员', 54, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (21, 'Search', '2020-05-05 13:23:11', '超级管理员', 94, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (22, 'Search', '2020-05-05 13:23:11', '超级管理员', 42, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (23, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 34, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (24, 'Search,Add,Delete,Update,Export', '2020-05-05 13:23:11', '超级管理员', 90, '超级管理员', '2022-08-16 00:56:48', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (25, 'Search,Add,Delete,Update,Export', '2020-05-05 13:23:11', '超级管理员', 67, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (26, 'Search', '2020-05-05 13:23:11', '超级管理员', 91, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (27, 'Search', '2020-05-05 13:23:11', '超级管理员', 36, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (28, 'Search', '2020-05-05 13:23:11', '超级管理员', 77, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (29, 'Search,Delete,Export', '2020-05-05 13:23:11', '超级管理员', 6, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (30, 'Search', '2020-05-05 13:23:11', '超级管理员', 88, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (31, 'Search', '2020-05-05 13:23:11', '超级管理员', 61, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (32, 'Search', '2020-05-05 13:23:11', '超级管理员', 8, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (33, 'Search', '2020-05-05 13:23:11', '超级管理员', 48, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (34, 'Search', '2020-05-05 13:23:11', '超级管理员', 74, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (35, 'Search', '2020-05-05 13:23:11', '超级管理员', 56, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (36, 'Search', '2020-05-05 13:23:11', '超级管理员', 55, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (37, 'Search', '2020-05-05 13:23:11', '超级管理员', 32, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (38, 'Search', '2020-05-05 13:23:11', '超级管理员', 33, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (39, 'Search', '2020-05-05 13:23:11', '超级管理员', 92, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (40, 'Search', '2020-05-05 13:23:11', '超级管理员', 89, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (41, 'Search', '2020-05-05 13:23:11', '超级管理员', 86, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (42, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 84, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (43, 'Search', '2020-05-05 13:23:11', '超级管理员', 29, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (44, 'Search,Add,Delete,Update,Import,Export', '2020-05-05 13:23:11', '超级管理员', 31, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (45, 'Search', '2020-05-05 13:23:11', '超级管理员', 72, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (46, 'Search', '2020-05-05 13:23:11', '超级管理员', 66, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (47, 'Search', '2020-05-05 13:23:11', '超级管理员', 28, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (48, 'Search', '2020-05-05 13:23:11', '超级管理员', 64, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (49, 'Search', '2020-05-05 13:23:11', '超级管理员', 5, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (50, 'Search', '2020-05-05 13:23:11', '超级管理员', 25, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (51, 'Search,Add,Delete,Update', '2020-05-05 13:23:11', '超级管理员', 93, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (52, 'Search', '2020-05-05 13:23:11', '超级管理员', 85, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (53, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 75, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (54, 'Search', '2020-05-05 13:23:11', '超级管理员', 87, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (55, 'Search', '2020-05-05 13:23:11', '超级管理员', 57, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (56, 'Search,Import,Export,test', '2020-05-05 13:23:11', '超级管理员', 49, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (57, 'Search,Update', '2020-05-05 13:23:11', '超级管理员', 71, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (58, 'Search', '2020-05-05 13:23:11', '超级管理员', 2, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (59, 'Search', '2020-05-05 13:23:11', '超级管理员', 73, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (60, 'Search', '2022-08-16 00:56:48', '超级管理员', 133, '超级管理员', '2022-08-16 00:56:48', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (61, 'Search,Add,Delete,Update,Export', '2022-08-16 00:56:48', '超级管理员', 134, '超级管理员', '2022-08-16 00:56:48', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (62, 'Search,Delete', '2022-08-16 00:56:48', '超级管理员', 135, '超级管理员', '2022-08-16 00:56:48', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (63, 'Search', '2022-08-16 00:56:48', '超级管理员', 136, '超级管理员', '2022-08-16 00:56:48', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (64, 'Search', '2022-08-22 01:13:38', '超级管理员', 113, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (65, 'Search', '2022-08-22 01:13:38', '超级管理员', 115, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (66, 'Search', '2022-09-09 17:53:16', '超级管理员', 118, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (67, 'Search,Add,Delete,Update,Import,Export', '2022-09-09 17:53:16', '超级管理员', 119, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (68, 'Search', '2022-09-09 17:53:21', '超级管理员', 116, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (69, 'Search', '2022-09-09 17:53:38', '超级管理员', 129, '超级管理员', '2022-09-09 17:53:38', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (70, 'Search', '2022-09-09 17:53:45', '超级管理员', 106, '超级管理员', '2022-09-09 17:53:45', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (71, 'Search', '2022-09-09 17:53:45', '超级管理员', 107, '超级管理员', '2022-09-09 17:53:45', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (72, 'Search', '2022-09-09 17:53:45', '超级管理员', 127, '超级管理员', '2022-09-09 17:53:45', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (73, 'Search,Add,Delete,Update', '2022-09-09 17:53:45', '超级管理员', 109, '超级管理员', '2022-09-09 17:53:45', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (74, 'Search,Delete,Export', '2022-09-09 17:53:45', '超级管理员', 110, '超级管理员', '2022-09-09 17:53:45', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (75, 'Search', '2022-09-09 17:54:03', '超级管理员', 137, '超级管理员', '2022-09-09 17:54:03', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (76, 'Search,Add,Delete,Update', '2022-09-09 17:54:03', '超级管理员', 138, '超级管理员', '2022-09-09 17:54:03', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (77, 'Search,Delete,Export', '2022-09-09 17:54:03', '超级管理员', 139, '超级管理员', '2022-09-09 17:54:03', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (78, 'Search', '2022-09-09 17:55:31', 'zs', 129, 'zs', '2022-09-09 17:55:31', 4, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (79, 'Search', '2022-09-09 17:55:31', 'zs', 106, 'zs', '2022-09-09 17:55:31', 4, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (80, 'Search', '2022-09-09 17:55:31', 'zs', 107, 'zs', '2022-09-09 17:55:31', 4, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (81, 'Search,Add,Delete,Update', '2022-09-09 17:55:31', 'zs', 109, 'zs', '2022-09-09 17:55:31', 4, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (82, 'Search,Delete,Export', '2022-09-09 17:55:31', 'zs', 110, 'zs', '2022-09-09 17:55:31', 4, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (83, 'Search', '2023-02-03 16:51:48', '超级管理员', 113, '超级管理员', '2023-02-03 16:51:48', 4, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (84, 'Search', '2023-02-03 16:51:48', '超级管理员', 116, '超级管理员', '2023-02-03 16:51:48', 4, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (85, 'Search', '2023-02-03 16:51:48', '超级管理员', 118, '超级管理员', '2023-02-03 16:51:48', 4, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (86, 'Search,Add,Delete,Update', '2023-02-03 16:51:48', '超级管理员', 119, '超级管理员', '2023-02-03 16:51:48', 4, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (87, 'Search', '2023-02-03 16:51:48', '超级管理员', 115, '超级管理员', '2023-02-03 16:51:48', 4, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (88, 'Search', '2023-05-13 13:53:24', '超级管理员', 101, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (89, 'Search,Add,Delete,Update,Import,Export', '2023-05-13 13:53:24', '超级管理员', 100, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (90, 'Search,Add,Delete,Update,Import,Export,Upload', '2023-05-13 13:53:24', '超级管理员', 96, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (91, 'Search', '2023-05-13 13:53:24', '超级管理员', 105, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (92, 'Search,Add,Delete,Update,Import,Export', '2023-05-13 13:53:24', '超级管理员', 99, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (93, 'Search,Add,Delete,Update,Import,Export', '2023-05-13 13:53:24', '超级管理员', 98, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (94, 'Search', '2023-05-13 13:53:24', '超级管理员', 132, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (95, 'Search,Add,Delete,Update,Export', '2023-05-13 13:53:24', '超级管理员', 142, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (96, 'Search,Add,Delete,Update', '2023-05-13 13:53:24', '超级管理员', 97, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (97, 'Search', '2023-05-13 13:53:24', '超级管理员', 123, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (98, 'Search', '2023-05-13 13:54:49', '超级管理员', 121, '超级管理员', '2023-05-13 13:54:49', 2, NULL);
+INSERT INTO "public"."Sys_RoleAuth" VALUES (99, 'Search', '2023-05-13 13:54:49', '超级管理员', 126, '超级管理员', '2023-05-13 13:54:49', 2, NULL);
+
+-- ----------------------------
+-- Table structure for Sys_User
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."Sys_User";
+CREATE TABLE "public"."Sys_User" (
+  "User_Id" int4 NOT NULL,
+  "Role_Id" int4 NOT NULL,
+  "RoleName" varchar(200) COLLATE "pg_catalog"."default",
+  "PhoneNo" varchar(11) COLLATE "pg_catalog"."default",
+  "Remark" varchar(200) COLLATE "pg_catalog"."default",
+  "Tel" varchar(20) COLLATE "pg_catalog"."default",
+  "UserName" varchar(100) COLLATE "pg_catalog"."default" NOT NULL,
+  "UserPwd" varchar(200) COLLATE "pg_catalog"."default",
+  "UserTrueName" varchar(20) COLLATE "pg_catalog"."default" NOT NULL,
+  "DeptName" varchar(150) COLLATE "pg_catalog"."default",
+  "Dept_Id" int4,
+  "Email" varchar(100) COLLATE "pg_catalog"."default",
+  "Enable" int2 NOT NULL,
+  "Gender" int4,
+  "HeadImageUrl" text COLLATE "pg_catalog"."default",
+  "IsRegregisterPhone" int4,
+  "LastLoginDate" timestamp(6),
+  "LastModifyPwdDate" timestamp(6),
+  "Address" varchar(200) COLLATE "pg_catalog"."default",
+  "AppType" int4,
+  "AuditDate" timestamp(6),
+  "AuditStatus" int4,
+  "Auditor" varchar(200) COLLATE "pg_catalog"."default",
+  "OrderNo" int4,
+  "Token" text COLLATE "pg_catalog"."default",
+  "CreateID" int4,
+  "CreateDate" timestamp(6),
+  "Creator" varchar(200) COLLATE "pg_catalog"."default",
+  "Mobile" varchar(100) COLLATE "pg_catalog"."default",
+  "Modifier" varchar(200) COLLATE "pg_catalog"."default",
+  "ModifyDate" timestamp(6),
+  "ModifyID" int4,
+  "DeptIds" text COLLATE "pg_catalog"."default"
+)
+;
+-- ----------------------------
+-- Sequence structure for sys_user_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_user_id_seq";
+CREATE SEQUENCE "public"."sys_user_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 10000
+CACHE 1;
+ALTER TABLE "public"."Sys_User" ALTER COLUMN "User_Id" SET DEFAULT nextval('sys_user_id_seq');
+
+-- ----------------------------
+-- Records of Sys_User
+-- ----------------------------
+INSERT INTO "public"."Sys_User" VALUES (1, 1, '无', '13888888888', '~还没想好...', NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', '超级管理员', NULL, 0, '283591387@qq.com', 1, 1, 'Upload/Tables/Sys_User/202305131010574561/wechat.jpg', 0, '2017-08-28 09:58:55', '2019-12-14 15:14:23', '北京市西城区', 1, '2019-08-18 00:54:06', 1, '超级管理员', 0, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTY4Mzk3Mzk3OSIsIm5iZiI6IjE2ODM5NzM5NzkiLCJleHAiOiIxNjgzOTgxMTc5IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.e1alR9m5z7TNFrLFegmBpl3pm674vJaLvW5YgnRcqEE', NULL, '2012-06-10 11:10:03', NULL, NULL, '超级管理员', '2023-05-13 10:10:58', 1, NULL);
+INSERT INTO "public"."Sys_User" VALUES (3362, 2, '无', NULL, '。。', NULL, 'admin666', 'j79rYYvCz4vdhcboB1Ausg==', 'Admin测试', NULL, NULL, NULL, 1, 0, 'Upload/Tables/Sys_User/202305131011047216/wechat.jpg', 1, NULL, '2019-09-22 23:03:34', '北京市还没注册', 1, '2019-08-18 00:54:06', 1, '超级管理员', NULL, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzYyIiwiaWF0IjoiMTY4Mzk2OTQ4NCIsIm5iZiI6IjE2ODM5Njk0ODQiLCJleHAiOiIxNjgzOTc2Njg0IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.AusSAJoTD3Bk90PFCmhNj7Mrlv06IA3XM2mubfwBJu0', NULL, '2019-08-13 14:24:27', NULL, '01012345678', '超级管理员', '2023-05-13 17:09:41', 1, 'e5d8e8af-3659-454c-aa8e-c201c7edbcfb,ec238385-f907-44de-b99b-0eddcffa6750');
+
+-- ----------------------------
+-- Table structure for Sys_UserDepartment
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."Sys_UserDepartment";
+CREATE TABLE "public"."Sys_UserDepartment" (
+  "Id" uuid NOT NULL,
+  "UserId" int4 NOT NULL,
+  "DepartmentId" uuid NOT NULL,
+  "Enable" int4 NOT NULL,
+  "CreateID" int4,
+  "Creator" varchar(255) COLLATE "pg_catalog"."default",
+  "CreateDate" timestamp(6),
+  "ModifyID" int4,
+  "Modifier" varchar(255) COLLATE "pg_catalog"."default",
+  "ModifyDate" timestamp(6)
+)
+;
+
+
+-- ----------------------------
+-- Records of Sys_UserDepartment
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for Sys_Dictionary
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_Dictionary";
@@ -1053,6 +1115,18 @@ CREATE TABLE "public"."Sys_Dictionary" (
 ;
 
 -- ----------------------------
+-- Sequence structure for sys_dictionary_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_dictionary_id_seq";
+CREATE SEQUENCE "public"."sys_dictionary_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+ALTER TABLE "public"."Sys_Dictionary" ALTER COLUMN "Dic_ID" SET DEFAULT nextval('sys_dictionary_id_seq');
+
+-- ----------------------------
 -- Records of Sys_Dictionary
 -- ----------------------------
 INSERT INTO "public"."Sys_Dictionary" VALUES (3, '{valueField: ''Enable'',
@@ -1073,7 +1147,7 @@ INSERT INTO "public"."Sys_Dictionary" VALUES (32, '{valueField: ''Role_Id'',
  textField: ''RoleName'', 
  containField: [''Role_Id'',''RoleName''],
  handler: null }
-', '2018-06-14 16:48:35', NULL, '测试超级管理员', NULL, 'SELECT Role_Id as ''key'',RoleName as ''value'' FROM Sys_Role WHERE Enable=1
+', '2018-06-14 16:48:35', NULL, '测试超级管理员', NULL, 'SELECT "Role_Id" as "key","RoleName" as "value" FROM "Sys_Role" WHERE "Enable"=1
 ', '角色列表', 'roles', 1, '测试超级管理员', '2018-07-13 15:03:53', 1, 123, 0, 'sql语句需要key,value列，界面才能绑定数据源');
 INSERT INTO "public"."Sys_Dictionary" VALUES (35, '{
  valueField: ''AuditStatus'',
@@ -1095,10 +1169,10 @@ INSERT INTO "public"."Sys_Dictionary" VALUES (38, '{
  textField: ''City'',
   containField:null 
 }', '2018-07-10 14:18:25', NULL, '测试超级管理员', NULL, '
-SELECT  CASE WHEN  CityName=''市辖区'' THEN  ProvinceName ELSE CityName end  as  ''key'',CASE WHEN  CityName=''市辖区'' THEN  ProvinceName ELSE CityName end  as  ''value''  FROM Sys_City AS a 
-INNER JOIN Sys_Province AS b 
-ON a.ProvinceCode=b.ProvinceCode
-WHERE a.CityName<> ''县''', '城市', 'city', 1, '超级管理员', '2020-02-01 22:27:08', 1, NULL, 0, NULL);
+SELECT  CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName" end  as  "key",CASE WHEN  "CityName"=''市辖区'' THEN  "ProvinceName" ELSE "CityName" end  as  "value"  FROM "Sys_City" AS a
+INNER JOIN "Sys_Province" AS b
+ON a."ProvinceCode"=b."ProvinceCode"
+WHERE a."CityName"<> ''县''', '城市', 'city', 1, '超级管理员', '2020-02-01 22:27:08', 1, NULL, 0, NULL);
 INSERT INTO "public"."Sys_Dictionary" VALUES (44, '{
  valueField: ''NewsType'',
  textField: ''NewsType'',
@@ -1130,12 +1204,12 @@ INSERT INTO "public"."Sys_Dictionary" VALUES (59, '{
 }', '2018-08-29 15:54:21', 1, '测试超级管理员', NULL, NULL, '手机用户', 'isphone', 1, '超级管理员', '2020-11-20 23:05:48', 1, NULL, 0, NULL);
 INSERT INTO "public"."Sys_Dictionary" VALUES (64, NULL, '2019-09-18 19:25:47', 1, '超级管理员', NULL, NULL, '订单类型', 'ordertype', 1, '超级管理员', '2019-11-01 10:04:21', 1, NULL, 0, 'xxxxx');
 INSERT INTO "public"."Sys_Dictionary" VALUES (65, NULL, '2019-09-19 10:07:23', 1, '超级管理员', NULL, NULL, '商品名称', 'pn', 1, '超级管理员', '2022-07-12 23:28:41', 1, 2, 0, NULL);
-INSERT INTO "public"."Sys_Dictionary" VALUES (66, NULL, '2020-11-20 23:03:56', 1, '超级管理员', NULL, 'SELECT Role_Id AS id,parentId,Role_Id AS [key],RoleName AS value FROM Sys_Role', '级联角色', 'tree_roles', 1, '超级管理员', '2020-11-20 23:08:03', 1, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (66, NULL, '2020-11-20 23:03:56', 1, '超级管理员', NULL, 'SELECT "Role_Id" AS "id","ParentId" AS "parentId","Role_Id" AS "key","RoleName" AS "value" FROM "Sys_Role"', '级联角色', 'tree_roles', 1, '超级管理员', '2020-11-20 23:08:03', 1, NULL, 0, NULL);
 INSERT INTO "public"."Sys_Dictionary" VALUES (67, NULL, '2020-12-29 21:41:16', 1, '超级管理员', NULL, NULL, 'nav', 'nav', 1, NULL, NULL, NULL, NULL, 0, NULL);
 INSERT INTO "public"."Sys_Dictionary" VALUES (68, NULL, '2022-01-03 18:29:14', 1, '超级管理员', NULL, NULL, '满意度', '满意度', 1, '超级管理员', '2022-06-27 00:52:40', 1, NULL, 0, '表单设计使用');
 INSERT INTO "public"."Sys_Dictionary" VALUES (70, NULL, '2022-09-06 00:48:10', 1, '超级管理员', NULL, NULL, '请求方式', '请求方式', 1, NULL, NULL, NULL, NULL, 0, NULL);
 INSERT INTO "public"."Sys_Dictionary" VALUES (71, NULL, '2022-09-06 00:50:54', 1, '超级管理员', NULL, NULL, '定时任务状态', '定时任务状态', 1, NULL, NULL, NULL, NULL, 0, NULL);
-INSERT INTO "public"."Sys_Dictionary" VALUES (72, NULL, '2023-05-13 08:58:31', 1, '超级管理员', NULL, 'SELECT DepartmentId AS ''key'',DepartmentId AS ''id'',ParentId AS parentId,DepartmentName as ''value'' FROM Sys_Department', '组织机构', '组织机构', 1, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO "public"."Sys_Dictionary" VALUES (72, NULL, '2023-05-13 08:58:31', 1, '超级管理员', NULL, 'SELECT "DepartmentId" AS "key","DepartmentId" AS "id","ParentId" AS "parentId","DepartmentName" as "value" FROM "Sys_Department"', '组织机构', '组织机构', 1, NULL, NULL, NULL, NULL, 0, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_DictionaryList
@@ -1157,6 +1231,18 @@ CREATE TABLE "public"."Sys_DictionaryList" (
   "Remark" text COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Sequence structure for sys_dictionarylist_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_dictionarylist_id_seq";
+CREATE SEQUENCE "public"."sys_dictionarylist_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 500
+CACHE 1;
+ALTER TABLE "public"."Sys_DictionaryList" ALTER COLUMN "DicList_ID" SET DEFAULT nextval('sys_dictionarylist_id_seq');
 
 -- ----------------------------
 -- Records of Sys_DictionaryList
@@ -1235,6 +1321,18 @@ CREATE TABLE "public"."Sys_Log" (
   "User_Id" int4
 )
 ;
+
+-- ----------------------------
+-- Sequence structure for sys_log_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_log_id_seq";
+CREATE SEQUENCE "public"."sys_log_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 200
+CACHE 1;
+ALTER TABLE "public"."Sys_Log" ALTER COLUMN "Id" SET DEFAULT nextval('sys_log_id_seq');
 
 -- ----------------------------
 -- Records of Sys_Log
@@ -1426,6 +1524,18 @@ CREATE TABLE "public"."Sys_Menu" (
 ;
 
 -- ----------------------------
+-- Sequence structure for sys_menu_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_menu_id_seq";
+CREATE SEQUENCE "public"."sys_menu_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 200
+CACHE 1;
+ALTER TABLE "public"."Sys_Menu" ALTER COLUMN "Menu_Id" SET DEFAULT nextval('sys_menu_id_seq');
+
+-- ----------------------------
 -- Records of Sys_Menu
 -- ----------------------------
 INSERT INTO "public"."Sys_Menu" VALUES (2, '用户管理', '[{"text":"查询","value":"Search"}]', 'el-icon-user', NULL, 1, 2400, '.', 0, NULL, '2017-08-28 12:21:13', '2017-08-28 11:12:45', '2023-05-13 18:23:56', '超级管理员', 0);
@@ -1529,64 +1639,12 @@ INSERT INTO "public"."Sys_Menu" VALUES (144, '多页签', '[{"text":"查询","va
 INSERT INTO "public"."Sys_Menu" VALUES (145, '多表头', '[{"text":"查询","value":"Search"},{"text":"新建","value":"Add"},{"text":"删除","value":"Delete"},{"text":"编辑","value":"Update"}]', '', NULL, 1, 100, '.', 143, '/App_Appointment2', '2023-05-13 18:27:48', '超级管理员', '2023-05-13 18:27:01', NULL, 0);
 
 -- ----------------------------
--- Table structure for Sys_Province
--- ----------------------------
-DROP TABLE IF EXISTS "public"."Sys_Province";
-CREATE TABLE "public"."Sys_Province" (
-  "ProvinceId" int4 NOT NULL,
-  "ProvinceCode" varchar(20) COLLATE "pg_catalog"."default" NOT NULL,
-  "ProvinceName" varchar(30) COLLATE "pg_catalog"."default" NOT NULL,
-  "RegionCode" varchar(20) COLLATE "pg_catalog"."default"
-)
-;
-
--- ----------------------------
--- Records of Sys_Province
--- ----------------------------
-INSERT INTO "public"."Sys_Province" VALUES (1, '110000', '北京市', '华北');
-INSERT INTO "public"."Sys_Province" VALUES (2, '120000', '天津市', '华北');
-INSERT INTO "public"."Sys_Province" VALUES (3, '130000', '河北省', '华北');
-INSERT INTO "public"."Sys_Province" VALUES (4, '140000', '山西省', '华北');
-INSERT INTO "public"."Sys_Province" VALUES (5, '150000', '内蒙古自治区', '华北');
-INSERT INTO "public"."Sys_Province" VALUES (6, '210000', '辽宁省', '东北');
-INSERT INTO "public"."Sys_Province" VALUES (7, '220000', '吉林省', '东北');
-INSERT INTO "public"."Sys_Province" VALUES (8, '230000', '黑龙江省', '东北');
-INSERT INTO "public"."Sys_Province" VALUES (9, '310000', '上海市', '华东');
-INSERT INTO "public"."Sys_Province" VALUES (10, '320000', '江苏省', '华东');
-INSERT INTO "public"."Sys_Province" VALUES (11, '330000', '浙江省', '华东');
-INSERT INTO "public"."Sys_Province" VALUES (12, '340000', '安徽省', '华东');
-INSERT INTO "public"."Sys_Province" VALUES (13, '350000', '福建省', '华东');
-INSERT INTO "public"."Sys_Province" VALUES (14, '360000', '江西省', '华东');
-INSERT INTO "public"."Sys_Province" VALUES (15, '370000', '山东省', '华东');
-INSERT INTO "public"."Sys_Province" VALUES (16, '410000', '河南省', '华中');
-INSERT INTO "public"."Sys_Province" VALUES (17, '420000', '湖北省', '华中');
-INSERT INTO "public"."Sys_Province" VALUES (18, '430000', '湖南省', '华中');
-INSERT INTO "public"."Sys_Province" VALUES (19, '440000', '广东省', '华南');
-INSERT INTO "public"."Sys_Province" VALUES (20, '450000', '广西壮族自治区', '华南');
-INSERT INTO "public"."Sys_Province" VALUES (21, '460000', '海南省', '华南');
-INSERT INTO "public"."Sys_Province" VALUES (22, '500000', '重庆市', '西南');
-INSERT INTO "public"."Sys_Province" VALUES (23, '510000', '四川省', '西南');
-INSERT INTO "public"."Sys_Province" VALUES (24, '520000', '贵州省', '西南');
-INSERT INTO "public"."Sys_Province" VALUES (25, '530000', '云南省', '西南');
-INSERT INTO "public"."Sys_Province" VALUES (26, '540000', '西藏自治区', '西南');
-INSERT INTO "public"."Sys_Province" VALUES (27, '610000', '陕西省', '西北');
-INSERT INTO "public"."Sys_Province" VALUES (28, '620000', '甘肃省', '西北');
-INSERT INTO "public"."Sys_Province" VALUES (29, '630000', '青海省', '西北');
-INSERT INTO "public"."Sys_Province" VALUES (30, '640000', '宁夏回族自治区', '西北');
-INSERT INTO "public"."Sys_Province" VALUES (31, '650000', '新疆维吾尔自治区', '西北');
-INSERT INTO "public"."Sys_Province" VALUES (32, '710000', '台湾省', '港澳台');
-INSERT INTO "public"."Sys_Province" VALUES (33, '810000', '香港特别行政区', '港澳台');
-INSERT INTO "public"."Sys_Province" VALUES (34, '820000', '澳门特别行政区', '港澳台');
-INSERT INTO "public"."Sys_Province" VALUES (35, 'thd', '桃花岛', '东北');
-INSERT INTO "public"."Sys_Province" VALUES (43, '测试1', '测试1', '港澳台');
-
--- ----------------------------
 -- Table structure for Sys_QuartzLog
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_QuartzLog";
 CREATE TABLE "public"."Sys_QuartzLog" (
-  "LogId" char(36) COLLATE "pg_catalog"."default" NOT NULL,
-  "Id" char(36) COLLATE "pg_catalog"."default",
+  "LogId" uuid NOT NULL,
+  "Id" uuid,
   "TaskName" text COLLATE "pg_catalog"."default",
   "ElapsedTime" int4,
   "StratDate" timestamp(6),
@@ -1615,7 +1673,7 @@ COMMENT ON COLUMN "public"."Sys_QuartzLog"."ResponseContent" IS '返回内容';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_QuartzOptions";
 CREATE TABLE "public"."Sys_QuartzOptions" (
-  "Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
+  "Id" uuid NOT NULL,
   "TaskName" text COLLATE "pg_catalog"."default" NOT NULL,
   "GroupName" text COLLATE "pg_catalog"."default" NOT NULL,
   "CronExpression" varchar(100) COLLATE "pg_catalog"."default" NOT NULL,
@@ -1654,152 +1712,6 @@ COMMENT ON COLUMN "public"."Sys_QuartzOptions"."ModifyDate" IS '修改时间';
 -- ----------------------------
 INSERT INTO "public"."Sys_QuartzOptions" VALUES ('7D223549-C8EE-461D-80A9-E4601EEB5C0A', '1秒执行一次', '测试', '* * * * * ?	', 'get', 'http://localhost:9991/api/Sys_QuartzOptions/test', NULL, NULL, NULL, '2023-05-13 11:35:22', 1, NULL, 180, 1, '超级管理员', '2022-09-07 01:45:04', NULL, NULL, NULL);
 
--- ----------------------------
--- Table structure for Sys_Role
--- ----------------------------
-DROP TABLE IF EXISTS "public"."Sys_Role";
-CREATE TABLE "public"."Sys_Role" (
-  "Role_Id" int4 NOT NULL,
-  "CreateDate" timestamp(6),
-  "Creator" varchar(50) COLLATE "pg_catalog"."default",
-  "DeleteBy" varchar(50) COLLATE "pg_catalog"."default",
-  "DeptName" varchar(50) COLLATE "pg_catalog"."default",
-  "Dept_Id" int4,
-  "Enable" int2,
-  "Modifier" varchar(50) COLLATE "pg_catalog"."default",
-  "ModifyDate" timestamp(6),
-  "OrderNo" int4,
-  "ParentId" int4 NOT NULL,
-  "RoleName" varchar(50) COLLATE "pg_catalog"."default"
-)
-;
-
--- ----------------------------
--- Records of Sys_Role
--- ----------------------------
-INSERT INTO "public"."Sys_Role" VALUES (1, '2018-08-23 11:46:06', '超级管理员', NULL, '无', 0, 1, '测试超级管理员', '2018-09-06 17:08:35', 1000, 0, '超级管理员');
-INSERT INTO "public"."Sys_Role" VALUES (2, '2018-08-23 11:46:52', '超级管理员', NULL, '1', 0, 1, '超级管理员', '2022-04-17 20:11:05', NULL, 1, '测试管理员');
-INSERT INTO "public"."Sys_Role" VALUES (4, '2018-08-23 11:47:41', '超级管理员', NULL, '无  ', 0, 1, '超级管理员', '2019-12-08 21:11:11', NULL, 2, '信息员');
-
--- ----------------------------
--- Table structure for Sys_RoleAuth
--- ----------------------------
-DROP TABLE IF EXISTS "public"."Sys_RoleAuth";
-CREATE TABLE "public"."Sys_RoleAuth" (
-  "Auth_Id" int4 NOT NULL,
-  "AuthValue" text COLLATE "pg_catalog"."default" NOT NULL,
-  "CreateDate" timestamp(6),
-  "Creator" text COLLATE "pg_catalog"."default",
-  "Menu_Id" int4 NOT NULL,
-  "Modifier" text COLLATE "pg_catalog"."default",
-  "ModifyDate" timestamp(6),
-  "Role_Id" int4,
-  "User_Id" int4
-)
-;
-
--- ----------------------------
--- Records of Sys_RoleAuth
--- ----------------------------
-INSERT INTO "public"."Sys_RoleAuth" VALUES (1, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 9, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (2, 'Search,Add,Delete,Update,Import,Export', '2020-05-05 13:23:11', '超级管理员', 53, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (3, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 50, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (4, 'Search', '2020-05-05 13:23:11', '超级管理员', 40, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (5, 'Search,Add,Delete,Update,Export', '2020-05-05 13:23:11', '超级管理员', 3, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (6, 'Search', '2020-05-05 13:23:11', '超级管理员', 37, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (7, 'Search,Add,Delete,Update,Export', '2020-05-05 13:23:11', '超级管理员', 51, '超级管理员', '2022-08-22 01:13:38', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (8, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 59, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (9, 'Search,Add,Delete,Update', '2020-05-05 13:23:11', '超级管理员', 13, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (10, '', '2020-05-05 13:23:11', '超级管理员', 44, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (11, '', '2020-05-05 13:23:11', '超级管理员', 24, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (12, '', '2020-05-05 13:23:11', '超级管理员', 35, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (13, 'Search', '2020-05-05 13:23:11', '超级管理员', 60, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (14, 'Search', '2020-05-05 13:23:11', '超级管理员', 58, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (15, 'Search,Add,Delete,Update,Export,Audit', '2020-05-05 13:23:11', '超级管理员', 68, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (16, 'Search,Add,Delete,Update,Import,Export', '2020-05-05 13:23:11', '超级管理员', 52, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (17, 'Search,Add,Delete,Update', '2020-05-05 13:23:11', '超级管理员', 65, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (18, 'Search', '2020-05-05 13:23:11', '超级管理员', 62, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (19, 'Search,Add,Delete,Update,Export', '2020-05-05 13:23:11', '超级管理员', 63, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (20, '', '2020-05-05 13:23:11', '超级管理员', 54, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (21, 'Search', '2020-05-05 13:23:11', '超级管理员', 94, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (22, 'Search', '2020-05-05 13:23:11', '超级管理员', 42, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (23, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 34, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (24, 'Search,Add,Delete,Update,Export', '2020-05-05 13:23:11', '超级管理员', 90, '超级管理员', '2022-08-16 00:56:48', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (25, 'Search,Add,Delete,Update,Export', '2020-05-05 13:23:11', '超级管理员', 67, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (26, 'Search', '2020-05-05 13:23:11', '超级管理员', 91, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (27, 'Search', '2020-05-05 13:23:11', '超级管理员', 36, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (28, 'Search', '2020-05-05 13:23:11', '超级管理员', 77, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (29, 'Search,Delete,Export', '2020-05-05 13:23:11', '超级管理员', 6, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (30, 'Search', '2020-05-05 13:23:11', '超级管理员', 88, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (31, 'Search', '2020-05-05 13:23:11', '超级管理员', 61, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (32, 'Search', '2020-05-05 13:23:11', '超级管理员', 8, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (33, 'Search', '2020-05-05 13:23:11', '超级管理员', 48, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (34, 'Search', '2020-05-05 13:23:11', '超级管理员', 74, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (35, 'Search', '2020-05-05 13:23:11', '超级管理员', 56, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (36, 'Search', '2020-05-05 13:23:11', '超级管理员', 55, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (37, 'Search', '2020-05-05 13:23:11', '超级管理员', 32, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (38, 'Search', '2020-05-05 13:23:11', '超级管理员', 33, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (39, 'Search', '2020-05-05 13:23:11', '超级管理员', 92, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (40, 'Search', '2020-05-05 13:23:11', '超级管理员', 89, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (41, 'Search', '2020-05-05 13:23:11', '超级管理员', 86, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (42, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 84, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (43, 'Search', '2020-05-05 13:23:11', '超级管理员', 29, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (44, 'Search,Add,Delete,Update,Import,Export', '2020-05-05 13:23:11', '超级管理员', 31, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (45, 'Search', '2020-05-05 13:23:11', '超级管理员', 72, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (46, 'Search', '2020-05-05 13:23:11', '超级管理员', 66, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (47, 'Search', '2020-05-05 13:23:11', '超级管理员', 28, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (48, 'Search', '2020-05-05 13:23:11', '超级管理员', 64, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (49, 'Search', '2020-05-05 13:23:11', '超级管理员', 5, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (50, 'Search', '2020-05-05 13:23:11', '超级管理员', 25, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (51, 'Search,Add,Delete,Update', '2020-05-05 13:23:11', '超级管理员', 93, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (52, 'Search', '2020-05-05 13:23:11', '超级管理员', 85, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (53, 'Search,Add,Delete,Update,Import,Export,Upload,Audit', '2020-05-05 13:23:11', '超级管理员', 75, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (54, 'Search', '2020-05-05 13:23:11', '超级管理员', 87, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (55, 'Search', '2020-05-05 13:23:11', '超级管理员', 57, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (56, 'Search,Import,Export,test', '2020-05-05 13:23:11', '超级管理员', 49, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (57, 'Search,Update', '2020-05-05 13:23:11', '超级管理员', 71, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (58, 'Search', '2020-05-05 13:23:11', '超级管理员', 2, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (59, 'Search', '2020-05-05 13:23:11', '超级管理员', 73, '超级管理员', '2020-05-05 13:23:11', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (60, 'Search', '2022-08-16 00:56:48', '超级管理员', 133, '超级管理员', '2022-08-16 00:56:48', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (61, 'Search,Add,Delete,Update,Export', '2022-08-16 00:56:48', '超级管理员', 134, '超级管理员', '2022-08-16 00:56:48', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (62, 'Search,Delete', '2022-08-16 00:56:48', '超级管理员', 135, '超级管理员', '2022-08-16 00:56:48', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (63, 'Search', '2022-08-16 00:56:48', '超级管理员', 136, '超级管理员', '2022-08-16 00:56:48', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (64, 'Search', '2022-08-22 01:13:38', '超级管理员', 113, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (65, 'Search', '2022-08-22 01:13:38', '超级管理员', 115, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (66, 'Search', '2022-09-09 17:53:16', '超级管理员', 118, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (67, 'Search,Add,Delete,Update,Import,Export', '2022-09-09 17:53:16', '超级管理员', 119, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (68, 'Search', '2022-09-09 17:53:21', '超级管理员', 116, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (69, 'Search', '2022-09-09 17:53:38', '超级管理员', 129, '超级管理员', '2022-09-09 17:53:38', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (70, 'Search', '2022-09-09 17:53:45', '超级管理员', 106, '超级管理员', '2022-09-09 17:53:45', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (71, 'Search', '2022-09-09 17:53:45', '超级管理员', 107, '超级管理员', '2022-09-09 17:53:45', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (72, 'Search', '2022-09-09 17:53:45', '超级管理员', 127, '超级管理员', '2022-09-09 17:53:45', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (73, 'Search,Add,Delete,Update', '2022-09-09 17:53:45', '超级管理员', 109, '超级管理员', '2022-09-09 17:53:45', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (74, 'Search,Delete,Export', '2022-09-09 17:53:45', '超级管理员', 110, '超级管理员', '2022-09-09 17:53:45', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (75, 'Search', '2022-09-09 17:54:03', '超级管理员', 137, '超级管理员', '2022-09-09 17:54:03', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (76, 'Search,Add,Delete,Update', '2022-09-09 17:54:03', '超级管理员', 138, '超级管理员', '2022-09-09 17:54:03', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (77, 'Search,Delete,Export', '2022-09-09 17:54:03', '超级管理员', 139, '超级管理员', '2022-09-09 17:54:03', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (78, 'Search', '2022-09-09 17:55:31', 'zs', 129, 'zs', '2022-09-09 17:55:31', 4, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (79, 'Search', '2022-09-09 17:55:31', 'zs', 106, 'zs', '2022-09-09 17:55:31', 4, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (80, 'Search', '2022-09-09 17:55:31', 'zs', 107, 'zs', '2022-09-09 17:55:31', 4, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (81, 'Search,Add,Delete,Update', '2022-09-09 17:55:31', 'zs', 109, 'zs', '2022-09-09 17:55:31', 4, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (82, 'Search,Delete,Export', '2022-09-09 17:55:31', 'zs', 110, 'zs', '2022-09-09 17:55:31', 4, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (83, 'Search', '2023-02-03 16:51:48', '超级管理员', 113, '超级管理员', '2023-02-03 16:51:48', 4, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (84, 'Search', '2023-02-03 16:51:48', '超级管理员', 116, '超级管理员', '2023-02-03 16:51:48', 4, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (85, 'Search', '2023-02-03 16:51:48', '超级管理员', 118, '超级管理员', '2023-02-03 16:51:48', 4, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (86, 'Search,Add,Delete,Update', '2023-02-03 16:51:48', '超级管理员', 119, '超级管理员', '2023-02-03 16:51:48', 4, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (87, 'Search', '2023-02-03 16:51:48', '超级管理员', 115, '超级管理员', '2023-02-03 16:51:48', 4, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (88, 'Search', '2023-05-13 13:53:24', '超级管理员', 101, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (89, 'Search,Add,Delete,Update,Import,Export', '2023-05-13 13:53:24', '超级管理员', 100, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (90, 'Search,Add,Delete,Update,Import,Export,Upload', '2023-05-13 13:53:24', '超级管理员', 96, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (91, 'Search', '2023-05-13 13:53:24', '超级管理员', 105, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (92, 'Search,Add,Delete,Update,Import,Export', '2023-05-13 13:53:24', '超级管理员', 99, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (93, 'Search,Add,Delete,Update,Import,Export', '2023-05-13 13:53:24', '超级管理员', 98, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (94, 'Search', '2023-05-13 13:53:24', '超级管理员', 132, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (95, 'Search,Add,Delete,Update,Export', '2023-05-13 13:53:24', '超级管理员', 142, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (96, 'Search,Add,Delete,Update', '2023-05-13 13:53:24', '超级管理员', 97, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (97, 'Search', '2023-05-13 13:53:24', '超级管理员', 123, '超级管理员', '2023-05-13 13:53:24', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (98, 'Search', '2023-05-13 13:54:49', '超级管理员', 121, '超级管理员', '2023-05-13 13:54:49', 2, NULL);
-INSERT INTO "public"."Sys_RoleAuth" VALUES (99, 'Search', '2023-05-13 13:54:49', '超级管理员', 126, '超级管理员', '2023-05-13 13:54:49', 2, NULL);
 
 -- ----------------------------
 -- Table structure for Sys_TableColumn
@@ -1844,6 +1756,18 @@ CREATE TABLE "public"."Sys_TableColumn" (
   "Table_Id" int4
 )
 ;
+
+-- ----------------------------
+-- Sequence structure for sys_tablecolumn_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_tablecolumn_id_seq";
+CREATE SEQUENCE "public"."sys_tablecolumn_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1000
+CACHE 1;
+ALTER TABLE "public"."Sys_TableColumn" ALTER COLUMN "ColumnId" SET DEFAULT nextval('sys_tablecolumn_id_seq');
 
 -- ----------------------------
 -- Records of Sys_TableColumn
@@ -2270,6 +2194,18 @@ CREATE TABLE "public"."Sys_TableInfo" (
 ;
 
 -- ----------------------------
+-- Sequence structure for sys_tableinfo_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."sys_tableinfo_id_seq";
+CREATE SEQUENCE "public"."sys_tableinfo_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100
+CACHE 1;
+ALTER TABLE "public"."Sys_TableInfo" ALTER COLUMN "Table_Id" SET DEFAULT nextval('sys_tableinfo_id_seq');
+
+-- ----------------------------
 -- Records of Sys_TableInfo
 -- ----------------------------
 INSERT INTO "public"."Sys_TableInfo" VALUES (2, '角色管理', '角色管理', NULL, NULL, NULL, NULL, NULL, 0, 'RoleName', 'System', 'VOL.System', NULL, 8, NULL, NULL, 'Sys_Role', 'Sys_Role', NULL, NULL);
@@ -2307,80 +2243,11 @@ INSERT INTO "public"."Sys_TableInfo" VALUES (95, '组织架构', '组织架构',
 INSERT INTO "public"."Sys_TableInfo" VALUES (96, '用户部门', '用户所属组织', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'System', 'VOL.System', NULL, 8, NULL, 'CreateDate', 'Sys_UserDepartment', 'Sys_UserDepartment', NULL, NULL);
 
 -- ----------------------------
--- Table structure for Sys_User
--- ----------------------------
-DROP TABLE IF EXISTS "public"."Sys_User";
-CREATE TABLE "public"."Sys_User" (
-  "User_Id" int4 NOT NULL,
-  "Role_Id" int4 NOT NULL,
-  "RoleName" varchar(200) COLLATE "pg_catalog"."default",
-  "PhoneNo" varchar(11) COLLATE "pg_catalog"."default",
-  "Remark" varchar(200) COLLATE "pg_catalog"."default",
-  "Tel" varchar(20) COLLATE "pg_catalog"."default",
-  "UserName" varchar(100) COLLATE "pg_catalog"."default" NOT NULL,
-  "UserPwd" varchar(200) COLLATE "pg_catalog"."default",
-  "UserTrueName" varchar(20) COLLATE "pg_catalog"."default" NOT NULL,
-  "DeptName" varchar(150) COLLATE "pg_catalog"."default",
-  "Dept_Id" int4,
-  "Email" varchar(100) COLLATE "pg_catalog"."default",
-  "Enable" int2 NOT NULL,
-  "Gender" int4,
-  "HeadImageUrl" text COLLATE "pg_catalog"."default",
-  "IsRegregisterPhone" int4,
-  "LastLoginDate" timestamp(6),
-  "LastModifyPwdDate" timestamp(6),
-  "Address" varchar(200) COLLATE "pg_catalog"."default",
-  "AppType" int4,
-  "AuditDate" timestamp(6),
-  "AuditStatus" int4,
-  "Auditor" varchar(200) COLLATE "pg_catalog"."default",
-  "OrderNo" int4,
-  "Token" text COLLATE "pg_catalog"."default",
-  "CreateID" int4,
-  "CreateDate" timestamp(6),
-  "Creator" varchar(200) COLLATE "pg_catalog"."default",
-  "Mobile" varchar(100) COLLATE "pg_catalog"."default",
-  "Modifier" varchar(200) COLLATE "pg_catalog"."default",
-  "ModifyDate" timestamp(6),
-  "ModifyID" int4,
-  "DeptIds" text COLLATE "pg_catalog"."default"
-)
-;
-
--- ----------------------------
--- Records of Sys_User
--- ----------------------------
-INSERT INTO "public"."Sys_User" VALUES (1, 1, '无', '13888888888', '~还没想好...', NULL, 'admin', 'j79rYYvCz4vdhcboB1Ausg==', '超级管理员', NULL, 0, '283591387@qq.com', 1, 1, 'Upload/Tables/Sys_User/202305131010574561/wechat.jpg', 0, '2017-08-28 09:58:55', '2019-12-14 15:14:23', '北京市西城区', 1, '2019-08-18 00:54:06', 1, '超级管理员', 0, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxIiwiaWF0IjoiMTY4Mzk3Mzk3OSIsIm5iZiI6IjE2ODM5NzM5NzkiLCJleHAiOiIxNjgzOTgxMTc5IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.e1alR9m5z7TNFrLFegmBpl3pm674vJaLvW5YgnRcqEE', NULL, '2012-06-10 11:10:03', NULL, NULL, '超级管理员', '2023-05-13 10:10:58', 1, NULL);
-INSERT INTO "public"."Sys_User" VALUES (3362, 2, '无', NULL, '。。', NULL, 'admin666', 'j79rYYvCz4vdhcboB1Ausg==', 'Admin测试', NULL, NULL, NULL, 1, 0, 'Upload/Tables/Sys_User/202305131011047216/wechat.jpg', 1, NULL, '2019-09-22 23:03:34', '北京市还没注册', 1, '2019-08-18 00:54:06', 1, '超级管理员', NULL, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMzYyIiwiaWF0IjoiMTY4Mzk2OTQ4NCIsIm5iZiI6IjE2ODM5Njk0ODQiLCJleHAiOiIxNjgzOTc2Njg0IiwiaXNzIjoidm9sLmNvcmUub3duZXIiLCJhdWQiOiJ2b2wuY29yZSJ9.AusSAJoTD3Bk90PFCmhNj7Mrlv06IA3XM2mubfwBJu0', NULL, '2019-08-13 14:24:27', NULL, '01012345678', '超级管理员', '2023-05-13 17:09:41', 1, 'e5d8e8af-3659-454c-aa8e-c201c7edbcfb,ec238385-f907-44de-b99b-0eddcffa6750');
-
--- ----------------------------
--- Table structure for Sys_UserDepartment
--- ----------------------------
-DROP TABLE IF EXISTS "public"."Sys_UserDepartment";
-CREATE TABLE "public"."Sys_UserDepartment" (
-  "Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
-  "UserId" int4 NOT NULL,
-  "DepartmentId" char(36) COLLATE "pg_catalog"."default" NOT NULL,
-  "Enable" int4 NOT NULL,
-  "CreateID" int4,
-  "Creator" varchar(255) COLLATE "pg_catalog"."default",
-  "CreateDate" timestamp(6),
-  "ModifyID" int4,
-  "Modifier" varchar(255) COLLATE "pg_catalog"."default",
-  "ModifyDate" timestamp(6)
-)
-;
-
--- ----------------------------
--- Records of Sys_UserDepartment
--- ----------------------------
-
--- ----------------------------
 -- Table structure for Sys_WorkFlow
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_WorkFlow";
 CREATE TABLE "public"."Sys_WorkFlow" (
-  "WorkFlow_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
+  "WorkFlow_Id" uuid NOT NULL,
   "WorkName" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
   "WorkTable" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
   "WorkTableName" varchar(200) COLLATE "pg_catalog"."default",
@@ -2418,8 +2285,8 @@ INSERT INTO "public"."Sys_WorkFlow" VALUES ('BE42A851-147A-493A-B42F-3DC7D3061E3
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_WorkFlowStep";
 CREATE TABLE "public"."Sys_WorkFlowStep" (
-  "WorkStepFlow_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
-  "WorkFlow_Id" char(36) COLLATE "pg_catalog"."default",
+  "WorkStepFlow_Id" uuid NOT NULL,
+  "WorkFlow_Id" uuid,
   "StepId" varchar(100) COLLATE "pg_catalog"."default",
   "StepName" varchar(200) COLLATE "pg_catalog"."default",
   "StepType" int4,
@@ -2476,8 +2343,8 @@ INSERT INTO "public"."Sys_WorkFlowStep" VALUES ('E63D434B-A434-44C1-93C2-8A8493C
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_WorkFlowTable";
 CREATE TABLE "public"."Sys_WorkFlowTable" (
-  "WorkFlowTable_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
-  "WorkFlow_Id" char(36) COLLATE "pg_catalog"."default",
+  "WorkFlowTable_Id" uuid NOT NULL,
+  "WorkFlow_Id" uuid,
   "WorkName" varchar(200) COLLATE "pg_catalog"."default",
   "WorkTableKey" varchar(200) COLLATE "pg_catalog"."default",
   "WorkTable" varchar(200) COLLATE "pg_catalog"."default",
@@ -2513,9 +2380,9 @@ INSERT INTO "public"."Sys_WorkFlowTable" VALUES ('D82F4733-9916-4714-BF35-900CEA
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_WorkFlowTableAuditLog";
 CREATE TABLE "public"."Sys_WorkFlowTableAuditLog" (
-  "Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
-  "WorkFlowTable_Id" char(36) COLLATE "pg_catalog"."default",
-  "WorkFlowTableStep_Id" char(36) COLLATE "pg_catalog"."default",
+  "Id" uuid NOT NULL,
+  "WorkFlowTable_Id" uuid,
+  "WorkFlowTableStep_Id" uuid,
   "StepId" varchar(100) COLLATE "pg_catalog"."default",
   "StepName" varchar(200) COLLATE "pg_catalog"."default",
   "AuditId" int4,
@@ -2603,9 +2470,9 @@ INSERT INTO "public"."Sys_WorkFlowTableAuditLog" VALUES ('FBF482E7-A0FF-4842-9E3
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Sys_WorkFlowTableStep";
 CREATE TABLE "public"."Sys_WorkFlowTableStep" (
-  "Sys_WorkFlowTableStep_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
-  "WorkFlowTable_Id" char(36) COLLATE "pg_catalog"."default" NOT NULL,
-  "WorkFlow_Id" char(36) COLLATE "pg_catalog"."default",
+  "Sys_WorkFlowTableStep_Id" uuid NOT NULL,
+  "WorkFlowTable_Id" uuid NOT NULL,
+  "WorkFlow_Id" uuid,
   "StepId" varchar(100) COLLATE "pg_catalog"."default",
   "StepName" varchar(200) COLLATE "pg_catalog"."default",
   "StepType" int4,
@@ -2659,146 +2526,6 @@ INSERT INTO "public"."Sys_WorkFlowTableStep" VALUES ('BE1DC0BF-96F0-46DB-8A02-90
 INSERT INTO "public"."Sys_WorkFlowTableStep" VALUES ('C0A682A2-6043-492A-A15D-BECB374353BD', 'D82F4733-9916-4714-BF35-900CEAA049C1', 'AA7099A6-CFEE-4845-BA95-56E425A11ACE', 'iyzakw0c8', '流程开始', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2023-05-13 17:07:37', 1, '超级管理员', 1, NULL, NULL, NULL, 'start', NULL, 'jkqinw0zc', NULL);
 INSERT INTO "public"."Sys_WorkFlowTableStep" VALUES ('DE5133DF-9FF7-494D-BB76-C9E457DFEBAD', 'D82F4733-9916-4714-BF35-900CEAA049C1', 'AA7099A6-CFEE-4845-BA95-56E425A11ACE', 'b9cv1h35jg', '产品部>=7000审批', 3, 'ec238385-f907-44de-b99b-0eddcffa6750', 2, 3362, 'Admin测试', 1, '2023-05-13 17:11:47', 'Admin测试管理员同意。。', '2023-05-13 17:07:37', NULL, NULL, 1, NULL, NULL, NULL, 'node', 'jkqinw0zc', 'hnoj7gaczc', NULL);
 INSERT INTO "public"."Sys_WorkFlowTableStep" VALUES ('F5CEA9D2-C567-497A-AD6C-4B483A198AA4', '62C8999F-F07E-4D47-827C-B1C4E63AF323', 'AA7099A6-CFEE-4845-BA95-56E425A11ACE', 'jkqinw0zc', '用户审批>=5000', 1, '1', 1, 1, NULL, NULL, NULL, NULL, '2023-05-13 17:19:06', NULL, NULL, 1, NULL, NULL, NULL, 'node', 'iyzakw0c8', 'b9cv1h35jg', NULL);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."app_expert_id_seq1"', 101, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."app_news111seq_id_seq"', 11, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."app_news_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."app_reportprice_id1_seq"', 101, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."app_reportprice_id2_seq"', 101, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."app_reportprice_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."app_transaction_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."app_transactionavgprice_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."appnews_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."apptest_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."city_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."dic_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sellorder_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sellorderlist_id1_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sellorderlist_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_dictionary_id_seq1"', 101, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_dictionarylist_id_seq"', 501, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_log_id_seq"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_menu_id_seq"', 101, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_province1_id_seq"', 501, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_province_id_seq"', 101, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_role_id_seq"', 101, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_role_id_seq1"', 2, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_roleauth_id_seq"', 101, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_roleauthdata_id_seq"', 101, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_tablecolumn_id_seq"', 801, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_tableinfo_id_seq"', 101, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
-SELECT setval('"public"."sys_user_id_seq"', 2, false);
 
 -- ----------------------------
 -- Primary Key structure for table App_Expert
