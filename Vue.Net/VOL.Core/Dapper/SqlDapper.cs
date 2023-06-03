@@ -53,7 +53,7 @@ namespace VOL.Core.Dapper
 
         private T Execute<T>(Func<IDbConnection, IDbTransaction, T> func, bool beginTransaction = false)
         {
-            if (_transaction)
+            if (_transaction|| dbTransaction!=null)
             {
                 return func(_transactionConnection, dbTransaction);
             }
@@ -93,7 +93,7 @@ namespace VOL.Core.Dapper
 
         private async Task<T> ExecuteAsync<T>(Func<IDbConnection, IDbTransaction, Task<T>> funcAsync, bool beginTransaction = false)
         {
-            if (_transaction)
+            if (_transaction || dbTransaction != null)
             {
                 return await funcAsync(_transactionConnection, dbTransaction);
             }
