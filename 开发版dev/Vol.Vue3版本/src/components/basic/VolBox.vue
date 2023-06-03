@@ -1,11 +1,15 @@
 <template>
   <div class="vol-dialog">
 
-    <el-dialog v-model="vmodel" :close-on-click-modal="false" :close-on-press-escape="false"
-      :width="width" :draggable="draggable" :modal="modal" :before-close="handleClose">
-      <template #header> <i :class="icon"></i> {{ title }} </template>
+    <el-dialog v-model="vmodel" :close-on-click-modal="false" :close-on-press-escape="false" :width="width"
+      :fullscreen="fullscreen" :draggable="draggable" :modal="modal" :before-close="handleClose">
+      <template #header>
+        <i :class="icon"></i> {{ title }}
+        <button class="el-dialog__headerbtn" type="button" style="right: 35px; color: var(--el-color-info)" @click="handleFullScreen">
+          <i class="el-icon el-icon-full-screen"></i>
+        </button>
+      </template>
       <el-scrollbar :max-height="contentHeight">
-
         <div v-if="inited" style="min-height: 50px;" class="srcoll-content" :style="{ padding: padding + 'px' }">
           <slot name="content"></slot>
           <slot></slot>
@@ -31,45 +35,47 @@ export default defineComponent({
     lazy: {
       //是否开启懒加载2020.12.06
       type: Boolean,
-      default: false
+      default: false,
     },
     icon: {
       type: String,
-      default: 'el-icon-warning-outline'
+      default: "el-icon-warning-outline",
     },
     title: {
       type: String,
-      default: '基本信息'
+      default: "基本信息",
     },
     height: {
       type: Number,
-      default: 200
+      default: 200,
     },
     width: {
       type: Number,
-      default: 650
+      default: 650,
     },
     padding: {
       type: Number,
-      default: 16
+      default: 16,
     },
-    modal: {  //是否需要遮罩层
+    modal: {
+      //是否需要遮罩层
       type: Boolean,
-      default: true
+      default: true,
     },
-    draggable: {  //启用可拖拽功能	
+    draggable: {
+      //启用可拖拽功能
       type: Boolean,
-      default: false
+      default: false,
     },
     mask: {
       type: Boolean,
-      default: true
+      default: true,
     },
     onModelClose: {
       //2021.07.11增加弹出框关闭事件
       type: Function,
       default: (iconClick) => {
-        return true;
+        return true;        
       }
     },
     footer:{ //是否显示底部按钮
@@ -92,7 +98,7 @@ export default defineComponent({
       let result = props.onModelClose(!!iconClose);
       if (result === false) return;
       vmodel.value = false;
-      context.emit('update:modelValue', false);
+      context.emit("update:modelValue", false);
       done && done();
     };
     const calcHeight = (val) => {
@@ -104,7 +110,6 @@ export default defineComponent({
       // contentHeight.value = val || props.height;
       // return (props.height + 56) / -2 + 'px';
     };
-
     top.value = calcHeight();
     watch(
       () => props.modelValue,
@@ -118,6 +123,11 @@ export default defineComponent({
         top.value = calcHeight();
       }
     );
+    const fullscreen=ref(false);
+    const handleFullScreen=()=> {
+      fullscreen.value = !fullscreen.value;
+      context.emit("fullscreen", fullscreen.value);
+    }
     return {
       handleClose,
       inited,
@@ -125,7 +135,9 @@ export default defineComponent({
       footer,
       top,
       calcHeight,
-      contentHeight
+      contentHeight,
+      fullscreen,
+      handleFullScreen
     };
   }
 });
@@ -178,6 +190,9 @@ export default defineComponent({
   top: 0;
   padding-top: 8px;
   height: 50px;
+  width: 0;
+  padding-right: 30px;
+  padding-left: 5px;
 }
 // .vol-dialog ::v-deep(.el-dialog__headerbtn .el-dialog__close) {
 //   color: #fff;
