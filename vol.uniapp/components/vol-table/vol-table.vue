@@ -45,7 +45,7 @@
 						<view class="cell-ck vol-table-body-cell" v-if="ck">
 							<!-- <u-checkbox v-model="row.ck" :size="16"></u-checkbox> -->
 
-							<u-checkbox-group  @change="()=>{ rowItemCheckClick(row)}">
+							<u-checkbox-group  @change="()=>{ rowItemCheckClick(row,rowindex)}">
 								<u-checkbox :checked="row.ck" :size="16"></u-checkbox>
 							</u-checkbox-group>
 						</view>
@@ -508,7 +508,9 @@
 					return x.ck
 				});
 			},
-			rowItemCheckClick(row){
+			rowItemCheckClick(row,index){
+				console.log('rowItemCheckClick')
+				this.tableData[index].ck=!row.ck;
 				this.$set(row, 'ck', !row.ck);
 			}
 		},
