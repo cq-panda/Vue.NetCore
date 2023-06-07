@@ -1671,6 +1671,9 @@ let methods = {
     if (this.$route.query.viewflow) {
       this.$refs.table && this.search();
     }
+  },
+  fullscreen(full){ //弹出框全屏方法
+
   }
 };
 import customColumns from './ViewGridCustomColumn.js';

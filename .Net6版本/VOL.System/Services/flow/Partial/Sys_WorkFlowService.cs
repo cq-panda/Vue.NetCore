@@ -94,7 +94,7 @@ namespace VOL.System.Services
                 //删除的节点
                 var delIds = steps.Where(x => !stepsClone.Any(c => c.StepId == x.StepId))
                  .Select(s => s.WorkStepFlow_Id).ToList();
-                delKeys.AddRange(delKeys);
+                delKeys.AddRange(delIds.Select(s=>s as object));
 
                 //新增的节点
                 var newSteps = stepsClone.Where(x => !steps.Any(c => c.StepId == x.StepId))

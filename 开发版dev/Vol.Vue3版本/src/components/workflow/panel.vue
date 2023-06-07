@@ -8,8 +8,8 @@
                 <div style="width: 220px;">
                     <div class="ef-node-pmenu-item"><i class="el-icon-warning-outline"></i>基础信息</div>
                     <VolForm ref="form" style="padding: 10px;" :label-width="180" :loadKey="true" :formFields="formFields"
-                        :formRules="formRules"></VolForm>
-                    <node-menu @addNode="addNode" ref="nodeMenu"></node-menu>
+                        :disabled="disabled" :formRules="formRules"></VolForm>
+                    <node-menu @addNode="addNode" ref="nodeMenu" v-if="!disabled"></node-menu>
                 </div>
             </el-scrollbar>
             <div class="tools">
@@ -17,10 +17,10 @@
                 <el-button circle @click="zoomSub"><i class="el-icon-zoom-out"></i></el-button>
             </div>
             <div style="flex: 1;" id="efContainer" ref="efContainer" class="container efContainer" v-flowDrag>
-
                 <template :key="node.id" v-for="node in data.nodeList">
                     <flow-node :id="node.id" @delNode="deleteNode(node.id)" :node="node" :activeElement="activeElement"
-                        @changeNodeSite="changeNodeSite" @nodeRightMenu="nodeRightMenu" @clickNode="clickNode">
+                        :disabled="disabled" @changeNodeSite="changeNodeSite" @nodeRightMenu="nodeRightMenu"
+                        @clickNode="clickNode">
                     </flow-node>
                 </template>
                 <!-- 给画布一个默认的宽度和高度 -->
@@ -29,7 +29,7 @@
             <!-- 右侧表单 -->
             <div style="width: 400px;border-left: 1px solid #dce3e8;background-color: #FBFBFB">
                 <el-scrollbar style="height: 100%;padding-bottom: 10px;">
-                    <flow-node-form @delNode="deleteNode" ref="nodeForm" @setLineLabel="setLineLabel"
+                    <flow-node-form @delNode="deleteNode" ref="nodeForm" @setLineLabel="setLineLabel" :disabled="disabled"
                         @repaintEverything="repaintEverything"></flow-node-form>
                 </el-scrollbar>
             </div>
@@ -50,13 +50,19 @@ import lodash from 'lodash'
 // import { getDataA } from './data_A'
 import VolForm from '@/components/basic/VolForm.vue';
 export default {
+    props: {
+        disabled: {
+            typeof: Boolean,
+            default: false
+        }
+    },
     data() {
         return {
             formFields: {
                 WorkName: '',
                 WorkTable: '',
                 WorkTableName: '',
-                Weight:1,
+                Weight: 1,
                 AuditingEdit: 0,
                 Remark: ''
             },
@@ -276,7 +282,7 @@ export default {
                 this.jsPlumb.makeSource(node.id, lodash.merge(this.jsplumbSourceOptions, {}))
                 // // 设置目标点，其他源点拖出的线可以连接该节点
                 this.jsPlumb.makeTarget(node.id, this.jsplumbTargetOptions)
-                if (!node.viewOnly) {
+                if (!node.viewOnly && !this.disabled) {
                     this.jsPlumb.draggable(node.id, {
                         containment: 'parent',
                         stop: function (el) {
@@ -292,7 +298,7 @@ export default {
                 var connParam = {
                     source: line.from,
                     target: line.to,
-                    label: line.label ? line.label : 'x',
+                    label: this.disabled ? null : (line.label ? line.label : 'x'),
                     connector: line.connector ? line.connector : '',
                     anchors: line.anchors ? line.anchors : undefined,
 
@@ -328,6 +334,8 @@ export default {
         },
         // 删除激活的元素
         deleteElement() {
+            if (this.disabled)
+                return
             if (this.activeElement.type === 'node') {
                 this.deleteNode(this.activeElement.nodeId)
             } else if (this.activeElement.type === 'line') {

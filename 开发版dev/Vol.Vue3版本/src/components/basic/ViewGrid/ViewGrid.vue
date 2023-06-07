@@ -304,6 +304,7 @@
           :draggable="boxOptions.draggable"
           :padding="0"
           :on-model-close="onGridModelClose"
+          @fullscreen="fullscreen"
         >
           <!--明细头部自定义组件-->
           <template #content>

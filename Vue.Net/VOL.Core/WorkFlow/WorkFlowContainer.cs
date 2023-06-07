@@ -147,7 +147,7 @@ namespace VOL.Core.WorkFlow
             string key = typeof(T).GetKeyProperty().GetValue(entity).ToString();
 
             var flowTable = DBServerProvider.DbContext.Set<Sys_WorkFlowTable>().Include(c => c.Sys_WorkFlowTableStep)
-                  .Where(c => c.WorkTableKey == key)
+                  .Where(c => c.WorkTableKey == key&&c.WorkTable==tableName)
                   .OrderByDescending(x => x.CreateDate)
                   .FirstOrDefault();
 

@@ -1,5 +1,6 @@
 <template>
-    <div ref="node"   class="node-item" :style="nodeContainerStyle" @click="clickNode" @mouseup="changeNodeSite" :class="nodeContainerClass">
+    <div ref="node" class="node-item" :style="nodeContainerStyle" @click="clickNode" @mouseup="changeNodeSite"
+        :class="nodeContainerClass">
         <!-- 最左侧的那条竖线 -->
         <div class="ef-node-left"></div>
         <!-- 节点类型的图标 -->
@@ -10,7 +11,7 @@
         <div class="ef-node-text" :show-overflow-tooltip="true">
             {{ node.name }}
         </div>
-        <i @click.stop="delNode" v-if="node.type=='node'" style="display: none" class="el-icon-delete"></i>
+        <i @click.stop="delNode" v-if="node.type == 'node' && !disabled" style="display: none" class="el-icon-delete"></i>
         <!-- 节点状态图标 -->
         <div class="ef-node-right-ico">
             <i class="el-icon-circle-check el-node-state-success" v-show="node.state === 'success'"></i>
@@ -25,7 +26,11 @@
 export default {
     props: {
         node: Object,
-        activeElement: Object
+        activeElement: Object,
+        disabled: {
+            typeof: Boolean,
+            default: false
+        }
     },
     data() {
         return {}
