@@ -26,10 +26,11 @@
 	//************************************************
 	import extend from './App_AppointmentExtend1.js'
 	import options from './App_AppointmentOptions1.js';
-	let _options = options();
-	_options.extend = extend;
+
 	export default {
 		data() {
+			let _options = options();
+			_options.extend = extend;
 			return {
 				gridHeaderText: "", //随便输入字符后可以显示出来
 				options: _options,
