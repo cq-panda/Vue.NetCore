@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -208,7 +208,7 @@ namespace VOL.Core.Extensions
             {
                 constant = Expression.Constant(Convert.ToDateTime(propertyValue.ToString()).AddDays(1));
             }
-            
+
             UnaryExpression member = Expression.Convert(memberProperty, constant.Type);
             Expression<Func<T, bool>> expression;
             switch (expressionType)
@@ -284,7 +284,7 @@ namespace VOL.Core.Extensions
                  (QueryOrderBy)(
                  exp.Arguments[1] as ConstantExpression != null
                   ? (exp.Arguments[1] as ConstantExpression).Value
-                  //2021.07.04增加自定排序按条件表达式
+                 //2021.07.04增加自定排序按条件表达式
                  : Expression.Lambda<Func<QueryOrderBy>>(exp.Arguments[1] as Expression).Compile()()
                  ));
             }

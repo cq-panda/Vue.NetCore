@@ -49,6 +49,7 @@
 					inputDecimal: null, //小数
 					inputNumber: null, //数字
 					switchValue: 1,
+					radioVal:null,//单选
 					selectClickValue: "",
 					dateClickValue: null,
 					imgs: [{
@@ -253,10 +254,19 @@
 						type: "group" //表单分组
 					},
 					{
-						"title": "单选",
+						"title": "是否值",
 						"type": "switch",
 						"field": "switchValue"
 					},
+					{
+						"title": "单选",
+						"type": "radio",
+						data: [],
+						key: "pn",
+						//placement:"row",	//布局方式，row-横向，column-纵向	,具体见uvivew文档
+						"field": "radioVal"
+					},
+					//placement
 					{
 						type: "group", //表单分组
 						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
@@ -279,6 +289,7 @@
 					{
 						"title": "图片上传",
 						"type": "img",
+						//readonly:true,//设置图片只读
 						"url": "api/sys_user/upload", //后台框架自带的上传方法，如果涉及权限问题，请参照后台开发文档上重写权限来重写upload方法的权限
 						"multiple": true, //从图上传
 						"maxCount": 3, //最多只能上传3张图片

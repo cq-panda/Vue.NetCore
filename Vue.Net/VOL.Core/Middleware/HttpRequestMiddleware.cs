@@ -10,7 +10,7 @@ namespace VOL.Core.Middleware
     {
         public static Func<RequestDelegate, RequestDelegate> Context
         {
-            get
+            get 
             {
                 return next => async context =>
                 {
@@ -20,7 +20,7 @@ namespace VOL.Core.Middleware
                     if (stream == Stream.Null || stream.CanSeek)
                     {
                         await next(context);
-
+                         
                         return;
                     }
                     try

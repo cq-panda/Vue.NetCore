@@ -158,50 +158,13 @@ namespace VOL.System.Services
 
         private List<RoleNodes> GetAllChildrenNodes(int roleId)
         {
-            if (UserContext.IsRoleIdSuperAdmin(roleId)) return roles;
-            Dictionary<int, bool> completedRoles = new Dictionary<int, bool>();
-            rolesChildren = GetChildren(roleId, completedRoles);
-            //2021.07.11增加无限递归异常数据移除当前节点
-            if (rolesChildren.Any(x => x.Id == roleId))
-            {
-                return rolesChildren.Where(x => x.Id != roleId).ToList();
-            }
-            return rolesChildren;
+            return RoleContext.GetAllChildren(roleId);
         }
         /// <summary>
         /// 递归获取所有子节点权限
         /// </summary>
         /// <param name="roleId"></param>
-        private List<RoleNodes> GetChildren(int roleId, Dictionary<int, bool> completedRoles)
-        {
-            roles.ForEach(x =>
-            {
-                if (x.ParentId == roleId)
-                {
-                    if (completedRoles.TryGetValue(x.Id, out bool isWrite))
-                    {
-                        if (!isWrite)
-                        {
-                            roles.Where(x => x.Id == roleId).FirstOrDefault().ParentId = 0;
-                            Logger.Error($"sys_roleservice获取子角色异常RoleContext,角色id:{x.Id}");
-                            Console.WriteLine($"sys_roleservice获取子角色异常RoleContext,角色id:{x.Id}");
-                            completedRoles[x.Id] = true;
-                        }
-                        return;
-                    }
-                    rolesChildren.Add(x);
 
-                    completedRoles[x.Id] = false;
-
-
-                    if (x.Id != x.ParentId)
-                    {
-                        GetChildren(x.Id, completedRoles);
-                    }
-                }
-            });
-            return rolesChildren;
-        }
 
         /// <summary>
         /// 保存角色权限
@@ -317,6 +280,10 @@ namespace VOL.System.Services
         {
             AddOnExecuting = (Sys_Role role, object obj) =>
             {
+                if (!UserContext.Current.IsSuperAdmin && role.ParentId > 0 && !RoleContext.GetAllChildrenIds(UserContext.Current.RoleId).Contains(role.ParentId))
+                {
+                    return _responseContent.Error("不能添加此角色");
+                }
                 return ValidateRoleName(role, x => x.RoleName == role.RoleName);
             };
             return RemoveCache(base.Add(saveDataModel));
@@ -324,6 +291,16 @@ namespace VOL.System.Services
 
         public override WebResponseContent Del(object[] keys, bool delList = true)
         {
+            if (!UserContext.Current.IsSuperAdmin)
+            {
+                var roleIds = RoleContext.GetAllChildrenIds(UserContext.Current.RoleId);
+                var _keys = keys.Select(s => s.GetInt());
+                if (_keys.Any(x => !roleIds.Contains(x)))
+                {
+                    return _responseContent.Error("没有权限删除此角色");
+                }
+            }
+        
             return RemoveCache(base.Del(keys, delList));
         }
 
@@ -353,6 +330,22 @@ namespace VOL.System.Services
                 {
                     return _responseContent.Error($"不能选择此上级角色，选择的上级角色与当前角色形成依赖关系");
                 }
+                if (!UserContext.Current.IsSuperAdmin)
+                {
+                    var roleIds = RoleContext.GetAllChildrenIds(UserContext.Current.RoleId);
+                    if (role.ParentId > 0)
+                    {
+                        if (!roleIds.Contains(role.ParentId))
+                        {
+                            return _responseContent.Error($"不能选择此角色");
+                        }
+                    }
+                    if (!roleIds.Contains(role.Role_Id))
+                    {
+                        return _responseContent.Error($"不能选择此角色");
+                    }
+                    return _responseContent.OK("");
+                }
                 return ValidateRoleName(role, x => x.RoleName == role.RoleName && x.Role_Id != role.Role_Id);
             };
             return RemoveCache(base.Update(saveModel));
@@ -367,12 +360,7 @@ namespace VOL.System.Services
         }
     }
 
-    public class RoleNodes
-    {
-        public int Id { get; set; }
-        public int ParentId { get; set; }
-        public string RoleName { get; set; }
-    }
+
     public class UserPermissions
     {
         public int Id { get; set; }

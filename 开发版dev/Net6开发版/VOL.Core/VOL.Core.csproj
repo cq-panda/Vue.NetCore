@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName></SccProjectName>
+    <SccProvider></SccProvider>
+    <SccAuxPath></SccAuxPath>
+    <SccLocalPath></SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="IRepositories\**" />
+    <Compile Remove="IServices\**" />
+    <Compile Remove="Repositories\**" />
+    <Compile Remove="Services\API\**" />
+    <Compile Remove="Services\Base\**" />
+    <EmbeddedResource Remove="IRepositories\**" />
+    <EmbeddedResource Remove="IServices\**" />
+    <EmbeddedResource Remove="Repositories\**" />
+    <EmbeddedResource Remove="Services\API\**" />
+    <EmbeddedResource Remove="Services\Base\**" />
+    <None Remove="IRepositories\**" />
+    <None Remove="IServices\**" />
+    <None Remove="Repositories\**" />
+    <None Remove="Services\API\**" />
+    <None Remove="Services\Base\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.0.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
+    <PackageReference Include="CSRedisCore" Version="3.6.5" />
+    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="2.2.2" />
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis.Core" Version="1.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
+    <PackageReference Include="Npgsql" Version="6.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.0" />
+    <!--<PackageReference Include="MySql.Data" Version="8.0.13" />-->
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.0" />
+    <PackageReference Include="Quartz" Version="3.4.0" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
+    <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VOL.Entity\VOL.Entity.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-using VOL.Builder.Utility;
+﻿using VOL.Builder.Utility;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
 using Newtonsoft.Json;
@@ -1286,7 +1286,7 @@ DISTINCT
             }
 
             SetMaxLength(columns);
-            var result= base.Add<Sys_TableColumn>(tableInfo, columns, false);
+            var result = base.Add<Sys_TableColumn>(tableInfo, columns, false);
             if (!result.Status)
             {
                 throw new Exception($"加载表结构写入异常：{result.Message}");

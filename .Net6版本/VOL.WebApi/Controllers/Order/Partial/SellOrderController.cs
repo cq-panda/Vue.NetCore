@@ -60,19 +60,20 @@ namespace VOL.Order.Controllers
         /// ApiActionPermission注释后，只会验证用户是否登陆，不会验证用户查询权限
         //[ApiActionPermission(ActionPermissionOptions.Search)]
         //第一个参数可以输入表名，指定某张表的权限
-        //[ApiActionPermission("SellOrder",ActionPermissionOptions.Search)]
-        [HttpPost, Route("GetPageData")]
+        [ApiActionPermission()]
+        [HttpPost, Route("GetPageData"), AllowAnonymous]
         public override ActionResult GetPageData([FromBody] PageDataOptions loadData)
         {
-            var list = Service.GetPageData(loadData).rows;
-            //获取ConnectionId
-            var key = "SignalR" + UserContext.Current.UserId;
-            var cid = _cacheService.Get(key);
-            //测试SignalR推送业务数据
-            if (!string.IsNullOrEmpty(cid))
-                _hubContext.Clients.Client(cid).SendAsync("SellOrderData", list);
-
             return base.GetPageData(loadData);
+            //var list = Service.GetPageData(loadData).rows;
+            ////获取ConnectionId
+            //var key = "SignalR" + UserContext.Current.UserId;
+            //var cid = _cacheService.Get(key);
+            ////测试SignalR推送业务数据
+            //if (!string.IsNullOrEmpty(cid))
+            //    _hubContext.Clients.Client(cid).SendAsync("SellOrderData", list);
+
+            //return base.GetPageData(loadData);
         }
 
         /// <summary>

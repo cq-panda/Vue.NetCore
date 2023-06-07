@@ -18,13 +18,13 @@
             <label>
               <i class="require">*</i>用户名：
             </label>
-            <el-input size="small" v-model="userName1" style="width: 230px" placeholder="输入用户名" />
+            <el-input  v-model="userName1" style="width: 230px" placeholder="输入用户名" />
           </div>
           <div class="v-input">
             <label style="font-size: 12px;">
               <i class="require">*</i>手机号：
             </label>
-            <el-input size="small" v-model="phoneNo1" style="width: 230px" placeholder="输入手机号" />
+            <el-input  v-model="phoneNo1" style="width: 230px" placeholder="输入手机号" />
           </div>
           <div class="btn">
             <el-button type="success" size="mini" @click="test1()" long>提交验证test1</el-button>
@@ -35,13 +35,13 @@
           <h2>只验证手机号</h2>
           <div class="v-input">
             <label>用户名：</label>
-            <el-input size="small" v-model="userName2" style="width: 230px" placeholder="输入用户名" />
+            <el-input  v-model="userName2" style="width: 230px" placeholder="输入用户名" />
           </div>
           <div class="v-input">
             <label style="font-size:12px;">
               <i class="require">*</i>手机号：
             </label>
-            <el-input size="small" v-model="phoneNo2" style="width: 230px" placeholder="输入手机号" />
+            <el-input  v-model="phoneNo2" style="width: 230px" placeholder="输入手机号" />
           </div>
           <div class="btn">
             <el-button type="success" size="mini" @click="test2()" long>提交验证test2</el-button>
@@ -53,13 +53,13 @@
             <label>
               <i class="require">*</i>所在地：
             </label>
-            <el-input size="small" v-model="local" style="width: 230px" placeholder="长度[6-10]" />
+            <el-input  v-model="local" style="width: 230px" placeholder="长度[6-10]" />
           </div>
           <div class="v-input">
             <label>
               <i class="require">*</i>存货量：
             </label>
-            <el-input size="small" v-model="qty" style="width: 230px" placeholder="值范围[200-500]" />
+            <el-input  v-model="qty" style="width: 230px" placeholder="值范围[200-500]" />
           </div>
           <div class="btn">
             <el-button type="success" size="mini" @click="test3()" long>提交验证test3</el-button>
@@ -74,17 +74,17 @@
             <label>
               <i class="require">*</i>用户名：
             </label>
-            <el-input size="small" v-model="loginInfo1.userName" style="width: 230px" placeholder="输入用户名" />
+            <el-input  v-model="loginInfo1.userName" style="width: 230px" placeholder="输入用户名" />
           </div>
           <div class="v-input">
             <label>
               <i class="require">*</i>密 码：
             </label>
-            <el-input size="small" v-model="loginInfo1.passWord" style="width: 230px" placeholder="输入密码" />
+            <el-input  v-model="loginInfo1.passWord" style="width: 230px" placeholder="输入密码" />
           </div>
           <div class="v-input">
             <label>验证码：</label>
-            <el-input size="small" v-model="loginInfo1.VerificationCode" style="width: 230px" placeholder="输入验证码" />
+            <el-input  v-model="loginInfo1.VerificationCode" style="width: 230px" placeholder="输入验证码" />
           </div>
           <div class="btn">
             <el-button type="success" size="mini" @click="test4()" long>提交验证test4</el-button>
@@ -95,17 +95,17 @@
           <h2>实体校验指定字段：密码</h2>
           <div class="v-input">
             <label>用户名：</label>
-            <el-input size="small" v-model="loginInfo2.userName" style="width: 230px" placeholder="输入用户名" />
+            <el-input  v-model="loginInfo2.userName" style="width: 230px" placeholder="输入用户名" />
           </div>
           <div class="v-input">
             <label>
               <i class="require">*</i>密 码：
             </label>
-            <el-input size="small" v-model="loginInfo2.passWord" style="width: 230px" placeholder="输入密码" />
+            <el-input  v-model="loginInfo2.passWord" style="width: 230px" placeholder="输入密码" />
           </div>
           <div class="v-input">
             <label>验证码：</label>
-            <el-input size="small" v-model="loginInfo2.VerificationCode" style="width: 230px" placeholder="输入验证码" />
+            <el-input  v-model="loginInfo2.VerificationCode" style="width: 230px" placeholder="输入验证码" />
           </div>
           <div class="btn">
             <el-button type="success" size="mini" @click="test5()" long>提交验证test5</el-button>
@@ -118,17 +118,17 @@
             <label>
               <i class="require">*</i>用户名：
             </label>
-            <el-input size="small" v-model="loginInfo3.userName" style="width: 230px" placeholder="输入用户名" />
+            <el-input  v-model="loginInfo3.userName" style="width: 230px" placeholder="输入用户名" />
           </div>
           <div class="v-input">
             <label>
               <i class="require">*</i>密 码：
             </label>
-            <el-input size="small" v-model="loginInfo3.passWord" style="width: 230px" placeholder="输入密码" />
+            <el-input  v-model="loginInfo3.passWord" style="width: 230px" placeholder="输入密码" />
           </div>
           <div class="v-input"  style="font-size:12px;">
             <i class="require">*</i>手机号：
-            <el-input size="small" v-model="phoneNo6" style="width: 230px" placeholder="输入手机号" />
+            <el-input  v-model="phoneNo6" style="width: 230px" placeholder="输入手机号" />
           </div>
           <div class="btn">
             <el-button type="success" size="mini" @click="test6()" long>提交验证test6</el-button>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using VOL.Core.UserManager;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
 using VOL.System.Services;

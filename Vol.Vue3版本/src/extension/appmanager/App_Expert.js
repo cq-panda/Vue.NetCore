@@ -48,19 +48,44 @@ let extension = {
       this.height = this.height - 100;
     },
     onInit() {
+
+      this.editFormOptions.forEach(x => {
+        x.forEach(item => {
+          if (item.field == 'HeadImageUrl') {
+           
+            //选择文件时
+            item.onChange=(files)=>{
+               console.log('选择文件事件')
+               //此处不返回true，会中断代码执行
+               return true;
+            }
+            //上传前
+            item.uploadBefore=(files)=>{
+              console.log('上传前')
+              return true;
+            }
+             //上传后
+             item.uploadAfter=(files)=>{
+              console.log('上传后')
+              return true;
+            }
+          }
+        })
+      })
+
       //选择数据源功能
       this.editFormOptions.forEach(x => {
         x.forEach(item => {
-          if (item.field == 'CreateDate') {
+          if (item.field == 'ReallyName') {
             //给编辑表单设置[选择数据]操作,extra具体配置见volform组件api
-            // item.extra = {
-            //   icon: "el-icon-zoom-out",
-            //   text: "选择数据",
-            //   style: "color:red;font-size: 12px;cursor: pointer;",
-            //   click: item => {
-            //     this.$refs.modelBody.openDemo();
-            //   }
-            // }
+            item.extra = {
+              icon: "el-icon-zoom-out",
+              text: "选择数据",
+              style: "color:#2196F3;font-size: 12px;cursor: pointer;",
+              click: item => {
+                this.$refs.modelBody.openDemo();
+              }
+            }
           }
         })
       })
@@ -83,7 +108,7 @@ let extension = {
             content="this is content, this is content, this is content"
           >
             {/* 这里对应下面的#reference数据槽 */}
-            {{ reference: <i onClick={()=>{this.click1()}} class='el-icon-warning-outline'></i> }}
+            {{ reference: ()=>{return <i onClick={()=>{this.click1()}} class='el-icon-warning-outline'></i>} }}
           </el-popover>
         }
       }

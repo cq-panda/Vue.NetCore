@@ -1,4 +1,4 @@
-Vol.Vue：为前端项目
+Vol.Vue3：为前端项目，vol.vue为vue2版本不再更新，只维护，请使用vol.vue3版本
 Vol.Net：为后台项目
 
 DB提供了mysql与sqlserver数据库脚本，脚本里包括表结构与Insert数据

@@ -24,12 +24,15 @@ namespace VOL.Core.Utilities
         /// <param name="path"></param>
         /// <param name="exportColumns">指定导出的列</param>
         /// <param name="ignoreColumns">忽略不导出的列(如果设置了exportColumns,ignoreColumns不会生效)</param>
+        /// <param name="ignoreSelectValidationColumns">忽略下拉框数据源验证的字段</param>
         /// <returns></returns>
 
         public static WebResponseContent ReadToDataTable<T>(string path,
             Expression<Func<T, object>> exportColumns = null,
             List<string> ignoreTemplate = null,
-            Func<string, ExcelWorksheet, ExcelRange, int, int, string> readValue = null)
+            Func<string, ExcelWorksheet, ExcelRange, int, int, string> readValue = null,
+            Expression<Func<T, object>> ignoreSelectValidationColumns = null
+            )
         {
             WebResponseContent responseContent = new WebResponseContent();
 
@@ -83,6 +86,15 @@ namespace VOL.Core.Utilities
                 {
                     return responseContent.Error("导入文件列必须与导入模板相同");
                 }
+                string[] ignoreSelectValidationFields =null;
+                if (ignoreSelectValidationColumns!=null)
+                {
+                    ignoreSelectValidationFields = ignoreSelectValidationColumns.GetExpressionToArray();
+                }
+                else
+                {
+                    ignoreSelectValidationFields = new string[0];
+                }
 
                 PropertyInfo[] propertyInfos = typeof(T).GetProperties()
                        .Where(x => cellOptions.Select(s => s.ColumnName).Contains(x.Name))
@@ -116,7 +128,7 @@ namespace VOL.Core.Utilities
 
                         //验证字典数据
                         //2020.09.20增加判断数据源是否有值
-                        if (!string.IsNullOrEmpty(options.DropNo) && !string.IsNullOrEmpty(value))
+                        if (!string.IsNullOrEmpty(options.DropNo) && !string.IsNullOrEmpty(value)&&!ignoreSelectValidationFields.Contains(property.Name))
                         {
                             if (options.KeyValues == null)
                             {

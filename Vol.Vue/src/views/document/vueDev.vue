@@ -243,6 +243,310 @@ export default {
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/2020121302.png?imageMogr2/thumbnail/!35p"
         },
+		{
+          title: "http请求",
+          content: [
+            `<p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp;//第一个参数:url</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第二个参数：请求的参数</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第三个参数：是否显示发起请求时的提示信息(默认否)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">url</span>=<span style="color:#ce9178;">'api/表名/方法名'</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//如果参数很少后台又不想创建model,将参数放url上</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//let url=''api/表名/方法名?a=1&amp;b=2'</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#569cd6;">true</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//第4个参数自定义配置信息,具体更多配置见axios官方文档</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>,{
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">timeout</span><span style="color:#9cdcfe;">:</span><span style="color:#b5cea8;">10000</span>,<span style="color:#6a9955;">//设置过期时间10秒</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">headers</span><span style="color:#9cdcfe;">:</span>{<span style="color:#9cdcfe;">token</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">'1231'</span>,<span style="color:#9cdcfe;">responeType</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">"text/html"</span>} <span style="color:#6a9955;">//配置其他请求头信息</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; }).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//下载后台返回的流文件(excel、pdf文件等)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>, <span style="color:#9cdcfe;">param</span>,<span style="color:#569cd6;">true</span>, { <span style="color:#9cdcfe;">responseType</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'blob'</span> })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; .<span style="color:#dcdcaa;">then</span>((<span style="color:#9cdcfe;">content</span>) <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">blob</span> = <span style="color:#569cd6;">new</span> <span style="color:#4ec9b0;">Blob</span>([<span style="color:#9cdcfe;">content</span>]);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">elink</span> = <span style="color:#9cdcfe;">document</span>.<span style="color:#dcdcaa;">createElement</span>(<span style="color:#ce9178;">'a'</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">download</span> = <span style="color:#9cdcfe;">fileName</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">style</span>.<span style="color:#9cdcfe;">display</span> = <span style="color:#ce9178;">'none'</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">href</span> = <span style="color:#4ec9b0;">URL</span>.<span style="color:#dcdcaa;">createObjectURL</span>(<span style="color:#4fc1ff;">blob</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">document</span>.<span style="color:#9cdcfe;">body</span>.<span style="color:#dcdcaa;">appendChild</span>(<span style="color:#4fc1ff;">elink</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#dcdcaa;">click</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4ec9b0;">URL</span>.<span style="color:#dcdcaa;">revokeObjectURL</span>(<span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">href</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">document</span>.<span style="color:#9cdcfe;">body</span>.<span style="color:#dcdcaa;">removeChild</span>(<span style="color:#4fc1ff;">elink</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; });
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.http.get同上</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果需要同步调用(注意需要将当前方法标识为async与C#用法基本类似)：</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">await</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>();
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//或者使用使用this.ajax做同步请求</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">ajax</span>({
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">url</span><span style="color:#9cdcfe;">:</span> <span style="color:#9cdcfe;">url</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">json</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">success</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">function</span> (<span style="color:#9cdcfe;">data</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"post"</span>,<span style="color:#6a9955;">//get</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">async</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">false</span> <span style="color:#6a9955;">//是否异步请求，false为同步请求</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; });
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果写的是vue3语法</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//在scrpit的第一行引入: import http from './api/http'</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// http.post() //其他操作同上</span>
+		</div>
+	</div>
+</p>
+<p>
+	<br />
+</p>`
+          ],
+          tips: `无`,
+          img: ""
+        },
+		{
+          title: "日期操作",
+          content: [`<p>
+	<br />
+</p>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		&nbsp; &nbsp; &nbsp;&nbsp; <span style="color:#6a9955;">//获取当前时间</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">date1</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">getDate</span>();
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//获取当前时间带时分秒</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">date2</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">getDate</span>(<span style="color:#569cd6;">true</span>);
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//日期减15天</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">date3</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">addDays</span>(<span style="color:#ce9178;">"2023-05-04"</span>, <span style="color:#b5cea8;">15</span>);
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//日期减15天</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">date4</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">addDays</span>(<span style="color:#ce9178;">"2023-05-04"</span>, -<span style="color:#b5cea8;">15</span>);
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//当天日期减15天</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">date5</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">addDays</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">getDate</span>(), -<span style="color:#b5cea8;">15</span>);
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果写的是vue3语法</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//在scrpit的第一行引入: import base from './uitils/common'</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// base.getDate() //其他操作同上</span>
+	</div>
+</div>
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>`],
+		  tips: `无`,
+          img: ""
+		},
+		{
+          title: "手动打开/关闭tabs页面",
+          content: [
+            ` <p>
+	<br />
+</p>
+<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+			<div>
+				&nbsp;<span style="color:#6a9955;">//注意，如果需要每次打开tabs页面获取参数，请配置禁用页面缓存，见上面:禁用页面缓存keepAlive</span>
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/*打开tabs实际也是执行的路由跳转，需要打开的tabs必须是一个路由页面*/</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//手动打开tabs,</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/*</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; * text打开的tab显示的名称</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; * path路由path</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; * query跳转的参数，可选，如果需要建议使用query</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp; &nbsp; */</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$tabs</span>.<span style="color:#dcdcaa;">open</span>({
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">text</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"个人中心"</span>,
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">path</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"/userinfo"</span>,
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">query</span><span style="color:#9cdcfe;">:</span> {},
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; });
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; <span style="color:#6a9955;">//手动关闭tabs,参数为路由path</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$tabs</span>.<span style="color:#dcdcaa;">close</span>(<span style="color:#ce9178;">"/userinfo"</span>);
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; <span style="color:#6a9955;">//如果写的是vue3语法，请在script里第一行代码加上</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#6a9955;">//import {getCurrentInstance} from 'vue';</span>
+			</div>
+			<div>
+				&nbsp; &nbsp;
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#6a9955;">//使用vue3语法调用</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">$tabs</span>= <span style="color:#9cdcfe;">getCurrentInstance</span>.<span style="color:#9cdcfe;">appContext</span>.<span style="color:#9cdcfe;">config</span>.<span style="color:#9cdcfe;">globalProperties</span>.<span style="color:#9cdcfe;">$tabs</span>;
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp;<span style="color:#4fc1ff;">$tabs</span>.<span style="color:#dcdcaa;">open</span>({})<span style="color:#6a9955;">//参数同上</span>
+			</div>
+		</div>
+	</div>
+</div>
+<p>
+	<br />
+</p>
+`
+          ],
+          tips: `还没想好`,
+          img: ""
+        },
         {
           title: "查询界面操作",
           type: "line"
@@ -397,16 +701,76 @@ export default {
 	</div>
 
 	<div style="margin-top:20px">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.detailOptions.<span style="color:#9cdcfe;">sortName</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"明细表排序字字段"</span>;&nbsp;&nbsp;<span style="color:#6a9955;">//明细表排序字字段</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.pagination.<span style="color:#9cdcfe;">sortName</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"明细表排序字字段"</span>;&nbsp;&nbsp;<span style="color:#6a9955;">//明细表排序字字段</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">pagination</span>.detailOptions.<span style="color:#9cdcfe;">order</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"desc"</span>&nbsp;;&nbsp;<span style="color:#6a9955;">//明细表排序方式desc或者asc</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.pagination.<span style="color:#9cdcfe;">order</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"desc"</span>&nbsp;;&nbsp;<span style="color:#6a9955;">//明细表排序方式desc或者asc</span>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;},
 	</div>
 </div>
 <p style="margin-top:32px;margin-bottom:0px;font-variant-numeric:normal;font-variant-east-asian:normal;font-stretch:normal;font-size:18px;line-height:32px;font-family:&quot;color:#404040;text-align:center;white-space:normal;background-color:#FFFFFF;padding:0px;">
+	<br />
+</p>`
+          ],
+          tips: "",
+          img: ""
+        },
+		{
+          title: "查询界面--禁止checkbox选中",
+          content: [
+            `<p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<br />
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">//2023.05.03更新ViewGrid.vue、serviceFilter.js、detailMethods.js后才能使用</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">selectable</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">index</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置界面CheckBox是否可以勾选</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//判断字段=xx的checkbox不能选中</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">字段</span> == <span style="color:#ce9178;">"值"</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">false</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">detailSelectable</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">index</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//明细表CheckBox 是否可以勾选</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//操作同上</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp;
+		</div>
+	</div>
+</p>
+<p>
 	<br />
 </p>`
           ],
@@ -459,7 +823,7 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/0922.png?imageMogr2/thumbnail/!35p"
         },
         {
-          title: "查询界面--第二种布局",
+          title: "查询界面--显示所有查询条件",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
 	<span style="display:none;"></span><span style="font-size:12px;color:#99BB00;">&nbsp; &nbsp;//调用</span><span style="color:#DCDCAA;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:normal;background-color:#1E1E1E;"><span style="font-size:12px;color:#99BB00;">setFiexdSearchForm方法后，即可开启第二种查询布局</span><span style="display:none;"></span></span><br />
@@ -485,25 +849,62 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/35.png?imageMogr2/thumbnail/!35p"
         },
         {
-          title: "查询界面--默认查询值",
+          title: "查询界面--查询默认值",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-	<div>
-		&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+            `<p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			&nbsp; &nbsp;<span style="color:#dcdcaa;">onInit</span>() {
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//日期查询默认30天内的数据</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//true参数为获取时间是否带时分秒，如果查询类型代码生成器选择的datetime这里也必须传true日期带时分秒</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">dateNow</span>= <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">getDate</span>(<span style="color:#569cd6;">true</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//当前日期-30天</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">beginDate</span>= <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">base</span>.<span style="color:#dcdcaa;">addDays</span>(<span style="color:#9cdcfe;">dateNow</span>,-<span style="color:#b5cea8;">30</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFields</span>.<span style="color:#9cdcfe;">CreateDate</span>=[<span style="color:#9cdcfe;">beginDate</span>,<span style="color:#9cdcfe;">dateNow</span>];
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//或者固定日期</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果查询类型代码生成器选择的datetime这里必须设置时分秒分</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFields</span>.<span style="color:#9cdcfe;">CreateDate</span>=[<span style="color:#ce9178;">'2023-03-01 00:00:00'</span>,<span style="color:#ce9178;">'2023-03-31 23:59:57'</span>]
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//其他字段设置默认查询的值</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFields</span>.<span style="color:#9cdcfe;">Name</span> = <span style="color:#ce9178;">"林"</span>;
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//更多查询前设置，见组件api-&gt;代码生成页面ViewGrid-&gt;searchBefore方法</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; },
+		</div>
 	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//代码生成器中可以设置字段的查询类型为like进行模糊查询</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//d页面初始化时，设置默认的查值</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">searchFormFields</span>.<span style="color:#9cdcfe;">Name</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"林"</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-</div>`
+</p>
+<p>
+	<br />
+</p>`
           ],
           tips: ` 还没想好`,
           img:
@@ -1294,59 +1695,7 @@ export default {
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/06.png?imageMogr2/thumbnail/!35p"
         },
-        {
-          title: "手动打开/关闭tabs",
-          content: [
-            `<div style='color:red;'>2020.08.01(需要更新文件：index.vue 、main.js标注了更新位置)</div>
-			<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*打开tabs实际也是执行的路由跳转，需要打开的tabs必须是一个路由页面*/<span style="display:none;"></span></span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//手动打开tabs,</span> 
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*</span> 
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;text打开的tab显示的名称</span> 
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;path路由path</span> 
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;query跳转的参数，可选，如果需要建议使用query</span> 
-	</div>
-	<div>
-		<span style="color:#6a9955;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span> 
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$tabs</span>.<span style="color:#dcdcaa;">open</span>({
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">text:</span>&nbsp;<span style="color:#ce9178;">"个人中心"</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">path:</span>&nbsp;<span style="color:#ce9178;">"/userinfo"</span>,
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">query:</span>&nbsp;{},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;});
-	</div>
-<br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//手动关闭tabs,参数为路由path</span> 
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$tabs</span>.<span style="color:#dcdcaa;">close</span>(<span style="color:#ce9178;">"/userinfo"</span>);
-	</div>
-</div>`
-          ],
-          tips: `还没想好`,
-          img: ""
-        },
+       
         {
           title: "页面显示扩展",
           content: [
@@ -3056,7 +3405,7 @@ export default {
         },
 
         {
-          title: "table显示合计",
+          title: "table显示合计(求合、平均值)",
           content: [
             `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
 	<div>
@@ -3090,7 +3439,9 @@ export default {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Qty'</span>)&nbsp;{
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">summary</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">summary</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>; 
+		<div style="padding-left:100px;">//计算平均值 x.summary = 'avg';//2023.05.03更新voltable文件后才能使用</div>
+		<div style="padding-left:100px;">//设置小数显示位数(默认2位) x.numberLength = 4;</div>
 	</div>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -5155,117 +5506,159 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/27.png?imageMogr2/thumbnail/!35p"
         },
         {
-          title: "编辑select触发级联",
+          title: "编辑select联动操作",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
-	<div>
-		<span style="color:#dcdcaa;">&nbsp; &nbsp; getOption</span>(<span style="color:#9cdcfe;">field</span>)&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">option</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#9cdcfe;">field</span>)&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">option</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">item</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#9cdcfe;">option</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*从editFormOptions获取代码生成的配置参数*/</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*getOption实际是获取volform的配置信息，详情配置看volform组件*/</span>
-	</div>
+            `<p>
+	<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			&nbsp;<span style="color:#6a9955;">//获取表单配置</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">getOption</span>(<span style="color:#9cdcfe;">field</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">option</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span> <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span> <span style="color:#d4d4d4;">==</span> <span style="color:#9cdcfe;">field</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">option</span> <span style="color:#d4d4d4;">=</span> <span style="color:#9cdcfe;">item</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">option</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">onInit</span>() {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">/*从editFormOptions获取代码生成的配置参数*/</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">/*getOption实际是获取volform的配置信息，详情配置看volform组件*/</span>
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取select【地区】配置</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">select1</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getOption</span>(<span style="color:#ce9178;">"City"</span>);
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//获取select【地区】配置</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">cityOption</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getOption</span>(<span style="color:#ce9178;">"City"</span>);
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//获取select【是否启用】配置</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">select2</span>&nbsp;=&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getOption</span>(<span style="color:#ce9178;">"Enable"</span>);
-	</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//获取select【是否启用】配置</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">enableOption</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">getOption</span>(<span style="color:#ce9178;">"Enable"</span>);
+		</div>
 <br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//通过select1选择后，给select2重新绑定数据源与textare重新设置值</span>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//通过cityOption选择后，给select2重新绑定数据源与textare重新设置值</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">source</span> <span style="color:#d4d4d4;">=</span> [];
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//添加下拉框选中事件</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">cityOption</span>.<span style="color:#dcdcaa;">onChange</span> <span style="color:#d4d4d4;">=</span> (<span style="color:#9cdcfe;">val</span>, <span style="color:#9cdcfe;">option</span>) <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//通过http从后台加载数据源</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.http.post(url, {}, true).then(source =&gt; {</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//后台返回数据源格式</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">source</span> <span style="color:#d4d4d4;">=</span> [ { <span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"1"</span>, <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"text1"</span>},{ <span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"2"</span>, <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"text2"</span>}];
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// //注意：如果返回的数据数组长度超过500,请返回下面的格式(为了性能考虑框架长度超500框架默认启用了select2组件)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// //与上面的区别多了一个label属性、key与value的值相同</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp;source= [ { key: "1",value:"1", label: "text1"},{ key: "2",value:"2", label: "text2"}];</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// //数据源超过500长度转换示例</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// if (source.length&gt;500) {</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; source.forEach(item=&gt;{</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp;item.label=item.value;</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; &nbsp; &nbsp;item.value=item.key+'';</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// &nbsp; })</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// }</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//重新绑定数据源,enableOption.data.splice(0)会刷新所有相关的数据源(不建议使用)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">enableOption</span>.<span style="color:#9cdcfe;">data</span> <span style="color:#d4d4d4;">=</span> <span style="color:#9cdcfe;">source</span>;
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//给enableOption标签设置默认选中值</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">source</span>.<span style="color:#9cdcfe;">length</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>[<span style="color:#9cdcfe;">enableOption</span>.<span style="color:#9cdcfe;">field</span>] <span style="color:#d4d4d4;">=</span> <span style="color:#9cdcfe;">source</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">key</span><span style="color:#d4d4d4;">+</span><span style="color:#ce9178;">""</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//})</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
 	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">let</span>&nbsp;<span style="color:#9cdcfe;">source</span>&nbsp;=&nbsp;[];
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">select1</span>.<span style="color:#dcdcaa;">onChange</span>&nbsp;=&nbsp;(<span style="color:#9cdcfe;">val</span>,&nbsp;<span style="color:#9cdcfe;">option</span>)&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//通过http从后台加载数据源</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.http.post("/api/Sys_Dictionary/GetVueDictionary",&nbsp;{},&nbsp;true).then(source&nbsp;=&gt;&nbsp;{</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">source</span>&nbsp;=&nbsp;[
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"1"</span>,&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"text1"</span>&nbsp;+&nbsp;~(<span style="color:#9cdcfe;">Math</span>.<span style="color:#dcdcaa;">random</span>()&nbsp;*&nbsp;<span style="color:#b5cea8;">100</span>)&nbsp;},
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span style="color:#9cdcfe;">key</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"2"</span>,&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"text2"</span>&nbsp;+&nbsp;~(<span style="color:#9cdcfe;">Math</span>.<span style="color:#dcdcaa;">random</span>()&nbsp;*&nbsp;<span style="color:#b5cea8;">100</span>)&nbsp;}];
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//重新绑定数据源,select2.data.splice(0)会刷新所有相关的数据源(不建议使用)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">select2</span>.<span style="color:#9cdcfe;">data</span>&nbsp;=&nbsp;<span style="color:#9cdcfe;">source</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//给select2标签设置默认选中值</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*通过http重新绑定数据源,必须执行此操作，否则视图不会更新*/</span>
-
-	</div>
-	<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*如果是2020.09.11之后获取的代码，则不用此操作*/</span></div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>[<span style="color:#9cdcfe;">select2</span>.<span style="color:#9cdcfe;">field</span>]&nbsp;=&nbsp;<span style="color:#9cdcfe;">source</span>.<span style="color:#9cdcfe;">length</span>&nbsp;&gt;&nbsp;<span style="color:#b5cea8;">0</span>&nbsp;?&nbsp;<span style="color:#9cdcfe;">source</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">key</span>&nbsp;:&nbsp;<span style="color:#ce9178;">""</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;})</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-</div>`
+</p>
+<p>
+	<br />
+</p>`
           ],
           tips: `select选择后给字段设置值或数据源，实现手动级联操作`,
           img:
@@ -6046,99 +6439,68 @@ export default {
           img: ""
         },
         {
-          title: "级联终极版(代码生成)",
+          title: "级联设置只选中最后一个选项",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
+            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 	<p>
-		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-      <br />
-      <div style="color:red;">2020.11.01更新后的才可以使用</div>
+		<br />
+	</p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
 			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;代码生成级联操作,除了自定sql数据源，其他全部用框架完成：</span>
+				<span style="color:#6a9955;">// 代码生成级联操作,除了自定sql数据源，其他全部用框架完成：</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">// 1、配置下拉框数据源(必须是自定义sql),格式SELECT Role_Id AS id,parentId,Role_Id AS [key],RoleName AS value FROM dbo.Sys_Role</span>
+			</div>
+			<div>
+				<span style="color:#6a9955;">/*注意上面的sql字段id,parentId,key,value是必须的,大小写必须一致 */</span> 
 			</div>
 <br />
 			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;1、配置下拉框数据源(必须是自定义sql),格式SELECT&nbsp;Role_Id&nbsp;AS&nbsp;id,parentId,Role_Id&nbsp;AS&nbsp;[key],RoleName&nbsp;AS&nbsp;value&nbsp;FROM&nbsp;dbo.Sys_Role</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*注意上面的sql字段id,parentId,key,value是必须的&nbsp;*/</span>&nbsp;
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//2、代码生成器页面查询与编辑类型选择【级联】,数据源选刚刚定义的sql</span>
+				<span style="color:#6a9955;">//2、代码生成器页面查询与编辑类型选择【级联】,数据源选刚刚定义的sql</span>
 			</div>
 <br />
 			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*必须更新代码才能使用:前端basic文件夹、builder->builderData.js、utilities->common.js，后台Sys_TableInfoService.cs*/</span>
+				<span style="color:#dcdcaa;">onInit</span> () {
 			</div>
 			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">/*如果没有修改过框架源码，直接覆盖文件*/</span>
+				&nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> {
+			</div>
+			<div>
+				&nbsp; &nbsp; <span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span> <span style="color:#569cd6;">=&gt;</span> {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">'ParentId'</span>) {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置只能选中最后一个节点(默认任意节点都能选中)</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">changeOnSelect</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">true</span>;
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; }
+			</div>
+			<div>
+				&nbsp; &nbsp; })
+			</div>
+			<div>
+				&nbsp; })
+			</div>
+			<div>
+				},
 			</div>
 <br />
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//这些配置不是必须的</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'ParentId'</span>)&nbsp;{
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">title</span>&nbsp;=&nbsp;<span style="color:#ce9178;">"上级角色"</span>;
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置任意节点都能选中(默认只能选中最后一个节点)</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//item.changeOnSelect&nbsp;=&nbsp;true;</span>
-			</div>
-<br />
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//格式化数据显示(只显示当前选中的最后一个节点)，默认会显示所有节点的数据</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;item.formatter&nbsp;=&nbsp;nodeArr&nbsp;=&gt;&nbsp;{</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;if&nbsp;(!nodeArr.length)&nbsp;{</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;"";</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;}</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;&nbsp;&nbsp;return&nbsp;nodeArr[nodeArr.length&nbsp;-&nbsp;1];</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;};</span>
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-			</div>
-			<div>
-				&nbsp;&nbsp;&nbsp;&nbsp;},
-			</div>
 		</div>
+		<div>
+		</div>
+	</div>
+	<p>
+		<br />
 	</p>
 </div>
-<span style="display:none;"></span>`
+<span></span>`
           ],
           tips: ``,
           img:
@@ -6147,68 +6509,6 @@ export default {
         {
           title: "其他分类",
           type: "line"
-        },
-        {
-          title: "http请求",
-          content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第一个参数:url</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第二个参数：请求的参数</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第三个参数：是否显示发起请求时的提示信息(默认否)</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#ce9178;">"url"</span>,{},<span style="color:#569cd6;">true</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#ce9178;">"url"</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
-	</div>
-<br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//第4个参数配置信息,具体更多配置见axios官方文档</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#ce9178;">"url"</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>,{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">timeout:</span><span style="color:#b5cea8;">10000</span>,<span style="color:#6a9955;">//设置过期时间10秒</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">headers:</span>{<span style="color:#9cdcfe;">token:</span><span style="color:#ce9178;">'1231'</span>,<span style="color:#9cdcfe;">responeType:</span><span style="color:#ce9178;">"text/html"</span>}&nbsp;<span style="color:#6a9955;">//配置其他请求头信息</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-	</div>
-<br />
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.http.get同上</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//如果需要同步调用(注意需要将当前方法标识为async与C#用法基本类似)：</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">await</span>&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>();
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//&nbsp;或者使用使用this.ajax,ajax使用见index.vue获取菜单的方法</span>
-	</div>
-</div>`
-          ],
-          tips: `无`,
-          img: ""
         },
         {
           title: "主从表一对一",

@@ -27,8 +27,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
-using VOL.Core.KafkaManager.IService;
-using VOL.Core.KafkaManager.Service;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
 using VOL.Core.Quartz;
@@ -195,8 +193,15 @@ namespace VOL.WebApi
         public void ConfigureContainer(ContainerBuilder builder)
         {
             Services.AddModule(builder, Configuration);
-            //初始化流程表，表里面必须有AuditStatus字段 
-            WorkFlowContainer.Instance.Use<App_Expert>().Use<SellOrder>();
+            //初始化流程表，表里面必须有AuditStatus字段
+            WorkFlowContainer.Instance
+                //name= 流程实例名称
+                //filterFields流程实例名称
+                .Use<SellOrder>(name: "订单管理", filterFields: x => new { x.OrderType, x.Qty, x.CreateID, x.SellNo })
+
+                .Use<App_Expert>()
+                //run方法必须写在最后位置
+                .Run();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

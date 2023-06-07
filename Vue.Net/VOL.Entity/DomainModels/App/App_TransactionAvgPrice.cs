@@ -13,9 +13,8 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Table("App_TransactionAvgPrice")]
-    [Entity(TableCnName = "成交均价")]
-    public class App_TransactionAvgPrice:BaseEntity
+    [Entity(TableCnName = "自动绑定下拉框",TableName = "App_TransactionAvgPrice")]
+    public partial class App_TransactionAvgPrice:BaseEntity
     {
         /// <summary>
        ///主键ID
@@ -27,24 +26,24 @@ namespace VOL.Entity.DomainModels
        public int Id { get; set; }
 
        /// <summary>
-       ///品种
+       ///年龄
        /// </summary>
-       [Display(Name ="品种")]
-       [MaxLength(20)]
-       [Column(TypeName="nvarchar(20)")]
-       [Editable(true)]
-       [Required(AllowEmptyStrings=false)]
-       public string Variety { get; set; }
-
-       /// <summary>
-       ///月龄
-       /// </summary>
-       [Display(Name ="月龄")]
+       [Display(Name ="年龄")]
        [MaxLength(50)]
        [Column(TypeName="nvarchar(50)")]
        [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string AgeRange { get; set; }
+
+       /// <summary>
+       ///分类
+       /// </summary>
+       [Display(Name ="分类")]
+       [MaxLength(20)]
+       [Column(TypeName="nvarchar(20)")]
+       [Editable(true)]
+       [Required(AllowEmptyStrings=false)]
+       public string Variety { get; set; }
 
        /// <summary>
        ///城市
@@ -57,35 +56,37 @@ namespace VOL.Entity.DomainModels
        public string City { get; set; }
 
        /// <summary>
-       ///成交均价
+       ///价格
        /// </summary>
-       [Display(Name ="成交均价")]
+       [Display(Name ="价格")]
+       [DisplayFormat(DataFormatString="18,2")]
        [Column(TypeName="decimal")]
        [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public decimal AvgPrice { get; set; }
 
        /// <summary>
-       ///成交日期
+       ///日期
        /// </summary>
-       [Display(Name ="成交日期")]
-       [Column(TypeName="datetime")]
+       [Display(Name ="日期")]
+       [Column(TypeName="date")]
        [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public DateTime Date { get; set; }
 
        /// <summary>
-       ///是否推荐价格
+       ///测试
        /// </summary>
-       [Display(Name ="是否推荐价格")]
+       [Display(Name ="测试")]
        [Column(TypeName="int")]
        [Editable(true)]
+       [Required(AllowEmptyStrings=false)]
        public int IsTop { get; set; }
 
        /// <summary>
-       ///是否启用
+       ///远程
        /// </summary>
-       [Display(Name ="是否启用")]
+       [Display(Name ="远程")]
        [Column(TypeName="tinyint")]
        public byte? Enable { get; set; }
 

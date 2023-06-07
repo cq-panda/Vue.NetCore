@@ -24,6 +24,7 @@
 ## 链接
 
 ## [vol框架视频](https://www.cctalk.com/m/group/90268531)
+## [vol框架企业版](http://pro.volcore.xyz/)
 ## [iMES工厂管家](https://imes.625sc.com/)
 ## [NET视频教程(微软MVP-ACE录制)](https://space.bilibili.com/525836469)
 ## [元讯趣编程交流社区](https://www.qubcedu.com/)
@@ -38,6 +39,13 @@
  - http://120.48.115.252:9990/
 ## App/H5开发
  - http://v2.volcore.xyz/app/guide
+
+## 2023.05.13增加审批流程分支、条件功能
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow2.png)  
+![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow3.png)  
+
+
 ## 框架移动端（uniapp）已发布,同样全自动生成代码,扫描小程序二维码即可查看
 
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/qrcode.png)  

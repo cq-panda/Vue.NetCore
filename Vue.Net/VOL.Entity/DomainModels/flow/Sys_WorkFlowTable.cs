@@ -65,9 +65,25 @@ namespace VOL.Entity.DomainModels
        public string WorkTableName { get; set; }
 
        /// <summary>
-       ///当前审批节点
+       ///审核节点ID
        /// </summary>
-       [Display(Name ="当前审批节点")]
+       [Display(Name ="审核节点ID")]
+       [MaxLength(100)]
+       [Column(TypeName="nvarchar(100)")]
+       public string CurrentStepId { get; set; }
+
+       /// <summary>
+       ///审核节点名称
+       /// </summary>
+       [Display(Name ="审核节点名称")]
+       [MaxLength(500)]
+       [Column(TypeName="nvarchar(500)")]
+       public string StepName { get; set; }
+
+       /// <summary>
+       ///不用
+       /// </summary>
+       [Display(Name ="不用")]
        [Column(TypeName="int")]
        public int? CurrentOrderId { get; set; }
 

@@ -11,7 +11,7 @@
 //8、获取子组件gridHeader、gridBody、gridFooter、modelHeader、modelBody、modelFooter则使用
 //this.$refs.gridHeader获取gridHeader为自己扩展的对象
 //9、在子组件gridHeader、gridBody、gridFooter、modelHeader、modelBody、modelFooter的方法中调用并获得父组件
-// this.$emit("parentCall", $vue => {}) //$vue为父组件对象，具体使用参考order->GridHeaderExtend.vue文件
+// this.$emit("parentCall", $vue => {}) //$vue为父组件对象，具体使用参考order->GridHeader.vue文件
 
 //10、子父件传参除8、9方式，另可使用已封装的vuex,使用方式:this.$store.getters.data().xxx = this;使用实例：App_News.js
 
@@ -20,14 +20,14 @@
 //所的文件都最终会合并到ViewGrid.vue文件中
 
 import { h, resolveComponent } from 'vue';
-import gridHeader from "./SellOrderComponents/GridHeaderExtend.vue"
-import gridFooter from "./SellOrderComponents/GridFooterExtend.vue"
+import gridHeader from "./SellOrderComponents/GridHeader.vue"
+import gridFooter from "./SellOrderComponents/GridFooter.vue"
 import modelFooter from "./SellOrderComponents/ModelFooter.vue"
 import modelBody from "./SellOrderComponents/ModelBody.vue"
 let extension = {
   components: {//动态扩充组件或组件路径
     //表单header、content、footer对应位置扩充的组件
-   gridHeader: gridHeader,
+    gridHeader: gridHeader,
     gridBody: {
       render() {
         return [
@@ -42,37 +42,15 @@ let extension = {
     gridFooter: gridFooter,
     //弹出框(修改、编辑、查看)header、content、footer对应位置扩充的组件
     modelHeader: "",
-   modelBody: modelBody,
-   modelFooter: modelFooter,
+    modelBody: modelBody,
+    modelFooter: modelFooter,
   },
   text: "示例覆盖全部可扩展方法,前台扩展文件SellOrder.js，后台Partial->SellOrdeService.cs",
   //this.filterPermission('表名','权限值，如:Add')来判断页面上是否有某个按钮的权限
   buttons: { //根据需要自行实现扩展按钮
     //注：没有编辑或新建权限的情况下，是不会显示此处添加的扩展按钮，如果仍需要显示此处的按钮，可以把按钮在methods的onInited方法中添加,如：this.boxButtons.push(...)
     view: [//ViewGrid查询界面按钮
-      {
-        name: "点我",
-        icon: 'md-create',
-        value: 'Edit',
-        class: '',
-        type: 'primary',
-        index: 1,//显示的位置
-        onClick: function () { //扩展按钮执行事件
-          //this可以获取所有属性，包括this.$refs.gridHeader/gridBody等获取扩展组件对象
-          // this.$message("测试扩展按钮");
-          this.$refs.gridHeader.model = true;
-        }
-      }, {
-        name: "调用后台",
-        icon: 'md-create',
-        value: 'Edit',
-        class: '',
-        type: 'primary',
-        index: 1,//显示的位置
-        onClick: function () { //扩展按钮执行事件
-          this.getServiceDate();
-        }
-      }
+      
     ],
     box: //新建、编辑弹出框按钮
       [//ViewGrid查询界面按钮
@@ -113,17 +91,45 @@ let extension = {
     },
     //方式1,通过select选择触发显示与隐藏
     onInit() {
+
+     this.buttons.splice(1,0,...[
+      {
+        name: "点我弹出框",
+        icon: 'md-create',
+        value: 'Edit',
+        class: '',
+        type: 'primary',
+        index: 1,//显示的位置
+        onClick: function () { //扩展按钮执行事件
+          //this可以获取所有属性，包括this.$refs.gridHeader/gridBody等获取扩展组件对象
+          // this.$message("测试扩展按钮");
+          this.$refs.gridHeader.open1();
+        }
+      }, {
+        name: "调用后台",
+        icon: 'md-create',
+        value: 'Edit',
+        class: '',
+        type: 'primary',
+        index: 1,//显示的位置
+        onClick: function () { //扩展按钮执行事件
+          this.getServiceDate();
+        }
+      }
+     ])
+
       //获取订单类型select配置，当前订单类型select改变值时，动态设置Remark,SellNo两个字段是否显示 
       var orderTypeOption = this.getFormOption("OrderType");
       orderTypeOption.onChange = (val) => {
         //当订单类型select改变值时，如果选中的是发货(对应字典编号为2)，emark,SellNo隐藏，否则显示出来
-        var remarkOption = this.getFormOption("Remark").hidden = val == "2"
-        var sellNoOption = this.getFormOption("SellNo").hidden = val == "2"
+        this.getFormOption("Remark").hidden = val == "2"
+       // var sellNoOption = this.getFormOption("SellNo").hidden = val == "2"
       }
 
       //点击单元格编辑与结束编辑(默认是点击单元格编辑，鼠标离开结束编辑)
       this.detailOptions.clickEdit = true;
 
+  
       //设置主表合计
       this.summary = true;
       //设置明细表合计
@@ -137,7 +143,7 @@ let extension = {
           //设置输入的数量的最小值与最大值(默认是1)
           if (item.field == "Qty") {
             item.min = 10;
-            item.max = 200;
+            item.max =100000;
           }
         });
       })
@@ -146,28 +152,30 @@ let extension = {
       this.columns.forEach(x => {
         if (x.field == "Qty") {
           x.formatter = (row) => {
-            return '<a>' + row.Qty + "(弹出框)" + '</a>'
+            return '<a style="color:#2196F3;">' + row.Qty + "(弹出框)" + '</a>'
           }
           x.click = (row, column, event) => {
-            this.$refs.gridHeader.model = true;
+            this.$refs.gridHeader.open2(row)
           }
         }
       })
 
       //动态设置查询界面table高度
       this.tableHeight = 300;
-      
+
     },
     onInited() {
+      this.detailOptions.columnIndex=false;
+      this.detailOptions.ck=true;
       //设置主表求字段，后台需要实现SummaryExpress方法
       this.columns.forEach(x => {
-        if (x.field == 'Qty') {
+        if (x.field == 'Qty'||x.field=='Weight') {
           x.summary = true;
         }
       })
       //设置明细表高度
       this.detailOptions.height = 220;
-      this.boxOptions.height=document.body.clientHeight*0.90;
+      this.boxOptions.height = document.body.clientHeight * 0.90;
       //设置明细表求字和段，后台需要实现GetDetailSummary方法
       this.detailOptions.columns.forEach(x => {
         if (x.field == 'Weight' || x.field == 'Qty') {
@@ -204,10 +212,10 @@ let extension = {
     },
     delBefore(ids, rows) { //查询界面的表删除前 ids为删除的id数组,rows删除的行
       let auditStatus = rows.some(x => { return x.AuditStatus > 0 });
-      if (auditStatus) {
-        this.$message.error('只能删除未审核的数据')
-        return false;
-      }
+      // if (auditStatus) {
+      //   this.$message.error('只能删除未审核的数据')
+      //   return false;
+      // }
       this.$message.success('删除前，选择的Id:' + ids.join(','));
       return true;
     },
@@ -230,7 +238,7 @@ let extension = {
 
       //如果需要同时提交其他数据到后台，请设置formData.extra=xxxx
       //后台在表xxxxService.cs中重写Add方法即可从saveDataModel参数中拿到extra提交的对象
-      this.$message.success(this.detailOptions.cnName + '新建前,提交的数据：' + JSON.stringify(formData));
+      console.log(this.detailOptions.cnName + '新建前,提交的数据：' + JSON.stringify(formData));
       return true;
     },
     async addBeforeAsync(formData) {
@@ -244,7 +252,7 @@ let extension = {
       return true;
     },
     addAfter(result) {//新建保存后result返回的状态及表单对象
-      this.$message.success(this.detailOptions.cnName + '新建完成后,返回的数据' + JSON.stringify(result));
+      console.log(this.detailOptions.cnName + '新建完成后,返回的数据' + JSON.stringify(result));
       return true;
     },
     updateBefore(formData) { //编辑保存前formData为对象，包括明细表、删除行的Id
@@ -260,9 +268,9 @@ let extension = {
       //如果需要同时提交其他数据到后台，请设置formData.extra=xxxx
       //后台在表xxxxService.cs中重写Update方法即可从saveDataModel参数中拿到extra提交的对象
 
-      this.$message.success(this.detailOptions.cnName + '编辑前,提交的数据：' + JSON.stringify(formData));
+      console.log(this.detailOptions.cnName + '编辑前,提交的数据：' + JSON.stringify(formData));
       //获取扩展的modelFooter属性text
-      console.log(this.$refs.modelFooter.text)
+      //  console.log(this.$refs.modelFooter.text)
       return true;
     },
     async updateBeforeAsync(formData) {
@@ -276,7 +284,7 @@ let extension = {
       return true;
     },
     updateAfter(result) {//编辑保存后result返回的状态及表单对象
-    //  this.$message.success(this.detailOptions.cnName + '编辑完成后,返回的数据' + JSON.stringify(result));
+      //  this.$message.success(this.detailOptions.cnName + '编辑完成后,返回的数据' + JSON.stringify(result));
       return true;
     },
     auditBefore(ids, rows) {//审核前

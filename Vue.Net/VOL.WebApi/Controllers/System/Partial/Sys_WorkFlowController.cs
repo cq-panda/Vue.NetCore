@@ -17,6 +17,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using VOL.Core.ManageUser;
 using VOL.Core.Services;
+using VOL.Core.Infrastructure;
 
 namespace VOL.System.Controllers
 {
@@ -25,6 +26,8 @@ namespace VOL.System.Controllers
         private readonly ISys_WorkFlowService _service;//访问业务代码
         private readonly ISys_UserRepository _userRepository;
         private readonly ISys_RoleRepository _roleRepository;
+        private readonly ISys_DepartmentRepository _departmentRepository;
+        private readonly ISys_WorkFlowRepository _workFlowRepository;
         private readonly ISys_WorkFlowTableRepository _workFlowTableRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -32,17 +35,22 @@ namespace VOL.System.Controllers
         public Sys_WorkFlowController(
             ISys_WorkFlowService service,
             ISys_UserRepository userRepository,
-        ISys_RoleRepository roleRepository,
-               ISys_WorkFlowTableRepository workFlowTableRepository,
-        IHttpContextAccessor httpContextAccessor
+            ISys_RoleRepository roleRepository,
+            ISys_WorkFlowRepository workFlowRepository,
+            ISys_WorkFlowTableRepository workFlowTableRepository,
+            IHttpContextAccessor httpContextAccessor,
+            ISys_DepartmentRepository departmentRepository
         )
         : base(service)
         {
             _service = service;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _departmentRepository = departmentRepository;
+            _workFlowRepository = workFlowRepository;
             _workFlowTableRepository = workFlowTableRepository;
             _httpContextAccessor = httpContextAccessor;
+
         }
         /// <summary>
         /// 获取工作流程表数据源
@@ -63,9 +71,9 @@ namespace VOL.System.Controllers
         {
             var data = new
             {
-                users = await _userRepository.FindAsIQueryable(x => true).Select(s => new { key = s.User_Id, value = s.UserTrueName }).ToListAsync(),
+                users = await _userRepository.FindAsIQueryable(x => true).Select(s => new { key = s.User_Id, value = s.UserTrueName }).Take(5000).ToListAsync(),
                 roles = await _roleRepository.FindAsIQueryable(x => true).Select(s => new { key = s.Role_Id, value = s.RoleName }).ToListAsync(),
-                dept = new string[] { }//部门表，暂时没有
+                dept = await _departmentRepository.FindAsIQueryable(x => true).Select(s => new { key = s.DepartmentId, value = s.DepartmentName }).ToListAsync(),
             };
             return Json(data);
         }
@@ -75,30 +83,39 @@ namespace VOL.System.Controllers
         /// <param name="tableName"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet, Route("getSteps")]
-        public async Task<IActionResult> GetSteps(string tableName, string id)
+        [HttpPost, Route("getSteps")]
+        public async Task<IActionResult> GetSteps([FromBody] List<string> ids, string tableName)
         {
-            var flow = await _workFlowTableRepository.FindAsIQueryable(x => x.WorkTable == tableName && x.WorkTableKey == id)
+            var flows = await _workFlowTableRepository.FindAsIQueryable(x => x.WorkTable == tableName && ids.Contains(x.WorkTableKey))
                                .Include(x => x.Sys_WorkFlowTableStep)
-                               .FirstOrDefaultAsync();
-
-            if (flow == null)
+                               .ToListAsync();
+            //不在审核中的数据
+            if (flows.Count == 0)
             {
-                return Json(new { });
+                return Json(new { status = true });
             }
-
+            if (flows.Count > 1 || flows.Count != ids.Count)
+            {
+                return Json(new { status = false, message = "只能选择一条数据进行审核" });
+            }
+            var flow = flows[0];
             var user = UserContext.Current.UserInfo;
-            List<int> stepValues = flow.Sys_WorkFlowTableStep.Select(s => s.StepValue ?? 0).ToList();
 
-            var auditUsers = flow.Sys_WorkFlowTableStep.Where(x => x.AuditId > 0).Select(s => s.AuditId).ToArray();
+            var auditUsers = flow.Sys_WorkFlowTableStep.Where(x => x.AuditId != null && x.StepType == (int)AuditType.用户审批).Select(s => s.AuditId).ToArray();
             var users = await _userRepository.FindAsIQueryable(x => auditUsers.Contains(x.User_Id))
                                         .Select(u => new { u.User_Id, u.UserTrueName }).ToListAsync();
+
+            var log = await _workFlowTableRepository.DbContext.Set<Sys_WorkFlowTableAuditLog>()
+                  .Where(x => x.WorkFlowTable_Id == flow.WorkFlowTable_Id)
+                  .OrderBy(x=>x.CreateDate)
+                  .ToListAsync();
 
             var steps = flow.Sys_WorkFlowTableStep
                     .Select(c => new
                     {
                         c.AuditId,
-                        Auditor = users.Where(us => us.User_Id == c.AuditId).Select(us => us.UserTrueName).FirstOrDefault(),
+                        //这里没显示具体是哪个用户审核
+                        Auditor = c.Auditor ?? users.Where(us => us.User_Id == c.AuditId).Select(us => us.UserTrueName).FirstOrDefault(),
                         c.AuditDate,
                         c.AuditStatus,
                         c.Remark,
@@ -106,34 +123,86 @@ namespace VOL.System.Controllers
                         c.StepName,
                         c.OrderId,
                         c.Enable,
+                        c.StepId,
+                        c.StepAttrType,
+                        c.CreateDate,
+                        c.Creator,
                         //判断是按角色审批 还是用户帐号审批
-                        isCurrentUser = (c.AuditStatus ?? 0) == (int)AuditStatus.审核中 && c.OrderId == flow.CurrentOrderId && GetAuditStepValue(c.StepType) == c.StepValue,
-                        isCurrent = c.OrderId == flow.CurrentOrderId && c.AuditStatus != (int)AuditStatus.审核通过
+                        isCurrentUser = (c.AuditStatus == null || c.AuditStatus == (int)AuditStatus.审核中 || c.AuditStatus == (int)AuditStatus.待审核)
+                                        && c.StepId == flow.CurrentStepId && GetAuditStepValue(c),
+                        isCurrent = c.StepId == flow.CurrentStepId && c.AuditStatus != (int)AuditStatus.审核通过
                     }).OrderBy(o => o.OrderId);
             var data = new
             {
-                step = flow.CurrentOrderId,
+                status = true,
+                step = flow.CurrentStepId,
                 flow.AuditStatus,
-                list = steps.Where(x => (x.Enable == null || x.Enable > 0)).ToList(),
-                his = steps.Where(x => x.AuditId > 0 &&x.AuditStatus>0 && x.Enable == 0).ToList(),
+                auditDic = DictionaryManager.GetDictionary("audit")?.Sys_DictionaryList?.Select(s => new { key = s.DicValue, value = s.DicName }),
+                list = steps.OrderBy(x =>x.OrderId ).ToList(),
+                log = log,
             };
 
             return Json(data);
         }
-
-        private int GetAuditStepValue(int? stepType)
+        [HttpPost, Route("getFields")]
+        public async Task<IActionResult> GetFields(string table)
         {
-            if (stepType == (int)AuditType.角色审批)
+            var query = _workFlowTableRepository.DbContext.Set<Sys_TableColumn>().Where(c => c.TableName == table);
+            var fields = WorkFlowContainer.GetFilterFields(table);
+            if (fields != null && fields.Length > 0)
             {
-                return UserContext.Current.RoleId;
+                query = query.Where(x => fields.Contains(x.ColumnName));
             }
-            if (stepType == (int)AuditType.部门审批)
+            else
             {
-                return UserContext.Current.UserInfo.DeptId;
+                query = query.Where(x => x.IsDisplay == 1);
+            }
+            var columns = await query.OrderByDescending(c => c.OrderNo)
+                 .Select(s => new
+                 {
+                     field = s.ColumnName,
+                     name = s.ColumnCnName,
+                     dicNo = s.DropNo,
+                     s.ColumnType
+                 }).ToListAsync();
+
+
+            var data = columns.Select(s => new
+            {
+                s.field,
+                s.name,
+                s.dicNo,
+                columnType = s.ColumnType,
+                data = string.IsNullOrEmpty(s.dicNo)
+                ? null
+                : DictionaryManager.GetDictionary(s.dicNo)?.Sys_DictionaryList?.Select(c => new { key = c.DicValue, value = c.DicName })?.ToList()
+            }).ToList();
+            return JsonNormal(data);
+
+        }
+
+        private bool GetAuditStepValue(Sys_WorkFlowTableStep flow)
+        {
+            if (flow.StepType == (int)AuditType.角色审批)
+            {
+                return UserContext.Current.RoleId.ToString() == flow.StepValue;
+            }
+            //按部门审批
+            if (flow.StepType == (int)AuditType.部门审批)
+            {
+                return UserContext.Current.UserInfo.DeptIds.Select(s => s.ToString()).Contains(flow.StepValue);
             }
             //按用户审批
-            return UserContext.Current.UserId;
+            return UserContext.Current.UserId.ToString() == flow.StepValue;
 
+        }
+        [Route("getOptions"), HttpGet]
+        public async Task<IActionResult> GetOptions(Guid id)
+        {
+            var data = await _workFlowRepository.FindAsIQueryable(x => x.WorkFlow_Id == id)
+                .Include(c => c.Sys_WorkFlowStep)
+                .FirstOrDefaultAsync();
+            return JsonNormal(data);
         }
     }
 }

@@ -1,13 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using VOL.Core.CacheManager;
 using VOL.Core.Configuration;
 using VOL.Core.Const;
@@ -236,7 +234,7 @@ namespace VOL.Core.BaseProvider
             List<SearchParameters> searchParametersList = new List<SearchParameters>();
             if (options.Filter != null && options.Filter.Count > 0)
             {
-                searchParametersList.AddRange(searchParametersList);
+                searchParametersList.AddRange(options.Filter);
             }
             else if (!string.IsNullOrEmpty(options.Wheres))
             {
@@ -468,7 +466,7 @@ namespace VOL.Core.BaseProvider
             try
             {
                 //2022.06.20增加原生excel读取方法(导入时可以自定义读取excel内容)
-                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate(), readValue: ImportOnReadCellValue);
+                Response = EPPlusHelper.ReadToDataTable<T>(dicPath, DownLoadTemplateColumns, GetIgnoreTemplate(), readValue: ImportOnReadCellValue, ignoreSelectValidationColumns: ImportIgnoreSelectValidationColumns);
             }
             catch (Exception ex)
             {
@@ -542,6 +540,9 @@ namespace VOL.Core.BaseProvider
 
             saveDataModel.DetailData = saveDataModel.DetailData?.Where(x => x.Count > 0).ToList();
             Type type = typeof(T);
+            // 修改为与Update一致，先设置默认值再进行实体的校验
+            UserInfo userInfo = UserContext.Current.UserInfo;
+            saveDataModel.SetDefaultVal(AppSetting.CreateMember, userInfo);
 
             string validReslut = type.ValidateDicInEntity(saveDataModel.MainData, true, UserIgnoreFields);
 
@@ -549,9 +550,6 @@ namespace VOL.Core.BaseProvider
 
             if (saveDataModel.MainData.Count == 0)
                 return Response.Error("保存的数据为空，请检查model是否配置正确!");
-
-            UserInfo userInfo = UserContext.Current.UserInfo;
-            saveDataModel.SetDefaultVal(AppSetting.CreateMember, userInfo);
 
             PropertyInfo keyPro = type.GetKeyProperty();
             if (keyPro.PropertyType == typeof(Guid))
@@ -700,7 +698,7 @@ namespace VOL.Core.BaseProvider
                 }
                 //写入流程
                 WorkFlowManager.AddProcese<T>(entity);
-                WorkFlowManager.Audit<T>(entity, AuditStatus.审核中, null, null, null, null, init: true, initInvoke: AddWorkFlowExecuted);
+                //   WorkFlowManager.Audit<T>(entity, AuditStatus.待审核, null, null, null, null, init: true, initInvoke: AddWorkFlowExecuted);
             }
         }
 
@@ -1233,9 +1231,10 @@ namespace VOL.Core.BaseProvider
                 }
 
                 AuditStatus status = (AuditStatus)Enum.Parse(typeof(AuditStatus), auditStatus.ToString());
-                if (auditProperty.GetValue(entity).GetInt() != (int)AuditStatus.审核中)
+                int val = auditProperty.GetValue(entity).GetInt();
+                if (!(val == (int)AuditStatus.待审核 || val == (int)AuditStatus.审核中))
                 {
-                    return Response.Error("只能审批审核中的数据");
+                    return Response.Error("只能审批[待审核或审核中]的数据");
                 }
                 Response = repository.DbContextBeginTransaction(() =>
                 {

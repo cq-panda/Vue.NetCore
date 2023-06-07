@@ -37,5 +37,7 @@ namespace VOL.System.Services
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
-  }
+
+     
+    }
 }

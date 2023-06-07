@@ -7,7 +7,8 @@
     :padding="15"
   >
     <!-- 上传图片、excel或其他文件、文件数量、大小限制都可以，参照volupload组件api -->
-    <VolUpload
+    <div style="height: 150px;">
+      <VolUpload
       style="text-align: center; border: 1px dotted #ff9800; padding: 20px"
       :autoUpload="false"
       :multiple="true"
@@ -19,6 +20,7 @@
     >
       <div>选择图片,只能上传3M以内的照片</div>
     </VolUpload>
+    </div>
   </VolBox>
 </template>
 <script>

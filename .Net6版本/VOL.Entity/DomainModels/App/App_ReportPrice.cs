@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 /*
  *代码由框架生成,任何更改都可能导致被代码生成器覆盖
  *如果数据库字段发生变化，请在代码生器重新生成此Model
@@ -13,9 +14,8 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Table("App_ReportPrice")]
-    [Entity(TableCnName = "新增编辑表单",TableName = "App_ReportPrice")]
-    public class App_ReportPrice:BaseEntity
+    [Entity(TableCnName = "自定义实现一对多",TableName = "App_ReportPrice")]
+    public partial class App_ReportPrice:BaseEntity
     {
         /// <summary>
        ///主键ID
@@ -27,9 +27,9 @@ namespace VOL.Entity.DomainModels
        public int Id { get; set; }
 
        /// <summary>
-       ///品种
+       ///分类
        /// </summary>
-       [Display(Name ="品种")]
+       [Display(Name ="分类")]
        [MaxLength(40)]
        [Column(TypeName="nvarchar(40)")]
        [Editable(true)]
@@ -37,9 +37,9 @@ namespace VOL.Entity.DomainModels
        public string Variety { get; set; }
 
        /// <summary>
-       ///月龄
+       ///年龄
        /// </summary>
-       [Display(Name ="月龄")]
+       [Display(Name ="年龄")]
        [MaxLength(100)]
        [Column(TypeName="nvarchar(100)")]
        [Editable(true)]
@@ -66,18 +66,18 @@ namespace VOL.Entity.DomainModels
        public decimal Price { get; set; }
 
        /// <summary>
-       ///上报人
+       ///创建人
        /// </summary>
-       [Display(Name ="上报人")]
+       [Display(Name ="创建人")]
        [MaxLength(60)]
        [Column(TypeName="nvarchar(60)")]
        [Editable(true)]
        public string Creator { get; set; }
 
        /// <summary>
-       ///上报时间
+       ///创建时间
        /// </summary>
-       [Display(Name ="上报时间")]
+       [Display(Name ="创建时间")]
        [Column(TypeName="datetime")]
        [Editable(true)]
        public DateTime? CreateDate { get; set; }
@@ -93,6 +93,7 @@ namespace VOL.Entity.DomainModels
        ///审核时间
        /// </summary>
        [Display(Name ="审核时间")]
+       [JsonIgnore]
        [Column(TypeName="datetime")]
        [Editable(true)]
        public DateTime? AuditDate { get; set; }

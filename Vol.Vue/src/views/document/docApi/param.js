@@ -1534,17 +1534,55 @@ const param = {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#dcdcaa;">resolve</span>([]);
 	</div>
 	<div>
-		&nbsp;&nbsp;}
+		&nbsp;&nbsp;},
+    <p>
+	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+		<br />
+		<div>
+			&nbsp; &nbsp; <span style="color:#6a9955;">//2023.05.03更新ViewGrid.vue、serviceFilter.js、detailMethods.js后才能使用</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">selectable</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">index</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置界面CheckBox是否可以勾选</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//判断字段=xx的checkbox不能选中</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">字段</span> == <span style="color:#ce9178;">"值"</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">false</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp; <span style="color:#dcdcaa;">detailSelectable</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">index</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//明细表CheckBox 是否可以勾选</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//操作同上</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
 	</div>
-</div>
+</p>
 	</div>
-	<div>
-		&nbsp;&nbsp;
-	</div>
-</div>
-      </div>
-    <br />
-      <div>
         &nbsp;&nbsp;}
       </div>
       <div>
