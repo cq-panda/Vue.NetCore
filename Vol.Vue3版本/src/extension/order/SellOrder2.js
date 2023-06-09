@@ -43,29 +43,37 @@ let extension = {
 
       //明细表选择数据源操作
       //获取明细表备注列，给备注列添加选择数据操作
-      let _column = this.detailOptions.columns.find(x => { return x.field == "Remark" });
-      _column.title="(备注)点击选择数据"
-      //移除编辑操作
-      _column.edit = null;
-      //给备注列添加选择数据操作
-      _column.render = (h, { row, column, index }) => {
-        return h("div", { style: {} },
-          [
-            h("i", {
-              class: ["el-icon-zoom-out"],
-              style: {
-                cursor: "pointer",
-                "margin-right": "8px",
-                color: "#409eff",
-              },
-              onClick: (e) => {
-                e.stopPropagation();
-                //弹出选择数据源
-                this.$refs.modelBody.open(row);
-              },
-            }),
-          ], row.Remark)
-      };
+
+      this.detailOptions.buttons.unshift({
+        'name': '选择数据', 
+        icon: "el-icon-plus",
+        onClick: () => {
+          this.$refs.modelBody.open();
+        }
+      })
+      // let _column = this.detailOptions.columns.find(x => { return x.field == "Remark" });
+      // _column.title="(备注)点击选择数据"
+      // //移除编辑操作
+      // _column.edit = null;
+      // //给备注列添加选择数据操作
+      // _column.render = (h, { row, column, index }) => {
+      //   return h("div", { style: {} },
+      //     [
+      //       h("i", {
+      //         class: ["el-icon-zoom-out"],
+      //         style: {
+      //           cursor: "pointer",
+      //           "margin-right": "8px",
+      //           color: "#409eff",
+      //         },
+      //         onClick: (e) => {
+      //           e.stopPropagation();
+      //           //弹出选择数据源
+      //           this.$refs.modelBody.open(row);
+      //         },
+      //       }),
+      //     ], row.Remark)
+      // };
     },
     // rowDbClick({ row, column, event }){//双击事件
     // },
