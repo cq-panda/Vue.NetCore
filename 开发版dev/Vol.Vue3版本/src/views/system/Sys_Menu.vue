@@ -617,6 +617,7 @@ export default defineComponent({
   }
   .el-checkbox {
     min-width: 105px;
+    width: auto !important;
     margin-right: 5px;
     display: inline-block;
     padding-bottom: 10px;
