@@ -95,20 +95,20 @@ namespace VOL.Core.Services
         }
         public static void AddAsync(LoggerType loggerType, string requestParameter, string responseParameter, string ex, LoggerStatus status)
         {
-            //var log = new Sys_Log()
-            //{
-            //    BeginDate = DateTime.Now,
-            //    EndDate = DateTime.Now,
-            //    User_Id = 0,
-            //    UserName = "",
-            //    //  Role_Id = ,
-            //    LogType = loggerType.ToString(),
-            //    ExceptionInfo = ex,
-            //    RequestParameter = requestParameter,
-            //    ResponseParameter = responseParameter,
-            //    Success = (int)status
-            //};
-            //loggerQueueData.Enqueue(log);
+            var log = new Sys_Log()
+            {
+                BeginDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                User_Id = 0,
+                UserName = "",
+                //  Role_Id = ,
+                LogType = loggerType.ToString(),
+                ExceptionInfo = ex,
+                RequestParameter = requestParameter,
+                ResponseParameter = responseParameter,
+                Success = (int)status
+            };
+            loggerQueueData.Enqueue(log);
         }
         /// <summary>
         /// 
