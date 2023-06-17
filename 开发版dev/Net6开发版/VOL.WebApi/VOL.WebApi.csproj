@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <UserSecretsId>a3e3c6fb-4b7e-44a6-8dbe-5e5f11af4202</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
@@ -10,7 +10,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\Debug\netcoreapp6.0\</OutputPath>
     <DocumentationFile>bin\Debug\netcoreapp6.0\VOL.WebApi.xml</DocumentationFile>
-    <NoWarn>1701;1702;CS1591;CS8618;CS8600;CS8602;CS1572;CS1573;CS1587;CS1591;CS1570;CS8765;</NoWarn>
+    <NoWarn>1701;1702;CS1591;CS8618;CS8600;CS8602;CS1572;CS1573;CS1587;CS1591;CS1570;CS8765;CA2200:</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
