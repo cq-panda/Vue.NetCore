@@ -1,39 +1,20 @@
 <template>
   <div class="container" style="padding: 15px 30px 20px 0px">
-    <VolHeader
-      icon="el-icon-warning-outline"
-      text="表单配置"
-      style="margin: 0 0 20px 50px"
-    >
+    <VolHeader icon="el-icon-warning-outline" text="表单配置" style="margin: 0 0 20px 50px">
       <template #content>
         <div style="color: #909090; font-size: 13px">
-          表单集成了element多种组件,只需要简单配置,功能包括：表单只读、自定义验证、非空验证、下拉框自动绑定、render动态渲染等.<a
-            href="http://www.volcore.xyz/document/api"
-            target="_blank"
-            >查看文档
+          表单集成了element多种组件,只需要简单配置,功能包括：表单只读、自定义验证、非空验证、下拉框自动绑定、render动态渲染等.<a href="http://www.volcore.xyz/document/api"
+            target="_blank">查看文档
           </a>
         </div>
       </template>
     </VolHeader>
-    <VolForm
-      ref="myform"
-      :loadKey="loadKey"
-      :formFields="formFields"
-      :formRules="formRules"
-    >
+    <VolForm ref="myform" :loadKey="loadKey" :formFields="formFields" :formRules="formRules">
       <div style="text-align: center; margin-top: -30px">
-        <el-button type="primary" size="small" @click="getForm"
-          >获取表单</el-button
-        >
-        <el-button type="success" size="small" @click="reset"
-          >重置表单</el-button
-        >
-        <el-button type="info" size="small" @click="setReadonlyStaus(true)"
-          >全部只读</el-button
-        >
-        <el-button type="waring" size="small" @click="setReadonlyStaus(false)"
-          >取消只读</el-button
-        >
+        <el-button type="primary" size="small" @click="getForm">获取表单</el-button>
+        <el-button type="success" size="small" @click="reset">重置表单</el-button>
+        <el-button type="info" size="small" @click="setReadonlyStaus(true)">全部只读</el-button>
+        <el-button type="waring" size="small" @click="setReadonlyStaus(false)">取消只读</el-button>
       </div>
     </VolForm>
   </div>
@@ -58,10 +39,9 @@ export default {
       });
     },
     getForm() {
-      if (!this.$refs.myform.validate()) {
-        return;
-      }
-      this.$message.error(JSON.stringify(this.formFields));
+      this.$refs.myform.validate(() => {
+        this.$message.error(JSON.stringify(this.formFields));
+      })
     },
     reset() {
       //重置表单，重置时可指定重置的值，如果没有指定重置的值，默认全部清空
@@ -69,7 +49,7 @@ export default {
       this.$refs.myform.reset(data);
       this.$message.error("表单已重置");
     },
-    popover(){
+    popover() {
       this.$message.success("点击了提示");
     }
   },
@@ -131,7 +111,7 @@ export default {
                   >
                     {{
                       reference: (
-                        <i onClick={() => {this.popover()}}
+                        <i onClick={() => { this.popover() }}
                           class="el-icon-warning-outline"
                         ></i>
                       ),
@@ -264,7 +244,7 @@ export default {
             placeholder: "配置数据源后自动绑定级联",
             checkStrictly: true, //是否可以选择任意一级
             type: "cascader",
-            data:[],
+            data: [],
             dataKey: "tree_roles", //配置数据源(见菜单下拉框绑定设置中的级联角色自定义sql)
             colSize: 8, //设置宽度100%
           },
