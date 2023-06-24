@@ -323,6 +323,12 @@ namespace VOL.Core.WorkFlow
             {
                 return webResponse.Error($"未查到流程陈点[workFlow.CurrentStepId]信息,请检查数据是否被删除");
             }
+            Sys_WorkFlowTableStep nextStep = null;
+            //获取下一步审核id
+            var nextStepId = currentStep.NextStepId;
+
+            nextStep = workFlow.Sys_WorkFlowTableStep.Where(x => x.StepId == nextStepId).FirstOrDefault();
+
             var user = UserContext.Current.UserInfo;
             //生成审核记录
             var log = new Sys_WorkFlowTableAuditLog()
@@ -340,13 +346,83 @@ namespace VOL.Core.WorkFlow
                 CreateDate = DateTime.Now,
                 StepName = currentStep.StepName
             };
+            var filterOptions = WorkFlowContainer.GetFlowOptions(x => x.WorkTable == workTable)
+                 .FirstOrDefault()
+                 ?.FilterList
+                 ?.Where(x => x.StepId == currentStep.StepId)
+                 ?.FirstOrDefault();
+            if (filterOptions != null)
+            {
+                //审核未通过或者驳回
+                if (!CheckAuditStatus(workFlow, filterOptions, currentStep, status))
+                {
+                    //记录日志
+                    dbContext.Set<Sys_WorkFlowTableAuditLog>().Add(log);
+
+                    string msg = null;
+                    if (AuditStatus.审核未通过 == status)
+                    {
+                        if (filterOptions.AuditRefuse == (int)AuditRefuse.返回上一节点)
+                        {
+                            msg = "审批未通过,返回上一节点";
+                        }
+                        else if (filterOptions.AuditRefuse == (int)AuditRefuse.流程重新开始)
+                        {
+                            msg = "审批未通过,流程重新开始";
+                        }
+                    }
+                    else if (AuditStatus.驳回 == status)
+                    {
+                        if (filterOptions.AuditBack == (int)AuditBack.返回上一节点)
+                        {
+                            msg = "审批被驳回,返回上一节点";
+                        }
+                        else if (filterOptions.AuditBack == (int)AuditBack.流程重新开始)
+                        {
+                            msg = "审批被驳回,流程重新开始";
+                        }
+                    }
+                    var auditLog = new Sys_WorkFlowTableAuditLog()
+                    {
+                        Id = Guid.NewGuid(),
+                        StepId = currentStep.StepId,
+                        WorkFlowTable_Id = currentStep.WorkFlowTable_Id,
+                        WorkFlowTableStep_Id = currentStep.Sys_WorkFlowTableStep_Id,
+                        AuditDate = DateTime.Now,
+                        AuditId = user.User_Id,
+                        Auditor = user.UserTrueName,
+                        AuditResult = remark,
+                        Remark = msg,
+                        AuditStatus = (int)status,
+                        CreateDate = DateTime.Now,
+                        StepName = currentStep.StepName
+                    };
+                    dbContext.Set<Sys_WorkFlowTableAuditLog>().Add(auditLog);
+                    //autditProperty.SetValue(entity, (int)status);
+                    //query.Update(entity);
+                    //修改状态
+                    dbContext.Set<Sys_WorkFlowTable>().Update(workFlow);
+                    dbContext.SaveChanges();
+                    dbContext.Entry(workFlow).State = EntityState.Detached;
+
+                    //发送邮件(appsettings.json配置文件里添加邮件信息)
+                    SendMail(workFlow, filterOptions, nextStep, dbContext);
+
+                    if (workFlowExecuted != null)
+                    {
+                        webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0, nextStep?.StepValue), false);
+                    }
+                    return webResponse;
+                }
+            }
+
 
             if (autditProperty == null)
             {
                 autditProperty = typeof(T).GetProperties().Where(s => s.Name.ToLower() == "auditstatus").FirstOrDefault();
             }
             bool isLast = false;
-            Sys_WorkFlowTableStep nextStep = null;
+        
 
             //更新明细记录
             workFlow.Sys_WorkFlowTableStep.ForEach(x =>
@@ -361,10 +437,7 @@ namespace VOL.Core.WorkFlow
                     x.Remark = remark;
                 }
             });
-            //获取下一步审核id
-            var nextStepId = currentStep.NextStepId;
-
-            nextStep = workFlow.Sys_WorkFlowTableStep.Where(x => x.StepId == nextStepId).FirstOrDefault();
+          
             //没有找到下一步审批，审核完成
             if ((nextStep == null || nextStep.StepAttrType == StepType.end.ToString()))
             {
@@ -376,51 +449,25 @@ namespace VOL.Core.WorkFlow
                 {
                     workFlow.CurrentStepId = "流程结束";
                 }
-                var filterOptions = WorkFlowContainer.GetFlowOptions(x => x.WorkTable == workTable)
-                    .FirstOrDefault()
-                    ?.FilterList
-                    ?.Where(x => x.StepId == currentStep.StepId)
-                    ?.FirstOrDefault();
-
                 workFlow.AuditStatus = (int)status;
 
-                if (filterOptions != null)
-                {
-                    //发送邮件(appsettings.json配置文件里添加邮件信息)
-                    SendMail(workFlow, filterOptions, nextStep, dbContext);
-                    //如果审核拒绝或驳回并退回上一步，待完
-                    //重新配置流程待完
-                    if (status == AuditStatus.审核未通过)
-                    {
-                        if (filterOptions.AuditRefuse == (int)AuditRefuse.返回上一节点)
-                        {
-
-                        }
-                        else if (filterOptions.AuditRefuse == (int)AuditRefuse.流程重新开始)
-                        {
-
-                        }
-                    }
-                    else if (status == AuditStatus.驳回)
-                    {
-                        if (filterOptions.AuditBack == (int)AuditBack.返回上一节点)
-                        {
-
-                        }
-                        else if (filterOptions.AuditBack == (int)AuditBack.流程重新开始)
-                        {
-
-                        }
-                    }
-                }
+                //发送邮件(appsettings.json配置文件里添加邮件信息)
+                SendMail(workFlow, filterOptions, nextStep, dbContext);
 
                 autditProperty.SetValue(entity, (int)status);
                 dbContext.Set<Sys_WorkFlowTable>().Update(workFlow);
                 query.Update(entity);
                 dbContext.Set<Sys_WorkFlowTableAuditLog>().Add(log);
                 dbContext.SaveChanges();
+
+                if (workFlowExecuted != null)
+                {
+                    webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0, nextStep?.StepValue), isLast);
+                }
+
                 return webResponse;
             }
+
             //指向下一个人审批
             if (nextStep != null && status == AuditStatus.审核通过)
             {
@@ -451,8 +498,6 @@ namespace VOL.Core.WorkFlow
             }
 
             query.Update(entity);
-
-
             dbContext.Set<Sys_WorkFlowTable>().Update(workFlow);
             dbContext.Set<Sys_WorkFlowTableAuditLog>().Add(log);
 
@@ -463,6 +508,57 @@ namespace VOL.Core.WorkFlow
                 webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0, nextStep?.StepValue), isLast);
             }
             return webResponse;
+
+        }
+
+        private static bool CheckAuditStatus(Sys_WorkFlowTable workFlow, FilterOptions filterOptions, Sys_WorkFlowTableStep currentStep, AuditStatus status)
+        {
+            //如果审核拒绝或驳回并退回上一步，待完
+            //重新配置流程待完
+            if (status != AuditStatus.审核未通过 && status != AuditStatus.驳回)
+            {
+                return true;
+            }
+            if (filterOptions.AuditRefuse == (int)AuditRefuse.返回上一节点 || filterOptions.AuditBack == (int)AuditBack.返回上一节点)
+            {
+                var preStep = workFlow.Sys_WorkFlowTableStep.Where(x => x.NextStepId == currentStep.StepId && x.StepAttrType == StepType.node.ToString()).FirstOrDefault();
+                if (preStep != null)
+                {
+                    preStep.AuditStatus = null;
+                    preStep.AuditId = null;
+                    preStep.AuditDate = null;
+                    preStep.Auditor = null;
+
+                    workFlow.CurrentStepId = preStep.StepId;
+                    workFlow.AuditStatus = (int)AuditStatus.审核中;
+
+                    DBServerProvider.DbContext.Update(preStep);
+                }
+
+                return false;
+            }
+            else if (filterOptions.AuditRefuse == (int)AuditRefuse.流程重新开始 || filterOptions.AuditBack == (int)AuditBack.流程重新开始)
+            {
+                //重新开始
+                var steps = workFlow.Sys_WorkFlowTableStep.Where(x => x.StepAttrType == StepType.node.ToString() && (x.AuditStatus >= 0)).ToList();
+                if (steps.Count > 0)
+                {
+                    foreach (var item in steps)
+                    {
+                        item.AuditStatus = null;
+                        item.AuditId = null;
+                        item.AuditDate = null;
+                        item.Auditor = null;
+                    }
+                    //重新指向第一个节点
+                    workFlow.CurrentStepId = steps.OrderBy(c => c.OrderId).Select(c => c.StepId).FirstOrDefault();
+                    workFlow.AuditStatus = (int)AuditStatus.审核中;
+
+                    DBServerProvider.DbContext.UpdateRange(steps);
+                }
+                return false;
+            }
+            return true;
         }
 
         private static void SendMail(Sys_WorkFlowTable workFlow, FilterOptions filterOptions, Sys_WorkFlowTableStep nextStep, VOLContext dbContext)
@@ -470,6 +566,10 @@ namespace VOL.Core.WorkFlow
             if (filterOptions.SendMail != 1)
             {
                 return;
+            }
+            if (nextStep==null)
+            {
+                nextStep = new Sys_WorkFlowTableStep() { };
             }
             //审核发送邮件通知待完
             var userIds = GetAuditUserIds(nextStep.StepType ?? 0, nextStep.StepValue);
