@@ -47,6 +47,13 @@ let extension = {
     },
     //事件扩展
     onInit() {
+      this.buttons.push({
+        name: '查看代码',
+        onClick: () => {
+          window.open('http://api.volcore.xyz/vol.doc/appointment.html', 'blank');
+        }
+      });
+
       //设置显示所有查询条件
       this.setFiexdSearchForm(true);
 
@@ -278,27 +285,26 @@ let extension = {
           }
         }
       ]);
-      
 
       //查询界面按钮组
       //按钮图标这里找https://element.eleme.cn/#/zh-CN/component/icon
       //第二个按钮后面添加按钮组
       this.buttons.splice(2, 1, {
         name: '按钮组',
-        type:"primary",
-        plain:true,
-        color:"#009688",
+        type: 'primary',
+        plain: true,
+        color: '#009688',
         data: [
           {
             name: '按钮一',
-            icon:"el-icon-plus",
+            icon: 'el-icon-plus',
             onClick: () => {
               this.$message.info('按钮一');
             }
           },
           {
             name: '按钮二',
-            icon:"el-icon-zoom-out",
+            icon: 'el-icon-zoom-out',
             onClick: () => {
               this.$message.info('按钮二');
             }
