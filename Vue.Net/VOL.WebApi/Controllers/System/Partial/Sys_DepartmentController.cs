@@ -18,6 +18,7 @@ using VOL.System.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using VOL.Core.ManageUser;
+using VOL.Core.UserManager;
 
 namespace VOL.System.Controllers
 {
@@ -74,6 +75,8 @@ namespace VOL.System.Controllers
             else
             {
                 var deptIds = UserContext.Current.DeptIds;
+                var list = DepartmentContext.GetAllDept().Where(c => deptIds.Contains(c.id)).ToList();
+                deptIds = list.Where(c => !list.Any(x => x.id == c.parentId)).Select(x => x.id).ToList();
                 query = query.Where(x => deptIds.Contains(x.DepartmentId));
             }
             var queryChild = _repository.FindAsIQueryable(x => true);
