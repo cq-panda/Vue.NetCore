@@ -114,8 +114,11 @@ export default {
                             { key: 3, value: '按部门审批' }
                         ],
                         type: 'select',
-                        onChange: this.nodeTypeChange
-                    },
+                        onChange: this.nodeTypeChange,
+                        colSize: 12
+                    }
+                ],
+                [
                     {
                         dataKey: 'users',
                         hidden: false,
@@ -123,7 +126,8 @@ export default {
                         required: true,
                         field: 'userId',
                         data: [],
-                        type: 'select'
+                        type: 'selectList',
+                        colSize: 12
                     }
                     ,
                     {
@@ -134,7 +138,8 @@ export default {
                         field: 'roleId',
 
                         data: [],
-                        type: 'select'
+                        type: 'select',
+                        colSize: 12
                     }
                     ,
                     {
@@ -144,7 +149,8 @@ export default {
                         required: true,
                         field: 'deptId',
                         data: [],
-                        type: 'select'
+                        type: 'select',
+                        colSize: 12
                     }
                 ], [
                     {
