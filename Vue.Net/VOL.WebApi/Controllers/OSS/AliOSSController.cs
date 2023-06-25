@@ -28,7 +28,7 @@ namespace VOL.WebApi.Controllers.OSS
             _cache = cache;
         }
     
-        [Route("getAccessToken"), HttpGet, AllowAnonymous]
+        [Route("getAccessToken"), HttpGet]
         public object GetAccessToken()
         {
 

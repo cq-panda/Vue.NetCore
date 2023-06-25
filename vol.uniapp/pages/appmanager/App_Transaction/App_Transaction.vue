@@ -4,10 +4,13 @@
 			<!-- 自定义slot -->
 			<view @click="viewClick" slot="gridHeader" class="grid-header">
 				<vol-alert>
-					<view>搜索、编辑或新建弹出框点击下拉框查看效果。</view>
+					<view>1、搜索、编辑或新建弹出框点击下拉框查看效果。</view>
+					<view>2、设置columns的align=true内容居左显示。</view>
+					<view>3、设置this.ck=true显示checkbox。</view>
+					<view>4、示例见:App_TransactionExtend.js文件说明。</view>
 				</vol-alert>
 			</view>
-			
+
 			<vol-alert slot="search">
 				<view>点击【状态】下拉框可监听事件</view>
 			</vol-alert>

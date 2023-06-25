@@ -1,55 +1,19 @@
 <template>
-  <VolBox
-    v-model="model"
-    title="选择数据"
-    :lazy="true"
-    :height="530"
-    :width="1100"
-    :padding="10"
-  >
+  <VolBox v-model="model" title="选择数据" :lazy="true" :height="530" :width="1100" :padding="10">
     <!-- 设置查询条件 -->
     <div style="padding-bottom: 10px">
       <span style="margin-right: 20px">请选择数据</span>
-      <el-input
-        placeholder="商品名称"
-        style="width: 200px"
-        v-model="ProductName"
-      />
-      <el-button
-        type="primary"
-        style="margin-left: 10px"
-        size="medium"
-        icon="el-icon-zoom-out"
-        @click="search"
-        >搜索</el-button
-      >
+      <el-input placeholder="商品名称" style="width: 200px" v-model="ProductName" />
+      <el-button type="primary" plain style="margin-left: 10px" icon="Search" @click="search">搜索</el-button>
     </div>
     <!-- vol-table配置的这些属性见VolTable组件api文件 -->
-    <vol-table
-      ref="mytable"
-      :loadKey="true"
-      :columns="columns"
-      :pagination="pagination"
-      :pagination-hide="false"
-      :max-height="380"
-      :url="url"
-      :index="true"
-      :single="true"
-      :defaultLoadPage="false"
-      @loadBefore="loadTableBefore"
-    ></vol-table>
+    <vol-table ref="mytable" :loadKey="true" :columns="columns" :pagination="pagination" :pagination-hide="false"
+      :max-height="380" :url="url" :index="true" :single="false" :defaultLoadPage="false"
+      @loadBefore="loadTableBefore"></vol-table>
     <template #footer>
       <div>
-        <el-button
-          size="mini"
-          type="primary"
-          icon="el-icon-plus"
-          @click="addRow()"
-          >添加选择的数据</el-button
-        >
-        <el-button size="mini" icon="el-icon-close" @click="model = false"
-          >关闭</el-button
-        >
+        <el-button plain type="primary" @click="addRow">选择数据</el-button>
+        <el-button @click="model = false">关闭</el-button>
       </div>
     </template>
   </VolBox>
@@ -96,7 +60,7 @@ export default {
   },
   methods: {
     open(row) {
-      this.row = row;
+      //   this.row = row;
       this.model = true;
       //打开弹出框时，加载table数据
       this.$nextTick(() => {
@@ -111,12 +75,30 @@ export default {
       if (!rows || rows.length == 0) {
         return this.$Message.error("请选择行数据");
       }
-      //给当前行设置值
-      this.row.ProductName = rows[0].ProductName;
-      this.row.MO = rows[0].MO;
-      this.row.Qty = rows[0].Qty;
-      this.row.Weight = rows[0].Weight;
-      this.row.Remark = rows[0].Remark;
+
+      //回写明细表行数据，见文档子父组件调用与获取明细表行数据:http://v2.volcore.xyz/document/api
+      this.$emit('parentCall', $parent => {
+
+        //这里可以写个判断是否已经存在明细表，找到不存在的数据
+        // rows = rows.filter(c => {
+        //    return !$parent.$refs.detail.rowData.some(r => { return r.xx == c.xx })
+        //  });
+
+        //生成新的对象
+        rows = rows.map(c => {
+          return {
+            ProductName: c.ProductName,
+            MO: c.MO,
+            Weight: c.Weight,
+            Remark: c.Remark
+          }
+        })
+       
+        //可以清空明细表数据
+        //$parent.$refs.detail.rowData.splice(0);
+        //回写到明细表格
+        $parent.$refs.detail.rowData.unshift(...rows);
+      })
       this.model = false;
     },
     loadTableBefore(params) {

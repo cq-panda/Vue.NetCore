@@ -804,10 +804,10 @@ DISTINCT
                 if (detailTable.TableColumns == null || detailTable.TableColumns.Count == 0)
                     return $"明细表{ sysTableInfo.DetailName}没有列的信息,请确认是否有列数据或列数据是否被删除!";
                 var _name = detailTable.TableColumns.Where(x => x.IsImage < 4 && x.EditRowNo > 0).Select(s => s.ColumnName).FirstOrDefault();
-                if (!string.IsNullOrEmpty(_name))
-                {
-                    return $"明细表【{_name}】字段【table显示类型】设置为了【文件或图片】,编辑行只能设置为0或不设置";
-                }
+                //if (!string.IsNullOrEmpty(_name))
+                //{
+                //    return $"明细表【{_name}】字段【table显示类型】设置为了【文件或图片】,编辑行只能设置为0或不设置";
+                //}
                 //明细列数据
                 List<Sys_TableColumn> detailList = detailTable.TableColumns;
                 //替换明细列数据

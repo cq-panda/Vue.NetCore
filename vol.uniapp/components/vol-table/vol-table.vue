@@ -16,7 +16,14 @@
 				<view class="cell-index" v-if="index">
 					#
 				</view>
+				<view class="cell-ck vol-table-head-cell" v-if="ck">
+					<u-checkbox-group @change="checkAll">
+						<u-checkbox :checked="checked" :size="16"></u-checkbox>
+					</u-checkbox-group>
+					<!-- <u-checkbox v-model="checked" :size="16"></u-checkbox> -->
+				</view>
 				<view @click="headerClick(column)" class="vol-table-head-cell"
+					:class="['vol-table-cell-'+(column.align||'center')]"
 					:style="{width:column.width+'px',flex:column.width?'unset':1}" v-if="!column.hidden" :key="index"
 					v-for="(column,index) in inColumns">
 					{{column.title}}
@@ -35,8 +42,16 @@
 						<view class="cell-index" v-if="index">
 							{{rowindex+1}}
 						</view>
-						<view :style="{width:column.width+'px',flex:column.width?'unset':1}"
-							:class="{'text-inline':textInline}" :key="cindex" class="vol-table-body-cell"
+						<view class="cell-ck vol-table-body-cell" v-if="ck">
+							<!-- <u-checkbox v-model="row.ck" :size="16"></u-checkbox> -->
+
+							<u-checkbox-group  @change="()=>{ rowItemCheckClick(row,rowindex)}">
+								<u-checkbox :checked="row.ck" :size="16"></u-checkbox>
+							</u-checkbox-group>
+						</view>
+						<view :style="{width:column.width+'px',flex:column.width?'unset':1}" :key="cindex"
+							class="vol-table-body-cell"
+							:class="[textInline?'text-inline':'','vol-table-cell-'+(column.align||'center')]"
 							v-if="!column.hidden" v-for="(column,cindex) in columns">
 							<view class="vol-cell" @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
 								<view :style="column.style" v-if="column.formatter">
@@ -75,11 +90,8 @@
 					<view :style="{width:column.width+'px',flex:column.width?'unset':1}"
 						:class="{'text-inline':textInline}" :key="cindex" class="vol-table-body-cell"
 						v-if="!column.hidden" v-for="(column,cindex) in columns">
-
 						<view class="vol-cell"> {{base.isEmpty(row[column.field])?'':row[column.field]}}</view>
 					</view>
-
-
 				</view>
 			</view>
 		</view>
@@ -198,6 +210,10 @@
 				type: Boolean,
 				default: false
 			},
+			ck: { //设置显示checkbox，只有水平(table)显示类型时才生效
+				type: Boolean,
+				default: false
+			},
 			columns: {
 				type: Array,
 				default: () => {
@@ -223,6 +239,7 @@
 		},
 		data() {
 			return {
+				checked: false,
 				showOverlay: false,
 				className: 'vol-table-' + (~~(Math.random() * 1000000)),
 				rowsData: [],
@@ -479,6 +496,22 @@
 					}).height;
 					this.lastHeight = this.tableHeight;
 				})
+			},
+			checkAll() {
+				this.checked = !this.checked;
+				this.rowsData.forEach(x => {
+					this.$set(x, 'ck', this.checked);
+				})
+			},
+			getSelectRows() {
+				return this.rowsData.filter(x => {
+					return x.ck
+				});
+			},
+			rowItemCheckClick(row,index){
+				console.log('rowItemCheckClick')
+				this.tableData[index].ck=!row.ck;
+				this.$set(row, 'ck', !row.ck);
 			}
 		},
 		created() {
@@ -554,12 +587,12 @@
 		padding: 0 8rpx;
 		display: flex;
 		background: #f3f3f3;
-
+		align-items: center;
 		text-align: center;
 		font-weight: bold;
 
 		.vol-table-head-cell {
-			padding: 30rpx 6rpx;
+			padding: 18rpx 6rpx;
 			flex: 1;
 			width: 0;
 			font-size: 26rpx;
@@ -574,11 +607,20 @@
 		}
 	}
 
+	.cell-ck {
+		width: 52rpx !important;
+		flex: none !important;
+		padding: 0 8rpx;
+		min-height: 55rpx;
+		display: flex;
+		justify-content: center;
+	}
 
 
 	.vol-table-body-rows {
 		display: flex;
 		padding: 0 8rpx;
+		align-items: center;
 
 		.vol-table-body-cell {
 			word-break: break-all;
@@ -601,6 +643,10 @@
 				white-space: nowrap;
 			}
 		}
+	}
+
+	.vol-table-cell-left {
+		text-align: left !important;
 	}
 
 	.vol-table-summary {

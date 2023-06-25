@@ -10,9 +10,13 @@
 			<u-search @search="searchClick" @custom="searchClick" placeholder="请输入名称搜索" :showAction="true"
 				actionText="搜索" searchIcon="scan" @clickIcon="scanClick" :animation="false" v-model="searchText">
 			</u-search>
+			<view @click="getRows" style="text-align: right;padding-top: 30rpx;">
+				<u--text type="info" text="获取选中行"></u--text>
+			</view>
+
 		</view>
 		<!--  -->
-		<vol-table :url="tableUrl" @rowClick="rowClick" :defaultLoadPage="load" @loadBefore="loadBefore"
+		<vol-table :ck="true" :url="tableUrl" @rowClick="rowClick" :defaultLoadPage="load" @loadBefore="loadBefore"
 			:height="height" :index="rowIndex" @loadAfter="loadAfter" ref="table" :direction="direction"
 			@formatter="formatter" :columns.sync="columns" :textInline="textInline">
 		</vol-table>
@@ -39,32 +43,36 @@
 					{
 						field: 'HeadImageUrl',
 						title: '头像',
+						align: "left",
 						type: 'img',
 						width: 50
 					},
 					{
 						field: 'ExpertName',
 						title: '名称',
+						align: "left",
 						formatter: true
 					},
 					{
 						field: 'UserName',
+						align: "left",
 						title: '帐号'
 					},
 					{
 						field: 'AuditStatus',
 						title: '状态',
 						type: "select",
+						align: "left",
 						bind: {
 							key: 'audit',
 							data: []
 						}
 					},
-					{
-						field: 'Resume',
-						title: '简介',
-						width: 80
-					},
+					// {
+					// 	field: 'Resume',
+					// 	title: '简介',
+					// 	width: 80
+					// },
 				]
 			}
 		},
@@ -82,6 +90,11 @@
 			});
 		},
 		methods: {
+			getRows(){
+				let rows= this.$refs.table.getSelectRows();
+				this.$toast('共选中'+rows.length+'行');
+				console.log(rows)
+			},
 			scanClick() {
 				//扫一扫点击事件
 				uni.scanCode({

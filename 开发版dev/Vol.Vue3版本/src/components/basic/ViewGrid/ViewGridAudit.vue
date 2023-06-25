@@ -77,7 +77,7 @@
         </div>
       </div>
       <div v-show="activeName == 'log'">
-        <vol-table :tableData="tableData" :columns="columns" :height="370" :pagination-hide="true" :load-key="false"
+        <vol-table :tableData="tableData" :columns="columns" :height="height-130" :pagination-hide="true" :load-key="false"
           :text-inline="false" :ck="false"></vol-table>
       </div>
     </div>

@@ -134,6 +134,35 @@
           <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
           <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
           <!-- 2021.09.21增加编辑时对readonly属性判断 -->
+           <template v-else-if="column.edit&&!column.readonly&&['file', 'img','excel'].indexOf(column.edit.type) != -1" >
+                <div style="display:flex;align-items: center;" @click.stop>
+                  <i style="padding: 3px;margin-right: 10px;color:#8f9293;cursor: pointer;" @click="showUpload(scope.row, column)" class="el-icon-upload"></i>
+                   <img
+                    v-if="column.edit.type == 'img'"
+                    v-for="(file, imgIndex) in getFilePath(
+                      scope.row[column.field],
+                      column
+                    )"
+                    :key="imgIndex"
+                    :onerror="defaultImg"
+                    @click="viewImg(scope.row, column, file.path, $event)"
+                    class="table-img"
+                    :src="file.path"
+                  />
+                  <a
+                    style="margin-right: 8px"
+                    v-else
+                    class="t-file"
+                    v-for="(file, fIndex) in getFilePath(
+                      scope.row[column.field],
+                      column
+                    )"
+                    :key="fIndex"
+                    @click="dowloadFile(file)"
+                    >{{ file.name }}</a
+                  >
+                </div>
+          </template>
           <div
             v-else-if="
               column.edit &&
@@ -264,7 +293,6 @@
                     </el-option>
                   </el-select>
                 </template>
-
                 <el-input
                   v-else-if="column.edit.type == 'textarea'"
                   type="textarea"
@@ -401,11 +429,45 @@
       </div>
     </template>
   </div>
+
+  <VolBox
+    v-model="uploadModel"
+    title="上传"
+    :height="228"
+    :width="500"
+    :padding="15"
+    lazy
+  >
+    <!-- 上传图片、excel或其他文件、文件数量、大小限制都可以，参照volupload组件api -->
+    <div style="height: 200px;display: flex;align-items: center;">
+      <VolUpload
+      style="text-align: center; "
+      :autoUpload="currentColumn.edit.autoUpload"
+      :multiple="currentColumn.edit.multiple"
+      :url="uploadUrl"
+      :max-file="currentColumn.edit.maxFile"
+      :img="currentColumn.edit.type == 'img'"
+      :excel="currentColumn.edit.type == 'excel'"
+      :fileTypes="currentColumn.edit.fileTypes ? currentColumn.edit.fileTypes : []"
+      :fileInfo="fileInfo"
+      :upload-after="uploadAfter"
+    >
+      <div>{{ currentColumn.message}}</div>
+    </VolUpload>
+    </div>
+    <template #footer>
+        <div style="text-align: center; ">
+          <el-button type="default" size="small" @click="uploadModel=false">关闭</el-button >
+          <el-button type="primary" size="small" @click="saveUpload" >保存</el-button >
+        </div>
+    </template>
+  </VolBox>
+
 </template>
 <script>
 import VolTableRender from './VolTable/VolTableRender';
 let _errMsg;
-import { defineComponent } from 'vue';
+import { defineComponent,defineAsyncComponent } from 'vue';
 export default defineComponent({
   //https://github.com/element-plus/element-plus/issues/1483
   //没有原先的selection属性了，看issue上使用select/selectall获取
@@ -422,7 +484,10 @@ export default defineComponent({
       }
     }
   },
-  components: { 'table-render': VolTableRender },
+  components: { 'table-render': VolTableRender,
+  VolUpload: defineAsyncComponent(() =>import("@/components/basic/VolUpload.vue") ),
+  VolBox: defineAsyncComponent(() => import("@/components/basic/VolBox.vue")),
+},
   props: {
     rowKey: {
       // 树形结构的主键字段，如果设置值默认会开启树形table；注意rowKey字段的值必须是唯一（2021.05.02）
@@ -612,7 +677,12 @@ export default defineComponent({
       isChrome: false,
       //vol-table带数据源的单元格是否启用tag标签(下拉框等单元格以tag标签显示)
       //2023.04.02更新voltable与main.js
-      useTag: true
+      useTag: true,
+      currentRow:{},
+      currentColumn:[],
+      fileInfo:[],
+      uploadUrl:"",
+      uploadModel:false
     };
   },
   created() {
@@ -1464,7 +1534,10 @@ export default defineComponent({
       // 编辑多选table显示
       let valArr = val.split(",");
       for (let index = 0; index < valArr.length; index++) {
-        (column.bind.orginData||column.bind.data).forEach((x) => {
+        ( column.bind.orginData&&column.bind.orginData.length
+          ?column.bind.orginData
+          :column.bind.data)
+        .forEach((x) => {
           // 2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
           if (x.key !== "" && x.key !== undefined && x.key + "" == valArr[index] + "") {
             valArr[index] = x.label || x.value;
@@ -1568,6 +1641,45 @@ export default defineComponent({
     },
     initColumnDisabled(row, column) {
       return column.getDisabled && column.getDisabled(row, column);
+    },
+    showUpload(row,column){
+       this.fileInfo = (row[column.field] || '').split(",")
+                    .filter(x => { return x })
+                    .map(item => {
+                       return { path: item, name: "" };
+                    })
+      this.currentRow=row;
+      this.currentColumn=column;
+      if (this.currentColumn.edit.autoUpload===undefined) {
+        this.currentColumn.edit.autoUpload=true;
+      }
+      if (this.currentColumn.edit.multiple===undefined) {
+        this.currentColumn.edit.multiple=false;
+      }
+
+      if (this.currentColumn.edit.url===undefined) {
+          this.uploadUrl='api/'+(this.url||'').replace('/api','api').split('/')[1]+'/upload'
+      }else{
+        this.uploadUrl=this.currentColumn.edit.url;
+      }
+      this.uploadModel=true;
+    },
+    uploadAfter(result, files) {
+      this.currentColumn.uploadAfter&&this.currentColumn.uploadAfter(result,files);
+      return true;
+    },
+    saveUpload(){
+      //生成保存后返回的路径
+      let arr = this.fileInfo.map((x) => {
+        if (x.path) {
+          return x.path;
+        }
+        return result.data + x.name;
+      });
+
+      this.currentRow[this.currentColumn.field] = arr.join(",");
+      this.uploadModel = false;
+      return true;
     }
   }
 });

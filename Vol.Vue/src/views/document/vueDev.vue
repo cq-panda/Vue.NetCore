@@ -26,9 +26,9 @@
       <div class="title">
         <h2>前端开发</h2>
       </div>
-      <div class="top-content">
+      <div class="top-content" style="font-size: 25px;">
         <div>
-          <p class="desc">此文档是对生成页面的常用功能示例扩展</p>
+          <p class="desc">此文档是常用功能的示例</p>
           <p class="desc">
             详细文档见：组件api-》代码生成页面ViewGrid或SellOrder.js文件
           </p>
@@ -246,157 +246,155 @@ export default {
 		{
           title: "http请求",
           content: [
-            `<p>
-	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
-		<div>
-			<span style="color:#6a9955;">&nbsp; &nbsp; &nbsp;//第一个参数:url</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第二个参数：请求的参数</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第三个参数：是否显示发起请求时的提示信息(默认否)</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">url</span>=<span style="color:#ce9178;">'api/表名/方法名'</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//如果参数很少后台又不想创建model,将参数放url上</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//let url=''api/表名/方法名?a=1&amp;b=2'</span>
-		</div>
-<br />
-		<div>
-			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#569cd6;">true</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp;
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
-		</div>
-<br />
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//第4个参数自定义配置信息,具体更多配置见axios官方文档</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp;
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>,{
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">timeout</span><span style="color:#9cdcfe;">:</span><span style="color:#b5cea8;">10000</span>,<span style="color:#6a9955;">//设置过期时间10秒</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">headers</span><span style="color:#9cdcfe;">:</span>{<span style="color:#9cdcfe;">token</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">'1231'</span>,<span style="color:#9cdcfe;">responeType</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">"text/html"</span>} <span style="color:#6a9955;">//配置其他请求头信息</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; }).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; })
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp;
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//下载后台返回的流文件(excel、pdf文件等)</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>, <span style="color:#9cdcfe;">param</span>,<span style="color:#569cd6;">true</span>, { <span style="color:#9cdcfe;">responseType</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'blob'</span> })
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; .<span style="color:#dcdcaa;">then</span>((<span style="color:#9cdcfe;">content</span>) <span style="color:#569cd6;">=&gt;</span> {
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">blob</span> = <span style="color:#569cd6;">new</span> <span style="color:#4ec9b0;">Blob</span>([<span style="color:#9cdcfe;">content</span>]);
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">elink</span> = <span style="color:#9cdcfe;">document</span>.<span style="color:#dcdcaa;">createElement</span>(<span style="color:#ce9178;">'a'</span>);
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">download</span> = <span style="color:#9cdcfe;">fileName</span>;
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">style</span>.<span style="color:#9cdcfe;">display</span> = <span style="color:#ce9178;">'none'</span>;
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">href</span> = <span style="color:#4ec9b0;">URL</span>.<span style="color:#dcdcaa;">createObjectURL</span>(<span style="color:#4fc1ff;">blob</span>);
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">document</span>.<span style="color:#9cdcfe;">body</span>.<span style="color:#dcdcaa;">appendChild</span>(<span style="color:#4fc1ff;">elink</span>);
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#dcdcaa;">click</span>();
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4ec9b0;">URL</span>.<span style="color:#dcdcaa;">revokeObjectURL</span>(<span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">href</span>);
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">document</span>.<span style="color:#9cdcfe;">body</span>.<span style="color:#dcdcaa;">removeChild</span>(<span style="color:#4fc1ff;">elink</span>);
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; });
-		</div>
-<br />
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.http.get同上</span>
-		</div>
-<br />
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果需要同步调用(注意需要将当前方法标识为async与C#用法基本类似)：</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">await</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>();
-		</div>
-<br />
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//或者使用使用this.ajax做同步请求</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">ajax</span>({
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">url</span><span style="color:#9cdcfe;">:</span> <span style="color:#9cdcfe;">url</span>,
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">json</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">success</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">function</span> (<span style="color:#9cdcfe;">data</span>) {
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; },
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"post"</span>,<span style="color:#6a9955;">//get</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">async</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">false</span> <span style="color:#6a9955;">//是否异步请求，false为同步请求</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; });
-		</div>
-<br />
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果写的是vue3语法</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//在scrpit的第一行引入: import http from './api/http'</span>
-		</div>
-		<div>
-			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// http.post() //其他操作同上</span>
-		</div>
+            `<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		&nbsp;<span style="color:#6a9955;">//第一个参数:url</span>
 	</div>
-</p>
-<p>
-	<br />
-</p>`
+	<div>
+		&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第二个参数：请求的参数</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第三个参数：是否显示发起请求时的提示信息(默认否)</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">url</span><span style="color:#d4d4d4;">=</span><span style="color:#ce9178;">'api/表名/方法名'</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//如果参数很少后台又不想创建model,将参数放url上</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//let url=''api/表名/方法名?a=1&amp;b=2'</span>
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#569cd6;">true</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//第4个参数自定义配置信息,具体更多配置见axios官方文档</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>,{
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">timeout</span><span style="color:#9cdcfe;">:</span><span style="color:#b5cea8;">10000</span>,<span style="color:#6a9955;">//设置过期时间10秒</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">headers</span><span style="color:#9cdcfe;">:</span>{<span style="color:#9cdcfe;">token</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">'1231'</span>,<span style="color:#9cdcfe;">responeType</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">"text/html"</span>} <span style="color:#6a9955;">//配置其他请求头信息</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; }).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; })
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//下载后台返回的流文件(excel、pdf文件等)</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>, <span style="color:#9cdcfe;">param</span>,<span style="color:#569cd6;">true</span>, { <span style="color:#9cdcfe;">responseType</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'blob'</span> })
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; .<span style="color:#dcdcaa;">then</span>((<span style="color:#9cdcfe;">content</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">const</span> <span style="color:#4ec9b0;">blob</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">new</span> <span style="color:#4ec9b0;">Blob</span>([<span style="color:#9cdcfe;">content</span>]);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">elink</span> <span style="color:#d4d4d4;">=</span> <span style="color:#9cdcfe;">document</span>.<span style="color:#dcdcaa;">createElement</span>(<span style="color:#ce9178;">'a'</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">download</span> <span style="color:#d4d4d4;">=</span> <span style="color:#9cdcfe;">fileName</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#4fc1ff;">style</span>.<span style="color:#9cdcfe;">display</span> <span style="color:#d4d4d4;">=</span> <span style="color:#ce9178;">'none'</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">href</span> <span style="color:#d4d4d4;">=</span> <span style="color:#4ec9b0;">URL</span>.<span style="color:#dcdcaa;">createObjectURL</span>(<span style="color:#4ec9b0;">blob</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">document</span>.<span style="color:#9cdcfe;">body</span>.<span style="color:#dcdcaa;">appendChild</span>(<span style="color:#4fc1ff;">elink</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#dcdcaa;">click</span>();
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4ec9b0;">URL</span>.<span style="color:#dcdcaa;">revokeObjectURL</span>(<span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">href</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">document</span>.<span style="color:#9cdcfe;">body</span>.<span style="color:#dcdcaa;">removeChild</span>(<span style="color:#4fc1ff;">elink</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; });
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.http.get同上</span>
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果需要同步调用(注意需要将当前方法标识为async与C#用法基本类似)：</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">await</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>();
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//或者使用使用this.ajax做同步请求</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">ajax</span>({
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">url</span><span style="color:#9cdcfe;">:</span> <span style="color:#9cdcfe;">url</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">json</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">success</span><span style="color:#9cdcfe;">:</span> &nbsp;(<span style="color:#9cdcfe;">data</span>)<span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#9cdcfe;">data</span>)
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"post"</span>,<span style="color:#6a9955;">//get</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">async</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">false</span> <span style="color:#6a9955;">//是否异步请求，false为同步请求</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; });
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果写的是vue3语法</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//在scrpit的第一行引入: import http from './api/http'</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// http.post() //其他操作同上</span>
+	</div>
+</div>`
           ],
           tips: `无`,
           img: ""
@@ -849,7 +847,7 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/35.png?imageMogr2/thumbnail/!35p"
         },
         {
-          title: "查询界面--查询默认值",
+          title: "查询界面--查询默认值(日期)",
           content: [
             `<p>
 	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
@@ -1030,44 +1028,84 @@ export default {
           title: "查询界面-隐藏查询按钮",
           content: [
             `<div style="color:red;">
-	2020.11.29更新viewgrid.vue组件才能使用
+	<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			&nbsp; &nbsp;<span style="color:#dcdcaa;">onInit</span> () {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//隐藏查询界面按钮</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">buttons</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">name</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">"刷 新"</span> <span style="color:#d4d4d4;">||</span> <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">name</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">"新 建"</span>) {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//隐藏按钮</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">hidden</span><span style="color:#d4d4d4;">=</span><span style="color:#569cd6;">true</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//vue2版本写法</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.$set(x, "hidden", true);</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; }
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置页面上显示的按钮个数(不是必须的)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">maxBtnLength</span> <span style="color:#d4d4d4;">=</span> <span style="color:#b5cea8;">6</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.boxButtons弹出框的按钮,this.detailOptions.buttons弹出框明细表操作按钮，同样适用上面上方法</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; },
+		</div>
+	</div>
 </div>
 <div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//事件扩展</span> 
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>&nbsp;()&nbsp;{
+		<span style="color:#dcdcaa;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//隐藏查询界面按钮</span> 
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">buttons</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		<span style="color:#569cd6;"></span><span style="color:#9cdcfe;"></span><span style="color:#dcdcaa;"></span><span style="color:#9cdcfe;"></span><span style="color:#569cd6;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">name</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"刷&nbsp;新"</span>&nbsp;||&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">name</span>&nbsp;==&nbsp;<span style="color:#ce9178;">"新&nbsp;建"</span>)&nbsp;{
+		<span style="color:#c586c0;"></span><span style="color:#9cdcfe;"></span><span style="color:#9cdcfe;"></span><span style="color:#ce9178;"></span><span style="color:#9cdcfe;"></span><span style="color:#9cdcfe;"></span><span style="color:#ce9178;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">x</span>,&nbsp;<span style="color:#ce9178;">"hidden"</span>,&nbsp;<span style="color:#569cd6;">true</span>);//vue3版本改为直接设置：x.hidden=true
+		<span style="color:#569cd6;"></span><span style="color:#dcdcaa;"></span><span style="color:#9cdcfe;"></span><span style="color:#ce9178;"></span><span style="color:#569cd6;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置页面上显示的按钮个数(不是必须的)</span> 
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">maxBtnLength</span>&nbsp;=&nbsp;<span style="color:#b5cea8;">6</span>;
+		<span style="color:#569cd6;"></span><span style="color:#9cdcfe;"></span><span style="color:#b5cea8;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.boxButtons弹出框的按钮,this.detailOptions.buttons弹出框明细表操作按钮，同样适用上面上方法</span> 
+		<span style="color:#6a9955;"></span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;}
 	</div>
 </div>`
           ],
@@ -1588,65 +1626,86 @@ export default {
           tips: ` 见上面【自定义弹出框】`
         },
         {
-          title: "弹出框界面动态按钮",
+          title: "弹出框新增、隐藏、只读按钮",
           content: [
-            `<div style="background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
-	<div style="color:#D4D4D4;">
-		&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//在弹出框的第一个按钮后面动态添加一个按钮</span> 
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#b5cea8;">0</span>,
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">"button"</span>,
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'md-create'</span>,
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'Edit'</span>,
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#ce9178;">'info'</span>,
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">hidden</span><span style="color:#9cdcfe;">:</span><span style="color:#569cd6;">false</span>,
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span>&nbsp;<span style="color:#569cd6;">function</span>&nbsp;()&nbsp;{
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"动态添加的button"</span>);
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;},
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenBefore</span>(<span style="color:#9cdcfe;">row</span>)&nbsp;{
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//弹出框打开时，将第1个按钮隐藏，第2个按钮禁用</span> 
-	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>[<span style="color:#b5cea8;">0</span>],&nbsp;<span style="color:#ce9178;">'hidden'</span>,&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Add'</span>); <br>//vue3版本改为直接设置:<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#569CD6;">this</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">.</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#9CDCFE;">boxButtons</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">[</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#B5CEA8;">0</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">].hidden=<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#569CD6;">this</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">.</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#9CDCFE;">currentAction</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;">&nbsp;==&nbsp;</span><span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#CE9178;">'Add'</span></span>
+            `<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		&nbsp;<span style="color:#6a9955;">//事件扩展</span>
 	</div>
 	<div>
-		<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#569CD6;">this</span><span>.</span><span style="color:#DCDCAA;">$set</span><span>(</span><span style="color:#569CD6;">this</span><span>.</span><span style="color:#9CDCFE;">boxButtons</span><span>[</span><span style="color:#B5CEA8;">1</span><span>],&nbsp;</span><span style="color:#CE9178;">'disabled'</span><span>,&nbsp;</span><span style="color:#569CD6;">this</span><span>.</span><span style="color:#9CDCFE;">currentAction</span><span>&nbsp;==&nbsp;</span><span style="color:#CE9178;">'Add'</span><span>);</span><span style="color:#D4D4D4;font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;"><br>//vue3版本改为直接设置:</span><span style="color:#569CD6;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">this</span><span style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">.</span><span style="color:#9CDCFE;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">boxButtons</span><span style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">[</span><span style="background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;"><span>1]</span></span><span style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">.hidden=<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#569CD6;">this</span>.<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#9CDCFE;">currentAction</span>&nbsp;==&nbsp;<span style="font-family:Consolas, &quot;font-size:14px;background-color:#1E1E1E;color:#CE9178;">'Add'</span></span>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">onInit</span>() {
 	</div>
-	<div style="color:#D4D4D4;">
-		&nbsp;&nbsp;&nbsp;&nbsp;}
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//在弹出框的第一个按钮后面动态添加一个按钮</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>.<span style="color:#dcdcaa;">splice</span>(<span style="color:#b5cea8;">1</span>, <span style="color:#b5cea8;">0</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">name</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"button"</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">icon</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'md-create'</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">value</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'Edit'</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'info'</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">hidden</span><span style="color:#9cdcfe;">:</span><span style="color:#569cd6;">false</span>,
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">onClick</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">function</span> () {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">$message</span>.<span style="color:#dcdcaa;">error</span>(<span style="color:#ce9178;">"动态添加的button"</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; });
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">modelOpenBefore</span>(<span style="color:#9cdcfe;">row</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//弹出框打开时，将第1个按钮隐藏，第2个按钮禁用</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">hidden</span><span style="color:#d4d4d4;">=</span><span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">'Add'</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//也可以设置只读</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>[<span style="color:#b5cea8;">0</span>].<span style="color:#9cdcfe;">readonly</span><span style="color:#d4d4d4;">=</span><span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">'Add'</span>
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.$set(this.boxButtons[0], 'hidden', this.currentAction == 'Add');</span>
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>[<span style="color:#b5cea8;">1</span>].<span style="color:#9cdcfe;">hidden</span><span style="color:#d4d4d4;">=</span><span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">'Add'</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//vue2版本写法</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">boxButtons</span>[<span style="color:#b5cea8;">1</span>], <span style="color:#ce9178;">'disabled'</span>, <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">'Add'</span>);
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; },
 	</div>
 </div>`
           ],
@@ -1712,9 +1771,14 @@ export default {
           type: "line"
         },
         {
-          title: "render渲染table对象",
+          title: "render渲染table对象(table定义按钮)",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
+            `
+			<div style="color:red;font-size:20px"><a href="http://api.volcore.xyz/vol.doc/appointment.html" target="_blank">查看vue3版本代码,或者见演示地址【只读页面】菜单</a></div>
+			
+			<br>	<br>	<br>	<br>
+			<div>下面的是vue2版本的代码</div>
+			<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
 	<div>
 		<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
 	</div>
@@ -3236,9 +3300,12 @@ export default {
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/03.png?imageMogr2/thumbnail/!35p"
         },
         {
-          title: "table触发switch",
+          title: "table触发switch、checkbox",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
+            `
+			<div style="color:red;font-size:20px"><a href="http://api.volcore.xyz/vol.doc/apptransaction.html" target="_blank">查看vue3版本代码,或者见演示地址【导入导出表单】菜单</a></div>
+			
+			<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
 	<div>
 		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
 			<div>
@@ -3915,7 +3982,12 @@ export default {
         {
           title: "编辑表单分组显示",
           content: [
-            `<p>
+            `
+			<div style="color:red;font-size:20px"><a href="http://api.volcore.xyz/vol.doc/appointment.html" target="_blank">查看vue3版本代码,或者见演示地址【只读页面】菜单</a></div>
+			
+			<br>	<br>	<br>	<br>
+
+			<p>
 	<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
 		<div>
 			&nbsp;<span style="color:#6a9955;">//事件扩展</span>
@@ -4319,9 +4391,11 @@ export default {
           img: ""
         },
         {
-          title: "编辑表单输入框回车事件、输入事件",
+          title: "编辑表单输入框回车事件、输入事件onKeyPress",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;">
+            `
+			
+			<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;">
 	<div>
 		<span style="color:#808080;">
 		<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;">
@@ -4430,66 +4504,119 @@ export default {
         {
           title: "编辑表单实时计算",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:1.2;white-space:pre;">
+			
+            `<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
 	<div>
-		&nbsp;&nbsp;<span style="color:#6a9955;">//步骤1   2020.08.16</span>
+		&nbsp;<span style="color:#dcdcaa;">onInit</span>() {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//方式一: 监听输入框事件设置实时计算</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//将计算字段设置为只读（必须）,代码生成器页面不要勾选只读</span>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">x</span>) <span style="color:#569cd6;">=&gt;</span> {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">item</span>) <span style="color:#569cd6;">=&gt;</span> {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span>&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//监听输入框事件，给其他字段设置值</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">if</span>&nbsp;(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span>&nbsp;==&nbsp;<span style="color:#ce9178;">'Creator'</span>)&nbsp;{
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">'TranNo'</span>) {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">readonly</span>&nbsp;=&nbsp;<span style="color:#569cd6;">true</span>;
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#dcdcaa;">onKeyPress</span> <span style="color:#d4d4d4;">=</span> (<span style="color:#9cdcfe;">$e</span>) <span style="color:#569cd6;">=&gt;</span> {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">$e</span>.<span style="color:#9cdcfe;">keyCode</span> <span style="color:#d4d4d4;">==</span> <span style="color:#b5cea8;">13</span>) {
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">'回车事件'</span>);
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span>;
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//步骤2(注意：实时计算的值不会提交后台，可以在前端的保存前方法(组件api->viewgrid文档里找保存前方法)或者后台的保存前方法(后台开发找保存前方法)手动处理计算结果)</span>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//将字段设置到其他字段(目前没有监听delete退格事件，在输入失去焦点时也会触发此方法)</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span>()&nbsp;{
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Remark</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">TranNo</span>;
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置只读计算，Creator必须是只读的，见onInit上面设置</span>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#dcdcaa;">Creator</span>&nbsp;=&nbsp;()&nbsp;<span style="color:#569cd6;">=&gt;</span>&nbsp;{
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//设置计算，例如</span>
+		&nbsp; &nbsp; &nbsp; &nbsp; });
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//this.editFormFields.x1&nbsp;*&nbsp;this.editFormFields.x2</span>
+		&nbsp; &nbsp; &nbsp; });
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp;
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;(<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">AvgPrice</span>&nbsp;||&nbsp;<span style="color:#b5cea8;">0</span>)&nbsp;*&nbsp;<span style="color:#b5cea8;">2</span>;
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//方式二: 将计算字段设置为只读（必须）,代码生成器页面不要勾选只读</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//步骤1</span>
 	</div>
 	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">x</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">item</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">field</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">'Creator'</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">readonly</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; });
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; });
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#6a9955;">//步骤2(注意：实时计算的值不会提交后台，可以在前端的保存前方法(组件api-&gt;viewgrid文档里找保存前方法)或者后台的保存前方法(后台开发找保存前方法)手动处理计算结果)</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">modelOpenAfter</span>() {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置只读计算，Creator必须是只读的，见onInit上面设置</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#dcdcaa;">Creator</span> <span style="color:#d4d4d4;">=</span> () <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置计算，例如</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.editFormFields.x1 * this.editFormFields.x2</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> (<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">AvgPrice</span> <span style="color:#d4d4d4;">||</span> <span style="color:#b5cea8;">0</span>) <span style="color:#d4d4d4;">*</span> <span style="color:#b5cea8;">2</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; };
+	</div>
+	<div>
+		&nbsp; &nbsp; },
 	</div>
 </div>`
           ],
@@ -4791,63 +4918,72 @@ export default {
         {
           title: "编辑表单只读/默认值",
           content: [
-            `<div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;">
+            `<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">modelOpenAfter</span>() {
+		&nbsp;<span style="color:#dcdcaa;">modelOpenAfter</span>() {
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//获取当前弹出框是新建还是编辑状态</span>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//获取当前弹出框是新建还是编辑状态</span>
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">isEDIT</span> = <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span> == <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">const</span>.<span style="color:#4fc1ff;">EDIT</span>;
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">isEDIT</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">currentAction</span> <span style="color:#d4d4d4;">==</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">const</span>.<span style="color:#4fc1ff;">EDIT</span>;
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//点击弹出框后，如果是编辑状态，禁止编辑帐号，如果新建状态，将帐号字段设置为可编辑</span>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置默认值</span>
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span> <span style="color:#569cd6;">=&gt;</span> {
+		&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#d4d4d4;">!</span><span style="color:#9cdcfe;">isEDIT</span>) {
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> {
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Gender</span> <span style="color:#d4d4d4;">=</span> <span style="color:#ce9178;">"0"</span>;
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果是编辑帐号设置为只读</span>
+		&nbsp; &nbsp; }
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span> == <span style="color:#ce9178;">"UserName"</span>) {
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//点击弹出框后，如果是编辑状态，禁止编辑帐号，如果新建状态，将帐号字段设置为可编辑</span>
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//disabled是editFormOptions的动态属性，这里只能通过this.$set修改值</span>
+		&nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormOptions</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">item</span> <span style="color:#569cd6;">=&gt;</span> {
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//vue3版本改为设置：x.disabled=isEDIT</span>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#dcdcaa;">forEach</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> {
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">$set</span>(<span style="color:#9cdcfe;">x</span>, <span style="color:#ce9178;">"disabled"</span>, <span style="color:#9cdcfe;">isEDIT</span>)
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果是编辑帐号设置为只读</span>
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">"UserName"</span>) {
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; })
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//disabled是editFormOptions的动态属性</span>
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//不是新建，性别默认值设置为男</span>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">disabled</span><span style="color:#d4d4d4;">=</span><span style="color:#9cdcfe;">isEDIT</span>
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (!<span style="color:#9cdcfe;">isEDIT</span>) {
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//vue2版本写法</span>
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">editFormFields</span>.<span style="color:#9cdcfe;">Gender</span> = <span style="color:#ce9178;">"0"</span>;
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.$set(x, "disabled", isEDIT)</span>
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; })
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; })
 	</div>
 	<div>
-		&nbsp; &nbsp; &nbsp; &nbsp; }
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//不是新建，性别默认值设置为男</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; })
+	</div>
+	<div>
+		&nbsp; &nbsp; }
 	</div>
 </div>`
           ],
@@ -5848,76 +5984,8 @@ export default {
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png?imageMogr2/thumbnail/!35p"
         },
-        {
-          title: "编辑框从表上传图片",
-          content: [
-            `点击从表列即可完成对从表图片或文件上传，参照菜单:【一对一与一对多】->【从表图片上传】`
-          ],
-          tips: ` 从表图片上传，是对代码生成进行的扩展实现.按此方法可自行实现任意功能`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png?imageMogr2/thumbnail/!35p"
-        },
-        {
-          title: "编辑框从表第二种编辑",
-          content: [
-            `<div style="color:red;font-size:20px;">默认为单击行开启编辑，鼠标离开结束编辑,现支持点击表头或其他行结束编辑</div><div style="color:#D4D4D4;background-color:#1E1E1E;font-family:Consolas, &quot;font-size:14px;line-height:19px;white-space:pre;">
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">onInit</span>()&nbsp;{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">clickEdit</span>=<span style="color:#569cd6;">true</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//下面的面代码不是必须项，自己根据需要实现</span>
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#dcdcaa;">beginEdit</span>=(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">index</span>)<span style="color:#569cd6;">=&gt;</span>{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"开始编辑"</span>+<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">row</span>))
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#dcdcaa;">endEditBefore</span>=(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">index</span>)<span style="color:#569cd6;">=&gt;</span>{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"结束编辑前"</span>+<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">row</span>))
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#dcdcaa;">endEditAfter</span>=(<span style="color:#9cdcfe;">row</span>,&nbsp;<span style="color:#9cdcfe;">column</span>,&nbsp;<span style="color:#9cdcfe;">index</span>)<span style="color:#569cd6;">=&gt;</span>{
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#ce9178;">"结束编辑后,这里会进行row字段验证"</span>+<span style="color:#9cdcfe;">JSON</span>.<span style="color:#dcdcaa;">stringify</span>(<span style="color:#9cdcfe;">row</span>))
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c586c0;">return</span>&nbsp;<span style="color:#569cd6;">true</span>;
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-	<div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-	</div>
-</div>`
-          ],
-          tips: ` 默认为单击行开启编辑，鼠标离开结束编辑,现支持点击表头或其他行结束编辑`,
-          img:
-            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/38.png?imageMogr2/thumbnail/!35p"
-        },
+      
+      
         {
           title: "编辑表单数字最大/小值,字符串长度限制",
           content: [
@@ -6505,6 +6573,242 @@ export default {
           tips: ``,
           img:
             "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/44.png?imageMogr2/thumbnail/!35p"
+        },
+		{
+          title: "编辑表单操作",
+          type: "line"
+        },
+        {
+          title: "明细表下拉框联动",
+          content: [
+			`<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		&nbsp; <span style="color:#dcdcaa;">onInited</span>() {
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//初始化下拉框选中事件</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">x</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//ProductName改为你的字段</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">'ProductName'</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//给下拉框绑定onChange事件</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">x</span>.<span style="color:#dcdcaa;">onChange</span> <span style="color:#d4d4d4;">=</span> (<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//设置第二个下拉框的数据源</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">selectChange</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>);
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//这里也可以给其他的字段设置值</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">// row.xxx=xxx;</span>
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//也可以给上面的主表表单设置值</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">// this.editFormFields.xxx=row.xx;</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; });
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//点击明细表编辑时也要触发联动操作</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#dcdcaa;">beginEdit</span> <span style="color:#d4d4d4;">=</span> (<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>, <span style="color:#9cdcfe;">index</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#dcdcaa;">selectChange</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>);
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; };
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#6a9955;">//触发第二个下拉框联动操作</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; <span style="color:#dcdcaa;">selectChange</span>(<span style="color:#9cdcfe;">row</span>, <span style="color:#9cdcfe;">column</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//找到第二个下拉框选项</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">col</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">find</span>((<span style="color:#9cdcfe;">c</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//MO改为第二个下拉框的字段</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">c</span>.<span style="color:#9cdcfe;">field</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">'MO'</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; });
+	</div>
+<br />
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">url</span> <span style="color:#d4d4d4;">=</span> <span style="color:#ce9178;">'api/xxx/xx?value='</span> <span style="color:#d4d4d4;">+</span> <span style="color:#9cdcfe;">row</span>.<span style="color:#9cdcfe;">ProductName</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//从后台返回第二个下拉框满足条件的数据</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>, {}, <span style="color:#569cd6;">false</span>).<span style="color:#dcdcaa;">then</span>((<span style="color:#9cdcfe;">keys</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//keys只返回第二个下拉框的key值，用于下面的判断，返回的下拉框key选项显示，没有返回的隐藏</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">keys</span> <span style="color:#d4d4d4;">=</span> [<span style="color:#ce9178;">'1'</span>, <span style="color:#ce9178;">'2'</span>];
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">col</span>.<span style="color:#9cdcfe;">bind</span>.<span style="color:#9cdcfe;">data</span>.<span style="color:#dcdcaa;">forEach</span>((<span style="color:#9cdcfe;">item</span>) <span style="color:#569cd6;">=&gt;</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//注意：第二个下拉框选项，在下拉框绑定页面，配置的字典sql需要将全部数据源返回</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果返回的数据源有几十W，请考虑用弹出框选择数据，不要用下拉框</span>
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#9cdcfe;">keys</span>.<span style="color:#dcdcaa;">indexOf</span>(<span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">key</span>) <span style="color:#d4d4d4;">!=</span> <span style="color:#d4d4d4;">-</span><span style="color:#b5cea8;">1</span>) {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">hidden</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">false</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } <span style="color:#c586c0;">else</span> {
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">item</span>.<span style="color:#9cdcfe;">hidden</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">true</span>;
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; &nbsp; });
+	</div>
+	<div>
+		&nbsp; &nbsp; &nbsp; });
+	</div>
+	<div>
+		&nbsp; &nbsp; },
+	</div>
+</div>`
+			],
+          tips: ``,
+          img:
+		  "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/20230624.png?imageMogr2/thumbnail/!35p"
+		},
+		{
+          title: "明细表上传图片(文件)",
+          content: [
+            `
+			<div style="font-size:20px;">2023.06.24更新Sys_TableInfoService.cs中CreateVuePage方法，voltable.vue文件后,代码生成器设置编辑设置编辑类型即可自动生成</div>
+			<div>点击从表列即可完成对从表图片或文件上传，参照菜单:【一对一与一对多】->【从表图片上传】</div>
+
+
+			<p>
+	<br />
+</p>
+<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+			<div>
+				&nbsp;<span style="color:#dcdcaa;">onInited</span>() {
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//获取图片位置，在图片后面加一个上传按钮,这里只是演示随便找的一个字段存图片</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">column</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">detailOptions</span>.<span style="color:#9cdcfe;">columns</span>.<span style="color:#dcdcaa;">find</span>(<span style="color:#9cdcfe;">x</span> <span style="color:#569cd6;">=&gt;</span> { <span style="color:#c586c0;">return</span> <span style="color:#9cdcfe;">x</span>.<span style="color:#9cdcfe;">field</span> <span style="color:#d4d4d4;">==</span> <span style="color:#ce9178;">'Remark'</span> });
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">if</span> (<span style="color:#d4d4d4;">!</span><span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">edit</span>) {
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//配置上传文件类型</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">edit</span><span style="color:#d4d4d4;">=</span>{<span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">"img"</span>}<span style="color:#6a9955;">//type:"excel",type:"file"</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; }
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//是否自动上传</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">edit</span>.<span style="color:#9cdcfe;">autoUpload</span><span style="color:#d4d4d4;">=</span><span style="color:#569cd6;">true</span>;
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//多文件上传</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">edit</span>.<span style="color:#9cdcfe;">multiple</span><span style="color:#d4d4d4;">=</span><span style="color:#569cd6;">true</span>;
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//最多上传3个文件</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">edit</span>.<span style="color:#9cdcfe;">maxFile</span><span style="color:#d4d4d4;">=</span><span style="color:#b5cea8;">3</span>;
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//上传后方法</span>
+			</div>
+			<div>
+				&nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">column</span>.<span style="color:#9cdcfe;">edit</span>.<span style="color:#dcdcaa;">uploadAfter</span><span style="color:#d4d4d4;">=</span>(<span style="color:#9cdcfe;">result</span>,<span style="color:#9cdcfe;">files</span>)<span style="color:#569cd6;">=&gt;</span>{
+			</div>
+<br />
+			<div>
+				&nbsp; &nbsp; &nbsp; }
+			</div>
+			<div>
+				&nbsp; &nbsp; }
+			</div>
+		</div>
+	</div>
+</div>
+<p>
+	<br />
+</p>
+			`
+          ],
+          tips: ``,
+          img:
+            "https://doc-vue-1256993465.cos.ap-chengdu.myqcloud.com/10.png?imageMogr2/thumbnail/!35p"
         },
         {
           title: "其他分类",

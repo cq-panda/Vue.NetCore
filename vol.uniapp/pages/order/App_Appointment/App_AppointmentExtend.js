@@ -37,10 +37,40 @@ export default function() {
 				//页面打开时默认弹出查询框
 				//this.searchModel = true;
 				this.height = this.height - 65;
-				
-				this.fabButtons.push({name:"测试按钮",icon:"search",onClick:()=>{
-					  this.$emit('testBtnClick',{value:"测试"})
-				}})
+
+				this.fabButtons.push({
+					name: "测试按钮",
+					icon: "search",
+					onClick: () => {
+						this.$emit('testBtnClick', {
+							value: "测试"
+						})
+					}
+				})
+
+				//编辑弹出框姓名字段增加一个扫一扫操作
+				this.editFormOptions.forEach(item => {
+					if (item.field == 'Name') {
+						item.extra = {
+							style: "color: #0762c4;margin-left:30rpx;",
+							text: "扫一扫",
+							icon: "scan",
+							color: "#0762c4",
+							size: 20
+						}
+					}
+				})
+			},
+			extraClick(option, fields) { //上面的扫一扫点击事件触发
+				if (option.field == 'Name') {
+					this.$toast('点击了扫一扫');
+					uni.scanCode({
+						success: (res) => {
+							this.editFormFields.Name = res.result;
+						}
+					})
+				}
+
 			},
 			formatter(row, column) { //自定义格式化
 				// if(column.field=='xx'){

@@ -147,7 +147,7 @@ namespace VOL.Core.WorkFlow
             string key = typeof(T).GetKeyProperty().GetValue(entity).ToString();
 
             var flowTable = DBServerProvider.DbContext.Set<Sys_WorkFlowTable>().Include(c => c.Sys_WorkFlowTableStep)
-                  .Where(c => c.WorkTableKey == key&&c.WorkTable==tableName)
+                  .Where(c => c.WorkTableKey == key && c.WorkTable == tableName)
                   .OrderByDescending(x => x.CreateDate)
                   .FirstOrDefault();
 
@@ -227,7 +227,15 @@ namespace VOL.Core.WorkFlow
                             ParentId = item.ParentId,
                             NextStepIds = item.NextStepIds,
                             StepAttrType = item.StepAttrType,
-                            Expression = expression?.Compile()
+                            Expression = expression?.Compile(),
+                            AuditBack = item.AuditBack,
+                            AuditRefuse = item.AuditRefuse,
+                            AuditMethod = item.AuditMethod,
+                            SendMail = item.SendMail,
+                            WorkFlow_Id = item.WorkFlow_Id,
+                            WorkStepFlow_Id = item.WorkStepFlow_Id,
+                            StepType = item.StepType,
+                            StepValue = item.StepValue
                         });
                     }
                     catch (Exception ex)

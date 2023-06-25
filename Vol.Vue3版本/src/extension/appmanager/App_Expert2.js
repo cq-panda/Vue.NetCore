@@ -25,6 +25,15 @@ let extension = {
   },
   methods: { //事件扩展
     onInit() {
+
+      this.buttons.push({
+        name: '查看代码',
+        onClick: () => {
+          window.open('http://api.volcore.xyz/vol.doc/appexpert2.html', 'blank');
+        }
+      });
+
+
       //设置单单元格合并
       this.initFirstColumn();
       //动态添加【状态】列
@@ -49,12 +58,7 @@ let extension = {
         with: 60,
         formatter: (row) => {
           var _color = row.Enable == 1 ? '#ff1212' : '#04c966';
-          return `<span style='background:` + _color + `;
-          width: 8px;
-          height: 8px;
-          position: absolute;
-          border-radius: 50%;
-          margin-left: 7px;'>&nbsp;</span>`
+          return "<span style='background:" + _color + ";width: 8px;  height: 8px; position: absolute; border-radius: 50%; margin-left: 7px;'>&nbsp;</span>"
         }
       })
     },

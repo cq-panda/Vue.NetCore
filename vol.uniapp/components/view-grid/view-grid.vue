@@ -16,7 +16,7 @@
 		<view class="view-grid-list">
 			<vol-table v-if="isCreated" :class="[className]" :url="tableUrl" @cellClick="gridCellClick"
 				@rowButtons="getRowButtons" @rowButtonClick="gridRowButtonClick" @rowClick="gridRowClick"
-				:defaultLoadPage="load" @loadBefore="loadGridTableBefore" :index="rowIndex"
+				:defaultLoadPage="load" @loadBefore="loadGridTableBefore" :index="rowIndex" :ck="ck"
 				@loadAfter="loadGridTableAfter" ref="table" :direction="direction" :titleField="titleField"
 				:height="height" @formatter="cellFormatter" :columns.sync="columns" :textInline="textInline">
 				<!-- 			<view style="height: 50rpx;"></view> -->
@@ -209,7 +209,8 @@
 				tableAction: "", //指定表名的权限
 				showDel: false,
 				isCreated: false,
-				labelWidth: 80 //编辑弹出框表单标签的宽度
+				labelWidth: 80, //编辑弹出框表单标签的宽度
+				ck:false //设置显示checkbox，只有水平(table)显示类型时才生效
 			}
 		},
 		methods: {
