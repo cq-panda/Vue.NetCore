@@ -8,6 +8,7 @@
 					<view>2、当前页面在后台菜单上配置的只读不能添加与修改</view>
 					<view>3、点击搜索框扫描图标可以扫描搜索</view>
 					<view>4、示例代码见App_Appointment.vue文件</view>
+					<view>5、点击列表数据,弹出框中也有扫一扫示例</view>
 				</vol-alert>
 				<view style="padding: 20rpx;border-bottom: 1px solid #f5f3f3;">
 					<u-search @search="searchInputClick" @custom="searchInputClick" placeholder="请输入电话搜索"
