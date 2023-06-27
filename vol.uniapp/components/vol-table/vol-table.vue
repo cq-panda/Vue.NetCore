@@ -45,7 +45,7 @@
 						<view class="cell-ck vol-table-body-cell" v-if="ck">
 							<!-- <u-checkbox v-model="row.ck" :size="16"></u-checkbox> -->
 
-							<u-checkbox-group  @change="()=>{ rowItemCheckClick(row,rowindex)}">
+							<u-checkbox-group @change="()=>{ rowItemCheckClick(row,rowindex)}">
 								<u-checkbox :checked="row.ck" :size="16"></u-checkbox>
 							</u-checkbox-group>
 						</view>
@@ -251,7 +251,8 @@
 				loaded: false,
 				hasSummary: false,
 				lastHeight: 0,
-				summary: []
+				summary: [],
+				//extent-button
 			};
 		},
 		methods: {
@@ -508,9 +509,9 @@
 					return x.ck
 				});
 			},
-			rowItemCheckClick(row,index){
+			rowItemCheckClick(row, index) {
 				console.log('rowItemCheckClick')
-				this.tableData[index].ck=!row.ck;
+				this.tableData[index].ck = !row.ck;
 				this.$set(row, 'ck', !row.ck);
 			}
 		},
@@ -696,11 +697,11 @@
 		}
 
 		.vol-table-list-item-title-border {
-			display: inline-block;
-			background: #00aaff;
-			padding: 18rpx 8rpx;
-			border-radius: 10rpx;
-			margin-right: 14rpx;
+		    display: inline-block;
+		    background: #818181;
+		    padding: 7px 2px;
+		    border-radius: 4px;
+		    margin-right: 5px;
 		}
 
 	}
@@ -736,7 +737,7 @@
 		display: flex;
 		justify-content: flex-end;
 		margin: 0rpx 16rpx;
-		padding: 10rpx;
+		// padding: 10rpx;
 		top: -10rpx;
 		position: relative;
 		background: #ffff;

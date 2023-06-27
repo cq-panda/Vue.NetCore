@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using VOL.Entity.DomainModels;
 using VOL.System.IServices;
+using VOL.Core.Filters;
 
 namespace VOL.System.Controllers
 {
@@ -28,6 +29,11 @@ namespace VOL.System.Controllers
         {
             _service = service;
             _httpContextAccessor = httpContextAccessor;
+        }
+        [ApiActionPermission()]
+        public override ActionResult GetPageData([FromBody] PageDataOptions loadData)
+        {
+            return base.GetPageData(loadData);
         }
     }
 }

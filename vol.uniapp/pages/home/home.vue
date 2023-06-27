@@ -8,8 +8,10 @@
 				<view class="fn-title">基础功能</view>
 				<u-grid :border="false" @click="gridClick" col="4">
 					<u-grid-item v-for="(item,index) in fn" :key="index">
-						<image style="width:90rpx;height: 90rpx;" :src="item.icon"></image>
-						<!-- <u-icon :customStyle="getStyle(item)" :name="item.icon" :size="22"></u-icon> -->
+						<view :class="['grid-item-bg','grid-item-bg-'+(index+1)]">
+							<image style="width:50rpx;height: 50rpx;" :src="item.icon"></image>
+						</view>
+
 						<view class="grid-text">{{item.name}}</view>
 					</u-grid-item>
 				</u-grid>
@@ -42,24 +44,50 @@
 					'/static/swiper3.png'
 				],
 				fn: [{
-						name: "菜单",
-						icon: '/static/imgs/menu.png',
-						path: "/pages/menu/menu"
+						name: "审批流程",
+						icon: '/static/flow.png',
+						path: "/pages/flow/flow",
+						subPage: false //二级页面
+					}, {
+						name: "表单示例",
+						icon: '/static/form.png',
+						path: "/pages/form/form",
+						subPage: true //二级页面
 					},
 					{
-						name: "表单",
-						icon: '/static/imgs/stat.png',
-						path: "/pages/form/form"
+						name: "Table组件",
+						icon: '/static/fc.png',
+						path: "/pages/form/form",
+						subPage: true //二级页面
 					},
 					{
-						name: "消息",
-						icon: '/static/imgs/message.png',
-						path: "/pages/message/message"
+						name: "菜单列表",
+						icon: '/static/table.png',
+						path: "/pages/menu/menu",
+						subPage: false //二级页面
+					},
+
+					{
+						name: "地图导航",
+						icon: '/static/fc.png',
+						path: "/pages/form/form",
+						subPage: true //二级页面
+					},
+					//待开发功能
+					{
+						name: "敬请期待",
+						icon: '/static/fc.png',
+						path: "",
 					},
 					{
-						name: "我的",
-						icon: '/static/imgs/user.png',
-						path: "/pages/user/user",
+						name: "敬请期待",
+						icon: '/static/fc.png',
+						path: "",
+					},
+					{
+						name: "敬请期待",
+						icon: '/static/fc.png',
+						path: "",
 					}
 				],
 			}
@@ -87,6 +115,20 @@
 				}
 			},
 			gridClick(index) {
+				const item = this.fn[index];
+				if (!item.path) {
+					return;
+				}
+				//注意下面的跳转方式，一级页面指pages.json中tabBar配置path
+				//具体见uni页面跳转文档
+				if (item.subPage) {
+					//二级页面用navigateTo跳转
+					uni.navigateTo({
+						url: this.fn[index].path
+					})
+					return;
+				}
+				//一级页面
 				uni.switchTab({
 					url: this.fn[index].path
 				})
@@ -114,15 +156,17 @@
 	}
 
 	.card-container {
-	    box-shadow: 1px 1px 9px #b9b6b629;
+
+		box-shadow: 1px 1px 9px #b9b6b629;
 		margin: 30rpx 30rpx 30rpx 30rpx;
 		border: 1px solid #f1f1f1;
 		border-radius: 10rpx;
-		padding: 40rpx 10rpx;
+		padding: 26rpx 10rpx 14rpx 10rpx;
 		background: #ffff;
 
 
 		.fn-title {
+			font-family: 黑体;
 			font-size: 30rpx;
 			font-weight: bold;
 			//color: #8f9ca2;
@@ -132,7 +176,55 @@
 		.grid-text {
 			padding-top: 8rpx;
 			font-size: 26rpx;
+			color: #626262;
+			padding-bottom: 20rpx;
 		}
+
+	}
+
+	.grid-item-bg {
+		border-radius: 50%;
+		width: 86rpx;
+		height: 86rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 5px 3px 6px #e0ddddb0;
+	}
+
+	.grid-item-bg-1 {
+		background-image: linear-gradient(to bottom right, #97caff, #47a1fe);
+	}
+
+	.grid-item-bg-2 {
+		background-image: linear-gradient(to bottom right, #f8bcbc, #f07e7e);
+
+	}
+
+	.grid-item-bg-3 {
+		background-image: linear-gradient(to bottom right, #afb5e6, #808cf0);
+	}
+
+	.grid-item-bg-4 {
+
+		background-image: linear-gradient(to bottom right, #98e4e2, #56c3bf);
+	}
+
+	.grid-item-bg-5 {
+		background-image: linear-gradient(to bottom right, #d1d1d1, #c878e7);
+	}
+
+	.grid-item-bg-6 {
+		background-image: linear-gradient(to bottom right, #97caff, #47a1fe);
+	}
+
+	.grid-item-bg-7 {
+		background-image: linear-gradient(to bottom right, #98e4e2, #56c3bf);
+
+	}
+
+	.grid-item-bg-8 {
+		background-image: linear-gradient(to bottom right, #afb5e6, #808cf0);
 
 	}
 </style>
