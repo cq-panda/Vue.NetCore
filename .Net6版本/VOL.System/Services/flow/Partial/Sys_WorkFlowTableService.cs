@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Http;
 using VOL.System.IRepositories;
 using VOL.Core.ManageUser;
 using VOL.Core.WorkFlow;
+using System;
 
 namespace VOL.System.Services
 {
@@ -44,20 +45,48 @@ namespace VOL.System.Services
 
         public override PageGridData<Sys_WorkFlowTable> GetPageData(PageDataOptions options)
         {
-            if (!UserContext.Current.IsSuperAdmin)
+            Expression<Func<Sys_WorkFlowTable, bool>> expression = null;
+            //移动端
+            if (options.Value != null)
             {
-                var user = UserContext.Current.UserInfo;
-                //显示当前用户需要审批的数据
-                var deptIds = user.DeptIds.Select(s => s.ToString());
-                var stepQuery = _stepRepository.FindAsIQueryable(x => (x.StepType == (int)AuditType.用户审批 && x.StepValue == user.User_Id.ToString())
-                  || (x.StepType == (int)AuditType.角色审批 && x.StepValue == user.Role_Id.ToString())
-                  || (x.StepType == (int)AuditType.部门审批 && deptIds.Contains(x.StepValue))
-                   );
-                QueryRelativeExpression = (IQueryable<Sys_WorkFlowTable> queryable) =>
+                int value = options.Value.GetInt();
+                //待审批
+                if (value == 0)
                 {
-                    return queryable.Where(x => stepQuery.Any(c => x.WorkFlowTable_Id == c.WorkFlowTable_Id));
-                };
+                    expression = x => x.AuditStatus == (int)AuditStatus.审核中;
+                }
+                //已审批
+                else if (value == 1)
+                {
+                    expression = x => x.AuditStatus != (int)AuditStatus.审核中;
+                } //我的提交
+                else if (value == 2)
+                {
+                    expression = x => x.CreateID == UserContext.Current.UserId;
+                }
             }
+
+            QueryRelativeExpression = (IQueryable<Sys_WorkFlowTable> queryable) =>
+            {
+                if (!UserContext.Current.IsSuperAdmin)
+                {
+                    var user = UserContext.Current.UserInfo;
+                        //显示当前用户需要审批的数据
+                        var deptIds = user.DeptIds.Select(s => s.ToString());
+                    var stepQuery = _stepRepository.FindAsIQueryable(x => (x.StepType == (int)AuditType.用户审批 && x.StepValue == user.User_Id.ToString())
+                      || (x.StepType == (int)AuditType.角色审批 && x.StepValue == user.Role_Id.ToString())
+                      || (x.StepType == (int)AuditType.部门审批 && deptIds.Contains(x.StepValue))
+                       );
+                    queryable = queryable.Where(x => stepQuery.Any(c => x.WorkFlowTable_Id == c.WorkFlowTable_Id));
+                }
+
+                if (expression != null)
+                {
+                    return queryable.Where(expression);
+                }
+                return queryable;
+            };
+
             return base.GetPageData(options);
         }
     }

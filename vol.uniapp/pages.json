@@ -197,7 +197,24 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/flow/flow",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "审批流程",
+                "enablePullDownRefresh": false
+            }
+            
+        },{
+            "path" : "pages/flow/audit/audit",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "审批",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	//底部图标库(需要授权的自行联系作者)：https://www.iconfont.cn/search/index
 	"tabBar": { //设置要与第一个pages的path相同
 		"color": "#535353",
@@ -218,10 +235,10 @@
 				"text": "菜单"
 			},
 			{
-				"pagePath": "pages/form/form",
+				"pagePath": "pages/flow/flow",
 				"iconPath": "static/icons/stats.png",
 				"selectedIconPath": "static/icons/stats_active.png",
-				"text": "统计"
+				"text": "审批流程"
 			},
 			{
 				"pagePath": "pages/message/message",

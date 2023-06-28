@@ -3,9 +3,9 @@
 		<view class="user-info">
 			<image class="u-img" @error="onHeaderError()" :src="userInfo.img"></image>
 			<view class="u-text">
-				<view>{{userInfo.userName}}</view>
+				<view class="username">{{userInfo.userName}}</view>
 				<view class="small-text">
-					缘起缘灭，花开花谢。
+					欢迎使用,{{getTimeText()}}
 				</view>
 			</view>
 			<view class="u-icon-setting" @click="toUserInfo">
@@ -15,7 +15,8 @@
 		<view class="u-menu-list">
 			<view class="u-menu-item" @click="itemClick(item)" v-for="(item,index) in menu" :key="index">
 				<view class="u-menu-icon">
-					<u-icon :name="item.icon" color="#303133" size="15"></u-icon>
+					<image style="width:36rpx;height: 36rpx;" :src="item.icon"></image>
+					<!-- 	<u-icon :name="item.icon" color="#303133" size="15"></u-icon> -->
 				</view>
 				<view class="u-menu-text">{{item.name}}</view>
 				<view class="u-menu-icon-rigth">
@@ -38,19 +39,14 @@
 				menu: [{
 						name: "关于vol",
 						path: '/pages/user/about/about',
-						icon: 'error-circle',
+						icon: '/static/user.png',
 						color: ''
 					},
-					// {
-					// 	name: "意见反馈",
-					// 	path: '',
-					// 	icon: 'question-circle',
-					// 	color: ''
-					// },
+
 					{
 						name: "修改密码",
 						path: '',
-						icon: 'lock-open',
+						icon: '/static/pwd.png',
 						color: '',
 						path: "/pages/user/modifyPwd/modifyPwd"
 					},
@@ -63,7 +59,7 @@
 					{
 						name: "退出登陆",
 						path: '/pages/login/login',
-						icon: 'account',
+						icon: '/static/logout.png',
 						color: ''
 					},
 				]
@@ -87,12 +83,30 @@
 				this.http.post("api/user/getCurrentUserInfo", {}).then(x => {
 					//x.data.gender = x.data.gender;
 					//  this.$refs.form.reset(x.data);
-					this.userInfo.img = this.http.ipAddress+x.data.headImageUrl
+					this.userInfo.img = this.http.ipAddress + x.data.headImageUrl
 					//this.userInfo.createDate = x.data.createDate;
 					this.userInfo.userName = x.data.userTrueName;
 					//this.userInfo.phoneNo = x.data.phoneNo;
 					//this.userInfo.email = x.data.email;
 				});
+			},
+			getTimeText() {
+				let timeNow = new Date();
+				// 获取当前小时
+				let hours = timeNow.getHours();
+				// 设置默认文字
+				let text = ``;
+				// 判断当前时间段
+				if (hours >= 0 && hours <= 10) {
+					text = `早上好`;
+				} else if (hours > 10 && hours <= 14) {
+					text = `中午好`;
+				} else if (hours > 14 && hours <= 18) {
+					text = `下午好`;
+				} else if (hours > 18 && hours <= 24) {
+					text = `晚上好`;
+				}
+				return text;
 			},
 			onHeaderError() {
 				this.userInfo.img = "/static/imgs/head.png";
@@ -102,7 +116,7 @@
 					console.log(result)
 				})
 			},
-			toUserInfo(){
+			toUserInfo() {
 				uni.navigateTo({
 					url: '/pages/user/modifyPwd/modifyPwd'
 				})
@@ -129,9 +143,10 @@
 
 <style lang="less" scoped>
 	.user-info {
-		height: 220rpx;
+		// height: 220rpx;
 		display: flex;
-		padding: 150rpx 40rpx 10rpx 60rpx;
+		align-items: center;
+		padding: 150rpx 40rpx 60rpx 60rpx;
 		background-image: linear-gradient(135deg, #26bcff 10%, #078ef9);
 		position: relative;
 
@@ -148,6 +163,11 @@
 			padding: 26rpx 30rpx;
 		}
 
+		.username {
+			font-weight: bolder;
+			font-family: 黑体;
+		}
+
 		.small-text {
 			font-size: 24rpx;
 			padding-top: 10rpx;
@@ -156,7 +176,6 @@
 		.u-icon-setting {
 			width: 30rpx;
 			color: #FFFFFF;
-			padding-top: 50rpx;
 		}
 	}
 
@@ -168,8 +187,9 @@
 
 		.u-menu-item {
 			display: flex;
-			padding: 24rpx 20rpx;
+			padding: 30rpx 20rpx;
 			border-bottom: 1px solid #f7f7f7;
+			align-items: center;
 
 			.u-menu-icon {
 				padding-top: 8rpx;

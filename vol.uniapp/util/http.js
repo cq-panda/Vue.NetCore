@@ -4,7 +4,7 @@ var ipAddress;
 if (process.env.NODE_ENV === 'development') {
 	ipAddress = "http://127.0.0.1:9991/"
 } else {
-	ipAddress = "https://api.volcore.xyz/"
+   ipAddress = "https://api.volcore.xyz/"
 }
 
 function post(url, data, loading) {
