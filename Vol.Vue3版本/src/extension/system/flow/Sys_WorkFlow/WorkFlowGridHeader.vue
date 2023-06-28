@@ -121,6 +121,9 @@ export default {
         if (item.filters && item.filters.data) {
           item.filters.data = undefined;
         }
+        if (item.userId && item.userId.length) {
+          item.userId = item.userId.join(',');
+        }
       })
       mainData.NodeConfig = JSON.stringify(nodeListOptions)
       let lineList = this.$refs.flow.data.lineList;
@@ -186,7 +189,7 @@ export default {
               StepAttrType: item.type, //节点类型.start开始，end结束 
               StepType: item.auditType,//审核类型,角色，用户，部门(这里后面考虑同时支持多个角色、用户、部门)
               //审核选择的值角色，用户，部门(这里后面考虑同时支持多个角色、用户、部门)
-              StepValue: item.auditType == 1 ? item.userId : (item.auditType == 2 ? item.roleId : item.deptId),
+              StepValue: item.auditType == 1 ? item.userId.join(',') : (item.auditType == 2 ? item.roleId : item.deptId),
               AuditRefuse: item.auditRefuse,//审核未通过(返回上一节点,流程重新开始,流程结束)
               AuditBack: item.auditBack, //驳回(返回上一节点,流程重新开始,流程结束)
               AuditMethod: item.auditMethod,//审批方式(启用会签)

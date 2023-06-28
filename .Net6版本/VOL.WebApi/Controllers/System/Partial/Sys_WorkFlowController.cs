@@ -100,10 +100,17 @@ namespace VOL.System.Controllers
             }
             var flow = flows[0];
             var user = UserContext.Current.UserInfo;
-
-            var auditUsers = flow.Sys_WorkFlowTableStep.Where(x => x.AuditId != null && x.StepType == (int)AuditType.用户审批).Select(s => s.AuditId).ToArray();
+            // 获取按用户审核的id，如果多用户要进行分割
+            // 转换成int数组
+            var auditUsers = flow.Sys_WorkFlowTableStep
+                .Where(x => x.StepType == (int)AuditType.用户审批 && x.StepValue != null)
+                .SelectMany(x => x.StepValue.Split(",")).Select(int.Parse).ToArray();
+            //var auditUsers = flow.Sys_WorkFlowTableStep.Where(x => x.AuditId != null && x.StepType == (int)AuditType.用户审批).Select(s => s.AuditId).ToArray();
             var users = await _userRepository.FindAsIQueryable(x => auditUsers.Contains(x.User_Id))
                                         .Select(u => new { u.User_Id, u.UserTrueName }).ToListAsync();
+
+            var auditor = string.Join("/", users.Select(x => x.UserTrueName).ToArray());
+
 
             var log = await _workFlowTableRepository.DbContext.Set<Sys_WorkFlowTableAuditLog>()
                   .Where(x => x.WorkFlowTable_Id == flow.WorkFlowTable_Id)
@@ -115,7 +122,8 @@ namespace VOL.System.Controllers
                     {
                         c.AuditId,
                         //这里没显示具体是哪个用户审核
-                        Auditor = c.Auditor ?? users.Where(us => us.User_Id == c.AuditId).Select(us => us.UserTrueName).FirstOrDefault(),
+                        //Auditor = c.Auditor ?? users.Where(us => us.User_Id == c.AuditId).Select(us => us.UserTrueName).FirstOrDefault(),
+                        Auditor = auditor,
                         c.AuditDate,
                         c.AuditStatus,
                         c.Remark,
@@ -193,7 +201,8 @@ namespace VOL.System.Controllers
                 return UserContext.Current.UserInfo.DeptIds.Select(s => s.ToString()).Contains(flow.StepValue);
             }
             //按用户审批
-            return UserContext.Current.UserId.ToString() == flow.StepValue;
+            //return UserContext.Current.UserId.ToString() == flow.StepValue;
+            return flow.StepValue.Split(",").Contains(UserContext.Current.UserId.ToString());
 
         }
         [Route("getOptions"), HttpGet]
