@@ -70,7 +70,11 @@ namespace VOL.Core.WorkFlow
             var condition = typeof(T).GetKeyName().CreateExpression<T>(tableKey, Enums.LinqExpressionType.Equal);
             //动态分库应该查询对应的数据库
             var data = await DBServerProvider.DbContext.Set<T>().Where(condition).FirstOrDefaultAsync();
-
+            if (data==null)
+            {
+                Console.WriteLine($"未查到数据,表：{table},id:{tableKey}");
+                return Array.Empty<object>();
+            }
 
             List<Sys_Dictionary> dictionaries = new List<Sys_Dictionary>();
             var dicNos = tableOptions.Select(s => s.DropNo).ToList();
