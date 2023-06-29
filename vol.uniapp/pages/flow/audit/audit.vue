@@ -1,10 +1,11 @@
 <template>
-	<vol-audit @onAudit="onAudit" :data="data"></vol-audit>
+	<vol-audit v-if="isInit" @onAudit="onAudit" :data="data"></vol-audit>
 </template>
 <script>
 	export default {
 		data() {
 			return {
+				isInit:false,
 				data: {
 					workTable: "",
 					tableKey: ""
@@ -21,6 +22,8 @@
 		onLoad(options) {
 			this.data.workTable = options.workTable;
 			this.data.tableKey = options.tableKey;
+			//console.log(this.data)
+			this.isInit=true;
 		}
 	}
 </script>
