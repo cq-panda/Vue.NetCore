@@ -96,17 +96,25 @@ namespace VOL.Core.Filters
                 }
             }
             //2020.05.05移除x.TableName.ToLower()转换,获取权限时已经转换成为小写
-            var actionAuth =  _userContext.GetPermissions(x => x.TableName == ActionPermission.TableName.ToLower())?.UserAuthArr;
+            var actionAuth =  _userContext.GetPermissions(x => x.TableName == ActionPermission.TableName.ToLower())
+                ?.UserAuthArr?.Contains(ActionPermission.TableAction)??false;
 
-            if (actionAuth == null
-                 || actionAuth.Count() == 0
-                 || !actionAuth.Contains(ActionPermission.TableAction))
+            if (!actionAuth)
             {
-                Logger.Info(LoggerType.Authorzie, $"没有权限操作," +
-                    $"用户ID{_userContext.UserId}:{_userContext.UserTrueName}," +
-                    $"角色ID:{_userContext.RoleId}:{_userContext.UserInfo.RoleName}," +
-                    $"操作权限{ActionPermission.TableName}:{ActionPermission.TableAction}");
-                return ResponseContent.Error(ResponseType.NoPermissions);
+                //2023.06.30增加移动端权限二次判断
+                if (UserContext.MenuType==1)
+                {
+                    actionAuth= _userContext.Permissions.Where(x => x.TableName == ActionPermission.TableName.ToLower())
+                        .Any(c => c.UserAuthArr.Contains(ActionPermission.TableAction));
+                }
+                if (!actionAuth)
+                {
+                    Logger.Info(LoggerType.Authorzie, $"没有权限操作," +
+                   $"用户ID{_userContext.UserId}:{_userContext.UserTrueName}," +
+                   $"角色ID:{_userContext.RoleId}:{_userContext.UserInfo.RoleName}," +
+                   $"操作权限{ActionPermission.TableName}:{ActionPermission.TableAction}");
+                    return ResponseContent.Error(ResponseType.NoPermissions);
+                }
             }
             return ResponseContent.OK();
         }
