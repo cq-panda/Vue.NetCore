@@ -70,7 +70,7 @@
 					{
 						name: "地图导航",
 						icon: '/static/fc.png',
-						path: "/pages/form/form",
+						path: "/pages/map/map",
 						subPage: true //二级页面
 					},
 					//待开发功能

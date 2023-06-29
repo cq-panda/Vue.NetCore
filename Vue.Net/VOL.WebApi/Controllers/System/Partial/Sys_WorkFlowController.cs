@@ -18,6 +18,10 @@ using Microsoft.EntityFrameworkCore;
 using VOL.Core.ManageUser;
 using VOL.Core.Services;
 using VOL.Core.Infrastructure;
+using VOL.Core.DBManager;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using VOL.Core.Extensions;
+using VOL.Core.UserManager;
 
 namespace VOL.System.Controllers
 {
@@ -61,7 +65,6 @@ namespace VOL.System.Controllers
         {
             return Json(WorkFlowContainer.GetDic());
         }
-
         /// <summary>
         /// 获取流程节点数据源(用户与角色)
         /// </summary>
@@ -98,24 +101,63 @@ namespace VOL.System.Controllers
             {
                 return Json(new { status = false, message = "只能选择一条数据进行审核" });
             }
+
             var flow = flows[0];
             var user = UserContext.Current.UserInfo;
+            // 获取按用户审核的id，如果多用户要进行分割
+            // 转换成int数组
+            //var auditUsers = flow.Sys_WorkFlowTableStep
+            //    .Where(x => x.StepType == (int)AuditType.用户审批 && x.StepValue != null)
+            //    .SelectMany(x => x.StepValue.Split(",")).Select(int.Parse).ToArray();
 
-            var auditUsers = flow.Sys_WorkFlowTableStep.Where(x => x.AuditId != null && x.StepType == (int)AuditType.用户审批).Select(s => s.AuditId).ToArray();
-            var users = await _userRepository.FindAsIQueryable(x => auditUsers.Contains(x.User_Id))
-                                        .Select(u => new { u.User_Id, u.UserTrueName }).ToListAsync();
+            //未审批时的用户信息
+            var unauditSteps = flow.Sys_WorkFlowTableStep
+                .Where(x => (x.AuditId == null || x.AuditId == 0) && x.StepType == (int)AuditType.用户审批)
+                .Select(s => new { s.Sys_WorkFlowTableStep_Id, userIds = s.StepValue.Split(",").Select(s => s.GetInt()) }
+                ).ToList();
+
+            var unauditUsers = unauditSteps.SelectMany(c => c.userIds).ToList();
+            List<(int userId, string userName)> userInfo = new List<(int userId, string userName)>();
+            if (unauditUsers.Count > 0)
+            {
+                userInfo = (await _userRepository.FindAsIQueryable(x => unauditUsers.Contains(x.User_Id))
+                                        .Select(u => new { u.User_Id, u.UserTrueName }).ToListAsync())
+                                        .Select(c => (c.User_Id, c.UserTrueName)).ToList();
+            }
 
             var log = await _workFlowTableRepository.DbContext.Set<Sys_WorkFlowTableAuditLog>()
                   .Where(x => x.WorkFlowTable_Id == flow.WorkFlowTable_Id)
-                  .OrderBy(x=>x.CreateDate)
+                  .OrderBy(x => x.CreateDate)
                   .ToListAsync();
+
+            string GetAuditUsers(Sys_WorkFlowTableStep step)
+            {
+                if (step.StepType == (int)AuditType.角色审批)
+                {
+                    int roleId = step.StepValue.GetInt();
+                    return RoleContext.GetAllRoleId().Where(c => c.Id == roleId).Select(c => c.RoleName).FirstOrDefault();
+                }
+                //按部门审批
+                if (step.StepType == (int)AuditType.部门审批)
+                {
+                    var deptId = step.StepValue.GetGuid();
+                    return DepartmentContext.GetAllDept().Where(c => c.id == deptId).Select(c => c.value).FirstOrDefault();
+                }
+                var userIds = unauditSteps.Where(c => c.Sys_WorkFlowTableStep_Id == step.Sys_WorkFlowTableStep_Id)
+                      .Select(c => c.userIds).FirstOrDefault();
+                if (userIds == null)
+                {
+                    return "";
+                }
+                return string.Join("/", userInfo.Where(c => userIds.Contains(c.userId)).Select(s => s.userName));
+            }
 
             var steps = flow.Sys_WorkFlowTableStep
                     .Select(c => new
                     {
                         c.AuditId,
-                        //这里没显示具体是哪个用户审核
-                        Auditor = c.Auditor ?? users.Where(us => us.User_Id == c.AuditId).Select(us => us.UserTrueName).FirstOrDefault(),
+                        Auditor = c.Auditor ?? GetAuditUsers(c),
+                        //Auditor = auditor,
                         c.AuditDate,
                         c.AuditStatus,
                         c.Remark,
@@ -132,14 +174,18 @@ namespace VOL.System.Controllers
                                         && c.StepId == flow.CurrentStepId && GetAuditStepValue(c),
                         isCurrent = c.StepId == flow.CurrentStepId && c.AuditStatus != (int)AuditStatus.审核通过
                     }).OrderBy(o => o.OrderId);
+
+            object form = await WorkFlowManager.GetAuditFormDataAsync(ids[0], tableName);
+
             var data = new
             {
                 status = true,
                 step = flow.CurrentStepId,
                 flow.AuditStatus,
                 auditDic = DictionaryManager.GetDictionary("audit")?.Sys_DictionaryList?.Select(s => new { key = s.DicValue, value = s.DicName }),
-                list = steps.OrderBy(x =>x.OrderId ).ToList(),
+                list = steps.OrderBy(x => x.OrderId).ToList(),
                 log = log,
+                form
             };
 
             return Json(data);
@@ -193,7 +239,8 @@ namespace VOL.System.Controllers
                 return UserContext.Current.UserInfo.DeptIds.Select(s => s.ToString()).Contains(flow.StepValue);
             }
             //按用户审批
-            return UserContext.Current.UserId.ToString() == flow.StepValue;
+            //return UserContext.Current.UserId.ToString() == flow.StepValue;
+            return flow.StepValue.Split(",").Contains(UserContext.Current.UserId.ToString());
 
         }
         [Route("getOptions"), HttpGet]

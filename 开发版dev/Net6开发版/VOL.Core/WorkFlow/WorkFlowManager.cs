@@ -1,17 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VOL.Core.DBManager;
 using VOL.Core.EFDbContext;
 using VOL.Core.Extensions;
+using VOL.Core.Infrastructure;
 using VOL.Core.ManageUser;
 using VOL.Core.Services;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
+using static Npgsql.PostgresTypes.PostgresCompositeType;
 
 namespace VOL.Core.WorkFlow
 {
@@ -29,6 +34,97 @@ namespace VOL.Core.WorkFlow
         public static bool Exists(string table)
         {
             return WorkFlowContainer.Exists(table);
+        }
+        /// <summary>
+        /// 获取审批的数据
+        /// </summary>
+        public static async Task<object> GetAuditFormDataAsync(string tableKey, string table)
+        {
+            Type type = WorkFlowContainer.GetType(table);
+            if (type == null)
+            {
+                return Array.Empty<object>();
+            }
+          
+            var obj = typeof(WorkFlowManager).GetMethod("GetFormDataAsync").MakeGenericMethod(new Type[] { type })
+                .Invoke(null, new object[] { tableKey, table }) as Task<object>;
+            return await obj;
+        }
+        /// <summary>
+        /// 审批表单数据查询与数据源转换
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tableKey"></param>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static async Task<object> GetFormDataAsync<T>(string tableKey, string table) where T : class
+        {
+            string[] fields = WorkFlowContainer.GetFormFields(table);
+            if (fields == null || fields.Length == 0)
+            {
+                return Array.Empty<object>();
+            }
+            var tableOptions = await DBServerProvider.DbContext.Set<Sys_TableColumn>().Where(c => c.TableName == table && fields.Contains(c.ColumnName))
+                   .Select(s => new { s.ColumnName, s.ColumnCnName, s.DropNo, isDate = s.IsImage == 4 }).ToListAsync();
+
+            var condition = typeof(T).GetKeyName().CreateExpression<T>(tableKey, Enums.LinqExpressionType.Equal);
+            //动态分库应该查询对应的数据库
+            var data = await DBServerProvider.DbContext.Set<T>().Where(condition).FirstOrDefaultAsync();
+
+
+            List<Sys_Dictionary> dictionaries = new List<Sys_Dictionary>();
+            var dicNos = tableOptions.Select(s => s.DropNo).ToList();
+            if (dicNos.Count > 0)
+            {
+                dictionaries = DictionaryManager.GetDictionaries(dicNos, true).ToList();
+            }
+
+            List<object> list = new List<object>();
+            var properties = typeof(T).GetProperties();
+
+            foreach (var field in fields)
+            {
+                var property = properties.Where(c => c.Name == field).FirstOrDefault();
+                string value = property.GetValue(data)?.ToString();
+
+                var option = tableOptions.Where(c => c.ColumnName == field).FirstOrDefault();
+                string name = option?.ColumnCnName;
+                if (string.IsNullOrEmpty(name))
+                {
+                    name = property.GetDisplayName();
+                }
+                if (option == null || string.IsNullOrEmpty(value))
+                {
+                    list.Add(new
+                    {
+                        name,
+                        value = value ?? ""
+                    });
+                    continue;
+                }
+                if (option.isDate)
+                {
+                    value = value.GetDateTime().Value.ToString("yyyy-MM-dd");
+                }
+                else if (!string.IsNullOrEmpty(option.DropNo))
+                {
+                    string val = dictionaries.Where(c => c.DicNo == option.DropNo).FirstOrDefault()
+                         ?.Sys_DictionaryList
+                         //这里多选的暂时没处理
+                         ?.Where(c => c.DicValue == value)?.Select(s => s.DicName)
+                         .FirstOrDefault();
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        value = val;
+                    }
+                }
+                list.Add(new
+                {
+                    name,
+                    value
+                });
+            }
+            return list;
         }
 
         public static int GetAuditStatus<T>(string value)
@@ -63,7 +159,7 @@ namespace VOL.Core.WorkFlow
                   .Include(x => x.Sys_WorkFlowTableStep).FirstOrDefault();
             if (workTable == null || workFlow.Sys_WorkFlowStep == null || workFlow.Sys_WorkFlowStep.Count == 0)
             {
-                Console.WriteLine($"未查到流程数据，id：{ workFlow.WorkFlow_Id}");
+                Console.WriteLine($"未查到流程数据，id：{workFlow.WorkFlow_Id}");
                 return;
             }
             //  workTable.CurrentOrderId = 1;
@@ -422,7 +518,7 @@ namespace VOL.Core.WorkFlow
                 autditProperty = typeof(T).GetProperties().Where(s => s.Name.ToLower() == "auditstatus").FirstOrDefault();
             }
             bool isLast = false;
-        
+
 
             //更新明细记录
             workFlow.Sys_WorkFlowTableStep.ForEach(x =>
@@ -437,7 +533,7 @@ namespace VOL.Core.WorkFlow
                     x.Remark = remark;
                 }
             });
-          
+
             //没有找到下一步审批，审核完成
             if ((nextStep == null || nextStep.StepAttrType == StepType.end.ToString()))
             {
@@ -567,7 +663,7 @@ namespace VOL.Core.WorkFlow
             {
                 return;
             }
-            if (nextStep==null)
+            if (nextStep == null)
             {
                 nextStep = new Sys_WorkFlowTableStep() { };
             }
@@ -587,7 +683,7 @@ namespace VOL.Core.WorkFlow
                 {
                     string title = $"有新的任务待审批：流程【{workFlow.WorkName}】,任务【{nextStep.StepName}】";
                     MailHelper.Send(title, title, string.Join(";", emails));
-                    msg = $"审批流程发送邮件,流程名称：{workFlow.WorkName},流程id:{workFlow.WorkFlow_Id},步骤:{nextStep.StepName},步骤Id:{nextStep.StepId},收件人:{ string.Join(";", emails)}";
+                    msg = $"审批流程发送邮件,流程名称：{workFlow.WorkName},流程id:{workFlow.WorkFlow_Id},步骤:{nextStep.StepName},步骤Id:{nextStep.StepId},收件人:{string.Join(";", emails)}";
                     Logger.AddAsync(msg);
                 }
                 catch (Exception ex)

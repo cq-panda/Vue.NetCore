@@ -196,13 +196,14 @@ namespace VOL.WebApi
         public void ConfigureContainer(ContainerBuilder builder)
         {
             Services.AddModule(builder, Configuration);
-
             //初始化流程表，表里面必须有AuditStatus字段
             WorkFlowContainer.Instance
-                //name= 流程实例名称
-                //filterFields流程实例名称
-                .Use<SellOrder>(name: "订单管理", filterFields: x => new { x.OrderType, x.Qty, x.CreateID, x.SellNo })
-
+                   //name= 流程实例名称
+                   //filterFields流程实例名称
+                .Use<SellOrder>(name: "订单管理",
+                    filterFields: x => new { x.OrderType, x.Qty, x.CreateID, x.SellNo }, //审批过滤条件的字段
+                    formFields: x => new { x.OrderType, x.TranNo, x.Qty, x.SellNo, x.Creator }//审批界面显示的字段
+                )
                 .Use<App_Expert>()
                 //run方法必须写在最后位置
                 .Run();

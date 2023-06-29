@@ -278,6 +278,16 @@ export default {
             // 初始化节点
             for (var i = 0; i < this.data.nodeList.length; i++) {
                 let node = this.data.nodeList[i]
+                if (node.userId && node.userId != '') {
+                    // userId为数值类型
+                    if (typeof node.userId == 'number'){
+                        node.userId = [node.userId]
+                    } else {
+                        node.userId = node.userId.split(',').map(Number);
+                    }
+                } else {
+                    node.userId = []
+                }
                 // 设置源点，可以拖出线连接其他节点
                 this.jsPlumb.makeSource(node.id, lodash.merge(this.jsplumbSourceOptions, {}))
                 // // 设置目标点，其他源点拖出的线可以连接该节点

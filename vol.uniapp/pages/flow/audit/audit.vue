@@ -1,36 +1,26 @@
 <template>
-	<view>
-		开发中
-	</view>
+	<vol-audit @onAudit="onAudit" :data="data"></vol-audit>
 </template>
-
 <script>
 	export default {
-		props: {
-			table: {
-				type: String,
-				default: ""
-			},
-			id: {
-				type: String,
-				default: ""
-			},
-			readonly: {
-				type: false,
-				default: ""
-			}
-		},
 		data() {
 			return {
-
+				data: {
+					workTable: "",
+					tableKey: ""
+				}
 			}
 		},
-		methods: {
-
+		methods:{
+			onAudit(){
+				var pages = getCurrentPages(); // 获取页面栈
+				var prevPage = pages[pages.length - 2]; // 上一个页面
+				prevPage.$vm.search();
+			}
+		},
+		onLoad(options) {
+			this.data.workTable = options.workTable;
+			this.data.tableKey = options.tableKey;
 		}
 	}
 </script>
-
-<style>
-
-</style>
