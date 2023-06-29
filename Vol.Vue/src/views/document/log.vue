@@ -52,6 +52,13 @@ export default {
       active: 0,
       log: [
         { date: "2023.06", type: "month" },
+        {date:"2023-06-29 14:47:01", 
+        desc: "增加移动端审批、PC端审批显示表单数据、单节点多人审批(by @kevin100702),分离审批组件，pc与移动端审批单独页面显示，不再跳转原表单。更新文件：后台：vol.core类库下WorkFlow文件夹、Sys_WorkFlowController.cs，starup.cs  ，前端Sys_WorkFlowTable.js、ViewGridAudit.vue ，移动端：flow文件夹、vol-aduit.vue"},
+{date:"2023-06-28 01:50:47", desc: "增加移动端审批流程审批功能,更新Sys_WorkFlowTableController.cs、Sys_WorkFlowTableService.cs、vol.uniapp项目下pages.json、static文件夹、flow文件夹、components文件夹及home.vue"},
+{date:"2023-06-25 22:15:29", desc: "添加按用户审批时可以选择多用户功能"},
+{date:"2023-06-25 14:26:34", desc: "增加移动端生成页面弹出框扫一扫示例"},
+{date:"2023-06-25 11:17:56", desc: "修复组织架构列表页面数据重复显示的问题"},
+{date:"2023-06-24 21:01:36", desc: "增加流程回退功能"},
         { date: "2023-06-24 15:42:27", desc: "重写文档示例，增加直接查询示例代码功能"},
 { date: "2023-06-24 15:40:28", desc: "增加voltable组件上传文件、图片功能，使用见前端开发文档上[明细表上传图片(文件)],更新文件Sys_TableInfoService.cs、voltable.vue"},
 { date: "2023-06-19 22:09:54", desc: "优化表单示例"},
