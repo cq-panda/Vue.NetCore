@@ -697,7 +697,7 @@ namespace VOL.Core.BaseProvider
                     return;
                 }
                 //写入流程
-                WorkFlowManager.AddProcese<T>(entity);
+                WorkFlowManager.AddProcese<T>(entity,addWorkFlowExecuted: AddWorkFlowExecuted);
              //   WorkFlowManager.Audit<T>(entity, AuditStatus.待审核, null, null, null, null, init: true, initInvoke: AddWorkFlowExecuted);
             }
         }

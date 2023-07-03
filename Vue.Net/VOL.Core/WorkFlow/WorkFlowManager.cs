@@ -205,7 +205,7 @@ namespace VOL.Core.WorkFlow
         /// <param name="entity"></param>
         /// <param name="rewrite">是否重新生成流程</param>
         /// <param name="changeTableStatus">是否修改原表的审批状态</param>
-        public static void AddProcese<T>(T entity, bool rewrite = false, bool changeTableStatus = true) where T : class
+        public static void AddProcese<T>(T entity, bool rewrite = false, bool changeTableStatus = true, Action<T, List<int>> addWorkFlowExecuted = null) where T : class
         {
             WorkFlowTableOptions workFlow = WorkFlowContainer.GetFlowOptions(entity);
             //没有对应的流程信息
@@ -722,7 +722,7 @@ namespace VOL.Core.WorkFlow
             }
             else
             {
-                userIds.Add(nextId.GetInt());
+                return nextId.Split(",").Select(c => c.GetInt()).ToList();
             }
             return userIds;
         }
