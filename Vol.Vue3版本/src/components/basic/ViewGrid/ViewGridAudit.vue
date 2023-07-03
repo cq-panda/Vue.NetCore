@@ -1,6 +1,17 @@
 <template>
   <vol-box :footer="false" v-model="model" :height="height" :width="width" :padding="0" :lazy="true" title="审核">
-    <div class="audit-model-content" :style="{ height: height - 70 + 'px' }">
+
+    <div class="audit-model-content" :style="{ height: height - 100 + 'px' }">
+      <el-descriptions class="desc-top" :column="3" size="default" :border="true">
+        <el-descriptions-item v-for="(item, index) in formData" :key="index">
+          <template #label>
+            <div class="cell-item">
+              {{ item.name }}
+            </div>
+          </template>
+          {{ item.value }}
+        </el-descriptions-item>
+      </el-descriptions>
       <el-radio-group v-show="hasFlow" style="padding-left: 15px;" v-model="activeName" class="ml-4">
         <el-radio label="audit" size="large">审核</el-radio>
         <el-radio label="log" size="large">审核记录</el-radio>
@@ -9,7 +20,7 @@
         <div class="fx-left" v-if="hasFlow">
           <div class="v-steps">
             <div v-for="(item, index) in workFlowSteps" :key="index">
-              <div class="step-item" v-if="item.stepAttrType == 'start'">
+              <div class="step-item" :class="{'step-item-ad':item.auditId||item.stepAttrType=='start'}" v-if="item.stepAttrType == 'start'">
                 <div class="left-item">
                   <div>流程开始</div>
                   <div class="left-date">{{ item.createDate }}</div>
@@ -59,7 +70,7 @@
         <div class="fx-right" :style="{ width: !hasFlow ? '100%' : '400px' }" v-if="isCurrentUser || !hasFlow">
 
           <div v-if="!hasFlow">
-            <el-alert :title="'当前选中【' +rowLen + '】条记录待审核..'" type="success" :closable="false"/>
+            <el-alert :title="'当前选中【' + rowLen + '】条记录待审核..'" type="success" :closable="false" />
           </div>
           <div class="rd">
             <span>审批：</span>
@@ -77,8 +88,8 @@
         </div>
       </div>
       <div v-show="activeName == 'log'">
-        <vol-table :tableData="tableData" :columns="columns" :height="height-130" :pagination-hide="true" :load-key="false"
-          :text-inline="false" :ck="false"></vol-table>
+        <vol-table :tableData="tableData" :columns="columns" :height="height - 250" :pagination-hide="true"
+          :load-key="false" :text-inline="false" :ck="false"></vol-table>
       </div>
     </div>
   </vol-box>
@@ -111,6 +122,7 @@ export default defineComponent({
     const workFlowSteps = reactive([]);
 
     const hasFlow = ref(false)
+    const formData = reactive([]);
 
     const auditParam = reactive({
       //审核对象
@@ -139,12 +151,13 @@ export default defineComponent({
     const getAuditStatus = (key) => {
       return (auditDic.find(x => { return x.key === key + '' }) || { value: key }).value;
     }
-    const rowLen=ref(0)
+    const rowLen = ref(0)
     let currentRows = []
-    const getAuditInfo = () => {
-      const table = props.option.url.replaceAll('/', '');
+    const getAuditInfo = (option) => {
+      const table = option.table; //props.option.url.replaceAll('/', '');
       const url = `api/Sys_WorkFlow/getSteps?tableName=${table}`
-      let ids = currentRows.map(x => { return x[props.option.key] });
+      //  let ids = currentRows.map(x => { return x[props.option.key] });
+      let ids = currentRows.map(x => { return x[option.key] });
       // ['498043c1-fbd0-4a35-a870-523823912a9b']
       http.post(url, ids, true).then(result => {
         if (!result.status) {
@@ -164,7 +177,7 @@ export default defineComponent({
             proxy.$message.error('只能选择待审批或审核中的数据');
             return;
           }
-          rowLen.value=currentRows.length;
+          rowLen.value = currentRows.length;
           model.value = true;
           width.value = 430;
           height.value = 330;
@@ -173,7 +186,7 @@ export default defineComponent({
           return;
         }
         model.value = true;
-        height.value = document.body.clientHeight*0.9;
+        height.value = document.body.clientHeight * 0.95;
         width.value = 820;
         if (!auditDic.length) {
           auditDic.push(...(result.auditDic || []))
@@ -188,6 +201,8 @@ export default defineComponent({
         workFlowSteps.push(...result.list);
         tableData.length = 0;
         tableData.push(...result.log)
+        formData.length = 0;
+        formData.push(...(result.form || []))
       })
     }
     //
@@ -197,20 +212,51 @@ export default defineComponent({
         proxy.$message.error('请选择审批项');
         return;
       }
-      emit("auditClick", auditParam, currentRows, (result) => {
-        if (result.status) {
-          model.value = false;
-          tableData.length = 0;
+
+      if (!isFlow.value) {
+        emit("auditClick", auditParam, currentRows, (result) => {
+          if (result.status) {
+            model.value = false;
+            tableData.length = 0;
+          }
+        });
+        return;
+      }
+      //我的流程中点击审批
+      //保存审核
+      let keys = currentRows.map(x => { return x[currentOption.key] });
+      let url = `api/${currentOption.table}/audit?auditReason=${auditParam.reason}&auditStatus=${auditParam.value}`
+      http.post(url, keys, '审核中....').then((x) => {
+        if (!x.status) {
+          proxy.$message.error(x.message);
+          return;
         }
+        model.value = false;
+        proxy.$parent.search()
+        proxy.$message.success(x.message)
       });
     }
-
-    const open = (rows) => {
+    const isFlow = ref(false);
+    let currentOption = {};
+    const open = (rows, flow) => {
+      isFlow.value = !!flow;
       currentRows = rows;
       activeName.value = 'audit'
       auditParam.reason = '';
       auditParam.value = -1;
-      getAuditInfo();
+
+      if (flow) {
+        currentOption = {
+          table: rows[0].WorkTable,
+          key: "WorkTableKey"// rows[0].WorkTableKey
+        }
+      } else {
+        currentOption = {
+          table: props.option.url.replaceAll('/', ''),
+          key: props.option.key
+        }
+      }
+      getAuditInfo(currentOption);
 
     }
 
@@ -230,7 +276,9 @@ export default defineComponent({
       open,
       isCurrentUser,
       hasFlow,
-      rowLen
+      rowLen,
+      formData,
+      isFlow
     }
   }
 });
@@ -362,5 +410,18 @@ export default defineComponent({
     }
   }
 
+}
+
+.cell-item {
+  font-weight: 500;
+}
+
+.desc-top {
+  padding: 5px 10px 0 10px;
+}
+.step-item-ad{
+  *{
+    color: #9f9898 !important;
+  }
 }
 </style>

@@ -6,7 +6,8 @@
 		<view v-if="isInited">
 			<view v-show="currentIndex===index" v-for="(data,index) in list" :key="index">
 				<vol-table titleField="WorkName" :columns="data.columns" :ref="'list'+index" @loadBefore="loadBefore"
-				@rowButtonClick="rowButtonClick"	@loadAfter="loadAfter" @rowButtons="getRowButtons" v-if="data.inited" :url="data.url">
+					@rowButtonClick="rowButtonClick" @loadAfter="loadAfter" @rowButtons="getRowButtons"
+					v-if="data.inited" :url="data.url">
 				</vol-table>
 			</view>
 		</view>
@@ -14,6 +15,9 @@
 </template>
 
 <script>
+	/*
+	被审批的表，需要添加移动端菜单，并且给当前角色分配审批权限
+	*/
 	export default {
 		data() {
 			return {
@@ -146,7 +150,7 @@
 						text: "审批",
 						shape: "circle",
 						type: "error",
-					//	plain: true
+						//	plain: true
 					}]
 				} else {
 					buttons = [{
@@ -158,15 +162,16 @@
 				}
 				callback(buttons);
 			},
-			rowButtonClick(btn, rowindex, row){
+			rowButtonClick(btn, rowindex, row) {
 				//审批
-				if (this.currentIndex===0) {
-					
-				}else{
+				if (this.currentIndex === 0) {
+
+				} else {
 					//查看
 				}
+				//{WorkTable:options.WorkTable,WorkTableKey:options.WorkTableKey}
 				uni.navigateTo({
-					url:"/pages/flow/audit/audit"
+					url: "/pages/flow/audit/audit?workTable=" + row.WorkTable + '&tableKey=' + row.WorkTableKey
 				})
 				//this.$toast('审批')
 			},
@@ -174,6 +179,12 @@
 				console.log(item)
 				this.currentIndex = item.index;
 				this.list[item.index].inited = true;
+			},
+			search() {
+				console.log('审批后')
+				//审批后
+				this.$refs.list0[0].load(null, true);
+				this.$refs.list1 && this.$refs.list1[0].load(null, true)
 			},
 			loadBefore(params, callback) {
 				// if (this.currentIndex===0) {
@@ -185,9 +196,9 @@
 				callback(true);
 			},
 			loadAfter(data, callback) {
-				if (!this.list[this.currentIndex].badge.value) {
-					this.list[this.currentIndex].badge.value = data.total;
-				}
+				//if (!this.list[this.currentIndex].badge.value) {
+				this.list[this.currentIndex].badge.value = data.total;
+				//}
 				//分页时加载数据时会触发
 				data.rows.forEach(row => {
 					if (row.img) {
