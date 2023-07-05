@@ -447,7 +447,7 @@
 				this.inFormFields[this.actionSheetCurrentItem.field] = item.key;
 				this.actionSheetModel = false;
 				this.$emit("onChange", this.actionSheetCurrentItem.field, this.inFormFields[this.actionSheetCurrentItem
-					.field]);
+					.field],item);
 			},
 			isMultiSelect(item) {
 				var type;

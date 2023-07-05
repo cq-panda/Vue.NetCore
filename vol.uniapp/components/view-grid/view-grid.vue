@@ -328,11 +328,11 @@
 				this.sortSelectModel = false;
 				//	this.order
 			},
-			editGirdFormOnChange(field, value) { //编辑新建表单的select、日期组件选择事件
-				this.editFormOnChange && this.editFormOnChange(field, value)
+			editGirdFormOnChange(field, value,item) { //编辑新建表单的select、日期组件选择事件
+				this.editFormOnChange && this.editFormOnChange(field, value,item)
 			},
-			searchGridFormOnChange(field, value) { //查询表单的select、日期组件选择事件
-				this.searchFormOnChange && this.searchFormOnChange(field, value)
+			searchGridFormOnChange(field, value,item) { //查询表单的select、日期组件选择事件
+				this.searchFormOnChange && this.searchFormOnChange(field, value,item)
 			},
 			getSearchItem(field) { //获取查询的参数
 				let data = this.searchFormOptions.find(x => {
