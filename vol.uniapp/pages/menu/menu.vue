@@ -39,11 +39,11 @@
 				return this.menu = menu;
 			}
 			this.http.get("api/menu/getTreeMenu", {}, false).then(result => {
-				this.menu = result;
+				this.menu = result.menu?result.menu:result;
 				if (this.menu.length) {
 					this.itemClick(this.getMenu()[0], 0);
 				}
-				this.$store.commit("setPermission", result);
+				this.$store.commit("setPermission", this.menu);
 			})
 		},
 		onShow() {
