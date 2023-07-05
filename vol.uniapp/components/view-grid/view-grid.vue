@@ -583,7 +583,7 @@
 					return;
 				}
 				await this.http.get("api/menu/getTreeMenu", {}, false).then(result => {
-					this.permission = result;
+					this.permission = result.menu?result.menu:result;
 					this.$store.commit("setPermission", result);
 					this.initPermissionButtons();
 				})
