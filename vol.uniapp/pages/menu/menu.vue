@@ -43,7 +43,8 @@
 				if (this.menu.length) {
 					this.itemClick(this.getMenu()[0], 0);
 				}
-				this.$store.commit("setPermission", this.menu);
+				
+				this.$store.commit("setPermission", JSON.parse(JSON.stringify(this.menu)));
 			})
 		},
 		onShow() {
