@@ -627,5 +627,35 @@ namespace VOL.Core.BaseProvider
                 DbContext.Entry(entity).State = EntityState.Detached;
             }
         }
+
+        /// <summary>
+        /// 查询字段不为null或者为空
+        /// </summary>
+        /// <param name="field">x=>new {x.字段}</param>
+        /// <param name="value">查询的类</param>
+        /// <param name="linqExpression">查询类型</param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> WhereIF([NotNull] Expression<Func<TEntity, object>> field, string value, LinqExpressionType linqExpression = LinqExpressionType.Equal)
+        {
+            return EFContext.Set<TEntity>().WhereNotEmpty(field, value, linqExpression);
+        }
+
+        public virtual IQueryable<TEntity> WhereIF(bool checkCondition, Expression<Func<TEntity, bool>> predicate)
+        {
+            if (checkCondition)
+            {
+                return EFContext.Set<TEntity>().Where(predicate);
+            }
+            return EFContext.Set<TEntity>();
+        }
+
+        public virtual IQueryable<T> WhereIF<T>(bool checkCondition, Expression<Func<T, bool>> predicate) where T : class
+        {
+            if (checkCondition)
+            {
+                return EFContext.Set<T>().Where(predicate);
+            }
+            return EFContext.Set<T>();
+        }
     }
 }

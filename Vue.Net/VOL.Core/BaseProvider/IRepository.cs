@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -283,5 +284,31 @@ namespace VOL.Core.BaseProvider
         /// <param name="entity"></param>
         void Detached(TEntity entity);
         void DetachedRange(IEnumerable<TEntity> entities);
+
+
+
+        IQueryable<TEntity> WhereIF([NotNull] Expression<Func<TEntity, object>> field, string value, LinqExpressionType linqExpression = LinqExpressionType.Equal);
+
+        /// <summary>
+        ///  if判断查询
+        /// </summary>
+        /// 查询示例，value不为null时参与条件查询
+        ///    string value = null;
+        ///    repository.WhereIF(value!=null,x=>x.Creator==value);
+        /// <param name="checkCondition"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        IQueryable<TEntity> WhereIF(bool checkCondition, Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        ///  if判断查询
+        /// </summary>
+        /// 查询示例，value不为null时参与条件查询
+        ///    string value = null;
+        ///    repository.WhereIF<Sys_User>(value!=null,x=>x.Creator==value);
+        /// <param name="checkCondition"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        IQueryable<T> WhereIF<T>(bool checkCondition, Expression<Func<T, bool>> predicate) where T : class;
     }
 }
