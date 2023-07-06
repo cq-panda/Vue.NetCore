@@ -397,8 +397,9 @@
 				})
 				this.$emit('dicInited', result);
 			},
-			cascaderConfirm(value, parentIds) {
+			cascaderConfirm(value, item) {
 				this.inFormFields[this.actionSascaderCurrentItem.field] = value;
+				this.$emit("onChange", this.actionSascaderCurrentItem.field,value, item);
 			},
 			showActionSheet(item) {
 				if (item.type == 'cascader') {
