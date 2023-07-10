@@ -496,20 +496,21 @@ export default {
       for (let index = 0; index < this.files.length; index++) {
         let file = this.files[index];
         if (file.input) {
-          let name = file.name.split('.');
-          name = name[name.length - 1].toLocaleLowerCase();
-          let isImg = this.imgTypes.indexOf(name) != -1;
-          if (isImg && (name == 'jpg' || name == 'jpeg')) {
-            //>200KB的开启压缩
-            if (isImg && file.size / 1024 / 1024 > 0.2) {
-              console.log('压缩前' + file.size);
-              file = await this.compressImg(file);
-              file.compress = true;
-              this.files[index] = file;
-              this.files[index].input = true;
-              console.log('压缩后' + file.size);
-            }
-          }
+          //2023.07屏蔽图片压缩
+          // let name = file.name.split('.');
+          // name = name[name.length - 1].toLocaleLowerCase();
+          // let isImg = this.imgTypes.indexOf(name) != -1;
+          // if (isImg && (name == 'jpg' || name == 'jpeg')) {
+          //   //>200KB的开启压缩
+          //   if (isImg && file.size / 1024 / 1024 > 0.2) {
+          //     console.log('压缩前' + file.size);
+          //     file = await this.compressImg(file);
+          //     file.compress = true;
+          //     this.files[index] = file;
+          //     this.files[index].input = true;
+          //     console.log('压缩后' + file.size);
+          //   }
+          // }
           forms.append('fileInput', file, file.name);
         }
       }
