@@ -331,13 +331,13 @@ namespace VOL.Core.WorkFlow
                 }
             }
 
-            foreach (var setp in steps)
-            {
-                if (setp.StepType == (int)AuditType.用户审批)
-                {
-                    setp.AuditId = setp.StepValue.GetInt();
-                }
-            }
+            //foreach (var setp in steps)
+            //{
+            //    if (setp.StepType == (int)AuditType.用户审批)
+            //    {
+            //        setp.AuditId = setp.StepValue.GetInt();
+            //    }
+            //}
 
             //没有满足流程的数据不走流程
             int count = steps.Where(x => x.StepAttrType != StepType.start.ToString() && x.StepAttrType != StepType.end.ToString()).Count();
@@ -446,7 +446,7 @@ namespace VOL.Core.WorkFlow
                 CreateDate = DateTime.Now,
                 StepName = currentStep.StepName
             };
-            var filterOptions = WorkFlowContainer.GetFlowOptions(x => x.WorkTable == workTable)
+            var filterOptions = WorkFlowContainer.GetFlowOptions(x => x.WorkFlow_Id == workFlow.WorkFlow_Id)
                  .FirstOrDefault()
                  ?.FilterList
                  ?.Where(x => x.StepId == currentStep.StepId)
@@ -562,7 +562,7 @@ namespace VOL.Core.WorkFlow
 
                 if (workFlowExecuted != null)
                 {
-                    webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0, nextStep?.StepValue), isLast);
+                    webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0, nextStep?.StepValue), true);
                 }
 
                 return webResponse;
