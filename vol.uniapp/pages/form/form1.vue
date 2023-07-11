@@ -10,7 +10,7 @@
 		<vol-alert style="margin-top: 40rpx;">
 			<view>标签显示在上方</view>
 		</vol-alert>
-		<vol-form  labelPosition="top" :load-key="true" ref="form2" :form-options.sync="editFormOptions"
+		<vol-form  labelPosition="left" :load-key="true" ref="form2" :form-options.sync="editFormOptions"
 			:formFields.sync="editFormFields">
 		</vol-form>
 	</view>
@@ -23,7 +23,7 @@
 				editFormFields: {
 					inputText: "这是必填输入框",
 					pwd: "12345",
-					selectVal: "--",
+					selectVal: "1",
 					selectListVal: [], //多选这里的值是数组 
 					dateValue: "2022-03-27",
 					datetimeValue: "2022-03-27 20:15"
@@ -48,7 +48,7 @@
 						"required": true,
 						data: [],
 						readonly: true,
-						key: "pn"
+						key: "enable"
 					},
 					{
 						"title": "多选框",
