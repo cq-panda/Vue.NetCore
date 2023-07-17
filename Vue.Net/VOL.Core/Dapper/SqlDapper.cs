@@ -780,7 +780,19 @@ namespace VOL.Core.Dapper
             }
             catch (Exception ex)
             {
-                throw ex;
+                if (ex.Message.Contains("local data is disabled"))
+                {
+                    try
+                    {
+                        DBServerProvider.SqlDapper.ExcuteNonQuery("set global local_infile = 'ON';", null);
+                    }
+                    catch (Exception e)
+                    {
+
+                        Console.WriteLine($"开启mysql日志写入异常:{e.Message}");
+                    }
+                }
+                throw new Exception(ex.Message, ex.InnerException);
             }
             return insertCount;
             //   File.Delete(path);
