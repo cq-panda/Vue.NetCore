@@ -728,9 +728,16 @@ let methods = {
           this.$success(x.message);
           //新建
           this.currentAction = this.const.ADD;
+          //2023.07.23增加连续添加后方法
+          let _formFields;
+          if (this.continueAddAfter) {
+            _formFields=JSON.parse(JSON.stringify(this.editFormFields))
+          }
           this.currentRow = {};
           this.resetAdd();
           this.refresh();
+          //2023.07.23增加连续添加后方法
+          this.continueAddAfter&&this.continueAddAfter(_formFields,formData,x);
           return;
         }
       } else {
