@@ -428,7 +428,7 @@
                 :disabled="btn.hasOwnProperty('disabled') && !!btn.disabled"
                 @click="onClick(btn.onClick)"
               >
-                <i :class="btn.icon"> {{ btn.name }}</i>
+                <i :class="btn.icon"></i>{{ btn.name }}
               </el-button>
               <el-button
                 size="small"
