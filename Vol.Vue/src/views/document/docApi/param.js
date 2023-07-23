@@ -309,6 +309,7 @@ const param = {
   },
   viewGrid: {
     attr: [
+      { name: "重要说明", desc: "<span style='color:red;'>此处列出来的这些属性，在生成页面对应表名的.js文件onInit中可以直接this.xx使用,见下面示例", type: "json", default: "" },
       { name: "自定义扩展页面获取父组件(获取生成页面对象)", desc: "<span styl`e='color:red;'>1、通过 this.$emit('parentCall', $parent => { //如：调用页面查询 $parent.search()  })可以访问父组件ViewGird中的任何属性、对象、方法<p>2、见上面示例【扩展弹出框按钮】</p></span>", type: "", default: "" },
       { name: "获取自定义扩展页面", desc: "this.$refs.gridHeader/gridBody/gridFooter/modelHeader/modelBody/modelFooter", type: "", default: "" },
       { name: "rowKey", desc: "<span style='color:red;'>树形table的主键字段,字段的值必须是唯一的(2021.05.02)</span>", type: "String", default: "" },
@@ -320,6 +321,8 @@ const param = {
    // { name: "searchFormFileds", desc: "查询字段，同上", type: "json", default: "{}" },
     { name: "searchFormFields", desc: "<span style='color:red;'>查询字段同上</span>", type: "json", default: "" },
     { name: "searchFormOptions", desc: "查询配置，同上", type: "array", default: "[]" },
+    { name: "select2Count", desc: "下拉框选项超出500个后会启用element plus中的select2组件", type: "int", default: "500" },
+    
     {
       name: "table",
       desc: "表其他配置,如：     table: {\
@@ -334,6 +337,8 @@ const param = {
     },
     { name: "extend", desc: "扩展js中的所有对象,如:doc_viewGirdExtension.js整个js文件的对象", type: "json", default: "array" },
     { name: "single", desc: "查询界面的表是否只能单选", type: "bool", default: "false" },
+    { name: "continueAdd", desc: "连续添加(新建功能连续添加不会关闭弹出框)", type: "bool", default: "false" },
+    { name: "continueAddName", desc: "连续添加的按钮文字", type: "string", default: "保存后继续添加" },
     { name: "downloadFileName", desc: "自定义导出文件名(2022.09.26更新前端组件后才能使用)", type: "string", default: "" },
     { name: "boxModel", desc: "弹出新建、编辑框状态", type: "bool", default: "false" },
     { name: "currentAction", desc: "当前操作的状态:如：Add,Update", type: "string", default: "" },
@@ -1579,6 +1584,51 @@ const param = {
 		</div>
 		<div>
 			&nbsp; &nbsp; },
+      <div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+	<div>
+		<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+			<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+				<div>
+					&nbsp; &nbsp; <span style="color:#dcdcaa;">continueAddAfter</span>(<span style="color:#9cdcfe;">formFields</span>,<span style="color:#9cdcfe;">formData</span>,<span style="color:#9cdcfe;">result</span>){
+				</div>
+				<div>
+					&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//连续添加后方法，这是新建后执行的方法2023.07.23更新methods.js中saveExecute方法才能使用</span>
+				</div>
+<br />
+				<div>
+					&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//formFields：界面上表单的示例</span>
+				</div>
+				<div>
+					&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//formData：提交到后台的数据</span>
+				</div>
+				<div>
+					&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//result:保存后返回 数据</span>
+				</div>
+<br />
+				<div>
+					&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//注意:需要在上面的onInit方法设置this.continueAdd=true才会执行continueAddAfter</span>
+				</div>
+<br />
+				<div>
+					&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//新建后可以设置一些默认值(不重置表单的数据)</span>
+				</div>
+				<div>
+					&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.editFormFields.字段=formFields.字段</span>
+				</div>
+<br />
+				<div>
+					&nbsp; &nbsp; },
+				</div>
+			</div>
+			<div>
+				<span style="color:#6a9955;"></span>
+			</div>
+		</div>
+	</div>
+	<div>
+		<span style="color:#6a9955;"></span> 
+	</div>
+</div>
 		</div>
 	</div>
 </p>

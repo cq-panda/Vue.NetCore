@@ -1,17 +1,6 @@
 <template>
-  <div>
-    <div class="i-text">
-      <h2>组件引入方式</h2>
-    </div>
-    <pre class="bg-ms">
-        <code>
-        import Icons from "@/components/basic/Icons.vue";
-        </code>
-      </pre>
-    <div>
-      <docParamTable name="icons"></docParamTable>
-    </div>
-    <Icons :on-select="onSelect"></Icons>
+  <div style="text-align: center;padding:50px">
+  <a href="https://element.eleme.cn/#/zh-CN/component/icon" target="_blank" style="font-size: 20px;">查看Element ui图标</a>
   </div>
 </template>
 <script>
