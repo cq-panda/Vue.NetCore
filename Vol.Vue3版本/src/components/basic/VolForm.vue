@@ -1203,7 +1203,7 @@ export default defineComponent({
           (item.type == 'mail' ? '必须是一个邮箱地址' : '不能为空');
         let type = item.type == 'mail' ? 'email' : types[item.columnType];
         let _rule = {
-          required: true,
+          required: item.required,
           message: message,
           trigger: 'blur',
           type: type,
