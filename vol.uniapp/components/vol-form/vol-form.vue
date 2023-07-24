@@ -8,7 +8,7 @@
 				<text class="f-form-label-required" v-if="item.require||item.required">*</text>
 				<text>{{item.title}}</text>
 			</view>
-			<view v-if="item.readonly" style="flex: 1;font-size: 15px;text-align: right;">
+			<view v-if="item.readonly||item.disabled" style="flex: 1;font-size: 15px;text-align: right;">
 				<view v-if="item.type=='img'" class="readonly-imgs">
 					<image style="width: 70px;height: 70px;margin-left: 20rpx;border-radius: 10rpx;"
 						@click="previewImage(item,imgIndex)" v-for="(src,imgIndex) in getImgSrcs(item)" :key="imgIndex"
