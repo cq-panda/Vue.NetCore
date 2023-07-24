@@ -511,7 +511,9 @@
 			},
 			rowItemCheckClick(row, index) {
 				console.log('rowItemCheckClick')
+				// #ifdef MP-WEIXIN
 				this.tableData[index].ck = !row.ck;
+				// #endif
 				this.$set(row, 'ck', !row.ck);
 			}
 		},
