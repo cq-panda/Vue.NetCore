@@ -5,7 +5,8 @@
     :class="[
       textInline ? 'text-inline' : '',
       fxRight ? 'fx-right' : '',
-      isChrome ? 'chrome' : ''
+      isChrome ? 'chrome' : '',
+      smallCell?'small-table':''
     ]"
   >
     <div class="mask" v-show="loading"></div>
@@ -682,22 +683,18 @@ export default defineComponent({
       currentColumn:[],
       fileInfo:[],
       uploadUrl:"",
-      uploadModel:false
+      uploadModel:false,
+      smallCell:true
     };
   },
   created() {
     try {
-      this.useTag = this.$global.table.useTag;
+      this.useTag = this.$global.table&&this.$global.table.useTag;
+      this.smallCell=this.$global.table&&this.$global.table.smallCell;
     } catch (error) {
       console.log(error.message);
     }
-    //2021.06.19判断谷歌内核浏览重新计算table高度
-    // if (
-    //   navigator.userAgent.indexOf('Chrome') != -1 ||
-    //   navigator.userAgent.indexOf('Edge') != -1
-    // ) {
-    //   this.isChrome = true;
-    // }
+
     this.realHeight = this.getHeight();
     this.realMaxHeight = this.getMaxHeight();
     this.fxRight = this.columns.some((x) => {
@@ -1727,11 +1724,16 @@ export default defineComponent({
   margin-left: 8px;
   font-weight: 500;
   min-width: 28px;
+  height: 27px;
 }
 .vol-table ::v-deep(.el-pager .number.active) {
   background: #ed4014;
   color: #fff;
 }
+.vol-table ::v-deep(.el-pagination .el-input__wrapper) {
+  height: 27px;
+}
+
 .vol-table .t-file {
   color: #1e8cff;
   cursor: pointer;
@@ -1773,7 +1775,7 @@ export default defineComponent({
   /* padding: 0px !important; */
   background-color: #f8f8f9 !important;
   font-size: 13px;
-  height: 46px;
+  /* height: 46px; */
   color: #616161;
 }
 
@@ -1828,5 +1830,13 @@ export default defineComponent({
 }
 .table-input:focus {
   outline: 1px solid #49a3fd;
+}
+
+.small-table ::v-deep(.el-pagination .el-input__wrapper) {
+  height: 27px;
+}
+.small-table ::v-deep(.el-table__cell) {
+  padding: 6px 0;
+  font-size: 13px;
 }
 </style>
