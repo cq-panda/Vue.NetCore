@@ -786,9 +786,9 @@ export default defineComponent({
         }
       }
     };
-    const validate = (callback) => {
+    const validate =async (callback) => {
       let result = true;
-      volform.value.validate((valid) => {
+      await volform.value.validate((valid) => {
         if (!valid) {
           appContext.config.globalProperties.$message.error('数据验证未通过!');
           result = false;
