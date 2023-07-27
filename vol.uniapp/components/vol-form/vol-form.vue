@@ -35,7 +35,7 @@
 				<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>
 			</view>
 
-			<template v-else-if="item.type=='date'||item.type=='datetime'">
+			<template v-else-if="item.type=='date'||item.type=='datetime'||item.type=='month'">
 				<template v-if="item.range">
 					<view style="flex: 1;" :style="{'max-width': item.type=='date'?'120rpx':'30rpx'}"></view>
 					<view class="f-form-content f-form-content-select" style="text-align: left;"
@@ -71,7 +71,9 @@
 					</view>
 					<view style="flex:1;">
 						<view style="font-size:15px;padding-right: 12rpx;">
-							{{item.type=='date'?(inFormFields[item.field]||'').substr(0,10):inFormFields[item.field]}}
+							{{item.type=='date'?(inFormFields[item.field]||'').substr(0,10):
+							  (item.type=='month'?(inFormFields[item.field]||'').substr(0,7):inFormFields[item.field])
+							}}
 						</view>
 					</view>
 					<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>
@@ -130,8 +132,8 @@
 				<!--  <view> -->
 				<u-radio-group :placement="item.placement" v-model="formFields[item.field]">
 					<u-radio v-for="(option,opIndex) in item.data"
-						:customStyle="{'margin-bottom':item.placement=='column'?'30rpx':0,'margin-right':item.placement=='column'?'0':'30rpx'}" :label="option.value"
-						:name="option.key">
+						:customStyle="{'margin-bottom':item.placement=='column'?'30rpx':0,'margin-right':item.placement=='column'?'0':'30rpx'}"
+						:label="option.value" :name="option.key">
 					</u-radio>
 				</u-radio-group>
 				<!-- 	  </view> -->
@@ -176,7 +178,7 @@
 		<!--日期 -->
 		<u-datetime-picker class="form-popup" :minDate="pickerCurrentItem.min" :maxDate="pickerCurrentItem.max"
 			:zIndex="9999999" :closeOnClickOverlay="true" :show="pickerModel" :value="pickerValue"
-			:mode="pickerCurrentItem.type||'date'" closeOnClickOverlay @confirm="pickerConfirm" @cancel="pickerClose"
+			:mode="pickerCurrentItem.type=='month'?'year-month':pickerCurrentItem.type" closeOnClickOverlay @confirm="pickerConfirm" @cancel="pickerClose"
 			@close="pickerClose"></u-datetime-picker>
 		<!--  下拉框 -->
 		<u-popup @touchmove.prevent class="form-popup" :zIndex="999999" :show="actionSheetModel"
@@ -308,10 +310,13 @@
 		created() {
 			//日期最小最大值转换
 			this.formOptions.forEach(option => {
-				if ((option.type == 'date' || option.type == 'datetime')) {
+				if ((option.type == 'date' || option.type == 'datetime'||option.type=='month')) {
 					if (!option.min) {
 						option.min = Number(new Date('1990/01/01 00:00:00')) //
 					} else if (typeof option.min == 'string') {
+						if (option.type=='month'&&option.min.length!=7) {
+							option.min=option.min.substring(0,7);
+						}
 						option.min = Number(new Date(option.min.replace(/-/g, "/")))
 					}
 					if (!option.max) {
@@ -399,7 +404,7 @@
 			},
 			cascaderConfirm(value, item) {
 				this.inFormFields[this.actionSascaderCurrentItem.field] = value;
-				this.$emit("onChange", this.actionSascaderCurrentItem.field,value, item);
+				this.$emit("onChange", this.actionSascaderCurrentItem.field, value, item);
 			},
 			showActionSheet(item) {
 				if (item.type == 'cascader') {
@@ -448,7 +453,7 @@
 				this.inFormFields[this.actionSheetCurrentItem.field] = item.key;
 				this.actionSheetModel = false;
 				this.$emit("onChange", this.actionSheetCurrentItem.field, this.inFormFields[this.actionSheetCurrentItem
-					.field],item);
+					.field], item);
 			},
 			isMultiSelect(item) {
 				var type;
@@ -582,8 +587,15 @@
 					}
 					val = val[index];
 				}
-				val = val || (item.type == 'date' ? this.base.getDate() : this.base.getDateTime().substring(0,
-					16))
+				if (!val) {
+					if (item.type == 'date') {
+						val = this.base.getDate();
+					} else if (item.type == 'month') {
+						val = this.base.getDate();
+					} else {
+						val = this.base.getDateTime().substring(0, 16)
+					}
+				}
 				this.pickerValue = Number(new Date(val.replace(/-/g, "/")))
 				this.pickerModel = true;
 				this.hideKeyboard();
@@ -645,7 +657,8 @@
 					return;
 				});
 				if (_option) {
-					if (['date', 'datetime', 'checkbox', 'select', 'selectList', 'radio', 'switch'].indexOf(_option
+					if (['date', 'datetime', 'month', 'checkbox', 'select', 'selectList', 'radio', 'switch'].indexOf(
+							_option
 							.type) != -
 						1) {
 						this.$toast('请选择' + _option.title, )
