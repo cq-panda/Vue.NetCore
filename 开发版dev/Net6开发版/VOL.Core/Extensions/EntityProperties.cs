@@ -50,6 +50,14 @@ namespace VOL.Core.Extensions
             return queryable.Where(field.CreateExpression<T>(values, LinqExpressionType.In));
         }
 
+        public static IQueryable<T> WhereIF<T>(this IQueryable<T> queryable,bool checkCondition, Expression<Func<T, bool>> predicate)
+        {
+            if (checkCondition)
+            {
+                return queryable.Where(predicate);
+            }
+            return queryable;
+        }
         /// <summary>
         /// 如果值为null则不生成条件
         /// </summary>
