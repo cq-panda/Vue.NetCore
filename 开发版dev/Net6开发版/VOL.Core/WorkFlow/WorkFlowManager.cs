@@ -347,7 +347,7 @@ namespace VOL.Core.WorkFlow
             }
 
             //设置进入流程后的第一个审核节点,(开始节点的下一个节点)
-            var nodeInfo = steps.Where(x => x.ParentId == steps[0].StepId).Select(s => new { s.StepId, s.StepName,s.StepType }).FirstOrDefault();
+            var nodeInfo = steps.Where(x => x.ParentId == steps[0].StepId).Select(s => new { s.StepId, s.StepName,s.StepType,s.StepValue }).FirstOrDefault();
             workFlowTable.CurrentStepId = nodeInfo.StepId;
             workFlowTable.StepName = nodeInfo.StepName;
 
@@ -369,7 +369,7 @@ namespace VOL.Core.WorkFlow
 
             if (addWorkFlowExecuted!=null)
             {
-                var userIds = GetAuditUserIds(nodeInfo.StepType ?? 0, nodeInfo.StepId);
+                var userIds = GetAuditUserIds(nodeInfo.StepType ?? 0, nodeInfo.StepValue);
                 addWorkFlowExecuted.Invoke(entity, userIds);
             }
         }
