@@ -550,9 +550,9 @@ namespace VOL.Core.BaseProvider
 
             if (saveDataModel.MainData.Count == 0)
                 return Response.Error("保存的数据为空，请检查model是否配置正确!");
-                
+
             PropertyInfo keyPro = type.GetKeyProperty();
-            if (keyPro.PropertyType == typeof(Guid))
+            if (keyPro.PropertyType == typeof(Guid) || keyPro.PropertyType == typeof(string))
             {
                 saveDataModel.MainData.Add(keyPro.Name, Guid.NewGuid());
             }
@@ -697,8 +697,8 @@ namespace VOL.Core.BaseProvider
                     return;
                 }
                 //写入流程
-                WorkFlowManager.AddProcese<T>(entity,addWorkFlowExecuted: AddWorkFlowExecuted);
-             //   WorkFlowManager.Audit<T>(entity, AuditStatus.待审核, null, null, null, null, init: true, initInvoke: AddWorkFlowExecuted);
+                WorkFlowManager.AddProcese<T>(entity, addWorkFlowExecuted: AddWorkFlowExecuted);
+                //   WorkFlowManager.Audit<T>(entity, AuditStatus.待审核, null, null, null, null, init: true, initInvoke: AddWorkFlowExecuted);
             }
         }
 
@@ -999,8 +999,11 @@ namespace VOL.Core.BaseProvider
             }
 
             //获取主建类型的默认值用于判断后面数据是否正确,int long默认值为0,guid :0000-000....
-            object keyDefaultVal = mainKeyProperty.PropertyType.Assembly.CreateInstance(mainKeyProperty.PropertyType.FullName);//.ToString();
-                                                                                                                               //判断是否包含主键
+            object keyDefaultVal =
+                mainKeyProperty.PropertyType == typeof(string)
+                ? ""
+                : mainKeyProperty.PropertyType.Assembly.CreateInstance(mainKeyProperty.PropertyType.FullName);//.ToString();
+                                                                                                              //判断是否包含主键
             if (mainKeyProperty == null
                 || !saveModel.MainData.ContainsKey(mainKeyProperty.Name)
                 || saveModel.MainData[mainKeyProperty.Name] == null
@@ -1148,26 +1151,40 @@ namespace VOL.Core.BaseProvider
                 if (CheckResponseResult()) return Response;
             }
 
+            if (keyProperty.PropertyType == typeof(string))
+            {
+                Response = repository.DbContextBeginTransaction(() =>
+                {
+                    repository.DeleteWithKeys(keys);
+                    if (DelOnExecuted != null)
+                    {
+                        Response = DelOnExecuted(keys);
+                    }
+                    return Response;
+                });
+                if (Response.Status && string.IsNullOrEmpty(Response.Message)) Response.OK(ResponseType.DelSuccess);
+                return Response;
+            }
             FieldType fieldType = entityType.GetFieldType();
             string joinKeys = (fieldType == FieldType.Int || fieldType == FieldType.BigInt)
                  ? string.Join(",", keys)
                  : $"'{string.Join("','", keys)}'";
 
             // 2020.08.15添加判断多租户数据（删除）
-            if (IsMultiTenancy && !UserContext.Current.IsSuperAdmin)
-            {
-                CheckDelMultiTenancy(joinKeys, tKey);
-                if (CheckResponseResult())
-                {
-                    return Response;
-                }
-            }
+            //if (IsMultiTenancy && !UserContext.Current.IsSuperAdmin)
+            //{
+            //    CheckDelMultiTenancy(joinKeys, tKey);
+            //    if (CheckResponseResult())
+            //    {
+            //        return Response;
+            //    }
+            //}
 
-            string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
+            string sql = $"DELETE FROM {entityType.GetEntityTableName()} where {tKey} in ({joinKeys});";
             // 2020.08.06增加pgsql删除功能
             if (DBType.Name == DbCurrentType.PgSql.ToString())
             {
-                sql = $"DELETE FROM \"public\".\"{entityType.GetEntityTableName() }\" where \"{tKey}\" in ({joinKeys});";
+                sql = $"DELETE FROM \"public\".\"{entityType.GetEntityTableName()}\" where \"{tKey}\" in ({joinKeys});";
             }
             if (delList)
             {
@@ -1220,7 +1237,7 @@ namespace VOL.Core.BaseProvider
 
             Expression<Func<T, bool>> whereExpression = typeof(T).GetKeyName().CreateExpression<T>(keys[0], LinqExpressionType.Equal);
             T entity = repository.FindAsIQueryable(whereExpression).FirstOrDefault();
-            if (entity==null)
+            if (entity == null)
             {
                 return Response.Error($"未查到数据,或者数据已被删除,id:{keys[0]}");
             }

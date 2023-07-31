@@ -38,6 +38,7 @@ namespace VOL.Entity.DomainModels
         /// <summary>
         [Display(Name = "")]
         [Editable(true)]
+        [Column("ColumnCNName")]
         public string ColumnCnName { get; set; }
 
         /// <summary>

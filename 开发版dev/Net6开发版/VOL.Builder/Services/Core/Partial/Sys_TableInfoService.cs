@@ -1594,13 +1594,14 @@ DISTINCT
                         AttributeBuilder.Append("       [DisplayFormat(DataFormatString=\"" + tableColumnInfo.Prec_Scale + "\")]");
                         AttributeBuilder.Append("\r\n");
                     }
-
-                    if ((column.IsKey == 1 && (column.ColumnType == "string" || column.ColumnType == "uniqueidentifier")) ||
+              
+                    if ((column.IsKey == 1 && (column.ColumnType == "uniqueidentifier")) ||
                         tableColumnInfo.ColumnType.ToLower() == "guid"
                         || (IsMysql() && column.ColumnType == "string" && column.Maxlength == 36))
                     {
                         tableColumnInfo.ColumnType = "uniqueidentifier";
                     }
+
 
                     string maxLength = string.Empty;
                     if (tableColumnInfo.ColumnType != "uniqueidentifier")
@@ -1618,7 +1619,10 @@ DISTINCT
                             {
                                 maxLength = "(" + column.Maxlength + ")";
                             }
-
+                        }
+                         else if (column.IsKey == 1 && column.ColumnType.ToLower() == "string" && column.Maxlength!=36)
+                        {
+                            maxLength = "(" + column.Maxlength + ")";
                         }
                     }
                     AttributeBuilder.Append("       [Column(TypeName=\"" + tableColumnInfo.ColumnType + maxLength + "\")]");
@@ -1658,8 +1662,7 @@ DISTINCT
                 }
                 //如果主键是string,则默认为是Guid或者使用的是mysql数据，字段类型是字符串并且长度是36则默认为是Guid
                 if ((column.IsKey == 1
-                    && (column.ColumnType == "string"
-                       || column.ColumnType == "uniqueidentifier"))
+                    && (column.ColumnType == "uniqueidentifier"))
                        || column.ColumnType == "guid"
                    || (IsMysql() && column.ColumnType == "string" && column.Maxlength == 36))
                 {

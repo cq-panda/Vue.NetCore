@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -514,13 +515,29 @@ namespace VOL.Core.BaseProvider
         public virtual int DeleteWithKeys(object[] keys, bool delList = false)
         {
             Type entityType = typeof(TEntity);
-            string tKey = entityType.GetKeyProperty().Name;
+            var keyProperty = entityType.GetKeyProperty();
+            string tKey = keyProperty.Name;
+            List<T> list = new List<T>();
+            if (keyProperty.PropertyType == typeof(string))
+            {
+                foreach (var key in keys.Distinct())
+                {
+                    var entity = Activator.CreateInstance<T>();
+                    keyProperty.SetValue(entity, key);
+                    list.Add(entity);
+                }
+                DbContext.RemoveRange(list);
+                DbContext.SaveChanges();
+                return keys.Length;
+            }
+
+
             FieldType fieldType = entityType.GetFieldType();
             string joinKeys = (fieldType == FieldType.Int || fieldType == FieldType.BigInt)
                  ? string.Join(",", keys)
                  : $"'{string.Join("','", keys)}'";
 
-            string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {tKey} in ({joinKeys});";
+            string sql = $"DELETE FROM {entityType.GetEntityTableName()} where {tKey} in ({joinKeys});";
             if (delList)
             {
                 Type detailType = entityType.GetCustomAttribute<EntityAttribute>().DetailTable?[0];
