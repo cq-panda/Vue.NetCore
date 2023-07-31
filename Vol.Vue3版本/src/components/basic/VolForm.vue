@@ -407,6 +407,13 @@
                 maxRows: item.maxRows || 10
               }"
               :placeholder="item.placeholder ? item.placeholder : item.title"
+              @keypress="
+                ($event) => {
+                  onKeyPress($event, item);
+                }
+              "
+              @change="item.onKeyPress"
+              @keyup.enter="item.onKeyPress"
             />
             <el-input-number
               :size="size"
