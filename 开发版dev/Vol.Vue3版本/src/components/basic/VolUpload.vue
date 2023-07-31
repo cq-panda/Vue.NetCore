@@ -411,7 +411,7 @@ export default {
       });
     },
     async uploadOSS() {
-      this.http.get('api/alioss/getAccessToken', {}, false).then(async (x) => {
+      await this.http.get('api/alioss/getAccessToken', {}, false).then(async (x) => {
         if (!x.status) return this.$Message.error(x.message);
         let client = new OSS({
           // yourRegion填写Bucket所在地域。以华东1（杭州）为例，Region填写为oss-cn-hangzhou。
@@ -482,7 +482,7 @@ export default {
         await this.uploadOSS();
         this.loadingStatus = false;
         this.loadText = '上传文件';
-        if (!this.uploadAfter({status:true}, this.files)) {
+        if (!this.uploadAfter({status:true},this.fileInfo, this.files)) {
           this.changed = false;
           return;
         } else {
