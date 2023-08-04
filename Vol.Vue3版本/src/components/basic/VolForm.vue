@@ -124,6 +124,7 @@
                 v-else-if="item.remote || item.url"
                 v-model="formFields[item.field]"
                 filterable
+		remote
                 :multiple="item.type == 'select' ? false : true"
                 :placeholder="item.placeholder ? item.placeholder : item.title"
                 clearable
@@ -426,6 +427,7 @@
               :disabled="item.readonly || item.disabled"
               :max="item.max"
               controls-position="right"
+              @change="item.onKeyPress"
             />
             <el-input
               :size="size"
