@@ -1220,7 +1220,10 @@ namespace VOL.Core.BaseProvider
 
             Expression<Func<T, bool>> whereExpression = typeof(T).GetKeyName().CreateExpression<T>(keys[0], LinqExpressionType.Equal);
             T entity = repository.FindAsIQueryable(whereExpression).FirstOrDefault();
-
+            if (entity==null)
+            {
+                return Response.Error($"未查到数据,或者数据已被删除,id:{keys[0]}");
+            }
             //进入流程审批
             if (WorkFlowManager.Exists<T>(entity))
             {

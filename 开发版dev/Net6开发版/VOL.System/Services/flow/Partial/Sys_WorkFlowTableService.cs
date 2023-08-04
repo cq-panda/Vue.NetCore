@@ -53,12 +53,12 @@ namespace VOL.System.Services
                 //待审批
                 if (value == 0)
                 {
-                    expression = x => x.AuditStatus == (int)AuditStatus.审核中;
+                    expression = x => x.AuditStatus == (int)AuditStatus.审核中|| x.AuditStatus == (int)AuditStatus.待审核;
                 }
                 //已审批
                 else if (value == 1)
                 {
-                    expression = x => x.AuditStatus != (int)AuditStatus.审核中;
+                    expression = x => x.AuditStatus != (int)AuditStatus.审核中&&x.AuditStatus!= (int)AuditStatus.待审核;
                 } //我的提交
                 else if (value == 2)
                 {

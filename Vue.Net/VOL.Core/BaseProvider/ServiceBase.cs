@@ -550,7 +550,7 @@ namespace VOL.Core.BaseProvider
 
             if (saveDataModel.MainData.Count == 0)
                 return Response.Error("保存的数据为空，请检查model是否配置正确!");
-
+                
             PropertyInfo keyPro = type.GetKeyProperty();
             if (keyPro.PropertyType == typeof(Guid))
             {
@@ -698,7 +698,7 @@ namespace VOL.Core.BaseProvider
                 }
                 //写入流程
                 WorkFlowManager.AddProcese<T>(entity);
-                //   WorkFlowManager.Audit<T>(entity, AuditStatus.待审核, null, null, null, null, init: true, initInvoke: AddWorkFlowExecuted);
+             //   WorkFlowManager.Audit<T>(entity, AuditStatus.待审核, null, null, null, null, init: true, initInvoke: AddWorkFlowExecuted);
             }
         }
 
@@ -1220,7 +1220,10 @@ namespace VOL.Core.BaseProvider
 
             Expression<Func<T, bool>> whereExpression = typeof(T).GetKeyName().CreateExpression<T>(keys[0], LinqExpressionType.Equal);
             T entity = repository.FindAsIQueryable(whereExpression).FirstOrDefault();
-
+            if (entity==null)
+            {
+                return Response.Error($"未查到数据,或者数据已被删除,id:{keys[0]}");
+            }
             //进入流程审批
             if (WorkFlowManager.Exists<T>(entity))
             {

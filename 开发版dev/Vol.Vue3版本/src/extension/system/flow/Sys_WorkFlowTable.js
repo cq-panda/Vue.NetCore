@@ -6,11 +6,11 @@
  **后台操作见：http://v2.volcore.xyz/document/netCoreDev
  *****************************************************************************************/
 //此js文件是用来自定义扩展业务代码，可以扩展一些自定义页面或者重新配置生成的代码
-
+import gridHeader from '@/components/basic/ViewGrid/ViewGridAudit.vue'
 let extension = {
   components: {
     //查询界面扩展组件
-    gridHeader: '',
+    gridHeader: gridHeader,
     gridBody: '',
     gridFooter: '',
     //新建、编辑弹出框扩展组件
@@ -28,26 +28,38 @@ let extension = {
       this.columns.push({
         title: '操作',
         field: '操作',
-        width: 60,
+        width: 120,
         align: 'center',
         render: (h, { row, column, index }) => {
           return (
-
-            <el-button
-              onClick={($e) => {
-                this.$tabs.open({
-                 text: row.WorkTableName||row.WorkName,
-                  path: '/' + row.WorkTable,
-                  query: { id: row.WorkTableKey, viewflow: 1 }
-                });
-              }}
-              type="primary"
-              plain
-              size="small"
-              style="height:26px; padding: 10px !important;"
-            >
-              查看
-            </el-button>
+            <div>
+              <el-button
+                onClick={($e) => {
+                      this.$refs.gridHeader.open([row],true);
+                }}
+                type="primary"
+                plain
+                size="small"
+                style="height:26px; padding: 10px !important;"
+              >
+                审核
+              </el-button>
+              <el-button
+                onClick={($e) => {
+                  this.$tabs.open({
+                    text: row.WorkTableName || row.WorkName,
+                    path: '/' + row.WorkTable,
+                    query: { id: row.WorkTableKey, viewflow: 1 }
+                  });
+                }}
+                type="default"
+                plain
+                size="small"
+                style="height:26px; padding: 10px !important;"
+              >
+                查看
+              </el-button>
+            </div>
           )
         }
       });

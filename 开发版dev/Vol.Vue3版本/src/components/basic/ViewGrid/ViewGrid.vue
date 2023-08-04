@@ -382,6 +382,7 @@
                   :endEditAfter="detailOptions.endEditAfter"
                   :summary="detailOptions.summary"
                   :click-edit="detailOptions.clickEdit"
+                  :double-edit="detailOptions.doubleEdit"
                   :column-index="detailOptions.columnIndex"
                   :ck="detailOptions.ck"
                   :text-inline="detailOptions.textInline"
