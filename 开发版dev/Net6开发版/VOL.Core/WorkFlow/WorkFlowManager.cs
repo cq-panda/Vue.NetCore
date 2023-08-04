@@ -616,6 +616,7 @@ namespace VOL.Core.WorkFlow
             {
                 webResponse = workFlowExecuted.Invoke(entity, status, GetAuditUserIds(nextStep?.StepType ?? 0, nextStep?.StepValue), isLast);
             }
+            SendMail(workFlow, filterOptions, nextStep, dbContext);
             return webResponse;
 
         }
