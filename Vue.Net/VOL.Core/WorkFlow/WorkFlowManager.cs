@@ -488,22 +488,25 @@ namespace VOL.Core.WorkFlow
                             msg = "审批被驳回,流程重新开始";
                         }
                     }
-                    var auditLog = new Sys_WorkFlowTableAuditLog()
+                    if (msg!=null)
                     {
-                        Id = Guid.NewGuid(),
-                        StepId = currentStep.StepId,
-                        WorkFlowTable_Id = currentStep.WorkFlowTable_Id,
-                        WorkFlowTableStep_Id = currentStep.Sys_WorkFlowTableStep_Id,
-                        AuditDate = DateTime.Now,
-                        AuditId = user.User_Id,
-                        Auditor = user.UserTrueName,
-                        AuditResult = remark,
-                        Remark = msg,
-                        AuditStatus = (int)status,
-                        CreateDate = DateTime.Now,
-                        StepName = currentStep.StepName
-                    };
-                    dbContext.Set<Sys_WorkFlowTableAuditLog>().Add(auditLog);
+                        var auditLog = new Sys_WorkFlowTableAuditLog()
+                        {
+                            Id = Guid.NewGuid(),
+                            StepId = currentStep.StepId,
+                            WorkFlowTable_Id = currentStep.WorkFlowTable_Id,
+                            WorkFlowTableStep_Id = currentStep.Sys_WorkFlowTableStep_Id,
+                            AuditDate = DateTime.Now,
+                            AuditId = user.User_Id,
+                            Auditor = user.UserTrueName,
+                            AuditResult = remark,
+                            Remark = msg,
+                            AuditStatus = (int)status,
+                            CreateDate = DateTime.Now,
+                            StepName = currentStep.StepName
+                        };
+                        dbContext.Set<Sys_WorkFlowTableAuditLog>().Add(auditLog);
+                    }
                     //autditProperty.SetValue(entity, (int)status);
                     //query.Update(entity);
                     //修改状态
