@@ -247,60 +247,154 @@ export default {
           title: "http请求",
           content: [
             `
-     //第一个参数:url
-     //第二个参数：请求的参数
-     //第三个参数：是否显示发起请求时的提示信息(默认否)
-     let url='api/表名/方法名'
-     //如果参数很少后台又不想创建model,将参数放url上
-     //let url=''api/表名/方法名?a=1&b=2'
-
-     this.http.post(url,{},true).then(reslut=>{})
-     
-     this.http.post(url,{},"自定义提示信息").then(reslut=>{})
-
-      //第4个参数自定义配置信息,具体更多配置见axios官方文档
-     
-      this.http.post(url,{},"自定义提示信息",{
-          timeout:10000,//设置过期时间10秒
-          headers:{token:'1231',responeType:"text/html"} //配置其他请求头信息
-        }).then(reslut=>{
-           
-        })
-     
-      //下载后台返回的流文件(excel、pdf文件等)
-      this.http.post(url, param,true, { responseType: 'blob' })
-      .then((content) => {
-        const blob = new Blob([content]);
-          const elink = document.createElement('a');
-          elink.download = fileName;
-          elink.style.display = 'none';
-          elink.href = URL.createObjectURL(blob);
-          document.body.appendChild(elink);
-          elink.click();
-          URL.revokeObjectURL(elink.href);
-          document.body.removeChild(elink);
-      });
-
-      //this.http.get同上
-
-      //如果需要同步调用(注意需要将当前方法标识为async与C#用法基本类似)：
-      await this.http.post();
-
-      //或者使用使用this.ajax做同步请求
-      this.http.ajax({
-        url: url,
-        json: true,
-        param:{},//请求参数
-        success:  (data)=> {
-           console.log(data)
-        },
-        type: "post",//get
-        async: false //是否异步请求，false为同步请求
-      });
-
-      //如果写的是vue3语法
-      //在scrpit的第一行引入: import http from './api/http'
-      // http.post() //其他操作同上`
+			<p>
+	<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第一个参数:url</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第二个参数：请求的参数</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//第三个参数：是否显示发起请求时的提示信息(默认否)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">let</span> <span style="color:#9cdcfe;">url</span><span style="color:#d4d4d4;">=</span><span style="color:#ce9178;">'api/表名/方法名'</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//如果参数很少后台又不想创建model,将参数放url上</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//let url=''api/表名/方法名?a=1&amp;b=2'</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#569cd6;">true</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;<span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{})
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//第4个参数自定义配置信息,具体更多配置见axios官方文档</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>,{},<span style="color:#ce9178;">"自定义提示信息"</span>,{
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">timeout</span><span style="color:#9cdcfe;">:</span><span style="color:#b5cea8;">10000</span>,<span style="color:#6a9955;">//设置过期时间10秒</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">headers</span><span style="color:#9cdcfe;">:</span>{<span style="color:#9cdcfe;">token</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">'1231'</span>,<span style="color:#9cdcfe;">responeType</span><span style="color:#9cdcfe;">:</span><span style="color:#ce9178;">"text/html"</span>} <span style="color:#6a9955;">//配置其他请求头信息</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; }).<span style="color:#dcdcaa;">then</span>(<span style="color:#9cdcfe;">reslut</span><span style="color:#569cd6;">=&gt;</span>{
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//下载后台返回的流文件(excel、pdf文件等)</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>(<span style="color:#9cdcfe;">url</span>, <span style="color:#9cdcfe;">param</span>,<span style="color:#569cd6;">true</span>, { <span style="color:#9cdcfe;">responseType</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">'blob'</span> })
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; .<span style="color:#dcdcaa;">then</span>((<span style="color:#9cdcfe;">content</span>) <span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">blob</span> <span style="color:#d4d4d4;">=</span> <span style="color:#569cd6;">new</span> <span style="color:#4ec9b0;">Blob</span>([<span style="color:#9cdcfe;">content</span>]);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">const</span> <span style="color:#4fc1ff;">elink</span> <span style="color:#d4d4d4;">=</span> <span style="color:#9cdcfe;">document</span>.<span style="color:#dcdcaa;">createElement</span>(<span style="color:#ce9178;">'a'</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">download</span> <span style="color:#d4d4d4;">=</span> <span style="color:#9cdcfe;">fileName</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">style</span>.<span style="color:#9cdcfe;">display</span> <span style="color:#d4d4d4;">=</span> <span style="color:#ce9178;">'none'</span>;
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">href</span> <span style="color:#d4d4d4;">=</span> <span style="color:#4ec9b0;">URL</span>.<span style="color:#dcdcaa;">createObjectURL</span>(<span style="color:#4fc1ff;">blob</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">document</span>.<span style="color:#9cdcfe;">body</span>.<span style="color:#dcdcaa;">appendChild</span>(<span style="color:#4fc1ff;">elink</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4fc1ff;">elink</span>.<span style="color:#dcdcaa;">click</span>();
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#4ec9b0;">URL</span>.<span style="color:#dcdcaa;">revokeObjectURL</span>(<span style="color:#4fc1ff;">elink</span>.<span style="color:#9cdcfe;">href</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">document</span>.<span style="color:#9cdcfe;">body</span>.<span style="color:#dcdcaa;">removeChild</span>(<span style="color:#4fc1ff;">elink</span>);
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; });
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//this.http.get同上</span>
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//如果需要同步调用(注意需要将当前方法标识为async与C#用法基本类似)：</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#c586c0;">await</span> <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">post</span>();
+		</div>
+<br />
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#6a9955;">//或者使用使用this.ajax做同步请求</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; <span style="color:#569cd6;">this</span>.<span style="color:#9cdcfe;">http</span>.<span style="color:#dcdcaa;">ajax</span>({
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">url</span><span style="color:#9cdcfe;">:</span> <span style="color:#9cdcfe;">url</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">json</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">true</span>,
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">param</span><span style="color:#9cdcfe;">:</span>{},<span style="color:#6a9955;">//请求参数</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#dcdcaa;">success</span><span style="color:#9cdcfe;">:</span> &nbsp;(<span style="color:#9cdcfe;">data</span>)<span style="color:#569cd6;">=&gt;</span> {
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#9cdcfe;">console</span>.<span style="color:#dcdcaa;">log</span>(<span style="color:#9cdcfe;">data</span>)
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; },
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">type</span><span style="color:#9cdcfe;">:</span> <span style="color:#ce9178;">"post"</span>,<span style="color:#6a9955;">//get</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#9cdcfe;">async</span><span style="color:#9cdcfe;">:</span> <span style="color:#569cd6;">false</span> <span style="color:#6a9955;">//是否异步请求，false为同步请求</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; });
+		</div>
+<br />
+	</div>
+</p>
+<p>
+	<br />
+</p>`
           ],
           tips: `无`,
           img: ""
