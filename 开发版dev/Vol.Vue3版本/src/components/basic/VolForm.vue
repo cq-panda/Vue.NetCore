@@ -76,7 +76,7 @@
               :data="item.data"
               :multiple="item.multiple"
               :render-after-expand="false"
-              :show-checkbox="false"
+              :show-checkbox="true"
               :check-strictly="true"
               check-on-click-node
               node-key="key"
