@@ -1515,7 +1515,9 @@ export default defineComponent({
         return this.getSelectFormatter(column, val);
       }
       // 编辑多选table显示
-      if (column.bind.type == 'selectList' || column.bind.type == 'checkbox'||column.bind.type=='treeSelect') {
+      if (column.bind.type == 'selectList' || column.bind.type == 'checkbox'||column.bind.type=='treeSelect'
+      ||(typeof val === 'string' && val.indexOf(',') != -1)
+      ) {
        // if (typeof val === 'string' && val.indexOf(',') != -1) {
           return this.getSelectFormatter(column, val+'');
       //  }
