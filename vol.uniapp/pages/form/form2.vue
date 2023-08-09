@@ -270,7 +270,8 @@
 						"type": "radio",
 						data: [],
 						key: "pn",
-						//placement:"row",	//布局方式，row-横向，column-纵向	,具体见uvivew文档
+						placement:'row',//布局方式，row横向，column纵向	,具体见uvivew文档
+						//placement:"column",	
 						"field": "radioVal"
 					},
 					//placement
