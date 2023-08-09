@@ -49,7 +49,7 @@
 					inputDecimal: null, //小数
 					inputNumber: null, //数字
 					switchValue: 1,
-					radioVal:null,//单选
+					radioVal: null, //单选
 					selectClickValue: "",
 					dateClickValue: null,
 					imgs: [{
@@ -253,11 +253,18 @@
 					{
 						type: "group" //表单分组
 					},
+					//placement
+					{
+						type: "group", //表单分组
+						style: "margin-top: 10px;font-weight: 500;font-size: 26rpx;color: #848383;",
+						title: "单选添加事件,并隐藏【单选】字段"
+					},
 					{
 						"title": "是否值",
 						"type": "switch",
 						"field": "switchValue"
 					},
+
 					{
 						"title": "单选",
 						"type": "radio",
@@ -304,9 +311,19 @@
 				this.editFormFields.customInput = ~~(Math.random() * 10000000)
 				this.$toast('表单按钮点击:' + item.title)
 			},
-			onChange(field, value) { //日期与下拉框选择事件
+			onChange(field, value, item, data) { //日期与下拉框选择事件
 				if (field == "selectClickValue" || field == "dateClickValue") {
 					this.$toast(`选择字段${field}值${value}`)
+					return;
+				}
+				if (field == 'switchValue') {
+                    //获取单选字段配置
+					let op = this.editFormOptions.find(c => {
+						return c.field == 'radioVal'
+					});
+					//选择是时，隐藏【单选】字段
+					this.$set(op, 'hidden', value + '' === "1")
+					return;
 				}
 			},
 			vailForm() {

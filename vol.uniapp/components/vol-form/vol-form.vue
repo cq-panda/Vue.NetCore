@@ -130,7 +130,8 @@
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='radio'">
 				<!--  <view> -->
-				<u-radio-group :placement="item.placement" v-model="formFields[item.field]">
+				<u-radio-group @change="(val)=>{radioOnChange(val,item)}"
+					:placement="item.placement" v-model="formFields[item.field]">
 					<u-radio v-for="(option,opIndex) in item.data"
 						:customStyle="{'margin-bottom':item.placement=='column'?'30rpx':0,'margin-right':item.placement=='column'?'0':'30rpx'}"
 						:label="option.value" :name="option.key">
@@ -139,7 +140,8 @@
 				<!-- 	  </view> -->
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='switch'">
-				<u-radio-group :placement="item.placement" v-model="formFields[item.field]" placement="row">
+				<u-radio-group @change="(val)=>{radioOnChange(val,item)}" :placement="item.placement"
+					v-model="formFields[item.field]" placement="row">
 					<u-radio :customStyle="{'margin-right': '40rpx'}" label="是" :name="1">
 					</u-radio>
 					<u-radio label="否" :name="0">
@@ -178,8 +180,8 @@
 		<!--日期 -->
 		<u-datetime-picker class="form-popup" :minDate="pickerCurrentItem.min" :maxDate="pickerCurrentItem.max"
 			:zIndex="9999999" :closeOnClickOverlay="true" :show="pickerModel" :value="pickerValue"
-			:mode="pickerCurrentItem.type=='month'?'year-month':pickerCurrentItem.type" closeOnClickOverlay @confirm="pickerConfirm" @cancel="pickerClose"
-			@close="pickerClose"></u-datetime-picker>
+			:mode="pickerCurrentItem.type=='month'?'year-month':pickerCurrentItem.type" closeOnClickOverlay
+			@confirm="pickerConfirm" @cancel="pickerClose" @close="pickerClose"></u-datetime-picker>
 		<!--  下拉框 -->
 		<u-popup @touchmove.prevent class="form-popup" :zIndex="999999" :show="actionSheetModel"
 			@close="actionSheetModel=false;">
@@ -310,12 +312,12 @@
 		created() {
 			//日期最小最大值转换
 			this.formOptions.forEach(option => {
-				if ((option.type == 'date' || option.type == 'datetime'||option.type=='month')) {
+				if ((option.type == 'date' || option.type == 'datetime' || option.type == 'month')) {
 					if (!option.min) {
 						option.min = Number(new Date('1990/01/01 00:00:00')) //
 					} else if (typeof option.min == 'string') {
-						if (option.type=='month'&&option.min.length!=7) {
-							option.min=option.min.substring(0,7);
+						if (option.type == 'month' && option.min.length != 7) {
+							option.min = option.min.substring(0, 7);
 						}
 						option.min = Number(new Date(option.min.replace(/-/g, "/")))
 					}
@@ -822,6 +824,10 @@
 					urls: imgs,
 					current: imgIndex
 				})
+			},
+			radioOnChange(value, item) {
+				this.$emit("onChange", item.field, value, item, item.data);
+				//@change="(val)=>{radioOnChange(val,item)}" :placement="item.placement"
 			}
 		},
 		// #ifdef MP-WEIXIN
