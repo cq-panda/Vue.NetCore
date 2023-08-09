@@ -62,7 +62,7 @@ let extension = {
         title: '操作',
         field: '操作',
         width: 150,
-        align: 'center',
+        align: 'left',// 'center',
         render: (h, { row, column, index }) => {
           return (
             <div>
@@ -72,21 +72,46 @@ let extension = {
                 }}
                 type="primary"
                 plain
-                size="small"
                 style="height:26px; padding: 10px !important;"
               >
                 查看
               </el-button>
+
+             {/* 通过条件判断,要显示的按钮 */}
+             {
+              /*  {
+                    index % 2 === 1 
+                    ?<el-button>修改</el-button>
+                    : <el-button>设置</el-button>
+                } */
+              }
+
+
+              {/* 通过v-show控制按钮隐藏与显示
+                  下面的index % 2 === 1换成：row.字段==值 */
+              }
               <el-button
                 onClick={($e) => {
                   this.btn2Click(row, $e);
                 }}
+                v-show={index % 2 === 1}
                 type="success"
                 plain
-                size="small"
                 style="height:26px;padding: 10px !important;"
               >
-                按钮
+                修改
+              </el-button>
+
+              <el-button
+                onClick={($e) => {
+                  this.btn2Click(row, $e);
+                }}
+                v-show={index % 2 === 0}
+                type="warning"
+                plain
+                style="height:26px;padding: 10px !important;"
+              >
+                设置
               </el-button>
 
               <el-dropdown
@@ -115,15 +140,6 @@ let extension = {
                           驴肉火烧
                         </div>
                       </el-dropdown-item>
-                      <el-dropdown-item>
-                        <div
-                          onClick={() => {
-                            this.dropdownClick('吊炉烤鸭', row, column);
-                          }}
-                        >
-                          吊炉烤鸭
-                        </div>
-                      </el-dropdown-item>
                     </el-dropdown-menu>
                   )
                 }}
@@ -144,22 +160,24 @@ let extension = {
       this.columns.forEach((col) => {
         if (col.field == 'Describe') {
           col.title = '单元格Tooltip(鼠标放上来看效果)';
-          col.render = (h, { row, column, index }) => {
-            return (
-              <el-popover
-                placement="top-start"
-                title="提示信息"
-                width={350}
-                trigger="hover"
-                content={
-                  row.Describe +
-                  ',这里是用render渲染的表格提示,示例见:App_Appointment.js'
-                }
-              >
-                {{ reference: <span>{row.Describe}</span> }}
-              </el-popover>
-            );
-          };
+          col.showOverflowTooltip=true;
+          //或者用下面这的个方法自定义提示
+          // col.render = (h, { row, column, index }) => {
+          //   return (
+          //     <el-popover
+          //       placement="top-start"
+          //       title="提示信息"
+          //       width={350}
+          //       trigger="hover"
+          //       content={
+          //         row.Describe +
+          //         ',这里是用render渲染的表格提示,示例见:App_Appointment.js'
+          //       }
+          //     >
+          //       {{ reference: <span>{row.Describe}</span> }}
+          //     </el-popover>
+          //   );
+          // };
         }
       });
 
@@ -210,6 +228,20 @@ let extension = {
               return { background: 'rgb(45 140 240)', color: '#ffff' };
             }
           };
+        }
+        
+        //设置进度条
+        //进度条组件见:https://element-plus.gitee.io/zh-CN/component/progress.html#%E8%BF%9B%E5%BA%A6%E6%9D%A1%E5%86%85%E6%98%BE%E7%A4%BA%E7%99%BE%E5%88%86%E6%AF%94%E6%A0%87%E8%AF%86
+        if (x.field == 'CreateDate') {
+          x.title = '进度条'
+          x.render= (h, { row, column, index }) => {
+            if (index%2===1) {
+              //90改为row.字段
+              return  <el-progress stroke-width={4} percentage={90} />
+            }
+            //10改为row.字段
+            return  <el-progress stroke-width={4} color="#67c23a" show-text={true}	 percentage={10} />
+          }
         }
 
         if (x.field == 'Name') {

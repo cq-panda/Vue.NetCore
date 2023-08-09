@@ -1,10 +1,10 @@
 <template>
-  <div class="container" style="padding: 15px 30px 20px 0px">
+  <div class="container">
     <VolHeader icon="el-icon-warning-outline" text="表单配置" style="margin: 0 0 20px 50px">
       <template #content>
         <div style="color: #909090; font-size: 13px">
-          表单集成了element多种组件,只需要简单配置,功能包括：表单只读、自定义验证、非空验证、下拉框自动绑定、render动态渲染等.<a href="http://www.volcore.xyz/document/api"
-            target="_blank">查看文档
+          表单集成了element多种组件,只需要简单配置,功能包括：表单只读、自定义验证、非空验证、下拉框自动绑定、render动态渲染等.<a href="http://v2.volcore.xyz/document/api"
+            target="_blank">查看文档, <a href="https://api.volcore.xyz/vol.doc/form.html"   target="_blank" style="margin-left: 20px;"> 查看示例代码</a>
           </a>
         </div>
       </template>
@@ -70,6 +70,7 @@ export default {
         Source1: "5",
         Remark: "",
         cascader: [], //注意级联这里默认是数组
+        treeValue:[],//树形级联，注意，如果下面配置设置是单选，这里应该null或者字符串
         monthValue: this.base.getDate().substr(0, 7), //'2022-10',
         phone: "",
         email: "",
@@ -187,7 +188,7 @@ export default {
             type: "text",
             extra: {
               style: "color:red;cursor: pointer;",
-              icon: "el-icon-edit", //显示图标
+              icon: "el-icon-search", //显示图标
               text: "点击", //显示文本
               //触发事件
               click: (item) => {
@@ -246,8 +247,19 @@ export default {
             type: "cascader",
             data: [],
             dataKey: "tree_roles", //配置数据源(见菜单下拉框绑定设置中的级联角色自定义sql)
-            colSize: 8, //设置宽度100%
+
           },
+          {
+            title: "树形级联",
+            dataKey: "组织机构",
+            // 如果这里绑定了data数据，后台不会加载此数据源
+            data: [],
+            field: "treeValue",
+            multiple:true,//设置为多选
+            readonly: true,
+            type: "treeSelect",
+            colSize: 6, //设置宽度50%
+          }
         ],
         [
           {
@@ -353,3 +365,8 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+.container{
+  padding: 10px 20px 0px 2px;
+}
+</style>
