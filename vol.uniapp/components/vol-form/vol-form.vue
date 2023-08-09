@@ -157,7 +157,7 @@
 			<u-upload :ref="item.field" :sizeType="['compressed']" v-else-if="item.type=='img'"
 				:fileList="inFormFields[item.field]" @afterRead="(event)=>{afterRead(item,event)}"
 				@delete="(event)=>{deletePic(item,event)}" name="3" :multiple="item.multiple"
-				:maxCount="item.maxCount||1" :previewFullImage="true"></u-upload>
+				:maxCount="item.maxCount||item.maxFile||1" :previewFullImage="true"></u-upload>
 			<view class="f-form-content" v-else-if="item.type=='password'">
 				<input placeholder-style="color:rgb(192 196 204);font-size:15px;" type="password"
 					v-model="inFormFields[item.field]" border="none" :ref="item.field"
