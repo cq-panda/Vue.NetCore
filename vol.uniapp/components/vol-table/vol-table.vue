@@ -112,7 +112,7 @@
 					</view>
 					<view @click="tableRowClick(rowindex,columns)" class="vol-table-list-item">
 						<view :key="cindex" class="vol-table-list-item-cell"
-							v-if="!column.hidden&&column.field!=titleField" v-for="(column,cindex) in columns">
+							v-if="!column.hidden&&column.field!=titleField&&showColumn(row,column)" v-for="(column,cindex) in columns">
 							<view class="cell-left" :style="{width:(column.width||90)+'px'}"> {{column.title}}</view>
 							<view class="cell-right">
 								<view @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
@@ -515,6 +515,12 @@
 				this.tableData[index].ck = !row.ck;
 				// #endif
 				this.$set(row, 'ck', !row.ck);
+			},
+			showColumn(row,column){
+				  if (!column.showColumn) {
+				  	   return true;
+				  }
+				  return column.showColumn(row,column);
 			}
 		},
 		created() {
