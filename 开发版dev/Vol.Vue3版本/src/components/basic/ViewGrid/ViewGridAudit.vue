@@ -180,7 +180,7 @@ export default defineComponent({
           rowLen.value = currentRows.length;
           model.value = true;
           width.value = 430;
-          height.value = 330;
+          height.value = 350;
           isCurrentUser.value = true;
           //没有审批流程的数据只显示
           return;
