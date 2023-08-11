@@ -458,6 +458,8 @@
               "
               @change="item.onKeyPress"
               @keyup.enter="item.onKeyPress"
+              @blur="item.blur"
+              @focus="item.focus"
             ></el-input>
             <el-input
               :size="size"
@@ -469,6 +471,8 @@
               :disabled="item.readonly || item.disabled"
               v-show="!item.hidden"
               v-model="formFields[item.field]"
+              @blur="item.blur"
+              @focus="item.focus"
             ></el-input>
 
             <div class="form-extra" v-if="item.extra">
