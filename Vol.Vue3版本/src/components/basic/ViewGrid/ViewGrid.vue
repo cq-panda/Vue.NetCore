@@ -31,97 +31,7 @@
     <ViewGridAudit @auditClick="saveAudit" :option="table" ref="audit">
 
     </ViewGridAudit>
-    <!--开启懒加载2020.12.06 -->
-    <!--审核(异步点击按钮时才加载待完)-->
-    <!-- <vol-box
-      v-model="auditParam.model"
-      :height="auditParam.height"
-      :width="750"
-      :lazy="true"
-      :padding="0"
-      title="审批"
-    >
-      <template #content>
-        <el-tabs type="card">
-          <el-tab-pane label="当前审批">
-            <div class="v-steps">
-              <div
-                :class="{ 'step-current': item.isCurrent }"
-                class="step-item"
-                v-for="(item, index) in workFlowSteps"
-                :key="index"
-              >
-                <div class="left-item">
-                  <div>审批时间</div>
-                  <div class="left-date">{{ item.auditDate || '待审批' }}</div>
-                </div>
-                <div class="right-item">
-                  <div class="step-line"></div>
-                  <i class="step-circle"></i>
-                  <div class="step-title">
-                    {{ item.stepName }}
-                  </div>
-                  <div class="step-text">审批人：{{ item.auditor }}</div>
-                  <div class="step-text">
-                    状 态： {{ getAuditStatus(item.auditStatus) }}
-                  </div>
-                  <div class="step-text">备 注： {{ item.remark || '-' }}</div>
-                </div>
-              </div>
-              <div
-                :style="{
-                  'margin-top': workFlowSteps.length ? '20px' : '-17px'
-                }"
-                class="audit-content"
-                v-show="auditParam.showAction"
-              >
-                <div style="margin-bottom:10px;">
-                  审批：
-                  <el-radio-group
-                    style="margin-left:15px"
-                    v-model="auditParam.value"
-                  >
-                    <el-radio
-                      v-for="item in auditParam.data"
-                      :key="item.value"
-                      :label="item.value"
-                    >
-                      <span>{{ item.text }}</span>
-                    </el-radio>
-                  </el-radio-group>
-                </div>
-
-                <el-input
-                  v-model="auditParam.reason"
-                  type="textarea"
-                  style="margin-right: 13px;"
-                  :autosize="{ minRows: 4, maxRows: 10 }"
-                  placeholder="请输入备注..."
-                ></el-input>
-              </div>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane v-if="workFlowSteps.length" label="审批记录">
-            <audit-his :table-data="auditParam.auditHis"></audit-his>
-          </el-tab-pane>
-        </el-tabs>
-      </template>
-      <template #footer>
-        <div style="text-align: center;">
-          <el-button size="small" @click="auditParam.model = false"
-            ><i class="el-icon-close"></i>关闭</el-button
-          >
-          <el-button
-            type="primary"
-            v-show="auditParam.showAction"
-            size="small"
-            @click="saveAudit"
-            ><i class="el-icon-check"></i>审核</el-button
-          >
-        </div>
-      </template>
-    </vol-box> -->
-
+ 
     <!--导入excel功能-->
     <!--2020.10.31添加导入前的方法-->
     <!--开启懒加载2020.12.06 -->
@@ -388,6 +298,7 @@
                   :text-inline="detailOptions.textInline"
                   :select2Count="select2Count"
                   :selectable="detailSelectable"
+                  :spanMethod="detailSpanMethod"
                 ></vol-table>
               </div>
               <!--明细footer自定义组件-->
@@ -485,6 +396,7 @@
           :ck="ck"
           :select2Count="select2Count"
           :selectable="selectable"
+          :spanMethod="spanMethod"
         ></vol-table>
       </div>
     </div>

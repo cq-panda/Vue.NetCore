@@ -1681,6 +1681,14 @@ let methods = {
   },
   fullscreen(full){ //弹出框全屏方法
 
+  },
+  //查询页面表格合并行或列，见https://element-plus.gitee.io/zh-CN/component/table.html#%E5%90%88%E5%B9%B6%E8%A1%8C%E6%88%96%E5%88%97
+  spanMethod({row,column,rowIndex, columnIndex}){
+
+  },
+  //查询页面表格合并行或列，见https://element-plus.gitee.io/zh-CN/component/table.html#%E5%90%88%E5%B9%B6%E8%A1%8C%E6%88%96%E5%88%97
+  detailSpanMethod({row,column,rowIndex, columnIndex}){
+
   }
 };
 import customColumns from './ViewGridCustomColumn.js';
