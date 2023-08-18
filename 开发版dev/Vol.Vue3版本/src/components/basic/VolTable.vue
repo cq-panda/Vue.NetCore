@@ -38,6 +38,7 @@
       :cell-style="getCellStyle"
       style="width: 100%"
       :scrollbar-always-on="true"
+      :span-method="spanMethod"
     >
       <el-table-column
         v-if="columnIndex"
@@ -624,6 +625,11 @@ export default defineComponent({
       type: Function,
       default: (row, index) => {
         return true;
+      }
+    },
+    spanMethod:{
+      type: Function,
+      default: ({row,column,rowIndex, columnIndex}) => {
       }
     }
   },
