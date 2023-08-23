@@ -365,6 +365,7 @@
             >
             </el-cascader>
             <el-rate
+              :disabled="item.readonly || item.disabled"
               v-else-if="item.type == 'rate'"
               @change="
                 (val) => {
