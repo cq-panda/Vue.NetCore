@@ -380,19 +380,19 @@ let methods = {
     callBack(status);
     //自动弹出框审批详情
   },
-  loadDetailTableBefore(param, callBack) {
+  loadDetailTableBefore(param, callBack,data) {
     //明细查询前
     //新建时禁止加载明细
     if (this.currentAction == this.const.ADD) {
       callBack(false);
       return false;
     }
-    let status = this.searchDetailBefore(param);
+    let status = this.searchDetailBefore(param,data);
     callBack(status);
   },
-  loadDetailTableAfter(data, callBack) {
+  loadDetailTableAfter(data, callBack,result) {
     //明细查询后
-    let status = this.searchDetailAfter(data);
+    let status = this.searchDetailAfter(data,result);
     callBack(status);
   },
   getSearchItem(field) {

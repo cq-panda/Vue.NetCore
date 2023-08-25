@@ -1,7 +1,7 @@
 //从表方法
 let detailMethods = {
   //查询从表前先做内部处理
-  loadInternalDetailTableBefore(param, callBack) {
+  loadInternalDetailTableBefore(param, callBack,data) {
     //加载明细表数据之前,需要设定查询的主表的ID
     //每次只要加载明细表格数据就重置删除明细的值
     if (this.detailOptions.delKeys.length > 0) {
@@ -11,7 +11,7 @@ let detailMethods = {
     if (this.currentRow && this.currentRow.hasOwnProperty(key)) {
       param.value = this.currentRow[key];
     }
-    return this.loadDetailTableBefore(param, callBack);
+    return this.loadDetailTableBefore(param, callBack,data);
   },
   detailRowOnChange(row) {
     this.detailRowChange(row);
