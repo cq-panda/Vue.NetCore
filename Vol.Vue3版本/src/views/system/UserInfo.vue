@@ -1,82 +1,43 @@
 <template>
-    <VolBox
-      :width="500"
-      :height="270"
-      v-model="modifyOptions.model"
-      title="修改密码"
-    >
-      <div style="padding:10px;20px;">
-        <VolForm
-          ref="pwd"
-          :formRules="modifyOptions.data"
-          :formFields="modifyOptions.fields"
-        ></VolForm>
-      </div>
-      <template #footer>
-        <div style="text-align: center;">
-          <el-button
-            type="primary"
-            size="mini"
-            icon="md-checkmark-circle"
-            long
-            @click="savePwd"
-            >保存</el-button
-          >
-        </div>
-      </template>
-    </VolBox>
-  <div class="user-info">
-    <div class="left">
-      <div>
-        <img class="header-img" :src="userInfo.img" :onerror="errorImg" />
-        <div class="text">
-          <p class="name">
-            <span style="font-size: 13px">{{ userInfo.userName }}</span>
-          </p>
-          <p class="date">
-            <span>注册日期：{{ userInfo.createDate }}</span>
-          </p>
-          <p>
-            <el-button
-              type="error"
-              @click="modifyPwd"
-              size="small"
-              icon="md-lock"
-              long
-              >修改密码</el-button
-            >
-            <el-button
-              style="padding: 3px 16px"
-              @click="modifyImg"
-              type="primary"
-              size="mini"
-              ghost
-              >修改头像</el-button
-            >
-          </p>
-        </div>
-      </div>
+  <input ref="input" type="file" accept=".png, .jpg, .jpeg" style="display: none" @change="handleChange"
+    :multiple="false" />
+  <VolBox :width="500" :height="270" v-model="modifyOptions.model" title="修改密码">
+    <div style="padding:10px;20px;">
+      <VolForm ref="pwd" :formRules="modifyOptions.data" :formFields="modifyOptions.fields"></VolForm>
     </div>
-    <div class="right">
-      <vol-form
-        ref="form"
-        :load-key="true"
-        :width="500"
-        :formRules="editFormOptions"
-        :formFields="editFormFields"
-      >
-        <div class="footer">
-          <el-button
-            style="margin-top: 2px"
-            type="primary"
-            size="small"
-            icon="md-checkmark-circle"
-            long
-            @click="modifyInfo"
-            >保存</el-button
-          >
+    <template #footer>
+      <div style="text-align: center;">
+        <el-button type="primary" plain size="mini" long @click="savePwd">保存</el-button>
+      </div>
+    </template>
+  </VolBox>
+  <div class="user-info">
+    <div class="user-content">
+      <div class="left">
+        <div>
+          <img class="header-img" @click="showUpload" :src="http.ipAddress + userInfo.headImageUrl" :onerror="errorImg" />
+          <div class="text">
+            <p class="name">
+              <span style="font-size: 13px">{{ userInfo.userName }}</span>
+            </p>
+            <p class="date">
+              <span>注册日期：{{ userInfo.createDate }}</span>
+            </p>
+            <p>
+              <el-button type="error" @click="modifyPwd" size="small" plain long>修改密码</el-button>
+              <el-button style="padding: 3px 16px" @click="showUpload" plain type="primary" size="mini"
+                ghost>修改头像</el-button>
+            </p>
+          </div>
         </div>
-      </vol-form>
+      </div>
+      <div class="right">
+        <vol-form ref="form" :load-key="true" :width="500" :formRules="editFormOptions" :formFields="userInfo">
+          <div class="footer">
+            <el-button style="margin-top: 2px" type="primary" size="small" long @click="modifyInfo">保存</el-button>
+          </div>
+        </vol-form>
+      </div>
     </div>
 
   </div>
@@ -90,15 +51,6 @@ export default {
     VolBox,
   },
   methods: {
-    modifyImg() {
-      this.$message.info("修改头像");
-    },
-    modifyEmail() {
-      this.$message.info("修改邮箱");
-    },
-    modifyPhone() {
-      this.$message.info("修改电话");
-    },
     modifyPwd() {
       this.modifyOptions.model = true;
     },
@@ -124,8 +76,34 @@ export default {
       });
     },
     modifyInfo() {
-      this.$message.info("修改个人信息");
+      this.$refs.form.validate(() => {
+        this.http.post('api/user/updateUserInfo', this.userInfo).then(result => {
+          this.$message.success(result);
+          let userInfo = this.$store.getters.getUserInfo();
+          userInfo.img = this.userInfo.headImageUrl;
+          userInfo.userName = this.userInfo.userTrueName;
+          this.$store.commit('setUserInfo', userInfo);
+        })
+      })
+
     },
+    showUpload() {
+      this.$refs.input.click();
+    },
+    handleChange(e) {
+      var forms = new FormData();
+      let file = e.target.files[0]
+      forms.append('fileInput', file, file.name);
+      const url = 'api/sys_user/upload'
+      this.http
+        .post(url, forms, true)
+        .then(
+          (x) => {
+            this.userInfo.headImageUrl = x.data + file.name;
+            this.modifyInfo();
+          }
+        );
+    }
   },
   created() {
     this.http.post("/api/user/getCurrentUserInfo", {}, true).then((x) => {
@@ -139,11 +117,7 @@ export default {
         x.data.headImageUrl,
         this.http.ipAddress
       );
-      this.userInfo.createDate = x.data.createDate;
-      this.userInfo.userName = x.data.userTrueName;
-      this.userInfo.phoneNo = x.data.phoneNo;
-      this.userInfo.email = x.data.email;
-      //   this.editFormFields = x.data;
+      Object.assign(this.userInfo, x.data);
     });
   },
   data() {
@@ -179,27 +153,20 @@ export default {
           ],
         ],
       },
-      binging: [{}],
       userInfo: {
-        img: "",
+        headImageUrl: "",
         createDate: "--",
         userName: "--",
+        userTrueName: "",
+        remark: "",
         email: "",
         phoneNo: "",
-      },
-      editFormFields: {
-        roleName: "",
-        userName: "",
-        userTrueName: "",
-        address: "",
-        gender: "",
-        remark: "",
       },
       editFormOptions: [
         [
           {
             columnType: "string",
-            title: "用户名",
+            title: "账号",
             field: "userName",
             disabled: true,
           },
@@ -207,26 +174,9 @@ export default {
         [
           {
             columnType: "string",
-            title: "角色",
-            field: "roleName",
-            disabled: true,
-            type: "text",
-          },
-        ],
-        [
-          {
-            columnType: "string",
-            title: "真实姓名",
+            title: "姓名",
             field: "userTrueName",
             required: true,
-            type: "text",
-          },
-        ],
-        [
-          {
-            columnType: "string",
-            title: "地址",
-            field: "address",
             type: "text",
           },
         ],
@@ -253,78 +203,73 @@ export default {
   },
 };
 </script>
-<style scoped>
-.binding-group {
-  width: 100%;
-  padding-bottom: 20px;
-}
-.binding-group >>> .ivu-cell-link {
-  text-align: left;
-}
-.binding-group >>> .ivu-card-body {
-  padding: 0 16px;
-}
-.binding-group >>> .ivu-cell-title {
-  line-height: 24px;
-  font-size: 12px;
-}
-</style>
 
 <style lang="less" scoped>
 img[src=""],
 img:not([src]) {
   opacity: 0;
 }
+
+.user-content {
+  display: flex;
+}
+
 .user-info {
-  box-shadow: #d6d6d6 0px 4px 21px;
+
   position: absolute;
-  transform: translateY(-40%);
-  top: 40%;
-  /* position: relative; */
+  justify-content: center;
+  align-items: center;
+  display: flex;
   margin: 0 auto;
   left: 0;
-  width: 950px;
+  // width: 950px;
   right: 0;
   text-align: center;
   padding: 0px;
-  padding: 20px;
+
+  height: 100%;
+
   .text {
     padding: 5px;
+
     .name {
       font-weight: bolder;
       font-size: 15px;
       font-weight: 900;
     }
-    > p {
-      padding-top: 5px;
-    }
   }
+
   .header-img {
+    object-fit: cover;
     height: 150px;
     width: 150px;
     border-radius: 50%;
     margin-right: 0px;
     top: 4px;
     position: relative;
-    border: 3px solid #dfdfdf;
+    border: 1px solid #dfdfdf;
+    cursor: pointer;
   }
-  > div {
-    float: left;
-    // height: 480px;
-    padding-top: 10px;
-  }
+
   .left {
     width: 320px;
     border-right: 1px solid #eee;
     // box-shadow: #d6d6d6 7px 4px 20px;
     // flex: 1;
   }
+
   .right {
     padding-left: 30px;
-    width: 570px;
+    width: 400px;
     // background: #fefefe;
     // flex: 3;
   }
+}
+
+.date {
+  letter-spacing: 0px;
+  font-size: 12px;
+  color: #282828;
 }
 </style>
 

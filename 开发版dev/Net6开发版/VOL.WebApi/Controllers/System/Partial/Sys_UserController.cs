@@ -1,10 +1,12 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -174,6 +176,20 @@ namespace VOL.System.Controllers
             };
             HttpContext.GetService<IMemoryCache>().Set(data.uuid.ToString(), code, new TimeSpan(0, 5, 0));
             return Json(data);
+        }
+
+        [ApiActionPermission()]
+        public override IActionResult Upload(IEnumerable<IFormFile> fileInput)
+        {
+            return base.Upload(fileInput);
+        }
+        [HttpPost, Route("updateUserInfo")]
+        public IActionResult UpdateUserInfo([FromBody] Sys_User user)
+        {
+            user.User_Id = UserContext.Current.UserId;
+
+            _userRepository.Update(user, x => new { x.UserTrueName, x.Gender, x.Remark, x.HeadImageUrl }, true);
+            return Content("修改成功");
         }
     }
 }
