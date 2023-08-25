@@ -21,6 +21,7 @@ else if (process.env.NODE_ENV == 'debug') {
 else if (process.env.NODE_ENV == 'production') {
     axios.defaults.baseURL = 'http://api.volcore.xyz/';
 }
+//axios.defaults.baseURL = 'http://api.volcore.xyz/';
 if (!axios.defaults.baseURL.endsWith('/')) {
     axios.defaults.baseURL+="/";
 }
@@ -303,12 +304,9 @@ function ajax (param) {
     for (const key in httpParam.headers) {
         xhr.setRequestHeader(key, httpParam.headers[key]);
     }
-    let dataStr = '';
-    for (const key in httpParam.param) {
-        dataStr += key + "=" + httpParam.param[key];
-    }
+
     try {
-        xhr.send(dataStr);
+        xhr.send(JSON.stringify(httpParam.param));
     } catch (error) {
         toLogin();
     }
