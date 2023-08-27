@@ -231,26 +231,48 @@ namespace VOL.System.Services
             {
                 roleId = pageData.Value.ToString().GetInt();
             }
-            QueryRelativeExpression = (IQueryable<Sys_User> queryable) =>
+
+            IQueryable<Sys_UserDepartment> deptQuery = null;
+            QueryRelativeList = (List<SearchParameters> parameters) =>
             {
-                if (roleId <= 0)
+                foreach (var item in parameters)
                 {
-                    if (UserContext.Current.IsSuperAdmin) return queryable;
-                    roleId = UserContext.Current.RoleId;
+                    if (!string.IsNullOrEmpty(item.Value) && item.Name == "DeptIds")
+                    {
+
+                        var deptIds = item.Value.Split(",").Select(s => s.GetGuid()).Where(x => x != null);
+                        item.Value = null;
+                        deptQuery = repository.DbContext.Set<Sys_UserDepartment>().Where(x => x.Enable == 1 && deptIds.Contains(x.DepartmentId));
+                    }
                 }
+            };
+
+            QueryRelativeExpression = (IQueryable<Sys_User> queryable) =>
+             {
+
+                 if (deptQuery!=null)
+                 {
+                     queryable = queryable.Where(c => deptQuery.Any(x => x.UserId == c.User_Id));
+                 }
+
+                 if (roleId <= 0)
+                 {
+                     if (UserContext.Current.IsSuperAdmin) return queryable;
+                     roleId = UserContext.Current.RoleId;
+                 }
 
                 //查看用户时，只能看下自己角色下的所有用户
                 List<int> roleIds = Sys_RoleService
-                   .Instance
-                   .GetAllChildrenRoleId(roleId);
-                roleIds.Add(roleId);
+                    .Instance
+                    .GetAllChildrenRoleId(roleId);
+                 roleIds.Add(roleId);
                 //判断查询的角色是否越权
                 if (roleId != UserContext.Current.RoleId && !roleIds.Contains(roleId))
-                {
-                    roleId = -999;
-                }
-                return queryable.Where(x => roleIds.Contains(x.Role_Id));
-            };
+                 {
+                     roleId = -999;
+                 }
+                 return queryable.Where(x => roleIds.Contains(x.Role_Id));
+             };
             return base.GetPageData(pageData);
         }
 
