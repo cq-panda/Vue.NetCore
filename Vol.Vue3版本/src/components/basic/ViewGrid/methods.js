@@ -657,7 +657,7 @@ let methods = {
       if (editFormFields[key] instanceof Array) {
         var iscascader = this.dicKeys.some((x) => {
           return (
-            x.type == 'cascader' && x.fileds && x.fileds.indexOf(key) != -1
+            x.type == 'cascader'&&x.e_type!="treeSelect" && x.fileds && x.fileds.indexOf(key) != -1
           );
         });
         if (iscascader && editFormFields[key].length) {
