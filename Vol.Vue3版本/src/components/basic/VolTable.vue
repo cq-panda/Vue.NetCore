@@ -736,7 +736,6 @@ export default defineComponent({
     if (this.columnIndex) {
       this.summaryData.push(' ');
     }
-<<<<<<< HEAD
     this.columns.forEach((x, _index) => {
       if (x.cellStyle) {
         this.cellStyleColumns[x.field] = x.cellStyle;
@@ -771,15 +770,6 @@ export default defineComponent({
         }
       }
     });
-=======
-    var params = {
-      keys : [],
-      columnBind : [],
-    }
-    this.initColumn(this.columns, params);
-    keys = params.keys;
-    columnBind = params.columnBind;
->>>>>>> f048b823725728caaba4d7ba83773d6436c3c64d
     if (keys.length > 0) {
       this.http
         .post('/api/Sys_Dictionary/GetVueDictionary', keys)
@@ -838,40 +828,6 @@ export default defineComponent({
     }
   },
   methods: {
-    initColumn(columns, params){
-      columns.forEach((x, _index) => {
-        if (x.children && x.children.length) {
-          this.initColumn(x.children, params);
-        } else {
-          if (x.cellStyle) {
-            this.cellStyleColumns[x.field] = x.cellStyle;
-          }
-          if (!x.hidden) {
-            // this.summaryIndex[x.field] = _index;
-            // 2020.10.11修复求和列错位的问题
-            this.summaryData.push("");
-            this.summaryIndex[x.field] = this.summaryData.length - 1;
-          }
-          // 求和
-          if (x.summary && !this.summary) {
-            this.summary = true;
-          }
-          if (x.bind && x.bind.key && (!x.bind.data || x.bind.data.length == 0)) {
-            // 写入远程
-            if (!x.bind.data) x.bind.data = [];
-            if (x.bind.remote) {
-              this.remoteColumns.push(x);
-            } else if (this.loadKey) {
-              params.keys.push(x.bind.key);
-              x.bind.valueTyoe = x.type;
-              params.columnBind.push(x.bind);
-            }
-          }
-        }
-        
-      })
-      
-    },
     watchRowSelectChange(newLen, oldLen) {
       if (newLen < oldLen && this.selectRows.length) {
         this.selectRows = [];
