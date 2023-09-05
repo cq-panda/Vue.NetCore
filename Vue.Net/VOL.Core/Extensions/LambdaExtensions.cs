@@ -206,6 +206,7 @@ namespace VOL.Core.Extensions
             // DateTime只选择了日期的时候自动在结束日期加一天，修复DateTime类型使用日期区间查询无法查询到结束日期的问题
             if ((proType == typeof(DateTime) || proType == typeof(DateTime?)) && expressionType == LinqExpressionType.LessThanOrEqual && propertyValue.ToString().Length == 10)
             {
+                expressionType = LinqExpressionType.LessThan;
                 constant = Expression.Constant(Convert.ToDateTime(propertyValue.ToString()).AddDays(1));
             }
 
