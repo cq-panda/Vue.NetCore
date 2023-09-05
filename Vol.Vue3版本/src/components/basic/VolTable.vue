@@ -89,10 +89,10 @@
           >
             <template #default="scopeChildren">
               <a
-                href="javascript:void(0)"
+                href="javascript:void(0);line-height: 1.3;"
                 style="text-decoration: none"
                 @click="link(scopeChildren.row, columnChildren, $event)"
-                v-if="column.link"
+                v-if="columnChildren.link"
                 v-text="scopeChildren.row[columnChildren.field]"
               ></a>
               <div
@@ -113,10 +113,10 @@
                   )
                 "
               ></div>
-              <div v-else-if="column.bind">
+              <div v-else-if="columnChildren.bind">
                 {{ formatter(scopeChildren.row, columnChildren, true) }}
               </div>
-              <span v-else-if="column.type == 'date'">{{
+              <span v-else-if="columnChildren.type == 'date'">{{
                 formatterDate(scopeChildren.row, columnChildren)
               }}</span>
               <template v-else>
@@ -340,7 +340,7 @@
           <template v-else>
             <a
               href="javascript:void(0)"
-              style="text-decoration: none"
+              style="text-decoration: none;line-height: 1.3;"
               @click="link(scope.row, column, $event)"
               v-if="column.link"
               v-text="scope.row[column.field]"
@@ -401,6 +401,7 @@
             >
               <el-tag
                 v-if="useTag"
+                 class="cell-tag"
                 :class="[isEmptyTag(scope.row, column)]"
                 :type="getColor(scope.row, column)"
                 :effect="column.effect"
@@ -750,7 +751,15 @@ export default defineComponent({
       if (x.summary && !this.summary) {
         this.summary = true;
       }
-      if (x.bind && x.bind.key && (!x.bind.data || x.bind.data.length == 0)) {
+      if (x.children&&Array.isArray(x.children)) {
+          x.children.forEach(cl=>{
+               if (cl.bind && cl.bind.key && (!cl.bind.data || cl.bind.data.length == 0)) {
+                keys.push(cl.bind.key);
+                cl.bind.valueTyoe = cl.type;
+                columnBind.push(cl.bind);
+               }
+          })
+      }else if (x.bind && x.bind.key && (!x.bind.data || x.bind.data.length == 0)) {
         // 写入远程
         if (!x.bind.data) x.bind.data = [];
         if (x.bind.remote) {
@@ -1847,5 +1856,10 @@ export default defineComponent({
 .small-table ::v-deep(.el-table__cell) {
   padding: 6px 0;
   font-size: 13px;
+
+}
+.small-table ::v-deep(.cell-tag) {
+  padding: 0 5px !important; 
+  height: 19px;
 }
 </style>
