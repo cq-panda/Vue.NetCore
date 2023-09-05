@@ -414,8 +414,12 @@
                   onKeyPress($event, item);
                 }
               "
-              @change="item.onKeyPress"
-              @keyup.enter="item.onKeyPress"
+              @change="($event) => {
+                  onKeyPress($event, item);
+                }"
+              @keyup.enter="($event) => {
+                  onKeyPress($event, item);
+                }"
             />
             <el-input-number
               :size="size"
