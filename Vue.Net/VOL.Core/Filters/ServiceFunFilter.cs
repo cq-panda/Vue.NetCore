@@ -205,7 +205,10 @@ namespace VOL.Core.Filters
         /// 导出表数据(界面上导出操作),指定要导出的列，格式:Expression<Func<T, object>> exp = x => new { x.字段1, x.字段2 }
         /// </summary>
         protected Expression<Func<T, object>> ExportColumns { get; set; }
-
+        /// <summary>
+        /// 指定要导出的列
+        /// </summary>
+        protected string[] ExportColumnsArray { get; set; }
 
         /// <summary>
         /// 2020.05.07

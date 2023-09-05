@@ -138,8 +138,7 @@
           <!-- 2021.09.21增加编辑时对readonly属性判断 -->
            <template v-else-if="column.edit&&!column.readonly&&['file', 'img','excel'].indexOf(column.edit.type) != -1" >
                 <div style="display:flex;align-items: center;" @click.stop>
-                  <i style="padding: 3px;margin-right: 10px;color:#8f9293;cursor: pointer;" @click="showUpload(scope.row, column)" class="el-icon-upload"></i>
-                   <template v-if="column.edit.type == 'img'">
+                  <i v-if="!column.showUpload||column.showUpload(scope.row, column)" style="padding: 3px;margin-right: 10px;color:#8f9293;cursor: pointer;" @click="showUpload(scope.row, column)" class="el-icon-upload"></i>     <template v-if="column.edit.type == 'img'">
                     <img
                     v-for="(file, imgIndex) in getFilePath(
                       scope.row[column.field],

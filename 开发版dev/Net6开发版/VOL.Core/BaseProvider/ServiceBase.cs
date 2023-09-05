@@ -471,7 +471,9 @@ namespace VOL.Core.BaseProvider
             catch (Exception ex)
             {
                 Response.Error("未能处理导入的文件,请检查导入的文件是否正确");
-                Logger.Error($"表{typeof(T).GetEntityTableCnName()}导入失败{ex.Message + ex.InnerException?.Message}");
+                string msg = $"表{typeof(T).GetEntityTableCnName()}导入失败{ex.Message + ex.InnerException?.Message}";
+                Console.WriteLine(msg);
+                Logger.Error(msg);
             }
             if (CheckResponseResult()) return Response;
             List<T> list = Response.Data as List<T>;
@@ -514,8 +516,13 @@ namespace VOL.Core.BaseProvider
                 Response = ExportOnExecuting(list, ignoreColumn);
                 if (CheckResponseResult()) return Response;
             }
+            if (ExportColumns != null)
+            {
+                ExportColumnsArray = ExportColumns.GetExpressionToArray();
+            }
+
             //ExportColumns 2020.05.07增加扩展指定导出模板的列
-            EPPlusHelper.Export(list, ExportColumns?.GetExpressionToArray(), ignoreColumn, savePath, fileName);
+            EPPlusHelper.Export(list, ExportColumnsArray, ignoreColumn, savePath, fileName);
             //return Response.OK(null, (savePath + "/" + fileName).EncryptDES(AppSetting.Secret.ExportFile));
             //2022.01.08优化导出功能
             return Response.OK(null, (savePath + "/" + fileName));
