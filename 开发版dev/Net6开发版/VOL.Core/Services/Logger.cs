@@ -29,22 +29,21 @@ namespace VOL.Core.Services
         private static string _loggerPath = AppSetting.DownLoadPath + "Logger\\Queue\\";
         static Logger()
         {
-
             Task.Run(() =>
             {
                 Start();
-                if (DBType.Name != "MySql")
-                {
-                    return;
-                }
-                try
-                {
-                    DBServerProvider.SqlDapper.ExcuteNonQuery("set global local_infile = 'ON';", null);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"日志启动调用mysql数据库异常：{ex.Message},{ex.StackTrace}");
-                }
+                //if (DBType.Name != "MySql")
+                //{
+                //    return;
+                //}
+                //try
+                //{ 
+                //    DBServerProvider.SqlDapper.ExcuteNonQuery("set global local_infile = 'ON';", null);
+                //}
+                //catch (Exception ex)
+                //{
+                //    Console.WriteLine($"日志启动调用mysql数据库异常：{ex.Message},{ex.StackTrace}");
+                //}
             });
         }
 
@@ -117,7 +116,12 @@ namespace VOL.Core.Services
         /// <param name="responseParameter">响应参数</param>
         /// <param name="success">响应结果1、成功,2、异常，0、其他</param>
         /// <param name="userInfo">用户数据</param>
-        private static void Add(LoggerType loggerType, string requestParameter, string responseParameter, string ex, LoggerStatus status)
+        public static void Add(LoggerType loggerType, string requestParameter, string responseParameter, string ex, LoggerStatus status)
+        {
+            Add(loggerType.ToString(), requestParameter, responseParameter, ex, status);
+        }
+
+        public static void Add(string loggerType, string requestParameter, string responseParameter, string ex, LoggerStatus status)
         {
             Sys_Log log = null;
             try
@@ -127,18 +131,19 @@ namespace VOL.Core.Services
                 ActionObserver cctionObserver = (context.RequestServices.GetService(typeof(ActionObserver)) as ActionObserver);
                 if (context == null)
                 {
-                    WriteText($"未获取到httpcontext信息,type:{loggerType.ToString()},reqParam:{requestParameter},respParam:{responseParameter},ex:{ex},success:{status.ToString()}");
+                    WriteText($"未获取到httpcontext信息,type:{loggerType},reqParam:{requestParameter},respParam:{responseParameter},ex:{ex},success:{status.ToString()}");
                     return;
                 }
                 UserInfo userInfo = UserContext.Current.UserInfo;
                 log = new Sys_Log()
                 {
+                    //Id = Guid.NewGuid().ToString(),
                     BeginDate = cctionObserver.RequestDate,
                     EndDate = DateTime.Now,
                     User_Id = userInfo.User_Id,
                     UserName = userInfo.UserTrueName,
                     Role_Id = userInfo.Role_Id,
-                    LogType = loggerType.ToString(),
+                    LogType = loggerType,
                     ExceptionInfo = ex,
                     RequestParameter = requestParameter,
                     ResponseParameter = responseParameter,
@@ -162,11 +167,10 @@ namespace VOL.Core.Services
             loggerQueueData.Enqueue(log);
         }
 
-
-
         private static void Start()
         {
             DataTable queueTable = CreateEmptyTable();
+            //  List<Sys_Log> list = new List<Sys_Log>();
             while (true)
             {
                 try
@@ -180,20 +184,13 @@ namespace VOL.Core.Services
                     if (queueTable.Rows.Count == 0) { continue; }
 
                     DBServerProvider.SqlDapper.BulkInsert(queueTable, "Sys_Log", SqlBulkCopyOptions.KeepIdentity, null, _loggerPath);
-
                     queueTable.Clear();
-
-                    if ((DateTime.Now - lastClearFileDT).TotalDays > 1)
-                    {
-                        Utilities.FileHelper.DeleteFolder(_loggerPath);
-                        lastClearFileDT = DateTime.Now;
-                    }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"日志批量写入数据时出错:{ex.Message}");
                     WriteText(ex.Message + ex.StackTrace + ex.Source);
-                    queueTable.Clear();
+                    // list.Clear();
                 }
 
             }
@@ -216,18 +213,14 @@ namespace VOL.Core.Services
         {
             loggerQueueData.TryDequeue(out Sys_Log log);
             DataRow row = queueTable.NewRow();
-            if (log.BeginDate == null || log.BeginDate?.Year < 2010)
+            if (log.BeginDate == null)
             {
                 log.BeginDate = DateTime.Now;
             }
-            if (log.EndDate == null)
-            {
-                log.EndDate = DateTime.Now;
-            }
             //  row["Id"] = log.Id;
             row["LogType"] = log.LogType;
-            row["RequestParameter"] = log.RequestParameter?.Replace("\r\n", "");
-            row["ResponseParameter"] = log.ResponseParameter?.Replace("\r\n", "");
+            row["RequestParameter"] = log.RequestParameter;
+            row["ResponseParameter"] = log.ResponseParameter;
             row["ExceptionInfo"] = log.ExceptionInfo;
             row["Success"] = log.Success ?? -1;
             row["BeginDate"] = log.BeginDate;
@@ -265,6 +258,7 @@ namespace VOL.Core.Services
 
         public static void SetServicesInfo(Sys_Log log, HttpContext context)
         {
+            string result = String.Empty;
             log.Url = context.Request.Scheme + "://" + context.Request.Host + context.Request.PathBase +
                 context.Request.Path;
 
@@ -281,10 +275,10 @@ namespace VOL.Core.Services
                 try
                 {
                     log.RequestParameter = context.GetRequestParameters();
-                    if (log.RequestParameter != null)
-                    {
-                        log.RequestParameter = HttpUtility.UrlDecode(log.RequestParameter, Encoding.UTF8);
-                    }
+                    //if (log.RequestParameter != null)
+                    //{
+                    //    log.RequestParameter = HttpUtility.UrlDecode(log.RequestParameter, Encoding.UTF8);
+                    //}
                 }
                 catch (Exception ex)
                 {
