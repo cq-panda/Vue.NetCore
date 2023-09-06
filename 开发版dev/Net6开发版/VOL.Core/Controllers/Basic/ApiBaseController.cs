@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using VOL.Core.Configuration;
 using VOL.Core.Extensions;
 using VOL.Core.Filters;
+using VOL.Core.Middleware;
 using VOL.Core.Services;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
@@ -16,7 +17,7 @@ using VOL.Entity.DomainModels;
 namespace VOL.Core.Controllers.Basic
 {
     [JWTAuthorize, ApiController]
-    public class ApiBaseController<IServiceBase> : Controller
+    public class ApiBaseController<IServiceBase> : VolController
     {
         protected IServiceBase Service;
         private WebResponseContent _baseWebResponseContent { get; set; }
@@ -31,23 +32,7 @@ namespace VOL.Core.Controllers.Basic
         {
             Service = service;
         }
-        /// <summary>
-        /// 2020.11.21增加json原格式返回数据(默认是驼峰格式)
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="serializerSettings"></param>
-        /// <returns></returns>
-        protected JsonResult JsonNormal(object data, JsonSerializerSettings serializerSettings = null, bool formateDate = true)
-        {
-            serializerSettings = serializerSettings ?? new JsonSerializerSettings();
-            serializerSettings.ContractResolver = null;
-            if (formateDate)
-            {
-                serializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-            }
-            return Json(data, serializerSettings);
-        }
-
+        [ActionLog("查询")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Search)]
         [HttpPost, Route("GetPageData")]
         public virtual ActionResult GetPageData([FromBody] PageDataOptions loadData)
@@ -60,6 +45,7 @@ namespace VOL.Core.Controllers.Basic
         /// </summary>
         /// <param name="loadData"></param>
         /// <returns></returns>
+        [ActionLog("明细查询")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Search)]
         [HttpPost, Route("GetDetailPage")]
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -73,6 +59,7 @@ namespace VOL.Core.Controllers.Basic
         /// </summary>
         /// <param name="fileInput"></param>
         /// <returns></returns>
+        [ActionLog("上传文件")]
         [HttpPost, Route("Upload")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Upload)]
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -84,6 +71,7 @@ namespace VOL.Core.Controllers.Basic
         /// 下载导入Excel模板
         /// </summary>
         /// <returns></returns>
+        [ActionLog("下载导入Excel模板")]
         [HttpGet, Route("DownLoadTemplate")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Import)]
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -103,6 +91,7 @@ namespace VOL.Core.Controllers.Basic
         /// </summary>
         /// <param name="fileInput"></param>
         /// <returns></returns>
+        [ActionLog("导入Excel")]
         [HttpPost, Route("Import")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Import)]
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -116,6 +105,7 @@ namespace VOL.Core.Controllers.Basic
         /// </summary>
         /// <param name="loadData"></param>
         /// <returns></returns>
+        [ActionLog("导出Excel")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Export)]
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost, Route("Export")]
@@ -128,43 +118,14 @@ namespace VOL.Core.Controllers.Basic
                    Path.GetFileName(result.Data.ToString())
                );
         }
-        /// <summary>
-        /// 2022.01.08移除原来的导出功能
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        [Obsolete]
-        [ApiActionPermission(Enums.ActionPermissionOptions.Export)]
-        [HttpGet, Route("DownLoadFile")]
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public virtual IActionResult DownLoadFile()
-        {
-            throw new Exception("原导出方法已停用");
-            //string path = HttpContext.Request("path");
-            //if (string.IsNullOrEmpty(path)) return Content("未找到文件");
-            //try
-            //{
-            //    path = path.IndexOf("/") == -1 && path.IndexOf("\\") == -1 
-            //        ?path.DecryptDES(AppSetting.Secret.ExportFile)
-            //        : path.MapPath();
-            //    return File(
-            //            System.IO.File.ReadAllBytes(path), 
-            //            System.Net.Mime.MediaTypeNames.Application.Octet, 
-            //            Path.GetFileName(path)
-            //        );
-            //}
-            //catch (Exception ex)
-            //{
-            //    Logger.Error($"文件下载出错:{path}{ex.Message}");
-            //}
-            //return Content("");
-        }
+
 
         /// <summary>
         /// 通过key删除文件
         /// </summary>
         /// <param name="keys"></param>
         /// <returns></returns>
+       // [ActionLog("删除")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Delete)]
         [HttpPost, Route("Del")]
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -179,6 +140,7 @@ namespace VOL.Core.Controllers.Basic
         /// </summary>
         /// <param name="keys"></param>
         /// <returns></returns>
+        /// [ActionLog("审核")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Audit)]
         [HttpPost, Route("Audit")]
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -193,6 +155,7 @@ namespace VOL.Core.Controllers.Basic
         /// </summary>
         /// <param name="saveDataModel"></param>
         /// <returns></returns>
+        [ActionLog("新建")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Add)]
         [HttpPost, Route("Add")]
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -201,7 +164,7 @@ namespace VOL.Core.Controllers.Basic
             _baseWebResponseContent = InvokeService("Add",
                 new Type[] { typeof(SaveModel) },
                 new object[] { saveModel }) as WebResponseContent;
-            Logger.Info(Enums.LoggerType.Add, saveModel.Serialize(), _baseWebResponseContent.Status ? "Ok" : _baseWebResponseContent.Message);
+            Logger.Info(Enums.LoggerType.Add, null, _baseWebResponseContent.Status ? "Ok" : _baseWebResponseContent.Message);
             _baseWebResponseContent.Data = _baseWebResponseContent.Data?.Serialize();
             return Json(_baseWebResponseContent);
         }
@@ -211,13 +174,14 @@ namespace VOL.Core.Controllers.Basic
         /// </summary>
         /// <param name="saveDataModel"></param>
         /// <returns></returns>
+        [ActionLog("编辑")]
         [ApiActionPermission(Enums.ActionPermissionOptions.Update)]
         [HttpPost, Route("Update")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public virtual ActionResult Update([FromBody] SaveModel saveModel)
         {
             _baseWebResponseContent = InvokeService("Update", new object[] { saveModel }) as WebResponseContent;
-            Logger.Info(Enums.LoggerType.Edit, saveModel.Serialize(), _baseWebResponseContent.Status ? "Ok" : _baseWebResponseContent.Message);
+            Logger.Info(Enums.LoggerType.Edit, null, _baseWebResponseContent.Status ? "Ok" : _baseWebResponseContent.Message);
             _baseWebResponseContent.Data = _baseWebResponseContent.Data?.Serialize();
             return Json(_baseWebResponseContent);
         }

@@ -780,6 +780,10 @@ namespace VOL.Core.Dapper
             }
             catch (Exception ex)
             {
+                if (ex.Message.StartsWith("vol:"))
+                {
+                    return 0;
+                }
                 if (ex.Message.Contains("local data is disabled"))
                 {
                     try
@@ -792,10 +796,9 @@ namespace VOL.Core.Dapper
                         Console.WriteLine($"开启mysql日志写入异常:{e.Message}");
                     }
                 }
-                throw new Exception(ex.Message, ex.InnerException);
+                throw new Exception("vol:" + ex.Message, ex.InnerException);
             }
             return insertCount;
-            //   File.Delete(path);
         }
         /// <summary>
         ///将DataTable转换为标准的CSV
