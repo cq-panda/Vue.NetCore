@@ -1332,7 +1332,7 @@ export default defineComponent({
           this.$emit('dicInited', dic);
         });
     },
-    load(query, isResetPage) {
+    async load(query, isResetPage) {
       // isResetPage重置分页数据
       if (!this.url) return;
       if (isResetPage) {
@@ -1365,7 +1365,7 @@ export default defineComponent({
         param.wheres = JSON.stringify(param.wheres);
       }
       this.loading = true;
-      this.http.post(this.url, param).then(
+      await this.http.post(this.url, param).then(
         (data) => {
           //2021.06.04修复tree不刷新的问题
           if (this.rowKey) {
