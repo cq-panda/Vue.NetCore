@@ -21,6 +21,7 @@ using VOL.Core.WorkFlow;
 using VOL.Entity;
 using VOL.Entity.DomainModels;
 using VOL.Entity.SystemModels;
+using Yitter.IdGenerator;
 
 namespace VOL.Core.BaseProvider
 {
@@ -565,7 +566,14 @@ namespace VOL.Core.BaseProvider
             }
             else
             {
-                saveDataModel.MainData.Remove(keyPro.Name);
+                if (AppSetting.EnableSnowFlakeID && keyPro.PropertyType == typeof(long))
+                {
+                    saveDataModel.MainData.Add(keyPro.Name, YitIdHelper.NextId());
+                }
+                else
+                {
+                    saveDataModel.MainData.Remove(keyPro.Name);
+                }
             }
             //没有明细直接保存返回
             if (saveDataModel.DetailData == null || saveDataModel.DetailData.Count == 0)
@@ -804,6 +812,13 @@ namespace VOL.Core.BaseProvider
                     if (detailKeyInfo.PropertyType == typeof(Guid))
                     {
                         detailKeyInfo.SetValue(item, Guid.NewGuid());
+                    }
+                    else
+                    {
+                        if (AppSetting.EnableSnowFlakeID && detailKeyInfo.PropertyType == typeof(long))
+                        {
+                            detailKeyInfo.SetValue(item, YitIdHelper.NextId());
+                        }
                     }
                     addList.Add(item);
                 }
