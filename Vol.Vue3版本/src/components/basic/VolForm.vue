@@ -350,24 +350,24 @@
               :remove-before="item.removeBefore"
               :downLoad="item.downLoad ? true : false"
             >
-				      <div class="form-extra" v-if="item.tips">
-					      <form-expand
-									v-if="item.tips.render"
-									:render="item.tips.render"
-								></form-expand>
-								<a
-									v-else-if="item.tips.click"
-									:style="item.tips.style"
-									@click="item.tips.click(item, formFields[item.field])"
-								>
-									<i v-if="item.tips.icon" :class="item.tips.icon" />
-									{{ item.tips.text }}
-								</a>
-								<a v-else :style="item.tips.style">
-									<i v-if="item.tips.icon" :class="item.tips.icon" />
-									{{ item.tips.text }}
-					      </a>
-				    	</div>
+              <div class="form-extra" v-if="item.tips">
+                <form-expand
+                  v-if="item.tips.render"
+                  :render="item.tips.render"
+                ></form-expand>
+                <a
+                  v-else-if="item.tips.click"
+                  :style="item.tips.style"
+                  @click="item.tips.click(item, formFields[item.field])"
+                >
+                  <i v-if="item.tips.icon" :class="item.tips.icon" />
+                  {{ item.tips.text }}
+                </a>
+                <a v-else :style="item.tips.style">
+                  <i v-if="item.tips.icon" :class="item.tips.icon" />
+                  {{ item.tips.text }}
+                </a>
+              </div>
 				    </vol-upload>
             <el-cascader
               :size="size"
