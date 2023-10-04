@@ -128,7 +128,7 @@
 					type="digit" v-model="formFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></input>
 			</view>
-			<view class="f-form-content" v-else-if="item.type=='radio'">
+			<view class="f-form-content f-form-content-group" v-else-if="item.type=='radio'">
 				<!--  <view> -->
 				<u-radio-group @change="(val)=>{radioOnChange(val,item)}"
 					:placement="item.placement" v-model="formFields[item.field]">
@@ -139,7 +139,7 @@
 				</u-radio-group>
 				<!-- 	  </view> -->
 			</view>
-			<view class="f-form-content" v-else-if="item.type=='switch'">
+			<view class="f-form-content f-form-content-group" v-else-if="item.type=='switch'">
 				<u-radio-group @change="(val)=>{radioOnChange(val,item)}" :placement="item.placement"
 					v-model="formFields[item.field]" placement="row">
 					<u-radio :customStyle="{'margin-right': '40rpx'}" label="是" :name="1">
