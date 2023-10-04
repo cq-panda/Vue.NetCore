@@ -89,7 +89,12 @@
 		height: 0;
 		overflow: scroll;
 	}
-	.u-popup .u-transition{
+
+	.u-popup .u-transition {
 		z-index: 99999999 !important;
+	}
+
+	.f-form-content-group .u-radio-group {
+		justify-content: flex-end !important;
 	}
 </style>
