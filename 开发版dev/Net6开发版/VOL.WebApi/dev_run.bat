@@ -2,7 +2,7 @@
 SET LOG_FILE=error.log
 
 REM 将命令保存到临时批处理文件
-echo dotnet watch run > tmp.bat
+echo dotnet watch --no-hot-reload > tmp.bat
 
 REM 使用 cmd.exe 执行临时批处理文件
 cmd /k tmp.bat
