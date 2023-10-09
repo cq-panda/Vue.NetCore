@@ -124,11 +124,15 @@
                 v-else-if="item.remote || item.url"
                 v-model="formFields[item.field]"
                 filterable
-		remote
+	              remote
                 :multiple="item.type == 'select' ? false : true"
                 :placeholder="item.placeholder ? item.placeholder : item.title"
                 clearable
-                :remote-method="
+                @change="
+                  (val) => {
+                    item.onChange&&item.onChange(val, item.data);
+                  }"
+                 :remote-method="
                   (val) => {
                     remoteSearch(item, formFields, val);
                   }
@@ -349,26 +353,7 @@
               :file-click="item.fileClick"
               :remove-before="item.removeBefore"
               :downLoad="item.downLoad ? true : false"
-            >
-              <div class="form-extra" v-if="item.tips">
-                <form-expand
-                  v-if="item.tips.render"
-                  :render="item.tips.render"
-                ></form-expand>
-                <a
-                  v-else-if="item.tips.click"
-                  :style="item.tips.style"
-                  @click="item.tips.click(item, formFields[item.field])"
-                >
-                  <i v-if="item.tips.icon" :class="item.tips.icon" />
-                  {{ item.tips.text }}
-                </a>
-                <a v-else :style="item.tips.style">
-                  <i v-if="item.tips.icon" :class="item.tips.icon" />
-                  {{ item.tips.text }}
-                </a>
-              </div>
-				    </vol-upload>
+            ></vol-upload>
             <el-cascader
               :size="size"
               clearable
@@ -640,9 +625,9 @@ export default defineComponent({
     const { appContext, proxy } = getCurrentInstance();
     const remoteCall = ref(true);
     const span = ref(1);
-    const rangeFields = toRefs([]);
+    const rangeFields = reactive([]);
     const volform = ref(null);
-    const numberFields = toRefs([]);
+    const numberFields = reactive([]);
     onMounted(() => {});
     const initFormRules = (init) => {
       if (props.loadKey) {

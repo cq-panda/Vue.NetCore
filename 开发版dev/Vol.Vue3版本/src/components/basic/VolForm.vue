@@ -124,11 +124,15 @@
                 v-else-if="item.remote || item.url"
                 v-model="formFields[item.field]"
                 filterable
-		remote
+	              remote
                 :multiple="item.type == 'select' ? false : true"
                 :placeholder="item.placeholder ? item.placeholder : item.title"
                 clearable
-                :remote-method="
+                @change="
+                  (val) => {
+                    item.onChange&&item.onChange(val, item.data);
+                  }"
+                 :remote-method="
                   (val) => {
                     remoteSearch(item, formFields, val);
                   }
@@ -621,9 +625,9 @@ export default defineComponent({
     const { appContext, proxy } = getCurrentInstance();
     const remoteCall = ref(true);
     const span = ref(1);
-    const rangeFields = toRefs([]);
+    const rangeFields = reactive([]);
     const volform = ref(null);
-    const numberFields = toRefs([]);
+    const numberFields = reactive([]);
     onMounted(() => {});
     const initFormRules = (init) => {
       if (props.loadKey) {
