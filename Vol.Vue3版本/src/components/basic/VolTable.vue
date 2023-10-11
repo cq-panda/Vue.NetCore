@@ -446,6 +446,7 @@
       <VolUpload
       style="text-align: center; "
       :autoUpload="currentColumn.edit.autoUpload"
+     
       :multiple="currentColumn.edit.multiple"
       :url="uploadUrl"
       :max-file="currentColumn.edit.maxFile"
@@ -454,6 +455,7 @@
       :fileTypes="currentColumn.edit.fileTypes ? currentColumn.edit.fileTypes : []"
       :fileInfo="fileInfo"
       :upload-after="uploadAfter"
+      :upload-before="uploadBefore"
     >
       <div>{{ currentColumn.message}}</div>
     </VolUpload>
@@ -1682,6 +1684,10 @@ export default defineComponent({
     },
     uploadAfter(result, files) {
       this.currentColumn.uploadAfter&&this.currentColumn.uploadAfter(result,files);
+      return true;
+    },
+    uploadBefore(files,params){
+      this.currentColumn.uploadBefore&&this.currentColumn.uploadBefore(files,this.currentRow,params);
       return true;
     },
     saveUpload(){
