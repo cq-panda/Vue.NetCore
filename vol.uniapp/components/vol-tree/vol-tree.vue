@@ -2,7 +2,7 @@
 	<view>
 		<view class="vol-tree-mask" :class="{'show':showTree}" @tap="maskClick"></view>
 		<view class="vol-tree-container" :class="{'show':showTree}">
-			<view style="display: flex;flex-direction: column;" v-if="inited">
+			<view style="display: flex;flex-direction: column;height: 100%;" v-if="inited">
 				<view class="vol-tree-header">
 					<view class="vol-tree-header-title">{{title}}</view>
 					<view class="vol-tree-header-confirm" hover-class="hover-c" @click="confirm">
