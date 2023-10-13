@@ -5,7 +5,7 @@ using VOL.Core.Configuration;
 using VOL.Core.Dapper;
 using VOL.Core.Enums;
 
-namespace VOL.Core.DBManager.Partial
+namespace VOL.Core.DBManager
 {
     /// <summary>
     /// 2022.11.21增加其他数据库(sqlserver、mysql、pgsql、oracle)连接配置说明
@@ -33,18 +33,18 @@ namespace VOL.Core.DBManager.Partial
         ///// <summary>
         ///// 如果有多个不同的mysql数据库，这里再加一个配置
         ///// </summary>
-        //public static ISqlDapper SqlDapperMySql2
-        //{
-        //    get
-        //    {
-        //        //读取appsettings.json中的配置
-        //        string 数据库连接字符串 = AppSetting.GetSettingString("key2");
-        //        return new SqlDapper(数据库连接字符串, DbCurrentType.MySql);
+        public static ISqlDapper SqlDapperMySql2
+        {
+            get
+            {
+                //读取appsettings.json中的配置
+                string 数据库连接字符串 = AppSetting.GetSettingString("key2");
+                return new SqlDapper(数据库连接字符串, DbCurrentType.MySql);
 
-        //        //访问数据库方式
-        //        //DBServerProvider.SqlDapperMySql2.xx
-        //    }
-        //}
+                //访问数据库方式
+                //DBServerProvider.SqlDapperMySql2.xx
+            }
+        }
 
         ///// <summary>
         ///// 单独配置SqlServer数据库

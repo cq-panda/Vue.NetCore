@@ -5,7 +5,7 @@ using VOL.Core.Configuration;
 using VOL.Core.Dapper;
 using VOL.Core.Enums;
 
-namespace VOL.Core.DBManager.Partial
+namespace VOL.Core.DBManager
 {
     /// <summary>
     /// 2022.11.21增加其他数据库(sqlserver、mysql、pgsql、oracle)连接配置说明
