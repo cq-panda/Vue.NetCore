@@ -381,7 +381,7 @@
           :pagination="pagination"
           :height="height"
           :max-height="tableMaxHeight"
-          :pagination-hide="false"
+          :pagination-hide="paginationHide"
           :url="url"
           :load-key="false"
           :defaultLoadPage="load"
@@ -609,7 +609,8 @@ var vueParam = {
       numberFields: [],
       //2022.09.26增加自定义导出文件名
       downloadFileName: null,
-      select2Count: 500 //超出500数量显示select2组件
+      select2Count: 500, //超出500数量显示select2组件
+      paginationHide:false//是隐藏分页(2023.10.11)
     };
   },
   methods: {},

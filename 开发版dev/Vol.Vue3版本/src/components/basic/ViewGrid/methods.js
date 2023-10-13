@@ -1498,6 +1498,10 @@ let methods = {
     if (!this.boxOptions.width) {
       this.boxOptions.width = clientWidth + 30;
     }
+    //2023.10.11隐藏分页时调整表格高度
+    if (this.paginationHide) {
+      this.height=this.height+37
+    }
   },
   rowOnChange(row) {
     this.rowChange(row);
