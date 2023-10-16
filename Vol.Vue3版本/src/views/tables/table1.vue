@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="example-tb">
     <el-alert title="关于table使用" type="success" show-icon :closable="false">
       <p>1、VolTable基于Element Table封装的常用功能。</p>
@@ -23,7 +23,6 @@
            <el-button type="primary" size="small" @click="addRow"><i class="el-icon-plus"></i>添加行</el-button
         >
       </div>
-              <!-- :single="true"设置为单选  -->
       <vol-table
         ref="table"
         :columns="columns"
@@ -352,4 +351,4 @@ export default {
   background: white;
   padding: 10px;
 }
-</style>
+</style> -->

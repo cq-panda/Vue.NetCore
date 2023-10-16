@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="container">
     <VolHeader icon="el-icon-warning-outline" text="表单配置" style="margin: 0 0 20px 50px">
       <template #content>
@@ -369,4 +369,4 @@ export default {
 .container{
   padding: 10px 20px 0px 2px;
 }
-</style>
+</style> -->
