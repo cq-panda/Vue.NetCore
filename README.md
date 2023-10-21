@@ -39,6 +39,10 @@
 ## App/H5开发
  - http://v2.volcore.xyz/app/guide
 
+## 2023.10增加sqlsugar适配
+不是简单的增加sqlsugar而是重写后台增加框架后台sqlsugar版本
+ -sqlsugar: [http://120.48.115.252:9990/](https://www.donet5.com/)
+
 ## 2023.05.13增加审批流程分支、条件功能
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow.png)  
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow2.png)  
