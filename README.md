@@ -21,6 +21,7 @@
 ## 框架开发依赖环境
  - 后台：VS2019、vs2022 、.NetCore3.1 、.Net6、EFCore3.1/6.0、JWT、Dapper、SignalR、Quartz.Net、Autofac、SqlServer/MySql/PGSql/Oracle、Redis
  - 前端：VsCode、Vue2/vue3（需要安装nodejs)、vuex、axios、promise、element ui、element plus
+ - 2023.10已支持sqlsugar,见后台项目代码Vol.Net.SqlSugar
 ## 链接
 
 ## [vol框架视频](https://www.cctalk.com/m/group/90268531)
@@ -28,20 +29,15 @@
 ## [NET视频教程(微软MVP-ACE录制)](https://space.bilibili.com/525836469)
 ## [元讯趣编程交流社区](https://www.qubcedu.com/)
 
-## 项目启动与上手
- - http://v2.volcore.xyz/document/guide
-## vue2版本
- - http://v2.volcore.xyz
-## vue3版本
- - http://www.volcore.xyz
-## 演示地址2
- - http://120.48.115.252:9990/
-## App/H5开发
- - http://v2.volcore.xyz/app/guide
+#### 框架文档
+vue3版本: [http://v2.volcore.xyz/document/guide](http://v2.volcore.xyz/document/guide) <br> 
+vue3版本: [http://www.volcore.xyz](http://www.volcore.xyz) <br> 
+演示地址2: [http://120.48.115.252:9990/](http://120.48.115.252:9990/) <br> 
+App、H5、微信小程序: [http://v2.volcore.xyz/app/guide](http://v2.volcore.xyz/app/guide) <br> 
 
-## 2023.10增加sqlsugar适配
-不是简单的增加sqlsugar而是重写后台增加框架后台sqlsugar版本
- -sqlsugar: [http://120.48.115.252:9990/](https://www.donet5.com/)
+#### 2023.10增加sqlsugar适配
+不是简单的增加sqlsugar而是重写后台，增加框架后台sqlsugar版本并独立维护 <br> 
+sqlsugar: [https://www.donet5.com/](https://www.donet5.com/)
 
 ## 2023.05.13增加审批流程分支、条件功能
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/flow.png)  
