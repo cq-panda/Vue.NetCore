@@ -71,3 +71,13 @@
 /Vue.Net/VOL.WebApi/Properties
 /.Net6版本/VOL.WebApi/Properties
 /Net6.SqlSugar/.vs
+/Net6.SqlSugar/VOL.Builder/obj
+/Net6.SqlSugar/VOL.Builder/bin
+/Net6.SqlSugar/VOL.Core/obj
+/Net6.SqlSugar/VOL.Core/bin
+/Net6.SqlSugar/VOL.Entity/obj
+/Net6.SqlSugar/VOL.Entity/bin
+/Net6.SqlSugar/VOL.System/obj
+/Net6.SqlSugar/VOL.System/bin
+/Net6.SqlSugar/VOL.WebApi/obj
+/Net6.SqlSugar/VOL.WebApi/bin
