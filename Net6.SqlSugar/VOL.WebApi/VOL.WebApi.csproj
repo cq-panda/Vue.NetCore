@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <UserSecretsId>a3e3c6fb-4b7e-44a6-8dbe-5e5f11af4202</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\netcoreapp6.0\</OutputPath>
+    <DocumentationFile>bin\Debug\netcoreapp6.0\VOL.WebApi.xml</DocumentationFile>
+    <NoWarn>1701;1702;CS1591;CS8618;CS8600;CS8602;CS1572;CS1573;CS1587;CS1591;CS1570;CS8765;CA2200:</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp6.0\VOL.WebApi.xml</DocumentationFile>
+    <OutputPath>bin\Release\netcoreapp6.0\</OutputPath>
+    <NoWarn>1701;1702;CS1572;CS1573;CS1587;CS8618;CS8600;CS8602;CS1591;CS1570;CS8765;</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+    <PackageReference Include="Quartz" Version="3.4.0" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.112" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VOL.Builder\VOL.Builder.csproj" />
+    <ProjectReference Include="..\VOL.Core\VOL.Core.csproj" />
+    <ProjectReference Include="..\VOL.Entity\VOL.Entity.csproj" />
+    <ProjectReference Include="..\VOL.System\VOL.System.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Download\" />
+  </ItemGroup>
+
+
+</Project>

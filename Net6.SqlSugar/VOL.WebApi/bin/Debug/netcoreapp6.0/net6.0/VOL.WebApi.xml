@@ -1,0 +1,329 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VOL.WebApi</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "T:VOL.WebApi.Controllers.Hubs.HomePageMessageHub" -->
+        <member name="M:VOL.WebApi.Controllers.Hubs.HomePageMessageHub.#ctor(VOL.Core.CacheManager.ICacheService)">
+            <summary>
+            构造 注入
+            </summary>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.Hubs.HomePageMessageHub.OnConnectedAsync">
+            <summary>
+            建立连接时异步触发
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.Hubs.HomePageMessageHub.OnDisconnectedAsync(System.Exception)">
+            <summary>
+            离开连接时异步触发
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.Hubs.HomePageMessageHub.GetCnnectionIds(System.String)">
+            <summary>
+            根据用户名获取所有的客户端
+            </summary>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.Hubs.HomePageMessageHub.SendHomeMessage(System.String,System.String,System.String)">
+            <summary>
+            发送给指定的人
+            </summary>
+            <param name="username">sys_user表的登陆帐号</param>
+            <param name="message">发送的消息</param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.Hubs.HomePageMessageHub.UserOffline">
+            <summary>
+            断开连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:VOL.WebApi.Controllers.MqDataHandle.DataHandle">
+            <summary>
+            数据处理
+            </summary>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.MqDataHandle.DataHandle.#ctor">
+            <summary>
+            构造  可注入service服务执行db
+            </summary>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.MqDataHandle.DataHandle.AlarmData(System.String)">
+            <summary>
+            报警数据处理
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:VOL.WebApi.Controllers.ObjectActionValidatorExampleController">
+             <summary>
+            1、普通参数校验只需要标识属性：[ObjectGeneralValidatorFilter(ValidatorGeneral.xxx,ValidatorGeneral.xxx)]，
+            需要在ValidatorGeneral枚举中添加枚举值(参数名)，并在UseMethodsGeneralParameters方法中注入进去即可在任何地方重复使用
+             
+             2、model校验只需要标识属性[ObjectModelValidatorFilter(ValidatorModel.xxx)]
+             需要在ValidatorModel枚举中添加枚举值(参数名)，
+             并在UseMethodsModelParameters方法中注入进去(注入时可以指定需要验证的字段)即可在任何地方重复使用
+             --如果其他方法使用的是同一个model，但验证的字段不同，在ValidatorModel重新添加一个枚举值，
+             --并在UseMethodsModelParameters方法注入,添加新的指定字段即可
+             </summary>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.ObjectActionValidatorExampleController.Test1(System.String,System.String)">
+            <summary>
+            验证UserName与PhoneNo为必填
+            </summary>
+            <param name="userName"></param>
+            <param name="phoneNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.ObjectActionValidatorExampleController.Test2(System.String,System.String)">
+            <summary>
+            验证PhoneNo为必填
+            </summary>
+            <param name="userName"></param>
+            <param name="phoneNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.ObjectActionValidatorExampleController.Test3(System.String,System.String)">
+            <summary>
+            验证字符长度与值大小
+            </summary>
+            <param name="userName"></param>
+            <param name="phoneNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.ObjectActionValidatorExampleController.Test4(VOL.Entity.DomainModels.LoginInfo)">
+            <summary>
+            Login配置的规则用户名与密码必填
+            </summary>
+            <param name="loginInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.ObjectActionValidatorExampleController.Test5(VOL.Entity.DomainModels.LoginInfo)">
+            <summary>
+            LoginOnlyPassWord配置的规则密码必填
+            </summary>
+            <param name="loginInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.WebApi.Controllers.ObjectActionValidatorExampleController.Test6(VOL.Entity.DomainModels.LoginInfo,System.String)">
+            <summary>
+            同时验证实体LoginInfo与单个参数phoneNo
+             Login配置的规则用户名与密码必填,手机号必填
+            </summary>
+            <param name="loginInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="T:VOL.WebApi.Controllers.OSS.AliOSSController">
+            <summary>
+            neuget包aliyun-net-sdk-core
+            </summary>
+        </member>
+        <member name="T:VOL.WebApi.SwaggerDocTag">
+            <summary>
+            Swagger注释帮助类
+            </summary>
+        </member>
+        <member name="M:VOL.WebApi.SwaggerDocTag.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            添加附加注释
+            </summary>
+            <param name="swaggerDoc"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:VOL.System.Controllers.FormDesignOptionsController.GetFormOptions(System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.FormDesignOptionsController.Submit(VOL.Entity.DomainModels.SaveModel)">
+            <summary>
+            
+            </summary>
+            <param name="saveModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.FormDesignOptionsController.GetList">
+             <summary>
+            获取有数据的设计器
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_DepartmentController.GetPageData(VOL.Entity.DomainModels.PageDataOptions)">
+            <summary>
+            treetable 获取子节点数据(2021.05.02)
+            </summary>
+            <param name="loadData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_DepartmentController.GetTreeTableRootData(VOL.Entity.DomainModels.PageDataOptions)">
+            <summary>
+            treetable 获取子节点数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_DepartmentController.GetTreeTableChildrenData(System.Guid)">
+             <summary>
+            treetable 获取子节点数据
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_DictionaryController.GetTableDictionary(System.Collections.Generic.Dictionary{System.String,System.Object[]})">
+            <summary>
+            table加载数据后刷新当前table数据的字典项(适用字典数据量比较大的情况)
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_DictionaryController.GetSearchDictionary(System.String,System.String)">
+            <summary>
+            远程搜索
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_DictionaryController.GetRemoteDefaultKeyValue(System.String,System.String)">
+            <summary>
+            表单设置为远程查询，重置或第一次添加表单时，获取字典的key、value
+            </summary>
+            <param name="dicNo"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_DictionaryController.GetBuilderDictionary">
+            <summary>
+            代码生成器获取所有字典项(超级管理权限)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_DictionaryListController.Export(VOL.Entity.DomainModels.PageDataOptions)">
+            <summary>
+            导出明细
+            （重写权限）将子表的权限指向主表权限
+            </summary>
+            <param name="loadData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_DictionaryListController.Import(System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            导入表数据Excel
+             （重写权限）将子表的权限指向主表权限
+            </summary>
+            <param name="fileInput"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_DictionaryListController.DownLoadTemplate">
+            <summary>
+            下载导入Excel模板
+            （重写权限）将子表的权限指向主表权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_MenuController.GetTreeMenu">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_MenuController.DelMenu(System.Int32)">
+            <summary>
+            限制只能超级管理员才删除菜单 
+            </summary>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_QuartzOptionsController.Test">
+            <summary>
+            api加上属性 [ApiTask]
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_QuartzOptionsController.TaskTest">
+            <summary>
+            api加上属性 [ApiTask]
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_QuartzOptionsController.Run(VOL.Entity.DomainModels.Sys_QuartzOptions)">
+            <summary>
+            手动执行一次
+            </summary>
+            <param name="taskOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_QuartzOptionsController.Start(VOL.Entity.DomainModels.Sys_QuartzOptions)">
+            <summary>
+            开启任务
+            </summary>
+            <param name="schedulerFactory"></param>
+            <param name="taskOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_QuartzOptionsController.Pause(VOL.Entity.DomainModels.Sys_QuartzOptions)">
+            <summary>
+            暂停任务
+            </summary>
+            <param name="schedulerFactory"></param>
+            <param name="taskOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_RoleController.GetUserChildRoles">
+            <summary>
+            获取当前角色下的所有角色 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_RoleController.GetPageData(VOL.Entity.DomainModels.PageDataOptions)">
+            <summary>
+            treetable 获取子节点数据(2021.05.02)
+            </summary>
+            <param name="loadData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_RoleController.GetTreeTableRootData(VOL.Entity.DomainModels.PageDataOptions)">
+            <summary>
+            treetable 获取子节点数据(2021.05.02)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_RoleController.GetTreeTableChildrenData(System.Int32)">
+             <summary>
+            treetable 获取子节点数据(2021.05.02)
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_UserController.GetVierificationCode">
+            <summary>
+            2020.06.15增加登陆验证码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_WorkFlowController.GetTableInfo">
+            <summary>
+            获取工作流程表数据源
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_WorkFlowController.GetNodeDic">
+            <summary>
+            获取流程节点数据源(用户与角色)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.System.Controllers.Sys_WorkFlowController.GetSteps(System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+            获取单据的审批流程进度
+            </summary>
+            <param name="tableName"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
