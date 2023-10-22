@@ -202,6 +202,36 @@ export default {
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b5cea8;">9</span>、<span style="color:#9cdcfe;">DBServerProvider</span>.<span style="color:#9cdcfe;">DbContext</span>
 	</div>
+	<p>
+		<br />
+		<br />
+	<div style="color:#CCCCCC;background-color:#1F1F1F;font-family:Consolas, &quot;font-size:14px;">
+		<div>
+			&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color:#6a9955;">//SqlSugar版本访问数据库</span>
+		</div>
+		<div>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#b5cea8;">1</span><span style="color:#9cdcfe;">、</span><span style="color:#9cdcfe;">repository</span><span style="color:#9cdcfe;">.DbContext.xx</span>
+		</div>
+		<div>
+			<span style="color:#9cdcfe;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span style="color:#b5cea8;">2</span><span style="color:#9cdcfe;">、</span><span style="color:#9cdcfe;">DBServerProvider</span><span style="color:#9cdcfe;">.DbContext.SqlSugarClient.xx</span>
+		</div>
+		<div>
+			<span style="color:#9cdcfe;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span style="color:#b5cea8;">3</span><span style="color:#9cdcfe;">、</span><span style="color:#9cdcfe;">DBServerProvider</span><span style="color:#9cdcfe;">.SqlSugarClient.xx</span>
+		</div>
+		<div>
+			<span style="color:#9cdcfe;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span style="color:#b5cea8;">4</span><span style="color:#9cdcfe;">、</span><span style="color:#9cdcfe;">DbManger</span><span style="color:#9cdcfe;">.SqlSugarClient.xx</span>
+		</div>
+		<div>
+			<span style="color:#9cdcfe;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span style="color:#b5cea8;">5</span><span style="color:#9cdcfe;">、</span><span style="color:#9cdcfe;">DbManger</span><span style="color:#9cdcfe;">.Db.xx</span>
+		</div>
+		<div>
+			<span style="color:#9cdcfe;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span style="color:#6a9955;">//以上方式都可以访问数据库</span>
+		</div>
+	</div>
+</p>
+<p>
+	<br />
+</p>
 	<div>
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6a9955;">//以上方式都能访问数据库</span>
 	</div>
