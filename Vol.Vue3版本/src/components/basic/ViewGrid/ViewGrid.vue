@@ -285,7 +285,7 @@
                   :pagination="detailOptions.pagination"
                   :height="detailOptions.height"
                   :single="detailOptions.single"
-                  :pagination-hide="false"
+                  :pagination-hide="detailOptions.paginationHide"
                   :defaultLoadPage="detailOptions.load"
                   :beginEdit="detailOptions.beginEdit"
                   :endEditBefore="detailOptions.endEditBefore"
@@ -525,6 +525,7 @@ var vueParam = {
       continueAddName: '保存后继续添加', //2021.04.11按钮名称
       // detailUrl: "",
       detailOptions: {
+        paginationHide:false,//是否隐藏明细表分页2023.10.23
         //弹出框从表(明细)对象
         //从表配置
         buttons: [], //弹出框从表表格操作按钮,目前有删除行，添加行，刷新操作，如需要其他操作按钮，可在表对应的.js中添加
