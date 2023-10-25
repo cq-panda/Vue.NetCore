@@ -1723,7 +1723,7 @@ CREATE TABLE "public"."Sys_TableColumn" (
   "ApiIsNull" int4,
   "ApiOutPut" int4,
   "ColSize" int4,
-  "ColumnCNName" varchar(100) COLLATE "pg_catalog"."default",
+  "ColumnCnName" varchar(100) COLLATE "pg_catalog"."default",
   "ColumnName" varchar(100) COLLATE "pg_catalog"."default",
   "ColumnType" text COLLATE "pg_catalog"."default",
   "ColumnWidth" int4,
