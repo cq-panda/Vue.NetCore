@@ -272,7 +272,7 @@ namespace VOL.Core.BaseProvider
 
         public virtual int Update<TSource>(TSource entity, Expression<Func<TSource, object>> properties, bool saveChanges = false) where TSource : class, new()
         {
-            return UpdateRange(new List<TSource>
+            return UpdateRange<TSource>(new List<TSource>
             {
                 entity
             }, properties, saveChanges);
