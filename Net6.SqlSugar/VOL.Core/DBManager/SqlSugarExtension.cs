@@ -122,7 +122,7 @@ namespace VOL.Core.DBManager
             }
             if (properties == null || properties.Length == 0)
             {
-                sqlSugarClient.Updateable<TSource>(entities).UpdateColumns(properties).AddQueue();
+                sqlSugarClient.Updateable<TSource>(entities).AddQueue();
             }
             else
             {
