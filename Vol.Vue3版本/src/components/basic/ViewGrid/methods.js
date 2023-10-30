@@ -1512,6 +1512,12 @@ let methods = {
   rowChange(row) {
     //选中行checkbox行事件
   },
+  selectionOnChange(rows){
+    this.selectionChange(rows);
+  },
+  selectionChange(rows){
+
+  },
   rowOnClick({ row, column, event }) {
     this.rowClick({ row, column, event });
   },

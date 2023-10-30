@@ -375,6 +375,7 @@
           @rowChange="rowOnChange"
           @rowClick="rowOnClick"
           @rowDbClick="rowOnDbClick"
+          @selectionChange="selectionOnChange"
           :tableData="[]"
           :linkView="linkData"
           :columns="columns"

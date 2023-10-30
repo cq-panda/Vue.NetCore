@@ -471,11 +471,14 @@ let methods = {
           }
           if (
             data &&
-            data.length > 0 &&
-            !this.keyValueType.hasOwnProperty(x.field)
+            data.length > 0
           ) {
-            this.keyValueType[x.field] = data[0].key;
-            this.keyValueType[keyLeft + x.field] = x.type;
+            if (!this.keyValueType.hasOwnProperty(x.field)){
+              this.keyValueType[x.field] = data[0].key;
+            }
+            if (!this.keyValueType.hasOwnProperty(keyLeft + x.field)){
+              this.keyValueType[keyLeft + x.field] = x.type;
+            }
           }
         });
       });
@@ -1508,6 +1511,12 @@ let methods = {
   },
   rowChange(row) {
     //选中行checkbox行事件
+  },
+  selectionOnChange(rows){
+    this.selectionChange(rows);
+  },
+  selectionChange(rows){
+
   },
   rowOnClick({ row, column, event }) {
     this.rowClick({ row, column, event });
