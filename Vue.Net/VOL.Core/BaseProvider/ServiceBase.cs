@@ -157,6 +157,7 @@ namespace VOL.Core.BaseProvider
         /// <param name="propertyInfo"></param>
         private Dictionary<string, QueryOrderBy> GetPageDataSort(PageDataOptions pageData, PropertyInfo[] propertyInfo)
         {
+            string sortString = pageData.Sort;
             if (base.OrderByExpression != null)
             {
                 return base.OrderByExpression.GetExpressionToDic();
@@ -204,7 +205,37 @@ namespace VOL.Core.BaseProvider
                     pageData.Sort = propertyInfo.GetKeyName();
                 }
             }
-            return new Dictionary<string, QueryOrderBy>() { {
+            if (!string.IsNullOrEmpty(sortString) && sortString.Contains(","))
+            {
+                Dictionary<string, QueryOrderBy> dataSortkeys = new Dictionary<string, QueryOrderBy>();
+                string[] arraySorts = sortString.Split(",");
+                if (pageData.Order.Contains(","))
+                {
+                    string[] arrayOrders = pageData.Order.Split(",");
+                    for (int i = 0; i < arraySorts.Length; i++)
+                    {
+                        if (!propertyInfo.Any(x => x.Name.ToLower() == arraySorts[i].ToLower()))
+                        {
+                            continue;
+                        }
+                        if (arrayOrders.Length > i)
+                        {
+                            dataSortkeys.Add(arraySorts[i], arrayOrders[i]?.ToLower() == _asc ? QueryOrderBy.Asc : QueryOrderBy.Desc);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < arraySorts.Length; i++)
+                    {
+
+                        dataSortkeys.Add(arraySorts[i], pageData.Order?.ToLower() == _asc ? QueryOrderBy.Asc : QueryOrderBy.Desc);
+                    }
+                } 
+                return dataSortkeys;
+            }
+            else
+                return new Dictionary<string, QueryOrderBy>() { {
                     pageData.Sort, pageData.Order?.ToLower() == _asc? QueryOrderBy.Asc: QueryOrderBy.Desc
                 } };
         }
