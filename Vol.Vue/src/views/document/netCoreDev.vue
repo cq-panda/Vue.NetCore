@@ -272,7 +272,7 @@ export default {
 		  tips: ``
 		  },
 		{
-          title: "后台基础代码扩展实现",
+          title: "(生成代码后台扩展)后台基础代码扩展实现",
           name: "extend",
           content: [
             `<p>

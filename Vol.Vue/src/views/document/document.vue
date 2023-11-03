@@ -105,7 +105,7 @@ export default {
         return;
       }
       console.log('11')
-      if (this.getDaysBetween(dt,~~(new Date()/1000)) > 5) {
+      if (this.getDaysBetween(dt,~~(new Date()/1000)) > 30) {
         this.centerDialogVisible = true;
       }
     } catch (error) {
@@ -136,7 +136,7 @@ export default {
           actived: false
         },
         {
-          text: '组件api',
+          text: '组件api(生成页面api)',
           path: '/document/api',
           actived: false
         },
