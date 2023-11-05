@@ -14,7 +14,7 @@ let dataType = [
   { "key": "selectList", "value": "select多选" },
   { "key": "date", "value": "date" },
   { "key": "datetime", "value": "datetime" },
-  { "key": "month", "value": "年月日" },
+  { "key": "month", "value": "年月" },
   { "key": "rate", "value": "rate评分" },
   { "key": "time", "value": "time" },
   { "key": "checkbox", "value": "checkbox" },
@@ -41,7 +41,7 @@ let searchDataType = [
   { "key": "selectList", "value": "select多选" },
   { "key": "date", "value": "date" },
   { "key": "datetime", "value": "datetime" },
-  { "key": "month", "value": "year_month" },
+  { "key": "month", "value": "年月" },
   { "key": "time", "value": "time" },
   { "key": "cascader", "value": "级联" },//2020.11.01增加级联选择
   { "key": "checkbox", "value": "checkbox" },
