@@ -20,7 +20,7 @@
     </el-select>
     <div
       class="date-range"
-      v-else-if="['date', 'datetime'].indexOf(singleSearch.type) != -1"
+      v-else-if="['date', 'datetime','month'].indexOf(singleSearch.type) != -1"
     >
       <el-date-picker
         style="width: 210px"

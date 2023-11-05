@@ -236,7 +236,7 @@
               class="v-date-range"
               style="display: flex"
               v-else-if="
-                ['date', 'datetime'].indexOf(item.type) != -1 && item.range
+                ['date', 'datetime','month'].indexOf(item.type) != -1 && item.range
               "
             >
               <el-date-picker
@@ -244,7 +244,7 @@
                 :disabled="item.readonly || item.disabled"
                 style="flex: 1; width: auto"
                 v-model="formFields[item.field][0]"
-                :type="item.type == 'date' ? 'date' : 'datetime'"
+                :type="item.type"
                 :disabledDate="(val) => getDateOptions(val, item)"
                 placeholder="开始时间"
                 @change="
@@ -264,7 +264,7 @@
                 style="flex: 1; width: auto"
                 v-model="formFields[item.field][1]"
                 placeholder="结束时间"
-                :type="item.type == 'date' ? 'date' : 'datetime'"
+                :type="item.type"
                 :disabledDate="(val) => getDateOptions(val, item)"
                 @change="
                   (val) => {
