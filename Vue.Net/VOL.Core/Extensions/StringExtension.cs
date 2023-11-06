@@ -107,6 +107,12 @@ namespace VOL.Core.Extensions
                 case HtmlElementType.like:
                     reslut = HtmlElementType.like;
                     break;
+                case HtmlElementType.startswith:
+                    reslut = HtmlElementType.startswith;
+                    break;
+                case HtmlElementType.endswith:
+                    reslut = HtmlElementType.endswith;
+                    break;
                 default:
                     reslut = HtmlElementType.Equal;
                     break;
