@@ -26,5 +26,8 @@ namespace VOL.Core.Const
         public const string LessOrequal = "<=";
         public const string Contains = "in";
         public const string Equal = "=";
+
+        public const string startswith = "startswith";
+        public const string endswith = "endswith";
     }
 }
