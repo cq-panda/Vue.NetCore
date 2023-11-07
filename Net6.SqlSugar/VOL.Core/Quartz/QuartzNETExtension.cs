@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VOL.Core.DbContext;
 using VOL.Core.DBManager;
+using VOL.Core.DbSqlSugar;
 using VOL.Core.Extensions;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
@@ -35,12 +36,12 @@ namespace VOL.Core.Quartz
             ISchedulerFactory _schedulerFactory = services.GetService<ISchedulerFactory>();
             try
             {
-                _taskList = services.GetService<VOLContext>().Set<Sys_QuartzOptions>().Where(x=>x.Status==0).ToList();
+                _taskList = DbManger.SqlSugarClient.Set<Sys_QuartzOptions>().Where(x=>x.Status==0).ToList();
                 for (int i = 0; i < 1; i++)
                 {
                     _taskList.Add(new Sys_QuartzOptions()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = Guid.NewGuid(), 
                         GroupName = $"group{i}",
                         TaskName = $"task{i}",
                         CronExpression = "0 0 0 1 * ?",
