@@ -655,8 +655,12 @@ namespace VOL.Core.BaseProvider
                     PropertyInfo detailMainKey = typeof(TDetail).GetProperties()
                         .Where(q => q.Name.ToLower() == mainKey.Name.ToLower()).FirstOrDefault();
                     object keyValue = mainKey.GetValue(entity);
+                    PropertyInfo detailKey = typeof(TDetail).GetKeyProperty();
                     list.ForEach(x =>
                     {
+                        if (AppSetting.EnableSnowFlakeID && detailKey.PropertyType == typeof(long))
+                            detailKey.SetValue(x, YitIdHelper.NextId());
+
                         //设置用户默认值
                         x.SetCreateDefaultVal();
                         detailMainKey.SetValue(x, keyValue);
