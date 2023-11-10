@@ -160,6 +160,7 @@ namespace VOL.Core.Services
         {
             DataTable queueTable = CreateEmptyTable();
             List<Sys_Log> list = new List<Sys_Log>();
+            bool pgsql = DBType.Name.ToLower() == DbCurrentType.PgSql.ToString().ToLower();
             while (true)
             {
                 try
@@ -173,7 +174,14 @@ namespace VOL.Core.Services
                     //每1秒写一次数据
                     Thread.Sleep(1000);
                     if (list.Count == 0) { continue; }
-                    DbManger.SqlSugarClient.Fastest<Sys_Log>().BulkCopy(list);
+                    if (pgsql)
+                    {
+                        DbManger.SqlSugarClient.Insertable<Sys_Log>(list);
+                    }
+                    else
+                    {
+                        DbManger.SqlSugarClient.Fastest<Sys_Log>().BulkCopy(list);
+                    }
                     list.Clear();
                 }
                 catch (Exception ex)
