@@ -14,6 +14,8 @@ namespace VOL.Core.Enums
         LessThanOrEqual,//<=
         In,
         Contains,//Contains
-        NotContains//NotContains
+        NotContains,//NotContains
+        StartsWith,
+        EndsWith,
     }
 }

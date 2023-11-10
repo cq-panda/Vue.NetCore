@@ -253,6 +253,16 @@ namespace VOL.Core.Extensions
                         expression = Expression.Lambda<Func<T, bool>>(Expression.Not(Expression.Call(member, method, constant)), parameter);
                     }
                     break;
+                case LinqExpressionType.StartsWith:
+                    MethodInfo method2 = typeof(string).GetMethod("StartsWith", new[] { typeof(string) });
+                    constant = Expression.Constant(propertyValue, typeof(string));
+                    expression = Expression.Lambda<Func<T, bool>>(Expression.Call(member, method2, constant), parameter);
+                    break;
+                case LinqExpressionType.EndsWith:
+                    MethodInfo method3 = typeof(string).GetMethod("EndWith", new[] { typeof(string) });
+                    constant = Expression.Constant(propertyValue, typeof(string));
+                    expression = Expression.Lambda<Func<T, bool>>(Expression.Call(member, method3, constant), parameter);
+                    break;
                 default:
                     // p => p.false
                     expression = False<T>();
