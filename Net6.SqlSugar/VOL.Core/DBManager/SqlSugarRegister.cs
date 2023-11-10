@@ -30,7 +30,11 @@ namespace VOL.Core.DBManager
                 DbType = DbManger.GetDbType(),// SqlSugar.DbType.SqlServer,
                 ConnectionString = DBServerProvider.GetConnectionString(null),
                 IsAutoCloseConnection = true,
-                ConfigId = "default"
+                ConfigId = "default",
+                MoreSettings = new ConnMoreSettings()
+                {
+                    PgSqlIsAutoToLower = false
+                }
             };
         }
 
