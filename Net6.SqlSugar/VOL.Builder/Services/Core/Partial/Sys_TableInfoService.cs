@@ -343,7 +343,9 @@ DISTINCT
                     x.IsReadDataset = 0;
                 }
             });
-            return repository.UpdateRange<Sys_TableColumn>(sysTableInfo, true, true, null, null, true);
+            repository.SqlSugarClient.UpdateNav(sysTableInfo).Include(x => x.TableColumns).ExecuteCommand();
+            return webResponse.OK("保存成功");
+           // return repository.UpdateRange<Sys_TableColumn>(sysTableInfo, true, true, null, null, true);
         }
 
         /// <summary>
