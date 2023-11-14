@@ -121,25 +121,26 @@ namespace VOL.Core.Extensions
 
         public static string GetRequestParameters(this HttpContext context)
         {
-            if (context.Request.Body == null || !context.Request.Body.CanRead || !context.Request.Body.CanSeek)
-                return null;
-            if (context.Request.Body.Length == 0)
-                return null;
-            if (context.Request.Body.Position > 0)
-                context.Request.Body.Position = 0;
-
             string prarameters = null;
-            var bodyStream = context.Request.Body;
-
-            using (var buffer = new MemoryStream())
+            if (context.Request.Query != null && context.Request.Query.Keys.Count > 0)
             {
-                bodyStream.CopyToAsync(buffer);
-                buffer.Position = 0L;
-                bodyStream.Position = 0L;
-                using (var reader = new StreamReader(buffer, Encoding.UTF8))
+                prarameters = context.Request.Query.Serialize();
+            }
+
+            //context.Request.EnableBuffering();
+            context.Request.Body.Seek(0, SeekOrigin.Begin);
+            if (context.Request.Body == null
+                || !context.Request.Body.CanRead
+                || !context.Request.Body.CanSeek
+                || context.Request.Body.Length == 0 || context.Request.Body.Length > 10000)
+                return prarameters;
+            if (context.Request.ContentType.Contains("application/json"))
+            {
+                if (context.Request.Body.Position > 0)
+                    context.Request.Body.Position = 0;
+                using (StreamReader reader = new StreamReader(context.Request.Body, Encoding.UTF8, detectEncodingFromByteOrderMarks: true, bufferSize: 1024, leaveOpen: true))
                 {
-                    buffer.Seek(0, SeekOrigin.Begin);
-                    prarameters = reader.ReadToEnd();
+                    prarameters += reader.ReadToEnd();
                 }
             }
             return prarameters;
