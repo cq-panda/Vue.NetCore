@@ -621,7 +621,7 @@ export default defineComponent({
     select2Count: {
       //超出数量显示select2组件
       type: Number,
-      default: 500
+      default: 2000
     },
     selectable: {
       type: Function,

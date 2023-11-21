@@ -11,7 +11,7 @@
             </div>
             <div class="ef-node-form-body">
                 <div class="form-info">
-                    <VolForm ref="form" style="padding:0 10px;" :label-width="130" :loadKey="false" :formFields="node"
+                    <VolForm ref="form" :select2Count="2000" style="padding:0 10px;" :label-width="130" :loadKey="false" :formFields="node"
                         :formRules="formRules" :disabled="disabled">
                     </VolForm>
                 </div>
