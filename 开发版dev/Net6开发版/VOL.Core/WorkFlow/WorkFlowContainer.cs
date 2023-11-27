@@ -229,6 +229,7 @@ namespace VOL.Core.WorkFlow
                     WorkFlow_Id = workFlow.WorkFlow_Id,
                     WorkTable = workFlow.WorkTable,
                     WorkName = workFlow.WorkName,
+                    Weight=workFlow.Weight,
                     FilterList = new List<FilterOptions>()
                 };
                 bool success = true;
