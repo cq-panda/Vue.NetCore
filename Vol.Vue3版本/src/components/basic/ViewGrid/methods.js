@@ -562,13 +562,18 @@ let methods = {
             } else {
               newVal = [newVal];
             }
-          } else if (
+          }
+          else if (typeof newVal=='number') {
+            newVal= [newVal+''];
+            this.$message.error(`多选时数据库字段[${key}]必须是字符串类型`);
+          }
+          else if (
             newVal != '' &&
             newVal != undefined &&
             typeof newVal == 'string'
           ) {
             newVal = newVal.split(',');
-          } else if (kv_type == 'checkbox') {
+          } else{ //if (kv_type == 'checkbox') {
             newVal = [];
           }
         } else if (
