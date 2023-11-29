@@ -553,7 +553,7 @@ namespace VOL.Core.BaseProvider
                 }
                 Response = repository.DbContextBeginTransaction(() =>
                 {
-                    repository.Add(mainEntity, true);
+                    repository.AddWithSetIdentity(mainEntity);
                     saveDataModel.MainData[keyPro.Name] = keyPro.GetValue(mainEntity);
                     Response.OK(ResponseType.SaveSuccess);
                     if (base.AddOnExecuted != null)
