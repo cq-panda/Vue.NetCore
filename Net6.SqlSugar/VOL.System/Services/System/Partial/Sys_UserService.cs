@@ -434,6 +434,7 @@ namespace VOL.System.Services
             //新设置的部门
             var add = deptIds.Where(x => !roles.Exists(r => r.DepartmentId == x)).Select(s => new Sys_UserDepartment()
             {
+                Id=Guid.NewGuid(),
                 DepartmentId = s,
                 UserId = userId,
                 Enable = 1,
