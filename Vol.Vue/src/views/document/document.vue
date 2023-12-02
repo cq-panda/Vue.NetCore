@@ -105,7 +105,7 @@ export default {
         return;
       }
       console.log('11')
-      if (this.getDaysBetween(dt,~~(new Date()/1000)) > 30) {
+      if (this.getDaysBetween(dt,~~(new Date()/1000)) > 15) {
         this.centerDialogVisible = true;
       }
     } catch (error) {
