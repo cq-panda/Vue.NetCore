@@ -456,6 +456,7 @@
       :fileInfo="fileInfo"
       :upload-after="uploadAfter"
       :upload-before="uploadBefore"
+      :append="currentColumn.edit.accept"
     >
       <div>{{ currentColumn.message}}</div>
     </VolUpload>

@@ -8,6 +8,7 @@
           style="display: none"
           @change="handleChange"
           :multiple="multiple"
+          :accept="accept"
         />
         <div v-if="img" class="upload-img">
           <!-- v-for="(file,index) in fileInfo.length>0?fileInfo: files" -->
@@ -209,6 +210,11 @@ export default {
       //压缩的最小比例
       type: Number,
       default: 0.1
+    },
+    accept: {
+      //接受的文件类型
+      type: String,
+      default: ''
     }
   },
   data() {
