@@ -16,6 +16,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using VOL.System.Services;
 using VOL.Core.DBManager;
+using SqlSugar;
 
 namespace VOL.System.Controllers
 {
@@ -71,7 +72,7 @@ namespace VOL.System.Controllers
         public IActionResult GetList()
         {
             var query = _formCollectionRepository.FindAsIQueryable(x => true);
-            var data = _formDesignOptionsRepository.FindAsIQueryable(x => query.Any(c => c.FormId == x.FormId))
+            var data = _formDesignOptionsRepository.FindAsIQueryable(x => SqlFunc.Subqueryable<FormCollectionObject>().Where(c => c.FormId == x.FormId).Any())
                   .Select(s => new { s.FormId, s.Title, s.FormOptions })
                   .ToList();  
             return Json(data);  
