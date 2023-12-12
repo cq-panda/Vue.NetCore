@@ -72,13 +72,17 @@ namespace VOL.System.Services
                 if (!UserContext.Current.IsSuperAdmin)
                 {
                     var user = UserContext.Current.UserInfo;
-                        //显示当前用户需要审批的数据
-                        var deptIds = user.DeptIds.Select(s => s.ToString());
-                    var stepQuery = _stepRepository.FindAsIQueryable(x => (x.StepType == (int)AuditType.用户审批 && x.StepValue == user.User_Id.ToString())
-                      || (x.StepType == (int)AuditType.角色审批 && x.StepValue == user.Role_Id.ToString())
-                      || (x.StepType == (int)AuditType.部门审批 && deptIds.Contains(x.StepValue))
-                       );
-                    queryable = queryable.Where(x => stepQuery.Any(c => x.WorkFlowTable_Id == c.WorkFlowTable_Id));
+                    //显示当前用户需要审批的数据
+                    var deptIds = user.DeptIds.Select(s => s.ToString());
+                    queryable = queryable.Where(c =>
+                     SqlFunc.Subqueryable<Sys_WorkFlowTableStep>()
+                     .Where(x => c.WorkFlowTable_Id == x.WorkFlowTable_Id
+                     && ((x.StepType == (int)AuditType.用户审批 && x.StepValue == user.User_Id.ToString())
+                             || (x.StepType == (int)AuditType.角色审批 && user.Role_Id.ToString().Contains(x.StepValue))
+                             || (x.StepType == (int)AuditType.部门审批 && deptIds.Contains(x.StepValue)))
+                     )
+                     .Any());
+                    return queryable;
                 }
 
                 if (expression != null)

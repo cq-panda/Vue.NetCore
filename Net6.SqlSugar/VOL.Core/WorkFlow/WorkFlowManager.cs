@@ -360,7 +360,7 @@ namespace VOL.Core.WorkFlow
                 Remark = $"[{userInfo.UserTrueName}]提交了数据"
             };
             var dbContext = DBServerProvider.DbContext;
-            dbContext.Add(workFlowTable);
+            dbContext.SqlSugarClient.InsertNav(workFlowTable).Include(x=>x.Sys_WorkFlowTableStep).ExecuteCommand();
             dbContext.Add(log);
             dbContext.SaveChanges();
 
@@ -457,7 +457,7 @@ namespace VOL.Core.WorkFlow
             if (filterOptions != null)
             {
                 //审核未通过或者驳回
-                if (!CheckAuditStatus(workFlow, filterOptions, currentStep, status))
+                if (!CheckAuditStatus(workFlow, filterOptions, currentStep, status,remark))
                 {
                     //记录日志
                     dbContext.Add(log);
@@ -508,6 +508,7 @@ namespace VOL.Core.WorkFlow
                     //query.Update(entity);
                     //修改状态
                     dbContext.Update(workFlow);
+                    dbContext.UpdateRange(workFlow.Sys_WorkFlowTableStep);
                     dbContext.SaveChanges();
                     //发送邮件(appsettings.json配置文件里添加邮件信息)
                     SendMail(workFlow, filterOptions, nextStep, dbContext);
@@ -605,6 +606,7 @@ namespace VOL.Core.WorkFlow
 
             dbContext.Update(entity);
             dbContext.Update(workFlow);
+            dbContext.UpdateRange(workFlow.Sys_WorkFlowTableStep);
             dbContext.Add(log);
             dbContext.SaveChanges();
             if (workFlowExecuted != null)
@@ -616,7 +618,7 @@ namespace VOL.Core.WorkFlow
 
         }
 
-        private static bool CheckAuditStatus(Sys_WorkFlowTable workFlow, FilterOptions filterOptions, Sys_WorkFlowTableStep currentStep, AuditStatus status)
+        private static bool CheckAuditStatus(Sys_WorkFlowTable workFlow, FilterOptions filterOptions, Sys_WorkFlowTableStep currentStep, AuditStatus status,string remark)
         {
             //如果审核拒绝或驳回并退回上一步，待完
             //重新配置流程待完
@@ -635,7 +637,7 @@ namespace VOL.Core.WorkFlow
                     preStep.Auditor = null;
 
                     workFlow.CurrentStepId = preStep.StepId;
-                    workFlow.StepName= preStep.StepName;
+                    workFlow.StepName = preStep.StepName;
                     workFlow.AuditStatus = (int)AuditStatus.审核中;
 
                     DBServerProvider.DbContext.Update(preStep);
@@ -658,12 +660,30 @@ namespace VOL.Core.WorkFlow
                     }
                     //重新指向第一个节点
                     workFlow.CurrentStepId = steps.OrderBy(c => c.OrderId).Select(c => c.StepId).FirstOrDefault();
-                    workFlow.StepName= steps.OrderBy(c => c.OrderId).Select(c => c.StepName).FirstOrDefault();
+                    workFlow.StepName = steps.OrderBy(c => c.OrderId).Select(c => c.StepName).FirstOrDefault();
                     workFlow.AuditStatus = (int)AuditStatus.审核中;
 
                     DBServerProvider.DbContext.UpdateRange(steps);
                 }
                 return false;
+            }
+            else {
+                //更新明细记录
+
+                workFlow.Sys_WorkFlowTableStep.ForEach(x =>
+                {
+                    if (workFlow.CurrentStepId == x.StepId)
+                    {
+                        var user = UserContext.Current.UserInfo;
+                        x.AuditId = user.User_Id;
+                        x.Auditor = user.UserTrueName;
+                        x.AuditDate = DateTime.Now;
+                        //如果审核拒绝或驳回并退回上一步，待完
+                        x.AuditStatus = (int)status;
+                        x.Remark = remark;
+                        DBServerProvider.DbContext.Update<Sys_WorkFlowTableStep>(x);
+                    }
+                });
             }
             return true;
         }

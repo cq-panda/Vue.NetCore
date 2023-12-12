@@ -279,7 +279,7 @@
             <div
               v-show="!item.hidden"
               style="width: 100%"
-              v-else-if="['date', 'datetime', 'month'].indexOf(item.type) != -1"
+              v-else-if="['date', 'datetime', 'year', 'month'].indexOf(item.type) != -1"
             >
               <el-date-picker
                 :size="size"
@@ -1272,6 +1272,7 @@ export default defineComponent({
       if (
         item.type == 'date' ||
         item.type == 'datetime' ||
+        item.type == 'year' ||
         item.type == 'month' ||
         item.type == 'time'
       ) {
@@ -1369,6 +1370,9 @@ export default defineComponent({
       );
     },
     getDateFormat(item) {
+      if (item.type == 'year') {
+        return 'YYYY';
+      }
       if (item.type == 'month') {
         return 'YYYY-MM';
       }

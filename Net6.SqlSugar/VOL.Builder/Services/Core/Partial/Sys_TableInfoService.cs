@@ -344,7 +344,7 @@ DISTINCT
                 }
             });
             repository.SqlSugarClient.UpdateNav(sysTableInfo).Include(x => x.TableColumns).ExecuteCommand();
-            return webResponse.OK("保存成功");
+            return webResponse.OK("保存成功", sysTableInfo);
            // return repository.UpdateRange<Sys_TableColumn>(sysTableInfo, true, true, null, null, true);
         }
 

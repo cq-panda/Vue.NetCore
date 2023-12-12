@@ -378,15 +378,16 @@ namespace VOL.Core.Utilities
             }
             else
             {
-                //默认导出代码生成器中配置【是否显示】=是的列
-                propertyInfo = typeof(T).GetProperties()
-                  .Where(x => cellOptions.Select(s => s.ColumnName).Contains(x.Name)) //获取代码生成器配置的列
-                  .ToList();
-                /*
-                 * 如果propertyInfo查出来的长度=0
-                 * 1、代码生成器中的配置信息是否同步到当前数据库
-                 * 2、代码生成器中的配置列名与model的字段是否大小写一致
-                 */
+                propertyInfo = new List<PropertyInfo>();
+                var properties = typeof(T).GetProperties();
+                foreach (var item in cellOptions)
+                {
+                    var property = properties.Where(x => x.Name == item.ColumnName).FirstOrDefault();
+                    if (property != null)
+                    {
+                        propertyInfo.Add(property);
+                    }
+                }
             }
             string[] dateArr = null;
             if (!template)
