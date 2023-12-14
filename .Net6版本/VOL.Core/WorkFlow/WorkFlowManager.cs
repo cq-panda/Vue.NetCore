@@ -366,7 +366,7 @@ namespace VOL.Core.WorkFlow
             dbContext.Set<Sys_WorkFlowTable>().Add(workFlowTable);
             dbContext.Set<Sys_WorkFlowTableAuditLog>().Add(log);
             dbContext.SaveChanges();
-
+            dbContext.Entry(workFlowTable).State = EntityState.Detached;
             if (addWorkFlowExecuted!=null)
             {
                 var userIds = GetAuditUserIds(nodeInfo.StepType ?? 0, nodeInfo.StepValue);
@@ -677,7 +677,7 @@ namespace VOL.Core.WorkFlow
 
         private static void SendMail(Sys_WorkFlowTable workFlow, FilterOptions filterOptions, Sys_WorkFlowTableStep nextStep, VOLContext dbContext)
         {
-            if (filterOptions.SendMail != 1)
+            if (filterOptions==null||filterOptions.SendMail != 1)
             {
                 return;
             }

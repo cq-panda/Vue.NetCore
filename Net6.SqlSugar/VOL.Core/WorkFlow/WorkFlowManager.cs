@@ -690,7 +690,7 @@ namespace VOL.Core.WorkFlow
 
         private static void SendMail(Sys_WorkFlowTable workFlow, FilterOptions filterOptions, Sys_WorkFlowTableStep nextStep, VOLContext dbContext)
         {
-            if (filterOptions.SendMail != 1)
+            if (filterOptions==null||filterOptions.SendMail != 1)
             {
                 return;
             }
