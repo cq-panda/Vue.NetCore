@@ -38,11 +38,11 @@
 	// #ifdef APP-NVUE
 	// nvue通过weex的dom模块引入字体，相关文档地址如下：
 	// https://weex.apache.org/zh/docs/modules/dom.html#addrule
-	const fontUrl = 'https://at.alicdn.com/t/font_2225171_8kdcwk4po24.ttf'
+	//const fontUrl = 'https://at.alicdn.com/t/font_2225171_8kdcwk4po24.ttf'
 	const domModule = weex.requireModule('dom')
 	domModule.addRule('fontFace', {
 		'fontFamily': "uicon-iconfont",
-		'src': `url('${fontUrl}')`
+		'src': `url('./font_2225171_8kdcwk4po24.ttf')`
 	})
 	// #endif
 
@@ -157,10 +157,11 @@
 	$u-icon-label-line-height:1 !default;
 
 	/* #ifndef APP-NVUE */
+	//2023.12.15图标转内网
 	// 非nvue下加载字体
 	@font-face {
 		font-family: 'uicon-iconfont';
-		src: url('https://at.alicdn.com/t/font_2225171_8kdcwk4po24.ttf') format('truetype');
+		src: url('./font_2225171_8kdcwk4po24.ttf') format('truetype');
 	}
 
 	/* #endif */
