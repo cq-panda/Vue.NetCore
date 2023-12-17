@@ -365,7 +365,8 @@
 				if (!column.bind.data.length) {
 					return _val;
 				}
-				if (column.type == "selectList" || column.type == 'checkbox') {
+				//if (column.type == "selectList" || column.type == 'checkbox') {
+				if (_val.indexOf('.') != -1) {
 					return this.rowFormatterValueList(_val, column)
 				}
 				let _obj = column.bind.data.find(x => {
