@@ -1393,7 +1393,7 @@ export default defineComponent({
       if ($event.keyCode == 13) {
         return;
       }
-      item.onKeyPress($event);
+     item.onKeyPress&&item.onKeyPress($event);
     },
     filterMethod(value, data) {
       return data.label.includes(value);
