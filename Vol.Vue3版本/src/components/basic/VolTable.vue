@@ -277,7 +277,7 @@
                     "
                     :multiple="column.edit.type == 'select' ? false : true"
                     :placeholder="column.placeholder || column.title"
-                    :autocomplete="column.autocomplete"
+                    :allow-create="column.autocomplete"
                     @change="
                       column.onChange && column.onChange(scope.row, column)
                     "
