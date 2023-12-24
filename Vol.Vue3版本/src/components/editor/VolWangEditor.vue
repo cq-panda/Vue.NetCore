@@ -161,6 +161,10 @@ export default {
             x.data.bucketFolder + '/' + x.data.unique + file.name,
             file
           );
+          // 如果有配置cdn，返回的url需要拼接cdn
+          if ( window.oss.ali.cdn) {
+            result.url = new URL( x.data.bucketFolder + '/' + x.data.unique + file.name, window.oss.ali.cdn).toString();
+          }
           console.log(result);
           file.path = result.url;
           file.newName = x.data.unique + file.name;
