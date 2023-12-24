@@ -52,7 +52,9 @@ window.oss = {
         use: false,//使用阿里云上传文件
         //阿里缩略图压缩大小
         //.aliyuncs.com
-        small: "?x-oss-process=image/resize,m_lfit,w_200"
+        small: "?x-oss-process=image/resize,m_lfit,w_200",
+        // 填写oss所配置的cdn域名
+        //cdn: "https://static.xxx.com"
     }
 }
 app.use(store)
