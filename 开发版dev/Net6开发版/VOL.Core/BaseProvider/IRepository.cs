@@ -244,6 +244,22 @@ namespace VOL.Core.BaseProvider
         /// <returns></returns>
         int DeleteWithKeys(object[] keys, bool delList = false);
 
+
+        /// <summary>
+        /// 按条件删除
+        /// </summary>
+        /// <param name="wheres"></param>
+        /// <returns></returns>
+        int Delete(Expression<Func<TEntity, bool>> wheres, bool saveChange = false);
+        /// <summary>
+        /// 按条件删除
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="wheres"></param>
+        /// <returns></returns>
+        int Delete<T>(Expression<Func<T, bool>> wheres, bool saveChange = false) where T : class;
+
+
         void Add(TEntity entities, bool SaveChanges = false);
         void AddRange(IEnumerable<TEntity> entities, bool SaveChanges = false);
 

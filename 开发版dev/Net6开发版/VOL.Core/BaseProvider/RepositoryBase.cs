@@ -546,7 +546,30 @@ namespace VOL.Core.BaseProvider
             }
             return ExecuteSqlCommand(sql);
         }
-
+        public virtual int Delete([NotNull] Expression<Func<TEntity, bool>> wheres, bool saveChange = false)
+        {
+            return Delete<TEntity>(wheres, saveChange);
+        }
+        public virtual int Delete<T>([NotNull] Expression<Func<T, bool>> wheres, bool saveChange = false) where T : class
+        {
+            var keyProperty = typeof(T).GetKeyProperty();
+            string keyName = typeof(T).GetKeyProperty().Name;
+            var expression = keyName.GetExpression<T, object>();
+            var ids = DbContext.Set<T>().Where(wheres).Select(expression).ToList();
+            List<T> list = new List<T>();
+            foreach (var id in ids)
+            {
+                T entity = Activator.CreateInstance<T>();
+                keyProperty.SetValue(entity, id);
+                list.Add(entity);
+            }
+            DbContext.RemoveRange(list);
+            if (saveChange)
+            {
+                return DbContext.SaveChanges();
+            }
+            return 0;
+        }
 
         public virtual Task AddAsync(TEntity entities)
         {
