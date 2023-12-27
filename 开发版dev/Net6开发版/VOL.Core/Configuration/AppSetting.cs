@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using System.IO;
 using VOL.Core.Const;
 using VOL.Core.Extensions;
+using Yitter.IdGenerator;
 
 namespace VOL.Core.Configuration
 {
@@ -58,6 +59,9 @@ namespace VOL.Core.Configuration
 
         public static string CurrentPath { get; private set; } = null;
         public static string DownLoadPath { get { return CurrentPath + "\\Download\\"; } }
+
+        // 是否启用雪花ID
+        public static bool EnableSnowFlakeID { get; set; } = false;
         public static void Init(IServiceCollection services, IConfiguration configuration)
         {
             Configuration = configuration;
@@ -88,6 +92,14 @@ namespace VOL.Core.Configuration
     
 
             ExpMinutes = (configuration["ExpMinutes"] ?? "120").GetInt();
+
+            EnableSnowFlakeID = (configuration["EnableSnowFlakeID"] ?? "false").GetBool();
+
+            if (EnableSnowFlakeID)
+            {
+                var options = configuration.GetSection("SnowFlakeOptions").Get<Yitter.IdGenerator.IdGeneratorOptions>();
+                YitIdHelper.SetIdGenerator(options);
+            }
 
             DBType.Name = _connection.DBType;
             if (string.IsNullOrEmpty(_connection.DbConnectionString))
