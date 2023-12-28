@@ -130,8 +130,8 @@
 			</view>
 			<view class="f-form-content f-form-content-group" v-else-if="item.type=='radio'">
 				<!--  <view> -->
-				<u-radio-group @change="(val)=>{radioOnChange(val,item)}"
-					:placement="item.placement" v-model="formFields[item.field]">
+				<u-radio-group @change="(val)=>{radioOnChange(val,item)}" :placement="item.placement"
+					v-model="formFields[item.field]">
 					<u-radio v-for="(option,opIndex) in item.data"
 						:customStyle="{'margin-bottom':item.placement=='column'?'30rpx':0,'margin-right':item.placement=='column'?'0':'30rpx'}"
 						:label="option.value" :name="option.key">
@@ -150,7 +150,7 @@
 			</view>
 			<view class="f-form-content" v-else-if="item.type=='textarea'">
 				<textarea :focus="item.focus" :ref="item.field" auto-height style="width: 100%;padding-right: 8rpx;"
-					v-model="inFormFields[item.field]" border="none"
+					:maxlength="item.maxlength||100000" v-model="inFormFields[item.field]" border="none"
 					:placeholder="item.placeholder||('请输入'+item.title)"></textarea>
 			</view>
 			<!-- 	 -->
