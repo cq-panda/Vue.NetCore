@@ -17,11 +17,12 @@ let dataType = [
   { "key": "month", "value": "年月" },
   { "key": "rate", "value": "rate评分" },
   { "key": "time", "value": "time" },
-  { "key": "checkbox", "value": "checkbox" },
+  { "key": "checkbox", "value": "checkbox多选" },
+  { "key": "password", "value": "密码输入框" },
   // 2021.05.16集成iview radio组件
-  { "key": "radio", "value": "radio" },
+  { "key": "radio", "value": "radio单选" },
   { "key": "cascader", "value": "级联" },//2020.11.01增加级联选择
-  { "key": "treeSelect", "value": "树形级联tree-select" },//2020.11.01增加级联选择
+  { "key": "treeSelect", "value": "树形级联(多选)tree-select" },//2020.11.01增加级联选择
   { "key": "editor", "value": "富文本编辑器" },
   { "key": "mail", "value": "mail" },
   { "key": "number", "value": "number" },
