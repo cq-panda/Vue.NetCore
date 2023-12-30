@@ -178,7 +178,18 @@ let data = {
     { field: 'isColumnData', title: '数据列', width: 120, align: 'left', edit: { type: "switch", keep: true } },
     { field: 'isDisplay', title: '是否显示', width: 120, align: 'left', edit: { type: "switch", keep: true } },
     { field: 'columnWidth', title: 'table列宽度', width: 120, align: 'left', edit: { type: "text" } },
-    { field: 'colSize', title: '编辑列标签宽度colSize', width: 180, align: 'left', edit: { type: "text" } },
+    { field: 'colSize', title: '编辑字段宽度colSize', width: 180, align: 'left', edit: { type: "select" },
+     bind: { data:[
+        {key:0,value:"自动宽度"},
+        {key:2,value:"20%"},
+        {key:3,value:"30%"},
+        {key:4,value:"40%"},
+        {key:6,value:"50%"},
+        {key:8,value:"60%"},
+        {key:10,value:"80%"},
+        {key:12,value:"100%"} ]
+       }
+    },
     // { field: 'import', title: '导入列', hidden: true, width: 100, align: 'left', edit: { type: "switch" } },
     // { field: 'apiInPut', title: 'Api输入列(待实现)', width: 100, align: 'left', edit: { type: "switch" } },
     // { field: 'apiIsNull', title: 'Api输入列可为空(待实现)', width: 130, align: 'left', edit: { type: "switch" } },
