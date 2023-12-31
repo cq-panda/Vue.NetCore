@@ -37,8 +37,8 @@ namespace VOL.System.Controllers
         /// </summary>
         /// <returns></returns>
         [ApiTask]
-        [HttpGet, HttpPost, Route("test")]
-        public IActionResult Test()
+        [HttpGet, HttpPost, Route("test2")]
+        public IActionResult Test2()
         {
             return Content(DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss"));
         }
@@ -53,8 +53,6 @@ namespace VOL.System.Controllers
         {
             return Content(DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss"));
         }
-
-
 
         /// <summary>
         /// 手动执行一次

@@ -21,7 +21,6 @@ else if (process.env.NODE_ENV == 'debug') {
 else if (process.env.NODE_ENV == 'production') {
     axios.defaults.baseURL = 'http://api.volcore.xyz/';
 }
-
 if (!axios.defaults.baseURL.endsWith('/')) {
     axios.defaults.baseURL+="/";
 }

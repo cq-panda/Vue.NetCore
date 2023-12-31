@@ -54,8 +54,6 @@ namespace VOL.System.Controllers
             return Content(DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss"));
         }
 
-
-
         /// <summary>
         /// 手动执行一次
         /// </summary>

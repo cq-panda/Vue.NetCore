@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+
 namespace VOL.System.Services
 {
     public partial class Sys_QuartzOptionsService
@@ -44,6 +45,13 @@ namespace VOL.System.Services
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
+
+        public override PageGridData<Sys_QuartzOptions> GetPageData(PageDataOptions options)
+        {
+            var result = base.GetPageData(options);
+            return result;
+        }
+
         WebResponseContent webResponse = new WebResponseContent();
         public override WebResponseContent Add(SaveModel saveDataModel)
         {
@@ -52,16 +60,24 @@ namespace VOL.System.Services
                 options.Status = (int)TriggerState.Paused;
                 return webResponse.OK();
             };
+            Sys_QuartzOptions ops = null;
             AddOnExecuted = (Sys_QuartzOptions options, object list) =>
             {
+                ops = options;
                 return webResponse.OK();
             };
-            return base.Add(saveDataModel);
+            var result = base.Add(saveDataModel);
+            if (result.Status)
+            {
+                ops.AddJob(_schedulerFactory).GetAwaiter().GetResult();
+            }
+            return result;
         }
 
         public override WebResponseContent Del(object[] keys, bool delList = true)
         {
             var ids = keys.Select(s => (Guid)(s.GetGuid())).ToArray();
+
             repository.FindAsIQueryable(x => ids.Contains(x.Id)).ToList().ForEach(options =>
             {
                 _schedulerFactory.Remove(options).GetAwaiter().GetResult();
@@ -72,10 +88,11 @@ namespace VOL.System.Services
 
         public override WebResponseContent Update(SaveModel saveModel)
         {
+
             UpdateOnExecuted = (Sys_QuartzOptions options, object addList, object updateList, List<object> delKeys) =>
             {
                 _schedulerFactory.Update(options).GetAwaiter().GetResult();
-                return webResponse.OK(); 
+                return webResponse.OK();
             };
             return base.Update(saveModel);
         }
@@ -114,7 +131,8 @@ namespace VOL.System.Services
         /// <returns></returns>
         public async Task<object> Pause(Sys_QuartzOptions taskOptions)
         {
-            var result = await _schedulerFactory.Remove(taskOptions);
+            //  var result = await _schedulerFactory.Remove(taskOptions);
+            var result = await _schedulerFactory.Pause(taskOptions);
             taskOptions.Status = (int)TriggerState.Paused;
             _repository.Update(taskOptions, x => new { x.Status }, true);
             return result;

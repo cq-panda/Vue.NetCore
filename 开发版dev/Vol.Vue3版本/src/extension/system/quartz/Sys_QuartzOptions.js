@@ -1,10 +1,4 @@
-/*****************************************************************************************
- **  Author:jxx 2022
- **  QQ:283591387
- **完整文档见：http://v2.volcore.xyz/document/api 【代码生成页面ViewGrid】
- **常用示例见：http://v2.volcore.xyz/document/vueDev
- **后台操作见：http://v2.volcore.xyz/document/netCoreDev
- *****************************************************************************************/
+
 //此js文件是用来自定义扩展业务代码，可以扩展一些自定义页面或者重新配置生成的代码
 import gridBody from './Sys_QuartzOptionsGridBody';
 let extension = {
@@ -27,68 +21,74 @@ let extension = {
       this.columns.push({
         field: '操作',
         title: '操作',
-        width: 150,
+        width: 180,
         fixed: 'right',
         align: 'center',
         render: (h, { row, column, index }) => {
-          return h('div', { style: { color: '#0e84ff' } }, [
-            h(
-              'span',
-              {
-                style: {
-                  cursor: 'pointer',
-                  'margin-right': '8px',
-                  'border-bottom': '1px solid'
-                },
-                onClick: (e) => {
-                  this.request('start', row);
-                }
-              },
-              '执行'
-            ),
-            h(
-              'span',
-              {
-                style: {
-                  cursor: 'pointer',
-                  'margin-right': '8px',
-                  'border-bottom': '1px solid'
-                },
-                onClick: (e) => {
-                  this.request('pause', row);
-                }
-              },
-              '暂停'
-            ),
-            h(
-              'span',
-              {
-                style: {
-                  cursor: 'pointer',
-                  'border-bottom': '1px solid'
-                },
-                onClick: (e) => {
+          return (
+            <div>
+              <el-buton
+                type="primary"
+                style="color:#2882df;font-size:12px;"
+                onClick={() => {
+                  this.edit(row);
+                }}
+                type="text"
+              >
+                编辑
+              </el-buton>
+              <el-buton
+                type="primary"
+                style="color:#2882df;font-size:12px;margin-left:10px;"
+                onClick={() => {
+                  this.request('Run', row, 'once');
+                }}
+                type="text"
+              >
+                执行一次
+              </el-buton>
+              <el-buton
+                type="primary"
+                style="color:#2882df;font-size:12px;margin-left:10px;"
+                onClick={() => {
+                  if (row.Status == 1) {
+                    //开启任务
+                    this.request('start', row);
+                  } else {
+                    this.request('pause', row);
+                  }
+                }}
+                type="text"
+              >
+                {row.Status == 1 ? '恢复' : '暂停'}
+              </el-buton>
+              <el-buton
+                type="primary"
+                style="color:#2882df;font-size:12px;margin-left:10px;"
+                onClick={() => {
                   this.$store.getters.data().quartzId = row.Id;
                   this.$refs.gridBody.open();
-                }
-              },
-              '日志'
-            )
-          ]);
+                }}
+                type="text"
+              >
+                日志
+              </el-buton>
+            </div>
+          );
         }
       });
       //示例：设置修改新建、编辑弹出框字段标签的长度
       // this.boxOptions.labelWidth = 150;
     },
-    request(action, row) {
-      let url = `api/Sys_QuartzOptions/${action}`;
+    request(action, row,val) {
+      let url = `api/Sys_QuartzOptions/${action}?val=${val}`;
       this.http.post(url, row, true).then((result) => {
         this.$message.success('执行成功');
         this.search();
       });
     },
     onInited() {
-      this.height= this.height-50;
+      this.height = this.height - 50;
       this.columns.forEach((col) => {
         if (col.field == 'Status') {
           col.align = 'center';
@@ -114,6 +114,8 @@ let extension = {
                 window.open('https://cron.qqe2.com/', '_blank');
               }
             };
+          }else if(option.field=='PostData'){
+              option.placeholder=`post参数格式如：{name:"1",value:"2"}`;
           }
         });
       });

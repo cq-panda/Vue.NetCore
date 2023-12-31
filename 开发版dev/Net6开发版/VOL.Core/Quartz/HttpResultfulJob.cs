@@ -8,9 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using VOL.Core.Configuration;
 using VOL.Core.EFDbContext;
-using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
 
 namespace VOL.Core.Quartz
@@ -32,30 +30,36 @@ namespace VOL.Core.Quartz
         }
         public async Task Execute(IJobExecutionContext context)
         {
+            Console.WriteLine(DateTime.Now);
             DateTime dateTime = DateTime.Now;
+    
             Sys_QuartzOptions taskOptions = context.GetTaskOptions();
             string httpMessage = "";
             AbstractTrigger trigger = (context as JobExecutionContextImpl).Trigger as AbstractTrigger;
-            if (taskOptions == null) 
+            if (taskOptions == null)
             {
-                Console.WriteLine($"未获取到作业"); 
+                Console.WriteLine($"未获取到作业");
                 return;
             }
+            Console.WriteLine(taskOptions.TaskName);
+            //await Task.CompletedTask;
+            //return;
             if (string.IsNullOrEmpty(taskOptions.ApiUrl) || taskOptions.ApiUrl == "/")
             {
                 Console.WriteLine($"未配置作业:{taskOptions.TaskName}的url地址");
                 QuartzFileHelper.Error($"未配置作业:{taskOptions.TaskName}的url地址");
                 return;
             }
-            string exceptionMsg = null; 
+            string exceptionMsg = null;
 
             try
             {
+
                 using (var dbContext = new VOLContext())
                 {
                     var _taskOptions = dbContext.Set<Sys_QuartzOptions>().AsTracking()
                           .Where(x => x.Id == taskOptions.Id).FirstOrDefault();
-            
+
                     if (_taskOptions != null)
                     {
                         dbContext.Update(_taskOptions);
@@ -127,7 +131,7 @@ namespace VOL.Core.Quartz
         public string AuthKey { get; set; }
         public string AuthValue { get; set; }
         public string Describe { get; set; }
-        public string RequestType { get; set; }
+        public string RequestType { get; set; } 
         public DateTime? LastRunTime { get; set; }
         public int Status { get; set; }
     }

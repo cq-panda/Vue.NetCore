@@ -8,10 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using VOL.Core.Configuration;
 using VOL.Core.DBManager;
 using VOL.Core.DbSqlSugar;
-using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
 
 namespace VOL.Core.Quartz
@@ -33,7 +31,9 @@ namespace VOL.Core.Quartz
         }
         public async Task Execute(IJobExecutionContext context)
         {
+            Console.WriteLine(DateTime.Now);
             DateTime dateTime = DateTime.Now;
+    
             Sys_QuartzOptions taskOptions = context.GetTaskOptions();
             string httpMessage = "";
             AbstractTrigger trigger = (context as JobExecutionContextImpl).Trigger as AbstractTrigger;
@@ -42,6 +42,9 @@ namespace VOL.Core.Quartz
                 Console.WriteLine($"未获取到作业");
                 return;
             }
+            Console.WriteLine(taskOptions.TaskName);
+            //await Task.CompletedTask;
+            //return;
             if (string.IsNullOrEmpty(taskOptions.ApiUrl) || taskOptions.ApiUrl == "/")
             {
                 Console.WriteLine($"未配置作业:{taskOptions.TaskName}的url地址");
@@ -52,8 +55,6 @@ namespace VOL.Core.Quartz
 
             try
             {
-
-
                 var _taskOptions = DbManger.SqlSugarClient.Set<Sys_QuartzOptions>()
                       .Where(x => x.Id == taskOptions.Id).FirstOrDefault();
 
@@ -122,7 +123,7 @@ namespace VOL.Core.Quartz
         public string AuthKey { get; set; }
         public string AuthValue { get; set; }
         public string Describe { get; set; }
-        public string RequestType { get; set; }
+        public string RequestType { get; set; } 
         public DateTime? LastRunTime { get; set; }
         public int Status { get; set; }
     }

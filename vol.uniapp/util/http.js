@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
    ipAddress = "https://api.volcore.xyz/"
 }
-
+  ipAddress = "https://api.volcore.xyz/"
 function post(url, data, loading) {
 	return request(url, 'POST', data, loading);
 }

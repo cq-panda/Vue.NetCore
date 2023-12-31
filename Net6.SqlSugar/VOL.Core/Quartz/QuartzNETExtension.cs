@@ -11,10 +11,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VOL.Core.DbContext;
 using VOL.Core.DBManager;
 using VOL.Core.DbSqlSugar;
-using VOL.Core.Extensions;
+using VOL.Core.Quartz;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
 
@@ -36,25 +35,15 @@ namespace VOL.Core.Quartz
             ISchedulerFactory _schedulerFactory = services.GetService<ISchedulerFactory>();
             try
             {
-                _taskList = DbManger.SqlSugarClient.Set<Sys_QuartzOptions>().Where(x=>x.Status==0).ToList();
-                for (int i = 0; i < 1; i++)
-                {
-                    _taskList.Add(new Sys_QuartzOptions()
-                    {
-                        Id = Guid.NewGuid(), 
-                        GroupName = $"group{i}",
-                        TaskName = $"task{i}",
-                        CronExpression = "0 0 0 1 * ?",
-                        Status = 0
-                    });
-                }
+                _taskList = DbManger.SqlSugarClient.Set<Sys_QuartzOptions>().Where(x => x.Status == 0).ToList();
+
                 _taskList.ForEach(options =>
                 {
                     options.AddJob(_schedulerFactory, jobFactory: services.GetService<IJobFactory>()).GetAwaiter().GetResult();
                 });
             }
             catch (Exception ex)
-            {
+            { 
                 Console.WriteLine($"作业启动异常:{ex.Message + ex.StackTrace}");
             }
             return applicationBuilder;
@@ -66,7 +55,7 @@ namespace VOL.Core.Quartz
             string groupName = "group";
             string taskName = taskOptions.Id.ToString();
             IScheduler scheduler = await schedulerFactory.GetScheduler();
-            List<JobKey> jobKeys =(await scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(groupName))).ToList();
+            List<JobKey> jobKeys = (await scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(groupName))).ToList();
             if (jobKeys == null || jobKeys.Count() == 0)
             {
                 return false;
@@ -100,14 +89,14 @@ namespace VOL.Core.Quartz
             string msg = null;
             try
             {
-                if (await CheckTask(taskOptions,schedulerFactory))
+                if (await CheckTask(taskOptions, schedulerFactory))
                 {
-                  await  schedulerFactory.TriggerAction(JobAction.开启, taskOptions);
+                    await schedulerFactory.TriggerAction(JobAction.开启, taskOptions);
                     return new { status = true };
                 }
                 if (!_taskList.Exists(x => x.Id == taskOptions.Id))
                 {
-                    _taskList.Add(taskOptions); 
+                    _taskList.Add(taskOptions);
                 }
                 else
                 {
@@ -128,7 +117,7 @@ namespace VOL.Core.Quartz
                .WithIdentity(taskOptions.Id.ToString(), "group").Build();
                 ITrigger trigger = TriggerBuilder.Create()
                    .WithIdentity(taskOptions.Id.ToString(), "group")
-                  // .st()
+                   // .st()
                    .WithDescription(taskOptions.Describe)
                    .WithCronSchedule(taskOptions.CronExpression)
                    .Build();
@@ -146,21 +135,19 @@ namespace VOL.Core.Quartz
                 }
 
                 await scheduler.ScheduleJob(job, trigger);
-                await scheduler.Start();
+                Console.WriteLine(taskOptions.Status);
+                if (taskOptions.Status == 0)
+                {
+                    Console.WriteLine("启动了：" + taskOptions.TaskName);
+                    await scheduler.Start();
+                }
+                else
+                {
+                    await scheduler.PauseJob(trigger.JobKey);
+                }
                 msg = $"作业启动:{taskOptions.TaskName}";
                 Console.WriteLine(msg);
                 QuartzFileHelper.Error(msg);
-                //if (taskOptions.Status == (int)TriggerState.Normal)
-                //{
-                //    await scheduler.Start();
-                //    msg = $"作业启动:{taskOptions.TaskName}";
-                //    Console.WriteLine(msg);
-                //    QuartzFileHelper.Error(msg);
-                //}
-                //else
-                //{
-                //    await scheduler.PauseJob(job.Key);
-                //}
             }
             catch (Exception ex)
             {
@@ -214,8 +201,9 @@ namespace VOL.Core.Quartz
         /// <returns></returns>
         public static Task<object> Start(this ISchedulerFactory schedulerFactory, Sys_QuartzOptions taskOptions)
         {
-            return taskOptions.AddJob(schedulerFactory);
-          //  return  schedulerFactory.TriggerAction(JobAction.开启, taskOptions);
+            return schedulerFactory.TriggerAction(JobAction.开启, taskOptions);
+            //  return taskOptions.AddJob(schedulerFactory);
+            //  return  schedulerFactory.TriggerAction(JobAction.开启, taskOptions);
         }
 
         /// <summary>
@@ -250,7 +238,7 @@ namespace VOL.Core.Quartz
                 string taskName = taskOptions.Id.ToString();
                 IScheduler scheduler = await schedulerFactory.GetScheduler();
                 List<JobKey> jobKeys = scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(groupName)).Result.ToList();
-                if (jobKeys == null || jobKeys.Count() == 0) 
+                if (jobKeys == null || jobKeys.Count() == 0)
                 {
                     errorMsg = $"未找到分组[{groupName}]";
                     return new { status = false, msg = errorMsg };
@@ -275,21 +263,59 @@ namespace VOL.Core.Quartz
                 switch (action)
                 {
                     case JobAction.删除:
-                    case JobAction.修改:
-                    case JobAction.暂停:
+
                         await scheduler.PauseTrigger(trigger.Key);
                         await scheduler.UnscheduleJob(trigger.Key);// 移除触发器
                         await scheduler.DeleteJob(trigger.JobKey);
-                        if (action==JobAction.暂停)
+                        break;
+                    case JobAction.修改:
+                        CronExpression cron = new CronExpression(taskOptions.CronExpression);
+                        trigger = trigger.GetTriggerBuilder()
+                            .WithIdentity(taskOptions.Id.ToString(), "group")
+                            .WithSchedule(CronScheduleBuilder.CronSchedule(cron))
+                            .Build();
+                        // 更新触发器
+                        _taskList.ForEach(x =>
+                        {
+                            if (x.Id == taskOptions.Id)
+                            {
+                                x.TaskName = taskOptions.TaskName;
+                                x.ApiUrl = taskOptions.ApiUrl;
+                                x.AuthKey = taskOptions.AuthKey;
+                                x.AuthValue = taskOptions.AuthValue;
+                                x.Describe = taskOptions.Describe;
+                                x.PostData = taskOptions.PostData;
+                                x.Method = taskOptions.Method;
+                                x.Describe = taskOptions.Describe;
+                            }
+                        });
+                        await scheduler.RescheduleJob(trigger.Key, trigger);
+                        break;
+                    case JobAction.暂停:
+                        await scheduler.PauseJob(jobKey);
+                        if (action == JobAction.暂停)
                         {
                             taskOptions.Status = (int)JobAction.暂停;
                         }
                         break;
+                    case JobAction.立即执行:
                     case JobAction.开启:
-                        await scheduler.ResumeTrigger(trigger.Key);
-                        await scheduler.TriggerJob(jobKey);
+                        TriggerState state = await scheduler.GetTriggerState(new TriggerKey(jobKey.Name));
+
+                        if (state == TriggerState.None)
+                        {
+                            await scheduler.Start();
+                        }
+                        if (action == JobAction.立即执行)
+                        {
+                            await scheduler.TriggerJob(jobKey);
+                        }
+                        else
+                        {
+                            await scheduler.ResumeJob(jobKey);
+                        }
                         break;
-                }  
+                }
                 return result ?? new { status = true, msg = $"作业{action.ToString()}成功" };
             }
             catch (Exception ex)
