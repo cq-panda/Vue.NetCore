@@ -3,7 +3,7 @@
     <div class="vol-aside" :style="{ width: menuWidth + 'px' }">
       <div class="header" :style="{ width: menuWidth - 1 + 'px' }">
         <img v-show="!isCollapse" v-bind:src="logo" />
-        <i @click="toggleLeft" class="el-icon-s-fold collapse-menu" />
+        <i @click="toggleLeft" class=" collapse-menu" :class="isCollapse?'el-icon-s-unfold':'el-icon-s-fold'" />
       </div>
       <div class="vol-menu">
         <el-scrollbar style="height: 100%">
@@ -20,7 +20,7 @@
     </div>
     <div class="vol-container" :style="{ left: menuWidth - 1 + 'px' }">
       <div class="vol-header">
-        <div class="project-name">VOL开发框架Vue3.x版本</div>
+        <div class="project-name">Vol开发框架Vue3版本</div>
         <div class="header-text">
           <div class="h-link">
             <a
@@ -255,6 +255,10 @@ export default defineComponent({
         text: "框架文档",
         path: "http://v2.volcore.xyz/document/guide",
         id: -2,
+      },   {
+        text: "框架企业版",
+        path: "http://pro.volcore.xyz/",
+        id: 10,
       },
       { text: "个人中心", path: "/UserInfo", id: -1, icon: "el-icon-s-custom" },
       {

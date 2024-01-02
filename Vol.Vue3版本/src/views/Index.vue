@@ -3,7 +3,7 @@
     <div class="vol-aside" :style="{ width: menuWidth + 'px' }">
       <div class="header" :style="{ width: menuWidth - 1 + 'px' }">
         <img v-show="!isCollapse" v-bind:src="logo" />
-        <i @click="toggleLeft" class="el-icon-s-fold collapse-menu" />
+        <i @click="toggleLeft" class=" collapse-menu" :class="isCollapse?'el-icon-s-unfold':'el-icon-s-fold'" />
       </div>
       <div class="vol-menu">
         <el-scrollbar style="height: 100%">
