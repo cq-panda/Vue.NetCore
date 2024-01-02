@@ -35,7 +35,7 @@ namespace VOL.Core.Quartz
             ISchedulerFactory _schedulerFactory = services.GetService<ISchedulerFactory>();
             try
             {
-                _taskList = DbManger.SqlSugarClient.Set<Sys_QuartzOptions>().Where(x => x.Status == 0).ToList();
+                _taskList = DbManger.SqlSugarClient.Set<Sys_QuartzOptions>().Where(x =>true).ToList();
 
                 _taskList.ForEach(options =>
                 {
