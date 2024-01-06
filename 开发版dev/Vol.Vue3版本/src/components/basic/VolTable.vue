@@ -503,7 +503,6 @@
   <vol-image-viewer ref="viewer"></vol-image-viewer>
 </template>
 <script>
-import { ar } from 'element-plus/es/locale';
 import VolTableRender from './VolTable/VolTableRender';
 let _errMsg;
 import { defineComponent,defineAsyncComponent } from 'vue';
