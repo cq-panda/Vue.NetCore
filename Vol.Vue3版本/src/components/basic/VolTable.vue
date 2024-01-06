@@ -298,6 +298,35 @@
                     </el-option>
                   </el-select>
                 </template>
+                <el-tree-select
+                  style="width: 100%"
+                  v-else-if="column.edit.type == 'treeSelect'||column.edit.type == 'cascader'"
+                  v-model="scope.row[column.field]"
+                  :data="column.bind.data"
+                  :multiple="column.multiple===undefined?true:column.multiple"
+                  :render-after-expand="false"
+                  :show-checkbox="true"
+                  :check-strictly="true"
+                  check-on-click-node
+                  node-key="key"
+                  @change="column.onChange && column.onChange(scope.row, column)"
+                  :props="{ label: 'label' }">
+                   <template #default="{ data, node }">
+                  {{data.label}}</template>
+                </el-tree-select>
+                <!-- <div     v-else-if="column.edit.type == 'cascader'">4444444</div> -->
+                <!-- <el-cascader
+                  clearable
+                  style="width: 100%;"
+                  v-model="scope.row[column.field]"
+                  v-else-if="column.edit.type == 'cascader'"
+                  :data="column.bind.data"
+                  :props="{
+                    checkStrictly: column.changeOnSelect || column.checkStrictly,
+                  }"
+                  @change="column.onChange && column.onChange(scope.row, column)"
+                >
+                </el-cascader> -->
                 <el-input
                   v-else-if="column.edit.type == 'textarea'"
                   type="textarea"
@@ -474,6 +503,7 @@
   <vol-image-viewer ref="viewer"></vol-image-viewer>
 </template>
 <script>
+import { ar } from 'element-plus/es/locale';
 import VolTableRender from './VolTable/VolTableRender';
 let _errMsg;
 import { defineComponent,defineAsyncComponent } from 'vue';
@@ -762,7 +792,7 @@ export default defineComponent({
           x.children.forEach(cl=>{
                if (cl.bind && cl.bind.key && (!cl.bind.data || cl.bind.data.length == 0)) {
                 keys.push(cl.bind.key);
-                cl.bind.valueTyoe = cl.type;
+                cl.bind.valueType = cl.type;
                 columnBind.push(cl.bind);
                }
           })
@@ -773,7 +803,10 @@ export default defineComponent({
           this.remoteColumns.push(x);
         } else if (this.loadKey) {
           keys.push(x.bind.key);
-          x.bind.valueTyoe = x.type;
+          x.bind.valueType = x.type;
+          if (x.edit&&x.edit.type) {
+            x.bind.editType=x.edit.type
+          }
           columnBind.push(x.bind);
         }
       }
@@ -789,12 +822,24 @@ export default defineComponent({
                 item.value = item.key;
               });
             }
+            const arrType=['cascader','treeSelect'];
             columnBind.forEach((c) => {
+            if ((arrType.indexOf(c.valueType)!=-1||arrType.indexOf(c.editType)!=-1)) {
+                this.columns.forEach(col=>{
+                    if (col.bind&&col.bind.key==c.key) {
+                        col.bind.orginData=JSON.parse(JSON.stringify(x.data));
+                    }
+                })
+                x.data = this.base.convertTree(x.data, (node, data, isRoot) => {
+                    if (!node.inited) {
+                      node.inited = true;
+                      node.label = node.value;
+                      node.value = node.key+'';
+                    }
+                });
+              }
               // 转换数据源的类型与列的类型一致(2020.04.04)
-              if (
-                c.key == x.dicNo &&
-                (c.valueTyoe == 'int' || c.valueTyoe == 'sbyte')
-              ) {
+            else  if (c.key == x.dicNo && (c.valueType == "int" || c.valueType == "sbyte")) {
                 x.data.forEach((d) => {
                   // 2020.09.01增加对数字类型的二次判断
                   if (!isNaN(d.key)) {
@@ -1087,7 +1132,14 @@ export default defineComponent({
               row[column.field] = row[column.field] + '';
             }
           } else {
-            if (typeof val == 'string' && val) {
+            //多选或者级联编辑回写,2023.01.06
+             if (Array.isArray(val)) {
+              val = val.map(v=>{
+                   return v*1
+              });
+              row[column.field] = val;
+            }
+            else  if (typeof val == 'string' && val) {
               let _val = val * 1;
               if (_val + '' === val) {
                 row[column.field] = _val;
@@ -1532,7 +1584,10 @@ export default defineComponent({
         return row[column.field];
       }
 
-      if (column.edit && (column.edit.type == 'selectList'||column.edit.type=='treeSelect')) {
+      if (column.edit && (column.edit.type == 'selectList'
+         ||column.edit.type=='treeSelect'
+         ||column.bind.type == "cascader" 
+         ||column.bind.type == "treeSelect")) {
         if (!Array.isArray(val)) {
           row[column.field] = val.split(',');
         } else {
@@ -1540,13 +1595,16 @@ export default defineComponent({
         }
         return this.getSelectFormatter(column, val);
       }
-      // 编辑多选table显示
-      if (column.bind.type == 'selectList' || column.bind.type == 'checkbox'||column.bind.type=='treeSelect'
-      ||(typeof val === 'string' && val.indexOf(',') != -1)
+       // 编辑多选table显示
+       if (
+        column.bind.type == "selectList" ||
+        column.bind.type == "checkbox" ||
+        column.bind.type == "cascader" ||
+        column.bind.type == "treeSelect"
       ) {
-       // if (typeof val === 'string' && val.indexOf(',') != -1) {
-          return this.getSelectFormatter(column, val+'');
-      //  }
+        // if (typeof val === 'string' && val.indexOf(',') != -1) {
+        return this.getSelectFormatter(column, val + "");
+        //  }
       }
       let source = column.bind.data.filter((x) => {
         // return x.key != "" && x.key == val;

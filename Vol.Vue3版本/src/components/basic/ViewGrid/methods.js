@@ -686,10 +686,11 @@ let methods = {
     //获取明细数据(前台数据明细未做校验，待完.后台已经校验)
     if (this.hasDetail) {
       formData.detailData = this.$refs.detail.rowData;
+      const types=['selectList','cascader','treeSelect']
       let _fields = this.detail.columns
         .filter((c) => {
           return (
-            c.type == 'selectList' || (c.edit && c.edit.type == 'selectList')
+            types.indexOf(c.type)!=-1||  types.indexOf(c.edit && c.edit.type)!=-1
           );
         })
         .map((c) => {
@@ -1243,13 +1244,20 @@ let methods = {
         return x.dicNo == key;
       });
       if (!dic || dic.length == 0) {
-        dicKeys.push({ dicNo: key, data: [] });
+        dicKeys.push({ dicNo: key, data: [],type:item.edit?item.edit.type:null });
         dic = [dicKeys[dicKeys.length - 1]];
         keys.push(key);
       }
       //2020.11.01增加级联处理
       if (dic[0].type == 'cascader' || dic[0].type == 'treeSelect') {
-        item.bind = { data: dic[0].orginData, type: 'select', key: key };
+          if (!dic[0].orginData) {
+            dic[0].orginData=[];
+          }
+          if (!dic[0].data) {
+            dic[0].data=[];
+          }
+        item.bind = { data:dic[0].data, orginData:dic[0].orginData, type: dic[0].type, key: key };
+        return ;
       } else {
         item.bind = dic[0];
       }
