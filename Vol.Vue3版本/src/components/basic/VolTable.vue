@@ -384,7 +384,7 @@
               )"
               :key="imgIndex"
               :onerror="defaultImg"
-              @click="viewImg(scope.row, column, file.path, $event)"
+              @click="viewImg(scope.row, column, file.path, $event, imgIndex)"
               class="table-img"
               :src="file.path"
             />
