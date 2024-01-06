@@ -138,7 +138,10 @@
           <!-- 2021.09.21增加编辑时对readonly属性判断 -->
            <template v-else-if="column.edit&&!column.readonly&&['file', 'img','excel'].indexOf(column.edit.type) != -1" >
                 <div style="display:flex;align-items: center;" @click.stop>
-                  <i v-if="!column.showUpload||column.showUpload(scope.row, column)" style="padding: 3px;margin-right: 10px;color:#8f9293;cursor: pointer;" @click="showUpload(scope.row, column)" class="el-icon-upload"></i>     <template v-if="column.edit.type == 'img'">
+                  <i v-if="!column.showUpload||column.showUpload(scope.row, column)" 
+                  style="padding: 3px;margin-right: 10px;color:#8f9293;cursor: pointer;" 
+                  @click="showUpload(scope.row, column)" class="el-icon-upload"></i>    
+                   <template v-if="column.edit.type == 'img'">
                     <img
                     v-for="(file, imgIndex) in getFilePath(
                       scope.row[column.field],
@@ -146,7 +149,7 @@
                     )"
                     :key="imgIndex"
                     :onerror="defaultImg"
-                    @click="viewImg(scope.row, column, file.path, $event)"
+                    @click="viewImg(scope.row, column, file.path, $event,imgIndex)"
                     class="table-img"
                     :src="file.path"
                   />
@@ -468,7 +471,7 @@
         </div>
     </template>
   </VolBox>
-
+  <vol-image-viewer ref="viewer"></vol-image-viewer>
 </template>
 <script>
 import VolTableRender from './VolTable/VolTableRender';
@@ -490,10 +493,12 @@ export default defineComponent({
       }
     }
   },
-  components: { 'table-render': VolTableRender,
-  VolUpload: defineAsyncComponent(() =>import("@/components/basic/VolUpload.vue") ),
-  VolBox: defineAsyncComponent(() => import("@/components/basic/VolBox.vue")),
-},
+  components: {
+    'vol-image-viewer':defineAsyncComponent(() => import("./VolImageViewer.vue")),
+    'table-render': VolTableRender,
+    VolUpload: defineAsyncComponent(() =>import("./VolUpload.vue") ),
+    VolBox: defineAsyncComponent(() => import("./VolBox.vue")),
+  },
   props: {
     rowKey: {
       // 树形结构的主键字段，如果设置值默认会开启树形table；注意rowKey字段的值必须是唯一（2021.05.02）
@@ -1277,9 +1282,11 @@ export default defineComponent({
       }
       this.rowData.push(row);
     },
-    viewImg(row, column, url, $event) {
-      $event.stopPropagation();
-      this.base.previewImg(url);
+    viewImg(row, column, url, $event,index) {
+        $event.stopPropagation();
+        const imgs=  this.getFilePath(row[column.field], column).map(x=>{return x.path});
+        this.$refs.viewer.show(imgs,index);
+      //this.base.previewImg(url);
       // window.open(row[column.field]);
     },
     link(row, column, $e) {

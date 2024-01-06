@@ -81,12 +81,16 @@
       </div>
       <slot name="tip"></slot>
     </div>
+    <vol-image-viewer ref="viewer"></vol-image-viewer>
   </div>
 </template>
 <script>
 let OSS = require('ali-oss');
+import VolImageViewer from './VolImageViewer.vue';
 export default {
-  components: {},
+  components: {
+    'vol-image-viewer':VolImageViewer
+  },
   props: {
     desc: {
       //是否显示默认介绍
@@ -261,8 +265,9 @@ export default {
       return path.substring(_index + 1);
     },
     previewImg(index) {
-      //查看大图预览模式待完
-      this.base.previewImg(this.getImgSrc(this.files[index]));
+        const imgs= this.files.map(x=>{return this.getImgSrc(x)});
+        this.$refs.viewer.show(imgs,index);
+    //  this.base.previewImg(this.getImgSrc(this.files[index]));
       //  window.open(this.getImgSrc((this.files.length>0?this.files:this.fileInfo)[index]));
     },
     getSelector() {
