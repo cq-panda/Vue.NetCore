@@ -1491,7 +1491,10 @@ export default defineComponent({
       if (!col.hidden) {
         if (data.summary.hasOwnProperty(col.field)) {
           let sum = data.summary[col.field];
-          if (sum) {
+          //2024.01.07增加自定义合计格式化
+          if (col.summaryFormatter) {
+            sum = col.summaryFormatter(sum,col,data,this.summaryData)
+          }else if (sum) {
             sum =
               (sum * 1.0).toFixed(col.numberLength || 2).replace('.00', '') *
               1.0;

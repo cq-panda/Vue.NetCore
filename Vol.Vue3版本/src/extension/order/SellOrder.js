@@ -171,6 +171,11 @@ let extension = {
       this.columns.forEach(x => {
         if (x.field == 'Qty'||x.field=='Weight') {
           x.summary = true;
+          //自定义合计格式化与修改合计名称
+          x.summaryFormatter=(val,column,result,summaryData)=>{
+              summaryData[0]='汇总'
+              return ((val||'')+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'个'
+          }
         }
       })
       //设置明细表高度
