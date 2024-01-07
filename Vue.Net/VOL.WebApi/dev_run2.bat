@@ -1,0 +1,1 @@
+dotnet watch run --framework netcoreapp3.1

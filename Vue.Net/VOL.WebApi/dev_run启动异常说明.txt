@@ -1,0 +1,5 @@
+
+1、双击启动dev_run.bat启动时报错以下错误
+C:\Program Files\dotnet\sdk\8.0.100\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: 目标框架“netcoreapp3.1”不受支持，将来不会收到安全更新。有关支持策略的详细信息
+
+2、解决办法：双击启动dev_run2.bat 或者看QQ群文件将框架3.1升级6.0说明
