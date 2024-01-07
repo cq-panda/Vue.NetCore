@@ -118,7 +118,7 @@ excel导入整个页面都由代码生成器生成，导入的字段、字段是
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/auth.png)  
 
 ## 9、代码生成器
-代码生成器提供了20多种可配置的属性，可灵活配置显示、查询、编辑、导入、导出、主从关系等功能<a href="http://132.232.2.109/document/coder">点击看代码生成器文档</a>
+代码生成器提供了20多种可配置的属性，可灵活配置显示、查询、编辑、导入、导出、主从关系等功能<a href="v2.volcore.xyz/document/coder">点击看代码生成器文档</a>
 ![Home](https://github.com/cq-panda/Vue.NetCore/blob/master/imgs/coder.png)  
 
 其他功能。。。。。
@@ -128,7 +128,7 @@ excel导入整个页面都由代码生成器生成，导入的字段、字段是
  - 框架不仅仅是快速开发，更多的是倾向于业务代码扩展的编写与代码规范。
  - 如果有什么问题或建议，提issue或加QQ：283591387
 
- - QQ2群：913189178
+ - QQ2群：913189178(已满)
  - QQ3群：743852316
  - 
  - vue3地址：http://www.volcore.xyz
