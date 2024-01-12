@@ -15,7 +15,7 @@
         >
       </el-upload>
       <el-button
-        v-if="template.url"
+        v-if="template.url&&(template.showDowloadTemplate||template.showDowloadTemplate===undefined)"
         style="margin-left: 10px"
         type="primary"
         size="small"
@@ -69,6 +69,7 @@ export default {
       type: Object,
       default: () => {
         return {
+          showDowloadTemplate:true,
           url: '', //模板下载路径，如果没有模板路径，则不显示下载模板功能
           fileName: '未定义文件名' //下载模板的文件名
         };
