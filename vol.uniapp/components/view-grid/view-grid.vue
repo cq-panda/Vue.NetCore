@@ -481,10 +481,10 @@
 					}
 					this.refresh();
 					if (this.currentAction == 'Add') {
-						if (this.addAfter && !this.addAfter(this.editFormFields)) {
+						if (this.addAfter && !this.addAfter(result)) {
 							return;
 						}
-					} else if (this.updateAfter && !this.updateAfter(this.editFormFields)) {
+					} else if (this.updateAfter && !this.updateAfter(result)) {
 						return;
 					}
 					this.model = false;
