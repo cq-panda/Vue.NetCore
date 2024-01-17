@@ -40,6 +40,7 @@ let extension = {
   methods: {
     //下面这些方法可以保留也可以删除
     onInit() {
+      this.queryFields=['WorkTable','WorkName']
       //框架初始化配置前，
       //示例：在按钮的最前面添加一个按钮
       //   this.buttons.unshift({  //也可以用push或者splice方法来修改buttons数组

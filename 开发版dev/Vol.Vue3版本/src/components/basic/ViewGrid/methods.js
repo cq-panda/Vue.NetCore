@@ -19,9 +19,9 @@ let methods = {
   quickSearchKeyPress($event) {
     //查询字段为input时，按回车查询
     if ($event.keyCode == 13) {
-      if (this.searchFormFields[this.singleSearch.field] != '') {
+     // if (this.searchFormFields[this.singleSearch.field] != '') {
         this.search();
-      }
+      //}
     }
   },
   getButtons() {

@@ -112,12 +112,15 @@
             <a class="text" :title="extend.text">{{ extend.text }}</a>
           </div>
           <!--快速查询字段-->
-          <div class="search-line" v-if="!fiexdSearchForm">
+          <div class="search-line" v-if="!fiexdSearchForm&&!searchBoxShow">
             <QuickSearch
               v-if="singleSearch"
-              :singleSearch="singleSearch"
+              :searchFormOptions="searchFormOptions"
               :searchFormFields="searchFormFields"
-              :tiggerPress="quickSearchKeyPress"
+              :select2Count="select2Count"
+              :label-width="labelWidth"
+              :queryFields="queryFields"
+              @tiggerPress="quickSearchKeyPress"
             ></QuickSearch>
           </div>
           <!--操作按钮组-->
@@ -612,7 +615,8 @@ var vueParam = {
       //2022.09.26增加自定义导出文件名
       downloadFileName: null,
       select2Count: 2000, //超出500数量显示select2组件
-      paginationHide:false//是隐藏分页(2023.10.11)
+      paginationHide:false,//是隐藏分页(2023.10.11)
+      queryFields:[]//快捷查询字段2024.01.18增加多个快捷查询字段
     };
   },
   methods: {},
