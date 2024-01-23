@@ -1,0 +1,6 @@
+淘宝镜像已过期，如果使用的淘宝镜像可能npm install安装不成功，解决办法：查看镜像npm get registry，如果用的淘宝镜像，按下面的操作
+1. 清空缓存
+npm cache clean --force
+2. 切换新源
+npm config set registry https://registry.npmmirror.com
+3、npm install
