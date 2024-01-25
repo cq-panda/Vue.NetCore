@@ -57,11 +57,11 @@ namespace VOL.Core.Configuration
         /// </summary>
         public static int ExpMinutes { get; private set; } = 120;
 
-        public static string CurrentPath { get; private set; } = null;
-        public static string DownLoadPath { get { return CurrentPath + "\\Download\\"; } }
-
         // 是否启用雪花ID
         public static bool EnableSnowFlakeID { get; set; } = false;
+
+        public static string CurrentPath { get; private set; } = null;
+        public static string DownLoadPath { get { return CurrentPath + "\\Download\\"; } }
         public static void Init(IServiceCollection services, IConfiguration configuration)
         {
             Configuration = configuration;

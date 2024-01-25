@@ -80,6 +80,10 @@ namespace VOL.Core.EFDbContext
             {
                 optionsBuilder.UseNpgsql(connectionString);
             }
+            else if (Const.DBType.Name == Enums.DbCurrentType.DM.ToString())
+            {
+                optionsBuilder.UseDm(connectionString);
+            }
             else
             {
                 optionsBuilder.UseSqlServer(connectionString);

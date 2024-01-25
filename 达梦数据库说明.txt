@@ -1,0 +1,16 @@
+# EF Core + Dapper 对接达梦数据库(by @jlyCode)
+1. 安装达梦数据库以及管理工具
+    下载地址：https://www.dameng.com/list_103.html
+
+  根据需求下载
+
+  已Windows为例，选择红框内容下载，选择CPU平台，操作系统，ISO包内部包含数据库安装文件以及7种数据库管理工具
+
+2. 安装达梦数据库
+    参照官方文档：https://eco.dameng.com/document/dm/zh-cn/start/
+
+3. 必坑指南
+    1） 安装数据库实例时，去掉大小写敏感（EF Core 对接大小敏感时会有各种问题），实例默认端口：5236，验证方式：达梦服务器验证，用户名：SYSDBA，口令：SYSDBA
+    2） 模式名称（数据库名称）全部大写
+    3） 迁移数据库，先修改数据库兼容模式，修改COMPATIBLE_MODE为对应数据库（ 0:none, 1:SQL92,    2:Oracle, 3:MS SQL Server, 4:MySQL, 5:DM6, 6:Teradata, 7:PG），默认为0
+    windows目录：C:\dmdbms\data\DAMENG\dm.ini

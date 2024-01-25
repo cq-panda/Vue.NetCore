@@ -366,7 +366,7 @@ namespace VOL.Core.WorkFlow
             dbContext.Set<Sys_WorkFlowTable>().Add(workFlowTable);
             dbContext.Set<Sys_WorkFlowTableAuditLog>().Add(log);
             dbContext.SaveChanges();
-
+            dbContext.Entry(workFlowTable).State = EntityState.Detached;
             if (addWorkFlowExecuted!=null)
             {
                 var userIds = GetAuditUserIds(nodeInfo.StepType ?? 0, nodeInfo.StepValue);
@@ -558,6 +558,7 @@ namespace VOL.Core.WorkFlow
                 {
                     workFlow.CurrentStepId = "流程结束";
                 }
+                workFlow.StepName = "";
                 workFlow.AuditStatus = (int)status;
 
                 //发送邮件(appsettings.json配置文件里添加邮件信息)
@@ -581,6 +582,7 @@ namespace VOL.Core.WorkFlow
             if (nextStep != null && status == AuditStatus.审核通过)
             {
                 workFlow.CurrentStepId = nextStep.StepId;
+                workFlow.StepName = nextStep.StepName;
                 //原表显示审核中状态
                 autditProperty.SetValue(entity, (int)AuditStatus.审核中);
                 workFlow.AuditStatus = (int)AuditStatus.审核中;
@@ -640,6 +642,7 @@ namespace VOL.Core.WorkFlow
                     preStep.Auditor = null;
 
                     workFlow.CurrentStepId = preStep.StepId;
+                    workFlow.StepName = preStep.StepName;
                     workFlow.AuditStatus = (int)AuditStatus.审核中;
 
                     DBServerProvider.DbContext.Update(preStep);
@@ -662,6 +665,7 @@ namespace VOL.Core.WorkFlow
                     }
                     //重新指向第一个节点
                     workFlow.CurrentStepId = steps.OrderBy(c => c.OrderId).Select(c => c.StepId).FirstOrDefault();
+                    workFlow.StepName = steps.OrderBy(c => c.OrderId).Select(c => c.StepName).FirstOrDefault();
                     workFlow.AuditStatus = (int)AuditStatus.审核中;
 
                     DBServerProvider.DbContext.UpdateRange(steps);
@@ -673,7 +677,7 @@ namespace VOL.Core.WorkFlow
 
         private static void SendMail(Sys_WorkFlowTable workFlow, FilterOptions filterOptions, Sys_WorkFlowTableStep nextStep, VOLContext dbContext)
         {
-            if (filterOptions.SendMail != 1)
+            if (filterOptions==null||filterOptions.SendMail != 1)
             {
                 return;
             }

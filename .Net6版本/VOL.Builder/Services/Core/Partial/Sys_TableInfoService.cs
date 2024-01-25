@@ -122,6 +122,25 @@ namespace VOL.Builder.Services
         }
 
         /// <summary>
+        /// 2023.11.14 增加达梦获取表结构时区分当前所在模式
+        /// </summary>
+        /// <param name="dbConnection"></param>
+        /// <returns></returns>
+        private string GetDMOwner()
+        {
+            try
+            {
+                string dbName = DBServerProvider.GetConnectionString().Split("schema=")[1].Split(";")[0]?.Trim();
+                return dbName;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"获取达梦数据库名异常:{ex.Message}");
+                return "";
+            }
+        }
+
+        /// <summary>
         /// 获取Mysql表结构信息
         /// 2020.06.14增加对mysql数据类型double区分
         /// </summary>
@@ -155,6 +174,29 @@ DISTINCT
                 table_name = ?tableName {GetMysqlTableSchema()};";
         }
 
+        /// <summary>
+        /// 获取达梦表结构信息 2023.11.14
+        /// </summary>
+        /// <returns></returns>
+        private string GetDMModelInfo()
+        {
+            return $@"SELECT DISTINCT
+                        IF(DATA_PRECISION IS NOT NULL, CONCAT(DATA_PRECISION,',',DATA_SCALE),'') as Prec_Scale,
+                        CASE
+                            WHEN data_type IN( 'BIT', 'BOOL','bit', 'bool') THEN 'bool'
+                            WHEN data_type in('smallint','SMALLINT') THEN 'short'
+                            WHEN data_type in('tinyint', 'TINYINT') THEN 'sbyte'
+                            WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN 'int'
+                            WHEN data_type in ( 'BIGINT','bigint') THEN 'bigint'
+                            WHEN data_type IN('FLOAT',  'DECIMAL','float', 'decimal') THEN 'decimal'
+							WHEN data_type IN( 'DOUBLE', 'double') THEN 'double'
+                            WHEN data_type IN('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB', 'LONGBLOB', 'Time','char', 'varchar', 'tiny text', 'text', 'mediumtext', 'longtext', 'tinyblob', 'blob', 'mediumblob', 'longblob', 'time') THEN 'nvarchar'
+                            WHEN data_type IN('Date', 'DateTime', 'TimeStamp','date', 'datetime', 'timestamp') THEN 'datetime' ELSE 'nvarchar'
+                        END AS ColumnType,
+                        Column_Name AS ColumnName
+                        FROM user_tab_columns 
+                        WHERE table_name = :tableName ";
+        }
 
         /// <summary>
         /// 获取SqlServer表结构信息
@@ -239,14 +281,14 @@ DISTINCT
                     && x.BaseType == typeof(BaseEntity)))
                     {
                         if (entity.Name == tableTrueName && !string.IsNullOrEmpty(tableName) && tableName != tableTrueName)
-                            return webResponse.Error($"实际表名【{tableTrueName }】已创建实体，不能创建别名【{tableName}】实体");
+                            return webResponse.Error($"实际表名【{tableTrueName}】已创建实体，不能创建别名【{tableName}】实体");
 
                         if (entity.Name != tableName)
                         {
                             var tableAttr = entity.GetCustomAttribute<TableAttribute>();
                             if (tableAttr != null && tableAttr.Name == tableTrueName)
                             {
-                                return webResponse.Error($"实际表名【{tableTrueName }】已被【{entity.Name}】创建建实体,不能创建别名【{tableName}】实体,请将别名更换为【{entity.Name}】");
+                                return webResponse.Error($"实际表名【{tableTrueName}】已被【{entity.Name}】创建建实体,不能创建别名【{tableName}】实体,请将别名更换为【{entity.Name}】");
                             }
                         }
                     }
@@ -296,6 +338,9 @@ DISTINCT
                     break;
                 case "PgSql":
                     sql = GetPgSqlModelInfo();
+                    break;
+                case "DM":
+                    sql = GetDMModelInfo();
                     break;
                 default:
                     sql = GetSqlServerModelInfo();
@@ -368,6 +413,10 @@ DISTINCT
             else if (DBType.Name.ToLower() == DbCurrentType.PgSql.ToString().ToLower())
             {
                 sql = GetPgSqlStructure(tableName);
+            }
+            else if (DBType.Name.ToLower() == DbCurrentType.DM.ToString().ToLower())
+            {
+                sql = GetDMStructure(tableName);
             }
             else
             {
@@ -506,7 +555,7 @@ DISTINCT
                    "I" + tableName + "Repository.cs", domainContent);
 
 
-            string path = $"{frameworkFolder}\\{nameSpace}\\IServices\\{ foldername}\\";
+            string path = $"{frameworkFolder}\\{nameSpace}\\IServices\\{foldername}\\";
 
             string fileName = "I" + tableName + "Service.cs";
 
@@ -522,7 +571,7 @@ DISTINCT
             FileHelper.WriteFile(path, fileName, domainContent);
 
 
-            path = $"{frameworkFolder}\\{nameSpace}\\Services\\{ foldername}\\";
+            path = $"{frameworkFolder}\\{nameSpace}\\Services\\{foldername}\\";
             fileName = tableName + "Service.cs";
             //生成Partial Service类
             domainContent = FileHelper.ReadFile("Template\\Services\\ServiceBasePartial.html").Replace("{Namespace}", nameSpace).Replace("{TableName}", tableName).Replace("{StartName}", StratName);
@@ -541,7 +590,7 @@ DISTINCT
 
             if (webController)
             {
-                path = $"{frameworkFolder}\\{nameSpace}\\Controllers\\{ foldername}\\";
+                path = $"{frameworkFolder}\\{nameSpace}\\Controllers\\{foldername}\\";
                 fileName = tableName + "Controller.cs";
                 //生成Partial web控制器
                 if (!FileHelper.FileExists(path + "Partial\\" + fileName))
@@ -800,9 +849,9 @@ DISTINCT
                 Sys_TableInfo detailTable = repository.FindAsIQueryable(x => x.TableName == sysTableInfo.DetailName)
                     .Include(x => x.TableColumns).FirstOrDefault();
                 if (detailTable == null)
-                    return $"请先生成明细表{ sysTableInfo.DetailName}的配置!";
+                    return $"请先生成明细表{sysTableInfo.DetailName}的配置!";
                 if (detailTable.TableColumns == null || detailTable.TableColumns.Count == 0)
-                    return $"明细表{ sysTableInfo.DetailName}没有列的信息,请确认是否有列数据或列数据是否被删除!";
+                    return $"明细表{sysTableInfo.DetailName}没有列的信息,请确认是否有列数据或列数据是否被删除!";
                 var _name = detailTable.TableColumns.Where(x => x.IsImage < 4 && x.EditRowNo > 0).Select(s => s.ColumnName).FirstOrDefault();
                 //if (!string.IsNullOrEmpty(_name))
                 //{
@@ -840,10 +889,10 @@ DISTINCT
             if (!isApp)
             {
                 if (!FileHelper.FileExists(extensionPath + exFileName)
-                    || FileHelper.FileExists($"{extensionPath}+\\{ sysTableInfo.FolderName.ToLower()}\\{ exFileName}"))
+                    || FileHelper.FileExists($"{extensionPath}+\\{sysTableInfo.FolderName.ToLower()}\\{exFileName}"))
                 {
                     //2021.03.06增加前端生成文件到指定文件夹(以前生成过的文件不受影响)
-                    extensionPath = $"{srcPath}\\extension\\{spaceFolder}\\{ sysTableInfo.FolderName.ToLower()}\\";
+                    extensionPath = $"{srcPath}\\extension\\{spaceFolder}\\{sysTableInfo.FolderName.ToLower()}\\";
                     spaceFolder = spaceFolder + "\\" + sysTableInfo.FolderName.ToLower();
                     tableName = sysTableInfo.FolderName.ToLower() + "/" + tableName;
                 }
@@ -861,20 +910,20 @@ DISTINCT
 
             if (isApp)
             {
-                if (!FileHelper.FileExists($"{vuePath}\\{ spaceFolder}\\{sysTableInfo.TableName}\\{sysTableInfo.TableName}Extend.js"))
+                if (!FileHelper.FileExists($"{vuePath}\\{spaceFolder}\\{sysTableInfo.TableName}\\{sysTableInfo.TableName}Extend.js"))
                 {
                     //生成扩展文件
                     string pageContentEx = FileHelper.ReadFile("Template\\Page\\app\\extension.html");
-                    FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\{sysTableInfo.TableName}\\", sysTableInfo.TableName + "Extend.js", pageContentEx);
+                    FileHelper.WriteFile($"{vuePath}\\{spaceFolder}\\{sysTableInfo.TableName}\\", sysTableInfo.TableName + "Extend.js", pageContentEx);
                 }
                 //生成app配置options.js文件
-                FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\{sysTableInfo.TableName}\\", sysTableInfo.TableName + "Options.js", pageContent);
+                FileHelper.WriteFile($"{vuePath}\\{spaceFolder}\\{sysTableInfo.TableName}\\", sysTableInfo.TableName + "Options.js", pageContent);
 
-                if (!FileHelper.FileExists($"{vuePath}\\{ spaceFolder}\\{sysTableInfo.TableName}\\{sysTableInfo.TableName}.vue"))
+                if (!FileHelper.FileExists($"{vuePath}\\{spaceFolder}\\{sysTableInfo.TableName}\\{sysTableInfo.TableName}.vue"))
                 {
                     //生成vue文件
                     pageContent = FileHelper.ReadFile("Template\\Page\\app\\page.html").Replace("#TableName", sysTableInfo.TableName);
-                    FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\{sysTableInfo.TableName}\\", sysTableInfo.TableName + ".vue", pageContent);
+                    FileHelper.WriteFile($"{vuePath}\\{spaceFolder}\\{sysTableInfo.TableName}\\", sysTableInfo.TableName + ".vue", pageContent);
                 }
 
                 string name = FileHelper.ReadFile(@$"{srcPath}\pages.json");
@@ -901,7 +950,7 @@ DISTINCT
             {
                 //   spaceFolder = spaceFolder; //+ "\\" + sysTableInfo.FolderName.ToLower();
                 //生成vue页面
-                FileHelper.WriteFile($"{vuePath}\\{ spaceFolder}\\", sysTableInfo.TableName + ".vue", pageContent);
+                FileHelper.WriteFile($"{vuePath}\\{spaceFolder}\\", sysTableInfo.TableName + ".vue", pageContent);
 
                 //生成路由
                 string routerPath = $"{srcPath}\\router\\viewGird.js";
@@ -938,7 +987,7 @@ DISTINCT
         {
             return $@"SELECT  DISTINCT
                     Column_Name AS ColumnName,
-                     '{ tableName}'  as tableName,
+                     '{tableName}'  as tableName,
 	                Column_Comment AS ColumnCnName,
                         CASE
                           WHEN data_type IN( 'BIT', 'BOOL', 'bit', 'bool') THEN
@@ -970,7 +1019,7 @@ DISTINCT
                     120 AS ColumnWidth,
                     0 AS OrderNo,
                 CASE
-                        WHEN IS_NULLABLE = 'NO' THEN
+                        WHEN IS_NULLABLE = 'N' THEN
                         0 ELSE 1
                     END AS IsNull,
 	            CASE
@@ -983,6 +1032,65 @@ DISTINCT
                 WHERE
                     table_name = ?tableName {GetMysqlTableSchema()}
                order by ordinal_position";
+        }
+
+        /// <summary>
+        /// 获取达梦表结构信息 2023.11.14
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="dbService"></param>
+        /// <returns></returns>
+        private string GetDMStructure(string tableName)
+        {
+            return $@"SELECT  DISTINCT
+                    tc.COLUMN_NAME AS ColumnName,
+                     '{tableName}'  as tableName,
+	                IFNULL(col.COMMENTS,'') AS ColumnCnName,
+                        CASE
+                          WHEN data_type IN( 'BIT', 'BOOL', 'bit', 'bool') THEN
+                'bool'
+		             WHEN data_type in('smallint','SMALLINT') THEN 'short'
+								WHEN data_type in('tinyint','TINYINT') THEN 'sbyte'
+                        WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN
+                    'int'
+                    WHEN data_type in ( 'BIGINT','bigint') THEN
+                    'bigint'
+                    WHEN data_type IN('FLOAT', 'DOUBLE', 'DECIMAL','float', 'double', 'decimal') THEN
+                    'decimal'
+                    WHEN data_type IN('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB', 'LONGBLOB', 'Time','char', 'varchar', 'tiny text', 'text', 'mediumtext', 'longtext', 'tinyblob', 'blob', 'mediumblob', 'longblob', 'time') THEN
+                    'string'
+                    WHEN data_type IN('Date', 'DateTime', 'TimeStamp','date', 'datetime', 'timestamp') THEN
+                    'DateTime' ELSE 'string'
+                END AS ColumnType,
+	              case WHEN DATA_LENGTH>8000 THEN 0 ELSE DATA_LENGTH end  AS Maxlength,
+            CASE
+                    WHEN c.constraint_type='P' THEN  
+                    1 ELSE 0
+                END AS IsKey,
+            CASE
+                    WHEN tc.Column_Name IN( 'CreateID', 'ModifyID', '' ) 
+		            OR c.constraint_type='P' THEN
+                        0 ELSE 1
+                        END AS IsDisplay,
+		            1 AS IsColumnData,
+                    120 AS ColumnWidth,
+                    0 AS OrderNo,
+                CASE
+                        WHEN NULLABLE = 'NO' THEN
+                        0 ELSE 1
+                    END AS IsNull,
+	            CASE
+                        WHEN c.constraint_type='P' THEN
+                        1 ELSE 0
+                    END AS IsReadDataset
+                FROM
+                    user_tab_columns tc
+                INNER JOIN dba_tables t ON tc.TABLE_NAME=t.TABLE_NAME
+                LEFT JOIN dba_cons_columns cons ON tc.COLUMN_NAME=cons.COLUMN_NAME AND tc.TABLE_NAME=cons.TABLE_NAME
+                LEFT JOIN dba_constraints c ON c.constraint_name=cons.constraint_name
+                LEFT JOIN user_col_comments col ON  tc.TABLE_NAME=col.TABLE_NAME AND tc.COLUMN_NAME=col.COLUMN_NAME 
+
+                WHERE  tc.table_name = :tableName AND t.OWNER='{GetDMOwner()}'";
         }
 
         /// <summary>
@@ -1594,10 +1702,10 @@ DISTINCT
                         AttributeBuilder.Append("       [DisplayFormat(DataFormatString=\"" + tableColumnInfo.Prec_Scale + "\")]");
                         AttributeBuilder.Append("\r\n");
                     }
-              
+
                     if ((column.IsKey == 1 && (column.ColumnType == "uniqueidentifier")) ||
                         tableColumnInfo.ColumnType.ToLower() == "guid"
-                        || (IsMysql() && column.ColumnType == "string" && column.Maxlength == 36))
+                        || ((IsMysql() || IsDM()) && column.ColumnType == "string" && column.Maxlength == 36))
                     {
                         tableColumnInfo.ColumnType = "uniqueidentifier";
                     }
@@ -1620,7 +1728,7 @@ DISTINCT
                                 maxLength = "(" + column.Maxlength + ")";
                             }
                         }
-                         else if (column.IsKey == 1 && column.ColumnType.ToLower() == "string" && column.Maxlength!=36)
+                        else if (column.IsKey == 1 && column.ColumnType.ToLower() == "string" && column.Maxlength != 36)
                         {
                             maxLength = "(" + column.Maxlength + ")";
                         }
@@ -1664,7 +1772,7 @@ DISTINCT
                 if ((column.IsKey == 1
                     && (column.ColumnType == "uniqueidentifier"))
                        || column.ColumnType == "guid"
-                   || (IsMysql() && column.ColumnType == "string" && column.Maxlength == 36))
+                   || ((IsMysql() || IsDM()) && column.ColumnType == "string" && column.Maxlength == 36))
                 {
                     columnType = "Guid" + (column.IsNull == 1 ? "?" : "");
                 }
@@ -1890,6 +1998,12 @@ DISTINCT
         {
             return DBType.Name.ToLower() == DbCurrentType.MySql.ToString().ToLower();
         }
+
+        private static bool IsDM()
+        {
+            return DBType.Name.ToLower() == DbCurrentType.DM.ToString().ToLower();
+        }
+
         private WebResponseContent ValidColumnString(Sys_TableInfo tableInfo)
         {
             WebResponseContent webResponse = new WebResponseContent(true);
@@ -1919,7 +2033,7 @@ DISTINCT
                     return webResponse.Error($"明细表的字段[{tableColumn.ColumnName}]类型必须与主表的主键的类型相同");
                 }
 
-                if (!IsMysql()) return webResponse;
+                if (!IsMysql() || !IsDM()) return webResponse;
 
                 if (mainTableColumn.ColumnType?.ToLower() == "string"
                     && tableColumn.Maxlength != 36)

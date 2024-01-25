@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dm;
+using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using Npgsql;
 using System;
@@ -61,10 +62,10 @@ namespace VOL.Core.DBManager
         }
         public static IDbConnection GetDbConnection(string connString = null)
         {
-            if (connString==null)
+            if (connString == null)
             {
                 connString = ConnectionPool[DefaultConnName];
-            }  
+            }
             if (DBType.Name == DbCurrentType.MySql.ToString())
             {
                 return new MySqlConnection(connString);
@@ -73,7 +74,11 @@ namespace VOL.Core.DBManager
             {
                 return new NpgsqlConnection(connString);
             }
-            return new SqlConnection(connString); 
+            if (DBType.Name == DbCurrentType.DM.ToString())
+            {
+                return new DmConnection(connString);
+            }
+            return new SqlConnection(connString);
         }
 
 
@@ -83,20 +88,24 @@ namespace VOL.Core.DBManager
         /// <param name="connString">如果connString为null 执行重载GetDbConnection(string connString = null)</param>
         /// <param name="dapperType">指定连接数据库的类型：MySql/MsSql/PgSql</param>
         /// <returns></returns>
-        public static IDbConnection GetDbConnection(string connString = null, DbCurrentType dbCurrentType=DbCurrentType.Default)
+        public static IDbConnection GetDbConnection(string connString = null, DbCurrentType dbCurrentType = DbCurrentType.Default)
         {
             //默认获取DbConnection
-            if (connString.IsNullOrEmpty()|| DbCurrentType.Default== dbCurrentType)
+            if (connString.IsNullOrEmpty() || DbCurrentType.Default == dbCurrentType)
             {
                 return GetDbConnection(connString);
             }
-            if (dbCurrentType==DbCurrentType.MySql)
+            if (dbCurrentType == DbCurrentType.MySql)
             {
                 return new MySqlConnection(connString);
             }
             if (dbCurrentType == DbCurrentType.PgSql)
             {
                 return new NpgsqlConnection(connString);
+            }
+            if (dbCurrentType == DbCurrentType.DM)
+            {
+                return new DmConnection(connString);
             }
             return new SqlConnection(connString);
 

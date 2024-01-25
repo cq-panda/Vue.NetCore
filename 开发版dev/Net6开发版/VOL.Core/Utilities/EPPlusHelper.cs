@@ -86,8 +86,8 @@ namespace VOL.Core.Utilities
                 {
                     return responseContent.Error("导入文件列必须与导入模板相同");
                 }
-                string[] ignoreSelectValidationFields =null;
-                if (ignoreSelectValidationColumns!=null)
+                string[] ignoreSelectValidationFields = null;
+                if (ignoreSelectValidationColumns != null)
                 {
                     ignoreSelectValidationFields = ignoreSelectValidationColumns.GetExpressionToArray();
                 }
@@ -128,7 +128,7 @@ namespace VOL.Core.Utilities
 
                         //验证字典数据
                         //2020.09.20增加判断数据源是否有值
-                        if (!string.IsNullOrEmpty(options.DropNo) && !string.IsNullOrEmpty(value)&&!ignoreSelectValidationFields.Contains(property.Name))
+                        if (!string.IsNullOrEmpty(options.DropNo) && !string.IsNullOrEmpty(value) && !ignoreSelectValidationFields.Contains(property.Name))
                         {
                             if (options.KeyValues == null)
                             {
@@ -388,6 +388,15 @@ namespace VOL.Core.Utilities
                         propertyInfo.Add(property);
                     }
                 }
+                //默认导出代码生成器中配置【是否显示】=是的列
+                //propertyInfo = typeof(T).GetProperties()
+                //  .Where(x => cellOptions.Select(s => s.ColumnName).Contains(x.Name)) //获取代码生成器配置的列
+                //  .ToList();
+                /*
+                 * 如果propertyInfo查出来的长度=0
+                 * 1、代码生成器中的配置信息是否同步到当前数据库
+                 * 2、代码生成器中的配置列名与model的字段是否大小写一致
+                 */
             }
             string[] dateArr = null;
             if (!template)

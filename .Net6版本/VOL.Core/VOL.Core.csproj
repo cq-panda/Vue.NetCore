@@ -41,6 +41,7 @@
     <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
     <PackageReference Include="CSRedisCore" Version="3.6.5" />
     <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="dmdbms.Microsoft.EntityFrameworkCore.Dm" Version="5.0.17.16649" />
     <PackageReference Include="EFCore.BulkExtensions" Version="2.2.2" />
     <PackageReference Include="EPPlus.Core" Version="1.5.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
