@@ -177,6 +177,15 @@
             -webkit-tap-highlight-color: transparent;
             margin: 0px;
             padding: 0px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-size: 16px
+          ">切换镜像，使用cmd执行：npm config set registry https://registry.npmjs.org/</li>
+        <li style="
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0px;
+            padding: 0px;
           ">
           <span style=" font-size: 16px">
             <div> 2、启动前端项目：打开前端Vue项目文件夹到目录： ../Vol.Vue3版本</div>
@@ -231,6 +240,7 @@
             -webkit-tap-highlight-color: transparent;
             margin: 0px;
             padding: 0px;
+            margin-top: 35px;
           ">
           <span style="line-height: 3; font-size: 14px; color: red">
             <span style="font-size: 20px; font-weight: bolder；">项目启动报错/登陆页面报错</span>
