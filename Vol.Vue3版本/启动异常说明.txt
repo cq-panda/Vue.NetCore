@@ -1,4 +1,4 @@
-双击run.bat启动异常：
+1、双击run.bat启动异常：
     使用cmd输入node -v查看版本，如果是18.+版本,请将package.json中第五行scripts中的内容替换为：
 
 "scripts": {
@@ -8,3 +8,9 @@
     "lint": "vue-cli-service lint"
 }
 
+
+
+2、双击install.bat安装依赖(只需要执行一次,后面启动项目都不用点击install.bat)
+     双击run.bat启动前端
+    前端启动异常：使用cmd切换至 ../Vol.Vue3目录下执行 npm config set strict-ssl false&npm cache clear --force & npm install
+    如果没有报错，再接着执行 npm run serve 看异常信息
