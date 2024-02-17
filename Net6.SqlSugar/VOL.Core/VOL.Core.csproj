@@ -48,9 +48,9 @@
     <PackageReference Include="Npgsql" Version="6.0.0" />
     <!--<PackageReference Include="MySql.Data" Version="8.0.13" />-->
     <PackageReference Include="Quartz" Version="3.4.0" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.0" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.7" />
     <PackageReference Include="SqlSugarCore" Version="5.1.4.112" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.35.0" />
     <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
   </ItemGroup>
 
