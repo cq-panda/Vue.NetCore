@@ -110,6 +110,7 @@
 				<view class="vol-action-sheet-select-content">
 					<vol-form @input-confirm="inputConfirm" :labelWidth="labelWidth" :load-key="false"
 						@onChange="editGirdFormOnChange" ref="form" @extraClick="gridExtraClick"
+						@uploadBefore="editGridFormUploadBefore"
 						:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
 					</vol-form>
 				</view>
@@ -330,6 +331,12 @@
 			},
 			editGirdFormOnChange(field, value,item) { //编辑新建表单的select、日期组件选择事件
 				this.editFormOnChange && this.editFormOnChange(field, value,item)
+			},
+			editGridFormUploadBefore(fields, option,done) { //编辑新建表单的select、日期组件选择事件
+			    if (this.uploadBefore) {
+			    	return this.uploadBefore(fields, option,done)
+			    }
+				done();
 			},
 			searchGridFormOnChange(field, value,item) { //查询表单的select、日期组件选择事件
 				this.searchFormOnChange && this.searchFormOnChange(field, value,item)

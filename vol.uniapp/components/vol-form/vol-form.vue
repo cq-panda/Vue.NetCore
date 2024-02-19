@@ -743,24 +743,26 @@
 						message: '上传中'
 					})
 				})
-				for (let i = 0; i < lists.length; i++) {
-					const result = await this.uploadFilePromise(lists[i].url, option.url)
-					let item = this.inFormFields[option.field][fileListLen];
-					let fileName = lists[i].name;
-					if (!fileName && lists[i].thumb) {
-						let lastIndex = lists[i].thumb.lastIndexOf('/') + 1;
-						// let arr = lists[i].thumb.substr(0,lastIndex);
-						// let _obj = arr[0].split('/');
-						fileName = lists[i].thumb.substr(lastIndex)
+				this.$emit('uploadBefore', lists,option, () => {
+					for (let i = 0; i < lists.length; i++) {
+						const result = await this.uploadFilePromise(lists[i].url, option.url)
+						let item = this.inFormFields[option.field][fileListLen];
+						let fileName = lists[i].name;
+						if (!fileName && lists[i].thumb) {
+							let lastIndex = lists[i].thumb.lastIndexOf('/') + 1;
+							// let arr = lists[i].thumb.substr(0,lastIndex);
+							// let _obj = arr[0].split('/');
+							fileName = lists[i].thumb.substr(lastIndex)
+						}
+						this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
+							status: 'success',
+							message: '',
+							url: this.http.ipAddress + result + fileName,
+							orginUrl: result + fileName
+						}))
+						fileListLen++
 					}
-					this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
-						status: 'success',
-						message: '',
-						url: this.http.ipAddress + result + fileName,
-						orginUrl: result + fileName
-					}))
-					fileListLen++
-				}
+				})
 			},
 			uploadFilePromise(url, apiUrl) {
 				return new Promise((resolve, reject) => {
