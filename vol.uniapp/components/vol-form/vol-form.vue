@@ -743,7 +743,7 @@
 						message: '上传中'
 					})
 				})
-				this.$emit('uploadBefore', lists,option, () => {
+				this.$emit('uploadBefore', lists, option, async () => {
 					for (let i = 0; i < lists.length; i++) {
 						const result = await this.uploadFilePromise(lists[i].url, option.url)
 						let item = this.inFormFields[option.field][fileListLen];
