@@ -1459,6 +1459,7 @@ export default defineComponent({
             this.rowData.splice(0);
           }
           this.loading = false;
+          let rows=data.rows||[];
           // 查询返回结果后处理
           // 2020.10.30增加查询后返回所有的查询信息
           this.$emit(
@@ -1471,7 +1472,7 @@ export default defineComponent({
           );
           if (!status) return;
           this.GetTableDictionary(data.rows);
-          let rows=data.rows||[];
+       
           if (this.rowParentField) {
             rows= this.base.convertTree(rows,null,this.rowKey,this.rowParentField);
           }
