@@ -401,6 +401,9 @@
           :select2Count="select2Count"
           :selectable="selectable"
           :spanMethod="spanMethod"
+          :lazy="lazy"
+          :defaultExpandAll="defaultExpandAll"
+          :rowParentField="rowParentField"
         ></vol-table>
       </div>
     </div>
@@ -440,6 +443,7 @@ import {
   toRaw
 } from 'vue';
 var vueParam = {
+  emits:['parentCall'],
   components: {
     'vol-form': VolForm,
     'vol-table': VolTable,
@@ -616,7 +620,11 @@ var vueParam = {
       downloadFileName: null,
       select2Count: 2000, //超出500数量显示select2组件
       paginationHide:false,//是隐藏分页(2023.10.11)
-      queryFields:[]//快捷查询字段2024.01.18增加多个快捷查询字段
+      queryFields:[],//快捷查询字段2024.01.18增加多个快捷查询字段
+      lazy:true,//树形表格是否默认延迟加载
+      defaultExpandAll:false,//树形表格是否展开所有
+      paginationHide:false,//是否隐藏分页
+      rowParentField:"" //树形表格父级id
     };
   },
   methods: {},

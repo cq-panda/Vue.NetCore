@@ -17,7 +17,7 @@ export default {
       default: 2000
     },
     labelWidth: {
-      type: Boolean,
+      type: Number,
       default: 100
     },
     searchFormOptions: {

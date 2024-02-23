@@ -16,7 +16,9 @@
       :summary-method="getSummaryData"
       :row-key="rowKey"
       :key="randomTableKey"
-      lazy
+      :lazy="lazy"
+      :defaultExpandAll="defaultExpandAll"
+      :expand-row-keys="rowKey ? expandRowKeys : undefined"
       stripe
       :load="loadTreeChildren"
       @select="userSelect"
@@ -39,6 +41,7 @@
       style="width: 100%"
       :scrollbar-always-on="true"
       :span-method="spanMethod"
+      @expand-change="expandChange"
     >
       <el-table-column
         v-if="columnIndex"
@@ -670,6 +673,24 @@ export default defineComponent({
       type: Function,
       default: ({row,column,rowIndex, columnIndex}) => {
       }
+    },
+    lazy: { //树形表格是否默认延迟加载
+      type: Boolean,
+      default: true,
+    },
+    defaultExpandAll: { //树形表格是否展开所有
+      type: Boolean,
+      default: false
+    },
+    expandRowKeys:{ //默认展开行
+      type:Array,
+      default:()=>{
+        return []
+      }
+    },
+    rowParentField:{ //树形表格父级id
+          type:String,
+          default:""
     }
   },
   data() {
@@ -1403,7 +1424,7 @@ export default defineComponent({
       }
       let param = {
         page: this.paginations.page,
-        rows: this.paginations.rows,
+        rows:this.paginationHide ? 1000: this.paginations.rows,
         sort: this.paginations.sort,
         order: this.paginations.order,
         wheres: [] // 查询条件，格式为[{ name: "字段", value: "xx" }]
@@ -1442,7 +1463,7 @@ export default defineComponent({
           // 2020.10.30增加查询后返回所有的查询信息
           this.$emit(
             'loadAfter',
-            data.rows || [],
+            rows,
             (result) => {
               status = result;
             },
@@ -1450,7 +1471,11 @@ export default defineComponent({
           );
           if (!status) return;
           this.GetTableDictionary(data.rows);
-          this.rowData = data.rows || [];
+          let rows=data.rows||[];
+          if (this.rowParentField) {
+            rows= this.base.convertTree(rows,null,this.rowKey,this.rowParentField);
+          }
+          this.rowData = rows;
           this.paginations.total = data.total;
           // 合计
           this.getSummaries(data);
@@ -1772,6 +1797,20 @@ export default defineComponent({
       this.currentRow[this.currentColumn.field] = arr.join(",");
       this.uploadModel = false;
       return true;
+    },
+    expandChange(row,expandedRows){ //	当用户对某一行展开或者关闭的时
+      if (!this.defaultExpandAll&&!this.lazy) {
+          if (expandedRows) {
+             if(this.expandRowKeys.indexOf(row[this.rowKey])==-1){
+              this.expandRowKeys.push(row[this.rowKey])
+             }
+          }else{
+            let _index= this.expandRowKeys.findIndex(x=>{return x==row[this.rowKey]});
+            if (_index!=-1) {
+              this.expandRowKeys.splice(_index,1);
+            }
+          }
+      }    
     }
   }
 });
