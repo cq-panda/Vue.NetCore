@@ -555,6 +555,9 @@ export default {
             this.fileInfo.splice(0);
             // }
             let _files = this.files.map((file) => {
+              if (file.path) {
+                return file;
+              }
               return {
                 name: file.name,
                 path: file.path || x.data + file.name
