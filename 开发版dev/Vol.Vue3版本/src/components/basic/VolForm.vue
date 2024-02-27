@@ -16,7 +16,7 @@
           v-for="(item, index) in row"
           :prop="item.field"
           :key="item.field + index"
-          :style="{ width: getColWidth(item) + '%' }"
+          :style="getColWidth(item)"
         >
           <!-- render -->
           <form-expand
@@ -859,6 +859,9 @@ export default defineComponent({
   },
   methods: {
     getColWidth(item) {
+      if (item.itemStyle) {
+         return item.itemStyle;
+      }
       //2021.08.30 增加动态计算表单宽度
       let _span = 0;
       this.formRules.forEach((row, xIndex) => {
@@ -868,12 +871,12 @@ export default defineComponent({
         }).length;
         if (rowLength > _span) _span = rowLength;
       });
-      let rete =
-        Math.round(((item.colSize || 12 / _span) / 0.12) * colPow, 10.0) /
-        colPow;
-      if (item.colSize) return rete.toFixed(3);
-      return rete.toFixed(3);
-      // return (100 - rete).toFixed(3);
+      let rate =
+        Math.round(((item.colSize || 12 / _span) / 0.12) * colPow, 10.0) / colPow;
+      // if (item.colSize) return rate.toFixed(3);
+      // return rate.toFixed(3);
+      return {width:rate.toFixed(3)+'%'};
+      // return (100 - rate).toFixed(3);
     },
     previewImg(url) {
       this.base.previewImg(url, this.http.ipAddress);
