@@ -7,9 +7,9 @@ export const easyFlowMixin = {
                 // 容器ID
                 Container: 'efContainer',
                 // 连线的样式，直线或者曲线等，可选值:  StateMachine、Flowchart，Bezier、Straight
-                Connector: ['Bezier', {curviness: 100}],
+                //Connector: ['Bezier', {curviness: 100}],
                 // Connector: ['Straight', {stub: 20, gap: 1}],
-                // Connector: ['Flowchart', {stub: 30, gap: 1, alwaysRespectStubs: false, midpoint: 0.5, cornerRadius: 10}],
+                 Connector: ['Flowchart', {stub: 30, gap: 1, alwaysRespectStubs: false, midpoint: 0.5, cornerRadius: 10}],
                 // Connector: ['StateMachine', {margin: 5, curviness: 10, proximityLimit: 80}],
                 // 鼠标不能拖动删除线
                 ConnectionsDetachable: false,
@@ -48,7 +48,7 @@ export const easyFlowMixin = {
                  */
                 PaintStyle: {
                     // 线的颜色
-                    stroke: '#E0E3E7',
+                    stroke: 'RGB(168,170,173)',
                     // 线的粗细，值越大线越粗
                     strokeWidth: 1,
                     // 设置外边线的颜色，默认设置透明，这样别人就看不见了，点击线的时候可以不用精确点击，参考 https://blog.csdn.net/roymno2/article/details/72717101
