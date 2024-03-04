@@ -1,1 +1,1 @@
-npm cache clear --force & npm install
+npm config set strict-ssl false&npm cache clear --force & npm install

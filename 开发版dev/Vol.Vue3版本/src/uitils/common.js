@@ -212,34 +212,32 @@ let base = {
   // 2、树形tree需要注意Id与parentId循环依赖的问题
   // 3、callback每次生成一新的节点的时回调的方法
 
-  convertTree(data, callback) {
+  convertTree(data, callback,idField='id',parentField='parentId') {
     var treeIds = [];
     var root_data = [];
-    if (data.length>100) {
-      data = JSON.parse(JSON.stringify(data));
-    }
     data.forEach((x) => {
       // if (!x.children) {
       //   x.children = []
       // }
+     
       if (
         !x.hidden &&
-        x.id !== undefined &&
-        x.id !== x.parentId &&
+        x[idField] !== undefined &&
+        x[idField] !== x[parentField] &&
         !data.some((s) => {
-          return x.parentId == s.id;
+          return x[parentField] == s[idField];
         })
       ) {
         x.isRoot = true;
         callback && callback(x, data, true, treeIds);
         root_data.push(x);
-        getTree(x.id, x, data, callback, treeIds);
+        getTree(x[idField], x, data, callback, treeIds,idField,parentField);
       } else {
         callback && callback(x, data, true, treeIds);
       }
     });
     var exceptionNodes = data.filter((f) => {
-      return treeIds.indexOf(f.id) == -1 && !f.hidden;
+      return treeIds.indexOf(f[idField]) == -1 && !f.hidden;
     });
 
     root_data.push(...exceptionNodes);
@@ -329,16 +327,16 @@ let base = {
 export default base;
 
 // 2020.06.01增加通用方法，将普通对象转换为tree结构
-function getTree(id, node, data, callback, treeIds) {
+function getTree(id, node, data, callback, treeIds,idField,parentField) {
   if (treeIds.indexOf(id) == -1) {
     treeIds.push(id);
   }
   data.forEach((x) => {
-    if (!x.hidden && x.parentId == id) {
+    if (!x.hidden && x[parentField] == id) {
       if (!node.children) node.children = [];
       callback && callback(x, node, false);
       node.children.push(x);
-      getTree(x.id, x, data, callback, treeIds);
+      getTree(x[idField], x, data, callback, treeIds,idField,parentField);
     }
   });
 }

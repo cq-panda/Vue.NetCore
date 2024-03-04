@@ -41,6 +41,7 @@
     <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
     <PackageReference Include="CSRedisCore" Version="3.6.5" />
     <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="dmdbms.Microsoft.EntityFrameworkCore.Dm" Version="5.0.17.16649" />
     <PackageReference Include="EFCore.BulkExtensions" Version="2.2.2" />
     <PackageReference Include="EPPlus.Core" Version="1.5.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
@@ -55,8 +56,8 @@
     <!--<PackageReference Include="MySql.Data" Version="8.0.13" />-->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.0" />
     <PackageReference Include="Quartz" Version="3.4.0" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.7" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.35.0" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
     <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
   </ItemGroup>

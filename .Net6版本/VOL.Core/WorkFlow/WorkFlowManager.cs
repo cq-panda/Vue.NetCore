@@ -45,7 +45,7 @@ namespace VOL.Core.WorkFlow
             {
                 return Array.Empty<object>();
             }
-          
+
             var obj = typeof(WorkFlowManager).GetMethod("GetFormDataAsync").MakeGenericMethod(new Type[] { type })
                 .Invoke(null, new object[] { tableKey, table }) as Task<object>;
             return await obj;
@@ -70,7 +70,7 @@ namespace VOL.Core.WorkFlow
             var condition = typeof(T).GetKeyName().CreateExpression<T>(tableKey, Enums.LinqExpressionType.Equal);
             //动态分库应该查询对应的数据库
             var data = await DBServerProvider.DbContext.Set<T>().Where(condition).FirstOrDefaultAsync();
-            if (data==null)
+            if (data == null)
             {
                 Console.WriteLine($"未查到数据,表：{table},id:{tableKey}");
                 return Array.Empty<object>();
@@ -347,7 +347,7 @@ namespace VOL.Core.WorkFlow
             }
 
             //设置进入流程后的第一个审核节点,(开始节点的下一个节点)
-            var nodeInfo = steps.Where(x => x.ParentId == steps[0].StepId).Select(s => new { s.StepId, s.StepName,s.StepType,s.StepValue }).FirstOrDefault();
+            var nodeInfo = steps.Where(x => x.ParentId == steps[0].StepId).Select(s => new { s.StepId, s.StepName, s.StepType, s.StepValue }).FirstOrDefault();
             workFlowTable.CurrentStepId = nodeInfo.StepId;
             workFlowTable.StepName = nodeInfo.StepName;
 
@@ -367,7 +367,7 @@ namespace VOL.Core.WorkFlow
             dbContext.Set<Sys_WorkFlowTableAuditLog>().Add(log);
             dbContext.SaveChanges();
             dbContext.Entry(workFlowTable).State = EntityState.Detached;
-            if (addWorkFlowExecuted!=null)
+            if (addWorkFlowExecuted != null)
             {
                 var userIds = GetAuditUserIds(nodeInfo.StepType ?? 0, nodeInfo.StepValue);
                 addWorkFlowExecuted.Invoke(entity, userIds);
@@ -459,6 +459,19 @@ namespace VOL.Core.WorkFlow
                  ?.FirstOrDefault();
             if (filterOptions != null)
             {
+                currentStep = new Sys_WorkFlowTableStep()
+                {
+                    StepValue = currentStep.StepValue,
+                    StepId = currentStep.StepId,
+                    StepName = currentStep.StepName,
+                    Sys_WorkFlowTableStep_Id = currentStep.Sys_WorkFlowTableStep_Id,
+                    WorkFlowTable_Id = currentStep.WorkFlowTable_Id,
+                    StepAttrType = currentStep.StepAttrType,
+                    AuditStatus = currentStep.AuditStatus,
+                    NextStepId = currentStep.NextStepId,
+                    StepType = currentStep.StepType,
+                    WorkFlow_Id = currentStep.WorkFlow_Id,
+                };
                 //审核未通过或者驳回
                 if (!CheckAuditStatus(workFlow, filterOptions, currentStep, status))
                 {
@@ -488,7 +501,7 @@ namespace VOL.Core.WorkFlow
                             msg = "审批被驳回,流程重新开始";
                         }
                     }
-                    if (msg!=null)
+                    if (msg != null)
                     {
                         var auditLog = new Sys_WorkFlowTableAuditLog()
                         {
@@ -513,6 +526,7 @@ namespace VOL.Core.WorkFlow
                     dbContext.Set<Sys_WorkFlowTable>().Update(workFlow);
                     dbContext.SaveChanges();
                     dbContext.Entry(workFlow).State = EntityState.Detached;
+                    nextStep = currentStep;
 
                     //发送邮件(appsettings.json配置文件里添加邮件信息)
                     SendMail(workFlow, filterOptions, nextStep, dbContext);
@@ -645,6 +659,9 @@ namespace VOL.Core.WorkFlow
                     workFlow.StepName = preStep.StepName;
                     workFlow.AuditStatus = (int)AuditStatus.审核中;
 
+                    currentStep.StepId = preStep.StepId;
+                    currentStep.StepValue = preStep.StepValue;
+
                     DBServerProvider.DbContext.Update(preStep);
                 }
 
@@ -668,6 +685,9 @@ namespace VOL.Core.WorkFlow
                     workFlow.StepName = steps.OrderBy(c => c.OrderId).Select(c => c.StepName).FirstOrDefault();
                     workFlow.AuditStatus = (int)AuditStatus.审核中;
 
+                    currentStep.StepId = workFlow.CurrentStepId;
+                    currentStep.StepValue = steps.OrderBy(c => c.OrderId).Select(c => c.StepValue).FirstOrDefault();
+
                     DBServerProvider.DbContext.UpdateRange(steps);
                 }
                 return false;
@@ -677,7 +697,7 @@ namespace VOL.Core.WorkFlow
 
         private static void SendMail(Sys_WorkFlowTable workFlow, FilterOptions filterOptions, Sys_WorkFlowTableStep nextStep, VOLContext dbContext)
         {
-            if (filterOptions==null||filterOptions.SendMail != 1)
+            if (filterOptions == null || filterOptions.SendMail != 1)
             {
                 return;
             }

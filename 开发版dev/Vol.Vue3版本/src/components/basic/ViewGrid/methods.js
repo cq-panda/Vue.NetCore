@@ -1387,7 +1387,7 @@ let methods = {
     //查询日期设置为可选开始与结果日期
     this.searchFormOptions.forEach((item) => {
       item.forEach((x) => {
-        if (x.type == 'date' || x.type == 'datetime') x.range = true;
+        if (x.type == 'date' || x.type == 'datetime'||x.type=='month') x.range = true;
       });
     });
     //初始化datatable表数据源,默认为一个空数组,dicKeys为界面所有的数据字典编号

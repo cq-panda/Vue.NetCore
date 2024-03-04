@@ -56,7 +56,7 @@ namespace VOL.Core.Infrastructure
             roleIds.Add(currnetRoleId);
             if (DBType.Name == DbCurrentType.PgSql.ToString())
             {
-                originalSql = $"SELECT \"Role_Id\" as key,\"Role_Id\" as id,\"RoleName\" as value,\"ParentId\" AS parentId from Sys_Role"
+                originalSql = $"SELECT \"Role_Id\" as key,\"Role_Id\" as id,\"RoleName\" as value,\"ParentId\" AS parentId from \"Sys_Role\""
                    +$" where \"Role_Id\"  in ({string.Join(',', roleIds)})";
             }
             else {

@@ -105,13 +105,18 @@ export default {
         return;
       }
       console.log('11')
-      if (this.getDaysBetween(dt,~~(new Date()/1000)) > 15) {
+      if (this.getDaysBetween(dt, ~~(new Date() / 1000)) > 15) {
         this.centerDialogVisible = true;
       }
     } catch (error) {
 
     }
-
+    this.$notify({
+      title: '提示',
+      type:"success",
+      dangerouslyUseHTMLString: true,
+      message: '<a href="http://v3.volcore.xyz/" target="_blank">新版文档已发布，点击看新版文档</a>'
+    });
   },
   data() {
     return {

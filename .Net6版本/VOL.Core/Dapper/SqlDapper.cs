@@ -1,5 +1,6 @@
 ﻿
 using Dapper;
+using Dm;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace VOL.Core.Dapper
 
         private T Execute<T>(Func<IDbConnection, IDbTransaction, T> func, bool beginTransaction = false)
         {
-            if (_transaction|| dbTransaction!=null)
+            if (_transaction || dbTransaction != null)
             {
                 return func(_transactionConnection, dbTransaction);
             }
@@ -82,7 +83,7 @@ namespace VOL.Core.Dapper
                 catch (Exception ex)
                 {
                     dbTransaction?.Rollback();
-                    throw new Exception(ex.Message,ex);
+                    throw new Exception(ex.Message, ex);
                 }
                 finally
                 {
@@ -93,7 +94,7 @@ namespace VOL.Core.Dapper
 
         private async Task<T> ExecuteAsync<T>(Func<IDbConnection, IDbTransaction, Task<T>> funcAsync, bool beginTransaction = false)
         {
-            if (_transaction|| dbTransaction!=null)
+            if (_transaction || dbTransaction != null)
             {
                 return await funcAsync(_transactionConnection, dbTransaction);
             }
@@ -130,7 +131,7 @@ namespace VOL.Core.Dapper
                 catch (Exception ex)
                 {
                     dbTransaction?.Rollback();
-                    throw new Exception(ex.Message,ex);
+                    throw new Exception(ex.Message, ex);
                 }
             }
         }
@@ -649,7 +650,7 @@ namespace VOL.Core.Dapper
                 {
                     paramsList.Add(item.Name + "=@" + item.Name);
                 }
-                string sqltext = $@"UPDATE { entityType.GetEntityTableName()} SET {string.Join(",", paramsList)} WHERE {entityType.GetKeyName()} = @{entityType.GetKeyName()} ;";
+                string sqltext = $@"UPDATE {entityType.GetEntityTableName()} SET {string.Join(",", paramsList)} WHERE {entityType.GetKeyName()} = @{entityType.GetKeyName()} ;";
 
                 return ExcuteNonQuery(sqltext, entities, CommandType.Text, beginTransaction);
                 // throw new Exception("mysql批量更新未实现");
@@ -674,7 +675,7 @@ namespace VOL.Core.Dapper
         {
             Type entityType = typeof(T);
             var keyProperty = entityType.GetKeyProperty();
-            string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {keyProperty.Name} in @keys ";
+            string sql = $"DELETE FROM {entityType.GetEntityTableName()} where {keyProperty.Name} in @keys ";
             return ExcuteNonQuery(sql, new { keys }).GetInt();
         }
         /// <summary>
@@ -719,6 +720,7 @@ namespace VOL.Core.Dapper
             {
                 tmpPath = tmpPath.ReplacePath();
             }
+
             if (DBType.Name == "MySql")
             {
                 return MySqlBulkInsert(table, tableName, fileName, tmpPath);
@@ -729,6 +731,12 @@ namespace VOL.Core.Dapper
                 PGSqlBulkInsert(table, tableName);
                 return table.Rows.Count;
             }
+
+            if (DBType.Name == "DM")
+            {
+                return DMBulkInsert(table, tableName);
+            }
+
             return MSSqlBulkInsert(table, tableName, sqlBulkCopyOptions ?? SqlBulkCopyOptions.KeepIdentity);
         }
 
@@ -800,6 +808,54 @@ namespace VOL.Core.Dapper
             }
             return insertCount;
         }
+
+        /// <summary>
+        /// 达梦大批量数据插入,返回成功插入行数
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private int DMBulkInsert(DataTable table, string tableName)
+        {
+            if (table.Rows.Count == 0) return 0;
+
+            try
+            {
+                using (var Connection = DBServerProvider.GetDbConnection(_connectionString, DbCurrentType.DM))
+                {
+                    if (Connection.State == ConnectionState.Closed)
+                    {
+                        Connection.Open();
+                    }
+                    using (IDbTransaction tran = Connection.BeginTransaction())
+                    {
+                        using (var bulk = new DmBulkCopy(Connection as DmConnection))
+                        {
+                            //设置插入的目标表
+                            bulk.DestinationTableName = tableName;
+
+                            //DataTable列名与数据库列名的映射
+                            for (int i = 0; i < table.Columns.Count; i++)
+                            {
+                                bulk.ColumnMappings.Add(table.Columns[i].ColumnName, table.Columns[i].ColumnName);
+                            }
+
+                            //写入数据库
+                            bulk.WriteToServer(table);
+                            tran.Commit();
+                        }
+                    }
+                }
+
+                return table.Rows.Count;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
         /// <summary>
         ///将DataTable转换为标准的CSV
         /// </summary>
@@ -955,7 +1011,7 @@ namespace VOL.Core.Dapper
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message,ex);
+                throw new Exception(ex.Message, ex);
             }
             finally
             {
