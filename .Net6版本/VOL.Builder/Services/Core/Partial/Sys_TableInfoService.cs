@@ -436,7 +436,7 @@ DISTINCT
             if (string.IsNullOrEmpty(tableName)) return webResponse.OK("表名不能为空");
 
             Sys_TableInfo tableInfo = repository.FindAsIQueryable(x => x.TableName == tableName)
-          .Include(o => o.TableColumns).FirstOrDefault();
+          .Include(o => o.TableColumns).ToList().FirstOrDefault();
             if (tableInfo == null)
                 return webResponse.Error("未获取到【" + tableName + "】的配置信息，请使用新建功能");
             if (!string.IsNullOrEmpty(tableInfo.TableTrueName) && tableInfo.TableTrueName != tableName)
@@ -847,7 +847,7 @@ DISTINCT
             if (!string.IsNullOrEmpty(sysTableInfo.DetailName) && !isApp)
             {
                 Sys_TableInfo detailTable = repository.FindAsIQueryable(x => x.TableName == sysTableInfo.DetailName)
-                    .Include(x => x.TableColumns).FirstOrDefault();
+                    .Include(x => x.TableColumns).ToList().FirstOrDefault();
                 if (detailTable == null)
                     return $"请先生成明细表{sysTableInfo.DetailName}的配置!";
                 if (detailTable.TableColumns == null || detailTable.TableColumns.Count == 0)
@@ -1368,7 +1368,8 @@ DISTINCT
                 return tableId;
             if (string.IsNullOrEmpty(tableName))
                 return -1;
-            tableId = repository.Find(x => x.TableName == tableName, s => s.Table_Id).FirstOrDefault();
+            tableId = repository.FindAsIQueryable(x => x.TableName == tableName).Select(s => s.Table_Id)
+                .ToList().FirstOrDefault();
             if (tableId > 0)
                 return tableId;
             bool isMySql = DBType.Name == DbCurrentType.MySql.ToString();
@@ -1423,7 +1424,7 @@ DISTINCT
             Sys_TableInfo tableInfo = repository
                 .FindAsIQueryable(x => x.Table_Id == tableId)
                 .Include(c => c.TableColumns)
-                .FirstOrDefault();
+                .ToList().FirstOrDefault();
             if (tableInfo.TableColumns != null)
             {
                 tableInfo.TableColumns = tableInfo.TableColumns.OrderByDescending(x => x.OrderNo).ToList();
@@ -1434,9 +1435,9 @@ DISTINCT
         public async Task<WebResponseContent> DelTree(int table_Id)
         {
             if (table_Id == 0) return new WebResponseContent().Error("没有传入参数");
-            Sys_TableInfo tableInfo = await repository.FindAsIQueryable(x => x.Table_Id == table_Id)
+            Sys_TableInfo tableInfo = (await repository.FindAsIQueryable(x => x.Table_Id == table_Id)
                 .Include(c => c.TableColumns)
-                .FirstOrDefaultAsync();
+               .ToListAsync()).FirstOrDefault();
             if (tableInfo == null) return new WebResponseContent().OK();
             if (tableInfo.TableColumns != null && tableInfo.TableColumns.Count > 0)
             {
@@ -2023,7 +2024,7 @@ DISTINCT
                 //明细表外键列的配置信息
                 Sys_TableColumn tableColumn = repository
                     .Find<Sys_TableColumn>(x => x.TableName == tableInfo.DetailName && x.ColumnName == key)
-                    ?.FirstOrDefault();
+                    .ToList().FirstOrDefault();
 
                 if (tableColumn == null)
                     return webResponse.Error($"明细表必须包括[{tableInfo.TableName}]主键字段[{key}]");
