@@ -2,6 +2,7 @@
 using Dapper;
 using Dm;
 using MySqlConnector;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -737,6 +738,11 @@ namespace VOL.Core.Dapper
                 return DMBulkInsert(table, tableName);
             }
 
+            if (DBType.Name == "Oracle")
+            {
+                return OralceBulkInsert(table, tableName);
+            }
+
             return MSSqlBulkInsert(table, tableName, sqlBulkCopyOptions ?? SqlBulkCopyOptions.KeepIdentity);
         }
 
@@ -807,6 +813,45 @@ namespace VOL.Core.Dapper
                 throw new Exception("vol:" + ex.Message, ex.InnerException);
             }
             return insertCount;
+        }
+
+        private int OralceBulkInsert(DataTable table, string tableName)
+        {
+            using (OracleConnection connection = DBServerProvider.GetDbConnection(_connectionString, DbCurrentType.Oracle) as OracleConnection )
+            {
+                connection.Open();
+                using (OracleCommand cmd = new OracleCommand($"SELECT * FROM {tableName}", connection))
+                {
+                    using (OracleDataAdapter adapter = new OracleDataAdapter(cmd))
+                    {
+                        using (OracleCommandBuilder builder = new OracleCommandBuilder(adapter))
+                        {
+                            adapter.InsertCommand = builder.GetInsertCommand();
+                            adapter.Update(table);
+                        }
+                    }
+                }
+            }
+            //using (var conn = DBServerProvider.GetDbConnection(_connectionString, DbCurrentType.Oracle))
+            //{
+            //    if (conn.State == ConnectionState.Closed)
+            //    {
+            //        conn.Open();
+            //    }
+            //    using (OracleBulkCopy bulkCopy = new OracleBulkCopy(conn as OracleConnection))
+            //    {
+            //        bulkCopy.DestinationTableName = tableName; // 设置目标表名
+
+            //        // 将DataTable中的列映射到目标表中的列
+            //        foreach (DataColumn col in table.Columns)
+            //        {
+            //            bulkCopy.ColumnMappings.Add(col.ColumnName, col.ColumnName);
+            //        }
+            //        // 执行批量写入操作
+            //        bulkCopy.WriteToServer(table);
+            //    }
+            //}
+            return table.Rows.Count;
         }
 
         /// <summary>

@@ -224,6 +224,37 @@ DISTINCT
                                                                                   AND epTwo.name = 'MS_Description'
                                       WHERE     obj.name =@tableName) AS t";
         }
+
+        /// <summary>
+        /// 获取Oracle表结构信息2024.04.10
+        /// </summary>
+        /// <returns></returns>
+        private string GetOracleModelInfo(string tableName)
+        {
+            return $@"SELECT
+			c.TABLE_NAME TableName ,
+			cc.COLUMN_NAME COLUMNNAME,
+			cc.COMMENTS  as  ColumnCNName,
+			CASE WHEN  c.DATA_TYPE IN('smallint', 'INT') THEN 'int'  
+            WHEN  c.DATA_TYPE IN('NUMBER') THEN 'decimal'  
+			WHEN c.DATA_TYPE IN('CHAR', 'VARCHAR', 'NVARCHAR','VARCHAR2', 'NVARCHAR2','text', 'image')
+			THEN 'nvarchar'
+		  WHEN  c.DATA_TYPE IN('DATE') THEN 'date'  
+			ELSE 'nvarchar' 
+			end    as ColumnType,
+			c.DATA_LENGTH  as Maxlength,
+			case WHEN 	c.NULLABLE='Y' THEN 1 ELSE 0 end   as ISNULL
+			
+          -- CONCAT(NUMERIC_PRECISION,',',NUMERIC_SCALE) as Prec_Scale
+			FROM
+			ALL_tab_columns c
+			LEFT JOIN   ALL_col_comments cc ON c.table_name = cc.table_name 
+			AND c.column_name = cc.column_name
+			LEFT JOIN   ALL_tab_comments t ON c.table_name = t.table_name 
+			WHERE 		   c.table_name='{tableName.ToUpper()}'";
+
+        }
+
         /// <summary>
         /// 获取PgSQl表结构信息
         /// 2020.08.07完善PGSQL
@@ -339,6 +370,9 @@ DISTINCT
                 case "PgSql":
                     sql = GetPgSqlModelInfo();
                     break;
+                case "Oracle":
+                    sql = GetOracleModelInfo(tableName);
+                    break;
                 case "DM":
                     sql = GetDMModelInfo();
                     break;
@@ -417,6 +451,10 @@ DISTINCT
             else if (DBType.Name.ToLower() == DbCurrentType.DM.ToString().ToLower())
             {
                 sql = GetDMStructure(tableName);
+            }
+            else if (DBType.Name.ToLower() == DbCurrentType.Oracle.ToString().ToLower())
+            {
+                sql = GetOracleStructure(tableName);
             }
             else
             {
@@ -1033,7 +1071,38 @@ DISTINCT
                     table_name = ?tableName {GetMysqlTableSchema()}
                order by ordinal_position";
         }
-
+        /// <summary>
+        /// 获取tOracle表结构信息 2023.11.14
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        private string GetOracleStructure(string tableName)
+        {
+            return $@"SELECT
+			c.TABLE_NAME TableName ,
+			cc.COLUMN_NAME COLUMNNAME,
+			cc.COMMENTS  as  ColumnCNName,
+				CASE WHEN  c.DATA_TYPE IN('smallint', 'INT') THEN 'int'  
+           WHEN  c.DATA_TYPE IN('NUMBER') THEN 'decimal'  
+			WHEN c.DATA_TYPE IN('CHAR', 'VARCHAR', 'NVARCHAR','VARCHAR2', 'NVARCHAR2','text', 'image')
+			THEN 'string'
+		  WHEN  c.DATA_TYPE IN('DATE') THEN 'DateTime'  
+			ELSE 'string' 
+			end    as ColumnType,
+			c.DATA_LENGTH  as Maxlength,
+			case WHEN 	c.NULLABLE='Y' THEN 1 ELSE 0 end   as ISNULL,
+			1 IsColumnData,1 IsDisplay
+			FROM
+			user_tab_columns c
+			LEFT JOIN   user_col_comments cc ON c.table_name = cc.table_name 
+			AND c.column_name = cc.column_name
+			LEFT JOIN   user_tab_comments t ON c.table_name = t.table_name 
+	
+                WHERE
+                -- 	c.OWNER = 'NETCOREDEV' 
+                -- 	AND
+                c.table_name='{tableName.ToUpper()}'";
+        }
         /// <summary>
         /// 获取达梦表结构信息 2023.11.14
         /// </summary>

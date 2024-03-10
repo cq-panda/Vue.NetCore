@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using VOL.Core.Const;
 using VOL.Core.DBManager;
+using VOL.Core.Enums;
 using VOL.Core.Extensions;
 using VOL.Core.Extensions.AutofacManager;
 using VOL.Entity.SystemModels;
@@ -84,6 +87,10 @@ namespace VOL.Core.EFDbContext
             {
                 optionsBuilder.UseDm(connectionString);
             }
+            else if (Const.DBType.Name == Enums.DbCurrentType.Oracle.ToString())
+            {
+                optionsBuilder.UseOracle(connectionString, b => b.UseOracleSQLCompatibility("11"));
+            }
             else
             {
                 optionsBuilder.UseSqlServer(connectionString);
@@ -120,6 +127,32 @@ namespace VOL.Core.EFDbContext
                             //  modelBuilder.Model.AddEntityType(t);
                         });
                 }
+
+                //Oracle数据库指定表名与列名全部大写
+                if (DBType.Name == DbCurrentType.Oracle.ToString())
+                {
+                    foreach (var entity in modelBuilder.Model.GetEntityTypes())
+                    {
+                        string tableName = entity.GetTableName().ToUpper();
+                        if (tableName.StartsWith("SYS_") || tableName.StartsWith("DEMO_"))
+                        {
+                            entity.SetTableName(entity.GetTableName().ToUpper());
+                            foreach (var property in entity.GetProperties())
+                            {
+                                property.SetColumnName(property.Name.ToUpper());
+                                if (property.ClrType == typeof(Guid))
+                                {
+                                    property.SetValueConverter(new ValueConverter<Guid, string>(v => v.ToString(), v => new Guid(v)));
+                                }
+                                else if (property.ClrType == typeof(Guid?))
+                                {
+                                    property.SetValueConverter(new ValueConverter<Guid?, string>(v => v.ToString(), v => new Guid(v)));
+                                }
+                            }
+                        }
+                    }
+                }
+
                 //modelBuilder.AddEntityConfigurationsFromAssembly(GetType().Assembly);
                 base.OnModelCreating(modelBuilder);
             }

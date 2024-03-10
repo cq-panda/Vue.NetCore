@@ -13,7 +13,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Entity(TableCnName = "用户部门",TableName = "Sys_UserDepartment")]
+    [Entity(TableCnName = "用户所属组织",TableName = "Sys_UserDepartment")]
     public partial class Sys_UserDepartment:BaseEntity
     {
         /// <summary>

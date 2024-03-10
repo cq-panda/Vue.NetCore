@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using Npgsql;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -78,6 +79,10 @@ namespace VOL.Core.DBManager
             {
                 return new DmConnection(connString);
             }
+            if (DBType.Name == DbCurrentType.Oracle.ToString())
+            {
+                return new OracleConnection(connString);
+            }
             return new SqlConnection(connString);
         }
 
@@ -106,6 +111,10 @@ namespace VOL.Core.DBManager
             if (dbCurrentType == DbCurrentType.DM)
             {
                 return new DmConnection(connString);
+            }
+            if (dbCurrentType == DbCurrentType.Oracle)
+            {
+                return new OracleConnection(connString);
             }
             return new SqlConnection(connString);
 

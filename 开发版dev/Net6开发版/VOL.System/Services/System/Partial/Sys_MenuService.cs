@@ -246,7 +246,7 @@ namespace VOL.System.Services
             }
             catch (Exception ex)
             {
-                webResponse.Error(ex.Message);
+                webResponse.Error(ex.Message+ex.StackTrace);
             }
             finally
             {
