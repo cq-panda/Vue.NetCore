@@ -597,7 +597,7 @@ export default defineComponent({
     },
     size: {
       type: String, //large / default / small
-      default: 'large'
+      default: 'default'
     },
     select2Count: {
       //超出数量显示select2组件

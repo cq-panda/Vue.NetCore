@@ -1,15 +1,17 @@
-// const webpack = require("webpack");
-
 module.exports = {
   productionSourceMap: false,
   lintOnSave: false,
   devServer: {
     port: 9990,
-    overlay: {
-      warning: false,
-      errors: false
-    }
+    client: { //关闭错误自动弹出框
+      overlay: false,
+    },
+    // overlay: {
+    //   warning: false,
+    //   errors: false
+    // }
   },
+  // plugins: [vue(),vuejsx({})],
   css: {
     //查看CSS属于哪个css文件
     sourceMap: true

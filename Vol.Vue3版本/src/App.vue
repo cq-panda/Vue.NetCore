@@ -6,7 +6,9 @@
 </template>
 <script>
 import { ElConfigProvider } from "element-plus";
-import zhCn from "element-plus/lib/locale/lang/zh-cn";
+// import zhCn from "element-plus/lib/locale/lang/zh-cn";
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+
 export default {
   name: "vol_app",
   components: {
