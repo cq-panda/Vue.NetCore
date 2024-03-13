@@ -56,7 +56,7 @@ namespace VOL.Core.Extensions
                     rowList.Add(row);
                 }
             }
-            catch (Exception ex) { throw ex; }
+            catch (Exception ex) { throw new Exception(ex.Message); }
             finally
             {
                 Reader.Close();
@@ -127,8 +127,7 @@ namespace VOL.Core.Extensions
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception(ex.Message, ex.InnerException);
             }
             finally
             {
@@ -468,19 +467,19 @@ namespace VOL.Core.Extensions
         /// <param name="o">object。</param>
         /// <param name="t">默认值。</param>
         /// <returns>string。</returns>
-        public static string ToString(this object o, string t)
-        {
-            string info = string.Empty;
-            if (o == null)
-            {
-                info = t;
-            }
-            else
-            {
-                info = o.ToString();
-            }
-            return info;
-        }
+        //public static string ToString(this object o, string t)
+        //{
+        //    string info = string.Empty;
+        //    if (o == null)
+        //    {
+        //        info = t;
+        //    }
+        //    else
+        //    {
+        //        info = o.ToString(t);
+        //    }
+        //    return info;
+        //}
 
         /// <summary>
         /// 将DateTime?转换为string类型信息。
@@ -489,286 +488,20 @@ namespace VOL.Core.Extensions
         /// <param name="format">标准或自定义日期和时间格式的字符串。</param>
         /// <param name="t">默认值。</param>
         /// <returns>string。</returns>
-        public static string ToString(this DateTime? o, string format, string t)
+        public static string ToString(this DateTime? date, string format)
         {
-            string info = string.Empty;
-            if (o == null)
-            {
-                info = t;
-            }
-            else
-            {
-                info = o.Value.ToString(format);
-            }
-            return info;
-        }
-
-        /// <summary>
-        /// 将TimeSpan?转换为string类型信息。
-        /// </summary>
-        /// <param name="o">TimeSpan?。</param>
-        /// <param name="format">标准或自定义时间格式的字符串。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>string。</returns>
-        public static string ToString(this TimeSpan? o, string format, string t)
-        {
-            string info = string.Empty;
-            if (o == null)
-            {
-                info = t;
-            }
-            else
-            {
-                info = o.Value.ToString(format);
-            }
-            return info;
+            return date.Value.ToString(format);
         }
 
 
 
-        /// <summary>
-        /// 将object转换为byte类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>byte。</returns>
-        public static byte ToByte(this object o, byte t = default(byte))
-        {
-            if (!byte.TryParse(o.ToString(string.Empty), out byte info))
-            {
-                info = t;
-            }
-            return info;
-        }
-        /// <summary>
-        /// 将object转换为int类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>int。</returns>
-        public static int ToInt(this object o, int t = default(int))
-        {
-            if (!int.TryParse(o.ToString(string.Empty), out int info))
-            {
-                info = t;
-            }
-            return info;
-        }
 
-        /// <summary>
-        /// 将object转换为double类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>double。</returns>
-        public static double ToDouble(this object o, double t = default(double))
-        {
-            double info;
-            if (!double.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
 
-        /// <summary>
-        /// 将object转换为decimal类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>decimal。</returns>
-        public static decimal ToDecimal(this object o, decimal t = default(decimal))
-        {
-            decimal info;
-            if (!decimal.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
 
-        /// <summary>
-        /// 将object转换为float类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>float。</returns>
-        public static float ToFloat(this object o, float t = default(float))
-        {
-            if (!float.TryParse(o.ToString(string.Empty), out float info))
-            {
-                info = t;
-            }
-            return info;
-        }
 
-        /// <summary>
-        /// 将object转换为long类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>long。</returns>
-        public static long ToLong(this object o, long t = default(long))
-        {
-            long info;
-            if (!long.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
 
-        /// <summary>
-        /// 将object转换为bool类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>bool。</returns>
-        public static bool ToBool(this object o, bool t = default(bool))
-        {
-            bool info;
-            if (!bool.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
 
-        /// <summary>
-        /// 将object转换为sbyte类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>sbyte。</returns>
-        public static sbyte ToSbyte(this object o, sbyte t = default(sbyte))
-        {
-            sbyte info;
-            if (!sbyte.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
 
-        /// <summary>
-        /// 将object转换为short类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>short。</returns>
-        public static short ToShort(this object o, short t = default(short))
-        {
-            short info;
-            if (!short.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
-
-        /// <summary>
-        /// 将object转换为ushort类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>ushort。</returns>
-        public static ushort ToUShort(this object o, ushort t = default(ushort))
-        {
-            ushort info;
-            if (!ushort.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
-
-        /// <summary>
-        /// 将object转换为ulong类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>ulong。</returns>
-        public static ulong ToULong(this object o, ulong t = default(ulong))
-        {
-            ulong info;
-            if (!ulong.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
-
-        /// <summary>
-        /// 将object转换为Enum[T]类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>Enum[T]。</returns>
-        public static T ToEnum<T>(this object o, T t = default(T))
-            where T : struct
-        {
-            if (!System.Enum.TryParse(o.ToString(string.Empty), out T info))
-            {
-                info = t;
-            }
-            return info;
-        }
-
-        /// <summary>
-        /// 将object转换为DateTime类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>DateTime。</returns>
-        public static DateTime ToDateTime(this object o, DateTime t = default(DateTime))
-        {
-            if (t == default(DateTime))
-            {
-                t = new DateTime(1753, 1, 1);
-            }
-            DateTime info;
-            if (!DateTime.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
-
-        /// <summary>
-        /// 将object转换为TimeSpan类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>TimeSpan。</returns>
-        public static TimeSpan ToTimeSpan(this object o, TimeSpan t = default(TimeSpan))
-        {
-            if (t == default(TimeSpan))
-            {
-                t = new TimeSpan(0, 0, 0);
-            }
-            TimeSpan info;
-            if (!TimeSpan.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
-
-        /// <summary>
-        /// 将object转换为Guid类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>Guid。</returns>
-        public static Guid ToGuid(this object o, Guid t = default(Guid))
-        {
-            Guid info;
-            if (!Guid.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            return info;
-        }
 
         private static Regex BoolRegex = new Regex("(?<info>(true|false))", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
@@ -789,108 +522,7 @@ namespace VOL.Core.Extensions
 
         private static Regex DecimalRegex = new Regex("(?<info>-?\\d+(\\.\\d+)?)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        /// <summary>
-        /// 从object中获取decimal类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <returns>decimal。</returns>
-        public static decimal? GetDecimal(this object o)
-        {
-            decimal info;
-            if (!decimal.TryParse(DecimalRegex.Match(o.ToString(string.Empty)).Groups["info"].Value, out info))
-            {
-                return null;
-            }
-            return info;
-        }
 
-
-
-        /// <summary>
-        /// 从object中获取正数信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <returns>decimal。</returns>
-        public static decimal? GetPositiveNumber(this object o)
-        {
-            decimal info;
-            if (!decimal.TryParse(DecimalRegex.Match(o.ToString(string.Empty)).Groups["info"].Value, out info))
-            {
-                return null;
-            }
-            return Math.Abs(info);
-        }
-
-        private static Regex DateTimeRegex = new Regex("(?<info>(((\\d+)[/年-](0?[13578]|1[02])[/月-](3[01]|[12]\\d|0?\\d)[日]?)|((\\d+)[/年-](0?[469]|11)[/月-](30|[12]\\d|0?\\d)[日]?)|((\\d+)[/年-]0?2[/月-](2[0-8]|1\\d|0?\\d)[日]?))(\\s((2[0-3]|[0-1]\\d)):[0-5]\\d:[0-5]\\d)?)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-        /// <summary>
-        /// 从object中获取DateTime?类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <returns>DateTime?。</returns>
-        public static DateTime? GetDateTime1(this object o)
-        {
-            DateTime info;
-            if (!DateTime.TryParse(DateTimeRegex.Match(o.ToString(string.Empty)).Groups["info"].Value.Replace("年", "-").Replace("月", "-").Replace("/", "-").Replace("日", ""), out info))
-            {
-                return null;
-            }
-            return info;
-        }
-
-        private static Regex TimeSpanRegex = new Regex("(?<info>-?(\\d+\\.(([0-1]\\d)|(2[0-3])):[0-5]\\d:[0-5]\\d)|((([0-1]\\d)|(2[0-3])):[0-5]\\d:[0-5]\\d)|(\\d+))", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-        /// <summary>
-        /// 从object中获取TimeSpan?类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <returns>TimeSpan?。</returns>
-        public static TimeSpan? GetTimeSpan(this object o)
-        {
-            TimeSpan info;
-            if (!TimeSpan.TryParse(TimeSpanRegex.Match(o.ToString(string.Empty)).Groups["info"].Value, out info))
-            {
-                return null;
-            }
-            return info;
-        }
-
-        private static Regex GuidRegex = new Regex("(?<info>\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-        /// <summary>
-        /// 从object中获取Guid?类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <returns>Guid?。</returns>
-        public static Guid? GetGuid(this object o)
-        {
-            Guid info;
-            if (!Guid.TryParse(GuidRegex.Match(o.ToString(string.Empty)).Groups["info"].Value, out info))
-            {
-                return null;
-            }
-            return info;
-        }
-
-        /// <summary>
-        /// 将object转换为SqlServer中的DateTime?类型信息。
-        /// </summary>
-        /// <param name="o">object。</param>
-        /// <param name="t">默认值。</param>
-        /// <returns>DateTime?。</returns>
-        public static DateTime? GetSqlDateTime(this object o, DateTime t = default(DateTime))
-        {
-            DateTime info;
-            if (!DateTime.TryParse(o.ToString(string.Empty), out info))
-            {
-                info = t;
-            }
-            if (info < new DateTime(1753, 1, 1) || info > new DateTime(9999, 12, 31))
-            {
-                return null;
-            }
-            return info;
-        }
 
         /// <summary>
         /// 读取XElement节点的文本内容。
@@ -1037,26 +669,24 @@ namespace VOL.Core.Extensions
             return info;
         }
 
-        /// <summary>
-        /// 删除html标签。
-        /// </summary>
-        /// <param name="html">输入的字符串。</param>
-        /// <returns>没有html标签的字符串。</returns>
-        public static string RemoveHTMLTags(this string html)
+        public static Guid? GetGuid(this object value)
         {
-            return Regex.Replace(Regex.Replace(Regex.Replace((html ?? string.Empty).Replace("&nbsp;", " ").Replace("\r\n", " ").Replace("\n", " ").Replace("\r", " ").Replace("\t", " "), "<\\/?[^>]+>", "\r\n"), "(\r\n)+", "\r\n"), "(\\s)+", " ").Trim();
+            if (Guid.TryParse(value?.ToString(), out Guid guid))
+            {
+                return guid;
+            }
+            return null;
         }
 
-        /// <summary>
-        /// 字符串转换为文件名。
-        /// </summary>
-        /// <param name="s">字符串。</param>
-        /// <returns>文件名。</returns>
-        public static string ToFileName(this string s)
+        public static string ToString(this decimal? value, string format)
         {
-            return Regex.Replace(s.ToString(string.Empty), @"[\\/:*?<>|]", "_").Replace("\t", " ").Replace("\r\n", " ").Replace("\"", " ");
+            return value?.ToString(format);
         }
 
+        public static string ToString(this int? value, string format)
+        {
+            return value?.ToString(format);
+        }
 
         /// <summary>
         /// 获取默认非空字符串。
@@ -1143,7 +773,7 @@ namespace VOL.Core.Extensions
         {
             return MobileRegex.IsMatch(mobile);
         }
- 
+
         /// <summary>
         /// 判断当前字符串是否为邮箱
         /// </summary>
@@ -1155,6 +785,7 @@ namespace VOL.Core.Extensions
         }
 
     }
+
 
 
 
