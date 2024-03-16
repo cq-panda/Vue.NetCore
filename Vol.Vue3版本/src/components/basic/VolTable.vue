@@ -309,7 +309,7 @@
                   :multiple="column.multiple===undefined?true:column.multiple"
                   :render-after-expand="false"
                   :show-checkbox="true"
-                  :check-strictly="true"
+                  :check-strictly="column.checkStrictly===undefined?true:column.checkStrictly"
                   check-on-click-node
                   node-key="key"
                   @change="column.onChange && column.onChange(scope.row, column)"
