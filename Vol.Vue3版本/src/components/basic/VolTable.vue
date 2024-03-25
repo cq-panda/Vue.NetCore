@@ -92,7 +92,7 @@
           >
             <template #default="scopeChildren">
               <a
-                href="javascript:void(0);line-height: 1.3;"
+                href="javascript:void(0);"
                 style="text-decoration: none"
                 @click="link(scopeChildren.row, columnChildren, $event)"
                 v-if="columnChildren.link"
@@ -342,6 +342,7 @@
                   class="table-input"
                   v-else-if="!column.summary && !column.onKeyPress"
                   v-model.lazy="scope.row[column.field]"
+                  :placeholder="column.placeholder || column.title"
                   :disabled="initColumnDisabled(scope.row, column)"
                 />
                 <el-input
