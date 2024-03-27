@@ -40,6 +40,7 @@ namespace VOL.Entity.DomainModels
         [Display(Name = "")]
         [Editable(true)]
         [Column("ColumnCNName")]
+        [SugarColumn(ColumnName="ColumnCNName")]
         public string ColumnCnName { get; set; }
 
         /// <summary>
