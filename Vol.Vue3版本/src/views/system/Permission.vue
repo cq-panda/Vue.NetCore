@@ -3,14 +3,8 @@
     <div class="role-tree-left flex-col">
       <div class="title"><i class="el-icon-user"></i>角色列表</div>
       <el-scrollbar class="el-role-list">
-        <el-tree
-          :data="tree"
-          @node-click="nodeClick"
-          node-key="id"
-          :default-expanded-keys="openKeys"
-          :expand-on-click-node="false"
-          style="padding: 5px 0; margin-right: 2px"
-        >
+        <el-tree :data="tree" @node-click="nodeClick" node-key="id" :default-expanded-keys="openKeys"
+          :expand-on-click-node="false" style="padding: 5px 0; margin-right: 2px">
           <template #default="{ data }">
             <div class="action-group">
               <div class="action-text">
@@ -27,34 +21,18 @@
         <el-button type="primary" @click="save">保存</el-button>
       </div>
       <el-scrollbar class="el-role-list">
-        <el-tree
-          @check-change="leftCheckChange"
-          @check="nodeCheck"
-          :data="roleTree"
-          :show-checkbox="false"
-          style="padding: 15px"
-          node-key="id"
-          default-expand-all
-          :expand-on-click-node="false"
-        >
+        <el-tree @check-change="leftCheckChange" @check="nodeCheck" :data="roleTree" :show-checkbox="false"
+          style="padding: 15px" node-key="id" default-expand-all :expand-on-click-node="false">
           <template #default="{ data }">
             <div class="action-group">
-              <div
-                class="action-text"
-                :style="{ width: (4 - data.lv) * 18 + 150 + 'px' }"
-              >
+              <div class="action-text" :style="{ width: (4 - data.lv) * 18 + 150 + 'px' }">
                 <el-checkbox v-model="data.leftCk" @change="allChange(data)">{{
-                  data.text + (data.isApp ? "(app)" : "")
-                }}</el-checkbox>
+          data.text + (data.isApp ? "(app)" : "")
+        }}</el-checkbox>
               </div>
               <div class="action-item">
-                <el-checkbox
-                  v-for="(item, index) in data.actions"
-                  :key="index"
-                  v-model="item.checked"
-                  @change="actionChange(data, item.checked)"
-                  >{{ item.text }}</el-checkbox
-                >
+                <el-checkbox v-for="(item, index) in data.actions" :key="index" v-model="item.checked"
+                  @change="actionChange(data, item.checked, item)">{{ item.text }}</el-checkbox>
               </div>
             </div>
           </template>
@@ -118,13 +96,41 @@ export default defineComponent({
         }
       });
     };
-    const actionChange = (data, ck) => {
+    const actionChange = (data, ck, item) => {
       ck =
         data.actions.filter((x) => {
           return x.checked;
         }).length == data.actions.length;
       data.leftCk = ck;
+      // console.log('')
+      if (item.value == 'Search' && item.checked) {
+        setParentCheck(data);
+      }
     };
+
+    const setParentCheck = (data) => {
+      if (!data.pid) {
+        return
+      }
+      let b = true;
+      let pid = data.pid;
+      let perentData;
+      while (b) {
+        if (!pid) {
+          return false;
+        }
+        perentData = roleList.find(x => { return x.id == pid });
+        if (!perentData || !perentData.actions) {
+          b = false;
+          return false;
+        }
+        pid = perentData.pid;
+        let obj = perentData.actions.find(c => { return c.value == 'Search' });
+        if (obj) {
+          obj.checked = true;
+        }
+      }
+    }
 
     const load = () => {
       const url = "api/role/getUserChildRoles";
@@ -215,8 +221,8 @@ export default defineComponent({
         });
       });
     };
-    let $message =
-      getCurrentInstance().appContext.config.globalProperties.$message;
+    const { proxy } = getCurrentInstance();
+    let $message =proxy.$message;
     const save = () => {
       if (selectId.value <= 0) {
         return $message.error("请选择角色!");
@@ -261,6 +267,7 @@ export default defineComponent({
       allChange,
       actionChange,
       save,
+      setParentCheck
     };
   },
 });
@@ -273,51 +280,63 @@ export default defineComponent({
   width: 100%;
   padding: 10px;
   display: flex;
+
   .flex-col {
     display: flex;
     flex-direction: column;
   }
+
   .role-tree-left {
     border: 1px solid #f2f2f2;
     background: #fff;
     width: 230px;
     margin-right: 10px;
+
     .title {
       i {
         margin-left: 10px;
       }
     }
   }
+
   .role-tree-right {
     background: #fff;
     border: 1px solid #f2f2f2;
     width: 0;
     flex: 1;
+
     .title {
       display: flex;
+
       i {
         margin-left: 10px;
       }
+
       div {
         flex: 1;
       }
     }
+
     .action-group {
       display: flex;
       // line-height: 32px;
       justify-content: center;
       align-items: center;
+
       label {
         float: left;
       }
+
       .action-text {
         line-height: 33px;
+
         label {
           margin-right: 5px;
         }
       }
     }
   }
+
   .title {
     padding: 10px;
     background: rgb(246 250 255);
@@ -325,12 +344,14 @@ export default defineComponent({
     font-size: 14px;
     letter-spacing: 2px;
   }
+
   .el-role-list {
     flex: 1;
     height: 0;
     overflow-x: hidden;
   }
 }
+
 .role-tree-left ::v-deep(.el-tree-node__content) {
   cursor: pointer;
   height: auto;
@@ -338,18 +359,22 @@ export default defineComponent({
   margin: 2px 10px;
   font-size: 15px;
 }
+
 .role-tree-left ::v-deep(.el-tree-node__content:hover) {
   background: #f4f4f4;
   border-radius: 20px;
 }
+
 .role-tree-left ::v-deep(.is-current > .el-tree-node__content:first-child) {
   background: #f2f2f2;
   border-radius: 20px;
 }
+
 .role-tree-right ::v-deep(.el-tree-node__content) {
   margin-bottom: 5px;
   height: auto;
 }
+
 .role-tree-right ::v-deep(.el-checkbox__label) {
   position: relative;
   top: 2px;
