@@ -2,43 +2,20 @@
   <div class="upload-container">
     <a :href="template.url" ref="template"></a>
     <div class="button-group">
-      <el-upload
-        style="float: left"
-        ref="uploadFile"
-        :max-size="maxSize"
-        :on-change="clearMsg"
-        :before-upload="beforeUpload"
-        :action="url"
-      >
-        <el-button size="small"
-          ><i class="el-icon-folder-opened"></i>选择文件</el-button
-        >
+      <el-upload style="float: left" ref="uploadFile" :max-size="maxSize" :on-change="clearMsg"
+        :before-upload="beforeUpload" :action="url">
+        <el-button size="small"><i class="el-icon-folder-opened"></i>选择文件</el-button>
       </el-upload>
-      <el-button
-        v-if="template.url&&(template.showDowloadTemplate||template.showDowloadTemplate===undefined)"
-        style="margin-left: 10px"
-        type="primary"
-        size="small"
-        @click="dowloadTemplate"
-        :loading="loadingStatus"
-      >
-     <i class="el-icon-bottom"></i>
-        下载模板</el-button
-      >
-      <el-button
-        type="success"
-        size="small"
-        @click="upload"
-        :loading="loadingStatus"
-      >
-          <i class="el-icon-top"></i>
-        上传文件</el-button
-      >
+      <el-button v-if="template.url && (template.showDowloadTemplate || template.showDowloadTemplate === undefined)"
+        style="margin-left: 10px" type="primary" size="small" @click="dowloadTemplate" :loading="loadingStatus">
+        <i class="el-icon-bottom"></i>
+        下载模板</el-button>
+      <el-button type="success" size="small" @click="upload" :loading="loadingStatus">
+        <i class="el-icon-top"></i>
+        上传文件</el-button>
     </div>
     <div class="alert">
-      <el-alert title="上传说明" type="warning" :closable="false" show-icon
-        >只能上传excel文件,文件大小不超过{{ maxSize }}M</el-alert
-      >
+      <el-alert title="上传说明" type="warning" :closable="false" show-icon>只能上传excel文件,文件大小不超过{{ maxSize }}M</el-alert>
     </div>
 
     <div v-if="file">
@@ -69,7 +46,7 @@ export default {
       type: Object,
       default: () => {
         return {
-          showDowloadTemplate:true,
+          showDowloadTemplate: true,
           url: '', //模板下载路径，如果没有模板路径，则不显示下载模板功能
           fileName: '未定义文件名' //下载模板的文件名
         };
@@ -152,8 +129,21 @@ export default {
         }
       );
     },
+    getUrl(url) {
+      let b = new RegExp('^(https?:\\/\\/)?' + // 协议
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // 域名
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // 或IP
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // 端口和路径
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // 查询参数
+        '(\\#[-a-z\\d_]*)?$', 'i').test(url);
+      if (b) {
+        return url;
+      }
+      return this.http.ipAddress + url
+    },
     dowloadTemplate() {
-      let url = this.template.url;
+      let url = this.getUrl(this.template.url);
+
       let xmlResquest = new XMLHttpRequest();
       xmlResquest.open('GET', url, true);
       xmlResquest.setRequestHeader('Content-type', 'application/json');
@@ -166,7 +156,7 @@ export default {
       xmlResquest.responseType = 'blob';
       let $_vue = this;
       this.loadingStatus = true;
-      xmlResquest.onload = function(oEvent) {
+      xmlResquest.onload = function (oEvent) {
         $_vue.loadingStatus = false;
         if (xmlResquest.response.type == 'application/json') {
           return $_vue.message.error('未找到下载文件');
@@ -191,29 +181,38 @@ export default {
   border: 1px dashed #989898;
   min-height: 250px;
   border-radius: 5px;
+
   .alert {
     margin-top: 12px;
   }
-  .el-button-group > * {
+
+  .el-button-group>* {
     display: flex;
   }
+
   h3 {
     margin: 9px 0px;
   }
-  .file-info > span {
+
+  .file-info>span {
     margin-right: 20px;
   }
+
   .v-r-message {
     margin-top: 10px;
+
     .title {
       margin-bottom: 2px;
     }
-    > .text {
+
+    >.text {
       font-size: 13px;
     }
+
     .v-r-success {
       color: #02b702;
     }
+
     .v-r-error {
       color: #dc0909;
     }
