@@ -17,3 +17,8 @@
 9、开发版dev                     后台+前端项目，里面没有演示代码
 
 /******使用说明：新项目或者学习，推荐使用.Net6版本或Net6.SqlSugar后台+Vol.Vue3.Vite 前端*******/
+
+环境要求：
+             前端：node16+版本，建议使用node18版本，node下载地址：https://nodejs.org/download/release/latest-v18.x/
+             后台使用vs2022，并安装了.net6sdk
+             
