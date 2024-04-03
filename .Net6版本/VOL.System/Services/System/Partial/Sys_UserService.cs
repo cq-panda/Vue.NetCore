@@ -250,7 +250,7 @@ namespace VOL.System.Services
             QueryRelativeExpression = (IQueryable<Sys_User> queryable) =>
              {
 
-                 if (deptQuery!=null)
+                 if (deptQuery != null)
                  {
                      queryable = queryable.Where(c => deptQuery.Any(x => x.UserId == c.User_Id));
                  }
@@ -261,19 +261,25 @@ namespace VOL.System.Services
                      roleId = UserContext.Current.RoleId;
                  }
 
-                //查看用户时，只能看下自己角色下的所有用户
-                List<int> roleIds = Sys_RoleService
-                    .Instance
-                    .GetAllChildrenRoleId(roleId);
+                 //查看用户时，只能看下自己角色下的所有用户
+                 List<int> roleIds = Sys_RoleService
+                     .Instance
+                     .GetAllChildrenRoleId(roleId);
                  roleIds.Add(roleId);
-                //判断查询的角色是否越权
-                if (roleId != UserContext.Current.RoleId && !roleIds.Contains(roleId))
+                 //判断查询的角色是否越权
+                 if (roleId != UserContext.Current.RoleId && !roleIds.Contains(roleId))
                  {
                      roleId = -999;
                  }
                  return queryable.Where(x => roleIds.Contains(x.Role_Id));
              };
-            return base.GetPageData(pageData);
+            var gridData = base.GetPageData(pageData);
+
+            gridData.rows.ForEach(x =>
+            {
+                x.Token = null;
+            });
+            return gridData;
         }
 
         /// <summary>
