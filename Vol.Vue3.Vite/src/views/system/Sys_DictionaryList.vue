@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import extend from "@/extension/system/Sys_DictionaryList.js";
+    import extend from "@/extension/system/Sys_DictionaryList.jsx";
     var vueParam = {
         data() {
             return {
