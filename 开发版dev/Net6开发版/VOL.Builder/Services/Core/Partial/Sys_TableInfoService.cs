@@ -758,6 +758,8 @@ DISTINCT
         /// <returns></returns>
         public string CreateVuePage(Sys_TableInfo sysTableInfo, string vuePath)
         {
+            //2024.04.04增加vite代码生成
+            bool isVite = HttpContext.Current.Request.Query["vite"].GetInt() > 0;
             bool isApp = HttpContext.Current.Request.Query["app"].GetInt() > 0;
             if (string.IsNullOrEmpty(vuePath))
             {
@@ -920,8 +922,8 @@ DISTINCT
             //获取view的上一级目录
             string srcPath = new DirectoryInfo(vuePath.MapPath()).Parent.FullName;
             string extensionPath = isApp ? $"{srcPath}\\pages\\{spaceFolder}\\" : $"{srcPath}\\extension\\{spaceFolder}\\";
-            //  sysTableInfo.TableName = sysTableInfo.TableName.ToLower();
-            string exFileName = sysTableInfo.TableName + ".js";
+            //2024.03.16增加vite版本生成jsx文件
+            string exFileName = sysTableInfo.TableName + ".js" + (isVite ? "x" : "");
             string tableName = sysTableInfo.TableName;
 
             if (!isApp)
@@ -988,8 +990,12 @@ DISTINCT
             {
                 //   spaceFolder = spaceFolder; //+ "\\" + sysTableInfo.FolderName.ToLower();
                 //生成vue页面
+                //2024.04.04增加vite版本生成jsx文件
+                if (isVite)
+                {
+                    pageContent = pageContent.Replace(sysTableInfo.TableName + ".js", sysTableInfo.TableName + ".jsx");
+                }
                 FileHelper.WriteFile($"{vuePath}\\{spaceFolder}\\", sysTableInfo.TableName + ".vue", pageContent);
-
                 //生成路由
                 string routerPath = $"{srcPath}\\router\\viewGird.js";
                 string routerContent = FileHelper.ReadFile(routerPath);
