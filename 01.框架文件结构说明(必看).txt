@@ -1,0 +1,24 @@
+1、.Net6版本                       后台api项目，使用的.Net6+EFCore6+Dapper
+
+2、DB                                  数据库脚本  
+
+3、Net6.SqlSugar              后台api项目，使用的.Net6+Sqlsugar(与上面的.Net6版本二选一开发)
+
+4、vol.uniapp                    框架移动端项目，基于uniapp+uview,可以开发h5、安卓、ios、微信小程序
+
+5、Vol.Vue                         Vue2版本前端，已废弃不再维护
+
+6、Vol.Vue3.Vite              前端vue3项目，基于Vue3 + Vite + TypeScript，推荐使用此项目开发前端
+
+7、Vol.Vue3版本               前端vue3项目，新项目推荐使用上面的Vol.Vue3.Vite   
+
+8、Vue.Net                        后台api项目,使用.netcore3.1，已不再更新，如果正在使用此版本请看QQ群文件3.1升级6.0说明
+
+9、开发版dev                     后台+前端项目，里面没有演示代码
+
+/******使用说明：新项目或者学习，推荐使用.Net6版本或Net6.SqlSugar后台+Vol.Vue3.Vite 前端*******/
+
+环境要求：
+             前端：node16+版本，建议使用node18版本，node下载地址：https://nodejs.org/download/release/latest-v18.x/
+             后台使用vs2022，并安装了.net6sdk
+             

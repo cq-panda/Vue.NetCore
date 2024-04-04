@@ -265,7 +265,8 @@ namespace VOL.System.Services
             }
             catch (Exception ex)
             {
-                message = "异常信息：" + ex.Message + ex.StackTrace + ",";
+                message = "异常信息：" + ex.Message + ex.StackTrace +ex.InnerException+ ",";
+                return _responseContent.Error(message);
             }
             finally
             {

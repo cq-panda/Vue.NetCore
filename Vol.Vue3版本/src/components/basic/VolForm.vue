@@ -77,7 +77,7 @@
               :multiple="item.multiple"
               :render-after-expand="false"
               :show-checkbox="true"
-              :check-strictly="true"
+              :check-strictly="item.checkStrictly"
               check-on-click-node
               node-key="key"
               :props="{ label: 'label' }"
@@ -597,7 +597,7 @@ export default defineComponent({
     },
     size: {
       type: String, //large / default / small
-      default: 'large'
+      default: 'default'
     },
     select2Count: {
       //超出数量显示select2组件
@@ -844,6 +844,9 @@ export default defineComponent({
       rules.forEach((option) => {
         if (option.type == 'treeSelect' && option.multiple === undefined) {
           option.multiple = true;
+        }
+	if (option.type == 'treeSelect' && option.checkStrictly === undefined) {
+          option.checkStrictly = true;
         }
       });
     });

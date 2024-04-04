@@ -311,6 +311,8 @@ let methods = {
       if (displayType == 'cascader') {
         //查询下面所有的子节点，如：选中的是父节点，应该查询下面所有的节点数据--待完
         value = value.length ? value[value.length - 1] + '' : '';
+      }else if (displayType=='treeSelect') {
+        displayType="selectList"
       }
       //2021.05.02增加区间查询
       if (

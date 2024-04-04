@@ -253,7 +253,12 @@ namespace VOL.System.Services
                 }
                 return queryable.Where(x => roleIds.Contains(x.Role_Id));
             };
-            return base.GetPageData(pageData);
+            var gridData = base.GetPageData(pageData);
+            gridData.rows.ForEach(x =>
+            {
+                x.Token = null;
+            });
+            return gridData;
         }
 
         /// <summary>
@@ -434,7 +439,7 @@ namespace VOL.System.Services
             //新设置的部门
             var add = deptIds.Where(x => !roles.Exists(r => r.DepartmentId == x)).Select(s => new Sys_UserDepartment()
             {
-                Id=Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 DepartmentId = s,
                 UserId = userId,
                 Enable = 1,

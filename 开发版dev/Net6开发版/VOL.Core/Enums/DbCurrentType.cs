@@ -10,6 +10,7 @@ namespace VOL.Core.Enums
         MySql = 1,
         MsSql = 2,//2020.08.08修改sqlserver拼写
         PgSql = 3,
-        DM = 4
+        DM = 4,
+        Oracle= 5//2024.03.01
     }
 }

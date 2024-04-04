@@ -133,7 +133,8 @@
 								</view>
 								<view style="display: flex;justify-content: flex-end;" v-else-if="column.type=='img'">
 									<view @click.stop="previewImage(row[column.field],index)" style="margin-left:10px;"
-										width="50px" height="50px" v-for="(src,index) in getImgSrc(row[column.field])" :key="index">
+										width="50px" height="50px" v-for="(src,index) in getImgSrc(row[column.field])"
+										:key="index">
 										<view>
 											<u--image width="50px" height="50px" radius="4px" :src="src" :key="index">
 											</u--image>
@@ -419,6 +420,15 @@
 				}
 				if (imgs.indexOf('base64,') != -1) {
 					return [imgs];
+				}
+				if (Array.isArray(imgs)) {
+					if (!imgs.length) {
+						return []
+					}
+					if (imgs[0].orginUrl) {
+						return [this.http.ipAddress + imgs[0].orginUrl]
+					}
+					return [imgs[0].url];
 				}
 				let _imgs = imgs.split(',').map(x => {
 					if (x.startsWith('http')) {

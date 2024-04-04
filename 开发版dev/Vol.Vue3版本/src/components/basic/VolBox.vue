@@ -194,7 +194,7 @@ export default defineComponent({
   padding-right: 30px;
   padding-left: 5px;
 }
-// .vol-dialog ::v-deep(.el-dialog__headerbtn .el-dialog__close) {
-//   color: #fff;
-// }
+.vol-dialog ::v-deep(.el-dialog) {
+   padding: 0;
+}
 </style>

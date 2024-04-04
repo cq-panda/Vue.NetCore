@@ -19,7 +19,7 @@
     </VolForm>
   </div>
 </template>
-<script>
+<script lang="jsx">
 import VolForm from "@/components/basic/VolForm.vue";
 import VolHeader from "@/components/basic/VolHeader.vue";
 export default {

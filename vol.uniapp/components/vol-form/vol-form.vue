@@ -29,7 +29,7 @@
 						{{'请选择'+item.title}}
 					</view>
 					<view style="font-size:15px;" v-show="!base.isEmpty(inFormFields[item.field],true)">
-						{{inFormFields[item.field].replaceAll(',','')}}
+						{{inFormFields[item.field].replace(/,/g,'')}}
 					</view>
 				</view>
 				<u-icon color="rgb(186 186 186)" size="15" name="arrow-right"></u-icon>

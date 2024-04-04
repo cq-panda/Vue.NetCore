@@ -224,6 +224,37 @@ DISTINCT
                                                                                   AND epTwo.name = 'MS_Description'
                                       WHERE     obj.name =@tableName) AS t";
         }
+
+        /// <summary>
+        /// 获取Oracle表结构信息2024.04.10
+        /// </summary>
+        /// <returns></returns>
+        private string GetOracleModelInfo(string tableName)
+        {
+            return $@"SELECT
+			c.TABLE_NAME TableName ,
+			cc.COLUMN_NAME COLUMNNAME,
+			cc.COMMENTS  as  ColumnCNName,
+			CASE WHEN  c.DATA_TYPE IN('smallint', 'INT') THEN 'int'  
+            WHEN  c.DATA_TYPE IN('NUMBER') THEN 'decimal'  
+			WHEN c.DATA_TYPE IN('CHAR', 'VARCHAR', 'NVARCHAR','VARCHAR2', 'NVARCHAR2','text', 'image')
+			THEN 'nvarchar'
+		  WHEN  c.DATA_TYPE IN('DATE') THEN 'date'  
+			ELSE 'nvarchar' 
+			end    as ColumnType,
+			c.DATA_LENGTH  as Maxlength,
+			case WHEN 	c.NULLABLE='Y' THEN 1 ELSE 0 end   as ISNULL
+			
+          -- CONCAT(NUMERIC_PRECISION,',',NUMERIC_SCALE) as Prec_Scale
+			FROM
+			ALL_tab_columns c
+			LEFT JOIN   ALL_col_comments cc ON c.table_name = cc.table_name 
+			AND c.column_name = cc.column_name
+			LEFT JOIN   ALL_tab_comments t ON c.table_name = t.table_name 
+			WHERE 		   c.table_name='{tableName.ToUpper()}'";
+
+        }
+
         /// <summary>
         /// 获取PgSQl表结构信息
         /// 2020.08.07完善PGSQL
@@ -339,6 +370,9 @@ DISTINCT
                 case "PgSql":
                     sql = GetPgSqlModelInfo();
                     break;
+                case "Oracle":
+                    sql = GetOracleModelInfo(tableName);
+                    break;
                 case "DM":
                     sql = GetDMModelInfo();
                     break;
@@ -418,6 +452,10 @@ DISTINCT
             {
                 sql = GetDMStructure(tableName);
             }
+            else if (DBType.Name.ToLower() == DbCurrentType.Oracle.ToString().ToLower())
+            {
+                sql = GetOracleStructure(tableName);
+            }
             else
             {
                 sql = GetSqlServerStructure(tableName);
@@ -436,7 +474,7 @@ DISTINCT
             if (string.IsNullOrEmpty(tableName)) return webResponse.OK("表名不能为空");
 
             Sys_TableInfo tableInfo = repository.FindAsIQueryable(x => x.TableName == tableName)
-          .Include(o => o.TableColumns).FirstOrDefault();
+          .Include(o => o.TableColumns).ToList().FirstOrDefault();
             if (tableInfo == null)
                 return webResponse.Error("未获取到【" + tableName + "】的配置信息，请使用新建功能");
             if (!string.IsNullOrEmpty(tableInfo.TableTrueName) && tableInfo.TableTrueName != tableName)
@@ -720,6 +758,8 @@ DISTINCT
         /// <returns></returns>
         public string CreateVuePage(Sys_TableInfo sysTableInfo, string vuePath)
         {
+            //2024.04.04增加vite代码生成
+            bool isVite = HttpContext.Current.Request.Query["vite"].GetInt() > 0;
             bool isApp = HttpContext.Current.Request.Query["app"].GetInt() > 0;
             if (string.IsNullOrEmpty(vuePath))
             {
@@ -847,7 +887,7 @@ DISTINCT
             if (!string.IsNullOrEmpty(sysTableInfo.DetailName) && !isApp)
             {
                 Sys_TableInfo detailTable = repository.FindAsIQueryable(x => x.TableName == sysTableInfo.DetailName)
-                    .Include(x => x.TableColumns).FirstOrDefault();
+                    .Include(x => x.TableColumns).ToList().FirstOrDefault();
                 if (detailTable == null)
                     return $"请先生成明细表{sysTableInfo.DetailName}的配置!";
                 if (detailTable.TableColumns == null || detailTable.TableColumns.Count == 0)
@@ -882,8 +922,8 @@ DISTINCT
             //获取view的上一级目录
             string srcPath = new DirectoryInfo(vuePath.MapPath()).Parent.FullName;
             string extensionPath = isApp ? $"{srcPath}\\pages\\{spaceFolder}\\" : $"{srcPath}\\extension\\{spaceFolder}\\";
-            //  sysTableInfo.TableName = sysTableInfo.TableName.ToLower();
-            string exFileName = sysTableInfo.TableName + ".js";
+            //2024.03.16增加vite版本生成jsx文件
+            string exFileName = sysTableInfo.TableName + ".js" + (isVite ? "x" : "");
             string tableName = sysTableInfo.TableName;
 
             if (!isApp)
@@ -950,8 +990,12 @@ DISTINCT
             {
                 //   spaceFolder = spaceFolder; //+ "\\" + sysTableInfo.FolderName.ToLower();
                 //生成vue页面
+                //2024.04.04增加vite版本生成jsx文件
+                if (isVite)
+                {
+                    pageContent = pageContent.Replace(sysTableInfo.TableName + ".js", sysTableInfo.TableName + ".jsx");
+                }
                 FileHelper.WriteFile($"{vuePath}\\{spaceFolder}\\", sysTableInfo.TableName + ".vue", pageContent);
-
                 //生成路由
                 string routerPath = $"{srcPath}\\router\\viewGird.js";
                 string routerContent = FileHelper.ReadFile(routerPath);
@@ -1033,7 +1077,38 @@ DISTINCT
                     table_name = ?tableName {GetMysqlTableSchema()}
                order by ordinal_position";
         }
-
+        /// <summary>
+        /// 获取tOracle表结构信息 2023.11.14
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        private string GetOracleStructure(string tableName)
+        {
+            return $@"SELECT
+			c.TABLE_NAME TableName ,
+			cc.COLUMN_NAME COLUMNNAME,
+			cc.COMMENTS  as  ColumnCNName,
+				CASE WHEN  c.DATA_TYPE IN('smallint', 'INT') THEN 'int'  
+           WHEN  c.DATA_TYPE IN('NUMBER') THEN 'decimal'  
+			WHEN c.DATA_TYPE IN('CHAR', 'VARCHAR', 'NVARCHAR','VARCHAR2', 'NVARCHAR2','text', 'image')
+			THEN 'string'
+		  WHEN  c.DATA_TYPE IN('DATE') THEN 'DateTime'  
+			ELSE 'string' 
+			end    as ColumnType,
+			c.DATA_LENGTH  as Maxlength,
+			case WHEN 	c.NULLABLE='Y' THEN 1 ELSE 0 end   as ISNULL,
+			1 IsColumnData,1 IsDisplay
+			FROM
+			user_tab_columns c
+			LEFT JOIN   user_col_comments cc ON c.table_name = cc.table_name 
+			AND c.column_name = cc.column_name
+			LEFT JOIN   user_tab_comments t ON c.table_name = t.table_name 
+	
+                WHERE
+                -- 	c.OWNER = 'NETCOREDEV' 
+                -- 	AND
+                c.table_name='{tableName.ToUpper()}'";
+        }
         /// <summary>
         /// 获取达梦表结构信息 2023.11.14
         /// </summary>
@@ -1368,7 +1443,8 @@ DISTINCT
                 return tableId;
             if (string.IsNullOrEmpty(tableName))
                 return -1;
-            tableId = repository.Find(x => x.TableName == tableName, s => s.Table_Id).FirstOrDefault();
+            tableId = repository.FindAsIQueryable(x => x.TableName == tableName).Select(s => s.Table_Id)
+                .ToList().FirstOrDefault();
             if (tableId > 0)
                 return tableId;
             bool isMySql = DBType.Name == DbCurrentType.MySql.ToString();
@@ -1423,7 +1499,7 @@ DISTINCT
             Sys_TableInfo tableInfo = repository
                 .FindAsIQueryable(x => x.Table_Id == tableId)
                 .Include(c => c.TableColumns)
-                .FirstOrDefault();
+                .ToList().FirstOrDefault();
             if (tableInfo.TableColumns != null)
             {
                 tableInfo.TableColumns = tableInfo.TableColumns.OrderByDescending(x => x.OrderNo).ToList();
@@ -1434,9 +1510,9 @@ DISTINCT
         public async Task<WebResponseContent> DelTree(int table_Id)
         {
             if (table_Id == 0) return new WebResponseContent().Error("没有传入参数");
-            Sys_TableInfo tableInfo = await repository.FindAsIQueryable(x => x.Table_Id == table_Id)
+            Sys_TableInfo tableInfo = (await repository.FindAsIQueryable(x => x.Table_Id == table_Id)
                 .Include(c => c.TableColumns)
-                .FirstOrDefaultAsync();
+               .ToListAsync()).FirstOrDefault();
             if (tableInfo == null) return new WebResponseContent().OK();
             if (tableInfo.TableColumns != null && tableInfo.TableColumns.Count > 0)
             {
@@ -2023,7 +2099,7 @@ DISTINCT
                 //明细表外键列的配置信息
                 Sys_TableColumn tableColumn = repository
                     .Find<Sys_TableColumn>(x => x.TableName == tableInfo.DetailName && x.ColumnName == key)
-                    ?.FirstOrDefault();
+                    .ToList().FirstOrDefault();
 
                 if (tableColumn == null)
                     return webResponse.Error($"明细表必须包括[{tableInfo.TableName}]主键字段[{key}]");

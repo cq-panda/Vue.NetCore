@@ -50,7 +50,7 @@ namespace VOL.Core.Middleware
             catch (Exception exception)
             {
                 var env = context.RequestServices.GetService(typeof(IWebHostEnvironment)) as IWebHostEnvironment;
-                string message = exception.Message + exception.InnerException;
+                string message = exception.Message + exception.StackTrace + exception.InnerException;
                 Logger.Error(LoggerType.Exception, message);
                 if (!env.IsDevelopment())
                 {
