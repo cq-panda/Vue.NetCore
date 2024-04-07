@@ -532,7 +532,11 @@ export default {
       // forms.append("fileInput", this.files);
 
       this.http
-        .post(this.url+paramText, forms, this.autoUpload ? '正在上传文件' : '')
+        .post(this.url+paramText, forms, this.autoUpload ? '正在上传文件' : '',
+        //高版本axios这里必须要指定header
+        {
+          headers:{'Content-Type':'multipart/form-data'}
+        })
         .then(
           (x) => {
             // this.$refs.uploadFile.clearFiles();
