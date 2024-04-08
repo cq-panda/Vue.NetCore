@@ -62,7 +62,7 @@
             <!-- 只读属性 -->
             <label
               :style="item.inputStyle"
-              v-if="item.type == 'label'"
+              v-if="item.type == 'label'||item.label"
               class="readonly-input"
               >{{ getText(formFields, item) }}</label
             >
@@ -77,7 +77,7 @@
               :multiple="item.multiple"
               :render-after-expand="false"
               :show-checkbox="true"
-              :check-strictly="true"
+              :check-strictly="item.checkStrictly"
               check-on-click-node
               node-key="key"
               :props="{ label: 'label' }"
@@ -844,6 +844,9 @@ export default defineComponent({
       rules.forEach((option) => {
         if (option.type == 'treeSelect' && option.multiple === undefined) {
           option.multiple = true;
+        }
+	if (option.type == 'treeSelect' && option.checkStrictly === undefined) {
+          option.checkStrictly = true;
         }
       });
     });
