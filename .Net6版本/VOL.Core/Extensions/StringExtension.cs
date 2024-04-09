@@ -90,18 +90,23 @@ namespace VOL.Core.Extensions
                 case HtmlElementType.selectlist:
                 case HtmlElementType.textarea:
                 case HtmlElementType.checkbox:
+                case HtmlElementType.Contains:
                     reslut = HtmlElementType.Contains;
                     break;
                 case HtmlElementType.thanorequal:
+                case HtmlElementType.ThanOrEqual:
                     reslut = HtmlElementType.ThanOrEqual;
                     break;
                 case HtmlElementType.lessorequal:
+                case HtmlElementType.LessOrequal:
                     reslut = HtmlElementType.LessOrequal;
                     break;
                 case HtmlElementType.gt:
+                case HtmlElementType.GT:
                     reslut = HtmlElementType.GT;
                     break;
                 case HtmlElementType.lt:
+                case HtmlElementType.LT:
                     reslut = HtmlElementType.lt;
                     break;
                 case HtmlElementType.like:
