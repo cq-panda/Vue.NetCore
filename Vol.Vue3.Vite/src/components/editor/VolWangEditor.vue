@@ -71,7 +71,6 @@ export default {
     this.editor = null;
     let editor = new E(this.$refs.volWangEditor);
     this.editor = editor;
-    let $this = this;
     editor.config.zIndex = 500;
     editor.config.height = this.height;
     editor.config.onchange = (html) => {
@@ -90,9 +89,9 @@ export default {
     //上传地址
     editor.config.uploadImgServer = this.http.ipAddress + this.url;
     // console.log(editor.config.uploadImgServer);
-    editor.config.customUploadImg = async function (resultFiles, insertImgFn) {
+    editor.config.customUploadImg = async (resultFiles, insertImgFn) => {
       // 自定义上传
-      if ($this.upload) {
+      if (this.upload) {
         console.log("调用自定义的上传方法");
         console.log(resultFiles);
         // resultFiles 是 input 中选中的文件列表
@@ -100,45 +99,76 @@ export default {
         //有可能会上传多张图片,上传多张图片就需要进行遍历
         resultFiles.map((item) => {
           // _this.getUploadImg(item, insertImgFn);
-          $this.upload(item, insertImgFn);
+          this.upload(item, insertImgFn);
         });
       } else {
         if (window.oss && window.oss.ali.use) {
-          await $this.uploadOSS(resultFiles, insertImgFn);
-          $this.$message.success('上传成功');
+          await this.uploadOSS(resultFiles, insertImgFn);
+          this.$message.success('上传成功');
           return;
         } else {
-          let formData = new FormData();
-          let nameArr = [];
-          resultFiles.forEach(function (file) {
-            formData.append("fileInput", file, file.name);
-            nameArr.push(file.name);
-          });
-          if (!$this.url) {
-            $this.$message.error("未配置url");
+
+          if (!this.url) {
+            this.$message.error("未配置url");
             return;
           }
-          $this.http.post($this.url, formData, true).then((x) => {
-            if (!x.status) {
-              return $this.$message.error(x.message);
-            }
-            nameArr.forEach(m=>{
-              insertImgFn($this.http.ipAddress + x.data + m);
-            })
-            // let imgs = nameArr
-            //   .map((m) => {
-            //     return $this.http.ipAddress + x.data + m;
-            //   })
-            //   .join(",");
-            // insertImgFn(imgs);
-          });
+          const resultArr = await this.uploadFile(resultFiles);
+          resultArr.forEach(url => {
+            insertImgFn(url);
+          })
+          // this.http.post(this.url, formData, true).then((x) => {
+          //   if (!x.status) {
+          //     return this.$message.error(x.message);
+          //   }
+          //   nameArr.forEach(m => {
+          //     insertImgFn(this.http.ipAddress + x.data + m);
+          //   })
+          // });
         }
       }
     };
+    //Written by DavidZhang
+    //editor.config.uploadVideoServer = '/api/upload-video'; 
+    //editor.config.uploadVideoServer = this.http.ipAddress + this.url; 
+    editor.config.uploadVideoServer = this.http.ipAddress + 'api/CZ_CategoryInformation/upload';
+    editor.config.customUploadVideo = async (resultFiles, insertVideoFn) => {
+      // resultFiles 是 input 中选中的文件列表
+      // insertVideoFn 是获取视频 url 后，插入到编辑器的方法
+
+      // 上传视频，返回结果，将视频地址插入到编辑器中
+
+      const resultArr = await this.uploadFile(resultFiles);
+      resultArr.forEach(url => {
+        //  insertImgFn(url);
+        insertVideoFn(url)
+      })
+
+    }
     editor.create();
     editor.txt.html(this.modelValue);
   },
   methods: {
+    async uploadFile(resultFiles) {
+      let formData = new FormData();
+      let nameArr = [];
+      resultFiles.forEach(function (file) {
+        formData.append("fileInput", file, file.name);
+        nameArr.push(file.name);
+      });
+      let resultArr = []
+      await this.http.post(this.url, formData, true).then((x) => {
+        if (!x.status) {
+          return this.$message.error(x.message);
+        }
+        resultArr = nameArr.map(m => {
+          return this.http.ipAddress + x.data + m;
+        })
+        // nameArr.forEach(m => {
+        //   insertImgFn(this.http.ipAddress + x.data + m);
+        // })
+      });
+      return resultArr;
+    },
     async uploadOSS(resultFiles, insertImgFn) {
       await this.http.get('api/alioss/getAccessToken', {}, false).then(async (x) => {
         if (!x.status) return this.$Message.error(x.message);
@@ -162,8 +192,8 @@ export default {
             file
           );
           // 如果有配置cdn，返回的url需要拼接cdn
-          if ( window.oss.ali.cdn) {
-            result.url = new URL( x.data.bucketFolder + '/' + x.data.unique + file.name, window.oss.ali.cdn).toString();
+          if (window.oss.ali.cdn) {
+            result.url = new URL(x.data.bucketFolder + '/' + x.data.unique + file.name, window.oss.ali.cdn).toString();
           }
           console.log(result);
           file.path = result.url;
@@ -184,14 +214,17 @@ h1,
 h2 {
   font-weight: normal;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
