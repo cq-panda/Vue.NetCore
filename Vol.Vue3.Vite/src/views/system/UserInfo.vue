@@ -96,7 +96,9 @@ export default {
       forms.append('fileInput', file, file.name);
       const url = 'api/sys_user/upload'
       this.http
-        .post(url, forms, true)
+        .post(url, forms, true, {
+          headers:{'Content-Type':'multipart/form-data'}
+        })
         .then(
           (x) => {
             this.userInfo.headImageUrl = x.data + file.name;

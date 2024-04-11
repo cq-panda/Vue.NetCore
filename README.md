@@ -21,8 +21,8 @@
  - 移动端开发、app、微信小程序(uniapp)，见下面介绍
  - 在现有的代码生成器功能上，继续定制开发代码生成器功能,解决重复性工作
 ## 框架开发依赖环境
- - 后台：VS2019、vs2022 、.NetCore3.1 、.Net6、EFCore3.1/6.0、SqlSugar、JWT、Dapper、SignalR、Quartz.Net、Autofac、SqlServer/MySql/PGSql/Oracle、Redis
- - 前端：VsCode、Vue2/vue3（需要安装nodejs)、vuex、axios、promise、element ui、element plus
+ - 后台：VS2022 、.Net6、EFCor6.0、SqlSugar、JWT、Dapper、SignalR、Quartz.Net、Autofac、SqlServer/MySql/PGSql/Oracle、Redis
+ - 前端：VsCode、Vue2/vue3、Vite、TypeScript、vuex、axios、promise、element ui、element plus
  - 2023.10已支持sqlsugar,见后台项目代码Vol.Net.SqlSugar
 ## 链接
 

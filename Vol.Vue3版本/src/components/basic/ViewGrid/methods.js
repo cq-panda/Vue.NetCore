@@ -1366,7 +1366,8 @@ let methods = {
   },
   getUrl(action, ingorPrefix) {
     //是否忽略前缀/  获取操作的url
-    return (!ingorPrefix ? '/' : '') + 'api' + this.table.url + action;
+    return 'api' + this.table.url + action;
+   // return (!ingorPrefix ? '/' : '') + 'api' + this.table.url + action;
   },
   initDicKeys() {
     //初始化字典数据

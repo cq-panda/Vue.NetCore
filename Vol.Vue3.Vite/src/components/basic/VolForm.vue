@@ -63,7 +63,7 @@
             <!-- 只读属性 -->
             <label
               :style="item.inputStyle"
-              v-if="item.type == 'label'"
+              v-if="item.type == 'label'||item.label"
               class="readonly-input"
               >{{ getText(formFields, item) }}</label
             >
