@@ -730,9 +730,9 @@
 				if (!option.url) {
 					return this.$toast('未配置好url')
 				}
-				// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+				// 当设置 multiple 为 true 时, file 为数组格式，否则为对象格式
 				let lists = [];
-				if (option.mutiple) {
+				if (option.multiple) {
 					lists = [].concat(event.file)
 				} else {
 					if (Array.isArray(event.file)) {
