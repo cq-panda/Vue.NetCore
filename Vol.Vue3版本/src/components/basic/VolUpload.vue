@@ -3,7 +3,7 @@
     <div>
       <div class="input-btns" style="margin-bottom: 10px">
         <input ref="input" type="file" style="display: none" @change="handleChange" :multiple="multiple"
-          :accept="accept" />
+          :accept="accept ? accept : (img ? 'image/*' : (excel == true ? '.xls,.xlsx' : ''))" />
         <div v-if="img" class="upload-img">
           <!-- v-for="(file,index) in fileInfo.length>0?fileInfo: files" -->
           <div v-for="(file, index) in files" :key="index" class="img-item">

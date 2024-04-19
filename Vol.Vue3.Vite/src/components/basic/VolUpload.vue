@@ -2,14 +2,8 @@
   <div class="upload-container">
     <div>
       <div class="input-btns" style="margin-bottom: 10px">
-        <input
-          ref="input"
-          type="file"
-          style="display: none"
-          @change="handleChange"
-          :multiple="multiple"
-          :accept="accept"
-        />
+        <input ref="input" type="file" style="display: none" @change="handleChange" :multiple="multiple"
+          :accept="accept ? accept : (img ? 'image/*' : (excel == true ? '.xls,.xlsx' : ''))" />
         <div v-if="img" class="upload-img">
           <!-- v-for="(file,index) in fileInfo.length>0?fileInfo: files" -->
           <div v-for="(file, index) in files" :key="index" class="img-item">
@@ -21,46 +15,26 @@
               <div class="mask"></div>
             </div>
 
-            <img :src="getImgSrc(file, index)"  @error="handleImageError" />
+            <img :src="getImgSrc(file, index)" @error="handleImageError" />
           </div>
-          <div
-            v-show="!autoUpload || (autoUpload && files.length < maxFile)"
-            class="img-selector"
-            :class="getSelector()"
-          >
+          <div v-show="!autoUpload || (autoUpload && files.length < maxFile)" class="img-selector"
+            :class="getSelector()">
             <div class="selector" @click="handleClick">
               <i class="el-icon-camera-solid"></i>
             </div>
-            <div
-              v-if="!autoUpload"
-              class="s-btn"
-              :class="{ readonly: changed }"
-              @click="upload"
-            >
+            <div v-if="!autoUpload" class="s-btn" :class="{ readonly: changed }" @click="upload">
               <div>{{ loadText }}</div>
             </div>
           </div>
         </div>
-        <el-button v-else @click="handleClick"
-          >选择{{ img ? '图片' : '文件' }}</el-button
-        >
+        <el-button v-else @click="handleClick">选择{{ img ? '图片' : '文件' }}</el-button>
 
-        <el-button
-          v-if="!autoUpload && !img"
-          type="info"
-          :disabled="changed"
-          @click="upload(true)"
-          :loading="loadingStatus"
-          >上传文件</el-button
-        >
+        <el-button v-if="!autoUpload && !img" type="info" :disabled="changed" @click="upload(true)"
+          :loading="loadingStatus">上传文件</el-button>
       </div>
       <slot></slot>
       <div v-if="desc">
-        <el-alert
-          :title="getText() + '文件大小不超过' + (maxSize || 50) + 'M'"
-          type="info"
-          show-icon
-        >
+        <el-alert :title="getText() + '文件大小不超过' + (maxSize || 50) + 'M'" type="info" show-icon>
         </el-alert>
       </div>
       <slot name="content"></slot>
@@ -85,11 +59,11 @@
   </div>
 </template>
 <script>
-let OSS ={}// require('ali-oss');
+let OSS = {}// require('ali-oss');
 import VolImageViewer from './VolImageViewer.vue';
 export default {
   components: {
-    'vol-image-viewer':VolImageViewer
+    'vol-image-viewer': VolImageViewer
   },
   props: {
     desc: {
@@ -223,7 +197,7 @@ export default {
   },
   data() {
     return {
-      defaultImg:new URL('@/assets/imgs/error-img.png', import.meta.url).href,
+      defaultImg: new URL('@/assets/imgs/error-img.png', import.meta.url).href,
       changed: false, //手动上传成功后禁止重复上传，必须重新选择
       model: true,
       files: [],
@@ -265,9 +239,9 @@ export default {
       return path.substring(_index + 1);
     },
     previewImg(index) {
-        const imgs= this.files.map(x=>{return this.getImgSrc(x)});
-        this.$refs.viewer.show(imgs,index);
-    //  this.base.previewImg(this.getImgSrc(this.files[index]));
+      const imgs = this.files.map(x => { return this.getImgSrc(x) });
+      this.$refs.viewer.show(imgs, index);
+      //  this.base.previewImg(this.getImgSrc(this.files[index]));
       //  window.open(this.getImgSrc((this.files.length>0?this.files:this.fileInfo)[index]));
     },
     getSelector() {
@@ -396,7 +370,7 @@ export default {
           let img = new Image();
           img.src = e.target.result;
           let _this = this;
-          img.onload = function() {
+          img.onload = function () {
             //默认按比例压缩
             let w = this.width;
             let h = this.height;
@@ -444,8 +418,8 @@ export default {
               file
             );
             // 如果有配置cdn，返回的url需要拼接cdn
-            if ( window.oss.ali.cdn) {
-              result.url = new URL( x.data.bucketFolder + '/' + x.data.unique + file.name, window.oss.ali.cdn).toString();
+            if (window.oss.ali.cdn) {
+              result.url = new URL(x.data.bucketFolder + '/' + x.data.unique + file.name, window.oss.ali.cdn).toString();
             }
             file.path = result.url;
             file.newName = x.data.unique + file.name;
@@ -475,19 +449,19 @@ export default {
         return this.$message.error('请选择文件');
       }
       //增加上传时自定义参数，后台使用获取Utilities.HttpContext.Current.Request.Query["字段"]
-      let params={};
-      if (!this.uploadBefore(this.files,params)) {
+      let params = {};
+      if (!this.uploadBefore(this.files, params)) {
         return;
       }
-      let paramText="";
+      let paramText = "";
       if (Object.keys(params).length) {
-        paramText="?1=1";
+        paramText = "?1=1";
         for (const key in params) {
-          let value=params[key];
-          if(typeof(value)=='object'){
-            value=JSON.stringify(value)
+          let value = params[key];
+          if (typeof (value) == 'object') {
+            value = JSON.stringify(value)
           }
-          paramText+=`&${key}=${value}`
+          paramText += `&${key}=${value}`
         }
       }
 
@@ -497,7 +471,7 @@ export default {
         await this.uploadOSS();
         this.loadingStatus = false;
         this.loadText = '上传文件';
-        if (!this.uploadAfter({status:true},this.fileInfo, this.files)) {
+        if (!this.uploadAfter({ status: true }, this.fileInfo, this.files)) {
           this.changed = false;
           return;
         } else {
@@ -532,11 +506,11 @@ export default {
       // forms.append("fileInput", this.files);
 
       this.http
-        .post(this.url+paramText, forms, this.autoUpload ? '正在上传文件' : '',
-        //高版本axios这里必须要指定header
-        {
-          headers:{'Content-Type':'multipart/form-data'}
-        })
+        .post(this.url + paramText, forms, this.autoUpload ? '正在上传文件' : '',
+          //高版本axios这里必须要指定header
+          {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
         .then(
           (x) => {
             // this.$refs.uploadFile.clearFiles();
@@ -652,7 +626,7 @@ export default {
       }
       return fileIcon;
     },
-    beforeUpload() {},
+    beforeUpload() { },
     checkFile(inputFiles) {
       const files = this.files;
 
@@ -662,10 +636,10 @@ export default {
       ) {
         this.$message.error(
           '最多只能选【' +
-            (this.maxFile || 5) +
-            '】' +
-            (this.img ? '张图片' : '个文件') +
-            ''
+          (this.maxFile || 5) +
+          '】' +
+          (this.img ? '张图片' : '个文件') +
+          ''
         );
         return false;
       }
@@ -696,28 +670,28 @@ export default {
         ) {
           this.$message.error(
             '选择的文件【' +
-              file.name +
-              '】只能是【' +
-              this.fileTypes.join(',') +
-              '】格式'
+            file.name +
+            '】只能是【' +
+            this.fileTypes.join(',') +
+            '】格式'
           );
           return false;
         }
         if (file.size > (this.maxSize || 50) * 1024 * 1024) {
           this.$message.error(
             '选择的文件【' +
-              file.name +
-              '】不能超过:' +
-              (this.maxSize || 50) +
-              'M'
+            file.name +
+            '】不能超过:' +
+            (this.maxSize || 50) +
+            'M'
           );
           return false;
         }
       }
       return true;
     },
-    handleImageError($e){
-      $e.target.src= this.defaultImg;
+    handleImageError($e) {
+      $e.target.src = this.defaultImg;
     }
   }
 };
@@ -726,6 +700,7 @@ export default {
 .upload-list {
   padding-left: 0;
   list-style: none;
+
   .list-file {
     line-height: 20px;
     padding: 4px;
@@ -736,6 +711,7 @@ export default {
     position: relative;
 
     font-size: 13px;
+
     .file-remove {
       display: none;
       right: 0;
@@ -743,14 +719,18 @@ export default {
       color: #0e9286;
     }
   }
+
   .list-file:hover {
     cursor: pointer;
+
     .file-remove {
       display: initial;
     }
+
     color: #2d8cf0;
   }
 }
+
 .upload-container {
   display: inline-block;
   width: 100%;
@@ -758,22 +738,28 @@ export default {
 
   // min-height: 250px;
   border-radius: 5px;
+
   .alert {
     margin-top: 43px;
   }
-  .button-group > * {
+
+  .button-group>* {
     float: left;
     margin-right: 10px;
   }
-  .file-info > span {
+
+  .file-info>span {
     margin-right: 20px;
   }
 }
+
 .upload-img {
   display: inline-block;
+
   .img-item:hover .operation {
     display: block;
   }
+
   .img-item,
   .img-selector {
     position: relative;
@@ -786,6 +772,7 @@ export default {
     overflow: hidden;
     border-radius: 5px;
     box-sizing: content-box;
+
     img {
       margin: 0;
       padding: 0;
@@ -801,6 +788,7 @@ export default {
       bottom: 0;
       left: 0;
       right: 0;
+
       .action {
         opacity: 0.6;
         text-align: center;
@@ -815,10 +803,12 @@ export default {
         padding-right: 7px;
         padding-bottom: 3px;
         line-height: 20px;
+
         .el-icon-view {
           margin: 0 10px;
         }
       }
+
       .mask {
         opacity: 0.6;
         background: #9e9e9e;
@@ -829,9 +819,11 @@ export default {
       }
     }
   }
+
   .img-selector {
     font-size: 50px;
     text-align: center;
+
     i {
       position: relative;
       font-size: 40px;
@@ -844,9 +836,11 @@ export default {
       line-height: 64px;
     }
   }
+
   .selector {
     color: #a0a0a0;
   }
+
   .submit-selector {
     .s-btn {
       line-height: 22px;
@@ -857,20 +851,24 @@ export default {
       background: #2db7f5;
       color: white;
     }
+
     .selector {
       line-height: 50px;
     }
+
     .readonly {
       background: #8c8c8c;
     }
   }
 }
+
 .big-model {
   width: 100%;
   height: 100%;
   position: relative;
-  .m-img {
-  }
+
+  .m-img {}
+
   .mask {
     position: absolute;
     opacity: 0.6;
@@ -889,6 +887,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
+
   .j-content {
     text-align: center;
     font-size: 17px;
@@ -906,6 +905,7 @@ export default {
     border-radius: 6px;
     border: 1px solid #d2d2d2;
   }
+
   .mask {
     cursor: pointer;
     opacity: 0.6;
