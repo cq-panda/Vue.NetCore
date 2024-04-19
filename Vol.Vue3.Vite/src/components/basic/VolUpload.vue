@@ -558,15 +558,26 @@ export default {
             //  if (!this.multiple) {
             this.fileInfo.splice(0);
             // }
-            let _files = this.files.map((file) => {
-              if (file.path) {
-                return file;
-              }
-              return {
-                name: file.name,
-                path: file.path || x.data + file.name
-              };
-            });
+            let _files;
+            if (this.multiple && this.base.isUrl(x.data.split(',')[0])) {
+              _files = this.files.filter((file) => { return file.path });
+              _files.push(...x.data.split(',').map(x => {
+                return {
+                  name: x.split('/').pop(),
+                  path: x
+                }
+              }))
+            } else {
+              _files = this.files.map((file) => {
+                if (file.path) {
+                  return file;
+                }
+                return {
+                  name: file.name,
+                  path: file.path || (this.base.isUrl(x.data) ? x.data : (x.data + file.name))
+                };
+              });
+            }
             this.fileInfo.push(..._files);
             //2021.09.25修复文件上传后不能同时下载的问题
             this.files = _files;
