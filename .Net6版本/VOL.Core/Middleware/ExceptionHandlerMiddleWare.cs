@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
@@ -16,7 +14,6 @@ using VOL.Core.Services;
 
 namespace VOL.Core.Middleware
 {
-
     public class ExceptionHandlerMiddleWare
     {
         private readonly RequestDelegate next;
@@ -27,31 +24,53 @@ namespace VOL.Core.Middleware
 
         public async Task Invoke(HttpContext context)
         {
+            context.Request.EnableBuffering();
+        
+            var requestBodyStream = new MemoryStream();
+            await context.Request.Body.CopyToAsync(requestBodyStream);
+            requestBodyStream.Seek(0, SeekOrigin.Begin);
+
+            var requestBodyText = new StreamReader(requestBodyStream).ReadToEnd();
+
+            // Get the URL parameters
+            var urlParameters = context.Request.Query;
+            if (urlParameters.Count > 0)
+            {
+                requestBodyText = "URL Parameters: " + urlParameters + Environment.NewLine + requestBodyText;
+            }
+
+            requestBodyStream.Seek(0, SeekOrigin.Begin);
+            context.Request.Body = requestBodyStream;
+
+            // Create a new memory stream
+            var originalBodyStream = context.Response.Body;
             try
             {
-                context.Request.EnableBuffering();
-                (context.RequestServices.GetService(typeof(ActionObserver)) as ActionObserver).RequestDate = DateTime.Now;
-                await next(context);
-                //app.UseMiddleware<ExceptionHandlerMiddleWare>()放在  app.UseRouting()后才可以在await next(context);前执行
-                Endpoint endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
-                if (endpoint != null && endpoint is RouteEndpoint routeEndpoint)
+                using (var responseBody = new MemoryStream())
                 {
-                    ActionLog log = endpoint.Metadata.GetMetadata<ActionLog>();
-                    if (log != null && log.Write)
-                    {
-                        Logger.Add(log?.LogType, null, null, null, status: LoggerStatus.Info);
-                    }
-                }
-                else
-                {
-                    Logger.Info(LoggerType.Info);
+                    // Replace the context response body with our memory stream
+                    context.Response.Body = responseBody;
+
+                    (context.RequestServices.GetService(typeof(ActionObserver)) as ActionObserver).RequestDate = DateTime.Now;
+                    // Continue down the Middleware pipeline
+                    await next(context);
+
+                    // Copy the contents of the new memory stream (which contains the response) to the original stream
+                    responseBody.Seek(0, SeekOrigin.Begin);
+                    var responseBodyText = new StreamReader(responseBody).ReadToEnd();
+                    
+                    Logger.Info(LoggerType.System, requestBodyText.TruncateToLength(), responseBodyText.TruncateToLength());
+                    
+
+                    responseBody.Seek(0, SeekOrigin.Begin);
+                    await responseBody.CopyToAsync(originalBodyStream);
                 }
             }
             catch (Exception exception)
             {
                 var env = context.RequestServices.GetService(typeof(IWebHostEnvironment)) as IWebHostEnvironment;
-                string message = exception.Message + exception.StackTrace + exception.InnerException;
-                Logger.Error(LoggerType.Exception, message);
+                string message = exception.Message + exception.InnerException;
+                Logger.Error(LoggerType.Exception, requestBodyText.TruncateToLength(), "", message);
                 if (!env.IsDevelopment())
                 {
                     message = "服务器处理异常";
