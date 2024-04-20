@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VOL.Core.Const;
@@ -34,7 +35,8 @@ namespace VOL.Core.Middleware
             var urlParameters = context.Request.Query;
             if (urlParameters.Count > 0)
             {
-                requestBodyText = "URL Parameters: " + urlParameters + Environment.NewLine + requestBodyText;
+                var formattedParameters = string.Join("&", urlParameters.Select(x => $"{x.Key}={x.Value}"));
+                requestBodyText = "URL 参数: " + formattedParameters + Environment.NewLine + requestBodyText;
             }
 
             requestBodyStream.Seek(0, SeekOrigin.Begin);
