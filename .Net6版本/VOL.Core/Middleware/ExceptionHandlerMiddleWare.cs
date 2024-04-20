@@ -6,10 +6,8 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using VOL.Core.Const;
-using VOL.Core.EFDbContext;
 using VOL.Core.Enums;
 using VOL.Core.Extensions;
-using VOL.Core.ManageUser;
 using VOL.Core.Services;
 
 namespace VOL.Core.Middleware
