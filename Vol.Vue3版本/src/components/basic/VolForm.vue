@@ -77,6 +77,7 @@
               :multiple="item.multiple"
               :render-after-expand="false"
               :show-checkbox="true"
+              :disabled="item.readonly || item.disabled"
               :check-strictly="item.checkStrictly"
               check-on-click-node
               node-key="key"
