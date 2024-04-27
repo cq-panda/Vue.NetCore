@@ -1717,6 +1717,16 @@ let methods = {
   //查询页面表格合并行或列，见https://element-plus.gitee.io/zh-CN/component/table.html#%E5%90%88%E5%B9%B6%E8%A1%8C%E6%88%96%E5%88%97
   detailSpanMethod({row,column,rowIndex, columnIndex}){
 
+  },
+  getFormOption(field) {//2024.04.27获取表单配置
+    for (let index = 0; index < this.editFormOptions.length; index++) {
+      const obj = this.editFormOptions[index].find((c) => {
+        return c.field == field
+      })
+      if (obj) {
+        return obj
+      }
+    }
   }
 };
 import customColumns from './ViewGridCustomColumn.js';
