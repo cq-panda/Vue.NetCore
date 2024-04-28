@@ -264,6 +264,12 @@
 			loadKey: {
 				type: Boolean,
 				default: true
+			},
+			uploadBefore: {
+				type: Function,
+				default: (files) => {
+					return true
+				}
 			}
 		},
 		name: "vol-form",
@@ -724,9 +730,9 @@
 				if (!option.url) {
 					return this.$toast('未配置好url')
 				}
-				// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+				// 当设置 multiple 为 true 时, file 为数组格式，否则为对象格式
 				let lists = [];
-				if (option.mutiple) {
+				if (option.multiple) {
 					lists = [].concat(event.file)
 				} else {
 					if (Array.isArray(event.file)) {
@@ -743,26 +749,29 @@
 						message: '上传中'
 					})
 				})
-				this.$emit('uploadBefore', lists, option, async () => {
-					for (let i = 0; i < lists.length; i++) {
-						const result = await this.uploadFilePromise(lists[i].url, option.url)
-						let item = this.inFormFields[option.field][fileListLen];
-						let fileName = lists[i].name;
-						if (!fileName && lists[i].thumb) {
-							let lastIndex = lists[i].thumb.lastIndexOf('/') + 1;
-							// let arr = lists[i].thumb.substr(0,lastIndex);
-							// let _obj = arr[0].split('/');
-							fileName = lists[i].thumb.substr(lastIndex)
-						}
-						this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
-							status: 'success',
-							message: '',
-							url: this.http.ipAddress + result + fileName,
-							orginUrl: result + fileName
-						}))
-						fileListLen++
+				// if (!this.uploadBefore(lists, option)) {
+				// 	return;
+				// }
+				//this.$emit('uploadBefore', lists, option, async () => {
+				for (let i = 0; i < lists.length; i++) {
+					const result = await this.uploadFilePromise(lists[i].url, option.url)
+					let item = this.inFormFields[option.field][fileListLen];
+					let fileName = lists[i].name;
+					if (!fileName && lists[i].thumb) {
+						let lastIndex = lists[i].thumb.lastIndexOf('/') + 1;
+						// let arr = lists[i].thumb.substr(0,lastIndex);
+						// let _obj = arr[0].split('/');
+						fileName = lists[i].thumb.substr(lastIndex)
 					}
-				})
+					this.inFormFields[option.field].splice(fileListLen, 1, Object.assign(item, {
+						status: 'success',
+						message: '',
+						url: this.http.ipAddress + result + fileName,
+						orginUrl: result + fileName
+					}))
+					fileListLen++
+				}
+				//})
 			},
 			uploadFilePromise(url, apiUrl) {
 				return new Promise((resolve, reject) => {

@@ -74,6 +74,7 @@
               style="width: 100%"
               v-else-if="item.type == 'treeSelect'"
               v-model="formFields[item.field]"
+              :disabled="item.readonly || item.disabled"
               :data="item.data"
               :multiple="item.multiple"
               :render-after-expand="false"
