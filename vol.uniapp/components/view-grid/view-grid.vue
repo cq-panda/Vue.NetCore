@@ -231,6 +231,17 @@
 				this.currentRow = row;
 				this.currentAction = 'Update';
 				this.hiddenDelButton(false)
+				this.editFormOptions.forEach(x => {
+					if (x.type == 'radio' && x.data && x.data.length) {
+						if (!this.base.isEmpty(row)) {
+							if (typeof(x.data[0].key) === 'string') {
+								row[x.field] = row[x.field] + ''
+							} else {
+								row[x.field] = row[x.field] * 1
+							}
+						}
+					}
+				})
 				//this.editFormFields.Name=Math.random();
 				if (this.$refs.form) {
 					this.$refs.form.reset(row);
