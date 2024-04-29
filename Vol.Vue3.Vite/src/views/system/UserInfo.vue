@@ -135,6 +135,7 @@ export default {
             {
               columnType: "string",
               required: true,
+              type: "password",
               title: "旧密码",
               field: "oldPwd",
             },
