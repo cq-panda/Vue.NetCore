@@ -44,9 +44,9 @@ namespace VOL.Core.Middleware
 
             // Create a new memory stream
             var originalBodyStream = context.Response.Body;
-            try
+            using (var responseBody = new MemoryStream())
             {
-                using (var responseBody = new MemoryStream())
+                try
                 {
                     // Replace the context response body with our memory stream
                     context.Response.Body = responseBody;
@@ -65,23 +65,23 @@ namespace VOL.Core.Middleware
                     responseBody.Seek(0, SeekOrigin.Begin);
                     await responseBody.CopyToAsync(originalBodyStream);
                 }
-            }
-            catch (Exception exception)
-            {
-                var env = context.RequestServices.GetService(typeof(IWebHostEnvironment)) as IWebHostEnvironment;
-                string message = exception.Message + exception.InnerException;
-                Logger.Error(LoggerType.Exception, requestBodyText.TruncateToLength(), "", message);
-                if (!env.IsDevelopment())
+                catch (Exception exception)
                 {
-                    message = "服务器处理异常";
+                    var env = context.RequestServices.GetService(typeof(IWebHostEnvironment)) as IWebHostEnvironment;
+                    string message = exception.Message + exception.InnerException;
+                    Logger.Error(LoggerType.Exception, requestBodyText.TruncateToLength(), "", message);
+                    if (!env.IsDevelopment())
+                    {
+                        message = "服务器处理异常";
+                    }
+                    else
+                    {
+                        Console.WriteLine($"服务器处理出现异常:{message}");
+                    }
+                    context.Response.StatusCode = 500;
+                    context.Response.ContentType = ApplicationContentType.JSON;
+                    await context.Response.WriteAsync(new { message, status = false }.Serialize(), Encoding.UTF8);
                 }
-                else
-                {
-                    Console.WriteLine($"服务器处理出现异常:{message}");
-                }
-                context.Response.StatusCode = 500;
-                context.Response.ContentType = ApplicationContentType.JSON;
-                await context.Response.WriteAsync(new { message, status = false }.Serialize(), Encoding.UTF8);
             }
         }
     }
