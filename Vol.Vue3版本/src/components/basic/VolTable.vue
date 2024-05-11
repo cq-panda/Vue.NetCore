@@ -98,6 +98,14 @@
                 v-if="columnChildren.link"
                 v-text="scopeChildren.row[columnChildren.field]"
               ></a>
+              <table-render
+                  v-else-if="columnChildren.render && typeof columnChildren.render == 'function'"
+                  :row="scopeChildren.row"
+                  key="rd-01"
+                  :index="scope.$index"
+                  :column="columnChildren"
+                  :render="columnChildren.render"
+                ></table-render>
               <div
                 v-else-if="columnChildren.formatter"
                 @click="
