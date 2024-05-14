@@ -134,7 +134,7 @@ namespace VOL.Core.EFDbContext
                     foreach (var entity in modelBuilder.Model.GetEntityTypes())
                     {
                         string tableName = entity.GetTableName().ToUpper();
-                        if (tableName.StartsWith("SYS_") || tableName.StartsWith("DEMO_"))
+                       // if (tableName.StartsWith("SYS_") || tableName.StartsWith("DEMO_"))
                         {
                             entity.SetTableName(entity.GetTableName().ToUpper());
                             foreach (var property in entity.GetProperties())
