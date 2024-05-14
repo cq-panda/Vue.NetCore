@@ -1396,7 +1396,7 @@ namespace VOL.Core.Extensions
             {
                 string filed = property.Name.ToLower();
                 if (filed == defaultColumns.UserIdField?.ToLower())
-                    property.SetValue(source, userInfo.User_Id);
+                    property.SetValue(source, userInfo.User_Id.ChangeType(property.PropertyType));
 
                 if (filed == defaultColumns.UserNameField?.ToLower())
                     property.SetValue(source, userInfo.UserTrueName);
