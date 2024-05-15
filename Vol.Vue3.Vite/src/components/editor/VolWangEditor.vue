@@ -156,7 +156,7 @@ export default {
         nameArr.push(file.name);
       });
       let resultArr = []
-      await this.http.post(this.url, formData, true).then((x) => {
+      await this.http.post(this.url, formData, true,{headers:{ 'Content-Type': 'multipart/form-data' }}).then((x) => {
         if (!x.status) {
           return this.$message.error(x.message);
         }
