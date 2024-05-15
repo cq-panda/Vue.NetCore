@@ -1366,7 +1366,7 @@ export default defineComponent({
       this.rowData.push(row);
     },
     viewImg(row, column, url, $event,index) {
-        $event.stopPropagation();
+         $event && $event.stopPropagation();
         const imgs=  this.getFilePath(row[column.field], column).map(x=>{return x.path});
         this.$refs.viewer.show(imgs,index);
       //this.base.previewImg(url);
