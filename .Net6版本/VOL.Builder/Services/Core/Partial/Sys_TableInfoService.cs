@@ -235,7 +235,7 @@ DISTINCT
 			c.TABLE_NAME TableName ,
 			cc.COLUMN_NAME COLUMNNAME,
 			cc.COMMENTS  as  ColumnCNName,
-			CASE WHEN  c.DATA_TYPE IN('smallint', 'INT') THEN 'int'  
+			CASE WHEN   c.DATA_TYPE IN('smallint', 'INT') or (c.DATA_TYPE='NUMBER' and c.DATA_LENGTH=0)   THEN 'int'  
             WHEN  c.DATA_TYPE IN('NUMBER') THEN 'decimal'  
 			WHEN c.DATA_TYPE IN('CHAR', 'VARCHAR', 'NVARCHAR','VARCHAR2', 'NVARCHAR2','text', 'image')
 			THEN 'nvarchar'
@@ -1088,7 +1088,7 @@ DISTINCT
 			c.TABLE_NAME TableName ,
 			cc.COLUMN_NAME COLUMNNAME,
 			cc.COMMENTS  as  ColumnCNName,
-				CASE WHEN  c.DATA_TYPE IN('smallint', 'INT') THEN 'int'  
+		    CASE WHEN   c.DATA_TYPE IN('smallint', 'INT') or (c.DATA_TYPE='NUMBER' and c.DATA_LENGTH=0)   THEN 'int'  
            WHEN  c.DATA_TYPE IN('NUMBER') THEN 'decimal'  
 			WHEN c.DATA_TYPE IN('CHAR', 'VARCHAR', 'NVARCHAR','VARCHAR2', 'NVARCHAR2','text', 'image')
 			THEN 'string'
