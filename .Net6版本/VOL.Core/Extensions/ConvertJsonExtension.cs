@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using System.Text;
+using VOL.Core.Controllers.Basic;
+
 namespace VOL.Core.Extensions
 {
     public static class ConvertJsonExtension
@@ -342,19 +344,21 @@ namespace VOL.Core.Extensions
             {
                 entityString = "[]";
             }
-            return JsonConvert.DeserializeObject<T>(entityString);
+            var settings = new JsonSerializerSettings();
+            settings.Converters.Add(new LongCovert());
+            return JsonConvert.DeserializeObject<T>(entityString, settings);
         }
 
         public static string Serialize(this object obj, JsonSerializerSettings formatDate = null)
         {
-            if (obj == null)  return null;
+            if (obj == null) return null;
             formatDate = formatDate ?? new JsonSerializerSettings
             {
                 DateFormatString = "yyyy-MM-dd HH:mm:ss"
             };
+            formatDate.Converters.Add(new LongCovert());
             return JsonConvert.SerializeObject(obj, formatDate);
         }
-
     }
 }
 

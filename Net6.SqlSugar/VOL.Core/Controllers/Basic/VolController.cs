@@ -34,15 +34,25 @@ namespace VOL.Core.Controllers.Basic
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return existingValue;
+            if (reader.Value == null)
+            {
+                return null;
+            }
+            long.TryParse(reader.Value.ToString(), out long value);
+            return value;
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(long).Equals(objectType);
+            return typeof(long) == objectType || typeof(long?) == objectType;
         }
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            if (value == null)
+            {
+                writer.WriteNull();
+                return;
+            }
             serializer.Serialize(writer, value.ToString());
         }
     }
