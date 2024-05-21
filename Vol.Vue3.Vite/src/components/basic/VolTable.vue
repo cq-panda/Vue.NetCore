@@ -40,7 +40,7 @@
       :cell-style="getCellStyle"
       style="width: 100%"
       :scrollbar-always-on="true"
-      :span-method="spanMethod"
+      :span-method="cellSpanMethod"
       @expand-change="expandChange"
     >
       <el-table-column
@@ -1825,6 +1825,9 @@ export default defineComponent({
     },
     handleImageError($e){
       $e.target.src= this.defaultImg;
+    },
+    cellSpanMethod({row,column,rowIndex, columnIndex}){
+      return this.spanMethod({row,column,rowIndex, columnIndex},this.url?this.rowData:this.tableData)
     }
   }
 });
