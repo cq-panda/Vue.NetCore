@@ -52,6 +52,10 @@ import './doc.less';
 export default {
   methods: {
     change(item, index) {
+      if (item.log) {
+        window.open('http://v3.volcore.xyz/log/', 'blank');
+        return 
+      }
       if (!item.path) {
         window.open('https://api.volcore.xyz/doc/app.html', 'blank');
         return;
@@ -168,6 +172,7 @@ export default {
         },
         {
           text: '更新记录',
+          log:true,
           path: '/document/log',
           actived: false
         }

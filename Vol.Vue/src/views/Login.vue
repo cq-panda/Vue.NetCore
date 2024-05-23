@@ -197,7 +197,8 @@
         <!-- <Icon type="logo-github" /> -->
         GitHub
       </a>
-      <a href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M" target="_blank">QQ3群：743852316</a>
+      <a href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M" target="_blank">QQ3群：743852316(已满)</a>
+      <a href="https://qm.qq.com/cgi-bin/qm/qr?k=YRZBbf64qsUeEmh24I65u2aIZFn2C-Ha&jump_from=webapi&qr=1" target="_blank">QQ4群：959924606</a>
     </div>
   </div>
 </template>
