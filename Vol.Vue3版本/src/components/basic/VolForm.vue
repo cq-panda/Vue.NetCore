@@ -1377,6 +1377,9 @@ export default defineComponent({
       );
     },
     getDateFormat(item) {
+      if(item.format){
+        return item.format;
+      }
       if (item.type == 'year') {
         return 'YYYY';
       }

@@ -1739,6 +1739,12 @@ export default defineComponent({
       );
     },
     getDateFormat(column) {
+      if(column.format){
+        return column.format;
+      }
+      if (column.edit.type == "month") {
+        return "YYYY-MM";
+      }
       //见https://day.js.org/docs/zh-CN/display/format
       return column.edit.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
     },
