@@ -1244,7 +1244,7 @@ export default defineComponent({
       return true;
     },
     validateColum(option, data) {
-      if (option.hidden || option.bind) return true;
+      if (option.hidden || option.bind || !data) return true;
       let val = data[option.field];
       if (option.require || option.required) {
         if (val != '0' && (val === '' || val === undefined)) {
