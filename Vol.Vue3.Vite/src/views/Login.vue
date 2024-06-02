@@ -40,9 +40,10 @@
         <p>演示账号：admin666 &nbsp; &nbsp;密码:123456</p>
         <p>本地账号：admin &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;密码:123456</p>
         <p><a href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M" style="text-decoration: none"
-            target="_blank">QQ3群:743852316</a>
+            target="_blank">QQ3群:743852316(满)</a>
           &nbsp; &nbsp;&nbsp; &nbsp;
-          <a href="http://v2.volcore.xyz/document/guide" style="text-decoration: none" target="_blank">框架文档</a>
+          <a href="https://qm.qq.com/cgi-bin/qm/qr?k=YRZBbf64qsUeEmh24I65u2aIZFn2C-Ha&jump_from=webapi&qr=1" style="text-decoration: none" target="_blank">QQ4群：959924606</a>
+          <!-- <a href="http://v2.volcore.xyz/document/guide" style="text-decoration: none" target="_blank">框架文档</a> -->
         </p>
       </div>
       <!-- 链接位置 -->

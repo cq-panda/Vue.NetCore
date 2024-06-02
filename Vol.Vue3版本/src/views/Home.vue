@@ -94,9 +94,9 @@ export default {
           url: 'http://v2.volcore.xyz/app/guide'
         },
         {
-          title: 'QQ3群743852316',
+          title: 'QQ4群：959924606',
           icon: 'el-icon-chat-dot-round',
-          url: 'https://jq.qq.com/?_wv=1027&k=Sqstuy0M'
+          url: 'https://qm.qq.com/cgi-bin/qm/qr?k=YRZBbf64qsUeEmh24I65u2aIZFn2C-Ha&jump_from=webapi&qr=1'
         }
       ],
       n: 90,

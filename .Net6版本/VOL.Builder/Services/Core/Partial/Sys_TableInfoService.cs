@@ -235,7 +235,7 @@ DISTINCT
 			c.TABLE_NAME TableName ,
 			cc.COLUMN_NAME COLUMNNAME,
 			cc.COMMENTS  as  ColumnCNName,
-			CASE WHEN  c.DATA_TYPE IN('smallint', 'INT') THEN 'int'  
+			CASE WHEN   c.DATA_TYPE IN('smallint', 'INT') or (c.DATA_TYPE='NUMBER' and c.DATA_LENGTH=0)   THEN 'int'  
             WHEN  c.DATA_TYPE IN('NUMBER') THEN 'decimal'  
 			WHEN c.DATA_TYPE IN('CHAR', 'VARCHAR', 'NVARCHAR','VARCHAR2', 'NVARCHAR2','text', 'image')
 			THEN 'nvarchar'
@@ -1088,7 +1088,7 @@ DISTINCT
 			c.TABLE_NAME TableName ,
 			cc.COLUMN_NAME COLUMNNAME,
 			cc.COMMENTS  as  ColumnCNName,
-				CASE WHEN  c.DATA_TYPE IN('smallint', 'INT') THEN 'int'  
+		    CASE WHEN   c.DATA_TYPE IN('smallint', 'INT') or (c.DATA_TYPE='NUMBER' and c.DATA_LENGTH=0)   THEN 'int'  
            WHEN  c.DATA_TYPE IN('NUMBER') THEN 'decimal'  
 			WHEN c.DATA_TYPE IN('CHAR', 'VARCHAR', 'NVARCHAR','VARCHAR2', 'NVARCHAR2','text', 'image')
 			THEN 'string'
@@ -1779,9 +1779,11 @@ DISTINCT
                         AttributeBuilder.Append("\r\n");
                     }
 
-                    if ((column.IsKey == 1 && (column.ColumnType == "uniqueidentifier")) ||
+                    if (
+                        (DBType.Name.ToLower() == DbCurrentType.Oracle.ToString().ToLower() && (column.Maxlength == 36))
+                        || ((column.IsKey == 1 && (column.ColumnType == "uniqueidentifier")) ||
                         tableColumnInfo.ColumnType.ToLower() == "guid"
-                        || ((IsMysql() || IsDM()) && column.ColumnType == "string" && column.Maxlength == 36))
+                        || ((IsMysql() || IsDM()) && column.ColumnType == "string" && column.Maxlength == 36)))
                     {
                         tableColumnInfo.ColumnType = "uniqueidentifier";
                     }
@@ -1836,7 +1838,7 @@ DISTINCT
                     AttributeBuilder.Append("\r\n");
                 }
                 string columnType = (column.ColumnType == "Date" ? "DateTime" : column.ColumnType).Trim();
-                if (tableColumnInfo?.ColumnType?.ToLower() == "guid")
+                if (new string[] { "guid", "uniqueidentifier" }.Contains(tableColumnInfo?.ColumnType?.ToLower()))
                 {
                     columnType = "Guid";
                 }
@@ -1848,7 +1850,7 @@ DISTINCT
                 if ((column.IsKey == 1
                     && (column.ColumnType == "uniqueidentifier"))
                        || column.ColumnType == "guid"
-                   || ((IsMysql() || IsDM()) && column.ColumnType == "string" && column.Maxlength == 36))
+                   || ((IsMysql() || IsDM()|| IsOracle()) && column.ColumnType == "string" && column.Maxlength == 36))
                 {
                     columnType = "Guid" + (column.IsNull == 1 ? "?" : "");
                 }
@@ -1907,14 +1909,14 @@ DISTINCT
 
             if (createType == 1)
             {
-                if (sysColumn.Any(x => x.ApiInPut > 0))
-                {
-                    entityAttribute.Add("ApiInput = typeof(Api" + tableInfo.TableName + "Input)");
-                }
-                if (sysColumn.Any(x => x.ApiOutPut > 0))
-                {
-                    entityAttribute.Add("ApiOutput = typeof(Api" + tableInfo.TableName + "Output)");
-                }
+                //if (sysColumn.Any(x => x.ApiInPut > 0))
+                //{
+                //    entityAttribute.Add("ApiInput = typeof(Api" + tableInfo.TableName + "Input)");
+                //}
+                //if (sysColumn.Any(x => x.ApiOutPut > 0))
+                //{
+                //    entityAttribute.Add("ApiOutput = typeof(Api" + tableInfo.TableName + "Output)");
+                //}
             }
             string modelNameSpace = StratName + ".Entity";
             string tableAttr = string.Join(",", entityAttribute);
@@ -2069,7 +2071,10 @@ DISTINCT
             }
         }
 
-
+        private static bool IsOracle()
+        {
+            return DBType.Name.ToLower() == DbCurrentType.Oracle.ToString().ToLower();
+        }
         private static bool IsMysql()
         {
             return DBType.Name.ToLower() == DbCurrentType.MySql.ToString().ToLower();

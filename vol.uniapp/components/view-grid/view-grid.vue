@@ -110,8 +110,8 @@
 				<view class="vol-action-sheet-select-content">
 					<vol-form @input-confirm="inputConfirm" :labelWidth="labelWidth" :load-key="false"
 						@onChange="editGirdFormOnChange" ref="form" @extraClick="gridExtraClick"
-						@uploadBefore="editGridFormUploadBefore"
-						:form-options.sync="editFormOptions" :formFields.sync="editFormFields">
+						@uploadBefore="editGridFormUploadBefore" :form-options.sync="editFormOptions"
+						:formFields.sync="editFormFields">
 					</vol-form>
 				</view>
 				<slot name="modelBody"></slot>
@@ -211,7 +211,7 @@
 				showDel: false,
 				isCreated: false,
 				labelWidth: 80, //编辑弹出框表单标签的宽度
-				ck:false //设置显示checkbox，只有水平(table)显示类型时才生效
+				ck: false //设置显示checkbox，只有水平(table)显示类型时才生效
 			}
 		},
 		methods: {
@@ -231,6 +231,17 @@
 				this.currentRow = row;
 				this.currentAction = 'Update';
 				this.hiddenDelButton(false)
+				this.editFormOptions.forEach(x => {
+					if (x.type == 'radio' && x.data && x.data.length) {
+						if (!this.base.isEmpty(row)) {
+							if (typeof(x.data[0].key) === 'string') {
+								row[x.field] = row[x.field] + ''
+							} else {
+								row[x.field] = row[x.field] * 1
+							}
+						}
+					}
+				})
 				//this.editFormFields.Name=Math.random();
 				if (this.$refs.form) {
 					this.$refs.form.reset(row);
@@ -329,17 +340,17 @@
 				this.sortSelectModel = false;
 				//	this.order
 			},
-			editGirdFormOnChange(field, value,item) { //编辑新建表单的select、日期组件选择事件
-				this.editFormOnChange && this.editFormOnChange(field, value,item)
+			editGirdFormOnChange(field, value, item) { //编辑新建表单的select、日期组件选择事件
+				this.editFormOnChange && this.editFormOnChange(field, value, item)
 			},
-			editGridFormUploadBefore(fields, option,done) { //编辑新建表单的select、日期组件选择事件
-			    if (this.uploadBefore) {
-			    	return this.uploadBefore(fields, option,done)
-			    }
+			editGridFormUploadBefore(fields, option, done) { //编辑新建表单的select、日期组件选择事件
+				if (this.uploadBefore) {
+					return this.uploadBefore(fields, option, done)
+				}
 				done();
 			},
-			searchGridFormOnChange(field, value,item) { //查询表单的select、日期组件选择事件
-				this.searchFormOnChange && this.searchFormOnChange(field, value,item)
+			searchGridFormOnChange(field, value, item) { //查询表单的select、日期组件选择事件
+				this.searchFormOnChange && this.searchFormOnChange(field, value, item)
 			},
 			getSearchItem(field) { //获取查询的参数
 				let data = this.searchFormOptions.find(x => {
@@ -499,7 +510,8 @@
 			},
 			initPermissionButtons() { //初始化按钮权限
 				let _permission = (this.permission.find(x => {
-					return (this.tableAction || this.options.table.name).toUpperCase() == x.tableName
+					return x.tableName && (this.tableAction || this.options.table.name || '').toUpperCase() ==
+						x.tableName
 						.toUpperCase()
 				}) || {}).permission;
 				if (!_permission) {
@@ -590,7 +602,7 @@
 					return;
 				}
 				await this.http.get("api/menu/getTreeMenu", {}, false).then(result => {
-					this.permission = result.menu?result.menu:result;
+					this.permission = result.menu ? result.menu : result;
 					this.$store.commit("setPermission", result);
 					this.initPermissionButtons();
 				})

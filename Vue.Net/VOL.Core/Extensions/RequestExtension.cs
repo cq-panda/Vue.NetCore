@@ -121,7 +121,7 @@ namespace VOL.Core.Extensions
 
         public static string GetRequestParameters(this HttpContext context)
         {
-            if (context.Request.Body == null || !context.Request.Body.CanRead || !context.Request.Body.CanSeek)
+            if (context.Request.Body == null || !context.Request.Body.CanRead || !context.Request.Body.CanSeek || context.Request.Body.Length > 10000)
                 return null;
             if (context.Request.Body.Length == 0)
                 return null;

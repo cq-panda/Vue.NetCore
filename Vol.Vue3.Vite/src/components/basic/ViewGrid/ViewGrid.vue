@@ -109,7 +109,7 @@
             <span>{{ table.cnName }}</span>
           </div>
           <div class="notice">
-            <a class="text" :title="extend.text">{{ extend.text }}</a>
+            <a class="text" v-html="text||extend.text"></a>
           </div>
           <!--快速查询字段-->
           <div class="search-line" v-if="!fiexdSearchForm&&!searchBoxShow">
@@ -620,7 +620,8 @@ var vueParam = {
       lazy:true,//树形表格是否默认延迟加载
       defaultExpandAll:false,//树形表格是否展开所有
       paginationHide:false,//是否隐藏分页
-      rowParentField:"" //树形表格父级id
+      rowParentField:"", //树形表格父级id
+      text:""//界面上标题后显示的文本，可以是html标签
     };
   },
   methods: {},

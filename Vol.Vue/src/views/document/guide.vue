@@ -13,7 +13,7 @@
         <a target="_blank" href="https://www.cctalk.com/m/group/90268531">
           <Icon type="ios-ionic" /><br />框架视频
         </a>
-        <a style="padding-top: 25px">QQ2群:913189178 <br />QQ3群:743852316</a>
+        <a style="padding-top: 25px" href="https://qm.qq.com/cgi-bin/qm/qr?k=YRZBbf64qsUeEmh24I65u2aIZFn2C-Ha&jump_from=webapi&qr=1" target="_blank">QQ3群:743852316(已满) <br /> QQ4群:959924606</a>
         <a target="_blank" href="https://github.com/cq-panda/Vue.NetCore">
           <Icon type="logo-github" /><br />GitHub
         </a>
@@ -26,20 +26,20 @@
           项目赞助
         </a>
         <a target="_blank" @click="() => {
-            this.$router.push({ path: '/document/netCoreDev' });
-          }
+          this.$router.push({ path: '/document/netCoreDev' });
+        }
           ">
           <Icon type="md-people" /><br />多租户
         </a>
         <a target="_blank" @click="() => {
-            this.$router.push({ path: '/document/netCoreDev' });
-          }
+          this.$router.push({ path: '/document/netCoreDev' });
+        }
           ">
           <Icon type="ios-people" /><br />多角色
         </a>
         <a target="_blank" @click="() => {
-            this.$router.push({ path: '/document/netCoreDev' });
-          }
+          this.$router.push({ path: '/document/netCoreDev' });
+        }
           ">
           <Icon type="ios-paper-outline" /><br />分库多数据库
         </a>
@@ -50,14 +50,14 @@
           <Icon type="md-apps" /><br />框架Vue3.x版本
         </a>
         <a target="_blank" @click="() => {
-            this.$router.push({ path: '/document/netCoreDev' });
-          }
+          this.$router.push({ path: '/document/netCoreDev' });
+        }
           ">
           <Icon type="ios-globe-outline" /><br />国际化
         </a>
         <a target="_blank" @click="() => {
-            this.$router.push({ path: '/document/issue' });
-          }
+          this.$router.push({ path: '/document/issue' });
+        }
           ">
           <Icon type="ios-help-circle-outline" /><br />常见问题
         </a>
@@ -192,7 +192,9 @@
             <div style="margin-left: 25px;;">双击install.bat安装依赖(只需要执行一次,后面启动项目都不用点击install.bat)</div>
             <div style="margin-left: 25px;;">双击run.bat启动前端</div>
             <div style="margin-left: 25px;color:red;">前端启动异常：使用cmd切换至
-            ../Vol.Vue3目录下执行 npm config set strict-ssl false&npm cache clear --force & npm install <div>如果没有报错，再接着执行 npm run serve 看异常信息</div></div>
+              ../Vol.Vue3目录下执行 npm config set strict-ssl false&npm cache clear --force & npm install <div>如果没有报错，再接着执行
+                npm run serve 看异常信息</div>
+            </div>
             <!-- <span
               style="
                 font-family: 微软雅黑;
@@ -439,12 +441,10 @@
           </p>
           <p style="font-size: 16px; line-height: 3; color: red">
             部署IIS上需要安装Runtime(linux上也需要),否则站点打不开
-            <a
-              href=" https://dotnet.microsoft.com/zh-cn/download/dotnet/thank-you/runtime-aspnetcore-6.0.26-windows-hosting-bundle-installer"
+            <a href=" https://dotnet.microsoft.com/zh-cn/download/dotnet/thank-you/runtime-aspnetcore-6.0.26-windows-hosting-bundle-installer"
               target="_blank">
               点击下载6.0 hosting </a>
-            <a
-              href="https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-aspnetcore-3.1.8-windows-hosting-bundle-installer"
+            <a href="https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-aspnetcore-3.1.8-windows-hosting-bundle-installer"
               target="_blank">
               点击下载3.1.8 hosting </a>,下载安装完成后重启IIS，或者使用cmd输入iisreset重启
           </p>

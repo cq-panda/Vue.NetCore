@@ -1059,7 +1059,25 @@ let methods = {
     if (!isDetail && !this.exportBefore(param)) {
       return;
     }
-
+    if (
+      !param.wheres.some((x) => {
+        return x.name == this.table.key
+      })
+    ) {
+      let ids = this.getSelectRows()
+        .map((x) => {
+          return x[this.table.key]
+        })
+        .join(',')
+      //2024.01.13增加默认导出勾选的数据
+      if (ids) {
+        param.wheres.push({
+          name: this.table.key,
+          value: ids,
+          displayType: 'selectList'
+        })
+      }
+    }
     if (param.wheres && typeof param.wheres == 'object') {
       param.wheres = JSON.stringify(param.wheres);
     }

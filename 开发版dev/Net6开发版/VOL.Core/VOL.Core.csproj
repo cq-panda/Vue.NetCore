@@ -52,7 +52,7 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Redis.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="6.21.4" />
-    <PackageReference Include="Npgsql" Version="6.0.0" />
+    <PackageReference Include="Npgsql" Version="6.0.11" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.0" />
     <!--<PackageReference Include="MySql.Data" Version="8.0.13" />-->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.0" />

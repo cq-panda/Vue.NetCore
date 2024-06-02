@@ -2,11 +2,11 @@
 	<view>
 		<u-empty v-if="!menu.length" text=" " mode="search" icon="http://cdn.uviewui.com/uview/empty/search.png">
 		</u-empty>
-		<view  v-if="menu.length" class="menu-container">
+		<view v-if="menu.length" class="menu-container">
 			<view class="menu-left">
 				<view @click="itemClick(item,index)" class="menu-item" :class="{'menu-item-select':selectIndex===index}"
 					:key="index" v-for="(item,index) in getMenu()">{{item.name}}</view>
-					<view style="height:52px;"></view>
+				<view style="height:52px;"></view>
 			</view>
 			<view class="menu-right">
 				<view @click="menuClick(item,index)" class="menu-right-item" v-for="(item,index) in rightData"
@@ -39,16 +39,16 @@
 				return this.menu = menu;
 			}
 			this.http.get("api/menu/getTreeMenu", {}, false).then(result => {
-				this.menu = result.menu?result.menu:result;
+				this.menu = (result.menu ? result.menu :
+					result) //.filter(x=>{return x.enable==1||x.enable===undefined});
 				if (this.menu.length) {
 					this.itemClick(this.getMenu()[0], 0);
 				}
-				
+
 				this.$store.commit("setPermission", JSON.parse(JSON.stringify(this.menu)));
 			})
 		},
-		onShow() {
-		},
+		onShow() {},
 		methods: {
 			getMenu() {
 				return this.menu.filter(c => {
@@ -58,14 +58,14 @@
 			itemClick(item, index) {
 				this.selectIndex = index;
 				this.rightData = this.menu.filter(x => {
-					return x.parentId == item.id
+					return x.parentId == item.id && (x.enable == 1 || x.enable === undefined)
 				});
 			},
 			menuClick(item, index) {
-				let path=item.path||item.url;
+				let path = item.path || item.url;
 				if (path) {
-					if(path[0]!='/'){
-						path='/'+path;
+					if (path[0] != '/') {
+						path = '/' + path;
 					}
 					uni.navigateTo({
 						url: path

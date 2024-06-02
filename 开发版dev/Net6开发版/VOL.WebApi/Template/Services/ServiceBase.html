@@ -15,11 +15,6 @@ namespace {Namespace}.Services
     public partial class {TableName}Service : ServiceBase<{TableName}, I{TableName}Repository>
     , I{TableName}Service, IDependency
     {
-    public {TableName}Service(I{TableName}Repository repository)
-    : base(repository)
-    {
-    Init(repository);
-    }
     public static I{TableName}Service Instance
     {
       get { return AutofacContainerModule.GetService<I{TableName}Service>(); } }

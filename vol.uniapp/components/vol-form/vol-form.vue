@@ -1023,4 +1023,10 @@
 	/deep/ .u-icon {
 		display: inline-flex;
 	}
+	.f-form-content /deep/ .u-radio-group--row {
+		    justify-content: flex-end !important;
+	}
+	.left-form-item /deep/ .u-upload__wrap {
+		    justify-content: flex-end !important;
+	}
 </style>

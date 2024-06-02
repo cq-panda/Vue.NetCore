@@ -40,7 +40,7 @@
       :cell-style="getCellStyle"
       style="width: 100%"
       :scrollbar-always-on="true"
-      :span-method="spanMethod"
+      :span-method="cellSpanMethod"
       @expand-change="expandChange"
     >
       <el-table-column
@@ -98,6 +98,14 @@
                 v-if="columnChildren.link"
                 v-text="scopeChildren.row[columnChildren.field]"
               ></a>
+              <table-render
+                  v-else-if="columnChildren.render && typeof columnChildren.render == 'function'"
+                  :row="scopeChildren.row"
+                  key="rd-01"
+                  :index="scope.$index"
+                  :column="columnChildren"
+                  :render="columnChildren.render"
+                ></table-render>
               <div
                 v-else-if="columnChildren.formatter"
                 @click="
@@ -1235,7 +1243,7 @@ export default defineComponent({
       return true;
     },
     validateColum(option, data) {
-      if (option.hidden || option.bind) return true;
+      if (option.hidden || option.bind || !data) return true;
       let val = data[option.field];
       if (option.require || option.required) {
         if (val != '0' && (val === '' || val === undefined)) {
@@ -1358,7 +1366,7 @@ export default defineComponent({
       this.rowData.push(row);
     },
     viewImg(row, column, url, $event,index) {
-        $event.stopPropagation();
+         $event && $event.stopPropagation();
         const imgs=  this.getFilePath(row[column.field], column).map(x=>{return x.path});
         this.$refs.viewer.show(imgs,index);
       //this.base.previewImg(url);
@@ -1731,6 +1739,12 @@ export default defineComponent({
       );
     },
     getDateFormat(column) {
+      if(column.format){
+        return column.format;
+      }
+      if (column.edit.type == "month") {
+        return "YYYY-MM";
+      }
       //见https://day.js.org/docs/zh-CN/display/format
       return column.edit.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
     },
@@ -1813,6 +1827,9 @@ export default defineComponent({
             }
           }
       }    
+    },
+    cellSpanMethod({row,column,rowIndex, columnIndex}){
+      return this.spanMethod({row,column,rowIndex, columnIndex},this.url?this.rowData:this.tableData)
     }
   }
 });

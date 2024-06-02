@@ -1771,6 +1771,7 @@ DISTINCT
                     tableTrueName = tableTrueName.ToLower();
                 }
                 tableAttr = tableAttr + "\r\n[Table(\"" + tableInfo.TableTrueName + "\")]";
+                tableAttr = tableAttr + "\r\n[SugarTable(TableName =\"" + tableInfo.TableTrueName + "\")]";   
             }
             domainContent = domainContent.Replace("{AttributeManager}", tableAttr).Replace("{Namespace}", modelNameSpace);
 

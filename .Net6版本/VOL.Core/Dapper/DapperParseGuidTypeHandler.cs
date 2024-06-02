@@ -3,27 +3,27 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using VOL.Core.Const;
+using VOL.Core.Enums;
 
 namespace VOL.Core.Dapper
 {
-    public class DapperParseGuidTypeHandler : SqlMapper.TypeHandler<Guid?>
+    public class DapperParseGuidTypeHandler
     {
-        public override void SetValue(IDbDataParameter parameter, Guid? guid)
+        public static void InitParseGuid()
         {
-            parameter.Value = guid.ToString();
-        }
-
-        public override Guid? Parse(object value)
-        {
-            if (value == null || value.ToString() == "")
+            if (DBType.Name == DbCurrentType.MySql.ToString())
             {
-                return null;
+                SqlMapper.AddTypeHandler(new DapperParseGuidTypeHandlerMySql());
+                SqlMapper.RemoveTypeMap(typeof(Guid?));
             }
-            if (value.GetType() == typeof(string))
+            else if (DBType.Name == DbCurrentType.Oracle.ToString())
             {
-                return new Guid((string)value);
+                SqlMapper.AddTypeHandler(new DapperParseGuidTypeHandlerOracle());
+                SqlMapper.RemoveTypeMap(typeof(Guid));
+                SqlMapper.AddTypeHandler(new DapperParseGuidNullTypeHandlerOracle());
+                SqlMapper.RemoveTypeMap(typeof(Guid?));
             }
-            return (Guid)value;
         }
     }
 }

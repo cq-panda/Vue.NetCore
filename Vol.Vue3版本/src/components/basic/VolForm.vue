@@ -305,7 +305,7 @@
               v-model="formFields[item.field]"
               :disabled="item.readonly || item.disabled"
               placeholder="请选择时间"
-              :value-format="item.format || 'HH:mm:ss'"
+              :value-format="item.format || 'YYYY-MM-DD HH:mm:ss'"
               :format="item.format"
               style="width: 100%"
             >
@@ -1377,6 +1377,9 @@ export default defineComponent({
       );
     },
     getDateFormat(item) {
+      if(item.format){
+        return item.format;
+      }
       if (item.type == 'year') {
         return 'YYYY';
       }
