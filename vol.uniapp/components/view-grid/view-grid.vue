@@ -653,7 +653,7 @@
 			},
 			initSearchFormDateRange() {
 				this.searchFormOptions.forEach(option => {
-					if (option.type == 'date' || option.type == 'datetime' && !option.hasOwnProperty("range")) {
+					if (option.type == 'range' ||option.type == 'date' || option.type == 'datetime' && !option.hasOwnProperty("range")) {
 						if (!Array.isArray(this.searchFormFields[option.field])) {
 							this.searchFormFields[option.field] = ['', ''];
 						}
