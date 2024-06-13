@@ -317,19 +317,17 @@ namespace VOL.Core.BaseProvider
             }
             else
             {
+                //查询界面统计求等字段
+                if (SummaryExpress != null)
+                {
+                    pageGridData.summary = SummaryExpress.Invoke(queryable);
+                }
                 pageGridData.rows = repository.IQueryablePage(queryable,
                                     options.Page,
                                     options.Rows,
                                     out int rowCount,
                                     orderbyDic).ToList();
                 pageGridData.total = rowCount;
-                //查询界面统计求等字段
-                if (SummaryExpress != null)
-                {
-                    pageGridData.summary = SummaryExpress.Invoke(queryable);
-                    //Func<T, T> groupExpress = x =>x;
-                    //pageGridData.summary = queryable.GroupBy(groupExpress).Select(SummaryExpress).FirstOrDefault();
-                }
             }
             GetPageDataOnExecuted?.Invoke(pageGridData);
             return pageGridData;
