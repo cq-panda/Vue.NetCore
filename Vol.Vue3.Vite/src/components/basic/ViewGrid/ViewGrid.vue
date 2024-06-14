@@ -221,7 +221,8 @@
         >
           <!--明细头部自定义组件-->
           <template #content>
-            <div class="box-com">
+            <div class="box-com vol-edit-box">
+              <div class="vol-edit-content">
               <component
                 :is="dynamicComponent.modelHeader"
                 ref="modelHeader"
@@ -302,12 +303,19 @@
                   :spanMethod="detailSpanMethod"
                 ></vol-table>
               </div>
-              <!--明细footer自定义组件-->
               <component
                 :is="dynamicComponent.modelFooter"
                 ref="modelFooter"
                 @parentCall="parentCall"
               ></component>
+            </div>
+              <div class="vol-edit-box-right">
+                <component
+                  :is="dynamicComponent.modelRight"
+                  ref="modelRight"
+                  @parentCall="parentCall"
+                ></component>
+              </div>
             </div>
           </template>
           <template #footer>
@@ -466,6 +474,7 @@ var vueParam = {
       gridFooter: Empty,
       modelHeader: Empty,
       modelBody: Empty,
+      modelRight: Empty,
       modelFooter: Empty
     };
     //合并扩展组件

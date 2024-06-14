@@ -720,7 +720,7 @@ export default defineComponent({
       formatConfig: {},
       // defaultColor: "",
       // 2020.09.06调整table列数据源的背景颜色
-      colors: ['', 'warning', 'success', 'danger', 'info'],
+      colors: ['primary', 'warning', 'success', 'danger', 'info'],
       rule: {
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
@@ -1588,7 +1588,7 @@ export default defineComponent({
         }
       }
       if (!val && val != '0') {
-        return '';
+        return undefined;
       }
       if (!this.formatConfig[column.field]) {
         this.formatConfig[column.field] = [val];
@@ -1599,7 +1599,7 @@ export default defineComponent({
         return this.colors[index];
       }
       if (this.formatConfig[column.field].length > 5) {
-        return '';
+        return undefined;
       }
 
       if (index == -1) {
