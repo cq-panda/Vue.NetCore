@@ -220,12 +220,12 @@ namespace VOL.WebApi
             {
                 app.UseQuartz(env);
             }
-            app.UseMiddleware<ExceptionHandlerMiddleWare>();
             app.UseDefaultFiles();
             app.UseStaticFiles().UseStaticFiles(new StaticFileOptions
             {
                 ServeUnknownFileTypes = true
             });
+            app.UseMiddleware<ExceptionHandlerMiddleWare>();
             app.Use(HttpRequestMiddleware.Context);
 
             //2021.06.27增加创建默认upload文件夹

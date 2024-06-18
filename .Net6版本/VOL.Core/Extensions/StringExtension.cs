@@ -577,6 +577,11 @@ namespace VOL.Core.Extensions
             }
             return newRandom.ToString();
         }
-
+        
+        public static string TruncateToLength(this string str, int maxLength = 1000)
+        {
+            if (string.IsNullOrEmpty(str)) return str;
+            return str.Length <= maxLength ? str : str.Substring(0, maxLength) + "...";
+        }
     }
 }
