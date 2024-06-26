@@ -1063,7 +1063,7 @@ DISTINCT
                     120 AS ColumnWidth,
                     0 AS OrderNo,
                 CASE
-                        WHEN IS_NULLABLE = 'N' THEN
+                        WHEN IS_NULLABLE = 'N' or IS_NULLABLE = 'NO' THEN
                         0 ELSE 1
                     END AS IsNull,
 	            CASE
@@ -1850,7 +1850,7 @@ DISTINCT
                 if ((column.IsKey == 1
                     && (column.ColumnType == "uniqueidentifier"))
                        || column.ColumnType == "guid"
-                   || ((IsMysql() || IsDM() || IsOracle()) && column.ColumnType == "string" && column.Maxlength == 36))
+                   || ((IsMysql() || IsDM()|| IsOracle()) && column.ColumnType == "string" && column.Maxlength == 36))
                 {
                     columnType = "Guid" + (column.IsNull == 1 ? "?" : "");
                 }
