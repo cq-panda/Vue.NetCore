@@ -126,7 +126,7 @@ router.onError((error) => {
   try {
     console.log(error.message);
     if (process.env.NODE_ENV == 'development') {
-      alert(error.message)
+     // alert(error.message)
     }
     localStorage.setItem("route_error", error.message)
   } catch (e) {
