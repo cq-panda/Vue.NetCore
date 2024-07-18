@@ -71,7 +71,7 @@
       <a href="https://dotnet9.com/" style="text-decoration: none" target="blank">Dotnet9</a>
       <a href="https://space.bilibili.com/525836469" style="text-decoration: none" target="blank">NET视频教程(微软MVP-ACE录制)</a>
       <a href="https://www.cctalk.com/m/group/90268531" style="text-decoration: none" target="blank">VOL框架视频</a>
-      <a href="http://demo.volcore.xy" style="text-decoration: none" target="blank">视频演示地址</a>
+      <a href="http://demo.volcore.xyz" style="text-decoration: none" target="blank">视频演示地址</a>
     </div>
 
     <img class="login-bg" src="/static/login_bg.png" />
