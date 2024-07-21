@@ -789,6 +789,9 @@ let methods = {
       // this.refresh();
     });
   },
+  async delBeforeAsync(delKeys, rows) {
+    return true
+  },
   del(rows) {
     if (rows) {
       if (!(rows instanceof Array)) {
@@ -806,8 +809,8 @@ let methods = {
     if (!delKeys || delKeys.length == 0)
       return this.$error('没有获取要删除的行数据!');
     //删除前
-    if (!this.delBefore(delKeys, rows)) {
-      return;
+    if (!this.delBefore(delKeys, rows)||!await this.delBeforeAsync(delKeys, rows)) {
+      return
     }
     let tigger = false;
     this.$confirm('确认要删除选择的数据吗?', '警告', {
