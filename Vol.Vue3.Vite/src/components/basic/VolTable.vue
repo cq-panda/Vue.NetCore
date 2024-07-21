@@ -231,6 +231,10 @@
                   v-model="scope.row[column.field]"
                   active-color="#0f84ff"
                   inactive-color="rgb(194 194 194)"
+                  active-text="是"
+                  inactive-text="否"
+                  inline-prompt
+
                   @change="
                     (val) => {
                       switchChange(val, scope.row, column);
@@ -806,10 +810,9 @@ export default defineComponent({
     if (this.columnIndex) {
       this.summaryData.push(' ');
     }
+    this.initCellStyleColumns();
     this.columns.forEach((x, _index) => {
-      if (x.cellStyle) {
-        this.cellStyleColumns[x.field] = x.cellStyle;
-      }
+    
       if (!x.hidden) {
         // this.summaryIndex[x.field] = _index;
         // 2020.10.11修复求和列错位的问题
@@ -913,6 +916,13 @@ export default defineComponent({
     }
   },
   methods: {
+    initCellStyleColumns(){
+      this.columns.forEach(x=>{
+        if (x.cellStyle) {
+          this.cellStyleColumns[x.field] = x.cellStyle;
+         }
+      })
+    },
     watchRowSelectChange(newLen, oldLen) {
       if (newLen < oldLen && this.selectRows.length) {
         this.selectRows = [];
