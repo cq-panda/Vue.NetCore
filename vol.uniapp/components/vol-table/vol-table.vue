@@ -749,6 +749,7 @@
 				flex: 1;
 				width: 0;
 				text-align: right;
+				word-break: break-all;
 			}
 		}
 	}
