@@ -1699,6 +1699,19 @@ let methods = {
         return obj
       }
     }
+  },
+  setFormReadonly(readonly) {//快速设置表单与明细表是否只读
+    this.editFormOptions.forEach((x) => {
+      x.forEach((ops) => {
+        ops.readonly = !!readonly
+      })
+    })
+    this.detailOptions.columns.forEach((x) => {
+      x.readonly = !!readonly
+    })
+    this.detailOptions.buttons.forEach((x) => {
+      x.hidden = !!readonly
+    })
   }
 }
 import customColumns from './ViewGridCustomColumn.js'
