@@ -2,6 +2,7 @@
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -443,6 +444,7 @@ namespace VOL.Core.Utilities
                     }
                     else
                     {
+                        columnName = propertyInfo[i].GetTypeCustomValue<DisplayAttribute>(x => x.Name) ?? columnName;
                         worksheet.Column(i + 1).Width = 15;
                         worksheet.Cells[1, i + 1].Value = columnName;
                     }
