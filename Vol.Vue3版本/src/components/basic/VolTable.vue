@@ -720,7 +720,7 @@ export default defineComponent({
       formatConfig: {},
       // defaultColor: "",
       // 2020.09.06调整table列数据源的背景颜色
-      colors: ['', 'warning', 'success', 'danger', 'info'],
+      colors: ['primary', 'warning', 'success', 'danger', 'info'],
       rule: {
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
@@ -805,10 +805,11 @@ export default defineComponent({
     if (this.columnIndex) {
       this.summaryData.push(' ');
     }
+    this.initCellStyleColumns();
     this.columns.forEach((x, _index) => {
-      if (x.cellStyle) {
-        this.cellStyleColumns[x.field] = x.cellStyle;
-      }
+      // if (x.cellStyle) {
+      //   this.cellStyleColumns[x.field] = x.cellStyle;
+      // }
       if (!x.hidden) {
         // this.summaryIndex[x.field] = _index;
         // 2020.10.11修复求和列错位的问题
@@ -912,6 +913,13 @@ export default defineComponent({
     }
   },
   methods: {
+    initCellStyleColumns(){
+      this.columns.forEach(x=>{
+        if (x.cellStyle) {
+          this.cellStyleColumns[x.field] = x.cellStyle;
+         }
+      })
+    },
     watchRowSelectChange(newLen, oldLen) {
       if (newLen < oldLen && this.selectRows.length) {
         this.selectRows = [];
@@ -1588,7 +1596,7 @@ export default defineComponent({
         }
       }
       if (!val && val != '0') {
-        return '';
+        return undefined;
       }
       if (!this.formatConfig[column.field]) {
         this.formatConfig[column.field] = [val];
@@ -1599,7 +1607,7 @@ export default defineComponent({
         return this.colors[index];
       }
       if (this.formatConfig[column.field].length > 5) {
-        return '';
+        return undefined;
       }
 
       if (index == -1) {

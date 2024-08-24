@@ -789,7 +789,10 @@ let methods = {
       // this.refresh();
     });
   },
-  del(rows) {
+  async delBeforeAsync(delKeys, rows) {
+    return true
+  },
+ async del(rows) {
     if (rows) {
       if (!(rows instanceof Array)) {
         rows = [rows];
@@ -806,8 +809,8 @@ let methods = {
     if (!delKeys || delKeys.length == 0)
       return this.$error('没有获取要删除的行数据!');
     //删除前
-    if (!this.delBefore(delKeys, rows)) {
-      return;
+    if (!this.delBefore(delKeys, rows)||!(await this.delBeforeAsync(delKeys, rows))) {
+      return
     }
     let tigger = false;
     this.$confirm('确认要删除选择的数据吗?', '警告', {
@@ -1745,6 +1748,19 @@ let methods = {
         return obj
       }
     }
+  },
+  setFormReadonly(readonly) {//快速设置表单与明细表是否只读
+    this.editFormOptions.forEach((x) => {
+      x.forEach((ops) => {
+        ops.readonly = !!readonly
+      })
+    })
+    this.detailOptions.columns.forEach((x) => {
+      x.readonly = !!readonly
+    })
+    this.detailOptions.buttons.forEach((x) => {
+      x.hidden = !!readonly
+    })
   }
 };
 import customColumns from './ViewGridCustomColumn.js';

@@ -729,7 +729,7 @@
 	.vol-table-list-item {
 		margin: 8rpx 16rpx;
 		background: #FFFFFF;
-		box-shadow: 1px 1px 14px rgb(224 224 224);
+	    box-shadow: 1px 1px 14px rgb(246 246 246);
 		border: 1px solid #f3f3f3;
 		border-radius: 10rpx;
 
@@ -749,6 +749,7 @@
 				flex: 1;
 				width: 0;
 				text-align: right;
+				word-break: break-all;
 			}
 		}
 	}

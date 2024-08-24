@@ -389,7 +389,7 @@ namespace VOL.Core.Extensions
         /// <returns></returns>
         public static Expression<Func<T, bool>> Or<T>(this List<ExpressionParameters> listExpress)
         {
-            return listExpress.Compose<T>(Expression.Or);
+            return listExpress.Compose<T>(Expression.OrElse);
         }
         private static Expression<Func<T, bool>> Compose<T>(this List<ExpressionParameters> listExpress, Func<Expression, Expression, Expression> merge)
         {
@@ -423,7 +423,7 @@ namespace VOL.Core.Extensions
         }
         public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
         {
-            return first.Compose(second, Expression.Or);
+            return first.Compose(second, Expression.OrElse);
         }
         public static Expression<T> Compose<T>(this Expression<T> first, Expression<T> second, Func<Expression, Expression, Expression> merge)
         {

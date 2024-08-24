@@ -99,7 +99,7 @@
 .table-info-cell-title {
   background-color: #f5f5f5 !important;
 }
-.box-com {
+.box-com .vol-edit-content{
   > div.item {
     // margin-bottom: 10px;
     padding: 15px 17px 0 8px;
@@ -107,7 +107,7 @@
     background: white;
   }
   > div.form-item {
-    padding: 19px 16px 0px 5px;
+    padding: 16px 16px 0px 5px;
     //box-shadow: 0 1px 7px rgb(199, 199, 199);
   }
   > div.table-item {
@@ -175,4 +175,19 @@
       color: #0089f6;
     }
   }
+}
+.vol-edit-content ::v-deep(.form-lang){
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.vol-edit-box{
+  display: flex;
+}
+.vol-edit-content{
+  flex: 1;
+  width: 0;
+}
+.vol-edit-box-right{
+  height: 100%;
 }

@@ -1063,7 +1063,7 @@ DISTINCT
                     120 AS ColumnWidth,
                     0 AS OrderNo,
                 CASE
-                        WHEN IS_NULLABLE = 'N' THEN
+                        WHEN IS_NULLABLE = 'N' or IS_NULLABLE = 'NO' THEN
                         0 ELSE 1
                     END AS IsNull,
 	            CASE

@@ -508,6 +508,7 @@ namespace VOL.Core.WorkFlow
                     //query.Update(entity);
                     //修改状态
                     dbContext.Update(workFlow);
+                   
                     dbContext.UpdateRange(workFlow.Sys_WorkFlowTableStep);
                     dbContext.SaveChanges();
                     //发送邮件(appsettings.json配置文件里添加邮件信息)
@@ -562,6 +563,7 @@ namespace VOL.Core.WorkFlow
 
                 autditProperty.SetValue(entity, (int)status);
                 dbContext.Update(workFlow);
+                dbContext.Update(currentStep);
                 dbContext.Update(entity);
                 dbContext.Add(log);
                 dbContext.SaveChanges();

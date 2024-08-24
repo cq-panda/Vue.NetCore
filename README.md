@@ -34,7 +34,7 @@
 #### 框架文档
 vue3版本: [http://v2.volcore.xyz/document/guide](http://v2.volcore.xyz/document/guide) <br> 
 vue3版本: [http://www.volcore.xyz](http://www.volcore.xyz) <br> 
-演示地址2: [http://120.48.115.252:9990/](http://120.48.115.252:9990/) <br> 
+演示地址2: [http://demo.volcore.xy/](http://demo.volcore.xy/) <br> 
 App、H5、微信小程序: [http://v2.volcore.xyz/app/guide](http://v2.volcore.xyz/app/guide) <br> 
 
 #### 2023.10增加sqlsugar适配

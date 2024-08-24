@@ -20,12 +20,16 @@ export default {
 			second = fillZero(date.getSeconds());
 		return `${ _getDate(date)} ${hour}:${minute}:${second}`;
 	},
-	 //日期+多少天
-	 //日期-10天：this.base.date('2023-04-02',-10)
-	 	 //当天日期-10天：this.base.date(this.base.getDate(),-10)
+	//日期+多少天
+	//日期-10天：this.base.date('2023-04-02',-10)
+	//当天日期-10天：this.base.date(this.base.getDate(),-10)
 	addDay(date, days) {
 		if (!days) {
 			return date;
+		}
+		let dateArr = []
+		if (typeof date == 'string') {
+			dateArr = date.split(' ')
 		}
 		date = new Date(new Date(date).setDate(new Date(date).getDate() + days));
 		var year = date.getFullYear();
@@ -37,7 +41,11 @@ export default {
 		if (day < 10) {
 			day = "0" + day;
 		}
-		return year + "-" + month + "-" + day;
+		date = year + "-" + month + "-" + day;
+		if (dateArr.length == 1) {
+			return date;
+		}
+		return date + ' ' + dateArr[1];
 	},
 	//日期+多少月，同上
 	addMonth(date, m) {

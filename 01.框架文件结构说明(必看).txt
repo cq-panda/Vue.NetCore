@@ -1,5 +1,5 @@
 
-前端【Vol.Vue3版本】文件夹才有示例页面(Vol.Vue3.Vite里没有示例页面，打开页面会出现404)，  开发请使用Vol.Vue3.Vite前端项目
+前端【Vol.Vue3版本】文件夹下才有演示页面代码(Vol.Vue3.Vite里没有示例页面，打开页面会出现404)，  开发请使用Vol.Vue3.Vite前端项目，示例代码用Vol.Vue3版本或者看文档上
 
 1、.Net6版本                       后台api项目，使用的.Net6+EFCore6+Dapper
 
