@@ -8,7 +8,7 @@
             <div>欢迎登录...</div>
             <div class="login-line"></div>
           </div>
-          <div style="flex:1;"></div>
+          <div style="flex: 1"></div>
         </div>
         <div class="login-text-small">WELCOME TO LOGIN</div>
         <div class="item">
@@ -19,7 +19,7 @@
           <div class="input-icon el-icon-lock"></div>
           <input type="password" v-focus v-model="userInfo.password" placeholder="请输入密码" />
         </div>
-        <div class="item">
+        <div class="item" v-if="captcha">
           <div class="input-icon el-icon-mobile"></div>
 
           <input v-focus type="text" v-model="userInfo.verificationCode" placeholder="输入验证码" />
@@ -39,107 +39,123 @@
       <div class="account-info">
         <p>演示账号：admin666 &nbsp; &nbsp;密码:123456</p>
         <p>本地账号：admin &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;密码:123456</p>
-        <p><a href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M" style="text-decoration: none"
-            target="_blank">QQ3群:743852316(满)</a>
+        <p>
+          <a
+            href="https://jq.qq.com/?_wv=1027&k=Sqstuy0M"
+            style="text-decoration: none"
+            target="_blank"
+            >QQ3群:743852316(满)</a
+          >
           &nbsp; &nbsp;&nbsp; &nbsp;
-          <a href="https://qm.qq.com/cgi-bin/qm/qr?k=YRZBbf64qsUeEmh24I65u2aIZFn2C-Ha&jump_from=webapi&qr=1" style="text-decoration: none" target="_blank">QQ4群：959924606</a>
+          <a
+            href="https://qm.qq.com/cgi-bin/qm/qr?k=YRZBbf64qsUeEmh24I65u2aIZFn2C-Ha&jump_from=webapi&qr=1"
+            style="text-decoration: none"
+            target="_blank"
+            >QQ4群：959924606</a
+          >
           <!-- <a href="http://v2.volcore.xyz/document/guide" style="text-decoration: none" target="_blank">框架文档</a> -->
         </p>
       </div>
       <!-- 链接位置 -->
-      <div class="app-link" >
+      <div class="app-link">
         <a href="#" style="text-decoration: none">移动端扫码</a>
         <a>
           <i class="el-icon-chat-dot-round"></i> 小程序
-          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg" /></a>
+          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg"
+        /></a>
         <a>
           <i class="el-icon-apple"></i>
           Android
-          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png" /></a>
+          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png"
+        /></a>
         <a>
           <i class="el-icon-document"></i>
           H5
-          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png" /></a>
+          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png"
+        /></a>
       </div>
     </div>
 
     <!-- 页面底部 -->
     <div class="login-footer">
-      <a style="text-decoration: none" href="https://beian.miit.gov.cn/" target="_blank">京ICP备19056538号-1</a>
-
+      <a style="text-decoration: none" href="https://beian.miit.gov.cn/" target="_blank"
+        >京ICP备19056538号-1</a
+      >
 
       <a href="https://dotnet9.com/" style="text-decoration: none" target="blank">Dotnet9</a>
-      <a href="https://space.bilibili.com/525836469" style="text-decoration: none" target="blank">NET视频教程(微软MVP-ACE录制)</a>
-      <a href="https://www.cctalk.com/m/group/90268531" style="text-decoration: none" target="blank">VOL框架视频</a>
-      <a href="http://demo.volcore.xyz" style="text-decoration: none" target="blank">视频演示地址</a>
+      <a href="https://space.bilibili.com/525836469" style="text-decoration: none" target="blank"
+        >NET视频教程(微软MVP-ACE录制)</a
+      >
+      <a href="https://www.cctalk.com/m/group/90268531" style="text-decoration: none" target="blank"
+        >VOL框架视频</a
+      >
+      <a href="http://demo.volcore.xyz" style="text-decoration: none" target="blank"
+        >视频演示地址</a
+      >
     </div>
 
     <img class="login-bg" src="/static/login_bg.png" />
   </div>
 </template>
 
-
-<script >
-import {
-  defineComponent,
-  ref,
-  reactive,
-  toRefs,
-  getCurrentInstance
-} from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import store from '../store/index';
-import http from '@/../src/api/http.js';
+<script>
+import { defineComponent, ref, reactive, toRefs, getCurrentInstance } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { computed } from 'vue'
+import store from '../store/index'
+import http from '@/../src/api/http.js'
 export default defineComponent({
   setup(props, context) {
-    store.commit('clearUserInfo', '');
-    const loading = ref(false);
-    const codeImgSrc = ref('');
+    store.commit('clearUserInfo', '')
+    const loading = ref(false)
+    const codeImgSrc = ref('')
     const userInfo = reactive({
       userName: '',
       password: '',
       verificationCode: '',
       UUID: undefined
-    });
-
+    })
+    // 获取系统配置 验证码是否开启
+    const captcha = store.getters.data().themeConfig?.sysCaptcha ?? true
+    console.log(captcha)
     const getVierificationCode = () => {
       http.get('/api/User/getVierificationCode').then((x) => {
-        codeImgSrc.value = 'data:image/png;base64,' + x.img;
-        userInfo.UUID = x.uuid;
-      });
-    };
-    getVierificationCode();
+        codeImgSrc.value = 'data:image/png;base64,' + x.img
+        userInfo.UUID = x.uuid
+      })
+    }
+    getVierificationCode()
 
-    let appContext = getCurrentInstance().appContext;
-    let $message = appContext.config.globalProperties.$message;
-    let router = useRouter();
+    let appContext = getCurrentInstance().appContext
+    let $message = appContext.config.globalProperties.$message
+    let router = useRouter()
 
     const login = () => {
-      if (!userInfo.userName) return $message.error('请输入用户名');
-      if (!userInfo.password) return $message.error('请输入密码');
-      if (!userInfo.verificationCode) {
-        return $message.error('请输入验证码');
+      if (!userInfo.userName) return $message.error('请输入用户名')
+      if (!userInfo.password) return $message.error('请输入密码')
+      if (captcha && !userInfo.verificationCode) {
+        return $message.error('请输入验证码')
       }
-      loading.value = true;
+      loading.value = true
       http.post('/api/user/login', userInfo, '正在登录....').then((result) => {
         if (!result.status) {
-          loading.value = false;
-          getVierificationCode();
-          return $message.error(result.message);
+          loading.value = false
+          getVierificationCode()
+          return $message.error(result.message)
         }
-        $message.success('登录成功,正在跳转!');
-        store.commit('setUserInfo', result.data);
-        router.push({ path: '/' });
-      });
-    };
+        $message.success('登录成功,正在跳转!')
+        store.commit('setUserInfo', result.data)
+        router.push({ path: '/' })
+      })
+    }
     const loginPress = (e) => {
       if (e.keyCode == 13) {
-        login();
+        login()
       }
-    };
+    }
     const openUrl = (url) => {
-      window.open(url, '_blank');
-    };
+      window.open(url, '_blank')
+    }
     return {
       loading,
       codeImgSrc,
@@ -147,17 +163,18 @@ export default defineComponent({
       login,
       userInfo,
       loginPress,
-      openUrl
-    };
+      openUrl,
+      captcha
+    }
   },
   directives: {
     focus: {
       inserted: function (el) {
-        el.focus();
+        el.focus()
       }
     }
   }
-});
+})
 </script>
 <style lang="less" scoped>
 .login-container {
@@ -361,7 +378,6 @@ export default defineComponent({
 
 <style lang="less" scoped>
 @media screen and (max-width: 700px) {
-
   .login-bg,
   .account-info,
   .app-link,

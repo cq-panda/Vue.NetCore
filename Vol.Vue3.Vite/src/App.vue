@@ -5,19 +5,31 @@
   </el-config-provider>
 </template>
 <script>
-import { ElConfigProvider } from "element-plus";
-import zhCn from "element-plus/es/locale/lang/zh-cn";
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 export default {
-  name: "vol_app",
+  name: 'vol_app',
   components: {
-    [ElConfigProvider.name]: ElConfigProvider, //添加组件
+    [ElConfigProvider.name]: ElConfigProvider //添加组件
   },
   data() {
     return {
-      locale: zhCn,
-    };
+      locale: zhCn
+    }
   },
-};
+  methods: {
+    // 加载系统信息
+    loadSysInfo() {
+      this.http.get('/api/Sys_Config/getSysInfo').then((res) => {
+        if (!res.status) return
+        this.$store.getters.data().themeConfig = res.data
+      })
+    }
+  },
+  mounted() {
+    this.loadSysInfo()
+  }
+}
 </script>
 <style lang="stylus">
 #app {

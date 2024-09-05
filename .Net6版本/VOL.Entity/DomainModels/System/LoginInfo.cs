@@ -17,7 +17,7 @@ namespace VOL.Entity.DomainModels
         public string Password { get; set; }
         [MaxLength(6)]
         [Display(Name = "验证码")]
-        [Required(ErrorMessage = "验证码不能为空")]
+        //[Required(ErrorMessage = "验证码不能为空")]
         public string VerificationCode { get; set; }
         [Required(ErrorMessage = "参数不完整")]
         /// <summary>

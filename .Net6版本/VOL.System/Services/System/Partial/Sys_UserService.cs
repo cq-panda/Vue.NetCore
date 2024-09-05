@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VOL.Core.Configuration;
+using VOL.Core.Const;
 using VOL.Core.Enums;
 using VOL.Core.Extensions;
 using VOL.Core.ManageUser;
@@ -15,6 +16,8 @@ using VOL.Core.Services;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
 using VOL.System.IRepositories;
+using VOL.System.IServices;
+using VOL.System.Repositories;
 
 namespace VOL.System.Services
 {
@@ -22,12 +25,14 @@ namespace VOL.System.Services
     {
         private Microsoft.AspNetCore.Http.HttpContext _context;
         private ISys_UserRepository _repository;
+        private readonly Sys_ConfigService _sys_ConfigService;
         [ActivatorUtilitiesConstructor]
-        public Sys_UserService(IHttpContextAccessor httpContextAccessor, ISys_UserRepository repository)
+        public Sys_UserService(IHttpContextAccessor httpContextAccessor, ISys_UserRepository repository, Sys_ConfigService sys_ConfigService)
             : base(repository)
         {
             _context = httpContextAccessor.HttpContext;
             _repository = repository;
+            _sys_ConfigService = sys_ConfigService;
         }
         WebResponseContent webResponse = new WebResponseContent();
         /// <summary>
@@ -36,20 +41,25 @@ namespace VOL.System.Services
         /// <param name="loginInfo"></param>
         /// <param name="verificationCode"></param>
         /// <returns></returns>
-        public async Task<WebResponseContent> Login(LoginInfo loginInfo, bool verificationCode = true)
+        public async Task<WebResponseContent> Login(LoginInfo loginInfo)
         {
             string msg = string.Empty;
             //   2020.06.12增加验证码
             IMemoryCache memoryCache = _context.GetService<IMemoryCache>();
-            string cacheCode = (memoryCache.Get(loginInfo.UUID) ?? "").ToString();
-            if (string.IsNullOrEmpty(cacheCode))
+
+            // 查看配置是否开启验证码
+            if (await _sys_ConfigService.GetConfigValue<bool>(ConfigConst.SysCaptcha))
             {
-                return webResponse.Error("验证码已失效");
-            }
-            if (cacheCode.ToLower() != loginInfo.VerificationCode.ToLower())
-            {
-                memoryCache.Remove(loginInfo.UUID);
-                return webResponse.Error("验证码不正确");
+                string cacheCode = (memoryCache.Get(loginInfo.UUID) ?? "").ToString();
+                if (string.IsNullOrEmpty(cacheCode))
+                {
+                    return webResponse.Error("验证码已失效");
+                }
+                if (cacheCode.ToLower() != loginInfo.VerificationCode.ToLower())
+                {
+                    memoryCache.Remove(loginInfo.UUID);
+                    return webResponse.Error("验证码不正确");
+                }
             }
             try
             {
