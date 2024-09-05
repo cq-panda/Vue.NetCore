@@ -117,14 +117,13 @@ export default defineComponent({
     })
     // 获取系统配置 验证码是否开启
     const captcha = store.getters.data().themeConfig?.sysCaptcha ?? true
-    console.log(captcha)
     const getVierificationCode = () => {
       http.get('/api/User/getVierificationCode').then((x) => {
         codeImgSrc.value = 'data:image/png;base64,' + x.img
         userInfo.UUID = x.uuid
       })
     }
-    getVierificationCode()
+    captcha && getVierificationCode()
 
     let appContext = getCurrentInstance().appContext
     let $message = appContext.config.globalProperties.$message
@@ -140,7 +139,7 @@ export default defineComponent({
       http.post('/api/user/login', userInfo, '正在登录....').then((result) => {
         if (!result.status) {
           loading.value = false
-          getVierificationCode()
+          captcha && getVierificationCode()
           return $message.error(result.message)
         }
         $message.success('登录成功,正在跳转!')

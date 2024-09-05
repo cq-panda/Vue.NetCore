@@ -46,9 +46,20 @@ namespace VOL.System.Services
             string msg = string.Empty;
             //   2020.06.12增加验证码
             IMemoryCache memoryCache = _context.GetService<IMemoryCache>();
+            
+            // 判断密码错误次数（缓存30分钟）
+            var keyPasswordErrorTimes = $"{CacheConst.KeyPasswordErrorTimes}{loginInfo.UserName}";
+            var passwordErrorTimes = memoryCache.Get<int>(keyPasswordErrorTimes);
+            var passwordMaxErrorTimes = await _sys_ConfigService.GetConfigValue<int>(ConfigConst.SysPasswordMaxErrorTimes);
+            // 若未配置或误配置为0、负数, 则默认密码错误次数最大为10次
+            if (passwordMaxErrorTimes < 1)
+                passwordMaxErrorTimes = 10;
+            if (passwordErrorTimes > passwordMaxErrorTimes)
+                return webResponse.Error("密码错误次数过多，请30分钟后再试");
 
             // 查看配置是否开启验证码
-            if (await _sys_ConfigService.GetConfigValue<bool>(ConfigConst.SysCaptcha))
+            bool captcha = await _sys_ConfigService.GetConfigValue<bool>(ConfigConst.SysCaptcha);
+            if (captcha)
             {
                 string cacheCode = (memoryCache.Get(loginInfo.UUID) ?? "").ToString();
                 if (string.IsNullOrEmpty(cacheCode))
@@ -67,7 +78,15 @@ namespace VOL.System.Services
                     .FirstOrDefaultAsync();
 
                 if (user == null || loginInfo.Password.Trim().EncryptDES(AppSetting.Secret.User) != (user.UserPwd ?? ""))
-                    return webResponse.Error(ResponseType.LoginError);
+                {
+                    memoryCache.Set(keyPasswordErrorTimes, ++passwordErrorTimes, TimeSpan.FromMinutes(30));
+                    webResponse.Error(ResponseType.LoginError);
+                    int errorChance = passwordMaxErrorTimes - passwordErrorTimes;
+                    if (errorChance >= 0)
+                        webResponse.Message += $" 密码错误{passwordErrorTimes}次, 您还有{errorChance}次机会";
+                    return webResponse;
+                }
+
 
                 string token = JwtHelper.IssueJwt(new UserInfo()
                 {
@@ -82,6 +101,8 @@ namespace VOL.System.Services
 
                 loginInfo.Password = string.Empty;
 
+                // 登录成功后清除密码错误次数
+                memoryCache.Remove(keyPasswordErrorTimes);
                 return webResponse.OK(ResponseType.LoginSuccess);
             }
             catch (Exception ex)
@@ -95,7 +116,7 @@ namespace VOL.System.Services
             }
             finally
             {
-                memoryCache.Remove(loginInfo.UUID);
+                if(captcha) memoryCache.Remove(loginInfo.UUID);
                 Logger.Info(LoggerType.Login, loginInfo.Serialize(), webResponse.Message, msg);
             }
         }
