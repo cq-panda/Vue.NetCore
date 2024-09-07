@@ -649,6 +649,7 @@
 							}
 						})
 					})
+					this.dicInited && this.dicInited(result);
 				})
 			},
 			initSearchFormDateRange() {
