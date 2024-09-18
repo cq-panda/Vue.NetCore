@@ -1396,32 +1396,6 @@ export default defineComponent({
     getNode( label,node, data){
       console.log(label)
     },
-    getShortcuts() {
-      const end = new Date()
-      return [
-        { name: '今天', value: 0 },
-        { name: '昨天', value: 1 },
-        { name: '近三天', value: 2 },
-        { name: '近一周', value: 6 },
-        { name: '近一月', m: true, value: 1 },
-        { name: '近三月', m: true, value: 3 },
-        { name: '近半年', m: true, value: 6 },
-        { name: '近一年', m: true, value: 12 }
-      ].map((x) => {
-        return {
-          text: x.name,
-          value: () => {
-            const start = new Date()
-            if (x.m) {
-              start.setMonth(start.getMonth() - x.value)
-              return [start.getTime(), end]
-            }
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * x.value)
-            return [start, end]
-          }
-        }
-      })
-    },
     handleImageError($e) {
       $e.target.src = this.defaultImg
     },
