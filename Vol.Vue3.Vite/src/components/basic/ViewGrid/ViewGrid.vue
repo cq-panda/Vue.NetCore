@@ -409,6 +409,7 @@
           :defaultExpandAll="defaultExpandAll"
           :expandRowKeys="expandRowKeys"
           :rowParentField="rowParentField"
+          :reserveSelection="reserveSelection"
         ></vol-table>
       </div>
     </div>
@@ -632,7 +633,8 @@ var vueParam = {
       expandRowKeys:[],//默认展开行的主键值2024.09.03
       paginationHide:false,//是否隐藏分页
       rowParentField:"", //树形表格父级id
-      text:""//界面上标题后显示的文本，可以是html标签
+      text:"",//界面上标题后显示的文本，可以是html标签
+      reserveSelection: false, //分页或者刷新表格数据后是否保留复选框选择状态
     };
   },
   methods: {},

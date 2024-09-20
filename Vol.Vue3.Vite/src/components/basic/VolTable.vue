@@ -6,7 +6,7 @@
       textInline ? 'text-inline' : '',
       fxRight ? 'fx-right' : '',
       isChrome ? 'chrome' : '',
-      smallCell?'small-table':''
+      smallCell ? 'small-table' : ''
     ]"
   >
     <div class="mask" v-show="loading"></div>
@@ -43,12 +43,7 @@
       :span-method="cellSpanMethod"
       @expand-change="expandChange"
     >
-      <el-table-column
-        v-if="columnIndex"
-        type="index"
-        :fixed="fixed"
-        width="55"
-      ></el-table-column>
+      <el-table-column v-if="columnIndex" type="index" :fixed="fixed" width="55"></el-table-column>
       <el-table-column
         v-if="ck"
         type="selection"
@@ -71,9 +66,7 @@
         :show-overflow-tooltip="column.showOverflowTooltip"
       >
         <template #header>
-          <span
-            v-if="(column.require || column.required) && column.edit"
-            class="column-required"
+          <span v-if="(column.require || column.required) && column.edit" class="column-required"
             >*</span
           >{{ column.title }}
         </template>
@@ -99,29 +92,21 @@
                 v-text="scopeChildren.row[columnChildren.field]"
               ></a>
               <table-render
-                  v-else-if="columnChildren.render && typeof columnChildren.render == 'function'"
-                  :row="scopeChildren.row"
-                  key="rd-01"
-                  :index="scope.$index"
-                  :column="columnChildren"
-                  :render="columnChildren.render"
-                ></table-render>
+                v-else-if="columnChildren.render && typeof columnChildren.render == 'function'"
+                :row="scopeChildren.row"
+                key="rd-01"
+                :index="scope.$index"
+                :column="columnChildren"
+                :render="columnChildren.render"
+              ></table-render>
               <div
                 v-else-if="columnChildren.formatter"
                 @click="
                   columnChildren.click &&
-                    columnChildren.click(
-                      scopeChildren.row,
-                      columnChildren,
-                      scopeChildren.$index
-                    )
+                    columnChildren.click(scopeChildren.row, columnChildren, scopeChildren.$index)
                 "
                 v-html="
-                  columnChildren.formatter(
-                    scopeChildren.row,
-                    columnChildren,
-                    scopeChildren.$index
-                  )
+                  columnChildren.formatter(scopeChildren.row, columnChildren, scopeChildren.$index)
                 "
               ></div>
               <div v-else-if="columnChildren.bind">
@@ -147,43 +132,44 @@
           <!-- 启用双击编辑功能，带编辑功能的不会渲染下拉框文本背景颜色 -->
           <!-- @click="rowBeginEdit(scope.$index,cindex)" -->
           <!-- 2021.09.21增加编辑时对readonly属性判断 -->
-           <template v-else-if="column.edit&&!column.readonly&&['file', 'img','excel'].indexOf(column.edit.type) != -1" >
-                <div style="display:flex;align-items: center;" @click.stop>
-                  <i v-if="!column.showUpload||column.showUpload(scope.row, column)" 
-                  style="padding: 3px;margin-right: 10px;color:#8f9293;cursor: pointer;" 
-                  @click="showUpload(scope.row, column)" class="el-icon-upload"></i>    
-                   <template v-if="column.edit.type == 'img'">
-                    <img
-                    v-for="(file, imgIndex) in getFilePath(
-                      scope.row[column.field],
-                      column
-                    )"
-                    :key="imgIndex"
-                    @error="handleImageError"
-                    @click="viewImg(scope.row, column, file.path, $event,imgIndex)"
-                    class="table-img"
-                    :src="file.path"
-                  />
-                   </template>
-                  <a
-                    style="margin-right: 8px"
-                    v-else
-                    class="t-file"
-                    v-for="(file, fIndex) in getFilePath(
-                      scope.row[column.field],
-                      column
-                    )"
-                    :key="fIndex"
-                    @click="dowloadFile(file)"
-                    >{{ file.name }}</a
-                  >
-                </div>
+          <template
+            v-else-if="
+              column.edit &&
+              !column.readonly &&
+              ['file', 'img', 'excel'].indexOf(column.edit.type) != -1
+            "
+          >
+            <div style="display: flex; align-items: center" @click.stop>
+              <i
+                v-if="!column.showUpload || column.showUpload(scope.row, column)"
+                style="padding: 3px; margin-right: 10px; color: #8f9293; cursor: pointer"
+                @click="showUpload(scope.row, column)"
+                class="el-icon-upload"
+              ></i>
+              <template v-if="column.edit.type == 'img'">
+                <img
+                  v-for="(file, imgIndex) in getFilePath(scope.row[column.field], column)"
+                  :key="imgIndex"
+                  @error="handleImageError"
+                  @click="viewImg(scope.row, column, file.path, $event, imgIndex)"
+                  class="table-img"
+                  :src="file.path"
+                />
+              </template>
+              <a
+                style="margin-right: 8px"
+                v-else
+                class="t-file"
+                v-for="(file, fIndex) in getFilePath(scope.row[column.field], column)"
+                :key="fIndex"
+                @click="dowloadFile(file)"
+                >{{ file.name }}</a
+              >
+            </div>
           </template>
           <div
             v-else-if="
-              column.edit &&
-                !column.readonly &&
-                (column.edit.keep || edit.rowIndex == scope.$index)
+              column.edit && !column.readonly && (column.edit.keep || edit.rowIndex == scope.$index)
             "
             class="edit-el"
           >
@@ -198,8 +184,7 @@
                   v-model="scope.row[column.field]"
                   @change="
                     (val) => {
-                      column.onChange &&
-                        column.onChange(scope.row, column, val);
+                      column.onChange && column.onChange(scope.row, column, val)
                     }
                   "
                   :type="column.edit.type"
@@ -217,8 +202,7 @@
                   v-model="scope.row[column.field]"
                   @change="
                     (val) => {
-                      column.onChange &&
-                        column.onChange(scope.row, column, val);
+                      column.onChange && column.onChange(scope.row, column, val)
                     }
                   "
                   :placeholder="column.placeholder || column.title"
@@ -234,10 +218,9 @@
                   active-text="是"
                   inactive-text="否"
                   inline-prompt
-
                   @change="
                     (val) => {
-                      switchChange(val, scope.row, column);
+                      switchChange(val, scope.row, column)
                     }
                   "
                   :active-value="
@@ -257,11 +240,7 @@
                   :disabled="initColumnDisabled(scope.row, column)"
                 >
                 </el-switch>
-                <template
-                  v-else-if="
-                    ['select', 'selectList'].indexOf(column.edit.type) != -1
-                  "
-                >
+                <template v-else-if="['select', 'selectList'].indexOf(column.edit.type) != -1">
                   <el-select-v2
                     style="width: 100%"
                     :size="size"
@@ -272,9 +251,7 @@
                     :placeholder="column.placeholder || column.title"
                     :autocomplete="column.autocomplete"
                     :options="column.bind.data"
-                    @change="
-                      column.onChange && column.onChange(scope.row, column)
-                    "
+                    @change="column.onChange && column.onChange(scope.row, column)"
                     clearable
                     :disabled="initColumnDisabled(scope.row, column)"
                   >
@@ -288,17 +265,11 @@
                     style="width: 100%"
                     v-else
                     v-model="scope.row[column.field]"
-                    :filterable="
-                      column.filter || column.bind.data.length > 10
-                        ? true
-                        : false
-                    "
+                    :filterable="column.filter || column.bind.data.length > 10 ? true : false"
                     :multiple="column.edit.type == 'select' ? false : true"
                     :placeholder="column.placeholder || column.title"
                     :allow-create="column.autocomplete"
-                    @change="
-                      column.onChange && column.onChange(scope.row, column)
-                    "
+                    @change="column.onChange && column.onChange(scope.row, column)"
                     clearable
                     :disabled="initColumnDisabled(scope.row, column)"
                   >
@@ -315,19 +286,19 @@
                 </template>
                 <el-tree-select
                   style="width: 100%"
-                  v-else-if="column.edit.type == 'treeSelect'||column.edit.type == 'cascader'"
+                  v-else-if="column.edit.type == 'treeSelect' || column.edit.type == 'cascader'"
                   v-model="scope.row[column.field]"
                   :data="column.bind.data"
-                  :multiple="column.multiple===undefined?true:column.multiple"
+                  :multiple="column.multiple === undefined ? true : column.multiple"
                   :render-after-expand="false"
                   :show-checkbox="true"
-                  :check-strictly="column.checkStrictly===undefined?true:column.checkStrictly"
+                  :check-strictly="column.checkStrictly === undefined ? true : column.checkStrictly"
                   check-on-click-node
                   node-key="key"
                   @change="column.onChange && column.onChange(scope.row, column)"
-                  :props="{ label: 'label' }">
-                   <template #default="{ data, node }">
-                  {{data.label}}</template>
+                  :props="{ label: 'label' }"
+                >
+                  <template #default="{ data, node }"> {{ data.label }}</template>
                 </el-tree-select>
                 <!-- <div     v-else-if="column.edit.type == 'cascader'">4444444</div> -->
                 <!-- <el-cascader
@@ -368,10 +339,7 @@
                   :disabled="initColumnDisabled(scope.row, column)"
                 ></el-input>
               </div>
-              <div
-                class="extra"
-                v-if="column.extra && edit.rowIndex == scope.$index"
-              >
+              <div class="extra" v-if="column.extra && edit.rowIndex == scope.$index">
                 <a
                   :style="column.extra.style"
                   style="text-decoration: none"
@@ -387,17 +355,14 @@
           <template v-else>
             <a
               href="javascript:void(0)"
-              style="text-decoration: none;line-height: 1.3;"
+              style="text-decoration: none; line-height: 1.3"
               @click="link(scope.row, column, $event)"
               v-if="column.link"
               v-text="scope.row[column.field]"
             ></a>
             <img
               v-else-if="column.type == 'img'"
-              v-for="(file, imgIndex) in getFilePath(
-                scope.row[column.field],
-                column
-              )"
+              v-for="(file, imgIndex) in getFilePath(scope.row[column.field], column)"
               :key="imgIndex"
               @error="handleImageError"
               @click="viewImg(scope.row, column, file.path, $event, imgIndex)"
@@ -408,17 +373,12 @@
               style="margin-right: 8px"
               v-else-if="column.type == 'file' || column.type == 'excel'"
               class="t-file"
-              v-for="(file, fIndex) in getFilePath(
-                scope.row[column.field],
-                column
-              )"
+              v-for="(file, fIndex) in getFilePath(scope.row[column.field], column)"
               :key="fIndex"
               @click="dowloadFile(file)"
               >{{ file.name }}</a
             >
-            <span v-else-if="column.type == 'date'">{{
-              formatterDate(scope.row, column)
-            }}</span>
+            <span v-else-if="column.type == 'date'">{{ formatterDate(scope.row, column) }}</span>
             <div
               v-else-if="column.formatter"
               @click="formatterClick(scope.row, column, $event)"
@@ -441,22 +401,20 @@
             <div
               @click="
                 () => {
-                  column.click && formatterClick(scope.row, column);
+                  column.click && formatterClick(scope.row, column)
                 }
               "
               v-else-if="column.bind"
             >
               <el-tag
                 v-if="useTag"
-                 class="cell-tag"
+                class="cell-tag"
                 :class="[isEmptyTag(scope.row, column)]"
                 :type="getColor(scope.row, column)"
                 :effect="column.effect"
                 >{{ formatter(scope.row, column, true) }}</el-tag
               >
-              <template v-else>{{
-                formatter(scope.row, column, true)
-              }}</template>
+              <template v-else>{{ formatter(scope.row, column, true) }}</template>
             </div>
 
             <span v-else>{{ formatter(scope.row, column, true) }}</span>
@@ -481,69 +439,61 @@
     </template>
   </div>
 
-  <VolBox
-    v-model="uploadModel"
-    title="上传"
-    :height="228"
-    :width="500"
-    :padding="15"
-    lazy
-  >
+  <VolBox v-model="uploadModel" title="上传" :height="228" :width="500" :padding="15" lazy>
     <!-- 上传图片、excel或其他文件、文件数量、大小限制都可以，参照volupload组件api -->
-    <div style="height: 200px;display: flex;align-items: center;">
+    <div style="height: 200px; display: flex; align-items: center">
       <VolUpload
-      style="text-align: center; "
-      :autoUpload="currentColumn.edit.autoUpload"
-     
-      :multiple="currentColumn.edit.multiple"
-      :url="uploadUrl"
-      :max-file="currentColumn.edit.maxFile"
-      :img="currentColumn.edit.type == 'img'"
-      :excel="currentColumn.edit.type == 'excel'"
-      :fileTypes="currentColumn.edit.fileTypes ? currentColumn.edit.fileTypes : []"
-      :fileInfo="fileInfo"
-      :upload-after="uploadAfter"
-      :upload-before="uploadBefore"
-      :append="currentColumn.edit.accept"
-    >
-      <div>{{ currentColumn.message}}</div>
-    </VolUpload>
+        style="text-align: center"
+        :autoUpload="currentColumn.edit.autoUpload"
+        :multiple="currentColumn.edit.multiple"
+        :url="uploadUrl"
+        :max-file="currentColumn.edit.maxFile"
+        :img="currentColumn.edit.type == 'img'"
+        :excel="currentColumn.edit.type == 'excel'"
+        :fileTypes="currentColumn.edit.fileTypes ? currentColumn.edit.fileTypes : []"
+        :fileInfo="fileInfo"
+        :upload-after="uploadAfter"
+        :upload-before="uploadBefore"
+        :append="currentColumn.edit.accept"
+      >
+        <div>{{ currentColumn.message }}</div>
+      </VolUpload>
     </div>
     <template #footer>
-        <div style="text-align: center; ">
-          <el-button type="default" size="small" @click="uploadModel=false">关闭</el-button >
-          <el-button type="primary" size="small" @click="saveUpload" >保存</el-button >
-        </div>
+      <div style="text-align: center">
+        <el-button type="default" size="small" @click="uploadModel = false">关闭</el-button>
+        <el-button type="primary" size="small" @click="saveUpload">保存</el-button>
+      </div>
     </template>
   </VolBox>
   <vol-image-viewer ref="viewer"></vol-image-viewer>
 </template>
 <script>
-import VolTableRender from './VolTable/VolTableRender';
-let _errMsg;
-import { defineComponent,defineAsyncComponent } from 'vue';
+import VolTableRender from './VolTable/VolTableRender'
+let _errMsg
+import { defineComponent, defineAsyncComponent } from 'vue'
 export default defineComponent({
-  emits:['loadBefore','loadAfter','rowChange', 'rowClick', 'rowDbClick', 'selectionChange'],
+  emits: ['loadBefore', 'loadAfter', 'rowChange', 'rowClick', 'rowDbClick', 'selectionChange'],
   //https://github.com/element-plus/element-plus/issues/1483
   //没有原先的selection属性了，看issue上使用select/selectall获取
   //监听数组长度，如果删除了数据，现在只能被迫清除所有选中的行
   watch: {
     'tableData.length': {
       handler(newLen, oldLen) {
-        this.watchRowSelectChange(newLen, oldLen);
+        this.watchRowSelectChange(newLen, oldLen)
       }
     },
     'rowData.length': {
       handler(newLen, oldLen) {
-        this.watchRowSelectChange(newLen, oldLen);
+        this.watchRowSelectChange(newLen, oldLen)
       }
     }
   },
   components: {
-    'vol-image-viewer':defineAsyncComponent(() => import("./VolImageViewer.vue")),
+    'vol-image-viewer': defineAsyncComponent(() => import('./VolImageViewer.vue')),
     'table-render': VolTableRender,
-    VolUpload: defineAsyncComponent(() =>import("./VolUpload.vue") ),
-    VolBox: defineAsyncComponent(() => import("./VolBox.vue")),
+    VolUpload: defineAsyncComponent(() => import('./VolUpload.vue')),
+    VolBox: defineAsyncComponent(() => import('./VolBox.vue'))
   },
   props: {
     rowKey: {
@@ -555,9 +505,9 @@ export default defineComponent({
       // 树形结构加载子节点
       type: Function,
       default: (tree, treeNode, resolve) => {
-          if(resolve){
-          return resolve([]);
-         }
+        if (resolve) {
+          return resolve([])
+        }
       }
     },
     textInline: {
@@ -569,7 +519,7 @@ export default defineComponent({
       // 表数据源,配置了url就不用传这个参数了
       type: Array,
       default: () => {
-        return [];
+        return []
       }
     },
     columns: {
@@ -586,14 +536,14 @@ export default defineComponent({
     },
     linkView: {
       type: Function,
-      default: function() {
-        return 1;
+      default: function () {
+        return 1
       }
     },
     pagination: {
       type: Object,
-      default: function() {
-        return { total: 0, size: 30, sortName: '' };
+      default: function () {
+        return { total: 0, size: 30, sortName: '' }
       }
     },
     url: {
@@ -639,22 +589,22 @@ export default defineComponent({
     beginEdit: {
       // 编辑开始
       type: Function,
-      default: function(row, column, index) {
-        return true;
+      default: function (row, column, index) {
+        return true
       }
     },
     endEditBefore: {
       // 结束编辑前
       type: Function,
-      default: function(row, column, index) {
-        return true;
+      default: function (row, column, index) {
+        return true
       }
     },
     endEditAfter: {
       // 结束编辑前
       type: Function,
-      default: function(row, column, index) {
-        return true;
+      default: function (row, column, index) {
+        return true
       }
     },
     ck: {
@@ -680,31 +630,39 @@ export default defineComponent({
     selectable: {
       type: Function,
       default: (row, index) => {
-        return true;
+        return true
       }
     },
-    spanMethod:{
+    spanMethod: {
       type: Function,
-      default: ({row,column,rowIndex, columnIndex}) => {
-      }
+      default: ({ row, column, rowIndex, columnIndex }) => {}
     },
-    lazy: { //树形表格是否默认延迟加载
+    lazy: {
+      //树形表格是否默认延迟加载
       type: Boolean,
-      default: true,
+      default: true
     },
-    defaultExpandAll: { //树形表格是否展开所有
+    defaultExpandAll: {
+      //树形表格是否展开所有
       type: Boolean,
       default: false
     },
-    expandRowKeys:{ //默认展开行
-      type:Array,
-      default:()=>{
+    expandRowKeys: {
+      //默认展开行
+      type: Array,
+      default: () => {
         return []
       }
     },
-    rowParentField:{ //树形表格父级id
-          type:String,
-          default:""
+    rowParentField: {
+      //树形表格父级id
+      type: String,
+      default: ''
+    },
+    reserveSelection: {
+      //分页或者刷新表格数据后是否保留复选框选择状态
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -718,14 +676,14 @@ export default defineComponent({
       realMaxHeight: 0,
       enableEdit: false, // 是否启表格用编辑功能
       empty: this.allowEmpty ? '' : '--',
-      defaultImg:new URL('@/assets/imgs/error-img.png', import.meta.url).href,
+      defaultImg: new URL('@/assets/imgs/error-img.png', import.meta.url).href,
       loading: false,
       footer: {},
       total: 0,
       formatConfig: {},
       // defaultColor: "",
       // 2020.09.06调整table列数据源的背景颜色
-      colors:["primary", "success", "info", "warning", "danger"],// ["warning", "success", "danger", "info"],
+      colors: ['primary', 'success', 'info', 'warning', 'danger'], // ["warning", "success", "danger", "info"],
       rule: {
         phone: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
         decimal: /(^[\-0-9][0-9]*(.[0-9]+)?)$/,
@@ -760,34 +718,34 @@ export default defineComponent({
       //vol-table带数据源的单元格是否启用tag标签(下拉框等单元格以tag标签显示)
       //2023.04.02更新voltable与main.js
       useTag: true,
-      currentRow:{},
-      currentColumn:[],
-      fileInfo:[],
-      uploadUrl:"",
-      uploadModel:false,
-      smallCell:true
-    };
+      currentRow: {},
+      currentColumn: [],
+      fileInfo: [],
+      uploadUrl: '',
+      uploadModel: false,
+      smallCell: true
+    }
   },
   created() {
     try {
-      this.useTag = this.$global.table&&this.$global.table.useTag;
-      this.smallCell=this.$global.table&&this.$global.table.smallCell;
+      this.useTag = this.$global.table && this.$global.table.useTag
+      this.smallCell = this.$global.table && this.$global.table.smallCell
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     }
 
-    this.realHeight = this.getHeight();
-    this.realMaxHeight = this.getMaxHeight();
+    this.realHeight = this.getHeight()
+    this.realMaxHeight = this.getMaxHeight()
     this.fxRight = this.columns.some((x) => {
-      return x.fixed == 'right';
-    });
+      return x.fixed == 'right'
+    })
     //2021.09.21移除强制固定行号与checkbox列
     if (
       this.columns.some((x) => {
-        return x.fixed && x.fixed != 'right';
+        return x.fixed && x.fixed != 'right'
       })
     ) {
-      this.fixed = true;
+      this.fixed = true
     }
     //2022.04.06优化table合计固定列显示
     // if (
@@ -804,184 +762,179 @@ export default defineComponent({
     // }
 
     // 从后台加下拉框的[是否启用的]数据源
-    let keys = [];
-    let columnBind = [];
-    this.summaryData.push('合计');
+    let keys = []
+    let columnBind = []
+    this.summaryData.push('合计')
     if (this.columnIndex) {
-      this.summaryData.push(' ');
+      this.summaryData.push(' ')
     }
-    this.initCellStyleColumns();
+    this.initCellStyleColumns()
     this.columns.forEach((x, _index) => {
-    
       if (!x.hidden) {
         // this.summaryIndex[x.field] = _index;
         // 2020.10.11修复求和列错位的问题
-        this.summaryData.push('');
-        this.summaryIndex[x.field] = this.summaryData.length - 1;
+        this.summaryData.push('')
+        this.summaryIndex[x.field] = this.summaryData.length - 1
       }
       // 求和
       if (x.summary && !this.summary) {
-        this.summary = true;
+        this.summary = true
       }
-      if (x.children&&Array.isArray(x.children)) {
-          x.children.forEach(cl=>{
-               if (cl.bind && cl.bind.key && (!cl.bind.data || cl.bind.data.length == 0)) {
-                keys.push(cl.bind.key);
-                cl.bind.valueType = cl.type;
-                columnBind.push(cl.bind);
-               }
-          })
-      }else if (x.bind && x.bind.key && (!x.bind.data || x.bind.data.length == 0)) {
-        // 写入远程
-        if (!x.bind.data) x.bind.data = [];
-        if (x.bind.remote) {
-          this.remoteColumns.push(x);
-        } else if (this.loadKey) {
-          keys.push(x.bind.key);
-          x.bind.valueType = x.type;
-          if (x.edit&&x.edit.type) {
-            x.bind.editType=x.edit.type
+      if (x.children && Array.isArray(x.children)) {
+        x.children.forEach((cl) => {
+          if (cl.bind && cl.bind.key && (!cl.bind.data || cl.bind.data.length == 0)) {
+            keys.push(cl.bind.key)
+            cl.bind.valueType = cl.type
+            columnBind.push(cl.bind)
           }
-          columnBind.push(x.bind);
+        })
+      } else if (x.bind && x.bind.key && (!x.bind.data || x.bind.data.length == 0)) {
+        // 写入远程
+        if (!x.bind.data) x.bind.data = []
+        if (x.bind.remote) {
+          this.remoteColumns.push(x)
+        } else if (this.loadKey) {
+          keys.push(x.bind.key)
+          x.bind.valueType = x.type
+          if (x.edit && x.edit.type) {
+            x.bind.editType = x.edit.type
+          }
+          columnBind.push(x.bind)
         }
       }
-    });
+    })
     if (keys.length > 0) {
-      this.http
-        .post('/api/Sys_Dictionary/GetVueDictionary', keys)
-        .then((dic) => {
-          dic.forEach((x) => {
-            if (x.data.length > this.select2Count) {
-              x.data.forEach((item) => {
-                item.label = item.value;
-                item.value = item.key;
-              });
+      this.http.post('/api/Sys_Dictionary/GetVueDictionary', keys).then((dic) => {
+        dic.forEach((x) => {
+          if (x.data.length > this.select2Count) {
+            x.data.forEach((item) => {
+              item.label = item.value
+              item.value = item.key
+            })
+          }
+          const arrType = ['cascader', 'treeSelect']
+          columnBind.forEach((c) => {
+            if (arrType.indexOf(c.valueType) != -1 || arrType.indexOf(c.editType) != -1) {
+              this.columns.forEach((col) => {
+                if (col.bind && col.bind.key == c.key) {
+                  col.bind.orginData = JSON.parse(JSON.stringify(x.data))
+                }
+              })
+              x.data = this.base.convertTree(x.data, (node, data, isRoot) => {
+                if (!node.inited) {
+                  node.inited = true
+                  node.label = node.value
+                  node.value = node.key + ''
+                }
+              })
             }
-            const arrType=['cascader','treeSelect'];
-            columnBind.forEach((c) => {
-            if ((arrType.indexOf(c.valueType)!=-1||arrType.indexOf(c.editType)!=-1)) {
-                this.columns.forEach(col=>{
-                    if (col.bind&&col.bind.key==c.key) {
-                        col.bind.orginData=JSON.parse(JSON.stringify(x.data));
-                    }
-                })
-                x.data = this.base.convertTree(x.data, (node, data, isRoot) => {
-                    if (!node.inited) {
-                      node.inited = true;
-                      node.label = node.value;
-                      node.value = node.key+'';
-                    }
-                });
-              }
-              // 转换数据源的类型与列的类型一致(2020.04.04)
-            else  if (c.key == x.dicNo && (c.valueType == "int" || c.valueType == "sbyte")) {
-                x.data.forEach((d) => {
-                  // 2020.09.01增加对数字类型的二次判断
-                  if (!isNaN(d.key)) {
-                    d.key = ~~d.key;
-                  }
-                });
-              }
-              if (c.key == x.dicNo) c.data.push(...x.data);
-            });
-          });
-        });
+            // 转换数据源的类型与列的类型一致(2020.04.04)
+            else if (c.key == x.dicNo && (c.valueType == 'int' || c.valueType == 'sbyte')) {
+              x.data.forEach((d) => {
+                // 2020.09.01增加对数字类型的二次判断
+                if (!isNaN(d.key)) {
+                  d.key = ~~d.key
+                }
+              })
+            }
+            if (c.key == x.dicNo) c.data.push(...x.data)
+          })
+        })
+      })
     }
 
-    this.paginations.sort = this.pagination.sortName;
+    this.paginations.sort = this.pagination.sortName
     // 2020.08.29增加自定义分页条大小
-    Object.assign(this.paginations, this.pagination);
+    Object.assign(this.paginations, this.pagination)
     if (this.pagination.size) {
-      this.paginations.rows = this.pagination.size;
+      this.paginations.rows = this.pagination.size
     }
     this.enableEdit = this.columns.some((x) => {
-      return x.hasOwnProperty('edit');
-    });
+      return x.hasOwnProperty('edit')
+    })
     let keyColumn = this.columns.find((x) => {
-      return x.isKey;
-    });
+      return x.isKey
+    })
     if (keyColumn) {
-      this.key = keyColumn.field;
+      this.key = keyColumn.field
     }
-    this.defaultLoadPage && this.load();
+    this.defaultLoadPage && this.load()
   },
   computed: {
     filterColumns() {
       return this.columns.filter((x, index) => {
         if (!x.field) {
-          x.field = x.title + index;
+          x.field = x.title + index
         }
-        return !x.hidden;
-      });
+        return !x.hidden
+      })
     }
   },
   methods: {
-    initCellStyleColumns(){
-      this.columns.forEach(x=>{
+    initCellStyleColumns() {
+      this.columns.forEach((x) => {
         if (x.cellStyle) {
-          this.cellStyleColumns[x.field] = x.cellStyle;
-         }
+          this.cellStyleColumns[x.field] = x.cellStyle
+        }
       })
     },
     watchRowSelectChange(newLen, oldLen) {
-      if (newLen < oldLen && this.selectRows.length) {
-        this.selectRows = [];
-        this.$refs.table.clearSelection();
+      if (!this.reserveSelection && newLen < oldLen && this.selectRows.length) {
+        this.selectRows = []
+        this.$refs.table.clearSelection()
+      }
+      if (!this.reserveSelection && this.isPageLoad) {
+        this.isPageLoad = false
+        return
       }
     },
     switchChange(val, row, column) {
       //这里在初始化的时候也会触发change事件
       if (Object.keys(row).length <= 1) {
-        return;
+        return
       }
       if (column.onChange) {
-        column.onChange(val, row, column);
+        column.onChange(val, row, column)
       }
     },
     inputKeyPress(row, column, $event, $e) {
-      column.onKeyPress && column.onKeyPress(row, column, $event);
-      this.getInputSummaries(null, null, $event, column);
+      column.onKeyPress && column.onKeyPress(row, column, $event)
+      this.getInputSummaries(null, null, $event, column)
     },
     extraClick(row, column) {
       column.extra.click &&
-        column.extra.click(
-          row,
-          column,
-          this.url ? this.rowData : this.tableData
-        );
+        column.extra.click(row, column, this.url ? this.rowData : this.tableData)
     },
     headerClick(column, event) {
       if (this.clickEdit && this.edit.rowIndex != -1) {
         if (
           this.rowEndEdit(
-            this.url
-              ? this.rowData[this.edit.rowIndex]
-              : this.tableData[this.edit.rowIndex],
+            this.url ? this.rowData[this.edit.rowIndex] : this.tableData[this.edit.rowIndex],
             column
           )
         ) {
-          this.edit.rowIndex = -1;
+          this.edit.rowIndex = -1
         }
       }
       // this.edit.rowIndex = -1;
     },
     rowDbClick(row, column, event) {
       //2021.05.23增加双击行事件
-      this.$emit('rowDbClick', { row, column, event });
+      this.$emit('rowDbClick', { row, column, event })
     },
     rowClick(row, column, event) {
       //2022.02.20增加点击时表格参数判断
       if (!column) {
-        return;
+        return
       }
       //正在编辑时，禁止出发rowClick事件
       if (this.edit.rowIndex == -1) {
-        this.$emit('rowClick', { row, column, event });
+        this.$emit('rowClick', { row, column, event })
       }
       // 点击行事件(2020.11.07)
 
       if (!this.doubleEdit) {
-        return;
+        return
       }
       // 点击其他行时，如果点击的行与正在编辑的行相同，保持编辑状态
       if (this.clickEdit && this.edit.rowIndex != -1) {
@@ -989,25 +942,25 @@ export default defineComponent({
           // 点击的单元格如果不可以编辑，直接结束编辑
           // 2020.10.12修复结束编辑时，element table高版本属性获取不到的问题
           let _col = this.columns.find((x) => {
-            return x.field == ((event && event.property) || column.property);
-          });
+            return x.field == ((event && event.property) || column.property)
+          })
           if (_col && (!_col.edit || _col.readonly)) {
             if (this.rowEndEdit(row, event)) {
-              this.edit.rowIndex = -1;
+              this.edit.rowIndex = -1
             }
           }
-          return;
+          return
         }
         if (this.rowEndEdit(row, event && event.property ? event : column)) {
-          this.edit.rowIndex = -1;
+          this.edit.rowIndex = -1
         }
         //当正在编辑，且点击到其他行时，在原编辑的行结束编辑后，触发新行的rowClick事件
         //正在编辑时，禁止出发rowClick事件
         if (this.edit.rowIndex == -1) {
-          this.$emit('rowClick', { row, column, event });
+          this.$emit('rowClick', { row, column, event })
         }
       }
-      this.rowBeginEdit(row, column);
+      this.rowBeginEdit(row, column)
     },
     dowloadFile(file) {
       this.base.dowloadFile(
@@ -1017,118 +970,116 @@ export default defineComponent({
           Authorization: this.$store.getters.getToken()
         },
         this.http.ipAddress
-      );
+      )
     },
     getFilePath(pathSring, column) {
       // 获取表的图片与文件显示
-      if (!pathSring) return [];
+      if (!pathSring) return []
       // 增加图片自定义操作
       // 返回格式必须是[{name:"文件名",path:"图片全路径或base64格式"}]
       if (column.formatter) {
-        return column.formatter(pathSring);
+        return column.formatter(pathSring)
       }
-      let filePath;
+      let filePath
       if (column.base64 && pathSring.indexOf('data') != -1) {
         filePath = (',' + pathSring)
           .split(',data')
           .filter((x) => {
-            return x;
+            return x
           })
           .map((m) => {
-            return 'data' + m;
-          });
+            return 'data' + m
+          })
       } else {
-        filePath = pathSring.replace(/\\/g, '/').split(',');
+        filePath = pathSring.replace(/\\/g, '/').split(',')
       }
 
-      let fileInfo = [];
+      let fileInfo = []
       for (let index = 0; index < filePath.length; index++) {
-        let file = filePath[index];
+        let file = filePath[index]
         // 2020.12.19增加base64图片显示
         if (column.base64) {
           fileInfo.push({
             name: '',
-            path:
-              (file.indexOf('data') == -1 ? 'data:image/png;base64,' : '') +
-              file
-          });
+            path: (file.indexOf('data') == -1 ? 'data:image/png;base64,' : '') + file
+          })
         } else if (file.indexOf('.') != -1) {
-          let splitFile = file.split('/');
+          let splitFile = file.split('/')
           if (splitFile.length > 0) {
             fileInfo.push({
               name: splitFile[splitFile.length - 1],
               path: this.base.isUrl(file) ? file : this.http.ipAddress + file
-            });
+            })
           }
         }
       }
-      return fileInfo;
+      return fileInfo
     },
     // 重置table
     reset() {
       if (this.tableData && this.tableData.length > 0) {
-        this.tableData.splice(0);
+        this.tableData.splice(0)
       }
       if (this.rowData && this.rowData.length > 0) {
-        this.rowData.splice(0);
+        this.rowData.splice(0)
       }
       if (!this.paginationHide) {
-        this.paginations.page = 1;
+        this.paginations.page = 1
         // this.paginations.rows = 30;
         if (this.paginations.wheres && this.paginations.wheres.length > 0) {
-          this.paginations.wheres.splice(0);
+          this.paginations.wheres.splice(0)
         }
       }
-      this.errorFiled = '';
-      this.edit.columnIndex = -1;
-      this.edit.rowIndex = -1;
+      this.errorFiled = ''
+      this.edit.columnIndex = -1
+      this.edit.rowIndex = -1
     },
     getHeight() {
       // 没有定义高度与最大高度，使用table默认值
       if (!this.height && !this.maxHeight) {
-        return null;
+        return null
       }
       // 定义了最大高度则不使用高度
       if (this.maxHeight) {
-        return null;
+        return null
       }
       // 使用当前定义的高度
-      return this.height;
+      return this.height
     },
     getMaxHeight() {
       // 没有定义高度与最大高度，使用table默认值
       if (!this.height && !this.maxHeight) {
-        return null;
+        return null
       }
       // 定义了最大高度使用最大高度
       if (this.maxHeight) {
-        return this.maxHeight;
+        return this.maxHeight
       }
       // 不使用最大高度
-      return null;
+      return null
     },
     getSelectedOptions(column) {
       if (column.bind && column.bind.data && column.bind.data.length > 0) {
-        return column.bind.data;
+        return column.bind.data
       }
-      return [];
+      return []
     },
     formatterClick(row, column, event) {
       if (column.click) {
-        column.click(row, column, event);
-        event.stopPropagation && event.stopPropagation();
+        column.click(row, column, event)
+        event.stopPropagation && event.stopPropagation()
       } else {
-        this.rowClick(row, column, event);
+        this.rowClick(row, column, event)
       }
     },
     initIndex({ row, rowIndex }) {
       if (this.index) {
-        row.elementIndex = rowIndex;
+        row.elementIndex = rowIndex
       }
       // if (rowIndex%2!==0) {
       //  return "even-row";
       // }
-      return;
+      return
     },
     toggleEdit(event) {},
     setEditStatus(status) {
@@ -1141,162 +1092,154 @@ export default defineComponent({
     // 通过button按钮启用编辑
     beginWithButtonEdit(scope) {
       // url?rowData:tableData
-      this.rowBeginEdit(scope.row, this.columns[scope.$index]);
+      this.rowBeginEdit(scope.row, this.columns[scope.$index])
     },
     rowBeginEdit(row, column) {
       if (this.edit.rowIndex != -1) {
-        return;
+        return
       }
-      let _row = this.columns.find((x) => x.field == column.property);
+      let _row = this.columns.find((x) => x.field == column.property)
       if (_row) {
         if (_row.readonly) {
-          return;
+          return
         }
         if (
           //不能编辑的字段、switch，点击不开启启编辑功能
           !_row.edit ||
           (_row.edit.keep && _row.edit.type == 'switch')
         ) {
-          return;
+          return
         }
       }
-      if (!this.enableEdit) return;
-      _errMsg = '';
+      if (!this.enableEdit) return
+      _errMsg = ''
       // 编辑前
       this.columns
         .filter((x) => {
-          return x.bind && x.bind.data && x.bind.data.length;
+          return x.bind && x.bind.data && x.bind.data.length
         })
         .forEach((column) => {
-          let val = row[column.field];
+          let val = row[column.field]
           if (typeof column.bind.data[0].key == 'string') {
             if (typeof val == 'number') {
-              row[column.field] = row[column.field] + '';
+              row[column.field] = row[column.field] + ''
             }
           } else {
             //多选或者级联编辑回写,2023.01.06
-             if (Array.isArray(val)) {
-              val = val.map(v=>{
-                   return v*1
-              });
-              row[column.field] = val;
-            }
-            else  if (typeof val == 'string' && val) {
-              let _val = val * 1;
+            if (Array.isArray(val)) {
+              val = val.map((v) => {
+                return v * 1
+              })
+              row[column.field] = val
+            } else if (typeof val == 'string' && val) {
+              let _val = val * 1
               if (_val + '' === val) {
-                row[column.field] = _val;
+                row[column.field] = _val
               }
             }
           }
-        });
-      if (!this.beginEdit(row, column, row.elementIndex)) return;
+        })
+      if (!this.beginEdit(row, column, row.elementIndex)) return
       if (row.hasOwnProperty('elementIndex')) {
         if (this.edit.rowIndex == row.elementIndex) {
-          return;
+          return
         }
-        this.edit.rowIndex = row.elementIndex;
+        this.edit.rowIndex = row.elementIndex
       }
     },
     rowEndEdit(row, column, event) {
       if (this.clickEdit && event) {
-        return true;
+        return true
       }
       if (!this.enableEdit) {
         if (!this.errorFiled) {
-          if (
-            this.edit.rowIndex != -1 &&
-            !this.endEditAfter(row, column, this.edit.rowIndex)
-          ) {
-            return false;
+          if (this.edit.rowIndex != -1 && !this.endEditAfter(row, column, this.edit.rowIndex)) {
+            return false
           }
-          this.edit.rowIndex = -1;
+          this.edit.rowIndex = -1
         }
-        return true;
+        return true
       }
       if (!this.doubleEdit && event) {
-        return true;
+        return true
       }
-      let _row = this.url
-        ? this.rowData[this.edit.rowIndex]
-        : this.tableData[this.edit.rowIndex];
+      let _row = this.url ? this.rowData[this.edit.rowIndex] : this.tableData[this.edit.rowIndex]
       // 结束编辑前
-      if (!this.endEditBefore(_row, column, this.edit.rowIndex)) return false;
+      if (!this.endEditBefore(_row, column, this.edit.rowIndex)) return false
       if (this.edit.rowIndex != -1) {
         //2022.06.26修复表格内容切换后行数不一致时不能编辑的问题
         if (this.edit.rowIndex - 1 > (this.rowData || this.tableData).length) {
-          this.edit.rowIndex = -1;
-          return;
+          this.edit.rowIndex = -1
+          return
         }
-        let row = (this.url ? this.rowData : this.tableData)[
-          this.edit.rowIndex
-        ];
+        let row = (this.url ? this.rowData : this.tableData)[this.edit.rowIndex]
         for (let index = 0; index < this.columns.length; index++) {
-          const _column = this.columns[index];
+          const _column = this.columns[index]
           if (_column.edit) {
             if (!this.validateRow(row, _column)) {
-              return;
+              return
             }
           }
         }
       }
-      if (!this.endEditAfter(_row, column, this.edit.rowIndex)) return false;
-      this.edit.rowIndex = -1;
-      return true;
+      if (!this.endEditAfter(_row, column, this.edit.rowIndex)) return false
+      this.edit.rowIndex = -1
+      return true
     },
     validateRow(row, option1) {
       if (!this.validateColum(option1, row)) {
-        this.errorFiled = option1.field;
+        this.errorFiled = option1.field
         // 2022.05.06 修改错误信息重复的问题
-        this.$message.error(option1.title + _errMsg);
-        return false;
+        this.$message.error(option1.title + _errMsg)
+        return false
       }
-      this.errorFiled = '';
-      return true;
+      this.errorFiled = ''
+      return true
     },
     validateColum(option, data) {
-      if (option.hidden || option.bind || !data) return true;
-      let val = data[option.field];
+      if (option.hidden || option.bind || !data) return true
+      let val = data[option.field]
       if (option.require || option.required) {
         if (val != '0' && (val === '' || val === undefined)) {
           if (!this.errorFiled) {
-            _errMsg = '不能为空';
+            _errMsg = '不能为空'
           }
-          return false;
+          return false
         }
       }
       if (!option.edit) {
-        return true;
+        return true
       }
-      let editType = option.edit.type;
+      let editType = option.edit.type
       // 验证数字
       if (editType == 'int' || editType == 'decimal' || editType == 'number') {
-        if (val == '' || val == undefined) return true;
+        if (val == '' || val == undefined) return true
         if (editType == 'decimal') {
           if (!this.rule.decimal.test(val)) {
-            _errMsg = '只能是数字';
-            return false;
+            _errMsg = '只能是数字'
+            return false
           }
         } else if (!this.rule.decimal.test(val)) {
-          _errMsg = '只能是数字';
-          return false;
+          _errMsg = '只能是数字'
+          return false
         }
         if (
           option.edit.min != undefined &&
           typeof option.edit.min === 'number' &&
           val < option.edit.min
         ) {
-          _errMsg = '不能小于' + option.edit.min;
-          return false;
+          _errMsg = '不能小于' + option.edit.min
+          return false
         }
         if (
           option.edit.max != undefined &&
           typeof option.edit.max === 'number' &&
           val > option.edit.max
         ) {
-          _errMsg = '不能大于' + option.edit.max;
-          return false;
+          _errMsg = '不能大于' + option.edit.max
+          return false
         }
-        return true;
+        return true
       }
 
       // 验证字符串
@@ -1306,30 +1249,28 @@ export default defineComponent({
           typeof option.edit.min === 'number' &&
           val.length < option.edit.min
         ) {
-          _errMsg = '至少' + option.edit.min + '个字符';
-          return false;
+          _errMsg = '至少' + option.edit.min + '个字符'
+          return false
         }
         if (
           option.edit.max != undefined &&
           typeof option.edit.max === 'number' &&
           val.length > option.edit.max
         ) {
-          _errMsg = '最多' + option.edit.max + '个字符';
-          return false;
+          _errMsg = '最多' + option.edit.max + '个字符'
+          return false
         }
       }
-      return true;
+      return true
     },
     delRow() {
-      let rows = this.getSelected();
-      if (rows.length == 0) return this.$Message.error('请选择要删除的行!');
+      let rows = this.getSelected()
+      if (rows.length == 0) return this.$Message.error('请选择要删除的行!')
 
-      let data = this.url ? this.rowData : this.tableData;
-      let indexArr = this.getSelectedIndex();
+      let data = this.url ? this.rowData : this.tableData
+      let indexArr = this.getSelectedIndex()
       if (indexArr.length == 0) {
-        return this.$Message.error(
-          "删除操作必须设置VolTable的属性index='true'"
-        );
+        return this.$Message.error("删除操作必须设置VolTable的属性index='true'")
       }
       // if (indexArr.length == 0 || !this.key) {
       //   return this.$message.error(
@@ -1347,112 +1288,112 @@ export default defineComponent({
       } else {
         for (let i = data.length - 1; i >= 0; i--) {
           if (indexArr.indexOf(i) != -1) {
-            data.splice(i, 1);
+            data.splice(i, 1)
           }
         }
       }
-      this.edit.rowIndex = -1;
-      return rows;
+      this.edit.rowIndex = -1
+      return rows
     },
     addRow(row) {
       if (!row) {
-        row = {};
+        row = {}
       }
       this.columns.forEach((x) => {
         // 2022.05.06 添加行时，如果列有编辑属性，设置开启编辑(避免关闭编辑后，无法再次启用编辑)??
         //x.readonly = false;
         if (!row.hasOwnProperty(x.field)) {
           if (x.edit && x.edit.type == 'switch') {
-            row[x.field] = x.type == 'bool' ? false : 0;
+            row[x.field] = x.type == 'bool' ? false : 0
           } else if (!row.hidden) {
             // 2020.09.06添加行时，设置默认字段
-            row[x.field] = undefined;
+            row[x.field] = undefined
           }
         }
-      });
+      })
       if (!this.url) {
-        this.tableData.push(row);
-        return;
+        this.tableData.push(row)
+        return
       }
-      this.rowData.push(row);
+      this.rowData.push(row)
     },
-    viewImg(row, column, url, $event,index) {
-        $event.stopPropagation();
-        const imgs=  this.getFilePath(row[column.field], column).map(x=>{return x.path});
-        this.$refs.viewer.show(imgs,index);
+    viewImg(row, column, url, $event, index) {
+      $event.stopPropagation()
+      const imgs = this.getFilePath(row[column.field], column).map((x) => {
+        return x.path
+      })
+      this.$refs.viewer.show(imgs, index)
       //this.base.previewImg(url);
       // window.open(row[column.field]);
     },
     link(row, column, $e) {
-      $e.stopPropagation();
-      this.$props.linkView(row, column);
+      $e.stopPropagation()
+      this.$props.linkView(row, column)
     },
     getSelected() {
-      return this.selectRows;
+      return this.selectRows
     },
     getSelectedIndex() {
       if (!this.index) {
         // 只有设置了属性index才有索引行
-        return [];
+        return []
       }
       let indexArr = this.selectRows.map((x) => {
-        return x.elementIndex;
-      });
-      return indexArr || [];
+        return x.elementIndex
+      })
+      return indexArr || []
     },
     GetTableDictionary(rows) {
       // 分页或刷新或重新绑定数据源
-      if (this.remoteColumns.length == 0 || !rows || rows.length == 0) return;
-      let remoteInfo = {};
+      if (this.remoteColumns.length == 0 || !rows || rows.length == 0) return
+      let remoteInfo = {}
       for (let index = 0; index < this.remoteColumns.length; index++) {
-        const column = this.remoteColumns[index];
+        const column = this.remoteColumns[index]
         //  column.bind.data.splice(0);
-        let key = column.bind.key;
-        let data = [];
+        let key = column.bind.key
+        let data = []
         rows.forEach((row) => {
           if (row[column.field] || row[column.field] == '0') {
             if (data.indexOf(row[column.field]) == -1) {
-              data.push(row[column.field]);
+              data.push(row[column.field])
             }
           }
-        });
+        })
         if (data.length > 0) {
-          remoteInfo[key] = data;
+          remoteInfo[key] = data
         }
       }
-      if (remoteInfo.length == 0) return;
+      if (remoteInfo.length == 0) return
       // ha= Object.assign([], ha, hb)
-      this.http
-        .post('/api/Sys_Dictionary/GetTableDictionary', remoteInfo)
-        .then((dic) => {
-          dic.forEach((x) => {
-            this.remoteColumns.forEach((column) => {
-              if (column.bind.key == x.key) {
-                column.bind.data = Object.assign([], column.bind.data, x.data);
-                // column.bind.data.push(...x.data);
-              }
-            });
-          });
-          this.$emit('dicInited', dic);
-        });
+      this.http.post('/api/Sys_Dictionary/GetTableDictionary', remoteInfo).then((dic) => {
+        dic.forEach((x) => {
+          this.remoteColumns.forEach((column) => {
+            if (column.bind.key == x.key) {
+              column.bind.data = Object.assign([], column.bind.data, x.data)
+              // column.bind.data.push(...x.data);
+            }
+          })
+        })
+        this.$emit('dicInited', dic)
+      })
     },
     load(query, isResetPage) {
       // isResetPage重置分页数据
-      if (!this.url) return;
+      if (!this.url) return
       if (isResetPage) {
-        this.resetPage();
+        this.resetPage()
       }
       let param = {
         page: this.paginations.page,
-        rows:this.paginationHide ? 1000: this.paginations.rows,
+        rows: this.paginationHide ? 1000 : this.paginations.rows,
         sort: this.paginations.sort,
         order: this.paginations.order,
         wheres: [] // 查询条件，格式为[{ name: "字段", value: "xx" }]
-      };
-      let status = true;
+      }
+      let status = true
       // 合并查询信息(包查询分页、排序、查询条件等)
       if (query) {
-        param = Object.assign(param, query);
+        param = Object.assign(param, query)
       }
       /* 查询前处理(如果需要查询条件，实现组件方法loadBefore方法即可:
         loadBefore=(param, callBack)=>{
@@ -1461,392 +1402,451 @@ export default defineComponent({
         })
       */
       this.$emit('loadBefore', param, (result) => {
-        status = result;
-      });
-      if (!status) return;
+        status = result
+      })
+      if (!status) return
 
       if (param.wheres && param.wheres instanceof Array) {
-        param.wheres = JSON.stringify(param.wheres);
+        param.wheres = JSON.stringify(param.wheres)
       }
-      this.loading = true;
-      let url=param.url||this.url;
-      param.url=undefined;
+      this.loading = true
+      let url = param.url || this.url
+      param.url = undefined
       this.http.post(url, param).then(
         (data) => {
           //2021.06.04修复tree不刷新的问题
           if (this.rowKey) {
-            this.randomTableKey++;
-            this.rowData.splice(0);
+            this.randomTableKey++
+            this.rowData.splice(0)
           }
-          this.loading = false;
-          let rows=data.rows||[];
+          this.loading = false
+          let rows = data.rows || []
           // 查询返回结果后处理
           // 2020.10.30增加查询后返回所有的查询信息
           this.$emit(
             'loadAfter',
             rows,
             (result) => {
-              status = result;
+              status = result
             },
             data
-          );
-          if (!status) return;
-          this.GetTableDictionary(data.rows);
-       
+          )
+          if (!status) return
+          this.GetTableDictionary(data.rows)
+
           if (this.rowParentField) {
-            rows= this.base.convertTree(rows,null,this.rowKey,this.rowParentField);
+            rows = this.base.convertTree(rows, null, this.rowKey, this.rowParentField)
           }
-          this.rowData = rows;
-          this.paginations.total = data.total;
+          this.rowData = rows
+          this.paginations.total = data.total
           // 合计
-          this.getSummaries(data);
-          // this.$nextTick(() => {
-          //   this.$refs.table.doLayout();
-          // });
+          this.getSummaries(data)
+          //设置分页后记录默认选中行2024.09.10
+          if (this.reserveSelection && this.rowKey) {
+            // this.isPageLoad = false;
+            this.$nextTick(() => {
+              this.isPageLoad = true
+              rows.forEach((row) => {
+                if (
+                  this.selectRows.some((c) => {
+                    return c[this.rowKey] === row[this.rowKey]
+                  })
+                ) {
+                  this.$refs.table.toggleRowSelection(row)
+                }
+              })
+              this.isPageLoad = false
+            })
+          }
         },
         (error) => {
-          this.loading = false;
+          this.loading = false
           // this.$Message.error(error || "网络异常");
         }
-      );
+      )
     }, // 获取统计
     getSummaries(data) {
-      if (!this.summary || !data.summary) return;
-      this.summaryData.splice(0);
+      if (!this.summary || !data.summary) return
+      this.summaryData.splice(0)
       // 开启了行号的，+1
       if (this.columnIndex) {
-        this.summaryData.push('');
+        this.summaryData.push('')
       }
       // 如果有checkbox，应该算作是第一行
       if (this.ck) {
-        this.summaryData.push('');
+        this.summaryData.push('')
       }
 
       this.columns.forEach((col) => {
         if (col.children && col.children.length) {
           col.children.forEach((item) => {
-            this.getColumnSummaries(item, data);
-          });
+            this.getColumnSummaries(item, data)
+          })
         } else {
-          this.getColumnSummaries(col, data);
+          this.getColumnSummaries(col, data)
         }
-      });
+      })
       if (this.summaryData.length > 0 && this.summaryData[0] == '') {
-        this.summaryData[0] = '合计';
+        this.summaryData[0] = '合计'
       }
     },
     getColumnSummaries(col, data) {
       if (!col.hidden) {
         if (data.summary.hasOwnProperty(col.field)) {
-          let sum = data.summary[col.field];
+          let sum = data.summary[col.field]
           //2024.01.07增加自定义合计格式化
           if (col.summaryFormatter) {
-            sum = col.summaryFormatter(sum,col,data,this.summaryData)
-          }else if (sum) {
-            sum =
-              (sum * 1.0).toFixed(col.numberLength || 2).replace('.00', '') *
-              1.0;
+            sum = col.summaryFormatter(sum, col, data, this.summaryData)
+          } else if (sum) {
+            sum = (sum * 1.0).toFixed(col.numberLength || 2).replace('.00', '') * 1.0
           }
-          this.summaryData.push(sum);
+          this.summaryData.push(sum)
         } else {
-          this.summaryData.push('');
+          this.summaryData.push('')
         }
       }
     },
     getInputChangeSummaries() {},
     handleSizeChange(val) {
-      this.paginations.size = val;
-      this.paginations.rows = val;
-      this.load();
+      this.paginations.size = val
+      this.paginations.rows = val
+      this.load()
     },
     handleCurrentChange(val) {
-      this.paginations.page = val;
-      this.load();
+      this.paginations.page = val
+      this.load()
     },
     sortChange(sort) {
-      this.paginations.sort = sort.prop;
-      this.paginations.order = sort.order == 'ascending' ? 'asc' : 'desc';
-      this.load();
+      this.paginations.sort = sort.prop
+      this.paginations.order = sort.order == 'ascending' ? 'asc' : 'desc'
+      this.load()
     },
     resetPage() {
       // 重置查询分页
       // this.paginations.rows = 30;
-      this.paginations.page = 1;
+      this.paginations.page = 1
     },
     selectionChange(selection) {
+      // // console.log(selection);
+      // // 选择行事件,只有单选才触发
+      // this.selectRows = selection;
+      // if (this.single) {
+      //   if (selection.length == 1) {
+      //     this.$emit('rowChange', selection[0]);
+      //   }
+      //   if (selection.length > 1) {
+      //     let _row = selection[selection.length - 1];
+      //     this.$refs.table.toggleRowSelection(selection[0]);
+      //     this.selectRows = [_row];
+      //   }
+      // }
+      // // 将selectionchange暴露出去
+      // this.$emit('selectionChange', selection);
+
       // console.log(selection);
       // 选择行事件,只有单选才触发
-      this.selectRows = selection;
+      if (this.reserveSelection && this.rowKey) {
+        //分页或者刷新时不重置选中的数据
+        if (!this.isPageLoad) {
+          //获取当前页选中的行数据并且未添加的数据
+          const selectNewRows = selection.filter((c) => {
+            return !this.selectRows.some((x) => {
+              return x[this.rowKey] === c[this.rowKey]
+            })
+          })
+          //当前面新添加的数据
+          this.selectRows.push(...selectNewRows)
+          //获取当前页移除(未选中)的数据
+          let unselectIds = (this.url ? this.rowData : this.tableData)
+            .filter((x) => {
+              return !selection.some((c) => {
+                return x[this.rowKey] === c[this.rowKey]
+              })
+            })
+            .map((c) => {
+              return c[this.rowKey]
+            })
+          this.selectRows = this.selectRows.filter((c) => {
+            return !unselectIds.some((x) => x === c[this.rowKey])
+          })
+          //  console.log(this.selectRows);
+        }
+      } else {
+        this.selectRows = selection
+      }
       if (this.single) {
         if (selection.length == 1) {
-          this.$emit('rowChange', selection[0]);
+          this.$emit('rowChange', selection[0])
         }
         if (selection.length > 1) {
-          let _row = selection[selection.length - 1];
-          this.$refs.table.toggleRowSelection(selection[0]);
-          this.selectRows = [_row];
+          let _row = selection[selection.length - 1]
+          this.$refs.table.toggleRowSelection(selection[0])
+          this.selectRows = [_row]
         }
+      } else {
+        this.$emit('rowChange', selection)
       }
-      // 将selectionchange暴露出去
-      this.$emit('selectionChange', selection);
+      this.$emit('selectionChange', selection)
     },
     getColor(row, column) {
-      let val = row[column.field];
+      let val = row[column.field]
       if (column.getColor && typeof column.getColor === 'function') {
-        let _color = column.getColor(row, column);
+        let _color = column.getColor(row, column)
         if (_color) {
-          return _color;
+          return _color
         }
       }
       if (!val && val != '0') {
-        return undefined;
+        return undefined
       }
       if (!this.formatConfig[column.field]) {
-        this.formatConfig[column.field] = [val];
-        return this.colors[0];
+        this.formatConfig[column.field] = [val]
+        return this.colors[0]
       }
-      let index = this.formatConfig[column.field].indexOf(val);
+      let index = this.formatConfig[column.field].indexOf(val)
       if (index != -1) {
-        return this.colors[index];
+        return this.colors[index]
       }
       if (this.formatConfig[column.field].length > 5) {
-        return '';
+        return ''
       }
 
       if (index == -1) {
-        this.formatConfig[column.field].push(val);
-        index = this.formatConfig[column.field].length - 1;
+        this.formatConfig[column.field].push(val)
+        index = this.formatConfig[column.field].length - 1
       }
-      return this.colors[index]||'info';
+      return this.colors[index] || 'info'
     },
     formatterDate(row, column) {
-      return (row[column.field] || '').substr(0, 10);
+      return (row[column.field] || '').substr(0, 10)
     },
     formatter(row, column, template) {
-      if (!template) return row[column.property];
-      let val = row[column.field];
-      if (!val && val != 0) return val;
+      if (!template) return row[column.property]
+      let val = row[column.field]
+      if (!val && val != 0) return val
       // 是否值
       if (column.edit && column.edit.type == 'switch') {
-        return val ? '是' : '否';
+        return val ? '是' : '否'
       }
       if (!column.bind || !column.bind.data) {
-        return row[column.field];
+        return row[column.field]
       }
 
-      if (column.edit && (column.edit.type == 'selectList'
-         ||column.edit.type=='treeSelect'
-         ||column.bind.type == "cascader" 
-         ||column.bind.type == "treeSelect")) {
+      if (
+        column.edit &&
+        (column.edit.type == 'selectList' ||
+          column.edit.type == 'treeSelect' ||
+          column.bind.type == 'cascader' ||
+          column.bind.type == 'treeSelect')
+      ) {
         if (!Array.isArray(val)) {
-          row[column.field] = (val+'').split(',');
+          row[column.field] = (val + '').split(',')
         } else {
-          val = val.join(',');
+          val = val.join(',')
         }
-        return this.getSelectFormatter(column, val);
+        return this.getSelectFormatter(column, val)
       }
-       // 编辑多选table显示
+      // 编辑多选table显示
       //  if (
       //   column.bind.type == "selectList" ||
       //   column.bind.type == "checkbox" ||
       //   column.bind.type == "cascader" ||
       //   column.bind.type == "treeSelect"
       // ) {
-       if (typeof val === 'string' && val.indexOf(',') != -1) {
-          return this.getSelectFormatter(column, val);
-       }
+      if (typeof val === 'string' && val.indexOf(',') != -1) {
+        return this.getSelectFormatter(column, val)
+      }
       //}
       let source = column.bind.data.filter((x) => {
         // return x.key != "" && x.key == val;
         // 2020.06.06修复单独使用table组件时,key为数字0时转换成文本失败的问题
-        return x.key !== '' && x.key !== undefined && x.key + '' === val + '';
-      });
-      if (source && source.length > 0) val = source[0].label || source[0].value;
-      return val;
+        return x.key !== '' && x.key !== undefined && x.key + '' === val + ''
+      })
+      if (source && source.length > 0) val = source[0].label || source[0].value
+      return val
     },
     getSelectFormatter(column, val) {
       // 编辑多选table显示
-      let valArr = (val+"").split(",");
+      let valArr = (val + '').split(',')
       for (let index = 0; index < valArr.length; index++) {
-        ( column.bind.orginData&&column.bind.orginData.length
-          ?column.bind.orginData
-          :column.bind.data)
-        .forEach((x) => {
+        ;(column.bind.orginData && column.bind.orginData.length
+          ? column.bind.orginData
+          : column.bind.data
+        ).forEach((x) => {
           // 2020.06.06修复数据源为selectList时,key为数字0时不能转换文本的问题
-          if (x.key !== "" && x.key !== undefined && x.key + "" == valArr[index] + "") {
-            valArr[index] = x.label || x.value;
+          if (x.key !== '' && x.key !== undefined && x.key + '' == valArr[index] + '') {
+            valArr[index] = x.label || x.value
           }
-        });
+        })
       }
-      return valArr.join(",");
+      return valArr.join(',')
     },
     onChange(scope, val, event, column) {
       // 2020.09.03修复onChange不触发的问题
-      let row = scope.row;
+      let row = scope.row
       if (column.onChange && !column.onChange(row, val, event)) {
-        return;
+        return
       }
       // 输入框求和实时计算
-      this.getInputSummaries(scope, val, event, column);
+      this.getInputSummaries(scope, val, event, column)
     },
     // input输入实时求和
     getInputSummaries(scope, val, event, column) {
       // column列设置了summary属性的才计算值
-      if (!column.summary) return;
-      let sum = 0;
+      if (!column.summary) return
+      let sum = 0
       //  let _index = 0;
-      (this.url ? this.rowData : this.tableData).forEach((x, index) => {
+      ;(this.url ? this.rowData : this.tableData).forEach((x, index) => {
         if (x.hasOwnProperty(column.field) && !isNaN(x[column.field])) {
           // _index = index;
-          sum += x[column.field] * 1;
+          sum += x[column.field] * 1
         }
-      });
+      })
       if (sum) {
         if (column.summary == 'avg') {
-          sum = sum / (this.rowData.length || this.tableData.length || 1);
+          sum = sum / (this.rowData.length || this.tableData.length || 1)
         }
-        sum =
-          (sum * 1.0).toFixed(column.numberLength || 2).replace('.00', '') *
-          1.0;
+        sum = (sum * 1.0).toFixed(column.numberLength || 2).replace('.00', '') * 1.0
       }
-      this.summaryData[this.summaryIndex[column.field]] = sum;
+      this.summaryData[this.summaryIndex[column.field]] = sum
     },
     getSummaryData({ columns, data }) {
-      return this.summaryData;
+      return this.summaryData
     },
     getCellStyle(row) {
       // 2020.12.13增加设置单元格颜色
       if (row.column.property) {
         return (
           this.cellStyleColumns[row.column.property] &&
-          this.cellStyleColumns[row.column.property](
-            row.row,
-            row.rowIndex,
-            row.columnIndex
-          )
-        );
+          this.cellStyleColumns[row.column.property](row.row, row.rowIndex, row.columnIndex)
+        )
       }
     },
     compareDate(date1, date2) {
       if (!date2) {
-        return true;
+        return true
       }
-      return (
-        date1.valueOf() <
-        (typeof date2 == 'number' ? date2 : new Date(date2).valueOf())
-      );
+      return date1.valueOf() < (typeof date2 == 'number' ? date2 : new Date(date2).valueOf())
     },
     getDateOptions(date, item) {
       //2021.07.17设置时间可选范围
       if ((!item.min && !item.max) || !date) {
-        return false;
+        return false
       }
       if (item.min && item.min.indexOf(' ') == -1) {
         //不设置时分秒，后面会自动加上 08:00
-        item.min = item.min + ' 00:00:000';
+        item.min = item.min + ' 00:00:000'
       }
-      return (
-        this.compareDate(date, item.min) || !this.compareDate(date, item.max)
-      );
+      return this.compareDate(date, item.min) || !this.compareDate(date, item.max)
     },
     getDateFormat(column) {
-      if(column.format){
-        return column.format;
+      if (column.format) {
+        return column.format
       }
-      if (column.edit.type == "month") {
-        return "YYYY-MM";
+      if (column.edit.type == 'month') {
+        return 'YYYY-MM'
       }
       //见https://day.js.org/docs/zh-CN/display/format
-      return column.edit.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss';
+      return column.edit.type == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'
     },
     userSelect(selection, row) {
-      this.selectRows = selection;
-      if (!this.single) {
-        this.$emit('rowChange', { row, selection });
-      }
+      // this.selectRows = selection;
+      // if (!this.single) {
+      //   this.$emit('rowChange', { row, selection });
+      // }
     },
     isEmptyTag(row, column) {
       if (!row[column.field] && row[column.field] != '0') {
-        return 'empty-tag';
+        return 'empty-tag'
       }
-      return '';
+      return ''
     },
     filterChildrenColumn(children) {
       if (!children) {
-        return [];
+        return []
       }
       return children.filter((x) => {
-        return !x.hidden;
-      });
+        return !x.hidden
+      })
     },
     initColumnDisabled(row, column) {
-      return column.getDisabled && column.getDisabled(row, column);
+      return column.getDisabled && column.getDisabled(row, column)
     },
-    showUpload(row,column){
-       this.fileInfo = (row[column.field] || '').split(",")
-                    .filter(x => { return x })
-                    .map(item => {
-                       return { path: item, name: "" };
-                    })
-      this.currentRow=row;
-      this.currentColumn=column;
-      if (this.currentColumn.edit.autoUpload===undefined) {
-        this.currentColumn.edit.autoUpload=true;
+    showUpload(row, column) {
+      this.fileInfo = (row[column.field] || '')
+        .split(',')
+        .filter((x) => {
+          return x
+        })
+        .map((item) => {
+          return { path: item, name: '' }
+        })
+      this.currentRow = row
+      this.currentColumn = column
+      if (this.currentColumn.edit.autoUpload === undefined) {
+        this.currentColumn.edit.autoUpload = true
       }
-      if (this.currentColumn.edit.multiple===undefined) {
-        this.currentColumn.edit.multiple=false;
+      if (this.currentColumn.edit.multiple === undefined) {
+        this.currentColumn.edit.multiple = false
       }
 
-      if (this.currentColumn.edit.url===undefined) {
-          this.uploadUrl='api/'+(this.url||'').replace('/api','api').split('/')[1]+'/upload'
-      }else{
-        this.uploadUrl=this.currentColumn.edit.url;
+      if (this.currentColumn.edit.url === undefined) {
+        this.uploadUrl = 'api/' + (this.url || '').replace('/api', 'api').split('/')[1] + '/upload'
+      } else {
+        this.uploadUrl = this.currentColumn.edit.url
       }
-      this.uploadModel=true;
+      this.uploadModel = true
     },
     uploadAfter(result, files) {
-      this.currentColumn.uploadAfter&&this.currentColumn.uploadAfter(result,files);
-      return true;
+      this.currentColumn.uploadAfter && this.currentColumn.uploadAfter(result, files)
+      return true
     },
-    uploadBefore(files,params){
-      this.currentColumn.uploadBefore&&this.currentColumn.uploadBefore(files,this.currentRow,params);
-      return true;
+    uploadBefore(files, params) {
+      this.currentColumn.uploadBefore &&
+        this.currentColumn.uploadBefore(files, this.currentRow, params)
+      return true
     },
-    saveUpload(){
+    saveUpload() {
       //生成保存后返回的路径
       let arr = this.fileInfo.map((x) => {
         if (x.path) {
-          return x.path;
+          return x.path
         }
-        return result.data + x.name;
-      });
+        return result.data + x.name
+      })
 
-      this.currentRow[this.currentColumn.field] = arr.join(",");
-      this.uploadModel = false;
-      return true;
+      this.currentRow[this.currentColumn.field] = arr.join(',')
+      this.uploadModel = false
+      return true
     },
-    expandChange(row,expandedRows){ //	当用户对某一行展开或者关闭的时
-      if (!this.defaultExpandAll&&!this.lazy) {
-          if (expandedRows) {
-             if(this.expandRowKeys.indexOf(row[this.rowKey])==-1){
-              this.expandRowKeys.push(row[this.rowKey])
-             }
-          }else{
-            let _index= this.expandRowKeys.findIndex(x=>{return x==row[this.rowKey]});
-            if (_index!=-1) {
-              this.expandRowKeys.splice(_index,1);
-            }
+    expandChange(row, expandedRows) {
+      //	当用户对某一行展开或者关闭的时
+      if (!this.defaultExpandAll && !this.lazy) {
+        if (expandedRows) {
+          if (this.expandRowKeys.indexOf(row[this.rowKey]) == -1) {
+            this.expandRowKeys.push(row[this.rowKey])
           }
-      }    
+        } else {
+          let _index = this.expandRowKeys.findIndex((x) => {
+            return x == row[this.rowKey]
+          })
+          if (_index != -1) {
+            this.expandRowKeys.splice(_index, 1)
+          }
+        }
+      }
     },
-    handleImageError($e){
-      $e.target.src= this.defaultImg;
+    handleImageError($e) {
+      $e.target.src = this.defaultImg
     },
-    cellSpanMethod({row,column,rowIndex, columnIndex}){
-      return this.spanMethod({row,column,rowIndex, columnIndex},this.url?this.rowData:this.tableData)
+    cellSpanMethod({ row, column, rowIndex, columnIndex }) {
+      return this.spanMethod(
+        { row, column, rowIndex, columnIndex },
+        this.url ? this.rowData : this.tableData
+      )
     }
   }
-});
+})
 </script>
 <style lang="less" scoped>
 .vol-table {
@@ -2005,10 +2005,9 @@ export default defineComponent({
 .small-table ::v-deep(.el-table__cell) {
   padding: 6px 0;
   font-size: 13px;
-
 }
 .small-table ::v-deep(.cell-tag) {
-  padding: 0 5px !important; 
+  padding: 0 5px !important;
   height: 19px;
 }
 </style>
