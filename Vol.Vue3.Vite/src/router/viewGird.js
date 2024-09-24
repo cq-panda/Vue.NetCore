@@ -64,6 +64,10 @@ let viewgird = [
     path: '/Sys_Department',
     name: 'Sys_Department',
     component: () => import('@/views/system/system/Sys_Department.vue')
-  }]
+  }    ,{
+        path: '/Sys_Config',
+        name: 'Sys_Config',
+        component: () => import('@/views/system/system/Sys_Config.vue')
+    }]
 
 export default viewgird

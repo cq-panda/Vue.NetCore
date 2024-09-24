@@ -49,7 +49,7 @@ namespace VOL.System.Controllers
         }
 
         [HttpPost, HttpGet, Route("login"), AllowAnonymous]
-        [ObjectModelValidatorFilter(ValidatorModel.Login)]
+        // [ObjectModelValidatorFilter(ValidatorModel.Login)]
         public async Task<IActionResult> Login([FromBody] LoginInfo loginInfo)
         {
             return Json(await Service.Login(loginInfo));
