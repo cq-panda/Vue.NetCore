@@ -17,7 +17,7 @@
 			<vol-table v-if="isCreated" :class="[className]" :url="tableUrl" @cellClick="gridCellClick"
 				@rowButtons="getRowButtons" @rowButtonClick="gridRowButtonClick" @rowClick="gridRowClick"
 				:defaultLoadPage="load" @loadBefore="loadGridTableBefore" :index="rowIndex" :ck="ck"
-				@loadAfter="loadGridTableAfter" ref="table" :direction="direction" :titleField="titleField"
+				:load-key="false" @loadAfter="loadGridTableAfter" ref="table" :direction="direction" :titleField="titleField"
 				:height="height" @formatter="cellFormatter" :columns.sync="columns" :textInline="textInline">
 				<!-- 			<view style="height: 50rpx;"></view> -->
 				<!-- 		<view class="vol-table-title-buttons" slot="title">
