@@ -176,7 +176,7 @@ namespace VOL.Core.Services
                     if (list.Count == 0) { continue; }
                     if (pgsql)
                     {
-                        DbManger.SqlSugarClient.Insertable<Sys_Log>(list);
+                        DbManger.SqlSugarClient.Insertable<Sys_Log>(list).ExecuteCommand();
                     }
                     else
                     {
