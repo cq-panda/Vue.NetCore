@@ -15,7 +15,7 @@ namespace VOL.Core.Dapper
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        ISqlDapper SetTimout(int timeout);
+        ISqlDapper SetTimeout(int timeout);
         void BeginTransaction(Func<ISqlDapper, bool> action, Action<Exception> error);
         List<T> QueryList<T>(string cmd, object param, CommandType? commandType = null, bool beginTransaction = false);
 

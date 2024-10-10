@@ -47,7 +47,7 @@ namespace VOL.Core.Dapper
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public ISqlDapper SetTimout(int timeout)
+        public ISqlDapper SetTimeout(int timeout)
         {
             this.commandTimeout = timeout;
             return this;
@@ -703,6 +703,7 @@ namespace VOL.Core.Dapper
                     {
                         sqlBulkCopy.ColumnMappings.Add(table.Columns[i].ColumnName, table.Columns[i].ColumnName);
                     }
+                    sqlBulkCopy.BulkCopyTimeout = commandTimeout ?? 60;
                     sqlBulkCopy.WriteToServer(table);
                     return table.Rows.Count;
                 }
@@ -777,6 +778,7 @@ namespace VOL.Core.Dapper
                             TableName = tableName,
                             CharacterSet = "UTF8",
                             FieldQuotationCharacter = '"',
+                            Timeout=commandTimeout??60,
                             FieldQuotationOptional = true
                         };
                         var array = Encoding.UTF8.GetBytes(csv);

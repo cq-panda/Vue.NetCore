@@ -55,7 +55,7 @@
             <a><i class="el-icon-message-solid"></i></a>
           </div>
           <div>
-            <img class="user-header" :src="userImg" :onerror="errorImg" />
+            <img class="user-header" :src="userImg"   @error="($e) => { $e.target.src = errorImg; }"/>
           </div>
           <div class="user">
             <span>{{ userName }}</span>

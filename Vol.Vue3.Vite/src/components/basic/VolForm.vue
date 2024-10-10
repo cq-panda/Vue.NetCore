@@ -241,39 +241,25 @@
                 ['date', 'datetime','month'].indexOf(item.type) != -1 && item.range
               "
             >
-              <el-date-picker
+            <el-date-picker
                 :size="size"
+                :ref="item.field"
                 :disabled="item.readonly || item.disabled"
                 style="flex: 1; width: auto"
-                v-model="formFields[item.field][0]"
-                :type="item.type"
+                v-model="formFields[item.field]"
+                :type="item.type + 'range'"
                 :disabledDate="(val) => getDateOptions(val, item)"
-                placeholder="开始时间"
+                start-placeholder="开始时间"
+                :unlink-panels="true"
+                end-placeholder="结束时间"
                 @change="
                   (val) => {
                     dateRangeChange(val, item);
                   }
                 "
                 :value-format="getDateFormat(item)"
-              >
-              </el-date-picker>
-              <span style="margin: 0px 5px; font-size: 13px; color: #6f6b6b"
-                >至</span
-              >
-              <el-date-picker
-                :size="size"
-                :disabled="item.readonly || item.disabled"
-                style="flex: 1; width: auto"
-                v-model="formFields[item.field][1]"
-                placeholder="结束时间"
-                :type="item.type"
-                :disabledDate="(val) => getDateOptions(val, item)"
-                @change="
-                  (val) => {
-                    dateRangeChange(val, item);
-                  }
-                "
-                :value-format="getDateFormat(item)"
+                :shortcuts="getShortcuts()"
+                range-separator="-"
               >
               </el-date-picker>
             </div>
@@ -1410,35 +1396,35 @@ export default defineComponent({
     getNode( label,node, data){
       console.log(label)
     },
-    getShortcuts() {
-      const end = new Date()
-      return [
-        { name: '今天', value: 0 },
-        { name: '昨天', value: 1 },
-        { name: '近三天', value: 2 },
-        { name: '近一周', value: 6 },
-        { name: '近一月', m: true, value: 1 },
-        { name: '近三月', m: true, value: 3 },
-        { name: '近半年', m: true, value: 6 },
-        { name: '近一年', m: true, value: 12 }
-      ].map((x) => {
-        return {
-          text: this.$ts(x.name),
-          value: () => {
-            const start = new Date()
-            if (x.m) {
-              start.setMonth(start.getMonth() - x.value)
-              return [start.getTime(), end]
-            }
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * x.value)
-            return [start, end]
-          }
-        }
-      })
-    },
     handleImageError($e) {
       $e.target.src = this.defaultImg
-    }
+    },
+    getShortcuts() {
+      const end = new Date();
+      return [
+        { name: "今天", value: 0 },
+        { name: "昨天", value: 1 },
+        { name: "近三天", value: 2 },
+        { name: "近一周", value: 6 },
+        { name: "近一月", m: true, value: 1 },
+        { name: "近三月", m: true, value: 3 },
+        { name: "近半年", m: true, value: 6 },
+        { name: "近一年", m: true, value: 12 },
+      ].map((x) => {
+        return {
+          text: x.name,
+          value: () => {
+            const start = new Date();
+            if (x.m) {
+              start.setMonth(start.getMonth() - x.value);
+              return [start.getTime(), end];
+            }
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * x.value);
+            return [start, end];
+          },
+        };
+      });
+    },
   }
 });
 </script>

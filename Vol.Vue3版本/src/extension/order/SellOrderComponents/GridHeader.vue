@@ -27,7 +27,6 @@
     title="弹出框2"
     :width="500"
     :padding="5"
-    :onModelClose="onModelClose"
   >
     <div style="height: 150px;">按钮点击的弹出框</div>
   </vol-box>

@@ -1131,19 +1131,29 @@ let methods = {
     }
     return this.$refs.detail.getSelected();
   },
-  audit() {
+  async auditModelOpenBefore(rows) {
+    return true
+  },
+  async audit(rows) {
     //审核弹出框
-    let rows = this.$refs.table.getSelected();
-    if (rows.length == 0) return this.$error('请选择要审核的行!');
-    let auditStatus = Object.keys(rows[0]).find(x => { return x.toLowerCase() === 'auditstatus' });
+    if (!rows) {
+      rows = this.$refs.table.getSelected()
+    }
+    if (rows.length == 0) return this.$error('请选择要审核的行!')
+    let auditStatus = Object.keys(rows[0]).find((x) => {
+      return x.toLowerCase() === 'auditstatus'
+    })
     if (!auditStatus) {
       return this.$message.error(`表必须包括审核字段【AuditStatus】,并且是int类型`)
+    }
+    if (!(await this.auditModelOpenBefore(rows))) {
+      return
     }
     // let checkStatus = rows.every((x) => {
     //   return this.$global.audit.status.some(c => { return c === x[auditStatus] || !x[auditStatus] })
     // });
     // if (!checkStatus) return this.$error('只能选择待审批或审核中的数据!');
-    this.$refs.audit.open(rows);
+    this.$refs.audit.open(rows)
   },
   saveAudit(params, rows, callback) {
 

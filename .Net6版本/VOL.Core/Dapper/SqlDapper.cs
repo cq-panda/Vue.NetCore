@@ -47,7 +47,7 @@ namespace VOL.Core.Dapper
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public ISqlDapper SetTimout(int timeout)
+        public ISqlDapper SetTimeout(int timeout)
         {
             this.commandTimeout = timeout;
             return this;
@@ -703,6 +703,7 @@ namespace VOL.Core.Dapper
                     {
                         sqlBulkCopy.ColumnMappings.Add(table.Columns[i].ColumnName, table.Columns[i].ColumnName);
                     }
+                    sqlBulkCopy.BulkCopyTimeout = commandTimeout ?? 60;
                     sqlBulkCopy.WriteToServer(table);
                     return table.Rows.Count;
                 }
@@ -761,63 +762,42 @@ namespace VOL.Core.Dapper
             string csv = DataTableToCsv(table);
             string text = $"当前行:{table.Rows.Count}";
             MemoryStream stream = null;
-            try
-            {
-                using (var Connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
-                {
-                    if (Connection.State == ConnectionState.Closed)
-                    {
-                        Connection.Open();
-                    }
-                    using (IDbTransaction tran = Connection.BeginTransaction())
-                    {
-                        MySqlBulkLoader bulk = new MySqlBulkLoader(Connection as MySqlConnection)
-                        {
-                            LineTerminator = "\n",
-                            TableName = tableName,
-                            CharacterSet = "UTF8",
-                            FieldQuotationCharacter = '"',
-                            FieldQuotationOptional = true
-                        };
-                        var array = Encoding.UTF8.GetBytes(csv);
-                        using (stream = new MemoryStream(array))
-                        {
-                            stream = new MemoryStream(array);
-                            bulk.SourceStream = stream; //File.OpenRead(fileName);
-                            bulk.Columns.AddRange(table.Columns.Cast<DataColumn>().Select(colum => colum.ColumnName).ToList());
-                            insertCount = bulk.Load();
-                            tran.Commit();
-                        }
-                    }
-                }
 
-            }
-            catch (Exception ex)
+            using (var Connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
             {
-                if (ex.Message.StartsWith("vol:"))
+                if (Connection.State == ConnectionState.Closed)
                 {
-                    return 0;
+                    Connection.Open();
                 }
-                if (ex.Message.Contains("local data is disabled"))
+                using (IDbTransaction tran = Connection.BeginTransaction())
                 {
-                    try
+                    MySqlBulkLoader bulk = new MySqlBulkLoader(Connection as MySqlConnection)
                     {
-                        DBServerProvider.SqlDapper.ExcuteNonQuery("set global local_infile = 'ON';", null);
-                    }
-                    catch (Exception e)
+                        LineTerminator = "\n",
+                        TableName = tableName,
+                        CharacterSet = "UTF8",
+                        FieldQuotationCharacter = '"',
+                        Timeout = commandTimeout ?? 60,
+                        FieldQuotationOptional = true
+                    };
+                    var array = Encoding.UTF8.GetBytes(csv);
+                    using (stream = new MemoryStream(array))
                     {
-
-                        Console.WriteLine($"开启mysql日志写入异常:{e.Message}");
+                        stream = new MemoryStream(array);
+                        bulk.SourceStream = stream; //File.OpenRead(fileName);
+                        bulk.Columns.AddRange(table.Columns.Cast<DataColumn>().Select(colum => colum.ColumnName).ToList());
+                        insertCount = bulk.Load();
+                        tran.Commit();
                     }
                 }
-                throw new Exception("vol:" + ex.Message, ex.InnerException);
             }
+
             return insertCount;
         }
 
         private int OralceBulkInsert(DataTable table, string tableName)
         {
-            using (OracleConnection connection = DBServerProvider.GetDbConnection(_connectionString, DbCurrentType.Oracle) as OracleConnection )
+            using (OracleConnection connection = DBServerProvider.GetDbConnection(_connectionString, DbCurrentType.Oracle) as OracleConnection)
             {
                 connection.Open();
                 using (OracleCommand cmd = new OracleCommand($"SELECT * FROM {tableName}", connection))

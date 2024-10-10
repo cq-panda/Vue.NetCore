@@ -1,6 +1,8 @@
 ﻿
 using Dapper;
-using MySql.Data.MySqlClient;
+using Dm;
+using MySqlConnector;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -45,7 +47,7 @@ namespace VOL.Core.Dapper
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public ISqlDapper SetTimout(int timeout)
+        public ISqlDapper SetTimeout(int timeout)
         {
             this.commandTimeout = timeout;
             return this;
@@ -53,7 +55,7 @@ namespace VOL.Core.Dapper
 
         private T Execute<T>(Func<IDbConnection, IDbTransaction, T> func, bool beginTransaction = false)
         {
-            if (_transaction|| dbTransaction!=null)
+            if (_transaction || dbTransaction != null)
             {
                 return func(_transactionConnection, dbTransaction);
             }
@@ -82,7 +84,7 @@ namespace VOL.Core.Dapper
                 catch (Exception ex)
                 {
                     dbTransaction?.Rollback();
-                    throw ex;
+                    throw new Exception(ex.Message, ex);
                 }
                 finally
                 {
@@ -130,7 +132,7 @@ namespace VOL.Core.Dapper
                 catch (Exception ex)
                 {
                     dbTransaction?.Rollback();
-                    throw ex;
+                    throw new Exception(ex.Message, ex);
                 }
             }
         }
@@ -649,7 +651,7 @@ namespace VOL.Core.Dapper
                 {
                     paramsList.Add(item.Name + "=@" + item.Name);
                 }
-                string sqltext = $@"UPDATE { entityType.GetEntityTableName()} SET {string.Join(",", paramsList)} WHERE {entityType.GetKeyName()} = @{entityType.GetKeyName()} ;";
+                string sqltext = $@"UPDATE {entityType.GetEntityTableName()} SET {string.Join(",", paramsList)} WHERE {entityType.GetKeyName()} = @{entityType.GetKeyName()} ;";
 
                 return ExcuteNonQuery(sqltext, entities, CommandType.Text, beginTransaction);
                 // throw new Exception("mysql批量更新未实现");
@@ -674,7 +676,7 @@ namespace VOL.Core.Dapper
         {
             Type entityType = typeof(T);
             var keyProperty = entityType.GetKeyProperty();
-            string sql = $"DELETE FROM {entityType.GetEntityTableName() } where {keyProperty.Name} in @keys ";
+            string sql = $"DELETE FROM {entityType.GetEntityTableName()} where {keyProperty.Name} in @keys ";
             return ExcuteNonQuery(sql, new { keys }).GetInt();
         }
         /// <summary>
@@ -701,6 +703,7 @@ namespace VOL.Core.Dapper
                     {
                         sqlBulkCopy.ColumnMappings.Add(table.Columns[i].ColumnName, table.Columns[i].ColumnName);
                     }
+                    sqlBulkCopy.BulkCopyTimeout = commandTimeout ?? 60;
                     sqlBulkCopy.WriteToServer(table);
                     return table.Rows.Count;
                 }
@@ -719,6 +722,7 @@ namespace VOL.Core.Dapper
             {
                 tmpPath = tmpPath.ReplacePath();
             }
+
             if (DBType.Name == "MySql")
             {
                 return MySqlBulkInsert(table, tableName, fileName, tmpPath);
@@ -729,6 +733,17 @@ namespace VOL.Core.Dapper
                 PGSqlBulkInsert(table, tableName);
                 return table.Rows.Count;
             }
+
+            if (DBType.Name == "DM")
+            {
+                return DMBulkInsert(table, tableName);
+            }
+
+            if (DBType.Name == "Oracle")
+            {
+                return OralceBulkInsert(table, tableName);
+            }
+
             return MSSqlBulkInsert(table, tableName, sqlBulkCopyOptions ?? SqlBulkCopyOptions.KeepIdentity);
         }
 
@@ -747,9 +762,92 @@ namespace VOL.Core.Dapper
             string csv = DataTableToCsv(table);
             string text = $"当前行:{table.Rows.Count}";
             MemoryStream stream = null;
+
+            using (var Connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
+            {
+                if (Connection.State == ConnectionState.Closed)
+                {
+                    Connection.Open();
+                }
+                using (IDbTransaction tran = Connection.BeginTransaction())
+                {
+                    MySqlBulkLoader bulk = new MySqlBulkLoader(Connection as MySqlConnection)
+                    {
+                        LineTerminator = "\n",
+                        TableName = tableName,
+                        CharacterSet = "UTF8",
+                        FieldQuotationCharacter = '"',
+                        Timeout = commandTimeout ?? 60,
+                        FieldQuotationOptional = true
+                    };
+                    var array = Encoding.UTF8.GetBytes(csv);
+                    using (stream = new MemoryStream(array))
+                    {
+                        stream = new MemoryStream(array);
+                        bulk.SourceStream = stream; //File.OpenRead(fileName);
+                        bulk.Columns.AddRange(table.Columns.Cast<DataColumn>().Select(colum => colum.ColumnName).ToList());
+                        insertCount = bulk.Load();
+                        tran.Commit();
+                    }
+                }
+            }
+
+            return insertCount;
+        }
+
+        private int OralceBulkInsert(DataTable table, string tableName)
+        {
+            using (OracleConnection connection = DBServerProvider.GetDbConnection(_connectionString, DbCurrentType.Oracle) as OracleConnection)
+            {
+                connection.Open();
+                using (OracleCommand cmd = new OracleCommand($"SELECT * FROM {tableName}", connection))
+                {
+                    using (OracleDataAdapter adapter = new OracleDataAdapter(cmd))
+                    {
+                        using (OracleCommandBuilder builder = new OracleCommandBuilder(adapter))
+                        {
+                            adapter.InsertCommand = builder.GetInsertCommand();
+                            adapter.Update(table);
+                        }
+                    }
+                }
+            }
+            //using (var conn = DBServerProvider.GetDbConnection(_connectionString, DbCurrentType.Oracle))
+            //{
+            //    if (conn.State == ConnectionState.Closed)
+            //    {
+            //        conn.Open();
+            //    }
+            //    using (OracleBulkCopy bulkCopy = new OracleBulkCopy(conn as OracleConnection))
+            //    {
+            //        bulkCopy.DestinationTableName = tableName; // 设置目标表名
+
+            //        // 将DataTable中的列映射到目标表中的列
+            //        foreach (DataColumn col in table.Columns)
+            //        {
+            //            bulkCopy.ColumnMappings.Add(col.ColumnName, col.ColumnName);
+            //        }
+            //        // 执行批量写入操作
+            //        bulkCopy.WriteToServer(table);
+            //    }
+            //}
+            return table.Rows.Count;
+        }
+
+        /// <summary>
+        /// 达梦大批量数据插入,返回成功插入行数
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private int DMBulkInsert(DataTable table, string tableName)
+        {
+            if (table.Rows.Count == 0) return 0;
+
             try
             {
-                using (var Connection = DBServerProvider.GetDbConnection(_connectionString, _dbCurrentType))
+                using (var Connection = DBServerProvider.GetDbConnection(_connectionString, DbCurrentType.DM))
                 {
                     if (Connection.State == ConnectionState.Closed)
                     {
@@ -757,49 +855,32 @@ namespace VOL.Core.Dapper
                     }
                     using (IDbTransaction tran = Connection.BeginTransaction())
                     {
-                        MySqlBulkLoader bulk = new MySqlBulkLoader(Connection as MySqlConnection)
+                        using (var bulk = new DmBulkCopy(Connection as DmConnection))
                         {
-                            LineTerminator = "\n",
-                            TableName = tableName,
-                            CharacterSet = "UTF8",
-                            FieldQuotationCharacter = '"',
-                            FieldQuotationOptional = true
-                        };
-                        var array = Encoding.UTF8.GetBytes(csv);
-                        using (stream = new MemoryStream(array))
-                        {
-                            stream = new MemoryStream(array);
-                            bulk.SourceStream = stream; //File.OpenRead(fileName);
-                            bulk.Columns.AddRange(table.Columns.Cast<DataColumn>().Select(colum => colum.ColumnName).ToList());
-                            insertCount = bulk.Load();
+                            //设置插入的目标表
+                            bulk.DestinationTableName = tableName;
+
+                            //DataTable列名与数据库列名的映射
+                            for (int i = 0; i < table.Columns.Count; i++)
+                            {
+                                bulk.ColumnMappings.Add(table.Columns[i].ColumnName, table.Columns[i].ColumnName);
+                            }
+
+                            //写入数据库
+                            bulk.WriteToServer(table);
                             tran.Commit();
                         }
                     }
                 }
 
+                return table.Rows.Count;
             }
             catch (Exception ex)
             {
-                if (ex.Message.StartsWith("vol:"))
-                {
-                    return 0;
-                }
-                if (ex.Message.Contains("local data is disabled"))
-                {
-                    try
-                    {
-                        DBServerProvider.SqlDapper.ExcuteNonQuery("set global local_infile = 'ON';", null);
-                    }
-                    catch (Exception e)
-                    {
-
-                        Console.WriteLine($"开启mysql日志写入异常:{e.Message}");
-                    }
-                }
-                throw new Exception("vol:" + ex.Message, ex.InnerException);
+                throw new Exception(ex.Message, ex.InnerException);
             }
-            return insertCount;
         }
+
         /// <summary>
         ///将DataTable转换为标准的CSV
         /// </summary>
@@ -934,7 +1015,7 @@ namespace VOL.Core.Dapper
             catch (Exception ex)
             {
 
-                throw ex;
+                throw new Exception(ex.Message, ex);
             }
             finally
             {
@@ -955,8 +1036,7 @@ namespace VOL.Core.Dapper
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception(ex.Message, ex);
             }
             finally
             {
