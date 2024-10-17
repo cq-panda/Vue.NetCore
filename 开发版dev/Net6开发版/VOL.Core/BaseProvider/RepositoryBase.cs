@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
@@ -332,7 +333,8 @@ namespace VOL.Core.BaseProvider
         {
             if (properties != null && properties.Length > 0)
             {
-                PropertyInfo[] entityProperty = typeof(TSource).GetProperties();
+                PropertyInfo[] entityProperty = typeof(TSource).GetProperties()
+                     .Where(x => x.GetCustomAttribute<NotMappedAttribute>() == null && !(x.PropertyType.IsGenericType && x.PropertyType.GetGenericTypeDefinition() == typeof(List<>))).ToArray();
                 string keyName = entityProperty.GetKeyName();
                 if (properties.Contains(keyName))
                 {
