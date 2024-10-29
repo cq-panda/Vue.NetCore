@@ -657,8 +657,17 @@ namespace VOL.Core.BaseProvider
                     list.ForEach(x =>
                     {
                         if (AppSetting.EnableSnowFlakeID && detailKey.PropertyType == typeof(long))
+                        {
                             detailKey.SetValue(x, YitIdHelper.NextId());
-
+                        }
+                        else if (detailKey.PropertyType == typeof(string))
+                        {
+                            detailKey.SetValue(x,Guid.NewGuid().ToString());
+                        }
+                        else if ( detailKey.PropertyType == typeof(Guid))
+                        {
+                            detailKey.SetValue(x, Guid.NewGuid());
+                        }
                         //设置用户默认值
                         x.SetCreateDefaultVal();
                         detailMainKey.SetValue(x, keyValue);
@@ -820,6 +829,14 @@ namespace VOL.Core.BaseProvider
                         if (AppSetting.EnableSnowFlakeID && detailKeyInfo.PropertyType == typeof(long))
                         {
                             detailKeyInfo.SetValue(item, YitIdHelper.NextId());
+                        }
+                        else if (detailKeyInfo.PropertyType == typeof(string))
+                        {
+                            detailKeyInfo.SetValue(item, Guid.NewGuid().ToString());
+                        }
+                        else if (detailKeyInfo.PropertyType == typeof(Guid))
+                        {
+                            detailKeyInfo.SetValue(item, Guid.NewGuid());
                         }
                     }
                     addList.Add(item);
