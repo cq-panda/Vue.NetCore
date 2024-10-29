@@ -1122,7 +1122,10 @@ namespace VOL.Core.BaseProvider
             //  string detailKeyType = mainKeyProperty.GetTypeCustomValue<ColumnAttribute>(c => new { c.TypeName });
             //判断明细是否包含了主表的主键
 
-            string deatilDefaultVal = detailKeyInfo.PropertyType.Assembly.CreateInstance(detailKeyInfo.PropertyType.FullName).ToString();
+            string deatilDefaultVal =
+                  detailKeyInfo.PropertyType == typeof(string)
+                ? ""
+                :detailKeyInfo.PropertyType.Assembly.CreateInstance(detailKeyInfo.PropertyType.FullName).ToString();
             foreach (Dictionary<string, object> dic in saveModel.DetailData)
             {
                 //不包含主键的默认添加主键默认值，用于后面判断是否为新增数据
