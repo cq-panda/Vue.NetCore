@@ -81,6 +81,7 @@
               :check-strictly="item.checkStrictly"
               check-on-click-node
               node-key="key"
+              @change="(value)=>{item.onChange&&item.onChange(value,item)}"
               :props="{ label: 'label' }"
             >
               <template #default="{data,node }">
