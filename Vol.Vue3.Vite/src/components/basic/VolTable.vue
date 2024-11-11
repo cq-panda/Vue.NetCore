@@ -192,6 +192,7 @@
                   :disabledDate="(val) => getDateOptions(val, column)"
                   :value-format="getDateFormat(column)"
                   :disabled="initColumnDisabled(scope.row, column)"
+                  :ref="column.field + scope.$index"
                 >
                 </el-date-picker>
                 <el-time-picker
@@ -253,6 +254,7 @@
                     :options="column.bind.data"
                     @change="column.onChange && column.onChange(scope.row, column)"
                     clearable
+                    :ref="column.field + scope.$index"
                     :disabled="initColumnDisabled(scope.row, column)"
                   >
                     <template #default="{ item }">
@@ -271,6 +273,7 @@
                     :allow-create="column.autocomplete"
                     @change="column.onChange && column.onChange(scope.row, column)"
                     clearable
+                    :ref="column.field + scope.$index"
                     :disabled="initColumnDisabled(scope.row, column)"
                   >
                     <el-option
@@ -297,6 +300,7 @@
                   node-key="key"
                   @change="column.onChange && column.onChange(scope.row, column)"
                   :props="{ label: 'label' }"
+                  :ref="column.field + scope.$index"
                 >
                   <template #default="{ data, node }"> {{ data.label }}</template>
                 </el-tree-select>
@@ -319,6 +323,7 @@
                   :placeholder="column.placeholder || column.title"
                   v-model="scope.row[column.field]"
                   :disabled="initColumnDisabled(scope.row, column)"
+                  :ref="column.field + scope.$index"
                 >
                 </el-input>
                 <input
@@ -327,6 +332,7 @@
                   v-model.lazy="scope.row[column.field]"
                   :placeholder="column.placeholder || column.title"
                   :disabled="initColumnDisabled(scope.row, column)"
+                  :ref="column.field + scope.$index"
                 />
                 <el-input
                   v-else
@@ -335,6 +341,7 @@
                   @keyup.enter="inputKeyPress(scope.row, column, $event)"
                   size="default"
                   v-model="scope.row[column.field]"
+                  :ref="column.field + scope.$index"
                   :placeholder="column.placeholder || column.title"
                   :disabled="initColumnDisabled(scope.row, column)"
                 ></el-input>
@@ -1145,6 +1152,17 @@ export default defineComponent({
           return
         }
         this.edit.rowIndex = row.elementIndex
+      }
+      let col = this.columns.find((x) => {
+        return x.field == (column.field || column.property)
+      })
+      if (col && col.edit) {
+        this.$nextTick(() => {
+          let refEl = this.$refs[(column.field || column.property) + row.elementIndex]
+          if (refEl && Array.isArray(refEl)) {
+            refEl[0].focus && refEl[0].focus()
+          }
+        })
       }
     },
     rowEndEdit(row, column, event) {
