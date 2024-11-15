@@ -303,7 +303,6 @@
                   :spanMethod="detailSpanMethod"
                 ></vol-table>
               </div>
-              <!--明细footer自定义组件-->
               <component
                 :is="dynamicComponent.modelFooter"
                 ref="modelFooter"
@@ -424,7 +423,7 @@
   </div>
 </template>
 
-<script>
+<script lang="jsx">
 const _const = {
   EDIT: 'update',
   ADD: 'Add',
@@ -531,7 +530,7 @@ var vueParam = {
       initActivated: false,
       load: true, //是否默认加载表数据
       activatedLoad: false, //页面触发actived时是否刷新页面数据
-      summary: false, //查询界面table是否显示合计
+     // summary: false, //查询界面table是否显示合计
       //需要从远程绑定数据源的字典编号,如果字典数据源的查询结果较多，请在onInit中将字典编号添加进来
       //只对自定sql有效
       remoteKeys: [],
@@ -573,7 +572,7 @@ var vueParam = {
           return true;
         },
         columnIndex: false, //2020.11.01明细是否显示行号
-        ck: true, //2020.11.01明细是否显示checkbox
+        ck: true //2020.11.01明细是否显示checkbox
       },
       auditParam: {
         //审核对象
@@ -679,7 +678,7 @@ var vueParam = {
 };
 
 import props from './props.js';
-import methods from './methods.js';
+import methods from './methods.jsx';
 
 //合并属性
 vueParam.props = Object.assign(vueParam.props, props);

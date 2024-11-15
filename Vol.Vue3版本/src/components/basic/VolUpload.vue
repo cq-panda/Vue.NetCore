@@ -15,7 +15,7 @@
               <div class="mask"></div>
             </div>
 
-            <img :src="getImgSrc(file, index)" :onerror="errorImg" />
+            <img :src="getImgSrc(file, index)" @error="handleImageError" />
           </div>
           <div v-show="!autoUpload || (autoUpload && files.length < maxFile)" class="img-selector"
             :class="getSelector()">
@@ -59,7 +59,7 @@
   </div>
 </template>
 <script>
-let OSS = require('ali-oss');
+let OSS = {}// require('ali-oss');
 import VolImageViewer from './VolImageViewer.vue';
 export default {
   components: {
@@ -197,7 +197,7 @@ export default {
   },
   data() {
     return {
-      errorImg: 'this.src="' + require('@/assets/imgs/error-img.png') + '"',
+      defaultImg: new URL('@/assets/imgs/error-img.png', import.meta.url).href,
       changed: false, //手动上传成功后禁止重复上传，必须重新选择
       model: true,
       files: [],
@@ -506,7 +506,11 @@ export default {
       // forms.append("fileInput", this.files);
 
       this.http
-        .post(this.url + paramText, forms, this.autoUpload ? '正在上传文件' : '')
+        .post(this.url + paramText, forms, this.autoUpload ? '正在上传文件' : '',
+          //高版本axios这里必须要指定header
+          {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
         .then(
           (x) => {
             // this.$refs.uploadFile.clearFiles();
@@ -685,6 +689,9 @@ export default {
         }
       }
       return true;
+    },
+    handleImageError($e) {
+      $e.target.src = this.defaultImg;
     }
   }
 };

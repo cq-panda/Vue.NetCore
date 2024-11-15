@@ -191,8 +191,8 @@
                   :placeholder="column.placeholder || column.title"
                   :disabledDate="(val) => getDateOptions(val, column)"
                   :value-format="getDateFormat(column)"
-                  :ref="column.field + scope.$index"
                   :disabled="initColumnDisabled(scope.row, column)"
+                  :ref="column.field + scope.$index"
                 >
                 </el-date-picker>
                 <el-time-picker
@@ -200,7 +200,6 @@
                   size="default"
                   style="width: 100%"
                   v-else-if="column.edit.type == 'time'"
-                  :ref="column.field + scope.$index"
                   v-model="scope.row[column.field]"
                   @change="
                     (val) => {
@@ -255,6 +254,7 @@
                     :options="column.bind.data"
                     @change="column.onChange && column.onChange(scope.row, column)"
                     clearable
+                    :ref="column.field + scope.$index"
                     :disabled="initColumnDisabled(scope.row, column)"
                   >
                     <template #default="{ item }">
@@ -266,7 +266,6 @@
                     size="default"
                     style="width: 100%"
                     v-else
-                    :ref="column.field + scope.$index"
                     v-model="scope.row[column.field]"
                     :filterable="column.filter || column.bind.data.length > 10 ? true : false"
                     :multiple="column.edit.type == 'select' ? false : true"
@@ -274,6 +273,7 @@
                     :allow-create="column.autocomplete"
                     @change="column.onChange && column.onChange(scope.row, column)"
                     clearable
+                    :ref="column.field + scope.$index"
                     :disabled="initColumnDisabled(scope.row, column)"
                   >
                     <el-option
@@ -300,6 +300,7 @@
                   node-key="key"
                   @change="column.onChange && column.onChange(scope.row, column)"
                   :props="{ label: 'label' }"
+                  :ref="column.field + scope.$index"
                 >
                   <template #default="{ data, node }"> {{ data.label }}</template>
                 </el-tree-select>
@@ -317,21 +318,21 @@
                 >
                 </el-cascader> -->
                 <el-input
-                  :ref="column.field + scope.$index"
                   v-else-if="column.edit.type == 'textarea'"
                   type="textarea"
                   :placeholder="column.placeholder || column.title"
                   v-model="scope.row[column.field]"
                   :disabled="initColumnDisabled(scope.row, column)"
+                  :ref="column.field + scope.$index"
                 >
                 </el-input>
                 <input
                   class="table-input"
-                  :ref="column.field + scope.$index"
                   v-else-if="!column.summary && !column.onKeyPress"
                   v-model.lazy="scope.row[column.field]"
                   :placeholder="column.placeholder || column.title"
                   :disabled="initColumnDisabled(scope.row, column)"
+                  :ref="column.field + scope.$index"
                 />
                 <el-input
                   v-else
@@ -339,8 +340,8 @@
                   @input="inputKeyPress(scope.row, column, $event)"
                   @keyup.enter="inputKeyPress(scope.row, column, $event)"
                   size="default"
-                  :ref="column.field + scope.$index"
                   v-model="scope.row[column.field]"
+                  :ref="column.field + scope.$index"
                   :placeholder="column.placeholder || column.title"
                   :disabled="initColumnDisabled(scope.row, column)"
                 ></el-input>
@@ -682,7 +683,7 @@ export default defineComponent({
       realMaxHeight: 0,
       enableEdit: false, // 是否启表格用编辑功能
       empty: this.allowEmpty ? '' : '--',
-      defaultImg: require('@/assets/imgs/error.png'),// 'this.src="' + require('@/assets/imgs/error.png') + '"',     
+      defaultImg: new URL('@/assets/imgs/error-img.png', import.meta.url).href,
       loading: false,
       footer: {},
       total: 0,

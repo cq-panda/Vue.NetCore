@@ -41,6 +41,7 @@
               >
                 <img
                   :src="getSrc(img.path)"
+                  @error="handleImageError"
                   :onerror="errorImg"
                   @click="previewImg(img.path)"
                 />
@@ -73,12 +74,12 @@
               style="width: 100%"
               v-else-if="item.type == 'treeSelect'"
               v-model="formFields[item.field]"
+              :disabled="item.readonly || item.disabled"
               :data="item.data"
               :multiple="item.multiple"
               :render-after-expand="false"
               :show-checkbox="true"
-              :disabled="item.readonly || item.disabled"
-              :check-strictly="item.checkStrictly"
+              :check-strictly="true"
               check-on-click-node
               node-key="key"
               @change="(value)=>{item.onChange&&item.onChange(value,item)}"
@@ -833,9 +834,6 @@ export default defineComponent({
         if (option.type == 'treeSelect' && option.multiple === undefined) {
           option.multiple = true;
         }
-	if (option.type == 'treeSelect' && option.checkStrictly === undefined) {
-          option.checkStrictly = true;
-        }
       });
     });
   },
@@ -843,7 +841,8 @@ export default defineComponent({
   data() {
     return {
       // remoteCall: true,
-      errorImg: 'this.src="' + require('@/assets/imgs/error-img.png') + '"'
+      defaultImg: new URL('@/assets/imgs/error-img.png', import.meta.url).href
+     // errorImg: 'this.src="' + require('@/assets/imgs/error-img.png') + '"'
       // span: 1,
       // rangeFields: [],
     };
@@ -1145,9 +1144,9 @@ export default defineComponent({
         item.type == 'decimal'
       ) {
         // 如果是必填项的数字，设置一个默认最大与最值小
-      // if (item.required && typeof item.min !== 'number') {
-        //  item.min = 0; //item.type == "decimal" ? 0.1 : 1;
-       // }
+        // if (item.required && typeof item.min !== 'number') {
+        //   item.min = -9999999; //item.type == "decimal" ? 0.1 : 1;
+        // }
 
         return {
           required: item.required,
@@ -1398,32 +1397,35 @@ export default defineComponent({
     getNode( label,node, data){
       console.log(label)
     },
+    handleImageError($e) {
+      $e.target.src = this.defaultImg
+    },
     getShortcuts() {
-      const end = new Date()
+      const end = new Date();
       return [
-        { name: '今天', value: 0 },
-        { name: '昨天', value: 1 },
-        { name: '近三天', value: 2 },
-        { name: '近一周', value: 6 },
-        { name: '近一月', m: true, value: 1 },
-        { name: '近三月', m: true, value: 3 },
-        { name: '近半年', m: true, value: 6 },
-        { name: '近一年', m: true, value: 12 }
+        { name: "今天", value: 0 },
+        { name: "昨天", value: 1 },
+        { name: "近三天", value: 2 },
+        { name: "近一周", value: 6 },
+        { name: "近一月", m: true, value: 1 },
+        { name: "近三月", m: true, value: 3 },
+        { name: "近半年", m: true, value: 6 },
+        { name: "近一年", m: true, value: 12 },
       ].map((x) => {
         return {
           text: x.name,
           value: () => {
-            const start = new Date()
+            const start = new Date();
             if (x.m) {
-              start.setMonth(start.getMonth() - x.value)
-              return [start.getTime(), end]
+              start.setMonth(start.getMonth() - x.value);
+              return [start.getTime(), end];
             }
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * x.value)
-            return [start, end]
-          }
-        }
-      })
-    }
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * x.value);
+            return [start, end];
+          },
+        };
+      });
+    },
   }
 });
 </script>

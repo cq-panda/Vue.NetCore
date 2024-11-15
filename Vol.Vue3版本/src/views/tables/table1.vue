@@ -9,21 +9,45 @@
         3、最重要的是,封装后的组件功能包括：自动绑定下拉框数据源、自动从后台加载数据、分页、及table输入验证等常用功能(只需要照着文档配置json即可完成)。
       </p>
       <p>
-        4、具体使用见：框架文档->组件api->voltable。<a href="http://v2.volcore.xyz/document/api" target="_blank">点击查看文档
+        4、具体使用见：框架文档->组件api->voltable。<a
+          href="http://v2.volcore.xyz/document/api"
+          target="_blank"
+          >点击查看文档
         </a>
       </p>
     </el-alert>
     <div class="tb">
-      <div class="btns" style="margin-bottom: 10px;">
-        <el-button type="success" size="small" @click="getSelect"><i class="el-icon-check"></i>获取选中行</el-button>
+      <div class="btns" style="margin-bottom: 10px">
+        <el-button type="success" size="small" @click="getSelect"
+          ><i class="el-icon-check"></i>获取选中行</el-button
+        >
 
-        <el-button type="primary" size="small" @click="addRow"><i class="el-icon-plus"></i>添加行</el-button>
+        <el-button type="primary" size="small" @click="addRow"
+          ><i class="el-icon-plus"></i>添加行</el-button
+        >
       </div>
-      <vol-table ref="table" :columns="columns" :max-height="500" :index="true" @rowClick="rowClick"
-        :tableData="tableData" :paginationHide="true" :endEditBefore="endEditBefore" :endEditAfter="endEditAfter"
-        @rowChange="rowChange" :single="true" :beginEdit="beginEdit"></vol-table>
+      <vol-table
+        ref="table"
+        :columns="columns"
+        :max-height="500"
+        :index="true"
+        @rowClick="rowClick"
+        :tableData="tableData"
+        :paginationHide="true"
+        :endEditBefore="endEditBefore"
+        :endEditAfter="endEditAfter"
+        @rowChange="rowChange"
+        :single="true"
+        :beginEdit="beginEdit"
+      ></vol-table>
     </div>
-    <el-alert style="margin-top: 15px" :closable="false" title="此示例给出了大部分功能所以代码比看起来比较多，可根据需要设置" type="info" show-icon>
+    <el-alert
+      style="margin-top: 15px"
+      :closable="false"
+      title="此示例给出了大部分功能所以代码比看起来比较多，可根据需要设置"
+      type="info"
+      show-icon
+    >
     </el-alert>
     <br />
   </div>
@@ -43,7 +67,7 @@ export default {
     VolHeader,
     VolUpload,
   },
-  setup() { },
+  setup() {},
   data() {
     return {
       url: "/api/app_news/upload", //使用后台自带的上传文件方法，也可以自定义方法上传
@@ -101,7 +125,7 @@ export default {
           hidden: true, //是否显示
           readonly: true,
           require: true,
-          align: "left"//文字显示位置left、center
+          align: "left", //文字显示位置left、center
         },
         {
           field: "ExpertName",
@@ -161,6 +185,11 @@ export default {
           require: true,
           edit: { type: "text", min: 3, max: 5 },
           align: "left",
+          onKeyPress: (row, column, $e) => {
+            if ($e && $e.keyCode == 13) {
+              this.$message.success("按了回车");
+            }
+          },
         },
         {
           field: "UserTrueName",
@@ -218,7 +247,7 @@ export default {
           type: "date",
           width: 100,
           align: "left",
-          edit: { type: "date" }
+          edit: { type: "date" },
         },
         {
           field: "Creator",
@@ -238,34 +267,88 @@ export default {
           align: "center",
 
           render: (h, { row, column, index }) => {
-            return <div onClick={($e) => { $e.stopPropagation(); }}>
-              <el-button onClick={($e) => { this.tableData.splice(index, 1); }} type="primary" plain size="small" style="padding: 10px !important;">删除</el-button>
-              <el-button onClick={($e) => { this.editClick(row, column) }} type="success" plain size="small" style="padding: 10px !important;">编辑</el-button>
-
-              <el-dropdown trigger="click"
-                v-slots={{
-                  dropdown: () => (
-                    <el-dropdown-menu>
-                      <el-dropdown-item><div onClick={($e) => { this.dropdownClick('京酱肉丝') }}>京酱肉丝</div></el-dropdown-item>
-                      <el-dropdown-item><div onClick={($e) => { this.dropdownClick('驴肉火烧') }}>驴肉火烧</div></el-dropdown-item>
-                      <el-dropdown-item><div onClick={($e) => { this.dropdownClick('吊炉烤鸭') }}>吊炉烤鸭</div></el-dropdown-item>
-                    </el-dropdown-menu>
-                  )
+            return (
+              <div
+                onClick={($e) => {
+                  $e.stopPropagation();
                 }}
               >
-                <span style="font-size: 13px;color: #409eff;margin: 5px 0 0 10px;" class="el-dropdown-link">
-                  更多<i class="el-icon-arrow-right"></i>
-                </span>
-              </el-dropdown>
-            </div>
-          }
-        }
+                <el-button
+                  onClick={($e) => {
+                    this.tableData.splice(index, 1);
+                  }}
+                  type="primary"
+                  plain
+                  size="small"
+                  style="padding: 10px !important;"
+                >
+                  删除
+                </el-button>
+                <el-button
+                  onClick={($e) => {
+                    this.editClick(row, column);
+                  }}
+                  type="success"
+                  plain
+                  size="small"
+                  style="padding: 10px !important;"
+                >
+                  编辑
+                </el-button>
+
+                <el-dropdown
+                  trigger="click"
+                  v-slots={{
+                    dropdown: () => (
+                      <el-dropdown-menu>
+                        <el-dropdown-item>
+                          <div
+                            onClick={($e) => {
+                              this.dropdownClick("京酱肉丝");
+                            }}
+                          >
+                            京酱肉丝
+                          </div>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                          <div
+                            onClick={($e) => {
+                              this.dropdownClick("驴肉火烧");
+                            }}
+                          >
+                            驴肉火烧
+                          </div>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                          <div
+                            onClick={($e) => {
+                              this.dropdownClick("吊炉烤鸭");
+                            }}
+                          >
+                            吊炉烤鸭
+                          </div>
+                        </el-dropdown-item>
+                      </el-dropdown-menu>
+                    ),
+                  }}
+                >
+                  <span
+                    style="font-size: 13px;color: #409eff;margin: 5px 0 0 10px;"
+                    class="el-dropdown-link"
+                  >
+                    更多<i class="el-icon-arrow-right"></i>
+                  </span>
+                </el-dropdown>
+              </div>
+            );
+          },
+        },
       ],
     };
   },
   methods: {
     dropdownClick(value) {
-      this.$message.success(value)
+      this.$message.success(value);
     },
     rowChange(row) {
       //选中checkbox事件
@@ -291,9 +374,7 @@ export default {
       let _index = this.$refs.table.edit.rowIndex;
       if (_index != -1) {
         return this.$message.error(
-          "请先完成第" +
-          (_index + 1) +
-          "行的编辑,点击表头可完成编辑"
+          "请先完成第" + (_index + 1) + "行的编辑,点击表头可完成编辑"
         );
       }
       this.$refs.table.rowBeginEdit(row, column);
@@ -308,10 +389,12 @@ export default {
     clear() {
       this.tableData.splice(0);
     },
-    addRow() { //添加行
+    addRow() {
+      //添加行
       this.tableData.push({});
     },
-    getSelect() { //获取选中的行
+    getSelect() {
+      //获取选中的行
       let rows = this.$refs.table.getSelected();
 
       return this.$message.error("请先选中行:" + JSON.stringify(rows));

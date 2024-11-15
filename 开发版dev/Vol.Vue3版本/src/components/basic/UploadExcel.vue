@@ -112,7 +112,7 @@ export default {
         return;
       }
       this.loadingStatus = true;
-      this.http.post(_url, formData).then(
+      this.http.post(_url, formData, true, { headers: { 'Content-Type': 'multipart/form-data' } }).then(
         (x) => {
           // this.$refs.uploadFile.clearFiles();
           this.loadingStatus = false;
@@ -130,8 +130,7 @@ export default {
       );
     },
     getUrl(url) {
-      let b =/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(url);
-      if (b) {
+      if (url.startsWith("http")) {
         return url;
       }
       return this.http.ipAddress + url

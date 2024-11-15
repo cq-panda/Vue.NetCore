@@ -304,6 +304,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "./index.css";
 .el-node-form-tag {
     position: absolute;
     top: 50%;

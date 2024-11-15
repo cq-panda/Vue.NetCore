@@ -80,6 +80,7 @@ export default {
 }
 </script>
 <style  scoped>
+@import "./index.css";
 /* .node-item{
     position: relative;
 } */

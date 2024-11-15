@@ -288,14 +288,14 @@ let methods = {
     }
     return value === null || value === undefined || value === ''
   },
-  getSearchParameters() {
+  getSearchParameters(wheres) {
     //获取查询参数
     // 2020.09.11增加固定查询表单,如果设置固定了查询表单，点击查询时，不再关闭
     if (!this.fiexdSearchForm) {
       this.searchBoxShow = false
     }
 
-    let query = { wheres: [] }
+    let query = { wheres: wheres || [] }
     for (const key in this.searchFormFields) {
       let value = this.searchFormFields[key]
       if (this.emptyValue(value)) continue
@@ -338,15 +338,20 @@ let methods = {
     }
     return query
   },
-  search() {
-    //查询
-    // let query = this.getSearchParameters();
-    // this.$refs.table.load(query, true);
-    this.$refs.table.load(null, true)
+  search(params, resetPage) {
+    //params查询参数，见生成页面文档上的查询前方法，resetPage是否重置查询分页
+
+    if (resetPage === undefined) {
+      resetPage = true
+    }
+    if (params && Array.isArray(params)) {
+      params = { wheres: params }
+    }
+    this.$refs.table.load(params, resetPage)
   },
   loadTableBefore(param, callBack) {
     //查询前设置查询条件及分页信息
-    let query = this.getSearchParameters()
+    let query = this.getSearchParameters(param ? param.wheres : null)
     if (query) {
       param = Object.assign(param, query)
     }
