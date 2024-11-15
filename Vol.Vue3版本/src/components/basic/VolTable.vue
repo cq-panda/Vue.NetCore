@@ -682,7 +682,7 @@ export default defineComponent({
       realMaxHeight: 0,
       enableEdit: false, // 是否启表格用编辑功能
       empty: this.allowEmpty ? '' : '--',
-      defaultImg: 'this.src="' + require('@/assets/imgs/error.png') + '"',     
+      defaultImg: require('@/assets/imgs/error.png'),// 'this.src="' + require('@/assets/imgs/error.png') + '"',     
       loading: false,
       footer: {},
       total: 0,
