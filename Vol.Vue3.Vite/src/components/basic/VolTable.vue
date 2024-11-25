@@ -1446,6 +1446,7 @@ export default defineComponent({
             rows,
             (result) => {
               status = result
+              rows=data.rows;
             },
             data
           )
