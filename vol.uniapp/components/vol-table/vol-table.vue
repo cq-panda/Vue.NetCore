@@ -111,40 +111,54 @@
 						<!-- 	<slot :data="row" name="title"></slot> -->
 					</view>
 					<view @click="tableRowClick(rowindex,columns)" class="vol-table-list-item">
-						<view :key="cindex" class="vol-table-list-item-cell"
-							v-if="!column.hidden&&column.field!=titleField&&showColumn(row,column)"
-							v-for="(column,cindex) in columns">
-							<view class="cell-left" :style="{width:(column.width||90)+'px'}"> {{column.title}}</view>
-							<view class="cell-right">
-								<view @click.stop="cellClick(rowindex,row,column)" v-if="column.click">
-									<view :style="column.style" v-if="column.formatter">
-										<rich-text :nodes="rowFormatter(row,column,rowindex)+''"></rich-text>
-									</view>
-									<view :style="column.style" v-else>{{row[column.field]}}</view>
-								</view>
-								<view v-else-if="column.formatter">
-									<rich-text :nodes="rowFormatter(row,column)+''"></rich-text>
-								</view>
-								<view v-else-if="column.type=='editor'">
-									<u-parse :content="row[column.field]"></u-parse>
-								</view>
-								<view v-else-if="column.bind">
-									{{rowFormatterValue(row,column)}}
-								</view>
-								<view style="display: flex;justify-content: flex-end;" v-else-if="column.type=='img'">
-									<view @click.stop="previewImage(row[column.field],index)" style="margin-left:10px;"
-										width="50px" height="50px" v-for="(src,index) in getImgSrc(row[column.field])"
-										:key="index">
-										<view>
-											<u--image width="50px" height="50px" radius="4px" :src="src" :key="index">
-											</u--image>
+						<view class="vol-table-list-item-content">
+							<view class="vol-table-list-item-content-left"">
+								<view :key="cindex" 
+									v-if="!column.hidden&&column.field!=titleField&&showColumn(row,column)"
+									v-for="(column,cindex) in columns">
+									<view class="vol-table-list-item-cell">
+										<view class="cell-left" :style="{width: (column.title? (column.width||90)+'px' : '0px')}"> {{column.title}}</view>
+										<view class="cell-right">
+											<view v-if="column.field == 'itemnod'">
+												<itemnod-render :itemnod="row.itemnod" :row="row" :enabled="false"></itemnod-render>
+											</view>
+											<view @click.stop="cellClick(rowindex,row,column)" v-else-if="column.click">
+												<view :style="column.style" v-if="column.formatter">
+													<rich-text :nodes="rowFormatter(row,column,rowindex)+''"></rich-text>
+												</view>
+												<view :style="column.style" v-else>{{row[column.field]}}</view>
+											</view>
+											<view v-else-if="column.formatter">
+												<rich-text :nodes="rowFormatter(row,column)+''"></rich-text>
+											</view>
+											<view v-else-if="column.type=='editor'">
+												<u-parse :content="row[column.field]"></u-parse>
+											</view>
+											<view v-else-if="column.bind">
+												{{rowFormatterValue(row,column)}}
+											</view>
+											<view style="display: flex;justify-content: flex-end;" v-else-if="column.type=='img'">
+												<view @click.stop="previewImage(row[column.field],index)" style="margin-left:10px;"
+													width="50px" height="50px" v-for="(src,index) in getImgSrc(row[column.field])"
+													:key="index">
+													<view>
+														<u--image width="50px" height="50px" radius="4px" :src="src" :key="index">
+														</u--image>
+													</view>
+												</view>
+											</view>
+											<view v-else-if="column.type=='date'">
+												{{(row[column.field]||'').substr(0,10)}}
+											</view>
+											<view v-else> {{row[column.field]==null?'':row[column.field]}}</view>
 										</view>
 									</view>
 								</view>
-								<view v-else-if="column.type=='date'">
-									{{(row[column.field]||'').substr(0,10)}}
-								</view>
-								<view v-else> {{row[column.field]==null?'':row[column.field]}}</view>
+							</view>
+							<view class="vol-table-list-item-content-ck" v-if="ck">
+								<u-checkbox-group @change="()=>{ rowItemCheckClick(row,rowindex)}">
+									<u-checkbox :checked="row.ck" :size="16"></u-checkbox>
+								</u-checkbox-group>
 							</view>
 						</view>
 					</view>
@@ -363,7 +377,7 @@
 				}
 				let _val = row[column.field] + '';
 
-				if (!column.bind.data.length) {
+				if (!column.bind.data || !column.bind.data.length) {
 					return _val;
 				}
 				//if (column.type == "selectList" || column.type == 'checkbox') {
@@ -467,7 +481,6 @@
 				this.$emit('rowButtons', index, row, (buttons) => {
 					_buttons = buttons;
 				})
-				console.log(_buttons)
 				return (_buttons || []) //.reverse();
 			},
 			rowBtnClick(btn, rowindex, row) {
@@ -729,10 +742,24 @@
 	.vol-table-list-item {
 		margin: 8rpx 16rpx;
 		background: #FFFFFF;
-	    box-shadow: 1px 1px 14px rgb(246 246 246);
+		box-shadow: 1px 1px 14px rgb(246 246 246);
 		border: 1px solid #f3f3f3;
 		border-radius: 10rpx;
-
+		.vol-table-list-item-content {
+			display: flex;
+			.vol-table-list-item-content-left {
+				flex: 1;
+			}
+			.vol-table-list-item-content-ck {
+				width: 52rpx;
+				flex: none;
+				padding: 0 8rpx;
+				min-height: 55rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		}
 		.vol-table-list-item-cell {
 			display: flex;
 			padding: 20rpx 28rpx;
