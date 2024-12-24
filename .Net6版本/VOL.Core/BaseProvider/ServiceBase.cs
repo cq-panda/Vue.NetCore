@@ -714,7 +714,7 @@ namespace VOL.Core.BaseProvider
         {
             WorkFlowManager.AddProcese(entity, true, changeTableStatus);
         }
-        private void AddProcese(T entity)
+        protected void AddProcese(T entity)
         {
             if (!CheckResponseResult() && WorkFlowManager.Exists<T>())
             {
