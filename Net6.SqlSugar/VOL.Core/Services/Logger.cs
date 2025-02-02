@@ -168,6 +168,10 @@ namespace VOL.Core.Services
                     if (loggerQueueData.Count() > 0 && list.Count < 500)
                     {
                         loggerQueueData.TryDequeue(out Sys_Log log);
+                        if (log.EndDate != null && log.BeginDate != null)
+                        {
+                            log.ElapsedTime = (int)(((DateTime)log.EndDate - (DateTime)log.BeginDate).TotalMilliseconds);
+                        }
                         list.Add(log);
                         continue;
                     }
