@@ -404,6 +404,10 @@ namespace VOL.Core.BaseProvider
             //忽略创建人、修改人、审核等字段
             List<string> ignoreTemplate = UserIgnoreFields.ToList();
             ignoreTemplate.AddRange(auditFields.ToList());
+            if (IgnoreTemplateExecuting != null)
+            {
+                ignoreTemplate = IgnoreTemplateExecuting.Invoke(ignoreTemplate);
+            }
             return ignoreTemplate;
         }
 

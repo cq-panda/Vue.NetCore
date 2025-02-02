@@ -216,7 +216,12 @@ namespace VOL.Core.Filters
         /// </summary>
         protected Expression<Func<T, object>> DownLoadTemplateColumns { get; set; }
 
- 
+        /// <summary>
+        /// 导出下载模板，处理排除的资料列, 传入默认排除的列，返回处理后的列
+        /// </summary>
+
+        protected Func<List<string>, List<string>> IgnoreTemplateExecuting;
+
         /// <summary>
         /// 导入保存后
         /// </summary>
