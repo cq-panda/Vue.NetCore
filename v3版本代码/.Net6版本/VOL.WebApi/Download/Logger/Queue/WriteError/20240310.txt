@@ -1,0 +1,7 @@
+ORA-26086: 直接路径不支持使用触发器   at OracleInternal.ServiceObjects.OracleConnectionImpl.CheckForAnyErrorFromDB(TTCError ttcOER)
+   at OracleInternal.TTC.TTCDirectPathPrepare.ReadResponse(DirectPathContext& directPathContext)
+   at OracleInternal.ServiceObjects.OracleBulkCopyImpl.Prepare()
+   at Oracle.ManagedDataAccess.Client.OracleBulkCopy.WriteDataSourceToServer(IBulkCopyDataSource dataSource)
+   at VOL.Core.Dapper.SqlDapper.OralceBulkInsert(DataTable table, String tableName) in E:\jxx\Vue.NetCore\.Net6版本\VOL.Core\Dapper\SqlDapper.cs:line 836
+   at VOL.Core.Dapper.SqlDapper.BulkInsert(DataTable table, String tableName, Nullable`1 sqlBulkCopyOptions, String fileName, String tmpPath) in E:\jxx\Vue.NetCore\.Net6版本\VOL.Core\Dapper\SqlDapper.cs:line 743
+   at VOL.Core.Services.Logger.Start() in E:\jxx\Vue.NetCore\.Net6版本\VOL.Core\Services\Logger.cs:line 186Oracle Data Provider for .NET, Managed Driver

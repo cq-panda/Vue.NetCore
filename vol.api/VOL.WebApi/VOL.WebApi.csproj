@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\net8.0\</OutputPath>
+    <DocumentationFile>bin\Debug\netcoreapp3.1\VolPro.WebApi.xml</DocumentationFile>
+    <NoWarn>NU1902;NU1903;NU1904;1701;1702;CS1591;CS8618;CS8600;CS8602;CS1572;CS1573;CS1587;CS1570;CS1591;CS0219;CS8765;CA2200;CS8600;CS8603;CS8604;CS8618;CS8629;CS8600;</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\net8.0\VolPro.WebApi.xml</DocumentationFile>
+    <OutputPath>bin\Release\net8.0\</OutputPath>
+    <NoWarn>NU1902;NU1903;NU1904;1701;1702;CS1572;CS1573;CS1587;CS8618;CS8600;CS8602;CS1591;CS0219;CS8765;CS8600;CS8603;CS8604;CS8629;CS8600;CS8618;</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Download\**" />
+    <Content Remove="Download\**" />
+    <EmbeddedResource Remove="Download\**" />
+    <None Remove="Download\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.0.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0" />
+    <PackageReference Include="Quartz" Version="3.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\VOL.Builder\VOL.Builder.csproj" />
+    <ProjectReference Include="..\VOL.Core\VOL.Core.csproj" />
+    <ProjectReference Include="..\VOL.Entity\VOL.Entity.csproj" />
+    <ProjectReference Include="..\VOL.MES\VOL.MES.csproj" />
+    <ProjectReference Include="..\VOL.Sys\VOL.Sys.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Download\" />
+  </ItemGroup>
+
+
+</Project>

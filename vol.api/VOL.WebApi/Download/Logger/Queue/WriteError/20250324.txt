@@ -1,0 +1,14 @@
+A connection was successfully established with the server, but then an error occurred during the login process. (provider: Shared Memory Provider, error: 0 - 管道的另一端上无任何进程。)   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at System.Data.SqlClient.SqlBulkCopy.CreateOrValidateConnection(String method)
+   at System.Data.SqlClient.SqlBulkCopy.WriteRowSourceToServerAsync(Int32 columnCount, CancellationToken ctoken)
+   at System.Data.SqlClient.SqlBulkCopy.WriteToServer(DataTable table, DataRowState rowState)
+   at System.Data.SqlClient.SqlBulkCopy.WriteToServer(DataTable table)
+   at VOL.Core.Dapper.SqlDapper.MSSqlBulkInsert(DataTable table, String tableName, SqlBulkCopyOptions sqlBulkCopyOptions, String dbKeyName) in E:\jxx\vol-next\vol.api\VOL.Core\Dapper\SqlDapper.cs:line 706
+   at VOL.Core.Dapper.SqlDapper.BulkInsert(DataTable table, String tableName, Nullable`1 sqlBulkCopyOptions, String fileName, String tmpPath) in E:\jxx\vol-next\vol.api\VOL.Core\Dapper\SqlDapper.cs:line 746
+   at VOL.Core.Services.Logger.Start() in E:\jxx\vol-next\vol.api\VOL.Core\Services\Logger.cs:line 186Core .Net SqlClient Data Provider

@@ -1,0 +1,134 @@
+<!--
+ *Author：jxx
+ *Date：{Date}
+ *Contact：283591387@qq.com
+ *业务请在@/extension/mes/mes/MES_ProductionReporting.jsx或MES_ProductionReporting.vue文件编写
+ *新版本支持vue或【表.jsx]文件编写业务,文档见:https://doc.volcore.xyz/docs/view-grid、https://doc.volcore.xyz/docs/web
+ -->
+<template>
+  <view-grid
+    ref="grid"
+    :columns="columns"
+    :detail="detail"
+    :details="details"
+    :editFormFields="editFormFields"
+    :editFormOptions="editFormOptions"
+    :searchFormFields="searchFormFields"
+    :searchFormOptions="searchFormOptions"
+    :table="table"
+    :extend="extend"
+    :onInit="onInit"
+    :onInited="onInited"
+    :searchBefore="searchBefore"
+    :searchAfter="searchAfter"
+    :addBefore="addBefore"
+    :updateBefore="updateBefore"
+    :rowClick="rowClick"
+    :modelOpenBefore="modelOpenBefore"
+    :modelOpenAfter="modelOpenAfter"
+  >
+    <!-- 自定义组件数据槽扩展，更多数据槽slot见文档 -->
+    <template #gridHeader> </template>
+  </view-grid>
+</template>
+<script setup lang="jsx">
+import extend from '@/extension/mes/mes/MES_ProductionReporting.jsx'
+import viewOptions from './MES_ProductionReporting/options.js'
+import { ref, reactive, getCurrentInstance, watch, onMounted } from 'vue'
+const grid = ref(null)
+const { proxy } = getCurrentInstance()
+//http请求，proxy.http.post/get
+const {
+  table,
+  editFormFields,
+  editFormOptions,
+  searchFormFields,
+  searchFormOptions,
+  columns,
+  detail,
+  details
+} = reactive(viewOptions())
+
+//方式1：明细表：物料编号下拉框选择给其他字段设置值
+detail.columns.forEach((item) => {
+  if (item.field == 'MaterialCode') {
+    item.onChange = (row) => {
+      //查找数据源，数据字典维护的sql,已经返回了其他字段的值，或者这里通过proy.http调用接口返回数据
+      const dic =
+        item.bind.data.find((x) => {
+          return x.key == row.MaterialCode
+        }) || {}
+      row.MaterialName = dic.value
+      row.MaterialSpecification = dic.Specification
+    }
+  } else if (
+    ['AcceptedQuantity', 'RejectedQuantity', 'ReportedQuantity', 'ReportHour'].includes(item.field)
+  ) {
+    //设置明细表输时实时计算给表单设置值
+    item.summary = true
+    //明细表订单数量输入时给主表的订单数量设置合计值
+    item.summaryFormatter = (qtyValue, column, rows, summaryArrData) => {
+      editFormFields[item.field] = qtyValue
+      if (item.field == 'ReportHour') {
+        return qtyValue + '小时'
+      } else if (item.field == 'ReportedQuantity') {
+        editFormFields.Total = qtyValue
+      }
+      return qtyValue
+    }
+  }
+})
+
+//设置主表合计字段
+columns.forEach((x) => {
+  if (['ReportHour','AcceptedQuantity', 'RejectedQuantity', 'ReportedQuantity', 'Total'].includes(x.field)) {
+    x.summary = true
+    if (x.field == 'ReportHour') {
+      x.summaryFormatter = (qtyValue, column, rows, summaryArrData) => {
+        return qtyValue + '小时'
+      }
+    }
+  }
+})
+
+let gridRef //对应[表.jsx]文件中this.使用方式一样
+//生成对象属性初始化
+const onInit = async ($vm) => {
+  gridRef = $vm
+  //与jsx中的this.xx使用一样，只需将this.xx改为gridRef.xx
+  //更多属性见：https://doc.volcore.xyz/docs/view-grid
+}
+//生成对象属性初始化后,操作明细表配置用到
+const onInited = async () => {}
+const searchBefore = async (param) => {
+  //界面查询前,可以给param.wheres添加查询参数
+  //返回false，则不会执行查询
+  return true
+}
+const searchAfter = async (rows, result) => {
+  return true
+}
+const addBefore = async (formData) => {
+  //新建保存前formData为对象，包括明细表，可以给给表单设置值，自己输出看formData的值
+  return true
+}
+const updateBefore = async (formData) => {
+  //编辑保存前formData为对象，包括明细表、删除行的Id
+  return true
+}
+const rowClick = ({ row, column, event }) => {
+  //查询界面点击行事件
+  // grid.value.toggleRowSelection(row); //单击行时选中当前行;
+}
+const modelOpenBefore = async (row) => {
+  //弹出框打开后方法
+  return true //返回false，不会打开弹出框
+}
+const modelOpenAfter = (row) => {
+  //弹出框打开后方法,设置表单默认值,按钮操作等
+}
+//监听表单输入，做实时计算
+//watch(() => editFormFields.字段,(newValue, oldValue) => {	})
+//对外暴露数据
+defineExpose({})
+</script>

@@ -1,0 +1,14 @@
+中文提示 :  连接数据库过程中发生错误，检查服务器是否正常连接字符串是否正确，错误信息：A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SNI_PN11, error: 26 - Error Locating Server/Instance Specified)DbType="SqlServer";ConfigId="default".
+English Message : Connection open error . A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SNI_PN11, error: 26 - Error Locating Server/Instance Specified)DbType="SqlServer";ConfigId="default"    at SqlSugar.Check.Exception(Boolean isException, String message, String[] args)
+   at SqlSugar.AdoProvider.CheckConnection()
+   at SqlSugar.SqlServerProvider.GetCommand(String sql, SugarParameter[] parameters)
+   at SqlSugar.AdoProvider.GetDataSetAll(String sql, SugarParameter[] parameters)
+   at SqlSugar.AdoProvider.GetDataTable(String sql, SugarParameter[] parameters)
+   at SqlSugar.QueryableProvider`1.ToDataTable()
+   at SqlSugar.FastestProvider`1.<ToDdateTable>b__41_0()
+   at SqlSugar.ReflectionInoCore`1.GetOrCreate(String cacheKey, Func`1 create)
+   at SqlSugar.FastestProvider`1.ToDdateTable(List`1 datas)
+   at SqlSugar.FastestProvider`1._BulkCopy(List`1 datas)
+   at SqlSugar.FastestProvider`1.BulkCopyAsync(List`1 datas)
+   at SqlSugar.FastestProvider`1.BulkCopy(List`1 datas)
+   at VOL.Core.Services.Logger.Start() in E:\jxx\Vue.NetCore\Net6.SqlSugar\VOL.Core\Services\Logger.cs:line 176SqlSugar

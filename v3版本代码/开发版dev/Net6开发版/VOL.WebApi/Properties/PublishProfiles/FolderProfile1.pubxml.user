@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>E:\jxx\Vue.NetCore\.Net6版本\VOL.WebApi\bin\Release\publish\</_PublishTargetUrl>
+    <History>True|2022-10-24T14:40:45.0077586Z;True|2022-10-24T22:37:32.7922147+08:00;True|2022-10-24T22:36:50.7065487+08:00;True|2022-07-02T22:10:28.5826334+08:00;True|2022-07-02T22:09:31.3171940+08:00;True|2022-07-02T22:08:56.5025798+08:00;True|2022-07-02T22:07:35.2155356+08:00;True|2022-07-02T22:07:17.2683331+08:00;True|2022-06-12T22:05:47.9896084+08:00;True|2022-06-12T22:00:03.8786881+08:00;False|2022-05-28T20:01:02.6439104+08:00;True|2022-05-26T14:38:02.7866819+08:00;True|2022-05-26T14:32:56.5094864+08:00;</History>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,9 @@
+1、v3版本代码为框架旧版本代码
+
+2、vol.web：新版本重构前端，可以将v3版本代码升级过来
+3、vol.api：后台.net8+efcore8.0
+4、vol.api.sqlsugar：后台.net8+sqlsugar  两个api任意选择都可以使用
+5、db：数据库脚本
+
+删除演示代码：前端viewgrid.js中将MES开头的路由，mes文件夹、后台VOL.MES类库、VOL.WebApi\VOL.Entity下的mes文件夹直接删除
+菜单设置页面将mes业务菜单手动删除下

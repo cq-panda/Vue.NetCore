@@ -1,0 +1,19 @@
+.vol-tabs .el-tabs__active-bar {
+  height: 1.5px !important;
+}
+.vol-tabs  .el-tabs__nav-wrap:after {
+    background-color: #e5e5e5 !important;
+    height: 1px !important;
+}
+.vol-tabs .el-tabs__header{
+    margin: 0 0 4px 0 !important;
+}
+.alert-primary {
+  background: #f6fcff !important;
+  border: 1.5px solid #def5ff !important;
+  color: #0590ff !important;
+}
+.el-dropdown,
+.el-dropdown .el-dropdown-link:hover{
+    outline: none !important;
+}

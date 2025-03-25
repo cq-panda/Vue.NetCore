@@ -1,0 +1,47 @@
+﻿@*
+ *Author：jxx
+ *Contact：283591387@qq.com
+ * 此代码由框架生成，请勿随意更改
+ *@
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div style=" padding: 0px 5px 0px 2px; height: 100%;">
+
+        <div id="lay-search-panel" class="panel lay-panel" style=" margin-bottom: 5px;border:0px;">
+        </div>
+        <div id="lay-reslut" class=" lay-reslut ">
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</body>
+</html>
+
+{#uploader}
+{#ueditor}
+
+
+<script>
+    {#dropDownIds}
+    var searchData = {#searchHtml};
+    var editData = {#editSource};
+
+
+    var gridParameters = {#gridParameters};
+
+    var $elementGrid;
+    window.onload = function () {
+        $elementGrid = $('#dataGrid').datagrid(gridParameters);
+    }
+
+    var $elementDetailGrid;
+    var gridDetailParameters = {#gridDetailParameters};
+</script>
