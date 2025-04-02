@@ -5,7 +5,7 @@
             <i class="ivu-icon ivu-icon-ios-information-circle-outline"></i>订单明细
         </h3> -->
         <div style="padding:10px;background: white;padding-top: 0;">
-            <!-- 更多table配置见文档：http://doc.volcore.xyz/table 或使用element plus原生table -->
+            <!-- 更多table配置见文档：http://v3.volcore.xyz/table 或使用element plus原生table -->
             <vol-table ref="tableRef" :ck="false" :loadKey="true" :columns="columns" :pagination-hide="true"
                 :height="230" :defaultLoadPage="false" @loadBefore="loadBefore" :url="url"
                 :row-index="true"></vol-table>
@@ -16,7 +16,7 @@
 <script setup>
 import { reactive, ref } from 'vue';
 const loadBefore = (params, callback) => {//表格数据加载时触发
-    //更多table配置见文档：http://doc.volcore.xyz/table
+    //更多table配置见文档：http://v3.volcore.xyz/table
     //   这里也可以设置一些查询条件
     params.order='asc'
     return callback(true);
@@ -28,7 +28,7 @@ const gridRowClick = (row) => { //主表点击行加载明细表
 }
 
 const url = ref('api/MES_Process/getDetailPage')//指定从某个接口获取table数据
-//更多table配置见文档：http://doc.volcore.xyz/table
+//更多table配置见文档：http://v3.volcore.xyz/table
 //明细表格配置，从生成的vue文件中可以复制过来
 const columns = reactive( [{field:'RouteID',title:'路线ID',type:'string',width:90,hidden:true,readonly:true,require:true,align:'left'},
                        {field:'ProcessID',title:'工序',type:'string',width:90,hidden:true,align:'left'},

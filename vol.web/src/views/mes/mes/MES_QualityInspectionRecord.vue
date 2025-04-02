@@ -3,7 +3,7 @@
  *Date：{Date}
  *Contact：283591387@qq.com
  *业务请在@/extension/mes/mes/MES_QualityInspectionRecord.jsx或MES_QualityInspectionRecord.vue文件编写
- *新版本支持vue或【表.jsx]文件编写业务,文档见:https://doc.volcore.xyz/docs/view-grid、https://doc.volcore.xyz/docs/web
+ *新版本支持vue或【表.jsx]文件编写业务,文档见:https://v3.volcore.xyz/docs/view-grid、https://v3.volcore.xyz/docs/web
  -->
 <template>
     <view-grid ref="grid"
@@ -44,7 +44,7 @@
     const onInit = async ($vm) => {
         gridRef = $vm;
         //与jsx中的this.xx使用一样，只需将this.xx改为gridRef.xx
-        //更多属性见：https://doc.volcore.xyz/docs/view-grid
+        //更多属性见：https://v3.volcore.xyz/docs/view-grid
     }
     //生成对象属性初始化后,操作明细表配置用到
     const onInited = async () => {

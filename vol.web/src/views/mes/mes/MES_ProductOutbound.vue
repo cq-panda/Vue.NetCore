@@ -3,7 +3,7 @@
  *Date：{Date}
  *Contact：283591387@qq.com
  *业务请在@/extension/mes/mes/MES_ProductOutbound.jsx或MES_ProductOutbound.vue文件编写
- *新版本支持vue或【表.jsx]文件编写业务,文档见:https://doc.volcore.xyz/docs/view-grid、https://doc.volcore.xyz/docs/web
+ *新版本支持vue或【表.jsx]文件编写业务,文档见:https://v3.volcore.xyz/docs/view-grid、https://v3.volcore.xyz/docs/web
  -->
 <template>
   <view-grid
