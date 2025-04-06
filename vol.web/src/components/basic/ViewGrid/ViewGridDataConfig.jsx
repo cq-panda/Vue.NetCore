@@ -43,7 +43,7 @@ const dataConfig = () => {
     // 弹出框查看表数据结构
     width: ref(700),
     // 高级查询的标签宽度
-    labelWidth: ref(90),
+    labelWidth: ref(85),
     // 查看表结构的弹出框
     viewModel: ref(false),
     // 查看表结构的列数据
@@ -198,7 +198,7 @@ const dataConfig = () => {
       // saveClose新建或编辑成功后是否关闭弹出框
       saveClose: true,
       // 弹出框的标签宽度labelWidth
-      labelWidth: 100,
+      labelWidth: 85,
       height: 0,
       width: 0,
       // 弹出框明细table是否显示合计

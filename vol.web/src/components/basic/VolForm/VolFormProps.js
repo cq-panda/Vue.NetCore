@@ -18,7 +18,7 @@ export default function () {
         labelWidth: {
             // 表单左边label文字标签的宽度
             type: Number,
-            default: 90
+            default: 85
         },
         formRules: {
             // 表单配置规则，如字段类型，是否必填
