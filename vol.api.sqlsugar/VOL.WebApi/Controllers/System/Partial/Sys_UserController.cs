@@ -123,12 +123,12 @@ namespace VOL.Sys.Controllers
 
         [HttpPost, Route("modifyPwd")]
         [ApiActionPermission]
-        //通过ObjectGeneralValidatorFilter校验参数，不再需要if esle判断OldPwd与NewPwd参数
-        [ObjectGeneralValidatorFilter(ValidatorGeneral.OldPwd, ValidatorGeneral.NewPwd)]
-        public async Task<IActionResult> ModifyPwd(string oldPwd, string newPwd)
+        public async Task<IActionResult> ModifyPwd([FromBody] Dictionary<string, string> info)
         {
-            return Json(await Service.ModifyPwd(oldPwd, newPwd));
+            return Json(await Service.ModifyPwd(info?["oldPwd"], info?["newPwd"]));
         }
+
+
 
         [HttpPost, Route("getCurrentUserInfo")]
         public async Task<IActionResult> GetCurrentUserInfo()
@@ -136,11 +136,11 @@ namespace VOL.Sys.Controllers
             return Json(await Service.GetCurrentUserInfo());
         }
 
-        //只能超级管理员才能修改密码
-        //2020.08.01增加修改密码功能
-        [HttpPost, Route("modifyUserPwd"), ApiActionPermission(ActionRolePermission.SuperAdmin)]
-        public IActionResult ModifyUserPwd(string password, string userName)
+        [HttpPost, Route("modifyUserPwd"), ApiActionPermission(ActionPermissionOptions.Update)]
+        public IActionResult ModifyUserPwd([FromBody] LoginInfo loginInfo)
         {
+            string userName = loginInfo?.UserName;
+            string password = loginInfo?.Password;
             WebResponseContent webResponse = new WebResponseContent();
             if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(userName))
             {
@@ -160,7 +160,6 @@ namespace VOL.Sys.Controllers
             UserContext.Current.LogOut(user.User_Id);
             return Json(webResponse.OK("密码修改成功"));
         }
-
         /// <summary>
         /// 2020.06.15增加登陆验证码
         /// </summary>
