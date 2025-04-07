@@ -127,7 +127,7 @@ export const initButtonsAuthFields = (proxy, props, dataConfig, $route, hiddenFi
   if (!saveBtn) {
     props.editFormOptions.forEach((row) => {
       row.forEach((x) => {
-        x.disabled = true
+        x.readonly = true
       })
     })
     //没有新增编辑权限的，弹出框都设置为只读
