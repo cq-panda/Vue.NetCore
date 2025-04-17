@@ -515,6 +515,7 @@
                 }
               "
               @change="item.onKeyPress"
+              @keyup.delete="($event)=>{item.onKeyPress&&item.onKeyPress($event,item)}"
               @blur="item.blur"
               @focus="item.focus"
             />
@@ -545,7 +546,7 @@
                   onKeyPress($event, item);
                 }
               "
-              @keyup.delete.native="item.onKeyPress"
+              @keyup.delete="item.onKeyPress"
               @change="item.onKeyPress"
               @keyup.enter="item.onKeyPress"
               @blur="item.blur"

@@ -5,7 +5,7 @@
     :class="[
       textInline ? 'text-inline' : '',
       fxRight ? 'fx-right' : '',
-      smallCell ? 'small-table' : '',
+      smallCell ? 'small-table' : ''
     ]"
   >
     <template v-if="dragPosition">
@@ -90,9 +90,7 @@
             :render="column.renderHeader"
           ></table-render>
           <template v-else>
-            <span
-              v-if="(column.require || column.required) && column.edit"
-              class="column-required"
+            <span v-if="(column.require || column.required) && column.edit" class="column-required"
               >*</span
             ><span :style="column.titleStyle">{{ $ts(column.title) }}</span>
 
@@ -135,18 +133,10 @@
                 v-else-if="columnChildren.formatter"
                 @click="
                   columnChildren.click &&
-                    columnChildren.click(
-                      scopeChildren.row,
-                      columnChildren,
-                      scopeChildren.$index
-                    )
+                    columnChildren.click(scopeChildren.row, columnChildren, scopeChildren.$index)
                 "
                 v-html="
-                  columnChildren.formatter(
-                    scopeChildren.row,
-                    columnChildren,
-                    scopeChildren.$index
-                  )
+                  columnChildren.formatter(scopeChildren.row, columnChildren, scopeChildren.$index)
                 "
               ></div>
               <div v-else-if="columnChildren.bind">
@@ -209,9 +199,7 @@
           <!-- 2021.09.21增加编辑时对readonly属性判断 -->
           <div
             v-else-if="
-              column.edit &&
-              !column.readonly &&
-              (column.edit.keep || edit.rowIndex == scope.$index)
+              column.edit && !column.readonly && (column.edit.keep || edit.rowIndex == scope.$index)
             "
             class="edit-el"
           >
@@ -228,7 +216,7 @@
                   @click.prevent
                   @change="
                     (val) => {
-                      dateChange(scope.row, column, val);
+                      dateChange(scope.row, column, val)
                     }
                   "
                   :type="column.edit.type"
@@ -247,7 +235,7 @@
                   v-model="scope.row[column.field]"
                   @change="
                     (val) => {
-                      column.onChange && column.onChange(scope.row, column, val);
+                      column.onChange && column.onChange(scope.row, column, val)
                     }
                   "
                   :placeholder="$ts(column.placeholder || column.title)"
@@ -269,7 +257,7 @@
                       '#90ee90',
                       '#00ced1',
                       '#1e90ff',
-                      '#c71585',
+                      '#c71585'
                     ]"
                     v-model="scope.row[column.field]"
                   />
@@ -283,7 +271,7 @@
                   :inactive-text="$ts(column.inactiveText)"
                   @change="
                     (val) => {
-                      switchChange(val, scope.row, column);
+                      switchChange(val, scope.row, column)
                     }
                   "
                   :active-value="
@@ -304,10 +292,7 @@
                 >
                 </el-switch>
 
-
-                <template
-                  v-else-if="['select', 'selectList'].indexOf(column.edit.type) != -1"
-                >
+                <template v-else-if="['select', 'selectList'].indexOf(column.edit.type) != -1">
                   <el-select-v2
                     :ref="column.field + scope.$index"
                     style="width: 100%"
@@ -340,12 +325,12 @@
                     :allow-create="column.autocomplete"
                     @change="
                       (val) => {
-                        selectChange(scope.row, column, val);
+                        selectChange(scope.row, column, val)
                       }
                     "
                     @clear="
                       (val) => {
-                        selectChange(scope.row, column, val, true);
+                        selectChange(scope.row, column, val, true)
                       }
                     "
                     clearable
@@ -365,9 +350,7 @@
                 <el-tree-select
                   :ref="column.field + scope.$index"
                   style="width: 100%"
-                  v-else-if="
-                    column.edit.type == 'treeSelect' || column.edit.type == 'cascader'
-                  "
+                  v-else-if="column.edit.type == 'treeSelect' || column.edit.type == 'cascader'"
                   v-model="scope.row[column.field]"
                   :data="column.bind.data"
                   :multiple="column.multiple === undefined ? true : column.multiple"
@@ -390,16 +373,14 @@
                   :disabled="initColumnDisabled(scope.row, column)"
                   :autosize="{
                     minRows: column.minRows || 2,
-                    maxRows: column.maxRows || 10,
+                    maxRows: column.maxRows || 10
                   }"
                 >
                 </el-input>
                 <el-input-number
                   :ref="column.field + scope.$index"
                   style="width: 100%"
-                  v-else-if="
-                    column.edit.type == 'number' || column.edit.type == 'decimal'
-                  "
+                  v-else-if="column.edit.type == 'number' || column.edit.type == 'decimal'"
                   v-model="scope.row[column.field]"
                   :precision="column.edit.type == 'number' ? 0 : column.precision"
                   :min="column.min"
@@ -409,6 +390,12 @@
                   @focus="onFocus(scope.row, column, $event)"
                   @blur="onBlur(scope.row, column, $event)"
                   @change="inputKeypress(scope.row, column, $event)"
+                  @keyup.delete="inputKeypress(scope.row, column, $event)"
+                  @keypress="
+                    ($event) => {
+                      inputKeypress(scope.row, column, $event)
+                    }
+                  "
                 />
                 <input
                   :ref="column.field + scope.$index"
@@ -465,7 +452,7 @@
               class="table-img"
               :style="{
                 height: (column.imgHeight || 40) + 'px',
-                width: (column.imgWidth || 40) + 'px',
+                width: (column.imgWidth || 40) + 'px'
               }"
               :src="file.path + access_token"
             />
@@ -482,7 +469,7 @@
               formatDate(scope.row, column)
             }}</template>
             <template v-else-if="column.type == 'month'">{{
-              (scope.row[column.field] || "").substr(0, 7)
+              (scope.row[column.field] || '').substr(0, 7)
             }}</template>
             <div
               v-else-if="column.formatter"
@@ -507,15 +494,16 @@
             <div
               @click="
                 () => {
-                  column.click && formatterClick(scope.row, column);
+                  column.click && formatterClick(scope.row, column)
                 }
               "
               v-else-if="column.bind"
             >
               <el-tag
-                v-if="useTag && column.type != 'cascader'&&!base.isEmptyValue(scope.row[column.field])"
+                v-if="
+                  useTag && column.type != 'cascader' && !base.isEmptyValue(scope.row[column.field])
+                "
                 class="cell-tag"
-             
                 :type="getColor(scope.row, column)"
                 :effect="column.effect"
                 size="small"
@@ -564,18 +552,18 @@ import {
   nextTick,
   onMounted,
   onUnmounted,
-  watch,
-} from "vue";
-import VolTableProps from "./VolTable/VolTableProps.js";
-import TableRender from "./VolTable/VolTableRender";
+  watch
+} from 'vue'
+import VolTableProps from './VolTable/VolTableProps.js'
+import TableRender from './VolTable/VolTableRender'
 
-import { initDataSource } from "./VolTable/VolTableDicData.js";
+import { initDataSource } from './VolTable/VolTableDicData.js'
 import {
   initCellStyleSummary,
   initSummaryData,
   initColumnSummaryData,
-  loadDataSummaries,
-} from "./VolTable/VolTableSummary.js";
+  loadDataSummaries
+} from './VolTable/VolTableSummary.js'
 import {
   selectChange,
   switchChange,
@@ -584,11 +572,11 @@ import {
   selectionRowChange,
   expandTreeChange,
   onBlur,
-  onFocus,
-} from "./VolTable/VolTableEvent.js";
-import { getPath, previewImg } from "./VolTable/VolTableFile.js";
-import { resetPage, loadData } from "./VolTable/VolTableLoadData.js";
-import { getDateOptions, getDateFormat } from "./VolTable/VolTableDate.js";
+  onFocus
+} from './VolTable/VolTableEvent.js'
+import { getPath, previewImg } from './VolTable/VolTableFile.js'
+import { resetPage, loadData } from './VolTable/VolTableLoadData.js'
+import { getDateOptions, getDateFormat } from './VolTable/VolTableDate.js'
 import {
   isEmptyTag,
   filterChildrenColumn,
@@ -600,310 +588,304 @@ import {
   addTableRow,
   delTableRow,
   resetTable,
-  initPaginations,
-} from "./VolTable/VolTableProvider.js";
-import { getCellColor, formatDate, cellFormatter } from "./VolTable/VolTableFormat.js";
-import { tableRowClick, rowEndEdit } from "./VolTable/VolTableEdit.js";
-const VolTableUpload = defineAsyncComponent(() =>
-  import("./VolTable/VolTableUpload.vue")
-);
-import VolLoading from "@/components/basic/VolLoading";
-const VolImageViewer = defineAsyncComponent(() =>
-  import("@/components/basic/VolImageViewer.vue")
-);
+  initPaginations
+} from './VolTable/VolTableProvider.js'
+import { getCellColor, formatDate, cellFormatter } from './VolTable/VolTableFormat.js'
+import { tableRowClick, rowEndEdit } from './VolTable/VolTableEdit.js'
+const VolTableUpload = defineAsyncComponent(() => import('./VolTable/VolTableUpload.vue'))
+import VolLoading from '@/components/basic/VolLoading'
+const VolImageViewer = defineAsyncComponent(() => import('@/components/basic/VolImageViewer.vue'))
 const emit = defineEmits([
-  "dicInited",
-  "loadBefore",
-  "loadAfter",
-  "rowChange",
-  "selectionChange",
-  "onSortEnd",
-  "rowDbClick",
-  "rowClick",
-  "paginationChange",
-]);
-const props = defineProps(VolTableProps());
-const { proxy, vnode } = getCurrentInstance();
+  'dicInited',
+  'loadBefore',
+  'loadAfter',
+  'rowChange',
+  'selectionChange',
+  'onSortEnd',
+  'rowDbClick',
+  'rowClick',
+  'paginationChange'
+])
+const props = defineProps(VolTableProps())
+const { proxy, vnode } = getCurrentInstance()
 
-proxy.errMsg = "";
-proxy.errorFiled = "";
-const table = ref(null);
-const randomTableKey = ref(1);
-const realHeight = ref(0);
-const realMaxHeight = ref(0);
-const isPageLoad = ref(false);
-const defaultImg = new URL("@/assets/imgs/error-img.png", import.meta.url).href;
-const loading = ref(false);
-const formatConfig = reactive({});
+proxy.errMsg = ''
+proxy.errorFiled = ''
+const table = ref(null)
+const randomTableKey = ref(1)
+const realHeight = ref(0)
+const realMaxHeight = ref(0)
+const isPageLoad = ref(false)
+const defaultImg = new URL('@/assets/imgs/error-img.png', import.meta.url).href
+const loading = ref(false)
+const formatConfig = reactive({})
 //外部调用rowData只能使用splice+push
 // const rowData = reactive(props.tableData);
-const rowData = ref(props.tableData);
+const rowData = ref(props.tableData)
 
 //分页选择的数据
-const reserveSelectionRows = []; // reactive([]);
-const paginations = reactive(props.pagination);
-initPaginations(paginations);
+const reserveSelectionRows = [] // reactive([]);
+const paginations = reactive(props.pagination)
+initPaginations(paginations)
 
-const edit = reactive({ columnIndex: -1, rowIndex: -1 }); // 当前双击编辑的行与列坐标
+const edit = reactive({ columnIndex: -1, rowIndex: -1 }) // 当前双击编辑的行与列坐标
 // const summary = ref(false); // 是否显示合计
 // 目前只支持从后台返回的summaryData数据
-const summaryData = reactive([]);
-const summaryIndex = reactive({});
-const cellStyleColumns = reactive({});
-const remoteColumns = reactive([]); // 需要每次刷新或分页后从后台加载字典数据源的列配置
+const summaryData = reactive([])
+const summaryIndex = reactive({})
+const cellStyleColumns = reactive({})
+const remoteColumns = reactive([]) // 需要每次刷新或分页后从后台加载字典数据源的列配置
 //-table带数据源的单元格是否启用tag标签(下拉框等单元格以tag标签显示)
 //2023.04.02更新voltable与main.js
-const useTag = ref(true);
+const useTag = ref(true)
 
-const smallCell = ref(true);
-const showDragMask = ref(false);
+const smallCell = ref(true)
+const showDragMask = ref(false)
 //文件权限token
-const access_token = ref(proxy.base.getAccessToken());
+const access_token = ref(proxy.base.getAccessToken())
 
 if (proxy.$global && proxy.$global.table) {
-  useTag.value = proxy.$global.table && proxy.$global.table.useTag;
-  smallCell.value = proxy.$global.table && proxy.$global.table.smallCell;
+  useTag.value = proxy.$global.table && proxy.$global.table.useTag
+  smallCell.value = proxy.$global.table && proxy.$global.table.smallCell
 }
 
 // 没有定义高度与最大高度，使用table默认值 // 定义了最大高度则不使用高度
 realHeight.value =
-  (!props.height && !props.maxHeight) || props.maxHeight ? null : props.height || null;
+  (!props.height && !props.maxHeight) || props.maxHeight ? null : props.height || null
 // 没有定义高度与最大高度，使用table默认值
-realMaxHeight.value = props.maxHeight || props.height || null;
+realMaxHeight.value = props.maxHeight || props.height || null
 
 const setHeight = (value) => {
-  realHeight.value = value;
-};
+  realHeight.value = value
+}
 
 const getTableData = () => {
   // return rowData.value;
-  return props.url ? rowData.value : props.tableData;
-};
+  return props.url ? rowData.value : props.tableData
+}
 const getTable = () => {
-  return table.value;
-};
+  return table.value
+}
 const tableColumns = computed(() => {
   return proxy.columns.filter((x) => {
-    return !x.hidden;
-  });
-});
+    return !x.hidden
+  })
+})
 
 //右侧固定
 const fxRight = computed(() => {
   return proxy.columns.some((x) => {
-    return x.fixed == "right" && !x.hidden;
-  });
-});
+    return x.fixed == 'right' && !x.hidden
+  })
+})
 //左边固定
 const fixed = computed(() => {
   return props.columns.some((x) => {
-    return x.fixed && x.fixed != "right" && !x.hidden;
-  });
-});
+    return x.fixed && x.fixed != 'right' && !x.hidden
+  })
+})
 
 const initIndex = ({ row, rowIndex }) => {
   //if (props.ck) {
-  row.elementIndex = rowIndex;
+  row.elementIndex = rowIndex
   //}
-  return;
-};
+  return
+}
 // 背景颜色、合计
 const initConfig = () => {
-  initCellStyleSummary(props, proxy, cellStyleColumns, summaryData, summaryIndex);
-};
+  initCellStyleSummary(props, proxy, cellStyleColumns, summaryData, summaryIndex)
+}
 const getSummaryData = () => {
-  return summaryData;
-};
+  return summaryData
+}
 const getCellClass = ({ row, column, rowIndex, columnIndex }) => {
   const b = props.columns.some((x) => {
-    return (
-      x.field === column.property && x.edit && (x.edit.keep || edit.rowIndex === rowIndex)
-    );
-  });
-  if (b) return "current-edit-cell";
+    return x.field === column.property && x.edit && (x.edit.keep || edit.rowIndex === rowIndex)
+  })
+  if (b) return 'current-edit-cell'
   if (props.columns[columnIndex]) {
-    return props.columns[columnIndex].class;
+    return props.columns[columnIndex].class
   }
-};
+}
 const getCellStyle = (option) => {
   // 2020.12.13增加设置单元格颜色
-  if (!option.column.property || !cellStyleColumns[option.column.property]) return;
+  if (!option.column.property || !cellStyleColumns[option.column.property]) return
   return cellStyleColumns[option.column.property](
     option.row,
     option.rowIndex,
     option.columnIndex,
     getTableData()
-  );
-};
-initConfig();
+  )
+}
+initConfig()
 
 //reset=是否重置
 const initDicKeys = (reset = true) => {
   initDataSource(proxy, props, reset, (dicData) => {
-    emit("dicInited", dicData);
-  });
-};
+    emit('dicInited', dicData)
+  })
+}
 //初始化字典
-initDicKeys(false);
+initDicKeys(false)
 
 //获取选中行
 const getSelectionRows = () => {
   if (props.reserveSelection && props.rowKey) {
-    const rows = table.value.getSelectionRows();
+    const rows = table.value.getSelectionRows()
     if (!reserveSelectionRows.length) {
-      return rows;
+      return rows
     }
     const rows2 = reserveSelectionRows.filter((x) => {
       return !rows.some((c) => {
-        return c[props.rowKey] == x[props.rowKey];
-      });
-    });
+        return c[props.rowKey] == x[props.rowKey]
+      })
+    })
     //如果有删除行操作，这里可能不准会误删
-    return [...rows, ...rows2];
+    return [...rows, ...rows2]
   }
 
-  return table.value ? table.value.getSelectionRows() : [];
-};
+  return table.value ? table.value.getSelectionRows() : []
+}
 //获取选中行
 const getSelected = () => {
-  return getSelectionRows();
-};
+  return getSelectionRows()
+}
 const getSelectedIndex = () => {
   // if (!props.index) {
   //   // 只有设置了属性index才有索引行
   //   return [];
   // }
   return getSelectionRows().map((x) => {
-    return x.elementIndex;
-  });
-};
+    return x.elementIndex
+  })
+}
 //合计
 const initSummary = () => {
-  initSummaryData(props, getTableData(), summaryData, summaryIndex);
-};
+  initSummaryData(props, getTableData(), summaryData, summaryIndex)
+}
 const getInputSummaries = (scope, val, event, column) => {
-  if (!column) return;
-  initColumnSummaryData(column);
-};
+  if (!column) return
+  initColumnSummaryData(column)
+}
 //设置字段配置合计
 const setColumnSummary = (column) => {
-  initColumnSummaryData(column, getTableData(), summaryData, summaryIndex);
-};
+  initColumnSummaryData(column, getTableData(), summaryData, summaryIndex)
+}
 if (props.tableData.length) {
-  initSummary();
+  initSummary()
 }
 
 const clearSelection = () => {
-  reserveSelectionRows.splice(0);
-  table.value.clearSelection();
-};
+  reserveSelectionRows.splice(0)
+  table.value.clearSelection()
+}
 
 const toggleRowSelection = (row) => {
-  table.value.toggleRowSelection(row);
-};
+  table.value.toggleRowSelection(row)
+}
 
 const watchRowSelectChange = (newLen, oldLen) => {
   if (!props.reserveSelection && newLen < oldLen && getSelectionRows().length) {
     //reserveSelectionRows.splice(0);
-    clearSelection();
+    clearSelection()
   }
   if (!props.reserveSelection && isPageLoad.value) {
-    isPageLoad.value = false;
-    return;
+    isPageLoad.value = false
+    return
   }
-  initSummary();
-};
+  initSummary()
+}
 //刷新指定字段合计
 const updateSummary = (fields) => {
   if (!fields) {
     fields = props.columns
       .filter((c) => {
-        return c.summary;
+        return c.summary
       })
       .map((c) => {
-        return c.field;
-      });
+        return c.field
+      })
   } else if (!Array.isArray(fields)) {
-    fields = [fields];
+    fields = [fields]
   }
   for (let index = 0; index < fields.length; index++) {
-    const field = fields[index];
+    const field = fields[index]
     //这里可能有多级表头
-    const column = proxy.base.getColumn(props.columns, field);
+    const column = proxy.base.getColumn(props.columns, field)
     if (column) {
-      setColumnSummary(column);
+      setColumnSummary(column)
     }
   }
-};
+}
 
 //输入事件
 const inputKeypress = (row, column, $event) => {
-  inputChange(row, column, $event);
-  setColumnSummary(column);
-};
+  inputChange(row, column, $event)
+  setColumnSummary(column)
+}
 const link = (row, column, $e) => {
-  $e.stopPropagation && $e.stopPropagation();
-  props.linkView(row, column);
-};
+  $e.stopPropagation && $e.stopPropagation()
+  props.linkView(row, column)
+}
 
 const headerClick = (column, event) => {
   if (edit.rowIndex != -1) {
-    const b = rowEndEdit(proxy, props, getTableData(), column, edit);
+    const b = rowEndEdit(proxy, props, getTableData(), column, edit)
     if (b) {
-      edit.rowIndex = -1;
+      edit.rowIndex = -1
     }
   }
-};
+}
 //行双击事件
 const rowDbClick = (row, column, event) => {
   //2021.05.23增加双击行事件
-  emit("rowDbClick", { row, column, event, index: row.elementIndex });
-};
+  emit('rowDbClick', { row, column, event, index: row.elementIndex })
+}
 //行点击事件
 const rowClick = (row, column, event) => {
   if (!column) {
     column = props.columns.find((x) => {
-      return x.field && x.edit && !x.edit.readonly && !x.readonly;
-    });
+      return x.field && x.edit && !x.edit.readonly && !x.readonly
+    })
   } else if (!column.field && column.property) {
     column = props.columns.find((x) => {
-      return x.field == column.property;
-    });
+      return x.field == column.property
+    })
   }
 
-  tableRowClick(proxy, props, getTableData(), edit, nextTick, emit, row, column, event);
+  tableRowClick(proxy, props, getTableData(), edit, nextTick, emit, row, column, event)
   // console.log(edit);
-};
+}
 
 //图片预览
-const viewer = ref(null);
+const viewer = ref(null)
 const viewImg = (row, column, path, $event, index) => {
-  $event && $event.stopPropagation();
-  previewImg(proxy, row, column, index, viewer.value);
-};
+  $event && $event.stopPropagation()
+  previewImg(proxy, row, column, index, viewer.value)
+}
 
 const getFilePath = (url, column) => {
-  return getPath(url, column, proxy);
-};
+  return getPath(url, column, proxy)
+}
 
 const dowloadFile = (file) => {
   proxy.base.dowloadFile(
     file.path + access_token.value,
     file.name,
     {
-      Authorization: proxy.$store.getters.getToken(),
+      Authorization: proxy.$store.getters.getToken()
     },
     proxy.http.ipAddress
-  );
-};
+  )
+}
 const reset = () => {
-  resetTable(proxy, props, getTableData(), paginations, edit);
-};
+  resetTable(proxy, props, getTableData(), paginations, edit)
+}
 
 //加数据
 const load = async (query, isResetPage) => {
   if (!props.url) {
-    return;
+    return
   }
   let data = await loadData(
     props,
@@ -917,57 +899,57 @@ const load = async (query, isResetPage) => {
     isResetPage,
     isPageLoad,
     randomTableKey
-  );
+  )
   if (!data) {
-    return;
+    return
   }
   //重置合计
-  loadDataSummaries(proxy, props, data, summaryData);
+  loadDataSummaries(proxy, props, data, summaryData)
   //设置分页后记录默认选中行2024.09.10
-  if (!(props.reserveSelection && props.rowKey)) return;
+  if (!(props.reserveSelection && props.rowKey)) return
   // isPageLoad.value = false;
   nextTick(() => {
-    isPageLoad.value = true;
-    const selectRows = reserveSelectionRows;
+    isPageLoad.value = true
+    const selectRows = reserveSelectionRows
     getTableData().forEach((row) => {
       const b = selectRows.some((c) => {
-        return c[proxy.rowKey] === row[proxy.rowKey];
-      });
-      if (b) toggleRowSelection(row);
-    });
-    isPageLoad.value = false;
-  });
-};
+        return c[proxy.rowKey] === row[proxy.rowKey]
+      })
+      if (b) toggleRowSelection(row)
+    })
+    isPageLoad.value = false
+  })
+}
 if (props.defaultLoadPage) {
-  load();
+  load()
 }
 
 const handleSizeChange = (val) => {
-  paginations.size = val;
-  paginations.rows = val;
-  load();
-  emit("paginationChange", paginations);
-};
+  paginations.size = val
+  paginations.rows = val
+  load()
+  emit('paginationChange', paginations)
+}
 const handleCurrentChange = (val) => {
-  paginations.page = val;
-  load();
-  emit("paginationChange", paginations);
-};
+  paginations.page = val
+  load()
+  emit('paginationChange', paginations)
+}
 const sortChange = (sort) => {
   if (props.url) {
-    paginations.sort = sort.prop;
-    paginations.order = sort.order == "ascending" ? "asc" : "desc";
-    load();
-    return;
+    paginations.sort = sort.prop
+    paginations.order = sort.order == 'ascending' ? 'asc' : 'desc'
+    load()
+    return
   }
-  const rows = getTableData();
+  const rows = getTableData()
   rows.sort(function (a, b) {
-    if (sort.order == "ascending") {
-      return a[sort.prop] - b[sort.prop];
+    if (sort.order == 'ascending') {
+      return a[sort.prop] - b[sort.prop]
     }
-    return b[sort.prop] - a[sort.prop];
-  });
-};
+    return b[sort.prop] - a[sort.prop]
+  })
+}
 //复选框选中事件
 const selectionChange = (selection) => {
   selectionRowChange(
@@ -978,93 +960,93 @@ const selectionChange = (selection) => {
     table.value,
     reserveSelectionRows,
     isPageLoad
-  );
-};
+  )
+}
 const userSelect = (selection, row) => {
   //   this.$emit("rowChange", { row, selection });
-};
-const isDateChange = ref(false);
+}
+const isDateChange = ref(false)
 const dateVisibleChang = (show) => {
-  isDateChange.value = show;
-};
+  isDateChange.value = show
+}
 const dateChange = (row, column, val) => {
-  isDateChange.value = true;
-  column.onChange && column.onChange(row, column, val);
-};
+  isDateChange.value = true
+  column.onChange && column.onChange(row, column, val)
+}
 //树形结构展开事件
 const expandChange = (row, expandedRows) => {
-  expandTreeChange(props, row, expandedRows);
-};
+  expandTreeChange(props, row, expandedRows)
+}
 
 //单元格颜色
 const getColor = (row, column) => {
-  return getCellColor(row, column, formatConfig);
-};
+  return getCellColor(row, column, formatConfig)
+}
 //格式化
 const formatter = (row, column, template) => {
-  return cellFormatter(proxy, row, column, template);
-};
+  return cellFormatter(proxy, row, column, template)
+}
 const formatterClick = (row, column, event) => {
   if (column.click) {
-    column.click(row, column, event);
-    event.stopPropagation && event.stopPropagation();
+    column.click(row, column, event)
+    event.stopPropagation && event.stopPropagation()
   } else {
-    rowClick(row, column, event);
+    rowClick(row, column, event)
   }
-};
+}
 //合并单元格
 const cellSpanMethod = ({ row, column, rowIndex, columnIndex }) => {
-  return props.spanMethod({ row, column, rowIndex, columnIndex }, getTableData());
-};
+  return props.spanMethod({ row, column, rowIndex, columnIndex }, getTableData())
+}
 //表头过滤
 const getFilters = (column) => {
-  return getColumnFilters(proxy, column, getTableData());
-};
+  return getColumnFilters(proxy, column, getTableData())
+}
 
 const filterHandler = (value, row, column) => {
-  return row[column.property] === value;
-};
+  return row[column.property] === value
+}
 
 const handleImageError = ($e) => {
-  $e.target.src = defaultImg;
-};
+  $e.target.src = defaultImg
+}
 //按回车跳转到下一行
 const toNextCell = (row, nextField, newRow) => {
-  toNextTableCell(proxy, props, getTableData(), row, edit, nextField, newRow);
-};
+  toNextTableCell(proxy, props, getTableData(), row, edit, nextField, newRow)
+}
 //添加行
 const addRow = (row) => {
-  addTableRow(proxy, props, getTableData(), row);
-  return row;
-};
+  addTableRow(proxy, props, getTableData(), row)
+  return row
+}
 
 const delRow = () => {
-  const rows = getSelected();
-  delTableRow(proxy, edit, getTableData(), rows, getSelectedIndex());
-  return rows;
-};
+  const rows = getSelected()
+  delTableRow(proxy, edit, getTableData(), rows, getSelectedIndex())
+  return rows
+}
 
 //上传图片、文件
-const uploadRef = ref(null);
+const uploadRef = ref(null)
 const showUpload = (row, column) => {
-  uploadRef.value.showUpload(row, column, props.url);
-};
+  uploadRef.value.showUpload(row, column, props.url)
+}
 
-const refTable = ref();
+const refTable = ref()
 
 const setEdit = (index) => {
   //结束编辑
   if (index == -1) {
     if (edit.rowIndex == -1) {
-      return;
+      return
     }
-    let row = getTableData[edit.rowIndex];
-    rowEndEdit(proxy, props, getTableData(), row, edit);
-    return;
+    let row = getTableData[edit.rowIndex]
+    rowEndEdit(proxy, props, getTableData(), row, edit)
+    return
   }
   //开启编辑
-  rowClick(getTableData()[index], null, {});
-};
+  rowClick(getTableData()[index], null, {})
+}
 
 // watch(
 //   () => props.tableData.length,
@@ -1075,43 +1057,43 @@ const setEdit = (index) => {
 watch(
   () => rowData.value.length,
   (newLen, oldLen) => {
-    watchRowSelectChange(newLen, oldLen);
+    watchRowSelectChange(newLen, oldLen)
   }
-);
+)
 
 const handleTableClickOutside = (event) => {
   if (!refTable.value?.contains(event.target)) {
-    if (isDateChange.value) return;
+    if (isDateChange.value) return
     if (edit.rowIndex != -1) {
-      let row = getTableData[edit.rowIndex];
-      rowEndEdit(proxy, props, getTableData(), row, edit);
-      edit.rowIndex = -1;
+      let row = getTableData[edit.rowIndex]
+      rowEndEdit(proxy, props, getTableData(), row, edit)
+      edit.rowIndex = -1
     }
   }
-};
+}
 
-const dragRef = ref(null);
+const dragRef = ref(null)
 const hasEdit = () => {
   return props.columns.some((x) => {
-    return x.edit;
-  });
-};
+    return x.edit
+  })
+}
 onMounted(() => {
   nextTick(() => {
-    initDrag(props, dragRef.value, refTable.value, showDragMask, realHeight);
-  });
+    initDrag(props, dragRef.value, refTable.value, showDragMask, realHeight)
+  })
   if (hasEdit()) {
-    document.addEventListener("click", handleTableClickOutside);
+    document.addEventListener('click', handleTableClickOutside)
   }
   initSortable(props, emit, nextTick, refTable.value, () => {
-    return getTableData();
-  });
-});
+    return getTableData()
+  })
+})
 onUnmounted(() => {
   if (hasEdit()) {
-    window.removeEventListener("click", handleTableClickOutside);
+    window.removeEventListener('click', handleTableClickOutside)
   }
-});
+})
 
 defineExpose({
   table,
@@ -1142,9 +1124,9 @@ defineExpose({
   reset,
   setEdit,
   viewImg,
-  tableData: props.tableData,
-});
+  tableData: props.tableData
+})
 </script>
 <style lang="less" scoped>
-@import "./VolTable/VolTable.less";
+@import './VolTable/VolTable.less';
 </style>
