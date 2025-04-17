@@ -50,13 +50,6 @@
       :span-method="cellSpanMethod"
     >
       <el-table-column
-        v-if="columnIndex && (!fixed || !ck)"
-        type="index"
-        :fixed="fixed"
-        width="55"
-        label="#"
-      ></el-table-column>
-      <el-table-column
         v-if="ck"
         type="selection"
         :fixed="fixed"
@@ -64,7 +57,13 @@
         :selectable="selectable"
         width="55"
       ></el-table-column>
-
+      <el-table-column
+        v-if="columnIndex"
+        type="index"
+        :fixed="fixed"
+        width="50"
+        :label="$ts('序号')"
+      ></el-table-column>
       <!-- 2020.10.10移除table第一行强制排序 -->
       <el-table-column
         v-for="(column, cindex) in tableColumns"
