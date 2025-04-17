@@ -510,11 +510,6 @@ export default {
   bottom: 0;
 }
 
-.builder-tree >>> .ivu-menu {
-  text-align: left;
-  width: 200px !important;
-}
-
 .builder-container {
   widows: 100%;
   /* padding: 20px; */
