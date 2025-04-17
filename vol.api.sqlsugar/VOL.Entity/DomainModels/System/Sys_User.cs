@@ -15,7 +15,7 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Entity(TableCnName = "用户管理",TableName = "Sys_User",ApiInput = typeof(ApiSys_UserInput),ApiOutput = typeof(ApiSys_UserOutput))]
+    [Entity(TableCnName = "用户管理",TableName = "Sys_User",DBServer = "SysDbContext",ApiInput = typeof(ApiSys_UserInput),ApiOutput = typeof(ApiSys_UserOutput))]
     public partial class Sys_User:BaseEntity
     {
         /// <summary>
@@ -49,37 +49,14 @@ namespace VOL.Entity.DomainModels
        public string UserTrueName { get; set; }
 
        /// <summary>
-       ///性别
+       ///密码
        /// </summary>
-       [Display(Name ="性别")]
-       [Column(TypeName="int")]
+       [Display(Name ="密码")]
+       [MaxLength(200)]
+       [JsonIgnore]       [SugarColumn(NoSerialize = true)]
+       [Column(TypeName="nvarchar(200)")]
        [Editable(true)]
-       public int? Gender { get; set; }
-
-       /// <summary>
-       ///头像
-       /// </summary>
-       [Display(Name ="头像")]
-       [MaxLength(500)]
-       [Column(TypeName="nvarchar(500)")]
-       [Editable(true)]
-       public string HeadImageUrl { get; set; }
-
-       /// <summary>
-       ///不用
-       /// </summary>
-       [Display(Name ="不用")]
-       [Column(TypeName="int")]
-       public int? Dept_Id { get; set; }
-
-       /// <summary>
-       ///不用
-       /// </summary>
-       [Display(Name ="不用")]
-       [MaxLength(150)]
-       [Column(TypeName="nvarchar(150)")]
-       [Editable(true)]
-       public string DeptName { get; set; }
+       public string UserPwd { get; set; }
 
        /// <summary>
        ///角色
@@ -91,30 +68,12 @@ namespace VOL.Entity.DomainModels
        public int Role_Id { get; set; }
 
        /// <summary>
-       ///不用
+       ///性别
        /// </summary>
-       [Display(Name ="不用")]
-       [MaxLength(200)]
-       [Column(TypeName="nvarchar(200)")]
-       [Editable(true)]
-       public string RoleName { get; set; }
-
-       /// <summary>
-       ///Token
-       /// </summary>
-       [Display(Name ="Token")]
-       [MaxLength(500)]
-       [Column(TypeName="nvarchar(500)")]
-       [Editable(true)]
-       public string Token { get; set; }
-
-       /// <summary>
-       ///类型
-       /// </summary>
-       [Display(Name ="类型")]
+       [Display(Name ="性别")]
        [Column(TypeName="int")]
        [Editable(true)]
-       public int? AppType { get; set; }
+       public int? Gender { get; set; }
 
        /// <summary>
        ///组织构架
@@ -126,58 +85,13 @@ namespace VOL.Entity.DomainModels
        public string DeptIds { get; set; }
 
        /// <summary>
-       ///密码
+       ///头像
        /// </summary>
-       [Display(Name ="密码")]
-       [MaxLength(200)]
-       [JsonIgnore]       [SugarColumn(NoSerialize = true)]
-       [Column(TypeName="nvarchar(200)")]
-       public string UserPwd { get; set; }
-
-       /// <summary>
-       ///注册时间
-       /// </summary>
-       [Display(Name ="注册时间")]
-       [Column(TypeName="datetime")]
-       public DateTime? CreateDate { get; set; }
-
-       /// <summary>
-       ///手机用户
-       /// </summary>
-       [Display(Name ="手机用户")]
-       [Column(TypeName="int")]
-       public int? IsRegregisterPhone { get; set; }
-
-       /// <summary>
-       ///手机号
-       /// </summary>
-       [Display(Name ="手机号")]
-       [MaxLength(11)]
-       [Column(TypeName="nvarchar(11)")]
-       public string PhoneNo { get; set; }
-
-       /// <summary>
-       ///
-       /// </summary>
-       [Display(Name ="Tel")]
-       [MaxLength(20)]
-       [Column(TypeName="nvarchar(20)")]
-       public string Tel { get; set; }
-
-       /// <summary>
-       ///
-       /// </summary>
-       [Display(Name ="CreateID")]
-       [Column(TypeName="int")]
-       public int? CreateID { get; set; }
-
-       /// <summary>
-       ///创建人
-       /// </summary>
-       [Display(Name ="创建人")]
-       [MaxLength(200)]
-       [Column(TypeName="nvarchar(200)")]
-       public string Creator { get; set; }
+       [Display(Name ="头像")]
+       [MaxLength(500)]
+       [Column(TypeName="nvarchar(500)")]
+       [Editable(true)]
+       public string HeadImageUrl { get; set; }
 
        /// <summary>
        ///是否可用
@@ -189,48 +103,47 @@ namespace VOL.Entity.DomainModels
        public byte Enable { get; set; }
 
        /// <summary>
+       ///邮箱
+       /// </summary>
+       [Display(Name ="邮箱")]
+       [MaxLength(100)]
+       [Column(TypeName="nvarchar(100)")]
+       [Editable(true)]
+       public string Email { get; set; }
+
+       /// <summary>
+       ///Token
+       /// </summary>
+       [Display(Name ="Token")]
+       [MaxLength(500)]
+       [Column(TypeName="nvarchar(500)")]
+       [Editable(true)]
+       public string Token { get; set; }
+
+       /// <summary>
+       ///备注
+       /// </summary>
+       [Display(Name ="备注")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
+       [Editable(true)]
+       public string Remark { get; set; }
+
+       /// <summary>
+       ///手机号
+       /// </summary>
+       [Display(Name ="手机号")]
+       [MaxLength(11)]
+       [Column(TypeName="nvarchar(11)")]
+       [Editable(true)]
+       public string PhoneNo { get; set; }
+
+       /// <summary>
        ///
        /// </summary>
-       [Display(Name ="ModifyID")]
+       [Display(Name ="CreateID")]
        [Column(TypeName="int")]
-       public int? ModifyID { get; set; }
-
-       /// <summary>
-       ///修改人
-       /// </summary>
-       [Display(Name ="修改人")]
-       [MaxLength(200)]
-       [Column(TypeName="nvarchar(200)")]
-       public string Modifier { get; set; }
-
-       /// <summary>
-       ///修改时间
-       /// </summary>
-       [Display(Name ="修改时间")]
-       [Column(TypeName="datetime")]
-       public DateTime? ModifyDate { get; set; }
-
-       /// <summary>
-       ///审核状态
-       /// </summary>
-       [Display(Name ="审核状态")]
-       [Column(TypeName="int")]
-       public int? AuditStatus { get; set; }
-
-       /// <summary>
-       ///审核人
-       /// </summary>
-       [Display(Name ="审核人")]
-       [MaxLength(200)]
-       [Column(TypeName="nvarchar(200)")]
-       public string Auditor { get; set; }
-
-       /// <summary>
-       ///审核时间
-       /// </summary>
-       [Display(Name ="审核时间")]
-       [Column(TypeName="datetime")]
-       public DateTime? AuditDate { get; set; }
+       public int? CreateID { get; set; }
 
        /// <summary>
        ///最后登陆时间
@@ -247,40 +160,42 @@ namespace VOL.Entity.DomainModels
        public DateTime? LastModifyPwdDate { get; set; }
 
        /// <summary>
-       ///地址
+       ///创建人
        /// </summary>
-       [Display(Name ="地址")]
+       [Display(Name ="创建人")]
        [MaxLength(200)]
        [Column(TypeName="nvarchar(200)")]
-       [Editable(true)]
-       public string Address { get; set; }
+       public string Creator { get; set; }
 
        /// <summary>
-       ///电话
+       ///
        /// </summary>
-       [Display(Name ="电话")]
-       [MaxLength(100)]
-       [Column(TypeName="nvarchar(100)")]
-       [Editable(true)]
-       public string Mobile { get; set; }
+       [Display(Name ="ModifyID")]
+       [Column(TypeName="int")]
+       public int? ModifyID { get; set; }
 
        /// <summary>
-       ///Email
+       ///注册时间
        /// </summary>
-       [Display(Name ="Email")]
-       [MaxLength(100)]
-       [Column(TypeName="nvarchar(100)")]
+       [Display(Name ="注册时间")]
+       [Column(TypeName="datetime")]
        [Editable(true)]
-       public string Email { get; set; }
+       public DateTime? CreateDate { get; set; }
 
        /// <summary>
-       ///备注
+       ///修改时间
        /// </summary>
-       [Display(Name ="备注")]
+       [Display(Name ="修改时间")]
+       [Column(TypeName="datetime")]
+       public DateTime? ModifyDate { get; set; }
+
+       /// <summary>
+       ///修改人
+       /// </summary>
+       [Display(Name ="修改人")]
        [MaxLength(200)]
        [Column(TypeName="nvarchar(200)")]
-       [Editable(true)]
-       public string Remark { get; set; }
+       public string Modifier { get; set; }
 
        /// <summary>
        ///排序号
@@ -289,6 +204,89 @@ namespace VOL.Entity.DomainModels
        [Column(TypeName="int")]
        [Editable(true)]
        public int? OrderNo { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="RoleName")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
+       public string RoleName { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="Tel")]
+       [MaxLength(20)]
+       [Column(TypeName="nvarchar(20)")]
+       public string Tel { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="DeptName")]
+       [MaxLength(150)]
+       [Column(TypeName="nvarchar(150)")]
+       public string DeptName { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="Dept_Id")]
+       [Column(TypeName="int")]
+       public int? Dept_Id { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="IsRegregisterPhone")]
+       [Column(TypeName="int")]
+       public int? IsRegregisterPhone { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="Address")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
+       public string Address { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="AppType")]
+       [Column(TypeName="int")]
+       public int? AppType { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="AuditDate")]
+       [Column(TypeName="datetime")]
+       public DateTime? AuditDate { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="AuditStatus")]
+       [Column(TypeName="int")]
+       public int? AuditStatus { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="Auditor")]
+       [MaxLength(200)]
+       [Column(TypeName="nvarchar(200)")]
+       public string Auditor { get; set; }
+
+       /// <summary>
+       ///
+       /// </summary>
+       [Display(Name ="Mobile")]
+       [MaxLength(100)]
+       [Column(TypeName="nvarchar(100)")]
+       public string Mobile { get; set; }
 
        
     }
