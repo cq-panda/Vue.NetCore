@@ -1,8 +1,11 @@
 //后台返回的字典key值不能有重复的，否则
-export const initDicData = (proxy, props, ctx, dataConfig) => {
+export const initDicData = (proxy, props, ctx, dataConfig,reset) => {
   //初始化字典数据
   let keys = []
   const dicKeys = dataConfig.dicKeys.value
+  if (reset) {
+      dicKeys.splice(0);
+  }
   //2022.04.17优化重新加载数据源
   dicKeys.forEach((item) => {
     if (item.data) {

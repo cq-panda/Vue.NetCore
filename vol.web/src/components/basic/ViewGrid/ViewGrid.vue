@@ -533,8 +533,8 @@ export default {
     initButtonsAuthFields(proxy, props, dataConfig, route, hiddenFields); //初始化弹出框与明细表格按钮
 
     //初始化字典配置
-    const initDicKeys = () => {
-      initDicData(proxy, props, ctx, dataConfig); //初始下框数据源
+    const initDicKeys = (reset) => {
+      initDicData(proxy, props, ctx, dataConfig,reset); //初始下框数据源
     };
     const gridEvent = ViewGridEvent(proxy, props, ctx, dataConfig);
     //const { loadTableBefore, loadTableAfter } = gridEvent;
