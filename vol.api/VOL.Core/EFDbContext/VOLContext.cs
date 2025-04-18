@@ -101,7 +101,7 @@ namespace VOL.Core.EFDbContext
             }
             else
             {
-                if (true||AppSetting.GetSettingString("UseSqlserver2008") =="1")
+                if (AppSetting.GetSettingString("UseSqlserver2008") =="1")
                 {
                    optionsBuilder.UseSqlServer(connectionString, x => x.UseRowNumberForPaging());
                 }
@@ -109,7 +109,7 @@ namespace VOL.Core.EFDbContext
             }
             //默认禁用实体跟踪
             optionsBuilder = optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            optionsBuilder.AddInterceptors(new SqlCommandInterceptor());
+           // optionsBuilder.AddInterceptors(new SqlCommandInterceptor());
             base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
