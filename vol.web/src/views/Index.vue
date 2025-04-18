@@ -225,6 +225,12 @@ links.value.push(...[{
   id: -1,
   icon: 'el-icon-coin',
   left: true
+},{
+  text: '框架视频',
+  path: 'https://www.cctalk.com/m/group/90268531',
+  id: -1,
+  icon: 'el-icon-video-camera',
+  left: true
 }])
 
 const userDropItems = reactive([

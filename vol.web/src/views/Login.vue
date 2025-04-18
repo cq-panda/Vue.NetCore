@@ -87,10 +87,17 @@
             >QQ4群:959924606</a
           >
           &nbsp; &nbsp;&nbsp; &nbsp;
+          <a href="https://www.cctalk.com/m/group/90268531" style="text-decoration: none" target="_blank"
+            >框架视频</a
+          >   &nbsp; &nbsp;&nbsp; &nbsp;
           <a href="http://v3.volcore.xyz/" style="text-decoration: none" target="_blank"
             >框架文档</a
           >
         </p>
+        <p style="text-align: center;">
+           <a href="https://space.bilibili.com/525836469" style="text-decoration: none;" target="_blank"
+            >NET视频教程(微软MVP-ACE录制)</a
+          ></p>
       </div>
     </div>
   </div>
