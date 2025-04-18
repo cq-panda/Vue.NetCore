@@ -101,3 +101,9 @@
 /vol.api/VOL.Entity/bin
 /vol.api/VOL.MES/obj
 /vol.api/VOL.MES/bin
+/vol.api/.vs
+/vol.api/VOL.Sys/obj
+/vol.api/VOL.Sys/bin
+/vol.api/VOL.WebApi/obj
+/vol.api/VOL.WebApi/bin
+/vol.api.sqlsugar/.vs
