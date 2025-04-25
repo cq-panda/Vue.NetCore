@@ -52,10 +52,10 @@ namespace VOL.Sys.Controllers
         [HttpPost, Route("GetPageData")]
         public override ActionResult GetPageData([FromBody] PageDataOptions loadData)
         {
-            if (loadData.Value.GetInt() == 1)
-            {
-                return GetTreeTableRootData(loadData).Result;
-            }
+            //if (loadData.Value.GetInt() == 1)
+            //{
+            //    return GetTreeTableRootData(loadData).Result;
+            //}
             return base.GetPageData(loadData);
         }
 
