@@ -1,4 +1,4 @@
-const colors = [null, 'success', 'success', 'danger', 'info']
+const colors = [null, 'primary', 'success', 'danger', 'info']
 const editType = ['selectList', 'checkbox', 'cascader', 'treeSelect']
 export const formatDate = (row, column) => {
   return (row[column.field] || '').substr(0, 10)
