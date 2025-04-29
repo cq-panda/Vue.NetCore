@@ -73,6 +73,16 @@ export const initMethods = (proxy, props, dataConfig) => {
   const getSelected = () => {
     return getSelectRows()
   }
+
+    //主表点击行选中当前行
+    const toggleRowSelection = (row) => {
+      getGridTableRef(proxy, props, true).toggleRowSelection(row);
+    }
+     //清除选中的行
+    const clearSelection=()=>{
+      getGridTableRef(proxy, props, true).clearSelection();
+    }
+  
   //获取明细表选中的行
   const getDetailSelectRows = (table) => {
     return getDetailTableRef(proxy, props, table).getSelected()
@@ -120,6 +130,8 @@ export const initMethods = (proxy, props, dataConfig) => {
     editFormTabClick,
     getSelectRows,
     getSelected,
+    toggleRowSelection,
+    clearSelection,
     getDetailSelectRows,
     getTable,
     getTableRef,
