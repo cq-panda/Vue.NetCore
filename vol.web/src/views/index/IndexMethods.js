@@ -148,8 +148,5 @@ const initQueryParams = (data) => {
       d.path = d.url
     }
     d.to = d.url
-    if (!d.icon) {
-      d.icon = 'el-icon-menu'
-    }
   }
 }

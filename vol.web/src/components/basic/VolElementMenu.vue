@@ -129,8 +129,8 @@ export default defineComponent({
     };
     let rootTreeId = (!isNaN(props.rootId) ? ~~props.rootId : props.rootId) + "";
     props.list.forEach((x) => {
-      if (!x.icon || x.icon.substring(0, 3) != "el-") {
-        x.icon = "el-icon-menu";
+       if (!x.icon) {
+        x.icon = "el-icon-document";
       }
       x.children = [];
       x.isRoot = x.parentId + "" === rootTreeId;
