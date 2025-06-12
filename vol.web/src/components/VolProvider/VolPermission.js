@@ -35,7 +35,7 @@ const getAuthButtons = (table) => {
 }
 const hasAuthButton = (table, buttonName) => {
   return getButtons(null, null, table).some((x) => {
-    return x == buttonName
+    return x == buttonName || x.value == buttonName
   })
 }
 
