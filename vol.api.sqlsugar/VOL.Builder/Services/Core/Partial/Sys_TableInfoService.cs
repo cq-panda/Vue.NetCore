@@ -1935,18 +1935,18 @@ DISTINCT
                     .Replace("{TableName}", tableInfo.TableName).Replace("{Namespace}", modelNameSpace);
                 FileHelper.WriteFile(modelPath, tableName + ".cs", partialContent);
             }
-            if (createType == 1)
-            {
-                string mappingConfiguration = FileHelper.
-              ReadFile("Template\\DomianModel\\MappingConfiguration.html")
-              .Replace("{TableName}", tableInfo.TableName).Replace("{Namespace}", modelNameSpace).Replace("{StartName}", StratName);
-                FileHelper.WriteFile(
-                    mapPath +
-                    string.Format("\\" + modelNameSpace + "\\MappingConfiguration\\{0}\\"
-                    , tableInfo.FolderName)
-                    , tableInfo.TableName + "MapConfig.cs",
-                    mappingConfiguration);
-            }
+            //if (createType == 1)
+            //{
+            //    string mappingConfiguration = FileHelper.
+            //  ReadFile("Template\\DomianModel\\MappingConfiguration.html")
+            //  .Replace("{TableName}", tableInfo.TableName).Replace("{Namespace}", modelNameSpace).Replace("{StartName}", StratName);
+            //    FileHelper.WriteFile(
+            //        mapPath +
+            //        string.Format("\\" + modelNameSpace + "\\MappingConfiguration\\{0}\\"
+            //        , tableInfo.FolderName)
+            //        , tableInfo.TableName + "MapConfig.cs",
+            //        mappingConfiguration);
+            //}
             return "";
         }
 
