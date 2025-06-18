@@ -14,6 +14,7 @@
                :searchFormFields="searchFormFields"
                :searchFormOptions="searchFormOptions"
                :table="table"
+               :editTabs="editTabs"
                :extend="extend"
                :onInit="onInit"
                :onInited="onInited"
@@ -36,7 +37,7 @@
     const grid = ref(null);
     const { proxy } = getCurrentInstance()
     //http请求，proxy.http.post/get
-    const { table, editFormFields, editFormOptions, searchFormFields, searchFormOptions, columns, detail, details } = reactive(viewOptions())
+    const { table, editFormFields, editFormOptions, searchFormFields, searchFormOptions, columns, detail, details, editTabs } = reactive(viewOptions())
 
     let gridRef;//对应[表.jsx]文件中this.使用方式一样
     //生成对象属性初始化
