@@ -751,6 +751,123 @@ DISTINCT
         }
 
         /// <summary>
+        /// 创建编辑页面的Tab配置
+        /// </summary>
+        /// <param name="tabNames">Tab页面名称数组</param>
+        /// <param name="editColumns">编辑列数据</param>
+        /// <returns>Tab配置的JSON字符串</returns>
+        private string CreateEditTabsConfig(string[] tabNames, List<Sys_TableColumn> editColumns)
+        {
+            if (tabNames == null || tabNames.Length == 0 || editColumns == null || !editColumns.Any())
+            {
+                return "null";
+            }
+
+            bool hasPageNoConfig = editColumns.Any(x => x.EditPageNo.HasValue && x.EditPageNo > 0);
+            if (!hasPageNoConfig)
+            {
+                return "null";
+            }
+
+            // 为没有配置 EditPageNo 的字段分配默认值
+            foreach (var column in editColumns.Where(x => !x.EditPageNo.HasValue || x.EditPageNo <= 0))
+            {
+                column.EditPageNo = 1;
+            }
+
+            // 生成 tabs 配置
+            var tabsConfig = new List<object>();
+            for (int i = 1; i <= tabNames.Length; i++)
+            {
+                var tabColumns = editColumns.Where(x => (x.EditPageNo ?? 1) == i).ToList();
+                if (tabColumns.Any())
+                {
+                    // 生成字段字典
+                    var tabFields = tabColumns
+                        .OrderBy(x => x.EditRowNo)
+                        .ThenByDescending(x => x.OrderNo)
+                        .ToDictionary(
+                            x => x.ColumnName,
+                            x => x.EditType == "checkbox" || x.EditType == "selectList" || x.EditType == "cascader"
+                                ? new string[0] as object
+                                : "" as object
+                        );
+
+                    // 按 EditRowNo 分组生成表单行
+                    var tabRowGroups = tabColumns
+                        .GroupBy(x => x.EditRowNo ?? 1)
+                        .OrderBy(g => g.Key);
+
+                    var tabFormOptions = new List<List<object>>();
+                    foreach (var rowGroup in tabRowGroups)
+                    {
+                        var rowOptions = rowGroup
+                            .OrderBy(x => x.EditColNo ?? 0)
+                            .Select(x => CreateFormFieldOption(x))
+                            .Where(x => x != null)
+                            .ToList<object>();
+
+                        if (rowOptions.Any())
+                        {
+                            tabFormOptions.Add(rowOptions);
+                        }
+                    }
+
+                    tabsConfig.Add(new
+                    {
+                        name = tabNames[i - 1],
+                        key = $"tab{i}",
+                        fields = tabFields,
+                        options = tabFormOptions
+                    });
+                }
+            }
+
+            return tabsConfig.Serialize();
+        }
+
+        /// <summary>
+        /// 创建表单字段选项
+        /// </summary>
+        /// <param name="column">列信息</param>
+        /// <returns>表单字段选项字典</returns>
+        private Dictionary<string, object> CreateFormFieldOption(Sys_TableColumn column)
+        {
+            var dict = new Dictionary<string, object>();
+            dict["title"] = column.ColumnCnName ?? column.ColumnName;
+            dict["field"] = column.ColumnName;
+
+            if (column.IsNull == 0)
+            {
+                dict["required"] = true;
+            }
+
+            string displayType = GetDisplayType(false, column.SearchType, column.EditType, column.ColumnType);
+            if (!string.IsNullOrEmpty(displayType))
+            {
+                dict["type"] = displayType;
+            }
+
+            if (!string.IsNullOrEmpty(column.DropNo))
+            {
+                dict["dataKey"] = column.DropNo;
+                dict["data"] = new string[0];
+            }
+
+            if (column.IsReadDataset == 1)
+            {
+                dict["disabled"] = true;
+            }
+
+            if ((column.ColSize ?? 0) > 0)
+            {
+                dict["colSize"] = column.ColSize;
+            }
+
+            return dict;
+        }
+
+        /// <summary>
         /// 生成Vue页面
         /// </summary>
         /// <param name="sysTableInfo"></param>
@@ -872,6 +989,28 @@ DISTINCT
             //编辑
             string formOptions = GetSearchData(panelHtml, sysColumnList.Where(editFunc).ToList(), true, true, app: isApp).Serialize() ?? "";
 
+            // 新增：支持 EditPageNo 分组的 editFormOptions 和 editTabs 配置
+            string editTabsConfig = "null";
+            bool hasEditTabs = !string.IsNullOrEmpty(sysTableInfo.EditPageName);
+
+            if (hasEditTabs)
+            {
+                var tabNames = sysTableInfo.EditPageName.Split(',', '，')
+                    .Select(name => name.Trim())
+                    .Where(name => !string.IsNullOrEmpty(name))
+                    .ToArray();
+
+                editTabsConfig = CreateEditTabsConfig(tabNames, sysColumnList.Where(editFunc).ToList());
+
+                // 如果有 editTabs，清空原有的 formFields 和 formOptions
+                if (editTabsConfig != "null")
+                {
+                    formFileds = "{}";
+                    formOptions = "[]";
+                }
+            }
+
+            // 继续原有逻辑...
             string[] arr = sysTableInfo.Namespace.Split(".");
             string spaceFolder = (arr.Length > 1 ? arr[arr.Length - 1] : arr[0]).ToLower();
             //2025.02
@@ -879,6 +1018,7 @@ DISTINCT
             {
                 vueOptions = vueOptions.Replace("'#key'", "'#key',\r\n                editTable:true ");
             }
+
             //2025.02
             vueOptions = vueOptions.Replace("#columns", columns).
                             Replace("#SortName", string.IsNullOrEmpty(sysTableInfo.SortName) ? key : sysTableInfo.SortName).
@@ -1170,6 +1310,7 @@ DISTINCT
                     FileHelper.WriteFile($"{srcPath}\\router\\", "viewGird.js", routerContent);
                 }
             }
+
             return "页面创建成功!";
         }
 
@@ -2230,6 +2371,7 @@ DISTINCT
                         dataSource = GetDropString(x.DropNo, vue),
                         colSize = search && x.SearchType != "checkbox" ? 0 : (x.ColSize ?? 0)
                     }).ToList());
+            
             }
         }
 
