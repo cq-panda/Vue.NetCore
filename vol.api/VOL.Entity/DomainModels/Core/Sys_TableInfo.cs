@@ -68,5 +68,9 @@ namespace VOL.Entity.DomainModels
         [ForeignKey("Table_Id")]
         public List<Sys_TableColumn> TableColumns { get; set; }
 
+
+        [Editable(true)]
+        public string EditPageName { get; set; }
+
     }
 }

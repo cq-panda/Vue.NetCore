@@ -313,11 +313,68 @@ export default {
           }
         }
 
+        // 检查编辑页配置
+        if (!this.checkEditPage()) {
+          return
+        }
+
         let url = `/api/builder/createVuePage?vuePath=${vuePath}&vite=1&v3=1&app=${isApp || 0}`
         this.http.post(url, this.tableInfo, true).then((x) => {
-          this.$Message.info(x)
+          this.$message.info(x)
         })
       })
+    },
+    // 检测编辑页的值是否有大于0的 如果大于0 那么编辑页名称不能为空 并且长度要和大于0的编辑页的值的长度一致
+    checkEditPage() {
+      console.log(this.tableInfo, this.layOutOptins.fields);
+      let editPageName = this.tableInfo.editPageName
+
+      // 检查 tableColumns 数组中的 editPageNo 字段配置
+      if (this.tableInfo && this.tableInfo.tableColumns && this.tableInfo.tableColumns.length > 0) {
+        // 获取所有有效的 editPageNo 值（大于0的）
+        let editPageNos = this.tableInfo.tableColumns
+          .filter(item => item.editPageNo && item.editPageNo > 0)
+          .map(item => parseInt(item.editPageNo))
+          .sort((a, b) => a - b)
+
+        if (editPageNos.length > 0) {
+          // 检查是否连续，不能跳着输入
+          let maxPageNo = Math.max(...editPageNos)
+          let expectedPages = []
+          for (let i = 1; i <= maxPageNo; i++) {
+            expectedPages.push(i)
+          }
+
+          // 检查是否有缺失的页码
+          let missingPages = expectedPages.filter(page => !editPageNos.includes(page))
+          if (missingPages.length > 0) {
+            this.$message.error(`编辑页字段配置不连续，缺少第 ${missingPages.join(', ')} 页的字段配置`)
+            return false
+          }
+
+          // 检查编辑页名称是否存在且数量匹配
+          if (!editPageName) {
+            this.$message.error('编辑页名称不能为空')
+            return false
+          }
+
+          let editPageNameArray = editPageName.split(',')
+          // 编辑页的内容不可以为空
+          for (let i = 0; i < editPageNameArray.length; i++) {
+            if (editPageNameArray[i] === '') {
+              this.$message.error(`第${i + 1}个编辑页名称不能为空, 请检查编辑页名称`)
+              return false
+            }
+          }
+          // 编辑页的内容不可以为空
+          if (editPageNameArray.length !== maxPageNo) {
+            this.$message.error(`编辑页名称数量不匹配，需要 ${maxPageNo} 个页面名称，当前有 ${editPageNameArray.length} 个`)
+            return false
+          }
+        }
+      }
+
+      return true
     },
     createService() {
       this.validateTableInfo(() => {
@@ -354,9 +411,9 @@ export default {
           this.loadTableInfo(this.layOutOptins.fields.table_Id)
         })
     },
-    ceateApiController() {},
-    ceateController() {},
-    checkSortName() {},
+    ceateApiController() { },
+    ceateController() { },
+    checkSortName() { },
     save() {
       localStorage.setItem('vuePath', this.layOutOptins.fields.vuePath || '')
       localStorage.setItem('appPath', this.layOutOptins.fields.appPath || '')
@@ -371,7 +428,11 @@ export default {
       ) {
         return this.$Message.error('表结构只能勾选一个主键字段')
       }
+
       this.validateTableInfo(() => {
+        if (!this.checkEditPage()) {
+          return
+        }
         this.http.post('/api/builder/Save', this.tableInfo, true).then((x) => {
           if (!x.status) {
             this.$Message.error(x.message)
@@ -436,7 +497,7 @@ export default {
       })
     }
   },
-  mounted() {},
+  mounted() { },
   created() {
     let clientHeight = document.documentElement.clientHeight - 170
     this.tableHeight = clientHeight < 400 ? 400 : clientHeight
@@ -559,14 +620,14 @@ export default {
   position: relative;
 }
 
-.builder-content .action > span {
+.builder-content .action>span {
   padding: 0px 6px;
   font-size: 12px;
   letter-spacing: 1px;
   color: #5a5f5e;
 }
 
-.builder-content .action > span:hover {
+.builder-content .action>span:hover {
   cursor: pointer;
   color: black;
 }
