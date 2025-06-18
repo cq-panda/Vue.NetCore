@@ -11,7 +11,7 @@ export default function () {
   })
   return {
     ...gridPropsFilter,
-    loadTreeChildren:null,
+    loadTreeChildren: null,
     columns: {
       //当前表的配置信息
       type: Array,
@@ -68,7 +68,7 @@ export default function () {
       //表的配置信息：主键、排序等
       type: Object,
       default: () => {
-        return {sortName:'',key:'',newTabEdit:false}
+        return { sortName: '', key: '', newTabEdit: false }
       }
     },
     extend: {
@@ -77,6 +77,10 @@ export default function () {
       default: () => {
         return {}
       }
+    },
+    editTabs: {
+      type: Array,
+      default: null
     }
   }
 }

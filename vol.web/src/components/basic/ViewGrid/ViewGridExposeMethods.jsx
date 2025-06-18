@@ -74,15 +74,15 @@ export const initMethods = (proxy, props, dataConfig) => {
     return getSelectRows()
   }
 
-    //主表点击行选中当前行
-    const toggleRowSelection = (row) => {
+  //主表点击行选中当前行
+  const toggleRowSelection = (row) => {
       getGridTableRef(proxy, props, true).toggleRowSelection(row);
-    }
-     //清除选中的行
+  }
+  //清除选中的行
     const clearSelection=()=>{
       getGridTableRef(proxy, props, true).clearSelection();
-    }
-  
+  }
+
   //获取明细表选中的行
   const getDetailSelectRows = (table) => {
     return getDetailTableRef(proxy, props, table).getSelected()
@@ -126,6 +126,44 @@ export const initMethods = (proxy, props, dataConfig) => {
     }
   }
 
+  // editTabs 相关方法
+  const getCurrentActiveTab = () => {
+    if (props.editTabs && props.editTabs.length > 0) {
+      const activeTabKey =
+        dataConfig.activeTabKey?.value || (props.editTabs[0] && props.editTabs[0].key)
+      return props.editTabs.find((tab) => tab.key === activeTabKey) || null
+    }
+    return null
+  }
+
+  const getActiveTabKey = () => {
+    return dataConfig.activeTabKey?.value || null
+  }
+
+  const setActiveTab = (tabKey) => {
+    if (props.editTabs && props.editTabs.length > 0) {
+      const targetTab = props.editTabs.find((tab) => tab.key === tabKey)
+      if (targetTab && !targetTab.disabled) {
+        if (dataConfig.activeTabKey) {
+          dataConfig.activeTabKey.value = tabKey
+        }
+        return true
+      }
+    }
+    return false
+  }
+
+  const setTabDisabled = (tabKey, disabled) => {
+    if (props.editTabs && props.editTabs.length > 0) {
+      const targetTab = props.editTabs.find((tab) => tab.key === tabKey)
+      if (targetTab) {
+        targetTab.disabled = disabled
+        return true
+      }
+    }
+    return false
+  }
+
   return {
     editFormTabClick,
     getSelectRows,
@@ -149,6 +187,11 @@ export const initMethods = (proxy, props, dataConfig) => {
     setFixedSearchForm,
     getCurrentAction,
     setFormReadonly,
-    updateDetailTableSummaryTotal
+    updateDetailTableSummaryTotal,
+    // editTabs 相关方法
+    getCurrentActiveTab,
+    setActiveTab,
+    setTabDisabled,
+    getActiveTabKey
   }
 }

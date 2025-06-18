@@ -127,23 +127,67 @@ export const onDelete = async (proxy, props, rows) => {
 }
 
 //保存
-export const saveClick = (proxy, props, dataConfig) => {
-  proxy.$refs.form.validate((result) => {
-    if (!result) return
+export const saveClick = async (proxy, props, dataConfig) => {
+  let isValid = false
+
+  // 处理 editTabs 的情况
+  if (props.editTabs && props.editTabs.length > 0) {
+    // 验证所有标签页的表单
+    isValid = true
+    for (const tab of props.editTabs) {
+      const formRef = proxy.$refs[`tabForm_${tab.key}`]
+      const form = formRef && formRef[0] ? formRef[0] : formRef
+      if (form && form.validate) {
+        const tabValid = await form.validate()
+        if (!tabValid) {
+          isValid = false
+          // 切换到有错误的标签页
+          proxy.activeTabKey = tab.key
+          break
+        }
+      }
+    }
+  } else {
+    // 原有的验证方式
+    isValid = await new Promise((resolve) => {
+      proxy.$refs.form.validate((result) => {
+        resolve(result)
+      })
+    })
+  }
+
+  if (isValid) {
     saveExecute(proxy, props, dataConfig)
-  })
+  }
 }
 //保存前确认操作
 const saveExecuteConfirm = (proxy, props, formData,dataConfig, callback) => {
   const isAdd=dataConfig.currentAction.value=='Add'
   proxy.saveConfirm.call(proxy, (res) => {
     props.saveConfirm((res) => {
-      callback()
+          callback()
     },formData,isAdd)
   },formData,isAdd)
 }
 const saveExecute = async (proxy, props, dataConfig) => {
-  let editFormFields = proxy.base.getFormValues(props.editFormFields, props.editFormOptions)
+  let editFormFields
+
+  // 处理 editTabs 的情况
+  if (props.editTabs && props.editTabs.length > 0) {
+    // 合并所有标签页的表单数据
+    editFormFields = {}
+    props.editTabs.forEach((tab) => {
+      const tabFormValues = proxy.base.getFormValues(tab.fields, tab.options)
+      Object.assign(editFormFields, tabFormValues)
+    })
+    // 确保主键字段存在
+    if (props.editFormFields[props.table.key] !== undefined) {
+      editFormFields[props.table.key] = props.editFormFields[props.table.key]
+    }
+  } else {
+    // 原有的数据收集方式
+    editFormFields = proxy.base.getFormValues(props.editFormFields, props.editFormOptions)
+  }
 
   const currentAction = dataConfig.currentAction.value
   const currentRow = dataConfig.currentRow.value || {}
@@ -243,7 +287,19 @@ const saveExecute = async (proxy, props, dataConfig) => {
             _formFields = JSON.parse(JSON.stringify(editFormFields))
           }
           dataConfig.currentRow.value = {}
-          proxy.$refs.form.$refs.volform.clearValidate()
+          // 处理 editTabs 的情况
+          if (props.editTabs && props.editTabs.length > 0) {
+            // 清除所有标签页的验证
+            props.editTabs.forEach((tab) => {
+              const formRef = proxy.$refs[`tabForm_${tab.key}`]
+              const form = formRef && formRef[0] ? formRef[0] : formRef
+              if (form && form.$refs && form.$refs.volform) {
+                form.$refs.volform.clearValidate()
+              }
+            })
+          } else {
+            proxy.$refs.form.$refs.volform.clearValidate()
+          }
           resetAdd(proxy, props, dataConfig)
           proxy.search()
           proxy.continueAddAfter.call(proxy, _formFields, formData, x)

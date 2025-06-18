@@ -240,17 +240,30 @@
             @parentCall="parentCall"
           ></component>
           <div class="item form-item" style="padding-top: 10px">
-            <vol-form
-              ref="form"
-              :editor="editor"
-              :load-key="false"
-              :label-width="boxOptions.labelWidth"
-              :formRules="editFormOptions"
-              :formFields="editFormFields"
-              :select2Count="select2Count"
-              :label-position="labelPosition"
-              @tabClick="editFormTabClick"
-            ></vol-form>
+            <!-- 如果有editTabs配置，显示标签页表单 -->
+            <div v-if="editTabs && editTabs.length > 0" class="edit-tabs-container">
+              <el-tabs v-model="activeTabKey" @tab-click="handleTabClick" class="edit-tabs"
+                :type="editTabsConfig.type || 'border-card'" :tab-position="editTabsConfig.tabPosition || 'top'"
+                :stretch="editTabsConfig.stretch || false" :before-leave="editTabsConfig.beforeLeave">
+                <el-tab-pane v-for="tab in editTabs" :key="tab.key" :name="tab.key" :disabled="tab.disabled || false"
+                  :closable="tab.closable || false" :lazy="tab.lazy || false">
+                  <!-- 自定义标签页头部 -->
+                  <template #label>
+                    <view-grid-expand v-if="tab.render" :render="tab.render"
+                      :item="{ tab, name: tab.name }"></view-grid-expand>
+                    <span v-else>{{ tab.name }}</span>
+                  </template>
+                  <!-- 标签页内容始终使用默认表单 -->
+                  <vol-form :ref="'tabForm_' + tab.key" :editor="editor" :load-key="false"
+                    :label-width="boxOptions.labelWidth" :formRules="tab.options" :formFields="tab.fields"
+                    :select2Count="select2Count" :label-position="labelPosition"></vol-form>
+                </el-tab-pane>
+              </el-tabs>
+            </div>
+            <!-- 原有的表单显示方式 -->
+            <vol-form v-else ref="form" :editor="editor" :load-key="false" :label-width="boxOptions.labelWidth"
+              :formRules="editFormOptions" :formFields="editFormFields" :select2Count="select2Count"
+              :label-position="labelPosition" @tabClick="editFormTabClick"></vol-form>
           </div>
           <!--明细body自定义组件-->
           <slot name="modelBody"></slot>
@@ -492,6 +505,12 @@ export default {
     const isCreated = ref(false);
     const { maxBtnLength, pagination, newTabEdit, hiddenFields } = dataConfig;
 
+    // editTabs 相关的响应式数据
+    const activeTabKey = ref('');
+    const mergedEditFormFields = ref({});
+    const mergedEditFormOptions = ref([]);
+    const editTabsConfig = computed(() => props.table.editTabsConfig || {});
+
     const {
       //setFixedSearch,
       // initBoxButtons,
@@ -573,6 +592,8 @@ export default {
       initViewColumns(proxy, props, dataConfig, false);
       //初始编辑框等数据
       initBoxHeightWidth(proxy, props, ctx, dataConfig);
+      // 初始化 editTabs
+      initEditTabs();
       initDicKeys();
       await proxy.onInited.call(proxy);
       await props.onInited(proxy);
@@ -594,6 +615,159 @@ export default {
         dataConfig.orginColumnFields,
         props.table.name
       );
+    };
+
+    // editTabs 相关方法
+    const initEditTabs = () => {
+      if (props.editTabs && props.editTabs.length > 0) {
+        // 设置默认激活的标签页
+        activeTabKey.value = props.editTabs[0].key;
+
+        // 合并所有标签页的字段到 editFormFields 中
+        mergedEditFormFields.value = { ...props.editFormFields };
+        mergedEditFormOptions.value = [...props.editFormOptions];
+
+        props.editTabs.forEach(tab => {
+          // 合并字段
+          Object.assign(mergedEditFormFields.value, tab.fields);
+          // 合并表单配置
+          if (tab.options && tab.options.length > 0) {
+            mergedEditFormOptions.value.push(...tab.options);
+          }
+        });
+
+        // 更新 props 的 editFormFields 和 editFormOptions 以保持兼容性
+        Object.assign(props.editFormFields, mergedEditFormFields.value);
+        props.editFormOptions.splice(0, props.editFormOptions.length, ...mergedEditFormOptions.value);
+      }
+    };
+
+    const handleTabClick = (tab, event) => {
+      const oldActiveTabKey = activeTabKey.value;
+
+      // 调用 editTabClick 事件（如果存在）
+      if (typeof proxy.editTabClick === 'function') {
+        try {
+          proxy.editTabClick(tab, event);
+        } catch (e) {
+          console.warn('editTabClick 方法调用失败:', e);
+        }
+      }
+
+      // 如果点击的是当前激活的标签页，不需要切换
+      if (tab.name === oldActiveTabKey) {
+        return;
+      }
+
+      // 调用 editTabBeforeLeave 事件检查是否可以切换（如果存在）
+      let canLeave = true;
+      if (typeof proxy.editTabBeforeLeave === 'function') {
+        try {
+          canLeave = proxy.editTabBeforeLeave(tab.name, oldActiveTabKey);
+        } catch (e) {
+          console.warn('editTabBeforeLeave 方法调用失败:', e);
+        }
+      }
+
+      // 如果 editTabBeforeLeave 返回 false，阻止标签页切换
+      if (canLeave === false) {
+        return;
+      }
+
+      // 执行标签页切换
+      activeTabKey.value = tab.name;
+
+      // 触发原有的 tabClick 事件以保持兼容性
+      proxy.tabClick.call(proxy, tab.name);
+      props.tabClick(tab.name);
+    };
+
+    // 获取表单引用的方法
+    const getFormRef = () => {
+      if (props.editTabs && props.editTabs.length > 0) {
+        // 如果使用 editTabs，返回当前激活标签页的表单引用
+        const activeTabFormRef = proxy.$refs[`tabForm_${activeTabKey.value}`];
+        return activeTabFormRef && activeTabFormRef[0] ? activeTabFormRef[0] : activeTabFormRef;
+      } else {
+        // 使用原有的表单引用
+        return proxy.$refs.form;
+      }
+    };
+
+    // 获取当前活动的标签页
+    const getCurrentActiveTab = () => {
+      if (props.editTabs && props.editTabs.length > 0) {
+        return props.editTabs.find(tab => tab.key === activeTabKey.value) || null;
+      }
+      return null;
+    };
+
+    // 设置活动标签页
+    const setActiveTab = (tabKey) => {
+      if (props.editTabs && props.editTabs.length > 0) {
+        const targetTab = props.editTabs.find(tab => tab.key === tabKey);
+        if (targetTab && !targetTab.disabled) {
+          activeTabKey.value = tabKey;
+          return true;
+        }
+      }
+      return false;
+    };
+
+    // 禁用/启用标签页
+    const setTabDisabled = (tabKey, disabled) => {
+      if (props.editTabs && props.editTabs.length > 0) {
+        const targetTab = props.editTabs.find(tab => tab.key === tabKey);
+        if (targetTab) {
+          targetTab.disabled = disabled;
+          return true;
+        }
+      }
+      return false;
+    };
+
+    // 验证所有标签页表单的方法
+    const validateAllTabForms = async () => {
+      if (props.editTabs && props.editTabs.length > 0) {
+        let allValid = true;
+        for (const tab of props.editTabs) {
+          const formRef = proxy.$refs[`tabForm_${tab.key}`];
+          const form = formRef && formRef[0] ? formRef[0] : formRef;
+          if (form && form.validate) {
+            const isValid = await form.validate();
+            if (!isValid) {
+              allValid = false;
+              // 切换到有错误的标签页
+              activeTabKey.value = tab.key;
+              break;
+            }
+          }
+        }
+        return allValid;
+      } else {
+        // 使用原有的验证方式
+        const form = proxy.$refs.form;
+        return form ? await form.validate() : false;
+      }
+    };
+
+    // 重置所有标签页表单的方法
+    const resetAllTabForms = (sourceObj) => {
+      if (props.editTabs && props.editTabs.length > 0) {
+        props.editTabs.forEach(tab => {
+          const formRef = proxy.$refs[`tabForm_${tab.key}`];
+          const form = formRef && formRef[0] ? formRef[0] : formRef;
+          if (form && form.reset) {
+            form.reset(sourceObj);
+          }
+        });
+      } else {
+        // 使用原有的重置方式
+        const form = proxy.$refs.form;
+        if (form && form.reset) {
+          form.reset(sourceObj);
+        }
+      }
     };
     onMounted(() => {
       proxy.mounted.call(proxy);
@@ -625,6 +799,14 @@ export default {
       signAfter,
       setContinueAdd,
       customColumClick,
+      // editTabs 相关
+      activeTabKey,
+      editTabsConfig,
+      handleTabClick,
+      getFormRef,
+      validateAllTabForms,
+      resetAllTabForms,
+      initEditTabs,
       ...props.extend.methods
     };
   },
@@ -638,9 +820,11 @@ export default {
   outline: 0px !important;
   outline-offset: 1px;
 }
+
 .vertical-center-modal ::v-deep(.srcoll-content) {
   padding: 0;
 }
+
 .view-model-content {
   background: #eee;
 }
@@ -649,7 +833,16 @@ export default {
 .form-item ::v-deep(.form-tabs) {
   margin-top: -10px;
 }
+
 .search-line ::v-deep(.vol-form-item) {
   margin-top: 4px !important;
+}
+
+.edit-tabs-container {
+  padding: 0 10px;
+
+  .edit-tabs ::v-deep(.el-tabs__content) {
+    padding: 10px 0;
+  }
 }
 </style>
