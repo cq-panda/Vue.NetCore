@@ -240,7 +240,10 @@ namespace VOL.Entity.DomainModels
         [Editable(true)]
         public int? IsColumnData { get; set; }
 
-   
+        [Display(Name = "")]
+        [Column(TypeName = "int")]
+        [Editable(true)]
+        public int? EditPageNo { get; set; }
 
     }
 }

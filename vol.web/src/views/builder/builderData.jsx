@@ -81,7 +81,8 @@ let data = {
       enable: 0,
       vuePath: '',
       appPath: '',
-      userPermissionDesc: ''
+      userPermissionDesc: '',
+      editPageName: ''
     },
     addOptions: [
       [
@@ -348,6 +349,44 @@ let data = {
             )
           }
         }
+      ],
+      [
+        {
+          title: '分页名称',
+          field: 'editPageName',
+          type: 'text',
+          placeholder: '使用逗号分割, 例如: 基础信息, 补充信息',
+          colSize: 6,
+          labelRender: (h, {}) => {
+            return (
+              <div>
+                <el-tooltip placement="top-start" title="" width="600" trigger="hover">
+                  {{
+                    default: () => {
+                      return (
+                        <span>
+                          分页名称
+                          <i
+                            style="font-size:12px;margin-left:3px"
+                            class="el-icon-warning-outline"
+                          ></i>
+                        </span>
+                      )
+                    },
+                    content: () => {
+                      return (
+                        <div>
+                          使用逗号分割, 例如: 基础信息, 补充信息,
+                          下面的编辑页有多个分页，需要填写多个分页名称
+                        </div>
+                      )
+                    }
+                  }}
+                </el-tooltip>
+              </div>
+            )
+          }
+        }
       ]
     ]
   },
@@ -481,6 +520,35 @@ let data = {
       align: 'left',
       edit: { type: 'select' },
       bind: { data: searchDataType }
+    },
+    // 编辑页
+    {
+      field: 'editPageNo',
+      title: '编辑页',
+      width: 90,
+      align: 'numberbox',
+      edit: { type: 'text' },
+      renderHeader: (h, {}) => {
+        return (
+          <div>
+            <el-tooltip placement="top-start" title="" trigger="hover">
+              {{
+                default: () => {
+                  return (
+                    <span>
+                      编辑页
+                      <i style="font-size:12px;margin-left:3px" class="el-icon-warning-outline"></i>
+                    </span>
+                  )
+                },
+                content: () => {
+                  return <div>弹出框表单字段所在的页面(注意：如果值为0，则不显示分页)</div>
+                }
+              }}
+            </el-tooltip>
+          </div>
+        )
+      }
     },
     {
       field: 'editRowNo',

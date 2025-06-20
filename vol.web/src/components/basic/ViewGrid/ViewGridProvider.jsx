@@ -40,20 +40,48 @@ export const resetEditForm = (proxy, props, dataConfig, row) => {
   //重置明细表
   resetDetailTable(proxy, props, dataConfig, row, dataConfig.currentAction.value == action.ADD)
 
-  if (proxy.$refs.form) {
-    proxy.$refs.form.$refs.volform && proxy.$refs.form.$refs.volform.clearValidate()
-  }
-  proxy.base.resetForm(props.editFormFields, props.editFormOptions, row, false)
-  //重置编辑表单数据
-  props.editFormFields[props.table.key] = (row || {})[props.table.key]
-  // resetForm('form', row || {})
-  if (proxy.$refs.form && proxy.$refs.form.$refs.volform) {
-    setTimeout(() => {
-      proxy.$refs.form.$refs.volform.clearValidate()
-    }, 100)
+  // 处理 editTabs 的情况
+  if (props.editTabs && props.editTabs.length > 0) {
+    // 重置所有标签页的表单
+    props.editTabs.forEach((tab) => {
+      const formRef = proxy.$refs[`tabForm_${tab.key}`]
+      const form = formRef && formRef[0] ? formRef[0] : formRef
+      if (form) {
+        form.$refs.volform && form.$refs.volform.clearValidate()
+        // 重置标签页的字段数据
+        proxy.base.resetForm(tab.fields, tab.options, row, false)
+      }
+    })
+
+    // 重置主键字段
+    props.editFormFields[props.table.key] = (row || {})[props.table.key]
+
+    // 同步数据到各个标签页
+    if (row) {
+      props.editTabs.forEach((tab) => {
+        Object.keys(tab.fields).forEach((field) => {
+          if (row.hasOwnProperty(field)) {
+            tab.fields[field] = row[field]
+          }
+        })
+      })
+    }
+  } else {
+    // 原有的重置逻辑
+    if (proxy.$refs.form) {
+      proxy.$refs.form.$refs.volform && proxy.$refs.form.$refs.volform.clearValidate()
+    }
+    proxy.base.resetForm(props.editFormFields, props.editFormOptions, row, false)
+    //重置编辑表单数据
+    props.editFormFields[props.table.key] = (row || {})[props.table.key]
+    // resetForm('form', row || {})
+    if (proxy.$refs.form && proxy.$refs.form.$refs.volform) {
+      setTimeout(() => {
+        proxy.$refs.form.$refs.volform.clearValidate()
+      }, 100)
+    }
   }
 }
-
 
 const modelOpenBeforeAsync = async (proxy, props, dataConfig) => {
   let res = await proxy.modelOpenBeforeAsync.call(
@@ -325,11 +353,11 @@ export const initExtraHeight = (proxy, dataConfig,isInit) => {
         proxy.searchFormOptions.forEach(x=>{
             if (x.length==1) {
               const b=x.some(c=>{return c.type=='radio'||c.type=='checkbox'})
-                if (b) {
+          if (b) {
                   exValue=exValue-33;
-                }
-            }
-        })
+          }
+        }
+      })
     }
     //console.log(exValue)
     proxy.$nextTick(() => {
