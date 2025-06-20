@@ -1031,7 +1031,9 @@ DISTINCT
                             Replace("#editFormFileds", formFileds).
                             Replace("#editFormOptions", formOptions.
                             Replace("},{", "},\r\n                               {").
-                            Replace("],[", "],\r\n                              ["));
+                            Replace("],[", "],\r\n                              [")).
+                            // 替换 #editTabs 占位符，如果没有 editTabs 则使用空数组 []
+                            Replace("#editTabs", hasEditTabs && editTabsConfig != "null" ? editTabsConfig : "[]");
             vuePath = vuePath.Replace("//", "\\").Trim('\\');
             //2025.02
             //vueOptions = vueOptions.
@@ -2371,7 +2373,7 @@ DISTINCT
                         dataSource = GetDropString(x.DropNo, vue),
                         colSize = search && x.SearchType != "checkbox" ? 0 : (x.ColSize ?? 0)
                     }).ToList());
-            
+
             }
         }
 
