@@ -182,8 +182,20 @@ let serviceFilter = {
   detailSpanMethod({ row, column, rowIndex, columnIndex }, rows) { },
   resetSearchFormAfter() { },//查询表单重置方法
   //表单分组切换事件
-  tabClick(name) { },
-  detailAddRowBefore(table,item) {//明细表添加行(包括一对多明细表添加行)
+  tabClick(name) {},
+  //editTabs 标签页点击事件 - 类似 modelOpenBefore
+  editTabClick(tab, event) {
+    //tab为点击的标签页对象，event为点击事件
+    //可以在这里处理标签页点击逻辑
+  },
+  //editTabs 标签页切换前事件 - 类似 modelOpenBefore，可以阻止切换
+  editTabBeforeLeave(activeName, oldActiveName) {
+    //activeName为要切换到的标签页名称，oldActiveName为当前标签页名称
+    //返回false可以阻止标签页切换
+    return true
+  },
+  detailAddRowBefore(table, item) {
+    //明细表添加行(包括一对多明细表添加行)
     //这里可以返回: return [{}]或者{}
   },
   //明细表复选框选择事件
