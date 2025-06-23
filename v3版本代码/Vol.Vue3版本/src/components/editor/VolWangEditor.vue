@@ -1,231 +1,165 @@
 <template>
-  <div class="hello" ref="volWangEditor"></div>
+  <div ref="editorRef"></div>
 </template>
 
-<script>
+<script setup>
+const props = defineProps({
+  url: {
+    // 上传图片的url
+    type: String,
+    default: "",
+  },
+  upload: {
+    // 上传方法
+    type: Function,
+    // (file, insertImgFn) => {}
+    default: null,
+  },
+  uploadCount: {
+    // 最多可以上传(图片)的数量
+    type: Number,
+    default: 3,
+  },
+  modelValue: {
+    type: String,
+    default: "",
+  },
+  width: {
+    type: String,
+    default: "100%",
+  },
+  height: {
+    type: Number,
+    default: 250,
+  },
+  minWidth: {
+    type: Number,
+    default: 650,
+  },
+  minHeight: {
+    type: Number,
+    default: 100,
+  },
+});
 import E from "wangeditor";
-let OSS = {}// require('ali-oss');
-export default {
-  props: {
-    url: {
-      //上传图片的url
-      type: String,
-      default: "",
-    },
-    upload: {
-      //上传方法
-      type: Function,
-      // (file, insertImgFn) => {}
-      default: null,
-    },
-    uploadCount: {
-      //最多可以上传(图片)的数量
-      type: Number,
-      default: 3,
-    },
-    modelValue: "",
-    width: {
-      type: String,
-      default: "100%",
-    },
-    height: {
-      type: Number,
-      default: 250,
-    },
-    minWidth: {
-      type: Number,
-      default: 650,
-    },
-    minHeight: {
-      type: Number,
-      default: 100,
-    },
-  },
-  name: "wang-editor",
-  data() {
-    return {
-      lastHtml: "",
-      change: false,
-      editor: null,
-      init: false,
-    };
-  },
-  watch: {
-    modelValue(newVal, val) {
-      if (
-        (newVal !== val &&
-          this.lastHtml !== "" &&
-          val === this.lastHtml &&
-          this.editor.txt.html() === this.lastHtml) ||
-        this.editor.txt.html() === ""
-      ) {
-        this.editor.txt.html(newVal);
-      }
-      this.lastHtml = newVal;
-    },
-  },
-  destroyed() {
-    this.editor = null;
-  },
-  mounted() {
-    this.editor = null;
-    let editor = new E(this.$refs.volWangEditor);
-    this.editor = editor;
-    editor.config.zIndex = 500;
-    editor.config.height = this.height;
-    editor.config.onchange = (html) => {
-      if (!this.init && this.lastHtml === "") {
-        this.lastHtml = html;
-        this.init = true;
-      }
-      this.$emit("update:modelValue", html);
-    };
-    // editor.config.uploadFileName = "fileInput";
-    // //设置header
-    // editor.config.uploadImgHeaders = {
-    //   Accept: "application/json",
-    //   Authorization: this.$store.getters.getToken(),
-    // };
-    //上传地址
-    editor.config.uploadImgServer = this.http.ipAddress + this.url;
-    // console.log(editor.config.uploadImgServer);
-    editor.config.customUploadImg = async (resultFiles, insertImgFn) => {
-      // 自定义上传
-      if (this.upload) {
-        console.log("调用自定义的上传方法");
-        console.log(resultFiles);
-        // resultFiles 是 input 中选中的文件列表
-        // insertImgFn 是获取图片 url 后，插入到编辑器的方法
-        //有可能会上传多张图片,上传多张图片就需要进行遍历
-        resultFiles.map((item) => {
-          // _this.getUploadImg(item, insertImgFn);
-          this.upload(item, insertImgFn);
-        });
-      } else {
-        if (window.oss && window.oss.ali.use) {
-          await this.uploadOSS(resultFiles, insertImgFn);
-          this.$message.success('上传成功');
-          return;
-        } else {
+import {
+  ref,
+  getCurrentInstance,
+  watchEffect,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  defineProps,
+  defineEmits,
+} from "vue";
 
-          if (!this.url) {
-            this.$message.error("未配置url");
-            return;
-          }
-          const resultArr = await this.uploadFile(resultFiles);
-          resultArr.forEach(url => {
-            insertImgFn(url);
-          })
-          // this.http.post(this.url, formData, true).then((x) => {
-          //   if (!x.status) {
-          //     return this.$message.error(x.message);
-          //   }
-          //   nameArr.forEach(m => {
-          //     insertImgFn(this.http.ipAddress + x.data + m);
-          //   })
-          // });
-        }
-      }
-    };
-    //Written by DavidZhang
-    //editor.config.uploadVideoServer = '/api/upload-video'; 
-    //editor.config.uploadVideoServer = this.http.ipAddress + this.url; 
-    editor.config.uploadVideoServer = this.http.ipAddress + 'api/CZ_CategoryInformation/upload';
-    editor.config.customUploadVideo = async (resultFiles, insertVideoFn) => {
-      // resultFiles 是 input 中选中的文件列表
-      // insertVideoFn 是获取视频 url 后，插入到编辑器的方法
+const { proxy } = getCurrentInstance();
 
-      // 上传视频，返回结果，将视频地址插入到编辑器中
+const emits = defineEmits(["update:modelValue"]);
 
-      const resultArr = await this.uploadFile(resultFiles);
-      resultArr.forEach(url => {
-        //  insertImgFn(url);
-        insertVideoFn(url)
-      })
+const editorRef = ref(null);
+const editor = ref(null);
+const lastHtml = ref("");
+const isEditorReady = ref(false);
 
+// 创建编辑器实例
+const createEditor = () => {
+  editor.value = new E(editorRef.value);
+
+  // 编辑器基本配置
+  editor.value.config.zIndex = 500;
+  editor.value.config.height = props.height;
+
+  // 内容变化时触发事件
+  editor.value.config.onchange = (html) => {
+    // 避免初始渲染时触发不必要的更新
+    if (!isEditorReady.value) {
+      isEditorReady.value = true;
+      lastHtml.value = html;
+      return;
     }
-    editor.create();
-    editor.txt.html(this.modelValue);
-  },
-  methods: {
-    async uploadFile(resultFiles) {
-      let formData = new FormData();
-      let nameArr = [];
+
+    // 只有当内容真正变化时才更新
+    if (html !== lastHtml.value) {
+      lastHtml.value = html;
+      emits("update:modelValue", html);
+    }
+  };
+
+  // 自定义图片上传
+  editor.value.config.customUploadImg = function (resultFiles, insertImgFn) {
+    if (props.upload) {
+      // 使用自定义上传方法
+      resultFiles.map((item) => {
+        props.upload(item, insertImgFn);
+      });
+    } else {
+      // 使用默认上传逻辑
+      const formData = new FormData();
+      const nameArr = [];
+
       resultFiles.forEach(function (file) {
         formData.append("fileInput", file, file.name);
         nameArr.push(file.name);
       });
-      let resultArr = []
-      await this.http.post(this.url, formData, true,{headers:{ 'Content-Type': 'multipart/form-data' }}).then((x) => {
-        if (!x.status) {
-          return this.$message.error(x.message);
-        }
-        resultArr = nameArr.map(m => {
-          return this.http.ipAddress + x.data + m;
-        })
-        // nameArr.forEach(m => {
-        //   insertImgFn(this.http.ipAddress + x.data + m);
-        // })
-      });
-      return resultArr;
-    },
-    async uploadOSS(resultFiles, insertImgFn) {
-      await this.http.get('api/alioss/getAccessToken', {}, false).then(async (x) => {
-        if (!x.status) return this.$Message.error(x.message);
-        let client = new OSS({
-          // yourRegion填写Bucket所在地域。以华东1（杭州）为例，Region填写为oss-cn-hangzhou。
-          region: x.data.region,
-          // 从STS服务获取的临时访问密钥（AccessKey ID和AccessKey Secret）。
-          accessKeyId: x.data.accessKeyId,
-          accessKeySecret: x.data.accessKeySecret,
-          // 从STS服务获取的安全令牌（SecurityToken）。
-          stsToken: x.data.securityToken,
-          // 填写Bucket名称。
-          bucket: x.data.bucket
-        });
-        debugger;
-        console.log(resultFiles);
-        for (let index = 0; index < resultFiles.length; index++) {
-          const file = resultFiles[index];
-          let result = await client.put(
-            x.data.bucketFolder + '/' + x.data.unique + file.name,
-            file
-          );
-          // 如果有配置cdn，返回的url需要拼接cdn
-          if (window.oss.ali.cdn) {
-            result.url = new URL(x.data.bucketFolder + '/' + x.data.unique + file.name, window.oss.ali.cdn).toString();
-          }
-          console.log(result);
-          file.path = result.url;
-          file.newName = x.data.unique + file.name;
-          insertImgFn(file.path);
 
-        }
-      });
-      return;
-    },
-  }
+      if (!props.url) {
+        console.error("未配置上传URL");
+        return;
+      }
+
+      proxy.http
+        .post(props.url, formData, true, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((x) => {
+          if (!x.status) {
+            console.error(x.message);
+            return;
+          }
+
+          nameArr.forEach((m) => {
+            insertImgFn(proxy.http.ipAddress + x.data + m);
+          });
+        });
+    }
+  };
+
+  // 创建编辑器
+  editor.value.create();
+
+  // 初始化内容
+  nextTick(() => {
+    if (props.modelValue) {
+      editor.value.txt.html(props.modelValue);
+      lastHtml.value = props.modelValue;
+    }
+    isEditorReady.value = true;
+  });
 };
+
+// 监听外部传入的 modelValue 变化
+watchEffect(() => {
+  if (isEditorReady.value && props.modelValue !== lastHtml.value) {
+    // 使用 nextTick 确保 DOM 更新完成
+    nextTick(() => {
+      editor.value.txt.html(props.modelValue);
+      lastHtml.value = props.modelValue;
+    });
+  }
+});
+
+// 生命周期钩子
+onMounted(() => {
+  createEditor();
+});
+
+onUnmounted(() => {
+  if (editor.value) {
+    editor.value.destroy();
+    editor.value = null;
+  }
+});
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>
+<style scoped></style>
