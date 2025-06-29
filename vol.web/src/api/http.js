@@ -326,6 +326,10 @@ function ajax(param) {
   try {
     xhr.send(dataStr)
   } catch (error) {
+    // 使用正则表达式排除/lang/xxxx.js?的请求
+    if (/\/lang\/.*\.js\?/.test(httpParam.url)) {
+      return console.error('请求异常:', error)
+    }
     toLogin()
   }
 }
