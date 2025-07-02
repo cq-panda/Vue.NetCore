@@ -96,7 +96,7 @@
             </div>
 
             <table style="font-size: 12px">
-              <tobdy>
+              <tbody>
                 <tr v-for="(item, index) in msg" :key="index">
                   <td>
                     <el-tag size="small" type="primary">消息</el-tag>
@@ -104,7 +104,7 @@
                   </td>
                   <td>{{ item.name }}</td>
                 </tr>
-              </tobdy>
+              </tbody>
             </table>
           </div>
         </div>

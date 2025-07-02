@@ -198,8 +198,11 @@
           </template>
           <!-- 2021.09.21增加编辑时对readonly属性判断 -->
           <div
-            v-else-if="
-              column.edit && !column.readonly && (column.edit.keep || edit.rowIndex == scope.$index)
+             v-else-if="
+              column.edit &&
+              !column.readonly &&
+              (column.edit.keep || edit.rowIndex == scope.$index) &&
+              (!column.checkEdit || column.checkEdit(scope.row, column, scope.$index))
             "
             class="edit-el"
           >
