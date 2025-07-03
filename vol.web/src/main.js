@@ -28,8 +28,9 @@ app.config.globalProperties.permission = permission
 
 app.config.globalProperties.$global = {
   theme: 'blue', //默认布局颜色：dark、blue、red、orange、green
+  layout: 'top', //菜单布局方式：classics=经典导航，top=顶部导航
   menuSearch: true, //菜单是否启用搜索功能
-  navSearch: true, //导航是否启用菜单搜索功能2024.06.26
+  navSearch: true, //导航是否启用菜单搜索功能
   table: {
     useTag: true, //table组件下拉框数据源的字段是否显示背景颜色
   },
@@ -57,7 +58,7 @@ app
   .use(ElementPlus, { size: 'default' })
   .use(router)
   .use(VolTitle)
-   .use(VolTable)
+  .use(VolTable)
   .use(VolForm)
   .use(VolBox)
   .use(viewgird)
