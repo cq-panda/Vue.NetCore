@@ -168,7 +168,7 @@ export default {
                         field: 'roleId',
 
                         data: [],
-                        type: 'select',
+                        type: 'selectList',
                         colSize: 12
                     }
                     ,
@@ -179,7 +179,7 @@ export default {
                         required: true,
                         field: 'deptId',
                         data: [],
-                        type: 'select',
+                        type: 'selectList',
                         colSize: 12
                     }
                 ], [
