@@ -48,6 +48,8 @@
 	  <PackageReference Include="AutoMapper" Version="6.2.2" />
 	  <PackageReference Include="CSRedisCore" Version="3.8.803" />
 	  <PackageReference Include="Dapper" Version="2.1.35" />
+	  <PackageReference Include="DM.DmProvider" Version="8.3.1.37876" />
+	  <PackageReference Include="DM.Microsoft.EntityFrameworkCore" Version="7.0.0.37033" />
 	  <PackageReference Include="EntityFrameworkCore.UseRowNumberForPaging" Version="0.7.0" />
 	  <PackageReference Include="EPPlus.Core" Version="1.5.4" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />

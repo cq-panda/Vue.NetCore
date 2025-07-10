@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dm;
+using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using Npgsql;
 using Oracle.ManagedDataAccess.Client;
@@ -76,7 +77,7 @@ namespace VOL.Core.DBManager
             }
             if (DBType.Name == DbCurrentType.DM.ToString())
             {
-              //  return new DmConnection(connString);
+                return new DmConnection(connString);
             }
             if (DBType.Name == DbCurrentType.Oracle.ToString())
             {
