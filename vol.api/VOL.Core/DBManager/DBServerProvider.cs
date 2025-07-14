@@ -75,7 +75,7 @@ namespace VOL.Core.DBManager
             {
                 return new NpgsqlConnection(connString);
             }
-            if (DBType.Name == DbCurrentType.DM.ToString())
+            if (DBType.Name == DbCurrentType.DM.ToString())  
             {
                 return new DmConnection(connString);
             }

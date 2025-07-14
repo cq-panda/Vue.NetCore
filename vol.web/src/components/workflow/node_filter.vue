@@ -17,14 +17,14 @@
 
     <div>
       <table>
-        <head>
+        <thead>
           <tr>
             <td>{{ $ts('字段') }}</td>
             <td style="width: 90px">{{ $ts('条件') }}</td>
             <td class="value">{{ $ts('值') }}</td>
             <td style="width: 40px">{{ $ts('操作') }}</td>
           </tr>
-        </head>
+        </thead>
         <tbody>
           <tr v-for="(item, index) in filters" :key="index">
             <td>
