@@ -15,7 +15,7 @@
     <div class="user-content">
       <div class="left">
         <div>
-          <img class="header-img" @click="showUpload" :src="http.ipAddress + userInfo.headImageUrl" :onerror="errorImg" />
+          <img v-fallback class="header-img" @click="showUpload" :src="http.ipAddress + userInfo.headImageUrl" />
           <div class="text">
             <p class="name">
               <span style="font-size: 13px">{{ userInfo.userName }}</span>
@@ -124,8 +124,6 @@ export default {
   },
   data() {
     return {
-      
-      errorImg:new URL('@/assets/imgs/error-img.png', import.meta.url).href,
       // 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       modifyOptions: {
         model: false,
@@ -277,5 +275,3 @@ img:not([src]) {
   color: #282828;
 }
 </style>
-
-

@@ -11,6 +11,7 @@ import http from './api/http'
 // import 'dayjs/locale/zh-cn'
 // import locale from 'element-plus/lib/locale/lang/zh-cn'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import errorImgSrc from '@/assets/imgs/error-img.png'
 
 import permission from './api/permission'
 import viewgird from './components/basic/ViewGrid'
@@ -59,3 +60,10 @@ window.oss = {
 }
 app.use(store).use(ElementPlus, { size: 'default' }).use(router).use(viewgird).mount('#app')
 app.config.globalProperties.$Message = app.config.globalProperties.$message
+app.directive('fallback', {
+  mounted(el) {
+    el.onerror = function () {
+      el.src = errorImgSrc
+    }
+  }
+})

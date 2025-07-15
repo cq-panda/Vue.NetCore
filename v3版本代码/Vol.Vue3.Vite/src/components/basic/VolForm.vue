@@ -39,10 +39,8 @@
                 v-for="(img, imgIndex) in formFields[item.field]"
                 :key="imgIndex"
               >
-                <img
+                <img v-fallback
                   :src="getSrc(img.path)"
-                  @error="handleImageError"
-                  :onerror="errorImg"
                   @click="previewImg(img.path)"
                 />
               </div>
@@ -841,8 +839,6 @@ export default defineComponent({
   data() {
     return {
       // remoteCall: true,
-      defaultImg: new URL('@/assets/imgs/error-img.png', import.meta.url).href
-     // errorImg: 'this.src="' + require('@/assets/imgs/error-img.png') + '"'
       // span: 1,
       // rangeFields: [],
     };
@@ -1396,9 +1392,6 @@ export default defineComponent({
     },
     getNode( label,node, data){
       console.log(label)
-    },
-    handleImageError($e) {
-      $e.target.src = this.defaultImg
     },
     getShortcuts() {
       const end = new Date();

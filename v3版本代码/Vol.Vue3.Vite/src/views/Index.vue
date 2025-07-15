@@ -55,7 +55,7 @@
             <a><i class="el-icon-message-solid"></i></a>
           </div>
           <div>
-            <img class="user-header" :src="userImg"   @error="($e) => { $e.target.src = errorImg; }"/>
+            <img v-fallback class="user-header" :src="userImg"  />
           </div>
           <div class="user">
             <span>{{ userName }}</span>
@@ -268,7 +268,6 @@ export default defineComponent({
         icon: "el-icon-switch-button",
       },
     ]);
-    const errorImg = ref(new URL('@/assets/imgs/default_header.png', import.meta.url).href);
     const selectId = ref("1");
     // 【首页】标签序号(当前右键选中的菜单)
     const selectMenuIndex = ref("0");
@@ -618,7 +617,6 @@ export default defineComponent({
       isCollapse,
       drawer_model,
       theme_color,
-      errorImg,
       userInfo,
       userName,
       userImg,
