@@ -36,47 +36,81 @@
     </el-tabs>
   </div>
 </template>
-<script>
-let echarts = require("echarts");
-import options from "./chartOptions";
+<script setup>
+import * as echarts from 'echarts/core';
+import { bar, pie, line } from "./chartOptions";
+
+import {
+  BarChart,
+  LineChart,
+  PieChart
+} from 'echarts/charts';
+
+import {
+  CanvasRenderer
+} from 'echarts/renderers'
+
+import {
+  GridComponent,
+  TitleComponent,
+  TooltipComponent,
+  ToolboxComponent,
+  LegendComponent,
+} from 'echarts/components';
+import { ref, onMounted, onUnmounted } from 'vue';
+
+echarts.use([
+  GridComponent,
+  TitleComponent,
+  TooltipComponent,
+  ToolboxComponent,
+  LegendComponent,
+  CanvasRenderer,
+  BarChart,
+  LineChart,
+  PieChart
+]);
+
 let $bar;
 let $pie;
 let $line;
-export default {
-  mounted() {
-    $bar = echarts.init(document.getElementById("bar-0001"));
-    $bar.setOption(this.options.bar);
-  },
-  created() {
-    this.heigth = document.documentElement.clientHeight - 190;
-    this.width = document.documentElement.clientWidth - 240;
-  },
-  methods: {
-    tabClick(name) {
-      if (name.props.name == "pie") {
-        if (!$pie) {
-          $pie = echarts.init(document.getElementById("pie-0001"));
-          $pie.setOption(this.options.pie);
 
-        }
-      } else if (name.props.name == "line") {
-        if (!$line) {
-          $line = echarts.init(document.getElementById("line-0001"));
-          $line.setOption(this.options.line);
-         
-        }
-      }
-    },
-  },
-  data() {
-    return {
-      name: "bar",
-      heigth: 450,
-      width: 1000,
-      options: options,
-    };
-  },
-};
+const name = "bar";
+const heigth = ref(450);
+const width = ref(1000);
+
+onMounted(() => {
+  heigth.value = document.documentElement.clientHeight - 190;
+  width.value = document.documentElement.clientWidth - 240;
+
+  $bar = echarts.init(document.getElementById("bar-0001"));
+  $bar.setOption(bar);
+})
+
+onUnmounted(() => {
+  $bar.dispose();
+  $bar = null;
+
+  $line?.dispose?.();
+  $line = null;
+
+  $pie?.dispose?.();
+  $pie = null;
+})
+
+function tabClick(name) {
+  if (name.props.name == "pie") {
+    if (!$pie) {
+      $pie = echarts.init(document.getElementById("pie-0001"));
+      $pie.setOption(pie);
+    }
+  } else if (name.props.name == "line") {
+    if (!$line) {
+      $line = echarts.init(document.getElementById("line-0001"));
+      $line.setOption(line);
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
 .m-charts {
@@ -88,13 +122,16 @@ export default {
   background: #f1f1f1;
   margin: auto 0;
   padding: 12px;
+
   .m-tabs {
     background: white;
   }
 }
+
 .m-charts ::v-deep(.el-tabs__content) {
   height: calc(100% - 45px);
 }
+
 .m-charts ::v-deep(.el-tab-pane) {
   height: 100%;
 }
