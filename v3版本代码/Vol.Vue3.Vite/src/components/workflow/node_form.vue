@@ -26,7 +26,7 @@
 </template>
 
 <script>
-// import { cloneDeep } from 'lodash'
+// import { cloneDeep } from 'lodash-es'
 import VolForm from '@/components/basic/VolForm.vue';
 import nodeFilter from './node_filter.vue';
 export default {

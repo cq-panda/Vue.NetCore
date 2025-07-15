@@ -46,7 +46,7 @@ import { easyFlowMixin } from './mixins'
 import flowNode from './node'
 import nodeMenu from './node_menu'
 import FlowNodeForm from './node_form'
-import lodash from 'lodash'
+import { merge, cloneDeep } from 'lodash-es'
 // import { getDataA } from './data_A'
 import VolForm from '@/components/basic/VolForm.vue';
 export default {
@@ -289,7 +289,7 @@ export default {
                     node.userId = []
                 }
                 // 设置源点，可以拖出线连接其他节点
-                this.jsPlumb.makeSource(node.id, lodash.merge(this.jsplumbSourceOptions, {}))
+                this.jsPlumb.makeSource(node.id, merge(this.jsplumbSourceOptions, {}))
                 // // 设置目标点，其他源点拖出的线可以连接该节点
                 this.jsPlumb.makeTarget(node.id, this.jsplumbTargetOptions)
                 if (!node.viewOnly && !this.disabled) {
@@ -528,7 +528,7 @@ export default {
             this.data.nodeList = []
             this.data.lineList = []
             this.$nextTick(() => {
-                data = lodash.cloneDeep(data)
+                data = cloneDeep(data)
                 this.easyFlowVisible = true
                 this.data = data
                 this.$nextTick(() => {
