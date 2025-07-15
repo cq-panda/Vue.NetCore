@@ -203,7 +203,7 @@ import {
 } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import store from "../store/index";
-import http from "@/../src/api/http.js";
+import http from "@/api/http.js";
 export default defineComponent({
   components: {
     VolMenu,

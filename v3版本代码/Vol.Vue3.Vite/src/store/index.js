@@ -5,7 +5,7 @@ function getUserInfo(state) {
   let userInfo = localStorage.getItem(keys.USER);
   if (userInfo) {
     try{
-      state.userInfo = JSON.parse(userInfo);
+    state.userInfo = JSON.parse(userInfo);
     }catch{
       
     }

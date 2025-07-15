@@ -4,9 +4,18 @@
       <div class="h-top-left" id="h-chart1">left</div>
       <div class="h-top-center">
         <div class="n-item">
-          <div @click="open(item)" class="item" :class="'item' + (index + 1)" v-for="(item, index) in center"
-            :key="index">
-            <i style="font-size: 30px; padding-bottom: 10px" :class="item.icon" :size="20"></i>
+          <div
+            @click="open(item)"
+            class="item"
+            :class="'item' + (index + 1)"
+            v-for="(item, index) in center"
+            :key="index"
+          >
+            <i
+              style="font-size: 30px; padding-bottom: 10px"
+              :class="item.icon"
+              :size="20"
+            ></i>
             <br />
             {{ item.title }}
           </div>
@@ -36,8 +45,14 @@
       <div id="h-chart3"></div>
     </div>
     <div style="display: flex;">
-      <div id="h-chart4" style="height: 350px; background: white; flex: 1;padding-top:15px;"></div>
-      <div id="h-chart5" style="height: 350px; background: white; flex: 1;padding-top:15px;"></div>
+      <div
+        id="h-chart4"
+        style="height: 350px; background: white; flex: 1;padding-top:15px;"
+      ></div>
+      <div
+        id="h-chart5"
+        style="height: 350px; background: white; flex: 1;padding-top:15px;"
+      ></div>
     </div>
   </div>
 </template>

@@ -5,7 +5,7 @@
       :width="850"
       :height="450"
       title="新建配置信息"
-      :padding="10"
+      padding="10px"
       v-model="addModel"
     >
       <div style="padding: 30px 30px 10px 34px">
@@ -124,6 +124,7 @@
                   :color="false"
                   :index="true"
                   :allowEmpty="true"
+                  :clickEdit="true"
                 ></vol-table>
               </div>
             </div>
@@ -175,7 +176,7 @@ export default {
     'layOutOptins.fields.vuePath'(val) {
       localStorage.setItem('vuePath', val);
     },
-    // deep: true
+    deep: true
     //localStorage.setItem("vuePath", this.layOutOptins.fields.vuePath || "");
   },
   methods: {

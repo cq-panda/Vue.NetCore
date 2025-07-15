@@ -18,7 +18,7 @@
       <template #footer>
         <div class="dia-footer" v-if="footer">
           <slot name="footer"></slot>
-          <el-button type="primary" v-if="!footer" size="mini" @click="handleClose()"><i
+          <el-button type="primary" v-if="!footer" size="small" @click="handleClose()"><i
               class="el-icon-close"></i>关闭</el-button>
         </div>
       </template>

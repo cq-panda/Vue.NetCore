@@ -148,9 +148,9 @@
               ></i>
               <template v-if="column.edit.type == 'img'">
                 <img
+                 v-fallback
                   v-for="(file, imgIndex) in getFilePath(scope.row[column.field], column)"
                   :key="imgIndex"
-                  @error="handleImageError"
                   @click="viewImg(scope.row, column, file.path, $event, imgIndex)"
                   class="table-img"
                   :src="file.path"
@@ -367,24 +367,26 @@
               v-if="column.link"
               v-text="scope.row[column.field]"
             ></a>
-            <img
-              v-else-if="column.type == 'img'"
-              v-for="(file, imgIndex) in getFilePath(scope.row[column.field], column)"
-              :key="imgIndex"
-              @error="handleImageError"
-              @click="viewImg(scope.row, column, file.path, $event, imgIndex)"
-              class="table-img"
-              :src="file.path"
-            />
-            <a
-              style="margin-right: 8px"
-              v-else-if="column.type == 'file' || column.type == 'excel'"
-              class="t-file"
+            <template v-else-if="column.type == 'img'">
+              <img
+                v-fallback
+                v-for="(file, imgIndex) in getFilePath(scope.row[column.field], column)"
+                :key="imgIndex"
+                @click="viewImg(scope.row, column, file.path, $event, imgIndex)"
+                class="table-img"
+                :src="file.path"
+              />
+            </template>
+            <template v-else-if="column.type == 'file' || column.type == 'excel'">
+            <a 
               v-for="(file, fIndex) in getFilePath(scope.row[column.field], column)"
+              style="margin-right: 8px"
+              class="t-file"
               :key="fIndex"
               @click="dowloadFile(file)"
               >{{ file.name }}</a
             >
+            </template>
             <span v-else-if="column.type == 'date'">{{ formatterDate(scope.row, column) }}</span>
             <div
               v-else-if="column.formatter"
@@ -683,7 +685,7 @@ export default defineComponent({
       realMaxHeight: 0,
       enableEdit: false, // 是否启表格用编辑功能
       empty: this.allowEmpty ? '' : '--',
-      defaultImg: new URL('@/assets/imgs/error-img.png', import.meta.url).href,
+
       loading: false,
       footer: {},
       total: 0,
@@ -1446,7 +1448,6 @@ export default defineComponent({
             rows,
             (result) => {
               status = result
-              rows=data.rows;
             },
             data
           )
@@ -1854,9 +1855,6 @@ export default defineComponent({
           }
         }
       }
-    },
-    handleImageError($e) {
-      $e.target.src = this.defaultImg
     },
     cellSpanMethod({ row, column, rowIndex, columnIndex }) {
       return this.spanMethod(

@@ -35,16 +35,16 @@
         <span>
           <!-- <i class="el-icon-warning-outline"></i>高效的表单配置 -->
         </span>
-        <el-button type="primary" size="mini" plain @click="save"
+        <el-button type="primary" size="small" plain @click="save"
           ><i class="el-icon-check"> </i>保存</el-button
         >
-        <el-button type="primary" size="mini" plain @click="preview(true)"
+        <el-button type="primary" size="small" plain @click="preview(true)"
           ><i class="el-icon-view"> </i>预览</el-button
         >
-        <el-button type="primary" size="mini" plain @click="download"
+        <el-button type="primary" size="small" plain @click="download"
           ><i class="el-icon-view"> </i>下载</el-button
         >
-        <el-button type="primary" @click="clearItems" size="mini" plain
+        <el-button type="primary" @click="clearItems" size="small" plain
           ><i class="el-icon-delete"> </i>清空</el-button
         >
         <a
@@ -110,7 +110,6 @@
                       placeholder="请输入内容"
                       v-model="item.value"
                       :disabled="item.readonly"
-                      size="medium"
                     ></el-input>
                     <el-input
                       v-else-if="item.type == 'textarea'"
@@ -125,7 +124,6 @@
                       v-model="item.value"
                       type="date"
                       :disabled="item.readonly"
-                      size="medium"
                       placeholder="选择日期"
                     >
                     </el-date-picker>
@@ -167,7 +165,6 @@
                       style="width: 100%"
                       :disabled="item.readonly"
                       v-model="item.value"
-                      size="medium"
                       v-else-if="item.type == 'select'"
                       placeholder="请选择"
                     >
@@ -183,7 +180,6 @@
                       style="width: 100%"
                       :disabled="item.readonly"
                       v-model="item.values"
-                      size="medium"
                       :multiple="true"
                       v-else-if="item.type == 'selectList'"
                       placeholder="请选择"
@@ -275,16 +271,15 @@
       <div class="attr" v-show="currentIndex != -1">
         <div class="attr-item">
           <div class="text">字段名称</div>
-          <el-input size="medium" v-model="currentItem.name" />
+          <el-input v-model="currentItem.name" />
         </div>
         <div class="attr-item">
           <div class="text">字段(唯一字段)</div>
-          <el-input size="medium" v-model="currentItem.field" />
+          <el-input  v-model="currentItem.field" />
         </div>
         <div class="attr-item" v-show="currentItem.type == 'table'">
           <div class="text">后台返回数据接口地址</div>
           <el-input
-            size="medium"
             placeholder="例:api/表名/getPageData"
             v-model="currentItem.url"
           />
@@ -297,12 +292,11 @@
         >
           <div class="text">上传接口地址(后台接口)</div>
           <el-input
-            size="medium"
             placeholder="可用框架地址:api/表名/upload"
             v-model="currentItem.url"
           />
           <div class="text" style="margin-top: 10px">文件大小限制(M)</div>
-          <el-input size="medium" v-model="currentItem.maxSize" />
+          <el-input v-model="currentItem.maxSize" />
           <div class="text" style="margin-top: 10px">是否多文件上传</div>
           <el-switch
             v-model="currentItem.multiple"
@@ -331,7 +325,6 @@
           <el-select
             style="width: 100%"
             v-model="currentItem.key"
-            size="medium"
             @change="dicChange"
             placeholder="请选择数据源字典"
           >
@@ -406,7 +399,6 @@
               style="width: 100%"
               @click="openTableModel"
               type="primary"
-              size="medium"
               >table配置</el-button
             >
           </div>
@@ -426,10 +418,10 @@
     </template>
     <template #footer>
       <div>
-        <el-button type="primary" size="mini" @click="model = false"
+        <el-button type="primary" size="small" @click="model = false"
           ><i class="el-icon-close"></i>点击关闭</el-button
         >
-        <el-button size="mini" @click="model = false"
+        <el-button size="small" @click="model = false"
           ><i class="el-icon-close"></i>关闭</el-button
         >
       </div>
@@ -477,13 +469,13 @@
           >
         </div>
         <div class="btns-right">
-          <el-button type="primary" size="mini" @click="addRow"
+          <el-button type="primary" size="small" @click="addRow"
             ><i class="el-icon-plus"></i>添加字段</el-button
           >
-          <el-button type="primary" size="mini" @click="delRow"
+          <el-button type="primary" size="small" @click="delRow"
             ><i class="el-icon-delete"></i>删除字段</el-button
           >
-          <el-button type="primary" size="mini" @click="sortRow"
+          <el-button type="primary" size="small" @click="sortRow"
             ><i class="el-icon-sort"></i>重新排列</el-button
           >
         </div>
@@ -503,10 +495,10 @@
     </template>
     <template #footer>
       <div style="text-align: center">
-        <el-button size="mini" @click="tableModel = false"
+        <el-button size="small" @click="tableModel = false"
           ><i class="el-icon-close"></i>关闭</el-button
         >
-        <el-button type="primary" size="mini" @click="saveConfigOptions"
+        <el-button type="primary" size="small" @click="saveConfigOptions"
           ><i class="el-icon-check"></i>保存</el-button
         >
       </div>

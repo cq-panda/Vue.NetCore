@@ -3,11 +3,11 @@
     <div class="item">
       <div class="left">
         <VolHeader icon="md-apps" text="柱状图" style="padding-left: 10px; margin-bottom: 5px"></VolHeader>
-        <div style="height: calc(100% - 45px)" ref="barRef"></div>
+        <div id="barId" style="height: calc(100% - 45px)"></div>
       </div>
       <div class="right">
         <VolHeader icon="md-apps" text="基础表单" style="padding-left: 10px; margin-bottom: 20px"></VolHeader>
-        <VolForm style="padding-right: 30px" ref="myform1" :loadKey="true" :label-width="80" :formFields="formFields1"
+        <VolForm style="padding-right: 30px" :loadKey="true" :label-width="80" :formFields="formFields1"
           :formRules="formRules1"></VolForm>
       </div>
     </div>
@@ -15,12 +15,12 @@
     <div class="item">
       <div class="left">
         <VolHeader icon="md-apps" text="表单属性字段只读" style="padding-left: 10px; margin-bottom: 20px"></VolHeader>
-        <VolForm style="padding-right: 30px" ref="myform1" :loadKey="true" :formFields="formFields2"
+        <VolForm style="padding-right: 30px" :loadKey="true" :formFields="formFields2"
           :formRules="formRules2"></VolForm>
       </div>
       <div class="right">
         <VolHeader icon="md-apps" text="饼状图表" style="padding-left: 10px"></VolHeader>
-        <div style="height: calc(100% - 30px)" ref="pieRef"></div>
+        <div id="pieId" style="height: calc(100% - 30px)" ></div>
       </div>
     </div>
   </div>
@@ -29,6 +29,9 @@
 import VolHeader from '@/components/basic/VolHeader.vue';
 import VolForm from '@/components/basic/VolForm.vue';
 import * as echarts from 'echarts/core';
+import { defineComponent, onMounted, onUnmounted } from 'vue';
+import { BarChart, PieChart } from 'echarts/charts'
+
 import { bar, pie } from './chartOptions';
 import {
   formFields1,
@@ -36,34 +39,37 @@ import {
   formFields2,
   formRules2
 } from './formOptions';
-import { computed, defineComponent, onMounted, onUnmounted, useTemplateRef } from 'vue';
-import { BarChart, PieChart } from 'echarts/charts'
+
+import {
+  CanvasRenderer
+} from 'echarts/renderers'
 
 import {
   TitleComponent,
   TooltipComponent,
   LegendComponent,
+  GridComponent,
 } from 'echarts/components';
 
 echarts.use([
   TitleComponent,
   TooltipComponent,
   LegendComponent,
+  CanvasRenderer,
+  GridComponent,
   BarChart,
   PieChart
 ])
 
 defineComponent([VolForm, VolHeader])
 
-const barRef = useTemplateRef('barRef');
-const pieRef = useTemplateRef('pieRef');
 let $bar, $pie;
 
 onMounted(() => {
-  $bar = echarts.init(barRef.value);
-  $bar.setOption(bar);
+  $bar = echarts.init(document.getElementById('barId'));
+  $pie = echarts.init(document.getElementById('pieId'));
 
-  $pie = echarts.init(pieRef.value);
+  $bar.setOption(bar);
   $pie.setOption({
     ...pie, ...{
       legend: {
@@ -76,8 +82,14 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  $bar.dispose();
-  $pie.dispose();
+  if($bar){
+    $bar.dispose();
+    $bar = null;
+  }
+  if($pie){
+    $pie.dispose();
+    $pie = null;
+  }
 })
 </script>
 

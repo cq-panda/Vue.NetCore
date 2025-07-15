@@ -44,7 +44,7 @@
 
 <script>
 import { defineComponent, ref, reactive, getCurrentInstance } from "vue";
-import http from "@/../src/api/http.js";
+import http from "@/api/http.js";
 export default defineComponent({
   setup() {
     const selectId = ref(-1);

@@ -15,7 +15,7 @@
               <div class="mask"></div>
             </div>
 
-            <img :src="getImgSrc(file, index)" @error="handleImageError" />
+            <img v-fallback :src="getImgSrc(file, index)" />
           </div>
           <div v-show="!autoUpload || (autoUpload && files.length < maxFile)" class="img-selector"
             :class="getSelector()">
@@ -197,7 +197,6 @@ export default {
   },
   data() {
     return {
-      defaultImg: new URL('@/assets/imgs/error-img.png', import.meta.url).href,
       changed: false, //手动上传成功后禁止重复上传，必须重新选择
       model: true,
       files: [],
@@ -689,9 +688,6 @@ export default {
         }
       }
       return true;
-    },
-    handleImageError($e) {
-      $e.target.src = this.defaultImg;
     }
   }
 };

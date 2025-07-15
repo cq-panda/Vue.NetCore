@@ -44,7 +44,7 @@ export default function () {
         </div>
         <div class="header-btns">
           <el-button type="primary"
-                     size="mini"
+                     size="small"
                      :key="bindex"
                      :icon="btnItem.icon"
                      plain
@@ -112,7 +112,7 @@ export default function () {
               </div>
               <div class="header-btns">
               <el-button type="primary"
-                          size="mini"
+                          size="small"
                           :key="bindex"
                           plain
                           @click="tableBtnClick(item, bindex, index)"

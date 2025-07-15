@@ -14,12 +14,12 @@ var code = `<template>
     <el-button type="primary"
                @click="submit"
                icon="el-icon-check"
-               size="mini">提交</el-button>
+               size="small">提交</el-button>
     <el-button type="primary"
                @click="reset"
                plain
                icon="el-icon-refresh-right"
-               size="mini">重置</el-button>
+               size="small">重置</el-button>
   </div>
 </div>
 </template>
