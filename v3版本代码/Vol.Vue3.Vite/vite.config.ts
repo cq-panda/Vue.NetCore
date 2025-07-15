@@ -1,5 +1,4 @@
 import { fileURLToPath } from 'node:url'
-import commonjs from 'vite-plugin-commonjs'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -9,23 +8,17 @@ import { visualizer } from 'rollup-plugin-visualizer'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    commonjs(),
-    // commonjs({
-    //   // 这里可以配置插件的选项，例如指定需要转换的模块等
-    //   include: 'node_modules/**', // 包含node_modules下的所有模块
-    // }),
     vue(),
     vueJsx(),
     visualizer({
       filename: 'report_form_rollup-plugin-visualizer.html'
-    }),
+    })
     //引用后提示：
     // requireTransform({
     //   fileRegex: /.js$|.ts$/
     // })
   ],
-  define: {
-  },
+  define: {},
   optimizeDeps: {
     exclude: ['vue']
   },
