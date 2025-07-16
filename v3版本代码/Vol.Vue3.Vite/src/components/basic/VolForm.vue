@@ -1,56 +1,25 @@
 <template>
-  <el-form
-    style="display: inline-block; width: 100%"
-    :inline="true"
-    ref="volform"
-    @submit.prevent
-    :model="formFields"
-    :label-width="labelWidth"
-    :rules="rules"
-  >
+  <el-form style="display: inline-block; width: 100%" :inline="true" ref="volform" @submit.prevent :model="formFields"
+    :label-width="labelWidth" :rules="rules">
     <template v-for="(row, findex) in formRules" :key="findex">
       <div class="vol-form-item">
-        <el-form-item
-          :label="item.title ? item.title + '：' : ''"
-          v-show="!item.hidden"
-          v-for="(item, index) in row"
-          :prop="item.field"
-          :key="item.field + index"
-          :style="getColWidth(item)"
-        >
+        <el-form-item :label="item.title ? item.title + '：' : ''" v-show="!item.hidden" v-for="(item, index) in row"
+          :prop="item.field" :key="item.field + index" :style="getColWidth(item)">
           <!-- render -->
-          <form-expand
-            v-if="item.render && typeof item.render == 'function'"
-            :render="item.render"
-            :par="12"
-          ></form-expand>
+          <form-expand v-if="item.render && typeof item.render == 'function'" :render="item.render"
+            :par="12"></form-expand>
           <!-- 2021.10.17增加表单实时方法计算 -->
-          <span
-            v-else-if="
-              item.readonly && typeof formFields[item.field] == 'function'
-            "
-            >{{ formFields[item.field]() }}</span
-          >
+          <span v-else-if="
+            item.readonly && typeof formFields[item.field] == 'function'
+          ">{{ formFields[item.field]() }}</span>
           <!-- 只读图片或文件  -->
           <div v-else-if="isReadonlyImgFile(item, formFields)">
             <div v-if="item.type == 'img'" class="form-imgs">
-              <div
-                class="img-item"
-                v-for="(img, imgIndex) in formFields[item.field]"
-                :key="imgIndex"
-              >
-                <img v-fallback
-                  :src="getSrc(img.path)"
-                  @click="previewImg(img.path)"
-                />
+              <div class="img-item" v-for="(img, imgIndex) in formFields[item.field]" :key="imgIndex">
+                <img v-fallback :src="getSrc(img.path)" @click="previewImg(img.path)" />
               </div>
             </div>
-            <div
-              v-else
-              class="form-file-list"
-              v-for="(file, fileIndex) in formFields[item.field]"
-              :key="fileIndex"
-            >
+            <div v-else class="form-file-list" v-for="(file, fileIndex) in formFields[item.field]" :key="fileIndex">
               <a @click="dowloadFile(formFields[item.field][fileIndex])">{{
                 file.name
               }}</a>
@@ -59,428 +28,195 @@
 
           <div v-else :class="{ 'form-item-extra': item.extra }">
             <!-- 只读属性 -->
-            <label
-              :style="item.inputStyle"
-              v-if="item.type == 'label'||item.label"
-              class="readonly-input"
-              >{{ getText(formFields, item) }}</label
-            >
+            <label :style="item.inputStyle" v-if="item.type == 'label' || item.label" class="readonly-input">{{
+              getText(formFields, item) }}</label>
             <!-- 20223.05.13集成el-tree-select -->
             <!-- :filter-method="(value)=>{filterMethod(value,item.data)}" -->
             <!-- :filterable="true" -->
-            <el-tree-select
-              style="width: 100%"
-              v-else-if="item.type == 'treeSelect'"
-              v-model="formFields[item.field]"
-              :disabled="item.readonly || item.disabled"
-              :data="item.data"
-              :multiple="item.multiple"
-              :render-after-expand="false"
-              :show-checkbox="true"
-              :check-strictly="true"
-              check-on-click-node
-              node-key="key"
-              @change="(value)=>{item.onChange&&item.onChange(value,item)}"
-              :props="{ label: 'label' }"
-            >
-              <template #default="{data,node }">
+            <el-tree-select style="width: 100%" v-else-if="item.type == 'treeSelect'" v-model="formFields[item.field]"
+              :disabled="item.readonly || item.disabled" :data="item.data" :multiple="item.multiple"
+              :render-after-expand="false" :show-checkbox="true" :check-strictly="true" check-on-click-node
+              node-key="key" @change="(value) => { item.onChange && item.onChange(value, item) }" :props="{ label: 'label' }">
+              <template #default="{ data, node }">
                 <!-- <el-checkbox v-model="node.checked"></el-checkbox> -->
-               <!-- {{getNode(node, data)}} -->
-               <!-- {{node.checked}} -->
-               <!-- 这里还有点问题，后面处理 -->
-                {{  data.label}}</template
-              >
+                <!-- {{getNode(node, data)}} -->
+                <!-- {{node.checked}} -->
+                <!-- 这里还有点问题，后面处理 -->
+                {{ data.label }}</template>
             </el-tree-select>
-            <template
-              v-else-if="['select', 'selectList'].indexOf(item.type) != -1"
-            >
-              <el-select-v2
-                :disabled="item.readonly || item.disabled"
-                v-show="!item.hidden"
-                style="width: 100%"
-                :size="size"
-                v-if="item.data.length > select2Count"
-                v-model="formFields[item.field]"
-                filterable
+            <template v-else-if="['select', 'selectList'].indexOf(item.type) != -1">
+              <el-select-v2 :disabled="item.readonly || item.disabled" v-show="!item.hidden" style="width: 100%"
+                :size="size" v-if="item.data.length > select2Count" v-model="formFields[item.field]" filterable
                 :multiple="item.type == 'select' ? false : true"
-                :placeholder="item.placeholder ? item.placeholder : item.title"
-                :allow-create="item.autocomplete"
-                :options="item.data"
-                @change="
+                :placeholder="item.placeholder ? item.placeholder : item.title" :allow-create="item.autocomplete"
+                :options="item.data" @change="
                   (val) => {
                     item.onChange(val, item.data);
                   }
-                "
-                clearable
-              >
+                " clearable>
                 <template #default="{ item }">
                   {{ item.label }}
                 </template>
               </el-select-v2>
-              <el-select
-                :disabled="item.readonly || item.disabled"
-                v-show="!item.hidden"
-                style="width: 100%"
-                :size="size"
-                v-else-if="item.remote || item.url"
-                v-model="formFields[item.field]"
-                filterable
-	              remote
+              <el-select :disabled="item.readonly || item.disabled" v-show="!item.hidden" style="width: 100%"
+                :size="size" v-else-if="item.remote || item.url" v-model="formFields[item.field]" filterable remote
                 :multiple="item.type == 'select' ? false : true"
-                :placeholder="item.placeholder ? item.placeholder : item.title"
-                clearable
-                @change="
+                :placeholder="item.placeholder ? item.placeholder : item.title" clearable @change="
                   (val) => {
-                    item.onChange&&item.onChange(val, item.data);
-                  }"
-                 :remote-method="
-                  (val) => {
-                    remoteSearch(item, formFields, val);
-                  }
-                "
-              >
-                <el-option
-                  v-for="item in item.data"
-                  :key="item.key"
-                  :label="item.value"
-                  :value="item.key"
-                >
+                    item.onChange && item.onChange(val, item.data);
+                  }" :remote-method="(val) => {
+                      remoteSearch(item, formFields, val);
+                    }
+                    ">
+                <el-option v-for="item in item.data" :key="item.key" :label="item.value" :value="item.key">
                 </el-option>
               </el-select>
-              <el-select
-                :disabled="item.readonly || item.disabled"
-                v-show="!item.hidden"
-                style="width: 100%"
-                :size="size"
-                v-else
-                v-model="formFields[item.field]"
-                filterable
+              <el-select :disabled="item.readonly || item.disabled" v-show="!item.hidden" style="width: 100%"
+                :size="size" v-else v-model="formFields[item.field]" filterable
                 :multiple="item.type == 'select' ? false : true"
-                :placeholder="item.placeholder ? item.placeholder : item.title"
-                :allow-create="item.autocomplete"
+                :placeholder="item.placeholder ? item.placeholder : item.title" :allow-create="item.autocomplete"
                 @change="
                   (val) => {
                     item.onChange(val, item.data);
                   }
-                "
-                clearable
-              >
-                <el-option
-                  v-show="!item.hidden"
-                  :disabled="item.disabled"
-                  v-for="item in item.data"
-                  :key="item.key"
-                  :label="item.value"
-                  :value="item.key"
-                >
+                " clearable>
+                <el-option v-show="!item.hidden" :disabled="item.disabled" v-for="item in item.data" :key="item.key"
+                  :label="item.value" :value="item.key">
                 </el-option>
               </el-select>
             </template>
 
-            <el-switch
-              v-show="!item.hidden"
-              v-else-if="item.type == 'switch'"
-              v-model="formFields[item.field]"
-              :disabled="item.readonly || item.disabled"
-              active-color="#0f84ff"
-              @change="item.onChange"
-              inactive-color="rgb(194 194 194)"
-              :active-value="
-                typeof formFields[item.field] == 'boolean'
+            <el-switch v-show="!item.hidden" v-else-if="item.type == 'switch'" v-model="formFields[item.field]"
+              :disabled="item.readonly || item.disabled" active-color="#0f84ff" @change="item.onChange"
+              inactive-color="rgb(194 194 194)" :active-value="typeof formFields[item.field] == 'boolean'
                   ? true
                   : typeof formFields[item.field] == 'string'
-                  ? '1'
-                  : 1
-              "
-              :inactive-value="
-                typeof formFields[item.field] == 'boolean'
+                    ? '1'
+                    : 1
+                " :inactive-value="typeof formFields[item.field] == 'boolean'
                   ? false
                   : typeof formFields[item.field] == 'string'
-                  ? '0'
-                  : 0
-              "
-            >
+                    ? '0'
+                    : 0
+                ">
             </el-switch>
 
-            <el-radio-group
-              :disabled="item.readonly || item.disabled"
-              v-show="!item.hidden"
-              v-model="formFields[item.field]"
-              v-else-if="item.type == 'radio'"
-              @change="item.onChange"
-            >
-              <el-radio
-                v-for="kv in item.data"
-                :disabled="item.readonly || item.disabled"
-                :key="kv.key"
-                :label="kv.key"
-                >{{ kv.value }}</el-radio
-              >
+            <el-radio-group :disabled="item.readonly || item.disabled" v-show="!item.hidden"
+              v-model="formFields[item.field]" v-else-if="item.type == 'radio'" @change="item.onChange">
+              <el-radio v-for="kv in item.data" :disabled="item.readonly || item.disabled" :key="kv.key"
+                :label="kv.key">{{ kv.value
+                }}</el-radio>
             </el-radio-group>
 
-            <el-checkbox-group
-              :disabled="item.readonly || item.disabled"
-              v-show="!item.hidden"
-              v-model="formFields[item.field]"
-              v-else-if="item.type == 'checkbox'"
-              @change="item.onChange"
-            >
-              <el-checkbox
-                v-for="kv in item.data"
-                :key="kv.key"
-                :disabled="item.readonly || item.disabled"
-                :label="kv.key"
-                >{{ kv.value }}</el-checkbox
-              >
+            <el-checkbox-group :disabled="item.readonly || item.disabled" v-show="!item.hidden"
+              v-model="formFields[item.field]" v-else-if="item.type == 'checkbox'" @change="item.onChange">
+              <el-checkbox v-for="kv in item.data" :key="kv.key" :disabled="item.readonly || item.disabled"
+                :label="kv.key">{{
+                kv.value }}</el-checkbox>
             </el-checkbox-group>
-            <div
-              class="v-date-range"
-              style="display: flex"
-              v-else-if="
-                ['date', 'datetime','month'].indexOf(item.type) != -1 && item.range
-              "
-            >
-            <el-date-picker
-                :size="size"
-                :ref="item.field"
-                :disabled="item.readonly || item.disabled"
-                style="flex: 1; width: auto"
-                v-model="formFields[item.field]"
-                :type="item.type + 'range'"
-                :disabledDate="(val) => getDateOptions(val, item)"
-                start-placeholder="开始时间"
-                :unlink-panels="true"
-                end-placeholder="结束时间"
-                @change="
+            <div class="v-date-range" style="display: flex" v-else-if="
+              ['date', 'datetime', 'month'].indexOf(item.type) != -1 && item.range
+            ">
+              <el-date-picker :size="size" :ref="item.field" :disabled="item.readonly || item.disabled"
+                style="flex: 1; width: auto" v-model="formFields[item.field]" :type="item.type + 'range'"
+                :disabledDate="(val) => getDateOptions(val, item)" start-placeholder="开始时间" :unlink-panels="true"
+                end-placeholder="结束时间" @change="
                   (val) => {
                     dateRangeChange(val, item);
                   }
-                "
-                :value-format="getDateFormat(item)"
-                :shortcuts="getShortcuts()"
-                range-separator="-"
-              >
+                " :value-format="getDateFormat(item)" :shortcuts="getShortcuts()" range-separator="-">
               </el-date-picker>
             </div>
             <!-- v-show不添加根节点就会报错没有根点节 -->
-            <div
-              v-show="!item.hidden"
-              style="width: 100%"
-              v-else-if="['date', 'datetime', 'year', 'month'].indexOf(item.type) != -1"
-            >
-              <el-date-picker
-                :size="size"
-                clearable
-                :disabled="item.readonly || item.disabled"
-                style="width: 100%"
-                v-model="formFields[item.field]"
-                @change="item.onChange"
-                :type="item.type"
-                :placeholder="
-                  item.placeholder ? item.placeholder : '请选择' + item.title
-                "
-                :disabledDate="(val) => getDateOptions(val, item)"
-                :value-format="getDateFormat(item)"
-              >
+            <div v-show="!item.hidden" style="width: 100%"
+              v-else-if="['date', 'datetime', 'year', 'month'].indexOf(item.type) != -1">
+              <el-date-picker :size="size" clearable :disabled="item.readonly || item.disabled" style="width: 100%"
+                v-model="formFields[item.field]" @change="item.onChange" :type="item.type" :placeholder="item.placeholder ? item.placeholder : '请选择' + item.title
+                  " :disabledDate="(val) => getDateOptions(val, item)" :value-format="getDateFormat(item)">
               </el-date-picker>
             </div>
 
-            <el-time-picker
-              :size="size"
-              v-else-if="item.type == 'time'"
-              v-model="formFields[item.field]"
-              :disabled="item.readonly || item.disabled"
-              placeholder="请选择时间"
-              :value-format="item.format || 'YYYY-MM-DD HH:mm:ss'"
-              :format="item.format"
-              style="width: 100%"
-            >
+            <el-time-picker :size="size" v-else-if="item.type == 'time'" v-model="formFields[item.field]"
+              :disabled="item.readonly || item.disabled" placeholder="请选择时间"
+              :value-format="item.format || 'YYYY-MM-DD HH:mm:ss'" :format="item.format" style="width: 100%">
             </el-time-picker>
 
-            <el-scrollbar
-              style="border: 1px solid #c7d8db; border-radius: 5px"
-              :height="item.height || 150"
-              v-else-if="
-                item.type == 'editor' && (item.readonly || item.disabled)
-              "
-            >
+            <el-scrollbar style="border: 1px solid #c7d8db; border-radius: 5px" :height="item.height || 150" v-else-if="
+              item.type == 'editor' && (item.readonly || item.disabled)
+            ">
               <div ref="editor" v-html="formFields[item.field]"></div>
             </el-scrollbar>
 
-            <vol-wang-editor
-              ref="editor"
-              v-else-if="item.type == 'editor'"
-              :url="item.url || editor.uploadImgUrl"
-              :upload="item.upload || editor.upload"
-              v-model="formFields[item.field]"
-              :height="item.height || 350"
-            ></vol-wang-editor>
+            <vol-wang-editor ref="editor" v-else-if="item.type == 'editor'" :url="item.url || editor.uploadImgUrl"
+              :upload="item.upload || editor.upload" v-model="formFields[item.field]"
+              :height="item.height || 350"></vol-wang-editor>
 
-            <vol-upload
-              v-show="!item.hidden"
-              v-else-if="isFile(item, formFields)"
-              :desc="item.desc"
-              :multiple="item.multiple"
-              :max-file="item.maxFile"
-              :max-size="item.maxSize"
-              :autoUpload="item.autoUpload"
-              :fileInfo="formFields[item.field]"
-              :url="item.url"
-              :img="item.type == 'img' || item.columnType == 'img'"
-              :excel="item.type == 'excel'"
-              :fileTypes="item.fileTypes ? item.fileTypes : []"
-              :upload-before="item.uploadBefore"
-              :upload-after="item.uploadAfter"
-              :append="item.multiple"
-              :on-change="
-                (files) => {
+            <vol-upload v-show="!item.hidden" v-else-if="isFile(item, formFields)" :desc="item.desc"
+              :multiple="item.multiple" :max-file="item.maxFile" :max-size="item.maxSize" :autoUpload="item.autoUpload"
+              :fileInfo="formFields[item.field]" :url="item.url" :img="item.type == 'img' || item.columnType == 'img'"
+              :excel="item.type == 'excel'" :fileTypes="item.fileTypes ? item.fileTypes : []"
+              :upload-before="item.uploadBefore" :upload-after="item.uploadAfter" :append="item.multiple" :on-change="(files) => {
                   return fileOnChange(files, item);
                 }
-              "
-              :file-click="item.fileClick"
-              :remove-before="item.removeBefore"
-              :downLoad="item.downLoad ? true : false"
-            ></vol-upload>
-            <el-cascader
-              :size="size"
-              clearable
-              style="width: 100%; margin-top: -3px"
-              v-model="formFields[item.field]"
-              :disabled="item.readonly || item.disabled"
-              v-else-if="item.type == 'cascader'"
-              :options="item.data"
+                " :file-click="item.fileClick" :remove-before="item.removeBefore"
+              :downLoad="item.downLoad ? true : false"></vol-upload>
+            <el-cascader :size="size" clearable style="width: 100%; margin-top: -3px" v-model="formFields[item.field]"
+              :disabled="item.readonly || item.disabled" v-else-if="item.type == 'cascader'" :options="item.data"
               :props="{
                 checkStrictly: item.changeOnSelect || item.checkStrictly
-              }"
-              @change="item.onChange"
-            >
+              }" @change="item.onChange">
             </el-cascader>
-            <el-rate
-              :disabled="item.readonly || item.disabled"
-              v-else-if="item.type == 'rate'"
-              @change="
-                (val) => {
-                  item.onChange && item.onChange(val);
-                }
-              "
-              :max="item.max"
-              v-model="formFields[item.field]"
-            />
-            <div
-              style="display: flex"
-              v-else-if="item.type == 'range' || item.range"
-            >
-              <el-input
-                :size="size"
-                :disabled="item.readonly || item.disabled"
-                style="flex: 1"
-                v-model="formFields[item.field][0]"
-                clearable
-              />
+            <el-rate :disabled="item.readonly || item.disabled" v-else-if="item.type == 'rate'" @change="
+              (val) => {
+                item.onChange && item.onChange(val);
+              }
+            " :max="item.max" v-model="formFields[item.field]" />
+            <div style="display: flex" v-else-if="item.type == 'range' || item.range">
+              <el-input :size="size" :disabled="item.readonly || item.disabled" style="flex: 1"
+                v-model="formFields[item.field][0]" clearable />
               <span style="margin: 0 5px">-</span>
-              <el-input
-                :size="size"
-                :disabled="item.readonly || item.disabled"
-                style="flex: 1"
-                v-model="formFields[item.field][1]"
-                clearable
-              />
+              <el-input :size="size" :disabled="item.readonly || item.disabled" style="flex: 1"
+                v-model="formFields[item.field][1]" clearable />
             </div>
-            <el-input
-              :size="size"
-              clearable
-              :ref="item.field"
-              :input-style="item.inputStyle"
-              :disabled="item.readonly || item.disabled"
-              v-else-if="item.type == 'textarea'"
-              v-model="formFields[item.field]"
-              type="textarea"
-              :autosize="{
+            <el-input :size="size" clearable :ref="item.field" :input-style="item.inputStyle"
+              :disabled="item.readonly || item.disabled" v-else-if="item.type == 'textarea'"
+              v-model="formFields[item.field]" type="textarea" :autosize="{
                 minRows: item.minRows || 2,
                 maxRows: item.maxRows || 10
-              }"
-              :placeholder="item.placeholder ? item.placeholder : item.title"
-              @keypress="
+              }" :placeholder="item.placeholder ? item.placeholder : item.title" @keypress="
                 ($event) => {
                   onKeyPress($event, item);
                 }
-              "
-              @change="($event) => {
+              " @change="($event) => {
+                onKeyPress($event, item);
+              }" @keyup.enter="($event) => {
                   onKeyPress($event, item);
-                }"
-              @keyup.enter="($event) => {
-                  onKeyPress($event, item);
-                }"
-            />
-            <el-input-number
-              :size="size"
-              style="width: 100%"
-              :ref="item.field"
-              :input-style="item.inputStyle"
-              v-else-if="item.type == 'number'"
-              v-model="formFields[item.field]"
-              :min="item.min"
-              :disabled="item.readonly || item.disabled"
-              :max="item.max"
-              controls-position="right"
-              @change="item.onKeyPress"
-            />
-            <el-input
-              :size="size"
-              clearable
-              :input-style="item.inputStyle"
-              v-else-if="item.type == 'password'"
-              type="password"
-              v-model="formFields[item.field]"
-              :disabled="item.readonly || item.disabled"
-              v-show="!item.hidden"
-              :placeholder="item.placeholder ? item.placeholder : item.title"
-            />
+                }" />
+            <el-input-number :size="size" style="width: 100%" :ref="item.field" :input-style="item.inputStyle"
+              v-else-if="item.type == 'number'" v-model="formFields[item.field]" :min="item.min"
+              :disabled="item.readonly || item.disabled" :max="item.max" controls-position="right"
+              @change="item.onKeyPress" />
+            <el-input :size="size" clearable :input-style="item.inputStyle" v-else-if="item.type == 'password'"
+              type="password" v-model="formFields[item.field]" :disabled="item.readonly || item.disabled"
+              v-show="!item.hidden" :placeholder="item.placeholder ? item.placeholder : item.title" />
             <!-- 2021.11.18修复el-input没有默认enter事件时回车异常 -->
-            <el-input
-              :size="size"
-              clearable
-              :ref="item.field"
-              :input-style="item.inputStyle"
-              v-else-if="item.onKeyPress"
-              :placeholder="item.placeholder ? item.placeholder : item.title"
-              :disabled="item.readonly || item.disabled"
-              v-show="!item.hidden"
-              v-model="formFields[item.field]"
+            <el-input :size="size" clearable :ref="item.field" :input-style="item.inputStyle"
+              v-else-if="item.onKeyPress" :placeholder="item.placeholder ? item.placeholder : item.title"
+              :disabled="item.readonly || item.disabled" v-show="!item.hidden" v-model="formFields[item.field]"
               @keypress="
                 ($event) => {
                   onKeyPress($event, item);
                 }
-              "
-              @change="item.onKeyPress"
-              @keyup.enter="item.onKeyPress"
-              @blur="item.blur"
-              @focus="item.focus"
-            ></el-input>
-            <el-input
-              :size="size"
-              clearable
-              v-else
-              :ref="item.field"
-              :input-style="item.inputStyle"
-              :placeholder="item.placeholder ? item.placeholder : item.title"
-              :disabled="item.readonly || item.disabled"
-              v-show="!item.hidden"
-              v-model="formFields[item.field]"
-              @blur="item.blur"
-              @focus="item.focus"
-            ></el-input>
+              " @change="item.onKeyPress" @keyup.enter="item.onKeyPress" @blur="item.blur"
+              @focus="item.focus"></el-input>
+            <el-input :size="size" clearable v-else :ref="item.field" :input-style="item.inputStyle"
+              :placeholder="item.placeholder ? item.placeholder : item.title" :disabled="item.readonly || item.disabled"
+              v-show="!item.hidden" v-model="formFields[item.field]" @blur="item.blur" @focus="item.focus"></el-input>
 
             <div class="form-extra" v-if="item.extra">
-              <form-expand
-                v-if="item.extra.render"
-                :render="item.extra.render"
-              ></form-expand>
-              <a
-                v-else-if="item.extra.click"
-                :style="item.extra.style"
-                @click="item.extra.click(item, formFields[item.field])"
-              >
+              <form-expand v-if="item.extra.render" :render="item.extra.render"></form-expand>
+              <a v-else-if="item.extra.click" :style="item.extra.style"
+                @click="item.extra.click(item, formFields[item.field])">
                 <i v-if="item.extra.icon" :class="item.extra.icon" />
                 {{ item.extra.text }}
               </a>
@@ -615,7 +351,7 @@ export default defineComponent({
     const rangeFields = reactive([]);
     const volform = ref(null);
     const numberFields = reactive([]);
-    onMounted(() => {});
+    onMounted(() => { });
     const initFormRules = (init) => {
       if (props.loadKey) {
         initSource();
@@ -795,7 +531,7 @@ export default defineComponent({
         }
       }
     };
-    const validate =async (callback) => {
+    const validate = async (callback) => {
       let result = true;
       await volform.value.validate((valid) => {
         if (!valid) {
@@ -846,7 +582,7 @@ export default defineComponent({
   methods: {
     getColWidth(item) {
       if (item.itemStyle) {
-         return item.itemStyle;
+        return item.itemStyle;
       }
       //2021.08.30 增加动态计算表单宽度
       let _span = 0;
@@ -861,7 +597,7 @@ export default defineComponent({
         Math.round(((item.colSize || 12 / _span) / 0.12) * colPow, 10.0) / colPow;
       // if (item.colSize) return rate.toFixed(3);
       // return rate.toFixed(3);
-      return {width:rate.toFixed(3)+'%'};
+      return { width: rate.toFixed(3) + '%' };
       // return (100 - rate).toFixed(3);
     },
     previewImg(url) {
@@ -960,8 +696,8 @@ export default defineComponent({
       //2023.04.20修复只读为label时原数据被字典替换了的问题
       let valArr = Array.isArray(val)
         ? val.map((x) => {
-            return x;
-          })
+          return x;
+        })
         : val.split(',');
       for (let index = 0; index < valArr.length; index++) {
         var _item = data.find((x) => {
@@ -1359,7 +1095,7 @@ export default defineComponent({
       );
     },
     getDateFormat(item) {
-      if(item.format){
+      if (item.format) {
         return item.format;
       }
       if (item.type == 'year') {
@@ -1385,12 +1121,12 @@ export default defineComponent({
       if ($event.keyCode == 13) {
         return;
       }
-     item.onKeyPress&&item.onKeyPress($event);
+      item.onKeyPress && item.onKeyPress($event);
     },
     filterMethod(value, data) {
       return data.label.includes(value);
     },
-    getNode( label,node, data){
+    getNode(label, node, data) {
       console.log(label)
     },
     getShortcuts() {
@@ -1426,6 +1162,7 @@ export default defineComponent({
 .el-form-item {
   margin-right: 0;
 }
+
 .el-form-item {
   .form-imgs {
     img {
@@ -1460,16 +1197,20 @@ export default defineComponent({
 .el-form-item :deep(.el-range__close-icon) {
   margin-right: -10px;
 }
+
 .form-item-extra {
-  > *:first-child {
+  >*:first-child {
     flex: 1;
   }
+
   display: flex;
+
   .form-extra {
     padding-left: 7px;
     line-height: 36px;
   }
 }
+
 .vol-form-item {
   width: 100%;
 }
@@ -1535,10 +1276,12 @@ export default defineComponent({
 .el-form-item {
   vertical-align: top !important;
 }
+
 .form-file-list {
   a {
     color: #3ea9ff;
   }
+
   a:hover {
     cursor: pointer;
     color: #0281e7;
