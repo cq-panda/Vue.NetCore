@@ -97,26 +97,14 @@
 
 .header-info {
   padding-right: 20px;
-  display: inline-block;
+  display: flex;
+  //display: inline-block;
   // position: absolute;
-  height: 100%;
 }
 
 .header-info > div {
   float: left;
   height: 100%;
-}
-
-.user-header {
-  background: white;
-  height: 52px;
-  width: 52px;
-  border-radius: 50%;
-  margin-right: 0px;
-  top: 4px;
-  left: 7px;
-  position: relative;
-  border: 1px solid #dfdfdf;
 }
 
 .project-name {
@@ -140,30 +128,37 @@
 }
 
 .vol-header .user {
-  text-align: left;
-  padding: 0 12px;
-  position: relative;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  // height: 60px;
-  justify-content: center;
-  span:last-child {
-    font-size: 12px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+
+  .user-header {
+    background: white;
+    height: 52px;
+    width: 52px;
+    border-radius: 50%;
+    border: 1px solid #dfdfdf;
+  }
+
+  p {
+    text-align: left;
+    padding: 0 12px 0 px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    span:last-child {
+      font-size: 12px;
+    }
   }
 }
 
 .vol-header .settings {
-  padding-top: 10px;
   color: #d4d2d2;
 }
 
 .vol-header .user span {
   position: relative;
-}
-
-.header-info:hover {
-  cursor: pointer;
 }
 
 .header-navigation {
@@ -218,15 +213,19 @@
 }
 
 .h-link {
-  line-height: 59px;
-}
-
-.h-link a {
   font-size: 14px;
   text-decoration: none;
   padding: 0px 15px;
-  /* height: 60px; */
+  height: 100%;
   display: inline-block;
+  i,
+  .user-header {
+    line-height: 60px;
+  }
+
+  :hover {
+    cursor: pointer;
+  }
 }
 
 img[src=''],
@@ -248,24 +247,20 @@ img:not([src]) {
     background-color: #272929;
   }
 
-  .h-link a:hover {
-    background: #0c0202;
-  }
-
   a {
     color: #f2f2f2;
   }
 
-  .h-link a:hover {
-    color: #dfdfdf;
-  }
-
-  .h-link .actived {
-    border-bottom: 2px solid white;
-  }
-
-  .h-link .actived a {
+  .h-link {
     color: white !important;
+    &:hover {
+      background: #0c0202;
+      color: #dfdfdf;
+    }
+
+    .actived {
+      border-bottom: 2px solid white;
+    }
   }
 
   .vol-header .user {
@@ -335,19 +330,15 @@ img:not([src]) {
     color: #dcdfe6;
   }
 
-  .h-link a:hover {
-    background: #d71212;
-  }
-
-  .h-link .actived {
-    border-bottom: 2px solid white;
-  }
-
-  .h-link a,
-  .h-link .actived a,
-  .vol-header .settings,
-  .vol-header .user {
+  .h-link {
     color: white;
+    &:hover {
+      background: #d71212;
+    }
+
+    .actived {
+      border-bottom: 2px solid white;
+    }
   }
 
   .vol-header .header-text {
@@ -377,19 +368,16 @@ img:not([src]) {
     background-color: rgb(255, 153, 0);
   }
 
-  .h-link a:hover {
-    background: #c97901;
-  }
-
-  .h-link .actived {
-    border-bottom: 2px solid white;
-  }
-
-  .h-link a,
-  .h-link .actived a,
-  .vol-header .settings,
-  .vol-header .user {
+  .h-link {
     color: white;
+
+    &:hover {
+      background: #c97901;
+    }
+
+    .actived {
+      border-bottom: 2px solid white;
+    }
   }
 
   .vol-header .header-text {
@@ -420,19 +408,15 @@ img:not([src]) {
     background-color: rgb(25, 190, 107);
   }
 
-  .h-link a:hover {
-    background: #329103;
-  }
-
-  .h-link .actived {
-    border-bottom: 2px solid white;
-  }
-
-  .h-link a,
-  .h-link .actived a,
-  .vol-header .settings,
-  .vol-header .user {
+  .h-link {
     color: white;
+    &:hover {
+      background: #329103;
+    }
+
+    h-link .actived {
+      border-bottom: 2px solid white;
+    }
   }
 
   .vol-header .header-text {
@@ -463,19 +447,15 @@ img:not([src]) {
     background-color: rgb(45, 140, 240);
   }
 
-  .h-link a:hover {
-    background: #0170e3;
-  }
-
-  .h-link .actived {
-    border-bottom: 2px solid white;
-  }
-
-  .h-link a,
-  .h-link .actived a,
-  .vol-header .settings,
-  .vol-header .user {
+  .h-link {
     color: white;
+    &:hover {
+      background: #0170e3;
+    }
+
+    .actived {
+      border-bottom: 2px solid white;
+    }
   }
 
   .vol-header .header-text {
@@ -500,13 +480,11 @@ img:not([src]) {
   .header {
     background-color: #434956;
   }
-
-  .h-link a:hover {
-    background: #eeeeee;
-  }
-
-  .h-link a {
+  .h-link {
     color: #211f1f;
+    &:hover {
+      background: #eeeeee;
+    }
   }
 
   .header-navigation {

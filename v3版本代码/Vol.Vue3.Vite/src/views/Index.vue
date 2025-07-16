@@ -3,124 +3,75 @@
     <div class="vol-aside" :style="{ width: menuWidth + 'px' }">
       <div class="header" :style="{ width: menuWidth - 1 + 'px' }">
         <img v-show="!isCollapse" src="@/assets/imgs/logo.png" />
-        <i @click="toggleLeft" class=" collapse-menu" :class="isCollapse?'el-icon-s-unfold':'el-icon-s-fold'" />
+        <i @click="toggleLeft" class=" collapse-menu" :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'" />
       </div>
       <div class="vol-menu">
-        <el-scrollbar style="height: 100%">
-          <VolMenu
-            :currentMenuId="currentMenuId"
-            :on-select="onSelect"
-            :enable="true"
-            :open-select="false"
-            :isCollapse="isCollapse"
-            :list="menuOptions"
-          ></VolMenu>
-        </el-scrollbar>
+        <VolMenu :currentMenuId="currentMenuId" :on-select="onSelect" :enable="true" :open-select="false"
+          :isCollapse="isCollapse" :list="menuOptions"></VolMenu>
       </div>
     </div>
     <div class="vol-container" :style="{ left: menuWidth - 1 + 'px' }">
       <div class="vol-header">
-        <div class="project-name">Vol开发框架Vue3版本</div>
+        <div class="project-name"> {{ viteAppTitle }} </div>
         <div class="header-text">
-          <div class="h-link">
-            <a
-              href="javascript:void(0)"
-              @click="to(item)"
-              v-for="(item, index) in links.filter((c) => {
-                return !c.icon;
-              })"
-              :key="index"
-            >
-              <span v-if="!item.icon"> {{ item.text }}</span>
-              <i v-else :class="item.icon"></i>
-            </a>
-          </div>
+          <a class="h-link" href="javascript:void(0)" @click="to(item)" v-for="(item, index) in links.filter((c) => {
+            return !c.icon;
+          })" :key="index">
+            <span v-if="!item.icon"> {{ item.text }}</span>
+            <i v-else :class="item.icon"></i>
+          </a>
         </div>
         <div class="header-info">
-          <div class="h-link">
-            <a
-              href="javascript:void(0)"
-              @click="to(item)"
-              v-for="(item, index) in links.filter((c) => {
-                return c.icon;
-              })"
-              :key="index"
-            >
-              <span v-if="!item.icon"> {{ item.text }}</span>
-              <i v-else :class="item.icon"></i>
-            </a>
-          </div>
+          <a class="h-link" href="javascript:void(0)" @click="to(item)" v-for="(item, index) in links.filter((c) => {
+            return c.icon;
+          })" :key="index">
+            <span v-if="!item.icon"> {{ item.text }}</span>
+            <i v-else :class="item.icon"></i>
+          </a>
+          <a class="h-link settings" href="javascript:void(0)">
+            <i class="el-icon-s-tools" @click="drawer_model = true" />
+          </a>
           <!--消息管理-->
-          <div class="h-link" @click="messageModel = true">
-            <a><i class="el-icon-message-solid"></i></a>
-          </div>
-          <div>
-            <img v-fallback class="user-header" :src="userImg"  />
-          </div>
-          <div class="user">
-            <span>{{ userName }}</span>
-            <span id="index-date"></span>
-          </div>
-          <div class="settings">
-            <i
-              style="font-size: 20px"
-              class="el-icon-s-tools"
-              @click="drawer_model = true"
-            />
-          </div>
+          <a class="h-link" @click="messageModel = true" href="javascript:void(0)">
+            <i class="el-icon-message-solid"></i>
+          </a>
+          <a class="h-link user" href="javascript:void(0)">
+            <img v-fallback class="user-header" :src="userImg" />
+            <p>
+              <span>{{ userName }}</span>
+              <span id="index-date"></span>
+            </p>
+          </a>
+
         </div>
       </div>
       <div class="vol-path">
-        <el-tabs
-          @tab-click="selectNav"
-          @tab-remove="removeNav"
-          @contextmenu.prevent="bindRightClickMenu(false)"
-          type="border-card"
-          class="header-navigation"
-          v-model="selectId"
-          :strtch="false"
-        >
-          <el-tab-pane
-            v-for="(item, navIndex) in navigation"
-            type="card"
-            :name="navIndex + ''"
-            :closable="navIndex > 0"
-            :key="navIndex"
-            :label="item.name"
-          >
+        <el-tabs @tab-click="selectNav" @tab-remove="removeNav" @contextmenu.prevent="bindRightClickMenu(false)"
+          type="border-card" class="header-navigation" v-model="selectId" :strtch="false">
+          <el-tab-pane v-for="(item, navIndex) in navigation" type="card" :name="navIndex + ''" :closable="navIndex > 0"
+            :key="navIndex" :label="item.name">
             <span style="display: none">{{ navIndex }}</span>
           </el-tab-pane>
         </el-tabs>
         <!-- 右键菜单 -->
         <div v-show="contextMenuVisible">
-          <ul
-            :style="{ left: menuLeft + 'px', top: menuTop + 'px' }"
-            class="contextMenu"
-          >
+          <ul :style="{ left: menuLeft + 'px', top: menuTop + 'px' }" class="contextMenu">
             <li v-show="visibleItem.all">
               <el-button link @click="closeTabs()">
                 <i class="el-icon-close"></i>
                 {{
                   navigation.length == 2 ? "关闭菜单" : "关闭所有"
-                }}</el-button
-              >
+                }}</el-button>
             </li>
             <li v-show="visibleItem.left">
-              <el-button link @click="closeTabs('left')" 
-                ><i class="el-icon-back"></i>关闭左边</el-button
-              >
+              <el-button link @click="closeTabs('left')"><i class="el-icon-back"></i>关闭左边</el-button>
             </li>
             <li v-show="visibleItem.right">
-              <el-button link @click="closeTabs('right')" >
-                <i class="el-icon-right"></i>关闭右边</el-button
-              >
+              <el-button link @click="closeTabs('right')">
+                <i class="el-icon-right"></i>关闭右边</el-button>
             </li>
             <li v-show="visibleItem.other">
-              <el-button
-              link
-                @click="closeTabs('other')"
-             
-                ><i class="el-icon-right"></i>关闭其他
+              <el-button link @click="closeTabs('other')"><i class="el-icon-right"></i>关闭其他
               </el-button>
             </li>
           </ul>
@@ -131,52 +82,27 @@
           <loading v-show="$store.getters.isLoading()"></loading>
           <router-view v-slot="{ Component }">
             <keep-alive>
-              <component
-                :is="Component"
-                :key="$route.name"
-                v-if="!$route.meta ||($route.meta && !$route.meta.hasOwnProperty('keepAlive'))"
-              />
+              <component :is="Component" :key="$route.name"
+                v-if="!$route.meta || ($route.meta && !$route.meta.hasOwnProperty('keepAlive'))" />
             </keep-alive>
-            <component
-              :is="Component"
-              :key="$route.name"
-              v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"
-            />
+            <component :is="Component" :key="$route.name"
+              v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')" />
           </router-view>
         </el-scrollbar>
       </div>
     </div>
-    <el-drawer
-      title="选择主题"
-      v-model="drawer_model"
-      direction="rtl"
-      destroy-on-close
-    >
+    <el-drawer title="选择主题" v-model="drawer_model" direction="rtl" destroy-on-close>
       <div class="theme-selector">
-        <div
-          @click="changeTheme(item.name)"
-          class="item"
-          v-for="(item, index) in theme_color"
-          :key="index"
-          :style="{ background: item.color }"
-        >
-          <div
-            v-show="item.leftColor"
-            :style="{ background: item.leftColor }"
-            style="height: 100%; width: 20px"
-            class="t-left"
-          ></div>
+        <div @click="changeTheme(item.name)" class="item" v-for="(item, index) in theme_color" :key="index"
+          :style="{ background: item.color }">
+          <div v-show="item.leftColor" :style="{ background: item.leftColor }" style="height: 100%; width: 20px"
+            class="t-left"></div>
           <div class="t-right"></div>
         </div>
       </div>
     </el-drawer>
 
-    <el-drawer
-      title="消息列表"
-      v-model="messageModel"
-      direction="rtl"
-      destroy-on-close
-    >
+    <el-drawer title="消息列表" v-model="messageModel" direction="rtl" destroy-on-close>
       <Message :list="messageList"></Message>
     </el-drawer>
   </div>
@@ -219,6 +145,7 @@ export default defineComponent({
       otherTabs: true,
       menuLeft: 0,
       menuTop: 0,
+      viteAppTitle:__APP_TITLE__
       //  contextMenuVisible: false, // 右键关闭显/隐
     };
   },
@@ -255,7 +182,7 @@ export default defineComponent({
         text: "框架文档",
         path: "http://v2.volcore.xyz/document/guide",
         id: -2,
-      },   {
+      }, {
         text: "框架企业版",
         path: "http://pro.volcore.xyz/",
         id: 10,
@@ -744,7 +671,9 @@ function showTime() {
   font-size: 14px;
   color: #333;
   box-shadow: 2px 2px 3px 0 rgb(182 182 182 / 20%);
-  i,button{
+
+  i,
+  button {
     font-size: 14px !important;
   }
 }
@@ -765,12 +694,8 @@ function showTime() {
   letter-spacing: 1px;
 }
 
-.el-tabs.el-tabs--top.el-tabs--border-card.header-navigation
-  > .el-tabs__header
-  .el-tabs__item:last-child,
-.el-tabs--top.el-tabs--border-card.header-navigation
-  > .el-tabs__header
-  .el-tabs__item:nth-child(2) {
+.el-tabs.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:last-child,
+.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:nth-child(2) {
   padding: 0;
 }
 
