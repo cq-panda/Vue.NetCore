@@ -1085,32 +1085,32 @@ export default {
   font-weight: bold;
   border-bottom: 1px solid rgb(218 218 218);
 }
-.drag-container ::v-deep(.el-col) {
+.drag-container :deep(.el-col) {
   width: 100%;
 }
-.drag-center ::v-deep(.el-form-item__label) {
+.drag-center :deep(.el-form-item__label) {
   line-height: 0 !important;
 }
-.drag-center ::v-deep(.el-scrollbar__wrap) {
+.drag-center :deep(.el-scrollbar__wrap) {
   overflow-x: hidden;
 }
-.drag-center ::v-deep(.el-form-item) {
+.drag-center :deep(.el-form-item) {
   margin-bottom: 10px;
 }
-.drag-center ::v-deep(.el-date-editor) {
+.drag-center :deep(.el-date-editor) {
   width: 100%;
 }
-.drag-center ::v-deep(.el-checkbox) {
+.drag-center :deep(.el-checkbox) {
   margin-right: 15px;
 }
-.drag-center ::v-deep(.el-checkbox__label) {
+.drag-center :deep(.el-checkbox__label) {
   padding-left: 5px;
 }
-.drag-center ::v-deep(.hello > div) {
+.drag-center :deep(.hello > div) {
   z-index: 500 !important;
 }
-.drag-center ::v-deep(th),
-.drag-center ::v-deep(td) {
+.drag-center :deep(th),
+.drag-center :deep(td) {
   padding: 6px 0;
 }
 .example {

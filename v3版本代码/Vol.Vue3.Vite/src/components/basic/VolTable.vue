@@ -1901,7 +1901,7 @@ export default defineComponent({
     flex: 1;
   }
 }
-.vol-table ::v-deep(.el-pager .number) {
+.vol-table :deep(.el-pager .number) {
   padding: 0 7px;
   border-radius: 5px;
   border: 1px solid #e6e6e6;
@@ -1910,11 +1910,11 @@ export default defineComponent({
   min-width: 28px;
   height: 27px;
 }
-.vol-table ::v-deep(.el-pager .number.active) {
+.vol-table :deep(.el-pager .number.active) {
   background: #ed4014;
   color: #fff;
 }
-.vol-table ::v-deep(.el-pagination .el-input__wrapper) {
+.vol-table :deep(.el-pagination .el-input__wrapper) {
   height: 27px;
 }
 
@@ -1928,8 +1928,8 @@ export default defineComponent({
   border: none;
   background: none;
 }
-.v-table ::v-deep(.el-date-editor .el-icon-date),
-.v-table ::v-deep(.el-date-editor .el-icon-time) {
+.v-table :deep(.el-date-editor .el-icon-date),
+.v-table :deep(.el-date-editor .el-icon-time) {
   width: 10px;
 }
 
@@ -1943,7 +1943,7 @@ export default defineComponent({
 </style>
 
 <style scoped>
-/* .v-table ::v-deep(.even-row){
+/* .v-table :deep(.even-row){
   background: rgb(245,247,250);
 } */
 .pagination {
@@ -1952,10 +1952,10 @@ export default defineComponent({
   border: 1px solid #eee;
   border-top: 0px;
 }
-/* .v-table ::v-deep(.el-input .el-input__inner) {
+/* .v-table :deep(.el-input .el-input__inner) {
   padding: 0 7px;
 } */
-.v-table ::v-deep(.el-table__header th) {
+.v-table :deep(.el-table__header th) {
   /* padding: 0px !important; */
   background-color: #f8f8f9 !important;
   font-size: 13px;
@@ -1963,26 +1963,26 @@ export default defineComponent({
   color: #616161;
 }
 
-.v-table ::v-deep(.el-table__header th.is-sortable) {
+.v-table :deep(.el-table__header th.is-sortable) {
   padding: 3px !important;
 }
-.vol-table.text-inline ::v-deep(.el-table__body .cell),
-.vol-table.text-inline ::v-deep(.el-table__header-wrapper .cell) {
+.vol-table.text-inline :deep(.el-table__body .cell),
+.vol-table.text-inline :deep(.el-table__header-wrapper .cell) {
   word-break: inherit !important;
   white-space: nowrap !important;
 }
-/* .v-table  ::v-deep(.el-table__body td) {
+/* .v-table  :deep(.el-table__body td) {
   padding: 9px 0 !important;
 } */
 
-.v-table ::v-deep(.el-table__footer td) {
+.v-table :deep(.el-table__footer td) {
   padding: 7px 0 !important;
 }
 
-.vol-table ::v-deep(.el-table-column--selection .cell) {
+.vol-table :deep(.el-table-column--selection .cell) {
   display: inline;
 }
-.vol-table.text-inline ::v-deep(.el-table th > .cell) {
+.vol-table.text-inline :deep(.el-table th > .cell) {
   white-space: nowrap !important;
 }
 
@@ -1997,10 +1997,10 @@ export default defineComponent({
   cursor: pointer;
 }
 
-.vol-table ::v-deep(.cell) {
+.vol-table :deep(.cell) {
   padding: 2px 10px;
 }
-.vol-table ::v-deep(.cell .el-tag) {
+.vol-table :deep(.cell .el-tag) {
   padding: 5px 9px;
 }
 .table-input {
@@ -2016,14 +2016,14 @@ export default defineComponent({
   outline: 1px solid #49a3fd;
 }
 
-.small-table ::v-deep(.el-pagination .el-input__wrapper) {
+.small-table :deep(.el-pagination .el-input__wrapper) {
   height: 27px;
 }
-.small-table ::v-deep(.el-table__cell) {
+.small-table :deep(.el-table__cell) {
   padding: 6px 0;
   font-size: 13px;
 }
-.small-table ::v-deep(.cell-tag) {
+.small-table :deep(.cell-tag) {
   padding: 0 5px !important;
   height: 19px;
 }

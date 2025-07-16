@@ -577,14 +577,14 @@ export default {
     width: 100%;
 }
 
-.flow-panel ::v-deep(.el-form-item__label) {
+.flow-panel :deep(.el-form-item__label) {
     margin-bottom: -2px !important;
     text-align: left;
     padding: 0 !important;
     justify-content: flex-start;
 }
 
-.flow-panel ::v-deep(.el-form-item) {
+.flow-panel :deep(.el-form-item) {
     display: flex;
     flex-direction: column;
     margin-bottom: 7px !important;

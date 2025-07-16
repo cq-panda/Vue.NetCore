@@ -352,7 +352,7 @@ export default defineComponent({
   }
 }
 
-.role-tree-left ::v-deep(.el-tree-node__content) {
+.role-tree-left :deep(.el-tree-node__content) {
   cursor: pointer;
   height: auto;
   padding: 5px;
@@ -360,22 +360,22 @@ export default defineComponent({
   font-size: 15px;
 }
 
-.role-tree-left ::v-deep(.el-tree-node__content:hover) {
+.role-tree-left :deep(.el-tree-node__content:hover) {
   background: #f4f4f4;
   border-radius: 20px;
 }
 
-.role-tree-left ::v-deep(.is-current > .el-tree-node__content:first-child) {
+.role-tree-left :deep(.is-current > .el-tree-node__content:first-child) {
   background: #f2f2f2;
   border-radius: 20px;
 }
 
-.role-tree-right ::v-deep(.el-tree-node__content) {
+.role-tree-right :deep(.el-tree-node__content) {
   margin-bottom: 5px;
   height: auto;
 }
 
-.role-tree-right ::v-deep(.el-checkbox__label) {
+.role-tree-right :deep(.el-checkbox__label) {
   position: relative;
   top: 2px;
 }

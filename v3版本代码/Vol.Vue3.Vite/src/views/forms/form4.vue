@@ -116,13 +116,13 @@ export default {
   margin-bottom: 15px;
   background: white;
 }
-.t-dis ::v-deep(.example-tb .el-alert) {
+.t-dis :deep(.example-tb .el-alert) {
   display: none;
 }
-.t-dis ::v-deep(.example-tb .tb) {
+.t-dis :deep(.example-tb .tb) {
   margin-top: 0 !important;
 }
-.t-dis ::v-deep(.example-tb .search-info) {
+.t-dis :deep(.example-tb .search-info) {
 margin-left: -19px;
 }
 </style>

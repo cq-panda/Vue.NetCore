@@ -128,11 +128,11 @@ function tabClick(name) {
   }
 }
 
-.m-charts ::v-deep(.el-tabs__content) {
+.m-charts :deep(.el-tabs__content) {
   height: calc(100% - 45px);
 }
 
-.m-charts ::v-deep(.el-tab-pane) {
+.m-charts :deep(.el-tab-pane) {
   height: 100%;
 }
 </style>

@@ -727,7 +727,7 @@ function showTime() {
 </script>
 
 <style lang="less" scoped>
-.vol-container .vol-path ::v-deep(.el-tabs__content) {
+.vol-container .vol-path :deep(.el-tabs__content) {
   padding: 0;
 }
 
@@ -774,7 +774,7 @@ function showTime() {
   padding: 0;
 }
 
-.header-navigation ::v-deep(.el-tabs__item.is-top) {
+.header-navigation :deep(.el-tabs__item.is-top) {
   padding: 0 15px;
 }
 </style>

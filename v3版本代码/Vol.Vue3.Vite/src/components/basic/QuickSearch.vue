@@ -89,13 +89,13 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.qk-search ::v-deep(.el-form-item__label) {
+.qk-search :deep(.el-form-item__label) {
   // display: none;
   width: auto !important;
   margin-left: 10px;
 }
 
-.form-1::v-deep(.el-form-item__label) {
+.form-1:deep(.el-form-item__label) {
   display: none;
 }
 
@@ -107,19 +107,19 @@ export default {
   right: -5px;
 }
 
-.qk-search ::v-deep(.el-form-item) {
+.qk-search :deep(.el-form-item) {
   width: auto !important;
 }
 
-.qk-search ::v-deep(.el-input--large .el-input__wrapper) {
+.qk-search :deep(.el-input--large .el-input__wrapper) {
   padding: 0px 15px;
 }
 
-.qk-form ::v-deep(.el-form-item__content) {
+.qk-form :deep(.el-form-item__content) {
   width: 140px;
 }
 
-.date-form ::v-deep(.v-date-range) {
+.date-form :deep(.v-date-range) {
   width: 205px;
   margin-top: 1px;
 }

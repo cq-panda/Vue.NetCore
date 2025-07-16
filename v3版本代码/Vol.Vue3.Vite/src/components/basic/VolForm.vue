@@ -1442,19 +1442,22 @@ export default defineComponent({
     }
   }
 }
-.el-form-item ::v-deep(.el-form-item__label) {
+
+.el-form-item :deep(.el-form-item__label) {
   padding: 0 0px 0 4px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.el-form-item ::v-deep(.el-range-separator) {
+
+.el-form-item :deep(.el-range-separator) {
   text-align: center;
   width: 13px;
   padding: 0px 1px;
   font-size: 12px;
 }
-.el-form-item ::v-deep(.el-range__close-icon) {
+
+.el-form-item :deep(.el-range__close-icon) {
   margin-right: -10px;
 }
 .form-item-extra {
@@ -1470,49 +1473,62 @@ export default defineComponent({
 .vol-form-item {
   width: 100%;
 }
-.vol-form-item ::v-deep(.el-form-item__content) {
+
+.vol-form-item :deep(.el-form-item__content) {
   display: unset !important;
 }
-.vol-form-item ::v-deep(.el-input--large .el-input__inner) {
+
+.vol-form-item :deep(.el-input--large .el-input__inner) {
   height: 34px !important;
 }
-.vol-form-item ::v-deep(.el-input-number--large .el-input-number__increase) {
+
+.vol-form-item :deep(.el-input-number--large .el-input-number__increase) {
   border-top: 1px solid #d4d4d4;
 }
-.vol-form-item ::v-deep(.el-input-number--large .el-input-number__decrease) {
+
+.vol-form-item :deep(.el-input-number--large .el-input-number__decrease) {
   border-bottom: 1px solid #d4d4d4;
 }
-.vol-form-item ::v-deep(.el-input--large.el-date-editor) {
+
+.vol-form-item :deep(.el-input--large.el-date-editor) {
   height: 36px;
 }
-.v-date-range ::v-deep(.el-input__prefix) {
+
+.v-date-range :deep(.el-input__prefix) {
   display: none;
 }
-.v-date-range ::v-deep(.el-input__inner) {
+
+.v-date-range :deep(.el-input__inner) {
   padding: 0;
 }
 
-.el-form-item ::v-deep(.el-checkbox) {
+.el-form-item :deep(.el-checkbox) {
   margin-right: 8px;
 }
-.el-form-item ::v-deep(.el-checkbox .el-checkbox__label) {
+
+.el-form-item :deep(.el-checkbox .el-checkbox__label) {
   padding-left: 5px;
 }
-.el-form-item ::v-deep(textarea) {
+
+.el-form-item :deep(textarea) {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
     'Microsoft YaHei', '微软雅黑', Arial, sans-serif !important;
 }
-.el-form-item ::v-deep(.el-select .el-select__tags > span) {
+
+.el-form-item :deep(.el-select .el-select__tags > span) {
   display: flex;
 }
-.el-form-item ::v-deep(.el-select-v2__combobox-input) {
+
+.el-form-item :deep(.el-select-v2__combobox-input) {
   height: 30px;
 }
-.el-form-item ::v-deep(.el-select__tags) {
+
+.el-form-item :deep(.el-select__tags) {
   overflow: hidden;
   height: 30px;
 }
-.el-form-item ::v-deep(.el-select-tags-wrapper) {
+
+.el-form-item :deep(.el-select-tags-wrapper) {
   position: absolute;
 }
 

@@ -130,10 +130,10 @@ export default {
     padding-right: 5px;
   }
 }
-.com-el-tree ::v-deep(.el-tree-node) {
+.com-el-tree :deep(.el-tree-node) {
   padding: 3px 0;
 }
-.com-el-tree ::v-deep(.el-scrollbar .el-scrollbar__thumb) {
+.com-el-tree :deep(.el-scrollbar .el-scrollbar__thumb) {
   width: 0 !important;
 }
 </style>

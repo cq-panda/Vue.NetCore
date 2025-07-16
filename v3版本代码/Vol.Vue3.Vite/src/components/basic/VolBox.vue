@@ -154,20 +154,20 @@ export default defineComponent({
 </style>
 
 <style scoped lang="less">
-.vol-dialog ::v-deep(.el-overlay-dialog) {
+.vol-dialog :deep(.el-overlay-dialog) {
   display: flex !important;
 }
 
-.vol-dialog ::v-deep(.el-dialog) {
+.vol-dialog :deep(.el-dialog) {
   margin: auto;
 }
 
-.vol-dialog ::v-deep(.el-dialog) {
+.vol-dialog :deep(.el-dialog) {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
-.vol-dialog ::v-deep(.el-dialog__header) {
+.vol-dialog :deep(.el-dialog__header) {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   padding: 0px 13px;
@@ -181,12 +181,12 @@ export default defineComponent({
   // background-image: linear-gradient(135deg, #0cd7bd 10%, #50c3f7);
 }
 
-.vol-dialog ::v-deep(.el-dialog__footer),
-.vol-dialog ::v-deep(.el-dialog__body) {
+.vol-dialog :deep(.el-dialog__footer),
+.vol-dialog :deep(.el-dialog__body) {
   padding: 0;
 }
 
-.vol-dialog ::v-deep(.el-dialog__headerbtn) {
+.vol-dialog :deep(.el-dialog__headerbtn) {
   top: 0;
   padding-top: 8px;
   height: 50px;
@@ -194,7 +194,7 @@ export default defineComponent({
   padding-right: 30px;
   padding-left: 5px;
 }
-.vol-dialog ::v-deep(.el-dialog) {
+.vol-dialog :deep(.el-dialog) {
    padding: 0;
 }
 </style>
