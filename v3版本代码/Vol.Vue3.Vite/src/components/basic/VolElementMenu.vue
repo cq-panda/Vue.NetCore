@@ -1,51 +1,33 @@
 <template>
-  <div class="vol-el-menu">
-    <div class="menu-search" v-if="showSearch">
-      <el-select placement="bottom" v-model="searchValue" clearable filterable remote reserve-keyword
-        :placeholder="'请输入关键字搜索...'" :remote-method="remoteMethod" @change="selectChange" :loading="loading">
-        <template #prefix><i class="el-icon-search"></i></template>
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
-    </div>
-    <el-menu close="vol-el-menu--vertical" :default-openeds="openedIds" :default-active="defaultActive"
-      :unique-opened="true" @select="select" :collapse="isCollapse" @open="handleOpen" @close="handleClose"
-      @contextmenu.prevent="bindRightClickMenu">
-      <template v-for="item in convertTree(list)">
-        <el-sub-menu :key="item.id" :index="'' + item.id" v-if="item.children.length && (!enable || item.enable == 1)">
-          <template #title>
-            <i class="menu-icon" :class="item.icon"></i>
-            <span> {{ item.name}}</span>
-          </template>
-          <vol-element-menu-child :enable="enable" :list="item.children"></vol-element-menu-child>
-        </el-sub-menu>
-        <template v-else>
-          <el-menu-item class="menu-item-lv1" v-if="!enable || item.enable == 1" :key="item.id" :index="'' + item.id">
-            <i :class="item.icon"></i>
-            <span> {{ item.name }}</span>
-          </el-menu-item>
+  <div class="vol-el-menu" style="height: 100%">
+    <el-select v-if="showSearch" class="menu-search" placement="bottom" v-model="searchValue" clearable filterable
+      remote reserve-keyword :placeholder="'请输入关键字搜索...'" :remote-method="remoteMethod" @change="selectChange"
+      :loading="loading">
+      <template #prefix><i class="el-icon-search"></i></template>
+      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </el-select>
+    <el-scrollbar>
+      <el-menu close="vol-el-menu--vertical" :default-openeds="openedIds" :default-active="defaultActive"
+        :unique-opened="true" @select="select" :collapse="isCollapse" @open="handleOpen" @close="handleClose"
+        @contextmenu.prevent="bindRightClickMenu">
+        <template v-for="item in convertTree(list)">
+          <vol-element-menu-child v-if="!enable || item.enable == 1" :enable="enable" :item="item" :key="item.id"
+            :index="`${item.id}`" />
         </template>
-      </template>
-    </el-menu>
+      </el-menu>
+    </el-scrollbar>
   </div>
 </template>
 
 <script>
 import VolElementMenuChild from "./VolElementMenuChild";
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router'
 
-import {
-  defineComponent,
-  reactive,
-  watch,
-  ref,
-  toRef,
-  toRefs,
-  getCurrentInstance,
-  // onMounted,
-} from "vue";
+import { defineComponent, getCurrentInstance, reactive, ref, watch } from 'vue'
+
 export default defineComponent({
   components: {
-    "vol-element-menu-child": VolElementMenuChild,
+    VolElementMenuChild,
   },
   props: {
     enable: {
@@ -188,13 +170,13 @@ export default defineComponent({
         return;
       }
       searchValue.value = "";
-      if(proxy.list.some(c=>{return c.parentId===id})){
+      if (proxy.list.some(c => { return c.parentId === id })) {
         return;
       }
       select(id, props.list[index]);
     }
- 
-    const showSearch=ref(proxy.$global.menuSearch===undefined||proxy.$global.menuSearch)
+
+    const showSearch = ref(proxy.$global.menuSearch === undefined || proxy.$global.menuSearch)
     return {
       // treeList,
       // list,
@@ -220,17 +202,11 @@ export default defineComponent({
   // box-sizing: content-box;
   width: 100%;
 
-  .menu-icon {
-    font-size: 18px;
-    margin-right: 6px;
-  }
-}
-
-.menu-search {
-  padding: 6px 10px;
-
-  ::v-deep(.el-input__wrapper) {
-    border-radius: 15px !important;
+  .menu-search {
+    padding: 6px 10px;
+    :deep(.el-select__wrapper) {
+      border-radius: 15px !important;      
+    }
   }
 }
 </style>
