@@ -212,7 +212,7 @@ export default {
   border-radius: 5px;
   margin: 15px 20px 0 20px;
 }
-.t-dis1 ::v-deep(.el-form-item){
+.t-dis1 :deep(.el-form-item){
   margin-bottom: 5px;
 }
 </style>
