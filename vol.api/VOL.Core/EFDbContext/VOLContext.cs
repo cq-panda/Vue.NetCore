@@ -92,7 +92,7 @@ namespace VOL.Core.EFDbContext
             }
             else if (Const.DBType.Name == Enums.DbCurrentType.DM.ToString())
             {
-                //optionsBuilder.UseDm(connectionString);
+                optionsBuilder.UseDm(connectionString);
             }
             else if (Const.DBType.Name == Enums.DbCurrentType.Oracle.ToString())
             {
