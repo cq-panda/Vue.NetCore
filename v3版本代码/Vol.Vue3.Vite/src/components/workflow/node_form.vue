@@ -339,7 +339,7 @@ export default {
     }
 }
 
-.form-info ::v-deep(.vol-form-item) {
+.form-info :deep(.vol-form-item) {
     display: flex;
 
     .el-form-item:nth-child(2),

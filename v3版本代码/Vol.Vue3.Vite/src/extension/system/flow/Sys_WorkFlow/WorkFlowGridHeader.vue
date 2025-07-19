@@ -5,8 +5,8 @@
     </div>
     <template #footer>
       <div style="text-align: center;">
-        <el-button type="default" size="mini" @click="model = false">取消</el-button>
-        <el-button type="primary" size="mini" @click="save">保存</el-button>
+        <el-button type="default" size="small" @click="model = false">取消</el-button>
+        <el-button type="primary" size="small" @click="save">保存</el-button>
       </div>
     </template>
   </vol-box>
