@@ -516,6 +516,10 @@ namespace VOL.Core.BaseProvider
         /// <returns></returns>
         public virtual int DeleteWithKeys(object[] keys, bool delList = false)
         {
+            if (!keys.Any())
+            {
+                return 0;
+            }
             Type entityType = typeof(TEntity);
             var keyProperty = entityType.GetKeyProperty();
             string tKey = keyProperty.Name;

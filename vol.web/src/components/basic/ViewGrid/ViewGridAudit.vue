@@ -443,7 +443,7 @@ export default defineComponent({
     
 
 
-        formData.value = result.form
+        formData.value = result.form.data||result.form
 
         emit('flowLoadAfter', result.form, result)
 

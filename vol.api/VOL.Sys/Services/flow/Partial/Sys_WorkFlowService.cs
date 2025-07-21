@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using VOL.Core.WorkFlow;
 using System;
 using VOL.Sys.Repositories;
+using VOL.Core.Configuration;
+using VOL.Core.ManageUser;
 
 namespace VOL.Sys.Services
 {
@@ -45,6 +47,16 @@ namespace VOL.Sys.Services
         }
 
         WebResponseContent webResponse = new WebResponseContent();
+
+        public override PageGridData<Sys_WorkFlow> GetPageData(PageDataOptions options)
+        {
+            QueryRelativeExpression = (IQueryable<Sys_WorkFlow> query) =>
+            {
+                return query;
+            };
+            return base.GetPageData(options);
+        }
+
         public override WebResponseContent Add(SaveModel saveDataModel)
         {
             saveDataModel.MainData["Enable"] = 1;
@@ -53,8 +65,7 @@ namespace VOL.Sys.Services
             AddOnExecuting = (Sys_WorkFlow workFlow, object list) =>
             {
                 workFlow.WorkFlow_Id = Guid.NewGuid();
-
-                webResponse= WorkFlowContainer.Instance.AddTable(workFlow, list as List<Sys_WorkFlowStep>);
+                webResponse = WorkFlowContainer.Instance.AddTable(workFlow, list as List<Sys_WorkFlowStep>);
                 if (!webResponse.Status)
                 {
                     return webResponse;
@@ -68,23 +79,25 @@ namespace VOL.Sys.Services
             };
             return base.Add(saveDataModel);
         }
-
+        List<Sys_WorkFlowStep> add;
+        List<Sys_WorkFlowStep> update;
         public override WebResponseContent Update(SaveModel saveModel)
         {
+
             Sys_WorkFlow flow = null;
             UpdateOnExecuting = (Sys_WorkFlow workFlow, object addList, object updateList, List<object> delKeys) =>
             {
                 flow = workFlow;
-                if ((flow.AuditingEdit ?? 0) == 0)
-                {
-                    if (Sys_WorkFlowTableRepository.Instance.Exists(x=>x.WorkFlow_Id==flow.WorkFlow_Id&&(x.AuditStatus == (int)AuditStatus.审核中)))
-                    {
-                        return webResponse.Error("当前流程有审核中的数据，不能修改,可以修改,流程中的【审核中数据是否可以编辑】属性");
-                    }
-                }
+                //if ((flow.AuditingEdit ?? 0) == 0)
+                //{
+                //    if (Sys_WorkFlowTableRepository.Instance.Exists(x => x.WorkFlow_Id == flow.WorkFlow_Id && (x.AuditStatus == (int)AuditStatus.审核中)))
+                //    {
+                //        return webResponse.Error("当前流程有审核中的数据，不能修改,可以修改,流程中的【审核中数据是否可以编辑】属性");
+                //    }
+                //}
 
                 //新增的明细
-                List<Sys_WorkFlowStep> add = addList as List<Sys_WorkFlowStep>;
+                add = addList as List<Sys_WorkFlowStep>;
                 var stepsClone = add.Serialize().DeserializeObject<List<Sys_WorkFlowStep>>();
                 add.Clear();
 
@@ -94,14 +107,17 @@ namespace VOL.Sys.Services
                 //删除的节点
                 var delIds = steps.Where(x => !stepsClone.Any(c => c.StepId == x.StepId))
                  .Select(s => s.WorkStepFlow_Id).ToList();
-                delKeys.AddRange(delIds.Select(s=>s as object));
+                delKeys.AddRange(delIds.Select(s => s as object));
 
                 //新增的节点
                 var newSteps = stepsClone.Where(x => !steps.Any(c => c.StepId == x.StepId))
                 .ToList();
+                foreach (var item in newSteps)
+                {
+                    item.WorkStepFlow_Id = Guid.NewGuid();
+                }
                 add.AddRange(newSteps);
-
-                List<Sys_WorkFlowStep> update = updateList as List<Sys_WorkFlowStep>;
+                update = updateList as List<Sys_WorkFlowStep>;
                 //修改的节点
                 var updateSteps = stepsClone.Where(x => steps.Any(c => c.StepId == x.StepId))
                 .ToList();
@@ -121,23 +137,34 @@ namespace VOL.Sys.Services
                 return webResponse.OK();
             };
 
+            UpdateOnExecuted = (Sys_WorkFlow workFlow, object addList, object updateList, List<object> delKeys) =>
+            {
+                repository.UpdateRange((List<Sys_WorkFlowStep>)updateList);
+                _stepRepository.DeleteWithKeys(delKeys.ToArray());
+                repository.SaveChanges();
+                WorkFlowManager.UpdateFlowData(workFlow, (List<Sys_WorkFlowStep>)addList);
+                return webResponse.OK();
+            };
 
-            webResponse= base.Update(saveModel);
+
+            webResponse = base.Update(saveModel);
             if (webResponse.Status)
             {
-                flow= repository.FindAsIQueryable(x => x.WorkFlow_Id == flow.WorkFlow_Id).Include(x=>x.Sys_WorkFlowStep).FirstOrDefault();
-                webResponse = WorkFlowContainer.Instance.AddTable(flow,flow.Sys_WorkFlowStep);
+                flow = repository.FindAsIQueryable(x => x.WorkFlow_Id == flow.WorkFlow_Id).Include(x => x.Sys_WorkFlowStep).FirstOrDefault();
+                webResponse = WorkFlowContainer.Instance.AddTable(flow, flow.Sys_WorkFlowStep);
             }
             return webResponse;
         }
 
+
+
         public override WebResponseContent Del(object[] keys, bool delList = true)
         {
-            
-            webResponse= base.Del(keys, delList);
+
+            webResponse = base.Del(keys, delList);
             if (webResponse.Status)
             {
-                WorkFlowContainer.DelRange(keys.Select(s=>(Guid)s.GetGuid()).ToArray());
+                WorkFlowContainer.DelRange(keys.Select(s => (Guid)s.GetGuid()).ToArray());
             }
             return webResponse;
         }

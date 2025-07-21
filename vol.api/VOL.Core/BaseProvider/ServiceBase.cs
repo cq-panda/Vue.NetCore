@@ -9,6 +9,7 @@ using System.Reflection;
 using VOL.Core.CacheManager;
 using VOL.Core.Configuration;
 using VOL.Core.Const;
+using VOL.Core.DBManager;
 using VOL.Core.Enums;
 using VOL.Core.Extensions;
 using VOL.Core.Extensions.AutofacManager;
@@ -1167,7 +1168,12 @@ namespace VOL.Core.BaseProvider
         }
 
         #endregion
-
+        private void DelDetails<Entity, KeyType>(object[] keys) where Entity : class
+        {
+            var values = keys.Select(s => (KeyType)(s.ChangeType(typeof(KeyType)))).ToList();
+            var expression = typeof(T).GetKeyName().CreateExpression<Entity>(values, LinqExpressionType.In);
+            repository.DbContext.Set<Entity>().Where(expression).ExecuteDelete();
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -1194,73 +1200,28 @@ namespace VOL.Core.BaseProvider
                 Response = DelOnExecuting(keys);
                 if (CheckResponseResult()) return Response;
             }
-
-            if (keyProperty.PropertyType == typeof(string))
-            {
-                Response = repository.DbContextBeginTransaction(() =>
-                {
-                    repository.DeleteWithKeys(keys);
-                    if (DelOnExecuted != null)
-                    {
-                        Response = DelOnExecuted(keys);
-                    }
-                    return Response;
-                });
-                if (Response.Status && string.IsNullOrEmpty(Response.Message)) Response.OK(ResponseType.DelSuccess);
-                return Response;
-            }
-            FieldType fieldType = entityType.GetFieldType();
-            string joinKeys = (fieldType == FieldType.Int || fieldType == FieldType.BigInt)
-                 ? string.Join(",", keys)
-                 : $"'{string.Join("','", keys)}'";
-
-            // 2020.08.15添加判断多租户数据（删除）
-            //if (IsMultiTenancy && !UserContext.Current.IsSuperAdmin)
-            //{
-            //    CheckDelMultiTenancy(joinKeys, tKey);
-            //    if (CheckResponseResult())
-            //    {
-            //        return Response;
-            //    }
-            //}
-
-            string sql = $"DELETE FROM {entityType.GetEntityTableName()} where {tKey} in ({joinKeys});";
-            // 2020.08.06增加pgsql删除功能
-            if (DBType.Name == DbCurrentType.PgSql.ToString())
-            {
-                sql = $"DELETE FROM \"public\".\"{entityType.GetEntityTableName()}\" where \"{tKey}\" in ({joinKeys});";
-            }
-            if (delList)
-            {
-                Type detailType = GetRealDetailType();
-                if (detailType != null)
-                {
-                    if (DBType.Name == DbCurrentType.PgSql.ToString())
-                    {
-                        sql += $"DELETE FROM \"public\".\"{detailType.GetEntityTableName()}\" where \"{tKey}\" in ({joinKeys});";
-                    }
-                    else
-                    {
-                        sql += $"DELETE FROM {detailType.GetEntityTableName()} where {tKey} in ({joinKeys});";
-                    }
-                }
-
-            }
-
-            //repository.DapperContext.ExcuteNonQuery(sql, CommandType.Text, null, true);
-
             //可能在删除后还要做一些其它数据库新增或删除操作，这样就可能需要与删除保持在同一个事务中处理
-            //采用此方法 repository.DbContextBeginTransaction(()=>{//do delete......and other});
-            //做的其他操作，在DelOnExecuted中加入委托实现
             Response = repository.DbContextBeginTransaction(() =>
             {
-                repository.ExecuteSqlCommand(sql);
+                typeof(ServiceBase<T, TRepository>)
+                          .GetMethod("DelDetails", BindingFlags.Instance | BindingFlags.NonPublic)
+                         .MakeGenericMethod(new Type[] { entityType, keyProperty.PropertyType })
+                         .Invoke(this, new object[] { keys });
+ 
                 if (DelOnExecuted != null)
                 {
                     Response = DelOnExecuted(keys);
                 }
                 return Response;
             });
+            string tableName = entityType.GetEntityTableName();
+            //是否有流程
+            if (WorkFlowManager.Exists(tableName))
+            {
+                //删除进入流程的数据
+                var ids = keys.Select(s => s.ToString()).ToList();
+                DBServerProvider.DbContext.Set<Sys_WorkFlowTable>().Where(x => x.WorkTable == tableName && ids.Contains(x.WorkTableKey)).Include(x => x.Sys_WorkFlowTableStep).ExecuteDelete();
+            }
             if (Response.Status && string.IsNullOrEmpty(Response.Message)) Response.OK(ResponseType.DelSuccess);
             return Response;
         }
@@ -1302,7 +1263,7 @@ namespace VOL.Core.BaseProvider
                 }
                 Response = repository.DbContextBeginTransaction(() =>
                 {
-                    return WorkFlowManager.Audit<T>(entity, status, auditReason, auditProperty, AuditWorkFlowExecuting, AuditWorkFlowExecuted);
+                    return WorkFlowManager.Audit<T>(repository.DbContext, entity, status, auditReason, auditProperty, AuditWorkFlowExecuting, AuditWorkFlowExecuted);
                 });
                 if (Response.Status)
                 {
