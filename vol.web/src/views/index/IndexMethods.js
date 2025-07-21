@@ -95,7 +95,7 @@ export default function (proxy, dataConfig, router,onSelect) {
         return proxy.$tabs.open(item, false)
       }
     }
-    selectId.value = '1'
+    selectId.value = '0'
   })
 }
 

@@ -10,14 +10,16 @@
   flex: 1;
   height: 0;
 }
-
 .vol-aside {
   height: 100%;
-  // position: absolute;
-  // float: left;
   overflow: hidden;
 }
-
+.vol-menu ::v-deep(.el-scrollbar),
+.vol-theme-dark-aside .vol-aside .header,
+.vol-theme-white .vol-aside .header {
+  border-right: 1px solid #eeee;
+  box-sizing: content-box;
+}
 .header-text {
   display: flex;
 }
@@ -762,15 +764,57 @@ img:not([src]) {
   letter-spacing: 1px;
 }
 
-.el-tabs.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:last-child,
-.el-tabs--top.el-tabs--border-card.header-navigation>.el-tabs__header .el-tabs__item:nth-child(2) {
+
+.el-tabs.el-tabs--top.el-tabs--border-card.header-navigation
+  > .el-tabs__header
+  .el-tabs__item:last-child,
+.el-tabs--top.el-tabs--border-card.header-navigation
+  > .el-tabs__header
+  .el-tabs__item:nth-child(2) {
   padding: 0;
 }
 
-.header-navigation ::v-deep(.el-tabs__item.is-top) {
-  padding: 0 15px;
+.header-navigation {
+  // border-top: 1px solid #d3d3d373;
+  // border-bottom: 1px solid #e9e9e973;
+  ::v-deep(.el-tabs__header) {
+    background: #fff;
+    .el-tabs__nav-wrap {
+      margin-bottom: 0;
+    }
+    .el-tabs__item.is-top {
+      position: relative;
+      padding: 0 15px;
+      background: #fff;
+      border: 0;
+      margin-right: 0;
+      .el-icon.is-icon-close {
+        font-size: 12px;
+      }
+    }
+    .el-tabs__item.is-top:before {
+      content: ' ';
+      height: 14px;
+      width: 1px;
+      background: #e0e0e0ee;
+      position: absolute;
+      left: 1px;
+    }
+    .el-tabs__item.is-top:hover {
+      background: #f5faff;
+    }
+    .el-tabs__item.is-top:first-child:before,
+    .el-tabs__item.is-active + div:before,
+    .el-tabs__item.is-active:before {
+      width: 0;
+      height: 0;
+    }
+    .el-tabs__item.is-active {
+      background: #ebf6ff;
+      color: #0772c8 !important;
+    }
+  }
 }
-
 .h-link a {
   color: #000;
 }
@@ -811,3 +855,7 @@ img:not([src]) {
     }
   }
 }
+  ::v-deep(.header-navigation .el-tabs__header) {
+    border-top: 1px solid #e9e9e973;
+    border-bottom:1px solid #e9e9e9;
+  }
