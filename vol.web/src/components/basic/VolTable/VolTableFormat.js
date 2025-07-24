@@ -79,6 +79,9 @@ export const cellFormatter = (proxy, row, column, template) => {
   if ((val + '').indexOf(',') != -1) {
     return getSelectFormat(column, val, proxy)
   }
+  if (typeof val == 'boolean') {
+    val = val ? 1 : 0;
+  }
   let source = column.bind.data.filter((x) => {
     // return x.key != "" && x.key == val;
     // 2020.06.06修复单独使用table组件时,key为数字0时转换成文本失败的问题
@@ -91,7 +94,7 @@ const getSelectFormat = (column, val, proxy) => {
   // 编辑多选table显示
   let valArr = (val + '').split(',')
   for (let index = 0; index < valArr.length; index++) {
-    ;(column.bind.orginData && column.bind.orginData.length
+    ; (column.bind.orginData && column.bind.orginData.length
       ? column.bind.orginData
       : column.bind.data
     ).forEach((x) => {

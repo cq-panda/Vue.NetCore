@@ -10,8 +10,28 @@ namespace VOL.Core.WorkFlow
 {
     public static class WorkFlowFilter
     {
-
-        public static Expression<Func<T, bool>> Create<T>(List<FieldFilter> filters) where T : class
+        public static bool CheckFilter<T>(this List<FieldFilter> filters, List<T> entities, object where) where T : class
+        {
+            try
+            {
+                if (where != null)
+                {
+                    return entities.Any(((Func<T, bool>)where));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"流程表达式解析异常:" + ex.Message + ex.InnerException);
+                if (filters!=null)
+                {
+                    //Nullable object must have a value.字段为null时
+                    Func<T, bool> expression = filters.Create<T>().Compile();
+                    return entities.AsQueryable().Any(expression);
+                }
+            }
+            return false;
+        }
+        public static Expression<Func<T, bool>> Create<T>(this List<FieldFilter> filters) where T : class
         {
             if (filters == null)
             {
@@ -80,11 +100,11 @@ namespace VOL.Core.WorkFlow
                     {
                         orFilter = x => false;
                     }
-                    orFilter = orFilter.Or(filter.Field.CreateExpression<T>(filter.Value, LinqExpressionType.Equal));
+                    orFilter = orFilter.Or(filter.Field.CreateExpression<T>(filter.Value, LinqExpressionType.Equal,true));
                 }
                 else
                 {
-                    expression = expression.And(filter.Field.CreateExpression<T>(filter.Value, type));
+                    expression = expression.And(filter.Field.CreateExpression<T>(filter.Value, type,true));
                 }
             }
             if (orFilter != null)

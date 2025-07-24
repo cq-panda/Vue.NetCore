@@ -8,6 +8,7 @@ namespace VOL.Core.WorkFlow
     {
         start,
         end,
-        node
+        node,
+        custom
     }
 }

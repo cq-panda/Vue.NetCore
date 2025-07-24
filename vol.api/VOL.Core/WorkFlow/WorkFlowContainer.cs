@@ -7,11 +7,14 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using VOL.Core.Configuration;
 using VOL.Core.DBManager;
 using VOL.Core.EFDbContext;
 using VOL.Core.Extensions;
+using VOL.Core.ManageUser;
 using VOL.Core.Utilities;
 using VOL.Entity.DomainModels;
+
 
 namespace VOL.Core.WorkFlow
 {
@@ -23,7 +26,13 @@ namespace VOL.Core.WorkFlow
 
         private static Dictionary<string, string[]> _formFields = new Dictionary<string, string[]>();
 
+        private static List<WorkFlowFormDetails> _formDetailFields = new List<WorkFlowFormDetails> { };
+
         private static List<Type> _types = new List<Type>();
+
+
+        private static List<WorkFlowFormOptions> _flowFormOptions = new List<WorkFlowFormOptions>();
+        private static Dictionary<string, string[]> _editFields = new Dictionary<string, string[]>();
 
         public static WorkFlowContainer Instance
         {
@@ -45,8 +54,23 @@ namespace VOL.Core.WorkFlow
         /// <param name="name">流程实例名称</param>
         /// <param name="filterFields">流程配置可筛选条件字段</param>
         ///<param name="formFields">审批界面要显示字段</param>
+        ///<param name="editFields">可以编辑的字段</param>
         /// <returns></returns>
-        public WorkFlowContainer Use<T>(string name = null, Expression<Func<T, object>> filterFields = null, Expression<Func<T, object>> formFields = null)
+        public WorkFlowContainer Use<T>(string name = null,
+            Expression<Func<T, object>> filterFields = null,
+            Expression<Func<T, object>> formFields = null,
+            AuditStatus defaultAduitStatus = AuditStatus.待审核,
+            Expression<Func<T, object>> editFields = null)
+        {
+            return _instance.Use<T, T>(name, filterFields, formFields, null, defaultAduitStatus, editFields);
+        }
+
+        public WorkFlowContainer Use<T, Detail>(string name = null,
+            Expression<Func<T, object>> filterFields = null,
+            Expression<Func<T, object>> formFields = null,
+            Expression<Func<Detail, object>> formDetailFields = null,
+            AuditStatus defaultAduitStatus = AuditStatus.待审核,
+            Expression<Func<T, object>> editFields = null)
         {
             Type type = typeof(T);
             if (_types.Contains(type))
@@ -63,10 +87,30 @@ namespace VOL.Core.WorkFlow
             {
                 _formFields[type.Name] = formFields.GetExpressionToArray();
             }
+            //可以编辑的字段
+            if (editFields != null)
+            {
+                _editFields[type.Name] = editFields.GetExpressionToArray();
+            }
+            if (formDetailFields != null)
+            {
+                var dic = new WorkFlowFormDetails()
+                {
+                    MainTable = type.Name,
+                    Type = typeof(Detail),
+                    FormFields = formDetailFields.GetExpressionToArray()
+                };
+                _formDetailFields.Add(dic);
+            }
             _types.Add(type);
+            _flowFormOptions.Add(new WorkFlowFormOptions()
+            {
+                TableName = type.Name,
+                Type = type,
+                DefaultAuditStatus = defaultAduitStatus
+            });
             return _instance;
         }
-
         public void Run()
         {
 
@@ -76,7 +120,7 @@ namespace VOL.Core.WorkFlow
                 {
                     List<Sys_WorkFlow> list = null;
                     List<string> tables = _container.Select(s => s.Key).ToList();
-                    using (VOLContext contenxt = new VOLContext())
+                    using (var contenxt = new VOLContext())
                     {
                         list = contenxt.Set<Sys_WorkFlow>().Where(c => tables.Contains(c.WorkTable)).Include(x => x.Sys_WorkFlowStep).ToList();
                     }
@@ -97,6 +141,15 @@ namespace VOL.Core.WorkFlow
         {
             return _types.Where(c => c.Name == tableName).FirstOrDefault();
         }
+        /// <summary>
+        /// 获取明细表配置
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static List<WorkFlowFormDetails> GetDetail(Type mainType)
+        {
+            return _formDetailFields.Where(c => c.MainTable == mainType.Name).ToList();
+        }
 
         public static string[] GetFilterFields(string tableName)
         {
@@ -114,10 +167,15 @@ namespace VOL.Core.WorkFlow
         {
             return _container.Select(s => new { key = s.Key, value = s.Value }).ToList();
         }
-
-        public static bool Exists<T>()
+        public static string[] GetEditFields(string tableName)
         {
-            return Exists(typeof(T).GetEntityTableName());
+            _editFields.TryGetValue(tableName, out string[] fields);
+            return fields;
+        }
+
+        public static bool Exists<T>(string workFlowTableName = null)
+        {
+            return Exists(workFlowTableName ?? typeof(T).GetEntityTableName());
         }
 
         public static bool Exists(string table)
@@ -155,19 +213,24 @@ namespace VOL.Core.WorkFlow
             return _workFlowTableOptions.Where(func);
         }
 
-        public static WorkFlowTableOptions GetFlowOptions<T>(T entity)
+        public static WorkFlowTableOptions GetFlowOptions<T>(T entity, string tableName = null) where T : class
         {
-            string tableName = typeof(T).GetEntityTableName();
+            tableName = tableName ?? typeof(T).GetEntityTableName();
             if (!Exists(tableName) || !_workFlowTableOptions.Any(c => c.WorkTable == tableName))
             {
                 return null;
             }
+            if ( !_workFlowTableOptions.Any(c => c.WorkTable == tableName))
+            {
+                return null;
+            }
+
             string key = typeof(T).GetKeyProperty().GetValue(entity).ToString();
 
             var flowTable = DBServerProvider.DbContext.Set<Sys_WorkFlowTable>().Include(c => c.Sys_WorkFlowTableStep)
-                  .Where(c => c.WorkTableKey == key && c.WorkTable == tableName)
+                  .Where(c => c.WorkTableKey == key && c.WorkTable == tableName && (c.AuditStatus != (int)AuditStatus.草稿 && c.AuditStatus != (int)AuditStatus.待提交))
                   .OrderByDescending(x => x.CreateDate)
-                  .FirstOrDefault();
+                  .ToList().FirstOrDefault();
 
             var entities = new List<T>() { entity };
 
@@ -175,9 +238,10 @@ namespace VOL.Core.WorkFlow
             if (flowTable == null)
             {
                 //优先判断满足条件的
-                var filter = _workFlowTableOptions.Where(x => x.WorkTable == tableName
+                var filter = _workFlowTableOptions.Where(x =>x.WorkTable == tableName
                                              && x.FilterList.Any(c => c.StepAttrType == StepType.start.ToString()
-                                             && c.Expression != null && entities.Any(((Func<T, bool>)c.Expression))))
+                                             && c.FieldFilters.CheckFilter<T>(entities, c.Expression)))
+                      //  && c.Expression != null && entities.Any(((Func<T, bool>)c.Expression))))
                       .OrderByDescending(x => x.Weight)
                       .FirstOrDefault();
                 if (filter != null)
@@ -229,7 +293,9 @@ namespace VOL.Core.WorkFlow
                     WorkFlow_Id = workFlow.WorkFlow_Id,
                     WorkTable = workFlow.WorkTable,
                     WorkName = workFlow.WorkName,
-                    Weight=workFlow.Weight,
+                    Weight = workFlow.Weight,
+                    //2023.11.12增加默认状态
+                    DefaultAuditStatus = _flowFormOptions.Where(x => x.TableName == workFlow.WorkTable).Select(s => s.DefaultAuditStatus).FirstOrDefault(),
                     FilterList = new List<FilterOptions>()
                 };
                 bool success = true;
@@ -250,11 +316,13 @@ namespace VOL.Core.WorkFlow
                             AuditBack = item.AuditBack,
                             AuditRefuse = item.AuditRefuse,
                             AuditMethod = item.AuditMethod,
+                            ParentIds = new string[] { },
                             SendMail = item.SendMail,
                             WorkFlow_Id = item.WorkFlow_Id,
                             WorkStepFlow_Id = item.WorkStepFlow_Id,
                             StepType = item.StepType,
-                            StepValue = item.StepValue
+                            StepValue = item.StepValue,
+                            FieldFilters = filters
                         });
                     }
                     catch (Exception ex)
@@ -301,7 +369,6 @@ namespace VOL.Core.WorkFlow
                                 }
                             }
                         }
-
                         _workFlowTableOptions.Add(options);
                     }
                 }
@@ -309,10 +376,14 @@ namespace VOL.Core.WorkFlow
             }
         }
 
-        public static string GetName<T>()
+        public static string GetName<T>(string workTableName)
         {
+            if (!string.IsNullOrEmpty(workTableName) && _container.TryGetValue(workTableName, out string name))
+            {
+                return name;
+            }
             Type type = typeof(T);
-            if (_container.TryGetValue(type.Name, out string name))
+            if (_container.TryGetValue(type.Name, out name))
             {
                 return name;
             }
@@ -334,5 +405,25 @@ namespace VOL.Core.WorkFlow
                 Del(id);
             }
         }
+
+        private static bool CheckTenancy()
+        {
+            return false;
+        }
+    }
+
+    public class WorkFlowFormOptions
+    {
+        public string TableName { get; set; }
+        public Type Type { get; set; }
+        public AuditStatus DefaultAuditStatus { get; set; }
+    }
+
+    public class WorkFlowFormDetails
+    {
+        public string MainTable { get; set; }
+        public Type Type { get; set; }
+
+        public string[] FormFields { get; set; }
     }
 }

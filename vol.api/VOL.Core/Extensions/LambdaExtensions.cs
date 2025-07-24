@@ -41,6 +41,17 @@ namespace VOL.Core.Extensions
                  .Take(size);
         }
 
+
+        public static IEnumerable<T> TakePage<T>(this List<T> list, int page, int size = 15)
+        {
+            if (page <= 0)
+            {
+                page = 1;
+            }
+            return list.Skip((page - 1) * size).Take(size);
+        }
+
+
         /// <summary>
         /// 创建lambda表达式：p=>true
         /// </summary>
@@ -131,11 +142,42 @@ namespace VOL.Core.Extensions
         /// <param name="expressionType">创建表达式的类型,如:p=>p.propertyName != propertyValue 
         /// p=>p.propertyName.Contains(propertyValue)</param>
         /// <returns></returns>
-        public static Expression<Func<T, bool>> CreateExpression<T>(this string propertyName, object propertyValue, LinqExpressionType expressionType)
+        public static Expression<Func<T, bool>> CreateExpression<T>(this string propertyName, object propertyValue, LinqExpressionType expressionType, bool checkNullProperty = false)
         {
-            return propertyName.CreateExpression<T>(propertyValue, null, expressionType);
+            return propertyName.CreateExpression<T>(propertyValue, null, expressionType, checkNullProperty);
         }
+        private static Expression<Func<T, bool>> GetContainsExpression<T, FieldType>(string propertyName, object propertyValue, ParameterExpression parameter, LinqExpressionType expressionType)
+        {
+            Type proType = typeof(T).GetProperty(propertyName).PropertyType;
+            var list = propertyValue as System.Collections.IList;
 
+            List<FieldType> arr = new List<FieldType>();
+            foreach (var value in list)
+            {
+                if (value == null || value.ToString().Trim() == "")
+                {
+                    continue;
+                }
+                var valRes = (proType == typeof(string) ? value.ToString() : value).ChangeType(proType);
+                if (valRes != null)
+                {
+                    arr.Add((FieldType)valRes);
+                }
+            }
+            //string 类型的字段，如果值带有'单引号,EF会默认变成''两个单引号
+            var method = arr.GetType().GetMethod("Contains");
+            ConstantExpression constantCollection = Expression.Constant(arr);
+            MemberExpression memberProperty = Expression.PropertyOrField(parameter, propertyName);
+            if (expressionType == LinqExpressionType.NotIn)
+            {
+                return Expression.Lambda<Func<T, bool>>(Expression.Not(Expression.Call(constantCollection, method, memberProperty)), parameter);
+            }
+            else
+            {
+                MethodCallExpression methodCall = Expression.Call(constantCollection, method, memberProperty);
+                return Expression.Lambda<Func<T, bool>>(methodCall, parameter);
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -149,59 +191,62 @@ namespace VOL.Core.Extensions
           this string propertyName,
           object propertyValue,
           ParameterExpression parameter,
-          LinqExpressionType expressionType)
+          LinqExpressionType expressionType,
+          bool checkNullProperty = false)
         {
             Type proType = typeof(T).GetProperty(propertyName).PropertyType;
+
+
+            if (checkNullProperty)
+            {
+                if (propertyValue == null)
+                {
+                    return True<T>();
+                }
+                if (!(proType == typeof(string) || proType == typeof(int?) || proType == typeof(long?) || proType == typeof(decimal?) || proType == typeof(float?) || proType == typeof(bool?) || proType == typeof(DateTime?)))
+                {
+                    checkNullProperty = false;
+                }
+            }
+
             //创建节点变量如p=>的节点p
             //  parameter ??= Expression.Parameter(typeof(T), "p");//创建参数p
             parameter = parameter ?? Expression.Parameter(typeof(T), "p");
 
+            Expression<Func<T, bool>> expression = null;
+
+
+
             //创建节点的属性p=>p.name 属性name
             MemberExpression memberProperty = Expression.PropertyOrField(parameter, propertyName);
-            if (expressionType == LinqExpressionType.In)
+            if (expressionType == LinqExpressionType.In || expressionType == LinqExpressionType.NotIn)
             {
-                if (!(propertyValue is System.Collections.IList list) || list.Count == 0) throw new Exception("属性值类型不正确");
+                if (!(propertyValue is System.Collections.IList list) || list.Count == 0) return x => false;
 
-                bool isStringValue = true;
-                List<object> objList = new List<object>();
-
-                if (proType.ToString() != "System.String")
-                {
-                    isStringValue = false;
-                    foreach (var value in list)
-                    {
-                        objList.Add(value.ToString().ChangeType(proType));
-                    }
-                    list = objList;
-                }
-
-                if (isStringValue)
-                {
-                    //string 类型的字段，如果值带有'单引号,EF会默认变成''两个单引号
-                    MethodInfo method = typeof(System.Collections.IList).GetMethod("Contains");
-                    //创建集合常量并设置为常量的值
-                    ConstantExpression constantCollection = Expression.Constant(list);
-                    //创建一个表示调用带参数的方法的：new string[]{"1","a"}.Contains("a");
-                    MethodCallExpression methodCall = Expression.Call(constantCollection, method, memberProperty);
-                    return Expression.Lambda<Func<T, bool>>(methodCall, parameter);
-                }
-                //非string字段，按上面方式处理报异常Null TypeMapping in Sql Tree
-                BinaryExpression body = null;
-                foreach (var value in list)
-                {
-                    ConstantExpression constantExpression = Expression.Constant(value);
-                    UnaryExpression unaryExpression = Expression.Convert(memberProperty, constantExpression.Type);
-
-                    body = body == null
-                        ? Expression.Equal(unaryExpression, constantExpression)
-                        : Expression.OrElse(body, Expression.Equal(unaryExpression, constantExpression));
-                }
-                return Expression.Lambda<Func<T, bool>>(body, parameter);
+                var res = typeof(LambdaExtensions).GetMethod("GetContainsExpression", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static)
+                           .MakeGenericMethod(new Type[] { typeof(T), proType })
+                           .Invoke(null, new object[] { propertyName, propertyValue, parameter, expressionType }) as Expression<Func<T, bool>>;
+                return res;
             }
 
+
             //  object value = propertyValue;
-            ConstantExpression constant = proType.ToString() == "System.String"
-                ? Expression.Constant(propertyValue) : Expression.Constant(propertyValue.ToString().ChangeType(proType));
+            //ConstantExpression constant = proType == typeof(string)
+            //    ? Expression.Constant(propertyValue) : Expression.Constant(propertyValue.ToString().ChangeType(proType));
+
+            ConstantExpression constant = null;
+            if (proType == typeof(string))
+            {
+                constant = Expression.Constant(propertyValue);
+            }
+            //else if (proType == typeof(bool))
+            //{
+            //    constant = Expression.Constant(propertyValue.GetInt());
+            //}
+            else
+            {
+                constant = Expression.Constant(propertyValue.ToString().ChangeType(proType));
+            }
 
             // DateTime只选择了日期的时候自动在结束日期加一天，修复DateTime类型使用日期区间查询无法查询到结束日期的问题
             if ((proType == typeof(DateTime) || proType == typeof(DateTime?)) && expressionType == LinqExpressionType.LessThanOrEqual && propertyValue.ToString().Length == 10)
@@ -210,14 +255,23 @@ namespace VOL.Core.Extensions
                 constant = Expression.Constant(Convert.ToDateTime(propertyValue.ToString()).AddDays(1));
             }
 
+            if (checkNullProperty)
+            {
+                expression = CreateHasValueCondition<T>(proType, parameter, propertyName, propertyValue, constant, expressionType);
+                if (expression != null)
+                {
+                    return expression;
+                }
+            }
+
             UnaryExpression member = Expression.Convert(memberProperty, constant.Type);
-            Expression<Func<T, bool>> expression;
+
             switch (expressionType)
             {
-                //p=>p.propertyName == propertyValue
-                case LinqExpressionType.Equal:
-                    expression = Expression.Lambda<Func<T, bool>>(Expression.Equal(member, constant), parameter);
-                    break;
+                ////p=>p.propertyName == propertyValue
+                //case LinqExpressionType.Equal:
+                //    expression = Expression.Lambda<Func<T, bool>>(Expression.Equal(member, constant), parameter);
+                //    break;
                 //p=>p.propertyName != propertyValue
                 case LinqExpressionType.NotEqual:
                     expression = Expression.Lambda<Func<T, bool>>(Expression.NotEqual(member, constant), parameter);
@@ -240,11 +294,13 @@ namespace VOL.Core.Extensions
                     break;
                 //   p => p.propertyName.Contains(propertyValue)
                 // p => !p.propertyName.Contains(propertyValue)
+                case LinqExpressionType.Like:
+                case LinqExpressionType.NotLike:
                 case LinqExpressionType.Contains:
                 case LinqExpressionType.NotContains:
                     MethodInfo method = typeof(string).GetMethod("Contains", new[] { typeof(string) });
                     constant = Expression.Constant(propertyValue, typeof(string));
-                    if (expressionType == LinqExpressionType.Contains)
+                    if (expressionType == LinqExpressionType.Like || expressionType == LinqExpressionType.Contains)
                     {
                         expression = Expression.Lambda<Func<T, bool>>(Expression.Call(member, method, constant), parameter);
                     }
@@ -253,13 +309,106 @@ namespace VOL.Core.Extensions
                         expression = Expression.Lambda<Func<T, bool>>(Expression.Not(Expression.Call(member, method, constant)), parameter);
                     }
                     break;
-                default:
-                    // p => p.false
-                    expression = False<T>();
+                case LinqExpressionType.LikeStart:
+                case LinqExpressionType.LikeEnd:
+                    string m = expressionType == LinqExpressionType.LikeStart ? "StartsWith" : "EndsWith";
+                    var startsWithMethod = typeof(string).GetMethod(m, new[] { typeof(string) });
+                    var searchTermConstant = Expression.Constant(propertyValue, typeof(string));
+                    var startsWithCall = Expression.Call(member, startsWithMethod, searchTermConstant);
+                    expression = Expression.Lambda<Func<T, bool>>(startsWithCall, parameter);
                     break;
+                default:
+                    expression = Expression.Lambda<Func<T, bool>>(Expression.Equal(member, constant), parameter);
+                    break;
+                    // break;
             }
             return expression;
         }
+
+        private static Expression<Func<T, bool>> CreateHasValueCondition<T>(
+            Type proType,
+            ParameterExpression parameter,
+            string propertyName,
+            object propertyValue,
+            ConstantExpression constant,
+            LinqExpressionType expressionType
+           )
+        {
+            BinaryExpression condition = null;
+            var property = Expression.Property(parameter, propertyName);
+
+            if (proType == typeof(string))
+            {
+                Expression binaryExpression = null;
+                switch (expressionType)
+                {
+                    case LinqExpressionType.Like:
+                    case LinqExpressionType.Contains:
+                        binaryExpression = Expression.Call(property, "Contains", null, constant);
+                        break;
+                    case LinqExpressionType.LikeStart:
+                        binaryExpression = Expression.Call(property, "StartsWith", null, constant);
+                        break;
+                    case LinqExpressionType.LikeEnd:
+                        binaryExpression = Expression.Call(property, "EndsWith", null, constant);
+                        break;
+                    case LinqExpressionType.NotLike:
+                    case LinqExpressionType.NotContains:
+                        binaryExpression = Expression.Not(Expression.Call(property, "Contains", null, constant));
+                        break;
+                    case LinqExpressionType.NotEqual:
+                        binaryExpression = Expression.Not(Expression.Equal(property, constant));
+                        break;
+                    default:
+                        binaryExpression = Expression.Equal(property, constant);
+                        break;
+                }
+                var stringCondition = Expression.Condition(
+                     Expression.Equal(property, Expression.Constant(null)), // 如果 Charlie 为 null
+                     Expression.Constant(false), // 返回 false
+                     binaryExpression // 否则比较值
+                );
+                var stringExpression = Expression.Lambda<Func<T, bool>>(stringCondition, parameter);
+                return stringExpression;
+            }
+
+
+            var hasValue = Expression.Property(property, "HasValue"); // 判断 字段 是否有值
+            var value = Expression.Property(property, "Value"); // 获取 字段 的值
+            switch (expressionType)
+            {
+                case LinqExpressionType.NotEqual:
+                    condition = Expression.NotEqual(value, constant);
+                    break;
+                //   p => p.propertyName > propertyValue
+                case LinqExpressionType.GreaterThan:
+                    condition = Expression.GreaterThan(value, constant);
+                    break;
+                //   p => p.propertyName < propertyValue
+                case LinqExpressionType.LessThan:
+                    condition = Expression.LessThan(value, constant);
+                    break;
+                case LinqExpressionType.LessThanOrEqual:
+                    condition = Expression.LessThanOrEqual(value, constant);
+                    break;
+                // p => p.propertyName >= propertyValue
+                case LinqExpressionType.ThanOrEqual:
+                    condition = Expression.GreaterThanOrEqual(value, constant);
+                    break;
+                case LinqExpressionType.Equal:
+                    condition = Expression.Equal(value, constant); // 构建条件：xx==
+                    break;
+            }
+            if (condition == null)
+            {
+                return null;
+            }
+            var body = Expression.Condition(hasValue, condition, Expression.Constant(false)); // 构建条件体
+            var expression = Expression.Lambda<Func<T, bool>>(body, parameter);
+            return expression;
+        }
+
+
 
         /// <summary>
         /// 表达式转换成KeyValList(主要用于多字段排序，并且多个字段的排序规则不一样)
@@ -311,7 +460,7 @@ namespace VOL.Core.Extensions
             {
                 return new Dictionary<string, QueryOrderBy>();
             }
-            return expression.GetExpressionToPair().Reverse().ToList().ToDictionary(x => x.Key, x => x.Value);
+            return expression.GetExpressionToPair().ToList().ToDictionary(x => x.Key, x => x.Value);
         }
         /// <summary>
         /// 解析多字段排序
@@ -327,16 +476,16 @@ namespace VOL.Core.Extensions
 
             IOrderedQueryable<TEntity> queryableOrderBy = null;
             //  string orderByKey = orderByKeys[^1];
-            string orderByKey = orderByKeys[orderByKeys.Length - 1];
+            string orderByKey = orderByKeys[0];
             queryableOrderBy = orderBySelector[orderByKey] == QueryOrderBy.Desc
                 ? queryableOrderBy = queryable.OrderByDescending(orderByKey.GetExpression<TEntity>())
                 : queryable.OrderBy(orderByKey.GetExpression<TEntity>());
 
-            for (int i = orderByKeys.Length - 2; i >= 0; i--)
+            for (int i = 1; i < orderByKeys.Length; i++)
             {
                 queryableOrderBy = orderBySelector[orderByKeys[i]] == QueryOrderBy.Desc
-                    ? queryableOrderBy.ThenByDescending(orderByKeys[i].GetExpression<TEntity>())
-                    : queryableOrderBy.ThenBy(orderByKeys[i].GetExpression<TEntity>());
+                   ? queryableOrderBy.ThenByDescending(orderByKeys[i].GetExpression<TEntity>())
+                   : queryableOrderBy.ThenBy(orderByKeys[i].GetExpression<TEntity>());
             }
             return queryableOrderBy;
         }

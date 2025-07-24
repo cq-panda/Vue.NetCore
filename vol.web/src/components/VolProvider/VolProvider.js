@@ -13,7 +13,7 @@ const getImgUrls = (imgs) => {
 
 //将表volform表单数据转换为json对象提交
 const getFormValues = (formFields, formOptions) => {
- 	if (formFields.value&&!formFields.hasOwnProperty('value')) {
+  if (formFields.value && !formFields.hasOwnProperty('value')) {
     formFields = formFields.value
   }
   if (formOptions.value && Array.isArray(formOptions.value)) {
@@ -23,7 +23,7 @@ const getFormValues = (formFields, formOptions) => {
   const formValues = {}
   for (const key in formFields) {
     let val = formFields[key]
-    const option = getFormOption(formOptions, key, false)
+    const option = getFormOption(formOptions, key, false) || {}
     if (typeof val == 'function') {
       formValues[key] = formFields[key]()
       continue
@@ -43,6 +43,9 @@ const getFormValues = (formFields, formOptions) => {
       }
       continue
     }
+    if (typeof val == 'boolean') {
+      val = val ? 1 : 0;
+    }
     formValues[key] = val
   }
   return formValues
@@ -50,7 +53,7 @@ const getFormValues = (formFields, formOptions) => {
 //重置表单,//"vue": "^3.5.13",
 const resetForm = (formFields, formOptions, data) => {
   //console.log('66')
- 	if (formFields.value&&!formFields.hasOwnProperty('value')) {
+  if (formFields.value && !formFields.hasOwnProperty('value')) {
     formFields = formFields.value
   }
   if (formOptions.value && Array.isArray(formOptions.value)) {
@@ -110,7 +113,10 @@ const setFormValue = (formFields, formOptions, field, data) => {
     formFields[field] = arr
     return
   }
-  if (isNumber || option.type == 'number' || option.type == 'decimal') {
+  if (typeof newVal == 'boolean') {
+    newVal = newVal ? 1 : 0;
+  }
+  else if (isNumber || option.type == 'number' || option.type == 'decimal') {
     newVal = newVal * 1
   } else {
     if (typeof newVal == 'number') {
@@ -252,7 +258,7 @@ const isEmptyValue = (value) => {
 }
 //将表单转换为后台接口查询条件
 const getSearchParameters = (proxy, formFields, formRules) => {
- 	if (formFields.value&&!formFields.hasOwnProperty('value')) {
+  if (formFields.value && !formFields.hasOwnProperty('value')) {
     formFields = formFields.value
   }
   if (formRules.value && Array.isArray(formRules.value)) {
