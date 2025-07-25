@@ -52,11 +52,22 @@ namespace VOL.Core.CacheManager
         {
             if (expireSeconds != -1)
             {
-                _cache.Set(key,
+                if (isSliding)
+                {
+                    _cache.Set(key,
                     value,
                     new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(new TimeSpan(0, 0, expireSeconds))
                     );
+                }
+                else
+                {
+                    _cache.Set(key,
+                    value,
+                    new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(new TimeSpan(0, 0, expireSeconds))
+                    );
+                }
             }
             else
             {
