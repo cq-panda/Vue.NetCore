@@ -20,7 +20,6 @@
       :show-summary="summaryData.length > 0"
       :summary-method="getSummaryData"
       :row-key="rowKey"
-      :key="randomTableKey"
       :lazy="lazy"
       :defaultExpandAll="defaultExpandAll"
       :expand-row-keys="rowKey ? expandRowKeys : undefined"
