@@ -491,12 +491,6 @@ namespace VOL.Core.BaseProvider
                 Response = ImportOnExecuting.Invoke(list);
                 if (CheckResponseResult()) return Response;
             }
-
-            if (ImportOnExecuting != null)
-            {
-                Response = ImportOnExecuting.Invoke(list);
-                if (CheckResponseResult()) return Response;
-            }
             //2022.01.08增加明细表导入判断
             if (HttpContext.Current.Request.Query.ContainsKey("table"))
             {
