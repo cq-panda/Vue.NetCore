@@ -24,7 +24,7 @@
 
           <input v-focus type="text" v-model="userInfo.verificationCode" placeholder="输入验证码" />
           <div class="code" @click="getVierificationCode">
-            <img v-show="codeImgSrc != ''" :src="codeImgSrc" />
+            <img v-fallback v-show="codeImgSrc != ''" :src="codeImgSrc" />
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@ import {
 } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import store from '../store/index';
-import http from '@/../src/api/http.js';
+import http from '@/api/http.js';
 export default defineComponent({
   setup(props, context) {
     store.commit('clearUserInfo', '');

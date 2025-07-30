@@ -249,14 +249,15 @@ let base = {
     if (!(data instanceof Array)) {
       return nodes;
     }
-
+    if (data.length>100) {
+      data = JSON.parse(JSON.stringify(data));
+    }
     data.forEach((x) => {
       if (x.id === x.parentId) {
         x.parentId = 0;
-      } 
-      // else if (data.some((c) => c.parentId === x.id && c.id === x.parentId)) {
-      //   x.parentId = 0;
-      // }
+      } else if (data.some((c) => c.parentId === x.id && c.id === x.parentId)) {
+        x.parentId = 0;
+      }
     });
 
     var _child = data.find((x) => {
@@ -289,7 +290,9 @@ let base = {
     if (!(data instanceof Array)) {
       return nodes;
     }
-
+    if (data.length>100) {
+      data = JSON.parse(JSON.stringify(data));
+    }
     var _child = data.find((x) => {
       return x.id === id;
     });

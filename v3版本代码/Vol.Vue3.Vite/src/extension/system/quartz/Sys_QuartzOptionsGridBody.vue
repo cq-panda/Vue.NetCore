@@ -10,7 +10,7 @@
     <QuartzLog ref="log"></QuartzLog>
     <template #footer>
       <div>
-        <el-button type="default" size="mini" @click="model = false"
+        <el-button type="default" size="small" @click="model = false"
           >关闭</el-button
         >
       </div></template
