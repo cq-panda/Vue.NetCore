@@ -451,6 +451,14 @@ namespace VOL.Core.BaseProvider
             }
             if (CheckResponseResult()) return Response;
             List<T> list = Response.Data as List<T>;
+            var keyPro = typeof(T).GetKeyProperty();
+            if (keyPro.PropertyType == typeof(Guid))
+            {
+                foreach (var item in list)
+                {
+                    keyPro.SetValue(item, Guid.NewGuid());
+                }
+            }
             if (ImportOnExecuting != null)
             {
                 Response = ImportOnExecuting.Invoke(list);
