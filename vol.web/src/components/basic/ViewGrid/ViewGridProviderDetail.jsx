@@ -8,9 +8,15 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     proxy.detailSortEnd.call(proxy, rows, newIndex, oldIndex, table)
     props.detailSortEnd(rows, newIndex, oldIndex, table)
   }
+  const checkRowsFalse = (rows) => {
+  return rows === false
+}
   const detailAddRowBefore = (table, item) => {
     const rows = []
-    let row = proxy.detailAddRowBefore.call()
+    let row = proxy.detailAddRowBefore.call(proxy,table, item)
+    if (checkRowsFalse(row)) {
+      return
+    }
     if (row) {
       if (Array.isArray(row)) {
         rows.push(...row)
@@ -18,7 +24,10 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
         rows.push(row)
       }
     }
-    row = props.detailAddRowBefore()
+    row = props.detailAddRowBefore(table, item)
+    if (checkRowsFalse(row)) {
+      return
+    }
     if (row) {
       if (Array.isArray(row)) {
         rows.push(...row)
