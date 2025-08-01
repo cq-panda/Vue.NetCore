@@ -10,7 +10,6 @@
   ></vol-table>
 </template>
 <script>
-import VolTable from '@/components/basic/VolTable.vue';
 import {
   defineComponent,
   ref,
@@ -20,7 +19,6 @@ import {
 } from 'vue';
 export default defineComponent({
   components: {
-    VolTable
   },
   props: {
     tableData: {

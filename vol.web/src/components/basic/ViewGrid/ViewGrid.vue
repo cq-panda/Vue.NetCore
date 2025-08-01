@@ -454,7 +454,6 @@ import Empty from "@/components/basic/Empty.vue";
 export default {
   components: {
     ViewGridExpand,
-    VolBox: defineAsyncComponent(() => import("@/components/basic/VolBox.vue")),
     QuickSearch: defineAsyncComponent(() => import("@/components/basic/QuickSearch.vue")),
     Audit: defineAsyncComponent(() => import("@/components/basic/Audit.vue")),
     UploadExcel: defineAsyncComponent(() => import("@/components/basic/UploadExcel.vue")),

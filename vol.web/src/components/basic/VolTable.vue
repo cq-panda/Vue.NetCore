@@ -596,7 +596,7 @@ import { getCellColor, formatDate, cellFormatter } from './VolTable/VolTableForm
 import { tableRowClick, rowEndEdit } from './VolTable/VolTableEdit.js'
 const VolTableUpload = defineAsyncComponent(() => import('./VolTable/VolTableUpload.vue'))
 import VolLoading from '@/components/basic/VolLoading'
-const VolImageViewer = defineAsyncComponent(() => import('@/components/basic/VolImageViewer.vue'))
+import VolImageViewer from '@/components/basic/VolImageViewer.vue'
 const emit = defineEmits([
   'dicInited',
   'loadBefore',

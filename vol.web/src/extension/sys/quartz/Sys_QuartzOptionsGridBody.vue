@@ -23,11 +23,10 @@
   </el-alert>
 </template>
 <script>
-import VolBox from "@/components/basic/VolBox.vue";
 import QuartzLog from "@/views/sys/quartz/Sys_QuartzLog";
 //这里使用的vue2语法，也可以写成vue3语法
 export default {
-  components: { "vol-box": VolBox, QuartzLog },
+  components: {QuartzLog },
   methods: {},
   data() {
     return {

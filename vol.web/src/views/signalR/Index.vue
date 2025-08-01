@@ -33,10 +33,8 @@
 //默认不会自动重连，需手动调用withAutomaticReconnect
 let connection;
 import * as signalR from '@microsoft/signalr';
-import VolForm from '@/components/basic/VolForm.vue';
 export default {
   components: {
-    'vol-form': VolForm
   },
   data() {
     return {

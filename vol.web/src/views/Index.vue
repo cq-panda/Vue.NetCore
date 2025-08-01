@@ -14,7 +14,7 @@
         <!-- <img  src="@/assets/imgs/logo.png" /> -->
       </div>
       <div class="vol-menu">
-        <el-scrollbar style="height: 100%; flex: 1">
+        <el-scrollbar style="height: 100%; flex: 1;border-right:0;">
           <VolMenu
             :currentMenuId="currentMenuId"
             :on-select="onSelect"

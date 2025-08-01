@@ -28,10 +28,8 @@
 </template>
     <script>
 import VolFormDraggable from "@/components/basic/VolFormDraggable/index.js";
-import VolBox from "@/components/basic/VolBox.vue";
 export default {
   components: {
-    VolBox,
     VolFormDraggable,
   },
   data() {

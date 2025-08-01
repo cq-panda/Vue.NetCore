@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import VolForm from '@/components/basic/VolForm.vue';
 // import draggable from 'vuedraggable'
 import { VueDraggableNext as draggable } from 'vue-draggable-next';
 // import { jsPlumb } from 'jsplumb'
@@ -73,9 +72,6 @@ import nodeMenu from './node_menu';
 // import FlowInfo from './info';
 import FlowNodeForm from './node_form';
 import lodash from 'lodash';
-import { getDataDefault } from './data_default';
-
-import { ForceDirected } from './force-directed';
 
 export default {
   props: {
@@ -175,8 +171,7 @@ export default {
     draggable,
     flowNode,
     nodeMenu,
-    FlowNodeForm,
-    VolForm
+    FlowNodeForm
   },
   directives: {
     flowDrag: {
