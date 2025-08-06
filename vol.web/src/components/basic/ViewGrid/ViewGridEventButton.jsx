@@ -84,7 +84,7 @@ export const onDelete = async (proxy, props, rows) => {
   }
   if (
     !(await props.delBeforeAsync(delKeys, rows)) ||
-    !(await props.delBeforeAsync(delKeys, rows))
+    !(await proxy.delBeforeAsync.call(proxy,delKeys, rows))
   ) {
     return
   }
