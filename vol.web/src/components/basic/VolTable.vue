@@ -1063,13 +1063,14 @@ watch(
   }
 )
 
-const handleTableClickOutside = (event) => {
+const handleTableClickOutside = async (event) => {
   if (!refTable.value?.contains(event.target)) {
     if (isDateChange.value) return
     if (edit.rowIndex != -1) {
       let row = getTableData[edit.rowIndex]
-      rowEndEdit(proxy, props, getTableData(), row, edit)
-      edit.rowIndex = -1
+      if ((await rowEndEdit(proxy, props, getTableData(), row, edit)) !== false) {
+        edit.rowIndex = -1
+      }
     }
   }
 }
