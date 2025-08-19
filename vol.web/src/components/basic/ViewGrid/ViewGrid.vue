@@ -234,6 +234,7 @@
     <template #content>
       <div class="vol-edit-box">
         <div class="vol-edit-content">
+              <slot name="modelHeader"></slot>
           <component
             :is="dynamicComponent.modelHeader"
             ref="modelHeader"
@@ -326,6 +327,7 @@
             ></vol-table>
           </div>
           <!--明细footer自定义组件-->
+          <slot name="modelFooter"></slot>
           <component
             :is="dynamicComponent.modelFooter"
             ref="modelFooter"
