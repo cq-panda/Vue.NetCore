@@ -96,10 +96,7 @@ var chart2 = {
                 color: 'rgba(180, 180, 180, 0.2)'
             },
             itemStyle: {
-
-                normal: {
-                    barBorderRadius: [4, 4, 0, 0]
-                }
+              borderRadius: [4, 4, 0, 0]
             },
             data: [ 730, 620, 420, 932, 701, 834, 890]
         },
@@ -133,7 +130,6 @@ var chart3 = {
     },
     series: [
         {
-
             name: '框架支持功能(Vue2.0、Vue3版本)',
             type: 'pie',
             radius: '55%',

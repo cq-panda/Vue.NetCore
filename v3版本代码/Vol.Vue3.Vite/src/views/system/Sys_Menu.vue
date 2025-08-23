@@ -600,7 +600,7 @@ export default defineComponent({
 .form-content {
   margin-top: 30px;
 }
-.menu-left ::v-deep(.el-scrollbar__bar.is-vertical) {
+.menu-left :deep(.el-scrollbar__bar.is-vertical) {
   width: 2px;
 }
 .auth-group {
@@ -623,7 +623,7 @@ export default defineComponent({
     padding-bottom: 10px;
   }
 }
-.auth-group ::v-deep(.el-checkbox__label) {
+.auth-group :deep(.el-checkbox__label) {
   padding-left: 4px;
 }
 </style>
