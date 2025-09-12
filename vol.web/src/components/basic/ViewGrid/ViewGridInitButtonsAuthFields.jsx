@@ -6,6 +6,10 @@ export const getButtons = (proxy, props, ctx, dataConfig) => {
   //全局绑定查询输入框回车搜索
   props.searchFormOptions.forEach((x) => {
     x.forEach((option) => {
+      //设置查询树形级联父级选择时候自动勾上下级
+      if (option.type == 'treeSelect') {
+        option.checkCtrictly = false
+      }
       if ((!option.onKeyPress && !option.type) || inputType.includes(option.type)) {
         option.onKeyPress = ($event) => {
           if ($event && $event.keyCode === 13) {
