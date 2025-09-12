@@ -1,6 +1,21 @@
 import { getUrl, resetSearch } from './ViewGridProvider.jsx'
 import action from './Action.js'
+
+const inputType = ['text', 'like', 'likeStart', 'likeEnd', 'input', 'textarea', 'number']
 export const getButtons = (proxy, props, ctx, dataConfig) => {
+  //全局绑定查询输入框回车搜索
+  props.searchFormOptions.forEach((x) => {
+    x.forEach((option) => {
+      if ((!option.onKeyPress && !option.type) || inputType.includes(option.type)) {
+        option.onKeyPress = ($event) => {
+          if ($event && $event.keyCode === 13) {
+            proxy?.search()
+          }
+        }
+      }
+    })
+  })
+
   //生成ViewGrid界面的操作按钮及更多选项
   const buttons = dataConfig.buttons.value
   let searchIndex = buttons.findIndex((x) => {
@@ -9,7 +24,7 @@ export const getButtons = (proxy, props, ctx, dataConfig) => {
   //添加高级查询
   let hasOneFormItem =
     props.searchFormOptions.length === 1 && props.searchFormOptions[0].length === 1
-  if (searchIndex !== -1 && !hasOneFormItem&&!proxy.$global.fixedSearch) {
+  if (searchIndex !== -1 && !hasOneFormItem && !proxy.$global.fixedSearch) {
     buttons.splice(searchIndex + 1, 0, {
       icon: dataConfig.fixedSearchForm.value ? 'el-icon-refresh-left' : 'el-icon-search',
       name: dataConfig.fixedSearchForm.value ? '重置' : '高级查询',
@@ -24,11 +39,11 @@ export const getButtons = (proxy, props, ctx, dataConfig) => {
       }
     })
   }
-  if (props.searchFormOptions.length === 1 ) {
-      const option= props.searchFormOptions[0];
-     if (option.length==1&&option[0].type!='radio'&&option[0].type!='checkbox') {
-        option[0].itemStyle = 'width:200px'
-     }
+  if (props.searchFormOptions.length === 1) {
+    const option = props.searchFormOptions[0]
+    if (option.length == 1 && option[0].type != 'radio' && option[0].type != 'checkbox') {
+      option[0].itemStyle = 'width:200px'
+    }
   }
   if (hasOneFormItem) {
     dataConfig.fixedSearchForm.value = false
@@ -237,7 +252,6 @@ export const initButtonsAuthFields = (proxy, props, dataConfig, $route, hiddenFi
   extendBtn(detailOptions.buttons, extend.buttons.detail)
   //弹出弹框按钮
   dataConfig.boxButtons.value.push(...boxButtons)
-
 }
 
 const extendBtn = (btns, source) => {
