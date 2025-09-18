@@ -97,7 +97,7 @@
 <script>
 import VolTable from '@/components/basic/VolTable.vue';
 import VolBox from '@/components/basic/VolBox.vue';
-import http from '@/../src/api/http.js';
+import http from '@/api/http.js';
 import { defineComponent, ref, reactive, getCurrentInstance } from 'vue';
 export default defineComponent({
   components: {
