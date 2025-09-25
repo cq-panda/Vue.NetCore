@@ -748,10 +748,10 @@ namespace VOL.Core.BaseProvider
         /// <param name="detailKeyInfo"></param>
         /// <param name="keyDefaultVal"></param>
         /// <returns></returns>
-        public WebResponseContent UpdateToEntity<DetailT>(SaveModel saveModel, 
-            PropertyInfo mainKeyProperty, 
-            PropertyInfo detailKeyInfo, 
-            object keyDefaultVal) where DetailT : class,new()
+        public WebResponseContent UpdateToEntity<DetailT>(SaveModel saveModel,
+            PropertyInfo mainKeyProperty,
+            PropertyInfo detailKeyInfo,
+            object keyDefaultVal) where DetailT : class, new()
         {
             T mainEnity = saveModel.MainData.DicToEntity<T>();
             List<DetailT> detailList = saveModel.DetailData.DicToList<DetailT>();
@@ -809,57 +809,54 @@ namespace VOL.Core.BaseProvider
             repository.Update(mainEnity, typeof(T).GetEditField()
                 .Where(c => saveModel.MainData.Keys.Contains(c) && !CreateFields.Contains(c))
                 .ToArray());
-            //foreach (var item in saveModel.DetailData)
-            //{
-            //    item.SetModifyDefaultVal();
-            //}
-            //明细修改
-
-            editList.ForEach(x =>
+    
+            Response = repository.DbContextBeginTransaction(() =>
             {
-                //获取编辑的字段
-                var updateField = saveModel.DetailData
-                    .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
-                    .Equal(detailKeyInfo.GetValue(x)))
-                    .FirstOrDefault()
-                    .Keys.Where(k => k != detailKeyInfo.Name)
-                    .Where(r => !CreateFields.Contains(r))
-                    .ToList();
-                updateField.AddRange(ModifyFields);
-                //設置默認值
-                x.SetModifyDefaultVal();
-                //添加修改字段
-                repository.Update(x, updateField.ToArray(),false);
-            });
-
-            //明细新增
-            addList.ForEach(x =>
-            {
-                x.SetCreateDefaultVal();
-                repository.Add(x);
-            });
-            //明细删除
-            delKeys.ForEach(x =>
-            {
-                DetailT delT = Activator.CreateInstance<DetailT>();
-                detailKeyInfo.SetValue(delT, x);
-                repository.Delete(delT);
-            });
-
-            if (UpdateOnExecuted == null)
-            {
-                repository.DbContext.SaveChanges();
-                Response.OK(ResponseType.SaveSuccess);
-            }
-            else
-            {
-                Response = repository.DbContextBeginTransaction(() =>
+                int paramsCount = 0;
+                foreach (var item in editList)
                 {
-                    repository.DbContext.SaveChanges();
-                    Response = UpdateOnExecuted(mainEnity, addList, editList, delKeys);
-                    return Response;
+                    //获取编辑的字段
+                    var updateField = saveModel.DetailData
+                        .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
+                        .Equal(detailKeyInfo.GetValue(item)))
+                        .FirstOrDefault()
+                        .Keys.Where(k => k != detailKeyInfo.Name)
+                        .Where(r => !CreateFields.Contains(r))
+                        .ToList();
+                    updateField.AddRange(ModifyFields);
+                    //設置默認值
+                    item.SetModifyDefaultVal();
+                    paramsCount += updateField.Count;
+                    if (paramsCount>2000)
+                    {
+                        repository.SaveChanges();
+                    }
+                    //添加修改字段
+                    repository.Update(item, updateField.ToArray(), false);
+                }
+                 paramsCount = 0;
+                //明细新增
+                foreach (var item in addList)
+                {
+                    item.SetCreateDefaultVal();
+                }
+                repository.AddRange(addList);
+                //明细删除
+                delKeys.ForEach(x =>
+                {
+                    DetailT delT = Activator.CreateInstance<DetailT>();
+                    detailKeyInfo.SetValue(delT, x);
+                    repository.Delete(delT);
                 });
-            }
+                repository.SaveChanges();
+                if (UpdateOnExecuted == null)
+                {
+                    return Response.OK(ResponseType.SaveSuccess);
+                }
+                Response = UpdateOnExecuted(mainEnity, addList, editList, delKeys);
+                return Response;
+            });
+
             if (Response.Status)
             {
                 addList.AddRange(editList);
