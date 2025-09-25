@@ -57,18 +57,15 @@ namespace VOL.Core.Filters
             }
             //限定一个帐号不能在多处登陆   UserContext.Current.Token != ((ClaimsIdentity)context.HttpContext.User.Identity)?.BootstrapContext?.ToString()
 
-            // &&UserContext.Current.UserName!="admin666"为演示环境，实际使用时去掉此条件
             //if (!context.HttpContext.User.Identity.IsAuthenticated
-            //    || (
-            //    UserContext.Current.Token != ((ClaimsIdentity)context.HttpContext.User.Identity)
-            //    ?.BootstrapContext?.ToString()
-            //    && UserContext.Current.UserName != "admin666" 
+            //    || ($"Bearer {UserContext.Current.Token}" != context.HttpContext.Request.Headers.Authorization.FirstOrDefault()
+            //    && UserContext.Current.UserName != "admin666"
             //    ))
             //{
             //    Console.Write($"IsAuthenticated:{context.HttpContext.User.Identity.IsAuthenticated}," +
             //        $"userToken{UserContext.Current.Token}" +
             //        $"BootstrapContext:{((ClaimsIdentity)context.HttpContext.User.Identity)?.BootstrapContext?.ToString()}");
-            //    context.Unauthorized("登陆已过期");
+            //    context.Unauthorized("登陆已过期".Translator());
             //    return;
             //}
 
