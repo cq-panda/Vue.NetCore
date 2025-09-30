@@ -9,11 +9,11 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     props.detailSortEnd(rows, newIndex, oldIndex, table)
   }
   const checkRowsFalse = (rows) => {
-  return rows === false
-}
+    return rows === false
+  }
   const detailAddRowBefore = (table, item) => {
     const rows = []
-    let row = proxy.detailAddRowBefore.call(proxy,table, item)
+    let row = proxy.detailAddRowBefore.call(proxy, table, item)
     if (checkRowsFalse(row)) {
       return
     }
@@ -229,7 +229,7 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     }
     //明细查询前
     //新建时禁止加载明细
-    if (dataConfig.currentAction.value == action.ADD&&!param.isCopyClick) {
+    if (dataConfig.currentAction.value == action.ADD && !param.isCopyClick) {
       await callBack(false)
       return false
     }
@@ -421,53 +421,41 @@ export const resetDetailTable = (proxy, props, dataConfig, row, isAdd, table) =>
   }
   //let key = table.key;
   // let query = { value: row ? row[key] : currentRow[key] };
-  const isCopyClick=dataConfig.isCopyClick.value;
+  const isCopyClick = dataConfig.isCopyClick.value
   proxy.$nextTick(() => {
     const detailRef = getDetailTableRef(proxy, props)
     if (detailRef) {
       detailRef.reset()
       //$refs.detail.load(query);
-      detailTableLoad(props, dataConfig, row, detailRef,null,isCopyClick)
+      detailTableLoad(props, dataConfig, row, detailRef, null, isCopyClick)
     }
   })
 }
 
-const detailTableLoad = (props, dataConfig, row, refTable, table,isCopyClick) => {
+const detailTableLoad = (props, dataConfig, row, refTable, table, isCopyClick) => {
   //一对多明细表加载数据
   if (refTable) {
     let query = {
       value: row ? row[props.table.key] : dataConfig.currentRow.value[props.table.key],
       tableName: table,
-      isCopyClick:isCopyClick
+      isCopyClick: isCopyClick
     }
     refTable.load(query)
   }
 }
 
 const updateTableSummaryTotal = (proxy, props, dataConfig) => {
-  //2021.09.25增加明细表删除、修改时重新计算行数与汇总
-  //2021.12.12增加明细表判断(强制刷新合计时会用到)
-  if (dataConfig.isMultiple.value) {
-    props.details.forEach((c) => {
-      if (!table || c.table === table) {
-        let tableRef = proxy.getTable(c.table)
-        tableRef.paginations.total = tableRef.rowData.length
-        //重新设置合计
-        if (tableRef.summary) {
-          tableRef.columns.forEach((column) => {
-            if (column.summary) {
-              tableRef.getInputSummaries(null, null, null, column)
-            }
-          })
-        }
-      }
-    })
-    return
-  }
   const detailRef = proxy.$refs.detail
   if (!detailRef) return
   //删除或新增行时重新设置显示的总行数
-  detailRef.paginations.total = detailRef.rowData.length
+  // detailRef.paginations.total = detailRef.rowData.length
+  if (detailRef.paginations.page <= 1) {
+    if (delTotal && detailRef.paginations.total - delTotal >= 0) {
+      detailRef.paginations.total = detailRef.paginations.total - delTotal
+    } else {
+      detailRef.paginations.total = detailRef.rowData.length
+    }
+  }
   //重新设置合计
   if (detailRef.summary) {
     detailRef.columns.forEach((column) => {
