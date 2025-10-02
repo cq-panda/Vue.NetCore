@@ -7,7 +7,7 @@
     </div>
     <template #footer>
       <div style="text-align: center;">
-        <el-button type="primary" plain size="mini" long @click="savePwd">保存</el-button>
+        <el-button type="primary" plain size="small" long @click="savePwd">保存</el-button>
       </div>
     </template>
   </VolBox>
@@ -15,7 +15,7 @@
     <div class="user-content">
       <div class="left">
         <div>
-          <img class="header-img" @click="showUpload" :src="http.ipAddress + userInfo.headImageUrl" :onerror="errorImg" />
+          <img v-fallback class="header-img" @click="showUpload" :src="http.ipAddress + userInfo.headImageUrl" />
           <div class="text">
             <p class="name">
               <span style="font-size: 13px">{{ userInfo.userName }}</span>
@@ -25,7 +25,7 @@
             </p>
             <p>
               <el-button type="error" @click="modifyPwd" size="small" plain long>修改密码</el-button>
-              <el-button style="padding: 3px 16px" @click="showUpload" plain type="primary" size="mini"
+              <el-button style="padding: 3px 16px" @click="showUpload" plain type="primary" size="small"
                 ghost>修改头像</el-button>
             </p>
           </div>
@@ -124,9 +124,6 @@ export default {
   },
   data() {
     return {
-      
-      errorImg:new URL('@/assets/imgs/error-img.png', import.meta.url).href,
-      // 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       modifyOptions: {
         model: false,
         fields: { oldPwd: "", newPwd: "", newPwd1: "" },
@@ -277,5 +274,3 @@ img:not([src]) {
   color: #282828;
 }
 </style>
-
-

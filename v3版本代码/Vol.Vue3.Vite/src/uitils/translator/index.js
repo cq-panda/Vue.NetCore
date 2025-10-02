@@ -73,7 +73,7 @@ function $changeSource(langType, isInit, source) {
 	app.config.globalProperties.isCN = _currentLang == 'zh-cn';
 	//store.commit("setLocal", source);
 }
-import http from "@/../src/api/http.js";
+import http from "@/api/http.js";
 
 function loadLangScript () {
     if (_currentLang== 'zh-cn') {
