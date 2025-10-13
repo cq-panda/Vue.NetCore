@@ -1022,8 +1022,8 @@ const addRow = (row) => {
   return row
 }
 
-const delRow = () => {
-  const rows = getSelected()
+const delRow = (rows) => {
+   rows =rows|| getSelected()
   delTableRow(proxy, edit, getTableData(), rows, getSelectedIndex())
   return rows
 }

@@ -98,15 +98,49 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     proxy.getTableRef(item.table || table).rowData = rows[0][table]
   }
 
-  //明细表删除
-  const delRow = async (table, item, index, isSubDetail) => {
-    //一对多明细的添加行
+  const execDelRow = (rows, table, item, index, isSubDetail) => {
+    //二、三级删除行
+    if (dataConfig.isMultiple.value || isSubDetail) {
+      let refDetail = proxy.getTable(table)
+      refDetail.delRow()
+      if (isSubDetail) {
+        //这里分配二级明细表的三级表格数据后不能实现共同内存地址，问题待查
+        const subRows = proxy.getTable(table).rowData
+        ;(proxy.getTable(item.secondTable).getSelected()[0] || {})[table] = subRows
+      }
+      //记录删除的明细
+      rows.forEach((x) => {
+        if (x.hasOwnProperty(item.key) && x[item.key]) {
+          item.delKeys.push(x[item.key])
+        }
+      })
+      delRowAfter(proxy, props, rows, table, item, index)
+      return
+    }
+    rows = proxy.getTable().delRow(rows)
 
-    let rows
-    if (isSubDetail) {
-      rows = proxy.getTable(table).getSelected()
-    } else if (typeof table == 'string' && dataConfig.isMultiple.value) {
-      rows = proxy.getTable(table).getSelected()
+    if (!delRowAfter(proxy, props, rows, table, item, index)) {
+      return
+    }
+    let key = dataConfig.detailOptions.key
+    //记录删除的行数据
+    rows.forEach((x) => {
+      if (x.hasOwnProperty(key) && x[key]) {
+        dataConfig.detailOptions.delKeys.push(x[key])
+      }
+    })
+    updateTableSummaryTotal(proxy, props, dataConfig, rows.length)
+  }
+
+  //明细表删除
+  const delRow = async (rows, table, item, index, isSubDetail) => {
+    //一对多明细的添加行
+    let isDelBtnClick = true
+    if (rows) {
+      if (!Array.isArray(rows)) {
+        rows = [rows]
+      }
+      isDelBtnClick = false
     } else {
       rows = proxy.getTable().getSelected()
     }
@@ -126,49 +160,20 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     if (!(await props.delRowBefore(rows, table, item, index))) {
       return
     }
-    let tigger = false
-    proxy
-      .$confirm(proxy.$ts('确认要删除选择的数据吗?'), proxy.$ts('警告'), {
-        confirmButtonText: proxy.$ts('确定'),
-        cancelButtonText: proxy.$ts('取消'),
-        type: 'warning',
-        center: true
-      })
-      .then(() => {
-        if (tigger) return
-        tigger = true
-        //二、三级删除行
-        if (dataConfig.isMultiple.value || isSubDetail) {
-          let refDetail = proxy.getTable(table)
-          refDetail.delRow()
-          if (isSubDetail) {
-            //这里分配二级明细表的三级表格数据后不能实现共同内存地址，问题待查
-            const subRows = proxy.getTable(table).rowData
-            ;(proxy.getTable(item.secondTable).getSelected()[0] || {})[table] = subRows
-          }
-          //记录删除的明细
-          rows.forEach((x) => {
-            if (x.hasOwnProperty(item.key) && x[item.key]) {
-              item.delKeys.push(x[item.key])
-            }
-          })
-          delRowAfter(proxy, props, rows, table, item, index)
-          return
-        }
-        rows = proxy.getTable().delRow()
-
-        if (!delRowAfter(proxy, props, rows, table, item, index)) {
-          return
-        }
-        let key = dataConfig.detailOptions.key
-        //记录删除的行数据
-        rows.forEach((x) => {
-          if (x.hasOwnProperty(key) && x[key]) {
-            dataConfig.detailOptions.delKeys.push(x[key])
-          }
+    if (isDelBtnClick) {
+      proxy
+        .$confirm(proxy.$ts('确认要删除选择的数据吗?'), proxy.$ts('警告'), {
+          confirmButtonText: proxy.$ts('确定'),
+          cancelButtonText: proxy.$ts('取消'),
+          type: 'warning',
+          center: true
         })
-        updateTableSummaryTotal(proxy, props, dataConfig)
-      })
+        .then(() => {
+          execDelRow(rows, table, item, index, isSubDetail)
+        })
+      return
+    }
+    execDelRow(rows, table, item, index, isSubDetail)
   }
 
   //刷新明细表
@@ -444,7 +449,7 @@ const detailTableLoad = (props, dataConfig, row, refTable, table, isCopyClick) =
   }
 }
 
-const updateTableSummaryTotal = (proxy, props, dataConfig) => {
+const updateTableSummaryTotal = (proxy, props, dataConfig, delTotal) => {
   const detailRef = proxy.$refs.detail
   if (!detailRef) return
   //删除或新增行时重新设置显示的总行数
