@@ -29,6 +29,7 @@
 ## [vol框架企业版](http://pro.volcore.xyz/)
 ## [NET视频教程(微软MVP-ACE录制)](https://space.bilibili.com/525836469)
 ## [元讯趣编程交流社区](https://www.qubcedu.com/)
+## [易软通开源免费openWMS系统](https://gitee.com/yiruantong/open-wms)
 
 #### 框架文档
 vue3版本: [http://www.volcore.xyz](http://www.volcore.xyz) <br> 
