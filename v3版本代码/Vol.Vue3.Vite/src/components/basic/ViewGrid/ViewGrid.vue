@@ -694,12 +694,12 @@ export default defineComponent(vueParam);
 @import './ViewGrid.less';
 </style>
 <style lang="less" scoped>
-.btn-group ::v-deep(.ivu-select-dropdown) {
+.btn-group :deep(.ivu-select-dropdown) {
   padding: 0px !important;
   right: 3px;
 }
 
-.btn-group ::v-deep(.ivu-select-dropdown .ivu-dropdown-menu) {
+.btn-group :deep(.ivu-select-dropdown .ivu-dropdown-menu) {
   min-width: 100px;
   right: -2px;
   position: absolute;
@@ -709,7 +709,7 @@ export default defineComponent(vueParam);
   border: 1px solid #e7e5e5;
 }
 
-.vertical-center-modal ::v-deep(.srcoll-content) {
+.vertical-center-modal :deep(.srcoll-content) {
   padding: 0;
 }
 
@@ -717,7 +717,7 @@ export default defineComponent(vueParam);
   background: #eee;
 }
 
-.grid-detail ::v-deep(.v-table .el-table__header th) {
+.grid-detail :deep(.v-table .el-table__header th) {
   height: 44px;
 }
 </style>

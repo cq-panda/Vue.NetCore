@@ -104,15 +104,8 @@
     </div>
   </div>
 </template>
-<script>
-var echarts = require("echarts");
-let $chartLeft1,
-  $chartLeft2,
-  $chartLeft3,
-  $chartCenter,
-  $chartRight1,
-  $chartGauge1,
-  $chartGauge2;
+<script setup>
+import * as echarts from 'echarts/core';
 import {
   chartLeft1,
   chartLeft2,
@@ -122,57 +115,84 @@ import {
 } from "./bigdata/chart-options";
 // import IviewCircle from "./bigdata/IviewCircle";
 import "./bigdata/layout.less";
-export default {
-  components: {
-    // "iview-circle": IviewCircle
-  },
-  data() {
-    return {};
-  },
-  created() {
+import { onMounted, onUnmounted } from 'vue';
+
+import { BarChart, LineChart, GaugeChart } from 'echarts/charts';
+
+import {
+  CanvasRenderer
+} from 'echarts/renderers'
+
+import {
+  GridComponent,
+  TitleComponent,
+  TooltipComponent,
+  ToolboxComponent,
+  LegendComponent,
+} from 'echarts/components';
+
+echarts.use([
+  GridComponent,
+  TitleComponent,
+  TooltipComponent,
+  ToolboxComponent,
+  LegendComponent,
+  CanvasRenderer,
+  BarChart,
+  LineChart,
+  GaugeChart,
+]);
+
+let $chartLeft1,
+  $chartLeft2,
+  $chartLeft3,
+  $chartCenter,
+  $chartRight1,
+  $chartGauge1,
+  $chartGauge2;
+
+onMounted(() => {
+  if ($chartLeft1) {
+    $chartLeft1.dispose();
+    $chartLeft2.dispose();
+    $chartLeft3.dispose();
+    $chartCenter.dispose();
+    $chartRight1.dispose();
+    $chartGauge1.dispose();
+    $chartGauge2.dispose();
     console.log("chart");
-  },
-  mounted() {
-    if ($chartLeft1) {
-      $chartLeft1.dispose();
-      $chartLeft2.dispose();
-      $chartLeft3.dispose();
-      $chartCenter.dispose();
-      $chartRight1.dispose();
-      $chartGauge1.dispose();
-      $chartGauge2.dispose();
-    }
-    $chartLeft1 = echarts.init(document.getElementById("chart-vleft-1"));
-    $chartLeft1.setOption(chartLeft1, true);
+  }
 
-    $chartLeft2 = echarts.init(document.getElementById("chart-vleft-2"));
-    $chartLeft2.setOption(chartLeft2, true);
+  $chartLeft1 = echarts.init(document.getElementById("chart-vleft-1"));
+  $chartLeft1.setOption(chartLeft1, true);
 
-    $chartLeft3 = echarts.init(document.getElementById("chart-vleft-3"));
-    $chartLeft3.setOption(chartLeft3, true);
+  $chartLeft2 = echarts.init(document.getElementById("chart-vleft-2"));
+  $chartLeft2.setOption(chartLeft2, true);
 
-    $chartCenter = echarts.init(document.getElementById("chart-vcenter"));
-    $chartCenter.setOption(chartRight1, true);
+  $chartLeft3 = echarts.init(document.getElementById("chart-vleft-3"));
+  $chartLeft3.setOption(chartLeft3, true);
 
-    $chartRight1 = echarts.init(document.getElementById("chart-vright-1"));
-    $chartRight1.setOption(chartRight1, true);
+  $chartCenter = echarts.init(document.getElementById("chart-vcenter"));
+  $chartCenter.setOption(chartRight1, true);
 
-    $chartGauge1 = echarts.init(document.getElementById("chart-vgauge-1"));
-    $chartGauge1.setOption(gauge, true);
+  $chartRight1 = echarts.init(document.getElementById("chart-vright-1"));
+  $chartRight1.setOption(chartRight1, true);
 
-    $chartGauge2 = echarts.init(document.getElementById("chart-vgauge-2"));
-    $chartGauge2.setOption(gauge);
-  },
-  destroyed() {
-    $chartLeft1 = null;
-    $chartLeft2 = null;
-    $chartLeft3 = null;
-    $chartCenter = null;
-    $chartRight1 = null;
-    $chartGauge1 = null;
-    $chartGauge2 = null;
-  },
-};
+  $chartGauge1 = echarts.init(document.getElementById("chart-vgauge-1"));
+  $chartGauge1.setOption(gauge, true);
+
+  $chartGauge2 = echarts.init(document.getElementById("chart-vgauge-2"));
+  $chartGauge2.setOption(gauge);
+})
+onUnmounted(() => {
+  $chartLeft1 = null;
+  $chartLeft2 = null;
+  $chartLeft3 = null;
+  $chartCenter = null;
+  $chartRight1 = null;
+  $chartGauge1 = null;
+  $chartGauge2 = null;
+})
 </script>
 <style scoped>
 /* .chart-center {
@@ -214,7 +234,7 @@ export default {
   border-bottom: 0;
 }
 
-.right-3 .item > div {
+.right-3 .item>div {
   color: white;
 }
 
@@ -252,7 +272,3 @@ export default {
   flex: 1;
 }
 </style>
-
-
-
-

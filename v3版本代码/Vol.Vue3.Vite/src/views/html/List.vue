@@ -17,20 +17,18 @@
                 <div :class="{'info-text':true,'info-img':ritem.imgs&&ritem.imgs.length==1}">{{ritem.title}}</div>
                 <div v-if="ritem.imgs&&ritem.imgs.length==1"
                      class="single-img">
-                  <img v-bind:src="getImg(ritem.imgs[0])"
-                       :onerror="errorImg" />
+                  <img v-fallback v-bind:src="getImg(ritem.imgs[0])" />
                 </div>
               </div>
               <div v-if="ritem.imgs&&(ritem.imgs.length>=3||ritem.imgs.length==2)"
                    class="img-group">
-                <img :onerror="errorImg"
+                <img v-fallback
                      v-for="(img,imageIndex) in ritem.imgs"
                      :key="imageIndex"
                      v-bind:src="getImg(img)" />
               </div>
               <div class="info-foot">
-                <img v-bind:src="header"
-                     :onerror="errorImg" />
+                <img v-fallback v-bind:src="header" />
                 <span class="author">{{ritem.creator}}</span>
                 <el-tag>{{ritem.type||""}}</el-tag>
                 <span class="date">{{ritem.createDate}}</span>
@@ -64,7 +62,6 @@ export default {
     return {
       header:
         "https://imgs-1256993465.cos.ap-chengdu.myqcloud.com/h5pic/head1.jpg",
-      errorImg: 'this.src="' + require("@/assets/imgs/error-img.png") + '"',
       recommend: [],
       index: 0,
       demo2: "推荐",
