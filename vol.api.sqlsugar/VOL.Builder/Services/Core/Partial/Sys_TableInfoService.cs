@@ -173,7 +173,7 @@ DISTINCT
         /// 获取达梦表结构信息
         /// </summary>
         /// <returns></returns>
-        private string GetDMModelInfo(string connection)
+        private string GetDMModelInfo(string connection=null)
         {
             return $@"SELECT DISTINCT
                         IF(DATA_PRECISION IS NOT NULL, CONCAT(DATA_PRECISION,',',DATA_SCALE),'') as Prec_Scale,
@@ -192,7 +192,7 @@ DISTINCT
                         FROM user_tab_columns 
                         WHERE table_name = :tableName {GetDMOwner()} ";
         }
-        private string GetDMStructure(string tableName, string connection)
+        private string GetDMStructure(string tableName, string connection=null)
         {
             return $@"SELECT  DISTINCT
                     tc.COLUMN_NAME AS ColumnName,
@@ -242,7 +242,7 @@ DISTINCT
                 LEFT JOIN dba_constraints c ON c.constraint_name=cons.constraint_name
                 LEFT JOIN user_col_comments col ON  tc.TABLE_NAME=col.TABLE_NAME AND tc.COLUMN_NAME=col.COLUMN_NAME 
 
-                WHERE  tc.table_name = :tableName {GetDMOwner(connection)} ";
+                WHERE  tc.table_name = :tableName {GetDMOwner()} ";
         }
         /// <summary>
         /// 获取SqlServer表结构信息
