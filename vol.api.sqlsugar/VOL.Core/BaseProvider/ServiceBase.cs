@@ -452,13 +452,16 @@ namespace VOL.Core.BaseProvider
             if (CheckResponseResult()) return Response;
             List<T> list = Response.Data as List<T>;
             var keyPro = typeof(T).GetKeyProperty();
-            if (keyPro.PropertyType == typeof(Guid))
+
+            if (keyPro.PropertyType == typeof(Guid) || keyPro.PropertyType == typeof(string))
             {
                 foreach (var item in list)
                 {
-                    keyPro.SetValue(item, Guid.NewGuid());
+                    var guid = Guid.NewGuid();
+                    keyPro.SetValue(item, keyPro.PropertyType == typeof(string)? guid.ToString():guid);
                 }
             }
+
             if (ImportOnExecuting != null)
             {
                 Response = ImportOnExecuting.Invoke(list);
@@ -779,6 +782,10 @@ namespace VOL.Core.BaseProvider
                     {
                         detailKeyInfo.SetValue(item, Guid.NewGuid());
                     }
+                    else if (detailKeyInfo.PropertyType == typeof(string))
+                    {
+                        detailKeyInfo.SetValue(item, Guid.NewGuid().ToString());
+                    }
                     addList.Add(item);
                 }
                 else //if (detailKeys.Contains(value))
@@ -1060,7 +1067,9 @@ namespace VOL.Core.BaseProvider
             //  string detailKeyType = mainKeyProperty.GetTypeCustomValue<ColumnAttribute>(c => new { c.TypeName });
             //判断明细是否包含了主表的主键
 
-            string deatilDefaultVal = detailKeyInfo.PropertyType.Assembly.CreateInstance(detailKeyInfo.PropertyType.FullName).ToString();
+            string deatilDefaultVal =
+                 detailKeyInfo.PropertyType == typeof(string) ? ""
+               : detailKeyInfo.PropertyType.Assembly.CreateInstance(detailKeyInfo.PropertyType.FullName).ToString();
             foreach (Dictionary<string, object> dic in saveModel.DetailData)
             {
                 //不包含主键的默认添加主键默认值，用于后面判断是否为新增数据

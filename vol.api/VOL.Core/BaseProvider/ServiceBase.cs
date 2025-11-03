@@ -479,11 +479,12 @@ namespace VOL.Core.BaseProvider
             List<T> list = Response.Data as List<T>;
 
             var keyPro = typeof(T).GetKeyProperty();
-            if (keyPro.PropertyType == typeof(Guid) )
+            if (keyPro.PropertyType == typeof(Guid) || keyPro.PropertyType == typeof(string))
             {
                 foreach (var item in list)
                 {
-                    keyPro.SetValue(item, Guid.NewGuid());
+                    var guid = Guid.NewGuid();
+                    keyPro.SetValue(item, keyPro.PropertyType == typeof(string) ? guid.ToString() : guid);
                 }
             }
             if (ImportOnExecuting != null)
