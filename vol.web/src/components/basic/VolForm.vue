@@ -780,13 +780,24 @@ const reset = (sourceObj) => {
     }
   }
 };
-
+//设置焦点
+const focus = (field) => {
+  nextTick(() => {
+    const refField = proxy.$refs[field];
+    if (Array.isArray(refField)) {
+      refField[0]?.focus(refField[0]);
+    } else {
+      refField?.focus(refField);
+    }
+  });
+};
 defineExpose({
   initSource,
   validate,
   reset,
   currentGroup,
   setTab,
+  focus
 });
 </script>
 <style lang="less" scoped>

@@ -125,7 +125,27 @@ export const initMethods = (proxy, props, dataConfig) => {
       })
     }
   }
-
+  const setFocus = (form, field, callback) => {
+    const formRef = proxy.$refs[form];
+    if (formRef) {
+      formRef[0]?.focus(field);
+      formRef?.focus(field);
+    } else {
+      setTimeout(() => {
+        proxy.$refs[form][0]?.focus(field);
+        proxy.$refs[form]?.focus(field);
+      }, 400);
+    }
+    callback?.();
+  };
+  //设置查询表单字段焦点
+  const searchFocus = (field, callback) => {
+    setFocus("searchForm", field, callback);
+  };
+  //设置编辑表单字段焦点
+  const editFocus = (field, callback) => {
+    setFocus("form", field, callback);
+  };
   return {
     editFormTabClick,
     getSelectRows,
@@ -149,6 +169,8 @@ export const initMethods = (proxy, props, dataConfig) => {
     setFixedSearchForm,
     getCurrentAction,
     setFormReadonly,
-    updateDetailTableSummaryTotal
+    updateDetailTableSummaryTotal,
+    searchFocus,
+    editFocus
   }
 }
