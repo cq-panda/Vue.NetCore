@@ -15,7 +15,7 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     const rows = []
     let row = proxy.detailAddRowBefore.call(proxy, table, item)
     if (checkRowsFalse(row)) {
-      return
+      return false
     }
     if (row) {
       if (Array.isArray(row)) {
@@ -26,7 +26,7 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     }
     row = props.detailAddRowBefore(table, item)
     if (checkRowsFalse(row)) {
-      return
+      return false
     }
     if (row) {
       if (Array.isArray(row)) {
@@ -41,6 +41,9 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
   const addRow = () => {
     const tableRef = proxy.getTable()
     const rows = detailAddRowBefore()
+    if (rows===false) {
+        return ;
+    }
     if (!rows.length) {
       rows.push({})
     }
@@ -51,6 +54,7 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
   //二级明细表添加行
   const addSecondRow = (table, item, index) => {
     const rows = detailAddRowBefore(table, item)
+    
     if (rows.length) {
       proxy.getTable(table).addRow(rows)
       return
