@@ -1672,19 +1672,8 @@ DISTINCT
         public async Task<WebResponseContent> DelTree(int table_Id)
         {
             if (table_Id == 0) return new WebResponseContent().Error("没有传入参数");
-            Sys_TableInfo tableInfo = (await repository.FindAsIQueryable(x => x.Table_Id == table_Id)
-                .Include(c => c.TableColumns)
-               .ToListAsync()).FirstOrDefault();
-            if (tableInfo == null) return new WebResponseContent().OK();
-            if (tableInfo.TableColumns != null && tableInfo.TableColumns.Count > 0)
-            {
-                return new WebResponseContent().Error("当前删除的节点存在表结构信息,只能删除空节点");
-            }
-            if (repository.Exists(x => x.ParentId == table_Id))
-            {
-                return new WebResponseContent().Error("当前删除的节点存在子节点，不能删除");
-            }
-            repository.Delete(tableInfo, true);
+            await repository.FindAsIQueryable(x => x.Table_Id == table_Id).ExecuteDeleteAsync();
+            await repository.DbContext.Set<Sys_TableColumn>().Where(x => x.Table_Id == table_Id).ExecuteDeleteAsync();
             return new WebResponseContent().OK();
         }
 

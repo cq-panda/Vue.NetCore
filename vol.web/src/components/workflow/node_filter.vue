@@ -98,7 +98,6 @@
 </template>
 
 <script>
-let _this = this
 export default {
   props: {
     tableName: {
@@ -172,7 +171,7 @@ export default {
             })
           }
         })
-        _this.fieldsOptions = result
+        this.fieldsOptions = result
       })
     }
   },
@@ -192,7 +191,6 @@ export default {
     // }
   },
   created() {
-    _this = this
   }
 }
 </script>

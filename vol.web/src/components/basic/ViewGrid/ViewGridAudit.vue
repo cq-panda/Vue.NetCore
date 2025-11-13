@@ -304,14 +304,10 @@
   <vol-image-viewer ref="viewer"></vol-image-viewer>
 </template>
 <script>
-import VolTable from '@/components/basic/VolTable.vue'
-import VolBox from '@/components/basic/VolBox.vue'
 import VolImageViewer from '@/components/basic/VolImageViewer.vue'
 import { defineComponent, ref, reactive, getCurrentInstance, computed } from 'vue'
 export default defineComponent({
   components: {
-    VolTable,
-    VolBox,
     'vol-image-viewer': VolImageViewer,
   },
   emits: ['auditClick', 'signAfter', 'parentCall', 'flowLoadAfter'],

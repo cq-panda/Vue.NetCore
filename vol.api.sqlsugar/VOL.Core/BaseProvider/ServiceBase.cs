@@ -451,6 +451,17 @@ namespace VOL.Core.BaseProvider
             }
             if (CheckResponseResult()) return Response;
             List<T> list = Response.Data as List<T>;
+            var keyPro = typeof(T).GetKeyProperty();
+
+            if (keyPro.PropertyType == typeof(Guid) || keyPro.PropertyType == typeof(string))
+            {
+                foreach (var item in list)
+                {
+                    var guid = Guid.NewGuid();
+                    keyPro.SetValue(item, keyPro.PropertyType == typeof(string)? guid.ToString():guid);
+                }
+            }
+
             if (ImportOnExecuting != null)
             {
                 Response = ImportOnExecuting.Invoke(list);
@@ -740,10 +751,10 @@ namespace VOL.Core.BaseProvider
         /// <param name="detailKeyInfo"></param>
         /// <param name="keyDefaultVal"></param>
         /// <returns></returns>
-        public WebResponseContent UpdateToEntity<DetailT>(SaveModel saveModel, 
-            PropertyInfo mainKeyProperty, 
-            PropertyInfo detailKeyInfo, 
-            object keyDefaultVal) where DetailT : class,new()
+        public WebResponseContent UpdateToEntity<DetailT>(SaveModel saveModel,
+            PropertyInfo mainKeyProperty,
+            PropertyInfo detailKeyInfo,
+            object keyDefaultVal) where DetailT : class, new()
         {
             T mainEnity = saveModel.MainData.DicToEntity<T>();
             List<DetailT> detailList = saveModel.DetailData.DicToList<DetailT>();
@@ -770,6 +781,10 @@ namespace VOL.Core.BaseProvider
                     if (detailKeyInfo.PropertyType == typeof(Guid))
                     {
                         detailKeyInfo.SetValue(item, Guid.NewGuid());
+                    }
+                    else if (detailKeyInfo.PropertyType == typeof(string))
+                    {
+                        detailKeyInfo.SetValue(item, Guid.NewGuid().ToString());
                     }
                     addList.Add(item);
                 }
@@ -801,57 +816,54 @@ namespace VOL.Core.BaseProvider
             repository.Update(mainEnity, typeof(T).GetEditField()
                 .Where(c => saveModel.MainData.Keys.Contains(c) && !CreateFields.Contains(c))
                 .ToArray());
-            //foreach (var item in saveModel.DetailData)
-            //{
-            //    item.SetModifyDefaultVal();
-            //}
-            //明细修改
-
-            editList.ForEach(x =>
+    
+            Response = repository.DbContextBeginTransaction(() =>
             {
-                //获取编辑的字段
-                var updateField = saveModel.DetailData
-                    .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
-                    .Equal(detailKeyInfo.GetValue(x)))
-                    .FirstOrDefault()
-                    .Keys.Where(k => k != detailKeyInfo.Name)
-                    .Where(r => !CreateFields.Contains(r))
-                    .ToList();
-                updateField.AddRange(ModifyFields);
-                //設置默認值
-                x.SetModifyDefaultVal();
-                //添加修改字段
-                repository.Update(x, updateField.ToArray(),false);
-            });
-
-            //明细新增
-            addList.ForEach(x =>
-            {
-                x.SetCreateDefaultVal();
-                repository.Add(x);
-            });
-            //明细删除
-            delKeys.ForEach(x =>
-            {
-                DetailT delT = Activator.CreateInstance<DetailT>();
-                detailKeyInfo.SetValue(delT, x);
-                repository.Delete(delT);
-            });
-
-            if (UpdateOnExecuted == null)
-            {
-                repository.DbContext.SaveChanges();
-                Response.OK(ResponseType.SaveSuccess);
-            }
-            else
-            {
-                Response = repository.DbContextBeginTransaction(() =>
+                int paramsCount = 0;
+                foreach (var item in editList)
                 {
-                    repository.DbContext.SaveChanges();
-                    Response = UpdateOnExecuted(mainEnity, addList, editList, delKeys);
-                    return Response;
+                    //获取编辑的字段
+                    var updateField = saveModel.DetailData
+                        .Where(c => c[detailKeyInfo.Name].ChangeType(detailKeyInfo.PropertyType)
+                        .Equal(detailKeyInfo.GetValue(item)))
+                        .FirstOrDefault()
+                        .Keys.Where(k => k != detailKeyInfo.Name)
+                        .Where(r => !CreateFields.Contains(r))
+                        .ToList();
+                    updateField.AddRange(ModifyFields);
+                    //設置默認值
+                    item.SetModifyDefaultVal();
+                    paramsCount += updateField.Count;
+                    if (paramsCount>2000)
+                    {
+                        repository.SaveChanges();
+                    }
+                    //添加修改字段
+                    repository.Update(item, updateField.ToArray(), false);
+                }
+                 paramsCount = 0;
+                //明细新增
+                foreach (var item in addList)
+                {
+                    item.SetCreateDefaultVal();
+                }
+                repository.AddRange(addList);
+                //明细删除
+                delKeys.ForEach(x =>
+                {
+                    DetailT delT = Activator.CreateInstance<DetailT>();
+                    detailKeyInfo.SetValue(delT, x);
+                    repository.Delete(delT);
                 });
-            }
+                repository.SaveChanges();
+                if (UpdateOnExecuted == null)
+                {
+                    return Response.OK(ResponseType.SaveSuccess);
+                }
+                Response = UpdateOnExecuted(mainEnity, addList, editList, delKeys);
+                return Response;
+            });
+
             if (Response.Status)
             {
                 addList.AddRange(editList);
@@ -1055,7 +1067,9 @@ namespace VOL.Core.BaseProvider
             //  string detailKeyType = mainKeyProperty.GetTypeCustomValue<ColumnAttribute>(c => new { c.TypeName });
             //判断明细是否包含了主表的主键
 
-            string deatilDefaultVal = detailKeyInfo.PropertyType.Assembly.CreateInstance(detailKeyInfo.PropertyType.FullName).ToString();
+            string deatilDefaultVal =
+                 detailKeyInfo.PropertyType == typeof(string) ? ""
+               : detailKeyInfo.PropertyType.Assembly.CreateInstance(detailKeyInfo.PropertyType.FullName).ToString();
             foreach (Dictionary<string, object> dic in saveModel.DetailData)
             {
                 //不包含主键的默认添加主键默认值，用于后面判断是否为新增数据

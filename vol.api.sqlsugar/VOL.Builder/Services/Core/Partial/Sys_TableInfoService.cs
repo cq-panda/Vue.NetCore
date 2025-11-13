@@ -156,7 +156,94 @@ DISTINCT
                 table_name = ?tableName {GetMysqlTableSchema()};";
         }
 
+        private string GetDMOwner()
+        {
+            try
+            {
+                string dbName = DBServerProvider.GetConnectionString().Split("schema=")[1].Split(";")[0]?.Trim();
+                return dbName;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"获取达梦数据库名异常:{ex.Message}");
+                return "";
+            }
+        }
+        /// <summary>
+        /// 获取达梦表结构信息
+        /// </summary>
+        /// <returns></returns>
+        private string GetDMModelInfo(string connection=null)
+        {
+            return $@"SELECT DISTINCT
+                        IF(DATA_PRECISION IS NOT NULL, CONCAT(DATA_PRECISION,',',DATA_SCALE),'') as Prec_Scale,
+                        CASE
+                            WHEN data_type IN( 'BIT', 'BOOL','bit', 'bool') THEN 'bool'
+                            WHEN data_type in('smallint','SMALLINT') THEN 'short'
+                            WHEN data_type in('tinyint', 'TINYINT') THEN 'sbyte'
+                            WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN 'int'
+                            WHEN data_type in ( 'BIGINT','bigint') THEN 'bigint'
+                            WHEN data_type IN('FLOAT',  'DECIMAL','float', 'decimal') THEN 'decimal'
+							WHEN data_type IN( 'DOUBLE', 'double') THEN 'double'
+                            WHEN data_type IN('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB', 'LONGBLOB', 'Time','char', 'varchar', 'tiny text', 'text', 'mediumtext', 'longtext', 'tinyblob', 'blob', 'mediumblob', 'longblob', 'time') THEN 'nvarchar'
+                            WHEN data_type IN('Date', 'DateTime', 'TimeStamp','date', 'datetime', 'timestamp') THEN 'datetime' ELSE 'nvarchar'
+                        END AS ColumnType,
+                        Column_Name AS ColumnName
+                        FROM user_tab_columns 
+                        WHERE table_name = :tableName {GetDMOwner()} ";
+        }
+        private string GetDMStructure(string tableName, string connection=null)
+        {
+            return $@"SELECT  DISTINCT
+                    tc.COLUMN_NAME AS ColumnName,
+                     '{tableName}'  as tableName,
+	                IFNULL(col.COMMENTS,'') AS ColumnCnName,
+                        CASE
+                          WHEN data_type IN( 'BIT', 'BOOL', 'bit', 'bool') THEN
+                'bool'
+		             WHEN data_type in('smallint','SMALLINT') THEN 'short'
+								WHEN data_type in('tinyint','TINYINT') THEN 'sbyte'
+                        WHEN data_type IN('MEDIUMINT','mediumint', 'int','INT','year', 'Year') THEN
+                    'int'
+                    WHEN data_type in ( 'BIGINT','bigint') THEN
+                    'bigint'
+                    WHEN data_type IN('FLOAT', 'DOUBLE', 'DECIMAL','float', 'double', 'decimal') THEN
+                    'decimal'
+                    WHEN data_type IN('CHAR', 'VARCHAR', 'TINY TEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB', 'LONGBLOB', 'Time','char', 'varchar', 'tiny text', 'text', 'mediumtext', 'longtext', 'tinyblob', 'blob', 'mediumblob', 'longblob', 'time') THEN
+                    'string'
+                    WHEN data_type IN('Date', 'DateTime', 'TimeStamp','date', 'datetime', 'timestamp') THEN
+                    'DateTime' ELSE 'string'
+                END AS ColumnType,
+	              case WHEN DATA_LENGTH>8000 THEN 0 ELSE DATA_LENGTH end  AS Maxlength,
+            CASE
+                    WHEN c.constraint_type='P' THEN  
+                    1 ELSE 0
+                END AS IsKey,
+            CASE
+                    WHEN tc.Column_Name IN( 'CreateID', 'ModifyID', '' ) 
+		            OR c.constraint_type='P' THEN
+                        0 ELSE 1
+                        END AS IsDisplay,
+		            1 AS IsColumnData,
+                    120 AS ColumnWidth,
+                    0 AS OrderNo,
+                CASE
+                        WHEN NULLABLE = 'NO' THEN
+                        0 ELSE 1
+                    END AS IsNull,
+	            CASE
+                        WHEN c.constraint_type='P' THEN
+                        1 ELSE 0
+                    END AS IsReadDataset
+                FROM
+                    user_tab_columns tc
+                INNER JOIN dba_tables t ON tc.TABLE_NAME=t.TABLE_NAME
+                LEFT JOIN dba_cons_columns cons ON tc.COLUMN_NAME=cons.COLUMN_NAME AND tc.TABLE_NAME=cons.TABLE_NAME
+                LEFT JOIN dba_constraints c ON c.constraint_name=cons.constraint_name
+                LEFT JOIN user_col_comments col ON  tc.TABLE_NAME=col.TABLE_NAME AND tc.COLUMN_NAME=col.COLUMN_NAME 
 
+                WHERE  tc.table_name = :tableName {GetDMOwner()} ";
+        }
         /// <summary>
         /// 获取SqlServer表结构信息
         /// </summary>
@@ -298,6 +385,9 @@ DISTINCT
                 case "PgSql":
                     sql = GetPgSqlModelInfo();
                     break;
+                case "DM":
+                    sql = GetDMModelInfo();
+                    break;
                 default:
                     sql = GetSqlServerModelInfo();
                     break;
@@ -359,6 +449,10 @@ DISTINCT
             if (DBType.Name.ToLower() == DbCurrentType.MySql.ToString().ToLower())
             {
                 sql = GetMySqlStructure(tableName);
+            }
+            else if (DBType.Name.ToLower() == DbCurrentType.DM.ToString().ToLower())
+            {
+                sql = GetDMStructure(tableName);
             }
             else if (DBType.Name.ToLower() == DbCurrentType.PgSql.ToString().ToLower())
             {
@@ -1457,19 +1551,8 @@ DISTINCT
         public async Task<WebResponseContent> DelTree(int table_Id)
         {
             if (table_Id == 0) return new WebResponseContent().Error("没有传入参数");
-            Sys_TableInfo tableInfo = await repository.FindAsIQueryable(x => x.Table_Id == table_Id)
-                .Includes(c => c.TableColumns)
-                .FirstOrDefaultAsync();
-            if (tableInfo == null) return new WebResponseContent().OK();
-            if (tableInfo.TableColumns != null && tableInfo.TableColumns.Count > 0)
-            {
-                return new WebResponseContent().Error("当前删除的节点存在表结构信息,只能删除空节点");
-            }
-            if (repository.Exists(x => x.ParentId == table_Id))
-            {
-                return new WebResponseContent().Error("当前删除的节点存在子节点，不能删除");
-            }
-            repository.Delete(tableInfo, true);
+            await repository.DbContext.Deleteable<Sys_TableInfo>().Where(x => x.Table_Id == table_Id).ExecuteCommandAsync();
+            await repository.DbContext.Deleteable<Sys_TableColumn>().Where(x => x.Table_Id == table_Id).ExecuteCommandAsync();
             return new WebResponseContent().OK();
         }
 

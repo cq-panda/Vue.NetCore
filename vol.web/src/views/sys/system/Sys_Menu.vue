@@ -103,8 +103,6 @@
   </div>
 </template>
 <script lang="jsx">
-import VolForm from "@/components/basic/VolForm.vue";
-import VolBox from "@/components/basic/VolBox.vue";
 import Icons from "@/components/basic/Icons.vue";
 import VolMenu from "@/components/basic/VolElementMenu.vue";
 import {
@@ -121,8 +119,6 @@ import {
 import http from "@/api/http";
 export default defineComponent({
   components: {
-    VolForm: VolForm,
-    VolBox: VolBox,
     Icons: Icons,
     VolMenu,
   },

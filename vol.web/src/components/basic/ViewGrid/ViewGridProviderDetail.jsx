@@ -8,9 +8,15 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     proxy.detailSortEnd.call(proxy, rows, newIndex, oldIndex, table)
     props.detailSortEnd(rows, newIndex, oldIndex, table)
   }
+  const checkRowsFalse = (rows) => {
+    return rows === false
+  }
   const detailAddRowBefore = (table, item) => {
     const rows = []
-    let row = proxy.detailAddRowBefore.call()
+    let row = proxy.detailAddRowBefore.call(proxy, table, item)
+    if (checkRowsFalse(row)) {
+      return false
+    }
     if (row) {
       if (Array.isArray(row)) {
         rows.push(...row)
@@ -18,7 +24,10 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
         rows.push(row)
       }
     }
-    row = props.detailAddRowBefore()
+    row = props.detailAddRowBefore(table, item)
+    if (checkRowsFalse(row)) {
+      return false
+    }
     if (row) {
       if (Array.isArray(row)) {
         rows.push(...row)
@@ -32,6 +41,9 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
   const addRow = () => {
     const tableRef = proxy.getTable()
     const rows = detailAddRowBefore()
+    if (rows===false) {
+        return ;
+    }
     if (!rows.length) {
       rows.push({})
     }
@@ -42,6 +54,7 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
   //二级明细表添加行
   const addSecondRow = (table, item, index) => {
     const rows = detailAddRowBefore(table, item)
+    
     if (rows.length) {
       proxy.getTable(table).addRow(rows)
       return
@@ -89,15 +102,49 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     proxy.getTableRef(item.table || table).rowData = rows[0][table]
   }
 
-  //明细表删除
-  const delRow = async (table, item, index, isSubDetail) => {
-    //一对多明细的添加行
+  const execDelRow = (rows, table, item, index, isSubDetail) => {
+    //二、三级删除行
+    if (dataConfig.isMultiple.value || isSubDetail) {
+      let refDetail = proxy.getTable(table)
+      refDetail.delRow()
+      if (isSubDetail) {
+        //这里分配二级明细表的三级表格数据后不能实现共同内存地址，问题待查
+        const subRows = proxy.getTable(table).rowData
+        ;(proxy.getTable(item.secondTable).getSelected()[0] || {})[table] = subRows
+      }
+      //记录删除的明细
+      rows.forEach((x) => {
+        if (x.hasOwnProperty(item.key) && x[item.key]) {
+          item.delKeys.push(x[item.key])
+        }
+      })
+      delRowAfter(proxy, props, rows, table, item, index)
+      return
+    }
+    rows = proxy.getTable().delRow(rows)
 
-    let rows
-    if (isSubDetail) {
-      rows = proxy.getTable(table).getSelected()
-    } else if (typeof table == 'string' && dataConfig.isMultiple.value) {
-      rows = proxy.getTable(table).getSelected()
+    if (!delRowAfter(proxy, props, rows, table, item, index)) {
+      return
+    }
+    let key = dataConfig.detailOptions.key
+    //记录删除的行数据
+    rows.forEach((x) => {
+      if (x.hasOwnProperty(key) && x[key]) {
+        dataConfig.detailOptions.delKeys.push(x[key])
+      }
+    })
+    updateTableSummaryTotal(proxy, props, dataConfig, rows.length)
+  }
+
+  //明细表删除
+  const delRow = async (rows, table, item, index, isSubDetail) => {
+    //一对多明细的添加行
+    let isDelBtnClick = true
+    if (rows) {
+      if (!Array.isArray(rows)) {
+        rows = [rows]
+      }
+      isDelBtnClick = false
     } else {
       rows = proxy.getTable().getSelected()
     }
@@ -117,49 +164,20 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     if (!(await props.delRowBefore(rows, table, item, index))) {
       return
     }
-    let tigger = false
-    proxy
-      .$confirm(proxy.$ts('确认要删除选择的数据吗?'), proxy.$ts('警告'), {
-        confirmButtonText: proxy.$ts('确定'),
-        cancelButtonText: proxy.$ts('取消'),
-        type: 'warning',
-        center: true
-      })
-      .then(() => {
-        if (tigger) return
-        tigger = true
-        //二、三级删除行
-        if (dataConfig.isMultiple.value || isSubDetail) {
-          let refDetail = proxy.getTable(table)
-          refDetail.delRow()
-          if (isSubDetail) {
-            //这里分配二级明细表的三级表格数据后不能实现共同内存地址，问题待查
-            const subRows = proxy.getTable(table).rowData
-            ;(proxy.getTable(item.secondTable).getSelected()[0] || {})[table] = subRows
-          }
-          //记录删除的明细
-          rows.forEach((x) => {
-            if (x.hasOwnProperty(item.key) && x[item.key]) {
-              item.delKeys.push(x[item.key])
-            }
-          })
-          delRowAfter(proxy, props, rows, table, item, index)
-          return
-        }
-        rows = proxy.getTable().delRow()
-
-        if (!delRowAfter(proxy, props, rows, table, item, index)) {
-          return
-        }
-        let key = dataConfig.detailOptions.key
-        //记录删除的行数据
-        rows.forEach((x) => {
-          if (x.hasOwnProperty(key) && x[key]) {
-            dataConfig.detailOptions.delKeys.push(x[key])
-          }
+    if (isDelBtnClick) {
+      proxy
+        .$confirm(proxy.$ts('确认要删除选择的数据吗?'), proxy.$ts('警告'), {
+          confirmButtonText: proxy.$ts('确定'),
+          cancelButtonText: proxy.$ts('取消'),
+          type: 'warning',
+          center: true
         })
-        updateTableSummaryTotal(proxy, props, dataConfig)
-      })
+        .then(() => {
+          execDelRow(rows, table, item, index, isSubDetail)
+        })
+      return
+    }
+    execDelRow(rows, table, item, index, isSubDetail)
   }
 
   //刷新明细表
@@ -220,7 +238,7 @@ export const initDetailOptions = (proxy, props, dataConfig) => {
     }
     //明细查询前
     //新建时禁止加载明细
-    if (dataConfig.currentAction.value == action.ADD&&!param.isCopyClick) {
+    if (dataConfig.currentAction.value == action.ADD && !param.isCopyClick) {
       await callBack(false)
       return false
     }
@@ -412,53 +430,41 @@ export const resetDetailTable = (proxy, props, dataConfig, row, isAdd, table) =>
   }
   //let key = table.key;
   // let query = { value: row ? row[key] : currentRow[key] };
-  const isCopyClick=dataConfig.isCopyClick.value;
+  const isCopyClick = dataConfig.isCopyClick.value
   proxy.$nextTick(() => {
     const detailRef = getDetailTableRef(proxy, props)
     if (detailRef) {
       detailRef.reset()
       //$refs.detail.load(query);
-      detailTableLoad(props, dataConfig, row, detailRef,null,isCopyClick)
+      detailTableLoad(props, dataConfig, row, detailRef, null, isCopyClick)
     }
   })
 }
 
-const detailTableLoad = (props, dataConfig, row, refTable, table,isCopyClick) => {
+const detailTableLoad = (props, dataConfig, row, refTable, table, isCopyClick) => {
   //一对多明细表加载数据
   if (refTable) {
     let query = {
       value: row ? row[props.table.key] : dataConfig.currentRow.value[props.table.key],
       tableName: table,
-      isCopyClick:isCopyClick
+      isCopyClick: isCopyClick
     }
     refTable.load(query)
   }
 }
 
-const updateTableSummaryTotal = (proxy, props, dataConfig) => {
-  //2021.09.25增加明细表删除、修改时重新计算行数与汇总
-  //2021.12.12增加明细表判断(强制刷新合计时会用到)
-  if (dataConfig.isMultiple.value) {
-    props.details.forEach((c) => {
-      if (!table || c.table === table) {
-        let tableRef = proxy.getTable(c.table)
-        tableRef.paginations.total = tableRef.rowData.length
-        //重新设置合计
-        if (tableRef.summary) {
-          tableRef.columns.forEach((column) => {
-            if (column.summary) {
-              tableRef.getInputSummaries(null, null, null, column)
-            }
-          })
-        }
-      }
-    })
-    return
-  }
+const updateTableSummaryTotal = (proxy, props, dataConfig, delTotal) => {
   const detailRef = proxy.$refs.detail
   if (!detailRef) return
   //删除或新增行时重新设置显示的总行数
-  detailRef.paginations.total = detailRef.rowData.length
+  // detailRef.paginations.total = detailRef.rowData.length
+  if (detailRef.paginations.page <= 1) {
+    if (delTotal && detailRef.paginations.total - delTotal >= 0) {
+      detailRef.paginations.total = detailRef.paginations.total - delTotal
+    } else {
+      detailRef.paginations.total = detailRef.rowData.length
+    }
+  }
   //重新设置合计
   if (detailRef.summary) {
     detailRef.columns.forEach((column) => {

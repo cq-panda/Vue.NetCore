@@ -20,12 +20,10 @@
 
 <script>
 import FlowPanel from "@/components/workflow/panel";
-import VolBox from "@/components/basic/VolBox.vue";
 export default {
   name: "App",
   components: {
-    FlowPanel,
-    VolBox,
+    FlowPanel
   },
   data() {
     return {

@@ -4,7 +4,7 @@ export const initDicData = (proxy, props, ctx, dataConfig,reset) => {
   let keys = []
   const dicKeys = dataConfig.dicKeys.value
   if (reset) {
-      dicKeys.splice(0);
+    dicKeys.splice(0);
   }
   //2022.04.17优化重新加载数据源
   dicKeys.forEach((item) => {
@@ -30,7 +30,7 @@ export const initDicData = (proxy, props, ctx, dataConfig,reset) => {
     //查询日期设置为可选开始与结果日期
     props.searchFormOptions.forEach((item) => {
       item.forEach((x) => {
-        if (['date', 'datetime', 'month'].includes(x.type) && x.range === undefined) x.range = true
+        if (['date', 'datetime', 'month','year'].includes(x.type) && x.range === undefined) x.range = true
       })
     })
     //初始化datatable表数据源,默认为一个空数组,dicKeys为界面所有的数据字典编号
@@ -96,6 +96,9 @@ const initFormOptions = (proxy, props, dataConfig, formOptions, keys, formFields
       }
       if (isEdit && isCascader(d.type)) {
         dicItem.type = d.type
+      }
+      if (!isEdit&& isCascader(d.type)) {
+          d.data=[];
       }
     })
   })
@@ -181,7 +184,7 @@ const bindOptions = (proxy, props, dataConfig, dicRes) => {
       return x.dicNo === item.dicNo && isCascader(x.type)
     })
     //数据字典转换select2
-    if (item.data.length >= (props.select2Count || 4000)) {
+    if (item.data.length >= (dataConfig.select2Count.value)) {
       if (!_isCascader) {
         item.data.forEach((x) => {
           x.label = x.value
@@ -201,7 +204,6 @@ const bindOptions = (proxy, props, dataConfig, dicRes) => {
       // x.data=d.data;
       //生成tree结构
       const _data = JSON.parse(JSON.stringify(item.data))
-      //2022.04.04增加级联字典数据源刷新后table没有变化的问题
       props.columns.forEach((column) => {
         if (column.bind && column.bind.key === item.dicNo) {
           column.bind.data = item.data
@@ -218,7 +220,6 @@ const bindOptions = (proxy, props, dataConfig, dicRes) => {
 
       dicItem.data.push(...arr)
       dicItem.orginData.push(...item.data)
-
       bindSearchCascader(proxy, item, arr)
       //2021.10.17修复级联不能二级刷新的问题
       proxy.editFormOptions.forEach((editOption) => {

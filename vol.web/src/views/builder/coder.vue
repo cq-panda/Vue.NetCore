@@ -109,16 +109,10 @@
 </template>
 <script>
 import builderData from './builderData.jsx'
-import VolForm from '@/components/basic/VolForm.vue'
-import VolTable from '@/components/basic/VolTable.vue'
-import VolBox from '@/components/basic/VolBox.vue'
 import VolHeader from '@/components/basic/VolHeader.vue'
 import VolMenu from '@/components/basic/VolElementMenu.vue'
 export default {
   components: {
-    VolForm: VolForm,
-    VolTable: VolTable,
-    VolBox: VolBox,
     VolHeader: VolHeader,
     VolMenu
   },
@@ -149,7 +143,7 @@ export default {
     'layOutOptins.fields.vuePath'(val) {
       localStorage.setItem('vuePath', val)
     },
-    deep: true
+    //deep: true
     //localStorage.setItem("vuePath", this.layOutOptins.fields.vuePath || "");
   },
   methods: {

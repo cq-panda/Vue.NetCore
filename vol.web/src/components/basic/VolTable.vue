@@ -20,7 +20,6 @@
       :show-summary="summaryData.length > 0"
       :summary-method="getSummaryData"
       :row-key="rowKey"
-      :key="randomTableKey"
       :lazy="lazy"
       :defaultExpandAll="defaultExpandAll"
       :expand-row-keys="rowKey ? expandRowKeys : undefined"
@@ -597,7 +596,7 @@ import { getCellColor, formatDate, cellFormatter } from './VolTable/VolTableForm
 import { tableRowClick, rowEndEdit } from './VolTable/VolTableEdit.js'
 const VolTableUpload = defineAsyncComponent(() => import('./VolTable/VolTableUpload.vue'))
 import VolLoading from '@/components/basic/VolLoading'
-const VolImageViewer = defineAsyncComponent(() => import('@/components/basic/VolImageViewer.vue'))
+import VolImageViewer from '@/components/basic/VolImageViewer.vue'
 const emit = defineEmits([
   'dicInited',
   'loadBefore',
@@ -1023,8 +1022,8 @@ const addRow = (row) => {
   return row
 }
 
-const delRow = () => {
-  const rows = getSelected()
+const delRow = (rows) => {
+   rows =rows|| getSelected()
   delTableRow(proxy, edit, getTableData(), rows, getSelectedIndex())
   return rows
 }
@@ -1064,13 +1063,14 @@ watch(
   }
 )
 
-const handleTableClickOutside = (event) => {
+const handleTableClickOutside = async (event) => {
   if (!refTable.value?.contains(event.target)) {
     if (isDateChange.value) return
     if (edit.rowIndex != -1) {
       let row = getTableData[edit.rowIndex]
-      rowEndEdit(proxy, props, getTableData(), row, edit)
-      edit.rowIndex = -1
+      if ((await rowEndEdit(proxy, props, getTableData(), row, edit)) !== false) {
+        edit.rowIndex = -1
+      }
     }
   }
 }

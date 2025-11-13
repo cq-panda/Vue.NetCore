@@ -63,6 +63,10 @@ namespace VOL.Core.DbSqlSugar
             {
                 return DbType.PostgreSQL;
             }
+            else if (Const.DBType.Name == DbCurrentType.DM.ToString())
+            {
+                return DbType.Dm;
+            }
             throw new Exception("未实现数据库");
         }
     }

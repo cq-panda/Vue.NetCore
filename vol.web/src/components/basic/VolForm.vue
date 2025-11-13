@@ -1,11 +1,6 @@
 <template>
   <div style="padding: 0 10px">
-    <el-tabs
-      @tab-click="tabClick"
-      v-if="currentGroup"
-      v-model="currentGroup"
-      class="form-tabs"
-    >
+    <el-tabs @tab-click="tabClick" v-if="currentGroup" v-model="currentGroup" class="form-tabs">
       <el-tab-pane v-for="(group, index) in tabsGroup" :key="index" :name="group">
         <template #label>
           <span class="custom-tabs-label">
@@ -27,10 +22,9 @@
     :label-position="labelPosition || $global.labelPosition"
     :rules="rules"
     :class="[
-      (labelPosition == 'left' || $global.labelPosition == 'left') &&
-      labelPosition != 'top'
+      (labelPosition == 'left' || $global.labelPosition == 'left') && labelPosition != 'top'
         ? 'form-normal'
-        : 'form-lang',
+        : 'form-lang'
     ]"
   >
     <template v-for="(row, findex) in formRules" :key="findex">
@@ -45,18 +39,13 @@
           style="float: left; margin-right: 0; padding: 0 10px; margin-bottom: 14px"
         >
           <template #label>
-            <form-expand
-              v-if="item.labelRender"
-              :render="item.labelRender"
-              :par="12"
-            ></form-expand>
+            <form-expand v-if="item.labelRender" :render="item.labelRender" :par="12"></form-expand>
             <span v-else :style="item.labelStyle">
               {{
                 $ts(item.title) +
-                ((labelPosition == "left" || $global.labelPosition == "left") &&
-                item.title
-                  ? ":"
-                  : "")
+                ((labelPosition == 'left' || $global.labelPosition == 'left') && item.title
+                  ? ':'
+                  : '')
               }}
             </span>
           </template>
@@ -96,14 +85,7 @@
               :key="fileIndex"
             >
               <a
-                @click="
-                  dowloadFile(
-                    formFields[item.field][fileIndex],
-                    access_token,
-                    $store,
-                    http
-                  )
-                "
+                @click="dowloadFile(formFields[item.field][fileIndex], access_token, $store, http)"
                 >{{ file.name }}</a
               >
             </div>
@@ -129,13 +111,13 @@
               :multiple="item.multiple"
               :render-after-expand="false"
               :show-checkbox="true"
-              :check-strictly="true"
+              :check-strictly="item.checkCtrictly === undefined ? true : item.checkCtrictly"
               check-on-click-node
               node-key="key"
               :props="{ label: 'label' }"
               @change="
                 (val) => {
-                  item.onChange && item.onChange(val, item.data);
+                  item.onChange && item.onChange(val, item.data)
                 }
               "
             >
@@ -156,7 +138,7 @@
                 :options="item.data"
                 @change="
                   (val) => {
-                    item.onChange && item.onChange(val, item.data);
+                    item.onChange && item.onChange(val, item.data)
                   }
                 "
                 clearable
@@ -180,7 +162,7 @@
                 clearable
                 :remote-method="
                   (val) => {
-                    remoteSearch(item, formFields, val);
+                    remoteSearch(item, formFields, val)
                   }
                 "
               >
@@ -207,13 +189,13 @@
                 :filter-method="item.filterMethod"
                 @change="
                   (val) => {
-                    itemChange(item, val, false);
+                    itemChange(item, val, false)
                   }
                 "
                 clearable
                 @clear="
                   () => {
-                    itemChange(item, null, true);
+                    itemChange(item, null, true)
                   }
                 "
               >
@@ -293,8 +275,7 @@
               class="v-date-range"
               style="display: flex"
               v-else-if="
-                ['date', 'datetime', 'month', 'year'].indexOf(item.type) != -1 &&
-                item.range
+                ['date', 'datetime', 'month', 'year'].indexOf(item.type) != -1 && item.range
               "
             >
               <el-date-picker
@@ -310,7 +291,7 @@
                 :end-placeholder="$ts('结束时间')"
                 @change="
                   (val) => {
-                    dateRangeChange(val, item);
+                    dateRangeChange(val, item)
                   }
                 "
                 :value-format="getDateFormat(item)"
@@ -409,7 +390,7 @@
               :imgOption="item.imgOption"
               :on-change="
                 (files) => {
-                  return fileOnChange(files, item);
+                  return fileOnChange(files, item)
                 }
               "
               :file-click="item.fileClick"
@@ -426,7 +407,7 @@
               v-else-if="item.type == 'cascader'"
               :options="item.data"
               :props="{
-                checkStrictly: item.changeOnSelect || item.checkStrictly,
+                checkStrictly: item.changeOnSelect || item.checkStrictly
               }"
               @change="item.onChange"
             >
@@ -435,7 +416,7 @@
               v-else-if="item.type == 'rate'"
               @change="
                 (val) => {
-                  item.onChange && item.onChange(val);
+                  item.onChange && item.onChange(val)
                 }
               "
               :max="item.max"
@@ -469,7 +450,7 @@
                   '#90ee90',
                   '#00ced1',
                   '#1e90ff',
-                  '#c71585',
+                  '#c71585'
                 ]"
                 v-model="formFields[item.field]"
               />
@@ -485,12 +466,12 @@
               type="textarea"
               :autosize="{
                 minRows: item.minRows || 2,
-                maxRows: item.maxRows || 10,
+                maxRows: item.maxRows || 10
               }"
               :placeholder="$ts(item.placeholder || item.title)"
               @keypress="
                 ($event) => {
-                  onKeyPress($event, item);
+                  onKeyPress($event, item)
                 }
               "
               @change="item.onKeyPress"
@@ -511,11 +492,15 @@
               controls-position="right"
               @keypress="
                 ($event) => {
-                  onKeyPress($event, item);
+                  onKeyPress($event, item)
                 }
               "
               @change="item.onKeyPress"
-              @keyup.delete="($event)=>{item.onKeyPress&&item.onKeyPress($event,item)}"
+              @keyup.delete="
+                ($event) => {
+                  item.onKeyPress && item.onKeyPress($event, item)
+                }
+              "
               @blur="item.blur"
               @focus="item.focus"
             />
@@ -543,7 +528,7 @@
               v-model="formFields[item.field]"
               @keypress="
                 ($event) => {
-                  onKeyPress($event, item);
+                  onKeyPress($event, item)
                 }
               "
               @keyup.delete="item.onKeyPress"
@@ -567,10 +552,7 @@
             ></el-input>
 
             <div class="form-extra" v-if="item.extra">
-              <form-expand
-                v-if="item.extra.render"
-                :render="item.extra.render"
-              ></form-expand>
+              <form-expand v-if="item.extra.render" :render="item.extra.render"></form-expand>
               <a
                 v-else-if="item.extra.click"
                 :style="item.extra.style"
@@ -798,15 +780,26 @@ const reset = (sourceObj) => {
     }
   }
 };
-
+//设置焦点
+const focus = (field) => {
+  nextTick(() => {
+    const refField = proxy.$refs[field];
+    if (Array.isArray(refField)) {
+      refField[0]?.focus(refField[0]);
+    } else {
+      refField?.focus(refField);
+    }
+  });
+};
 defineExpose({
   initSource,
   validate,
   reset,
   currentGroup,
   setTab,
+  focus
 });
 </script>
 <style lang="less" scoped>
-@import "./VolForm/VolForm.less";
+@import './VolForm/VolForm.less';
 </style>

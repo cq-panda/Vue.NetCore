@@ -234,6 +234,7 @@
     <template #content>
       <div class="vol-edit-box">
         <div class="vol-edit-content">
+              <slot name="modelHeader"></slot>
           <component
             :is="dynamicComponent.modelHeader"
             ref="modelHeader"
@@ -326,6 +327,7 @@
             ></vol-table>
           </div>
           <!--明细footer自定义组件-->
+          <slot name="modelFooter"></slot>
           <component
             :is="dynamicComponent.modelFooter"
             ref="modelFooter"
@@ -454,7 +456,6 @@ import Empty from "@/components/basic/Empty.vue";
 export default {
   components: {
     ViewGridExpand,
-    VolBox: defineAsyncComponent(() => import("@/components/basic/VolBox.vue")),
     QuickSearch: defineAsyncComponent(() => import("@/components/basic/QuickSearch.vue")),
     Audit: defineAsyncComponent(() => import("@/components/basic/Audit.vue")),
     UploadExcel: defineAsyncComponent(() => import("@/components/basic/UploadExcel.vue")),

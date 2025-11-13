@@ -35,7 +35,6 @@
 <script setup>
 import { ref,  getCurrentInstance, defineAsyncComponent } from "vue";
 const VolUpload = defineAsyncComponent(() => import("@/components/basic/VolUpload.vue"));
-const VolBox = defineAsyncComponent(() => import("@/components/basic/VolBox.vue"));
 const { proxy } = getCurrentInstance();
 const row = ref({});
 const column = ref({ message: null, edit: {} });

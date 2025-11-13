@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VOL.Core.Configuration;
+using VOL.Core.Const;
 using VOL.Core.DBManager;
 using VOL.Core.DbSqlSugar;
 using VOL.Core.Enums;
@@ -34,7 +35,8 @@ namespace VOL.Core.DBManager
                 MoreSettings = new ConnMoreSettings()
                 {
                     PgSqlIsAutoToLower = false
-                }
+                },
+                ConfigureExternalServices = GetConfigureExternalServices(),
             };
         }
 
@@ -77,6 +79,21 @@ namespace VOL.Core.DBManager
                 return sqlSugar;
             });
             return services;
+        }
+        private static ConfigureExternalServices GetConfigureExternalServices()
+        {
+            //https://www.donet5.com/Home/Doc?typeId=1182
+            return new ConfigureExternalServices()
+            {
+                EntityService = (property, column) =>
+                {
+                    if (DBType.Name == "DM")
+                    {
+                        // var attributes = property.GetCustomAttributes(true);//get all attributes 
+                        column.DbColumnName = property.Name.ToUpper();
+                    }
+                }
+            };
         }
     }
 }

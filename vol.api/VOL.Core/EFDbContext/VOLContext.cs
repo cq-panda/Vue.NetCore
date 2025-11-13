@@ -74,7 +74,7 @@ namespace VOL.Core.EFDbContext
                        : QueryTrackingBehavior.NoTracking;
             }
         }
-
+        private static bool UseSqlserver2008 = AppSetting.GetSection("Connection")["UseSqlserver2008"] == "1";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (optionsBuilder.IsConfigured)
@@ -101,7 +101,7 @@ namespace VOL.Core.EFDbContext
             }
             else
             {
-                if (AppSetting.GetSettingString("UseSqlserver2008") =="1")
+                if (UseSqlserver2008)
                 {
                    optionsBuilder.UseSqlServer(connectionString, x => x.UseRowNumberForPaging());
                 }

@@ -1,7 +1,7 @@
-1、v3版本代码为框架旧版本代码
+1、v3版本代码为框架旧版本代码(忽略不用看v3的代码)
 
-2、vol.web：新版本重构前端，可以将v3版本代码升级过来
-3、vol.api：后台.net8+efcore8.0
+2、vol.web：新版本重构前端，老项目可以将v3版本代码升级过来
+3、vol.api：后台.net8+efcore8.0+dapper
 4、vol.api.sqlsugar：后台.net8+sqlsugar  两个api任意选择都可以使用
 5、db：数据库脚本
 

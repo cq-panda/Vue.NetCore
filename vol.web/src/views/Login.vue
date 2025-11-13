@@ -15,45 +15,23 @@
         <div class="login-text-small">WELCOME TO LOGIN</div>
         <div class="item">
           <div class="input-icon el-icon-user"></div>
-          <input
-            type="text"
-            v-focus
-            v-model="userInfo.userName"
-            :placeholder="$ts(['请输入', '账号'])"
-          />
+          <input type="text" v-focus v-model="userInfo.userName" :placeholder="$ts(['请输入', '账号'])" />
         </div>
         <div class="item">
           <div class="input-icon el-icon-lock"></div>
-          <input
-            type="password"
-            v-focus
-            v-model="userInfo.password"
-            :placeholder="$ts(['请输入', '密码'])"
-          />
+          <input type="password" v-focus v-model="userInfo.password" :placeholder="$ts(['请输入', '密码'])" />
         </div>
         <div class="item">
           <div class="input-icon el-icon-mobile"></div>
 
-          <input
-            v-focus
-            type="text"
-            v-model="userInfo.verificationCode"
-            :placeholder="$ts(['请输入', '验证码'])"
-          />
+          <input v-focus type="text" v-model="userInfo.verificationCode" :placeholder="$ts(['请输入', '验证码'])" />
           <div class="code" @click="getVierificationCode">
             <img v-show="codeImgSrc != ''" :src="codeImgSrc" />
           </div>
         </div>
       </div>
       <div class="loging-btn">
-        <el-button
-          size="large"
-          :loading="loading"
-          color="#3a6cd1"
-          :dark="true"
-          @click="login"
-          long
-        >
+        <el-button size="large" :loading="loading" color="#3a6cd1" :dark="true" @click="login" long>
           <span v-if="!loading">{{ $ts("登录") }}</span>
           <span v-else>{{ $ts("正在登录") }}...</span>
         </el-button>
@@ -62,42 +40,33 @@
         <a href="#" style="text-decoration: none">移动端扫码</a>
         <a>
           <i class="el-icon-chat-dot-round"></i> 小程序
-          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg"
-        /></a>
+          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/wechat.jpg" /></a>
         <a>
           <i class="el-icon-apple"></i>
           Android
-          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png"
-        /></a>
+          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/Android.png" /></a>
         <a>
           <i class="el-icon-document"></i>
           H5
-          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png"
-        /></a>
+          <img src="https://app-1256993465.cos.ap-nanjing.myqcloud.com/H5.png" /></a>
       </div>
       <!-- 账号信息 -->
       <div class="account-info">
         <p>演示账号:admin666&nbsp;密码:123456 &nbsp;&nbsp;本地账号:admin &nbsp;密码:123456</p>
         <p></p>
         <p style="text-align: center;">
-          <a
-            href="https://qm.qq.com/cgi-bin/qm/qr?k=YRZBbf64qsUeEmh24I65u2aIZFn2C-Ha&jump_from=webapi&qr=1"
-            style="text-decoration: none"
-            target="_blank"
-            >QQ4群:959924606</a
-          >
+          <a href="https://qm.qq.com/cgi-bin/qm/qr?k=YRZBbf64qsUeEmh24I65u2aIZFn2C-Ha&jump_from=webapi&qr=1"
+            style="text-decoration: none" target="_blank">QQ4群:959924606</a>
           &nbsp; &nbsp;&nbsp; &nbsp;
-          <a href="https://www.cctalk.com/m/group/90268531" style="text-decoration: none" target="_blank"
-            >框架视频</a
-          >   &nbsp; &nbsp;&nbsp; &nbsp;
-          <a href="http://v3.volcore.xyz/" style="text-decoration: none" target="_blank"
-            >框架文档</a
-          >
+          <a href="https://www.cctalk.com/m/group/90268531" style="text-decoration: none" target="_blank">框架视频</a>
+          &nbsp; &nbsp;&nbsp; &nbsp;
+          <a href="http://v3.volcore.xyz/" style="text-decoration: none" target="_blank">框架文档</a>
         </p>
         <p style="text-align: center;">
-           <a href="https://space.bilibili.com/525836469" style="text-decoration: none;" target="_blank"
-            >NET视频教程(微软MVP-ACE录制)</a
-          ></p>
+          <a href="https://space.bilibili.com/525836469" style="text-decoration: none;"
+            target="_blank">NET视频教程(微软MVP-ACE录制)</a>
+          <a style="text-decoration: none;margin-left: 20px;" href="https://beian.miit.gov.cn/" target="_blank">京ICP备19056538号-1</a>
+        </p>
       </div>
     </div>
   </div>
@@ -183,16 +152,14 @@ export default defineComponent({
   display: flex;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to left,
-    rgb(65 53 53 / 0%),
-    #ebf9ff,
-    #e5f3ff,
-    #f9fdff,
-    #eefaff,
-    #f1f6ff,
-    #fafdff
-  );
+  background: linear-gradient(to left,
+      rgb(65 53 53 / 0%),
+      #ebf9ff,
+      #e5f3ff,
+      #f9fdff,
+      #eefaff,
+      #f1f6ff,
+      #fafdff);
   // background: rgb(246, 247, 252);
   justify-content: center;
   align-items: center;
@@ -210,6 +177,7 @@ export default defineComponent({
   padding: 35px 25px;
   box-shadow: 2px 4px 28px #f5f5f529;
   border-radius: 7px;
+
   .form-user {
     // margin: 25px 0;
 
@@ -389,6 +357,7 @@ export default defineComponent({
   font-size: 12px;
   color: #636363;
 }
+
 .app-lang {
   position: absolute;
   z-index: 999;
@@ -399,6 +368,7 @@ export default defineComponent({
 
 <style lang="less" scoped>
 @media screen and (max-width: 700px) {
+
   .login-bg,
   .account-info,
   .app-link,

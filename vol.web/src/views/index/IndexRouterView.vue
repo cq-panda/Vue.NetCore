@@ -1,6 +1,5 @@
 <template>
-  <!-- <vol-loading v-show="$store.getters.isLoading()"></vol-loading> -->
-  <router-view v-slot="{ Component }">
+  <router-view v-slot="{ Component }" v-if="useIncludeCache">
     <keep-alive :include="include">
       <component
         :is="Component"
@@ -9,6 +8,21 @@
           isRouterAlive &&
           (!$route.meta || ($route.meta && !$route.meta.hasOwnProperty('keepAlive')))
         "
+      />
+    </keep-alive>
+    <component
+      :is="Component"
+      :key="$route.name"
+      v-if="$route.meta && $route.meta.hasOwnProperty('keepAlive')"
+    />
+  </router-view>
+
+  <router-view v-slot="{ Component }" v-else>
+    <keep-alive>
+      <component
+        :is="Component"
+        :key="$route.name + componentKey"
+        v-if="!$route.meta || ($route.meta && !$route.meta.hasOwnProperty('keepAlive'))"
       />
     </keep-alive>
     <component
@@ -27,12 +41,32 @@ const router = useRouter()
 const $route = useRoute()
 const isRouterAlive = ref(true)
 
-const refreshPage = (routeName, _clearCache) => {
-  const name = routeName || router.currentRoute.value.name
+const useIncludeCache = ref(true)
+useIncludeCache.value = proxy.$global.useIncludeCache || proxy.$global.useIncludeCache === undefined
 
-  // if (typeof _clearCache == 'boolean' && _clearCache) {
+const componentKey = ref('')
+
+const refreshPage = (routeName, _callback) => {
+  routeName = routeName || router.currentRoute.value.name
+  //旧版缓存
+  if (!useIncludeCache.value) {
+    setTimeout(() => {
+      // if ((routeName && typeof (routeName) == 'string')) {
+      routeName = $route.name
+      //}
+      componentKey.value = routeName + Date.now()
+
+      router.replace({ ...$route })
+      if (_callback && typeof _callback == 'function') {
+        setTimeout(() => {
+          _callback()
+        }, 300)
+      }
+    }, 50)
+    return
+  }
+  const name = routeName || router.currentRoute.value.name
   clearCache(name)
-  // }
   //刷新当前页面
   if (routeName && routeName === router.currentRoute.value.name) {
     isRouterAlive.value = false
@@ -68,4 +102,5 @@ router.beforeEach((to, from, next) => {
 
 proxy.$tabs.reload = refreshPage
 proxy.$tabs.clearCache = clearCache
+include.value.push(router.currentRoute.value.name)
 </script>
