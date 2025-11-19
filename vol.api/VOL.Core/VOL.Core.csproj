@@ -50,7 +50,7 @@
 	  <PackageReference Include="Dapper" Version="2.1.35" />
 	  <PackageReference Include="DM.DmProvider" Version="8.3.1.37876" />
 	  <PackageReference Include="DM.Microsoft.EntityFrameworkCore" Version="8.0.0.28188" />
-	  <PackageReference Include="EntityFrameworkCore.UseRowNumberForPaging" Version="0.7.0" />
+	  <PackageReference Include="EntityFrameworkCore.UseRowNumberForPaging" Version="0.5.0" />
 	  <PackageReference Include="EPPlus.Core" Version="1.5.4" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
