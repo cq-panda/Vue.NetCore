@@ -321,6 +321,30 @@ const getSearchParameters = (proxy, formFields, formRules) => {
   return wheres
 }
 
+
+const generateUniqueFileName = (originalFileName) => {
+  const timestamp = new Date().getTime();
+  const random = Math.random().toString(36).substring(2, 8);
+  const parts = originalFileName.split('.');
+  const fileExtension = parts.length > 1 ? parts.pop().toLowerCase() : '';
+  let uniqueFileName = `${timestamp}_${random}.${fileExtension}`
+  return uniqueFileName;
+};
+//重置文件名
+const resetFileName = async (files, callbck) => {
+  if (!files?.length) return
+  for (let index = 0; index < files.length; index++) {
+    let originalFile = files[index]
+    const uniqueFileName = await callbck?.(originalFile) || generateUniqueFileName(originalFile.name);
+    const newFile = new File([originalFile], uniqueFileName, {
+      type: originalFile.type,
+      lastModified: originalFile.lastModified
+    });
+    files.splice(index, 1, newFile);
+  }
+}
+
+
 export default {
   getFormValues,
   resetForm,
@@ -335,5 +359,6 @@ export default {
   getItem,
   getAccessToken,
   isEmptyValue,
-  getSearchParameters
+  getSearchParameters,
+  resetFileName
 }
