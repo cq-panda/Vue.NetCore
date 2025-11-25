@@ -17,6 +17,7 @@
       <vol-loading></vol-loading>
     </div>
     <el-table
+      :key="randomTableKey"
       :show-summary="summaryData.length > 0"
       :summary-method="getSummaryData"
       :row-key="rowKey"

@@ -74,8 +74,10 @@ export const loadData = async (
   }
   //2021.06.04修复tree不刷新的问题
   if (props.rowKey) {
-    randomTableKey.value++
-    tableData.splice(0)
+    if (props.lazy) {
+      randomTableKey.value++;
+    }
+    tableData.splice(0);
   }
   loading.value = false
   emit(

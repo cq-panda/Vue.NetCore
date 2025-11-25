@@ -1,186 +1,88 @@
 <!--
-*Author：jxx
+ *Author：jxx
+ *Date：{Date}
  *Contact：283591387@qq.com
- *代码由框架生成,任何更改都可能导致被代码生成器覆盖
- *业务请在@/extension/system/Sys_Log.js此处编写
+ *业务请在@/extension/sys/system/Sys_Log.jsx或Sys_Log.vue文件编写
+ *新版本支持vue或【表.jsx]文件编写业务,文档见:https://doc.volcore.xyz/docs/view-grid、https://doc.volcore.xyz/docs/web
  -->
 <template>
-  <view-grid
-    ref="grid"
-    :columns="columns"
-    :detail="detail"
-    :editFormFields="editFormFields"
-    :editFormOptions="editFormOptions"
-    :searchFormFields="searchFormFields"
-    :searchFormOptions="searchFormOptions"
-    :table="table"
-    :extend="extend"
-    :delBefore="delBefore"
-  >
-  </view-grid>
+    <view-grid ref="grid"
+               :columns="columns"
+               :detail="detail"
+               :details="details"
+               :editFormFields="editFormFields"
+               :editFormOptions="editFormOptions"
+               :searchFormFields="searchFormFields"
+               :searchFormOptions="searchFormOptions"
+               :table="table"
+               :extend="extend"
+               :onInit="onInit"
+               :onInited="onInited"
+               :searchBefore="searchBefore"
+               :searchAfter="searchAfter"
+               :addBefore="addBefore"
+               :updateBefore="updateBefore"
+               :rowClick="rowClick"
+               :modelOpenBefore="modelOpenBefore"
+               :modelOpenAfter="modelOpenAfter">
+        <!-- 自定义组件数据槽扩展，更多数据槽slot见文档 -->
+        <template #gridHeader>
+        </template>
+    </view-grid>
 </template>
-<script setup>
-import extend from "@/extension/sys/system/Sys_Log.js";
-import { ref, defineComponent } from "vue";
+<script setup lang="jsx">
+    import extend from "@/extension/sys/system/Sys_Log.jsx";
+    import viewOptions from './Sys_Log/options.js'
+    import { ref, reactive, getCurrentInstance, watch, onMounted } from "vue";
+    const grid = ref(null);
+    const { proxy } = getCurrentInstance()
+    //http请求，proxy.http.post/get
+    const { table, editFormFields, editFormOptions, searchFormFields, searchFormOptions, columns, detail, details } = reactive(viewOptions())
 
-const delBefore = (rows) => {
-  console.log("删除前setup:", rows);
-  return true;
-};
+    let gridRef;//对应[表.jsx]文件中this.使用方式一样
+    //生成对象属性初始化
+    const onInit = async ($vm) => {
+        gridRef = $vm;
+        gridRef.setFixedSearchForm();
 
-const table = ref({
-  key: "Id",
-  footer: "Foots",
-  cnName: "系统日志",
-  name: "Sys_Log",
-  url: "/Sys_Log/",
-  sortName: "Id",
-});
-const editFormFields = ref({});
-const editFormOptions = ref([]);
-const searchFormFields = ref({
-  BeginDate: "",
-  Url: "",
-  LogType: [],
-  Success: [],
-  UserIP: "",
-  ServiceIP: "",
-  Role_Id: "",
-});
-const searchFormOptions = ref([
-  [
-    { title: "请求地址", field: "Url", type: "text" },
-    { title: "用户IP", field: "UserIP", type: "text" },
-    { title: "服务器IP", field: "ServiceIP", type: "text" },
-  ],
-  [
-    { title: "开始时间", field: "BeginDate", type: "datetime" },
-    {
-      dataKey: "restatus",
-      data: [],
-      title: "响应状态",
-      field: "Success",
-      type: "selectList",
-    },
-    { dataKey: "roles", data: [], title: "角色ID", field: "Role_Id", type: "select" },
-  ],
-  [
-    {
-      dataKey: "log",
-      data: [],
-      title: "日志类型",
-      field: "LogType",
-      colSize: 12,
-      type: "checkbox",
-    },
-  ],
-]);
-const columns = ref([
-  {
-    field: "Id",
-    title: "Id",
-    type: "int",
-    width: 90,
-    hidden: true,
-    readonly: true,
-    require: true,
-    align: "left",
-  },
-  {
-    field: "BeginDate",
-    title: "开始时间",
-    type: "datetime",
-    width: 140,
-    align: "left",
-    sortable: true,
-  },
-  { field: "UserName", title: "用户名称", type: "string", width: 90, align: "left" },
-  { field: "Url", title: "请求地址", type: "string", width: 110, align: "left" },
-  {
-    field: "LogType",
-    title: "日志类型",
-    type: "string",
-    bind: { key: "log", data: [] },
-    width: 80,
-    align: "left",
-  },
-  {
-    field: "Success",
-    title: "响应状态",
-    type: "int",
-    bind: { key: "restatus", data: [] },
-    width: 80,
-    align: "left",
-  },
-  { field: "ElapsedTime", title: "时长", type: "int", width: 60, align: "left" },
-  {
-    field: "RequestParameter",
-    title: "请求参数",
-    type: "string",
-    width: 70,
-    align: "left",
-  },
-  {
-    field: "ResponseParameter",
-    title: "响应参数",
-    type: "string",
-    width: 70,
-    align: "left",
-  },
-  {
-    field: "ExceptionInfo",
-    title: "异常信息",
-    type: "string",
-    width: 70,
-    align: "left",
-  },
-  { field: "UserIP", title: "用户IP", type: "string", width: 90, align: "left" },
-  {
-    field: "ServiceIP",
-    title: "服务器IP",
-    type: "string",
-    width: 90,
-    hidden: true,
-    align: "left",
-  },
-  {
-    field: "BrowserType",
-    title: "浏览器类型",
-    type: "string",
-    width: 90,
-    align: "left",
-  },
-  {
-    field: "User_Id",
-    title: "用户ID",
-    type: "int",
-    width: 90,
-    hidden: true,
-    align: "left",
-  },
-  {
-    field: "Role_Id",
-    title: "角色ID",
-    type: "int",
-    bind: { key: "roles", data: [] },
-    width: 90,
-    hidden: true,
-    align: "left",
-  },
-  {
-    field: "EndDate",
-    title: "结束时间",
-    type: "datetime",
-    width: 150,
-    hidden: true,
-    align: "left",
-    sortable: true,
-  },
-]);
-const detail = ref({
-  cnName: "#detailCnName",
-  columns: [],
-  sortName: "",
-  key: "",
-});
+      searchFormOptions[1][0].width='100%'
+
+        //与jsx中的this.xx使用一样，只需将this.xx改为gridRef.xx
+        //更多属性见：https://doc.volcore.xyz/docs/view-grid
+    }
+    //生成对象属性初始化后,操作明细表配置用到
+    const onInited = async () => {
+      gridRef.height=gridRef.height+30;
+    }
+    const searchBefore = async (param) => {
+        //界面查询前,可以给param.wheres添加查询参数
+        //返回false，则不会执行查询
+        return true;
+    }
+    const searchAfter = async (rows, result) => {
+        return true;
+    }
+    const addBefore = async (formData, isCopyClick) => {
+        //新建保存前formData为对象，包括明细表，可以给给表单设置值，自己输出看formData的值
+        return true;
+    }
+    const updateBefore = async (formData) => {
+        //编辑保存前formData为对象，包括明细表、删除行的Id
+        return true;
+    }
+    const rowClick = ({ row, column, event }) => {
+        //查询界面点击行事件
+        // grid.value.toggleRowSelection(row); //单击行时选中当前行;
+    }
+    const modelOpenBefore=async(row,currentAction,isCopyClick) => {
+		//弹出框打开前
+        return true;//返回false，不会打开弹出框
+    }
+    const modelOpenAfter=(row,currentAction,isCopyClick) => {
+        //弹出框打开后方法,设置表单默认值,按钮操作等
+    }
+    //监听表单输入，做实时计算
+    //watch(() => editFormFields.字段,(newValue, oldValue) => {	})
+    //对外暴露数据
+    defineExpose({})
 </script>

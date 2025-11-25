@@ -13,22 +13,6 @@ let extension = {
   },
   buttons: [], //扩展的按钮
   methods: {
-    //事件扩展
-    onInit() {
-      // console.log("sys_log")
-     //this.setFiexdSearchForm(true);
-    },
-    onInited() {
-     // this.height = this.height - 195;
-    },
-    delBefore(rows){
-      console.log("删除前jsx:", rows);
-      if (this.$route.path=='/Sys_Log') {
-        console.log('Sys_Log');
-      }
-      console.log("删除前jsx:", this.$route);
-      return true;
-    }
   }
 };
 export default extension;
