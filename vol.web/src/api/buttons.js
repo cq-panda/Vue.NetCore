@@ -14,9 +14,9 @@ let buttons = [
     icon: 'el-icon-plus',
     value: 'Add',
     class: '',
-     plain:true,
-   // type: 'success',
-    color:"#3F51B5",
+    // plain:true,
+    type: 'danger',
+   // color:"#3F51B5",
     // plain:true,
     onClick: function() {
       this.add();
@@ -28,8 +28,8 @@ let buttons = [
     value: 'Update',
      plain:true,
     class: '',
-    color:"#79bbff",
-    type: 'primary',
+   // color:"#79bbff",
+   // type: 'primary',
     onClick: function() {
       this.edit();
     }
@@ -40,8 +40,8 @@ let buttons = [
     class: '',
     plain:true,
     value: 'Delete',
-    type: 'danger',
-    color:"#F56C6C",
+   // type: 'danger',
+   // color:"#F56C6C",
     onClick: function() {
       this.del();
     }
@@ -52,7 +52,7 @@ let buttons = [
     class: '',
     value: 'Audit',
     plain: true,
-    type: 'primary',
+   // type: 'primary',
     onClick: function() {
       this.audit();
     }
@@ -67,7 +67,7 @@ let buttons = [
     // color:"rgb(254, 240, 240)",
     plain:true,
     // type: 'success',
-     color:"#67C23A",
+  //   color:"#67C23A",
     onClick: function() {
       this.antiAudit();
     }
@@ -76,9 +76,9 @@ let buttons = [
     name: '导入',
     icon: 'el-icon-top',
     class: '',
-    type: 'success',
+  //  type: 'success',
     plain: true,
-    value: 'Import',
+  //  value: 'Import',
     onClick: function() {
       this.import();
     }
@@ -86,7 +86,7 @@ let buttons = [
   {
     name: '导出',
     icon: 'el-icon-bottom',
-    type: 'primary',
+  //  type: 'primary',
     plain: true,
     value: 'Export',
     onClick: function() {
