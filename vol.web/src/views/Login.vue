@@ -65,87 +65,64 @@
         <p style="text-align: center;">
           <a href="https://space.bilibili.com/525836469" style="text-decoration: none;"
             target="_blank">NET视频教程(微软MVP-ACE录制)</a>
-          <a style="text-decoration: none;margin-left: 20px;" href="https://beian.miit.gov.cn/" target="_blank">京ICP备19056538号-1</a>
+          <a style="text-decoration: none;margin-left: 20px;" href="https://beian.miit.gov.cn/"
+            target="_blank">京ICP备19056538号-1</a>
         </p>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import { defineComponent, ref, reactive, toRefs, getCurrentInstance } from "vue";
+<script setup>
+import { ref, reactive, getCurrentInstance } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import store from "../store/index";
 import http from "@/../src/api/http.js";
 import lang from "@/components/lang/lang";
-export default defineComponent({
-  components: {
-    lang,
-  },
-  setup(props, context) {
-    const loading = ref(false);
-    const codeImgSrc = ref("");
-    const userInfo = reactive({
-      userName: "",
-      password: "",
-      verificationCode: "",
-      UUID: undefined,
-    });
-
-    const getVierificationCode = () => {
-      http.get("/api/User/getVierificationCode").then((x) => {
-        codeImgSrc.value = "data:image/png;base64," + x.img;
-        userInfo.UUID = x.uuid;
-      });
-    };
-    getVierificationCode();
-    let router = useRouter();
-    const { proxy } = getCurrentInstance();
-    const { $message, $ts } = proxy;
-    const login = () => {
-      if (!userInfo.userName) return $message.error($ts(["请输入", "账号"]));
-      if (!userInfo.password) return $message.error($ts(["请输入", "密码"]));
-      if (!userInfo.verificationCode) {
-        return $message.error($ts(["请输入", "验证码"]));
-      }
-      loading.value = true;
-      http.post("/api/user/login", userInfo, $ts("正在登录") + "....").then((result) => {
-        if (!result.status) {
-          loading.value = false;
-          getVierificationCode();
-          return $message.error(result.message);
-        }
-        //  $message.success($ts("登录成功,正在跳转!"));
-        store.commit("setUserInfo", result.data);
-        router.push({ path: "/" });
-      });
-    };
-    const loginPress = (e) => {
-      if (e.keyCode == 13) {
-        login();
-      }
-    };
-    const openUrl = (url) => {
-      window.open(url, "_blank");
-    };
-    return {
-      loading,
-      codeImgSrc,
-      getVierificationCode,
-      login,
-      userInfo,
-      loginPress,
-      openUrl,
-    };
-  },
-  directives: {
-    focus: {
-      inserted: function (el) {
-        el.focus();
-      },
-    },
-  },
+const loading = ref(false);
+const codeImgSrc = ref("");
+const userInfo = reactive({
+  userName: "",
+  password: "",
+  verificationCode: "",
+  UUID: undefined,
 });
+
+const getVierificationCode = () => {
+  http.get("/api/User/getVierificationCode").then((x) => {
+    codeImgSrc.value = "data:image/png;base64," + x.img;
+    userInfo.UUID = x.uuid;
+  });
+};
+getVierificationCode();
+
+const { proxy } = getCurrentInstance();
+let $message = proxy.$message;
+let router = useRouter();
+let $ts = proxy.$ts;
+const login = () => {
+  if (!userInfo.userName) return $message.error($ts(["请输入", "账号"]));
+  if (!userInfo.password) return $message.error($ts(["请输入", "密码"]));
+  if (!userInfo.verificationCode) {
+    return $message.error($ts(["请输入", "验证码"]));
+  }
+  loading.value = true;
+  http.post("/api/user/login", userInfo, $ts("正在登录") + "....").then((result) => {
+    if (!result.status) {
+      loading.value = false;
+      getVierificationCode();
+      return $message.error(result.message);
+    }
+    //  $message.success($ts("登录成功,正在跳转!"));
+    store.commit("setUserInfo", result.data);
+    router.push({ path: "/" });
+  });
+};
+const loginPress = (e) => {
+  if (e.keyCode == 13) {
+    login();
+  }
+};
 </script>
 <style lang="less" scoped>
 .login-container {
