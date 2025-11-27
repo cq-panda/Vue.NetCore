@@ -83,7 +83,7 @@ namespace VOL.Sys.Services
                 {
                     return webResponse.Error("上级组织不能选择自己");
                 }
-                if (_repository.Exists(x => x.ParentId == dept.DepartmentId&&x => x.DepartmentId == dept.ParentId))
+                if (_repository.Exists(x => x.ParentId == dept.DepartmentId && x.DepartmentId == dept.ParentId))
                 {
                     return webResponse.Error("不能选择此上级组织");
                 }
