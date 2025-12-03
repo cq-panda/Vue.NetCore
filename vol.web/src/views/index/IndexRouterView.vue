@@ -1,19 +1,21 @@
 <template>
-    <router-view v-slot="{ Component }" v-if="useIncludeCache">
-      <keep-alive :include="include">
-        <component :is="Component" :key="route.name" v-if="
-          isRouterAlive && !route.meta?.keepAlive
-        " />
-      </keep-alive>
-      <component :is="Component" :key="route.name" v-if="route.meta?.keepAlive" />
-    </router-view>
+  <router-view v-slot="{ Component }" v-if="useIncludeCache">
+    <keep-alive :include="include">
+      <component :is="Component" :key="route.name" v-if="
+        isRouterAlive &&
+        (route.meta?.keepAlive === undefined || route.meta?.keepAlive === true)
+      " />
+    </keep-alive>
+    <component :is="Component" :key="route.name" v-if="route.meta?.keepAlive === false" />
+  </router-view>
 
-    <router-view v-slot="{ Component }" v-else>
-      <keep-alive>
-        <component :is="Component" :key="route.name + componentKey" v-if="!route.meta?.keepAlive" />
-      </keep-alive>
-      <component :is="Component" :key="route.name" v-if="route.meta?.keepAlive" />
-    </router-view>
+  <router-view v-slot="{ Component }" v-else>
+    <keep-alive>
+      <component :is="Component" :key="route.name + componentKey"
+        v-if="route.meta?.keepAlive === undefined || route.meta?.keepAlive === true" />
+    </keep-alive>
+    <component :is="Component" :key="route.name" v-if="route.meta?.keepAlive === false" />
+  </router-view>
 </template>
 <script setup>
 // import VolLoading from "@/components/basic/VolLoading";
