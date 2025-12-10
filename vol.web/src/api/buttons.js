@@ -78,7 +78,7 @@ let buttons = [
     class: '',
   //  type: 'success',
     plain: true,
-  //  value: 'Import',
+    value: 'Import',
     onClick: function() {
       this.import();
     }
