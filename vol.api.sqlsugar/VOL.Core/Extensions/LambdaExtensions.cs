@@ -215,10 +215,10 @@ namespace VOL.Core.Extensions
             Expression<Func<T, bool>> expression;
             switch (expressionType)
             {
-                //p=>p.propertyName == propertyValue
-                case LinqExpressionType.Equal:
-                    expression = Expression.Lambda<Func<T, bool>>(Expression.Equal(member, constant), parameter);
-                    break;
+                ////p=>p.propertyName == propertyValue
+                //case LinqExpressionType.Equal:
+                //    expression = Expression.Lambda<Func<T, bool>>(Expression.Equal(member, constant), parameter);
+                //    break;
                 //p=>p.propertyName != propertyValue
                 case LinqExpressionType.NotEqual:
                     expression = Expression.Lambda<Func<T, bool>>(Expression.NotEqual(member, constant), parameter);
@@ -241,11 +241,13 @@ namespace VOL.Core.Extensions
                     break;
                 //   p => p.propertyName.Contains(propertyValue)
                 // p => !p.propertyName.Contains(propertyValue)
+                case LinqExpressionType.Like:
+                case LinqExpressionType.NotLike:
                 case LinqExpressionType.Contains:
                 case LinqExpressionType.NotContains:
                     MethodInfo method = typeof(string).GetMethod("Contains", new[] { typeof(string) });
                     constant = Expression.Constant(propertyValue, typeof(string));
-                    if (expressionType == LinqExpressionType.Contains)
+                    if (expressionType == LinqExpressionType.Like || expressionType == LinqExpressionType.Contains)
                     {
                         expression = Expression.Lambda<Func<T, bool>>(Expression.Call(member, method, constant), parameter);
                     }
@@ -254,10 +256,18 @@ namespace VOL.Core.Extensions
                         expression = Expression.Lambda<Func<T, bool>>(Expression.Not(Expression.Call(member, method, constant)), parameter);
                     }
                     break;
-                default:
-                    // p => p.false
-                    expression = False<T>();
+                case LinqExpressionType.LikeStart:
+                case LinqExpressionType.LikeEnd:
+                    string m = expressionType == LinqExpressionType.LikeStart ? "StartsWith" : "EndsWith";
+                    var startsWithMethod = typeof(string).GetMethod(m, new[] { typeof(string) });
+                    var searchTermConstant = Expression.Constant(propertyValue, typeof(string));
+                    var startsWithCall = Expression.Call(member, startsWithMethod, searchTermConstant);
+                    expression = Expression.Lambda<Func<T, bool>>(startsWithCall, parameter);
                     break;
+                default:
+                    expression = Expression.Lambda<Func<T, bool>>(Expression.Equal(member, constant), parameter);
+                    break;
+                    // break;
             }
             return expression;
         }

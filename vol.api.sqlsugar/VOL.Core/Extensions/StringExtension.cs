@@ -124,29 +124,49 @@ namespace VOL.Core.Extensions
             LinqExpressionType linqExpression;
             switch (stringType)
             {
-                case HtmlElementType.Contains:
+                case "!=":
+                    linqExpression = LinqExpressionType.NotEqual;
+                    break;
+                case "like"://模糊查询
+                    linqExpression = LinqExpressionType.Like;
+                    break;
+                case "likeStart"://like 'xx%'
+                    linqExpression = LinqExpressionType.LikeStart;
+                    break;
+                case "likeEnd"://like '%xx'
+                    linqExpression = LinqExpressionType.LikeEnd;
+                    break;
+                case "selectList": //多选 
+                case "checkbox": //多选 
+                case "droplist":
+                case "in":
                     linqExpression = LinqExpressionType.In;
                     break;
-                case HtmlElementType.ThanOrEqual:
+                case "notIn": //多选不包括
+                    linqExpression = LinqExpressionType.NotIn;
+                    break;
+                case "thanorequal": //>=
+                case ">=":
                     linqExpression = LinqExpressionType.ThanOrEqual;
                     break;
-                case HtmlElementType.LessOrequal:
+                case "lessorequal": //<=
+                case "<=":
                     linqExpression = LinqExpressionType.LessThanOrEqual;
                     break;
-                case HtmlElementType.GT:
+                case "gt": //>=
+                case ">":
                     linqExpression = LinqExpressionType.GreaterThan;
                     break;
-                case HtmlElementType.lt:
+                case "lt": //<=
+                case "<":
                     linqExpression = LinqExpressionType.LessThan;
-                    break;
-                case HtmlElementType.like:
-                    linqExpression = LinqExpressionType.Contains;
                     break;
                 default:
                     linqExpression = LinqExpressionType.Equal;
                     break;
             }
             return linqExpression;
+        }
         }
 
         public static bool GetGuid(this string guid, out Guid outId)

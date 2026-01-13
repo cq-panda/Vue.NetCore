@@ -265,7 +265,7 @@ namespace VOL.Core.BaseProvider
             for (int i = 0; i < searchParametersList.Count; i++)
             {
                 SearchParameters x = searchParametersList[i];
-                x.DisplayType = x.DisplayType.GetDBCondition();
+               // x.DisplayType = x.DisplayType.GetDBCondition();
                 if (string.IsNullOrEmpty(x.Value))
                 {
                     continue;
