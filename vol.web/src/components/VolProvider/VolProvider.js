@@ -345,19 +345,22 @@ const resetFileName = async (files, callbck) => {
     if (!originalFile.size) {
       continue;
     }
-    const uniqueFileName = await callbck?.(originalFile) || generateUniqueFileName(originalFile.name);
-    if (uniqueFileName===false) {
+    let uniqueFileName = await callbck?.(originalFile);
+    if (uniqueFileName === false) {
       continue;
     }
-    let  extension='';
-    if (!uniqueFileName.includes('.')) {
-      extension='.'+originalFile.name.split('.').pop();
+    if (!uniqueFileName) {
+      uniqueFileName = generateUniqueFileName(originalFile.name)
     }
-    const newFile = new File([originalFile], uniqueFileName+extension, {
+    let extension = '';
+    if (!uniqueFileName.includes('.')) {
+      extension = '.' + originalFile.name.split('.').pop();
+    }
+    const newFile = new File([originalFile], uniqueFileName + extension, {
       type: originalFile.type,
       lastModified: originalFile.lastModified
     });
-    newFile.input=originalFile.input
+    newFile.input = originalFile.input
     files.splice(index, 1, newFile);
   }
 }
