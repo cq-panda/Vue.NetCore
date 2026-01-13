@@ -167,7 +167,6 @@ namespace VOL.Core.Extensions
             }
             return linqExpression;
         }
-        }
 
         public static bool GetGuid(this string guid, out Guid outId)
         {
@@ -252,7 +251,7 @@ namespace VOL.Core.Extensions
                 pattern += @"\.\d{0," + scale + "}$)|" + pattern;
             }
             pattern += "$)";
-            return  Regex.IsMatch(str, pattern);
+            return Regex.IsMatch(str, pattern);
         }
 
 
