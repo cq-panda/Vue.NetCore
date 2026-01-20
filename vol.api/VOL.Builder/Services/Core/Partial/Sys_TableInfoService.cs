@@ -1607,8 +1607,10 @@ DISTINCT
                 return -1;
             tableId = repository.FindAsIQueryable(x => x.TableName == tableName).Select(s => s.Table_Id)
                 .ToList().FirstOrDefault();
-            if (tableId > 0)
+            if (tableId > 0 && repository.DbContext.Set<Sys_TableColumn>().Any(x => x.Table_Id == tableId))
+            {
                 return tableId;
+            }
             bool isMySql = DBType.Name == DbCurrentType.MySql.ToString();
             Sys_TableInfo tableInfo = new Sys_TableInfo()
             {

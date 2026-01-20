@@ -1489,8 +1489,10 @@ DISTINCT
             if (string.IsNullOrEmpty(tableName))
                 return -1;
             tableId = repository.Find(x => x.TableName == tableName, s => s.Table_Id).FirstOrDefault();
-            if (tableId > 0)
+            if (tableId > 0 && repository.DbContext.Set<Sys_TableColumn>().Where(x => x.Table_Id == tableId).Any())
+            {
                 return tableId;
+            }
             bool isMySql = DBType.Name == DbCurrentType.MySql.ToString();
             Sys_TableInfo tableInfo = new Sys_TableInfo()
             {
