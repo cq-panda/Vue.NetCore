@@ -1,34 +1,18 @@
 <template>
-  <input
-    ref="inputRef"
-    type="file"
-    accept=".png, .jpg, .jpeg"
-    style="display: none"
-    @change="handleChange"
-    :multiple="false"
-  />
+  <input ref="inputRef" type="file" accept=".png, .jpg, .jpeg" style="display: none" @change="handleChange"
+    :multiple="false" />
   <VolBox :width="400" v-model="modifyOptions.model" title="修改密码">
-    <vol-form
-      ref="pwdFormRef"
-      :formRules="modifyOptions.data"
-      :formFields="modifyOptions.fields"
-    ></vol-form>
+    <vol-form ref="pwdFormRef" :formRules="modifyOptions.data" :formFields="modifyOptions.fields"></vol-form>
     <template #footer>
       <div class="center">
-        <el-button type="primary" plain size="small" long @click="savePwd"
-          >保存</el-button
-        >
+        <el-button type="primary" plain size="small" long @click="savePwd">保存</el-button>
       </div>
     </template>
   </VolBox>
   <div class="user-info">
     <div class="user-content">
       <div class="left">
-        <img
-          class="header-img"
-          @click="showUpload"
-          :src="http.ipAddress + userInfo.headImageUrl"
-        />
+        <img class="header-img" @click="showUpload" :src="http.ipAddress + userInfo.headImageUrl" />
         <div class="text">
           <p class="name center">
             <span style="font-size: 13px">{{ userInfo.userName }}</span>
@@ -38,29 +22,15 @@
           </p>
           <p>
             <el-button plain @click="modifyPwd" size="small">修改密码</el-button>
-            <el-button style="padding: 3px 16px" @click="showUpload" plain type="primary"
-              >修改头像</el-button
-            >
+            <el-button style="padding: 3px 16px" @click="showUpload" plain type="primary">修改头像</el-button>
           </p>
         </div>
       </div>
       <div class="right">
-        <vol-form
-          ref="formRef"
-          labelPosition="top"
-          :load-key="true"
-          :width="500"
-          :formRules="editFormOptions"
-          :formFields="userInfo"
-        >
+        <vol-form ref="formRef" labelPosition="top" :load-key="true" :width="500" :formRules="editFormOptions"
+          :formFields="userInfo">
           <div class="footer center">
-            <el-button
-              style="margin-top: 2px"
-              type="primary"
-              size="small"
-              @click="modifyInfo"
-              >保存</el-button
-            >
+            <el-button style="margin-top: 2px" type="primary" size="small" @click="modifyInfo">保存</el-button>
           </div>
         </vol-form>
       </div>
@@ -155,12 +125,12 @@ proxy.http.post("/api/user/getCurrentUserInfo", {}, true).then((x) => {
     return proxy.$message.error(x.message);
   }
   x.data.createDate = (x.data.createDate || "").replace("T", " ");
-  x.data.gender = x.data.gender + "";
   nextTick(() => {
     formRef.value.reset(x.data);
+    userInfo.gender = (userInfo.gender || 0) + ''
+    userInfo.img = proxy.base.getImgSrc(x.data.headImageUrl, proxy.http.ipAddress);
   });
-  userInfo.img = proxy.base.getImgSrc(x.data.headImageUrl, proxy.http.ipAddress);
-  Object.assign(userInfo, x.data);
+
 });
 </script>
 <style lang="less" scoped>
@@ -183,14 +153,17 @@ img:not([src]) {
   right: 0;
   padding: 0px;
   height: 100%;
+
   .text {
     padding: 5px;
+
     .name {
       font-weight: bolder;
       font-size: 15px;
       font-weight: 900;
     }
   }
+
   .header-img {
     object-fit: cover;
     height: 150px;
@@ -202,6 +175,7 @@ img:not([src]) {
     border: 1px solid #dfdfdf;
     cursor: pointer;
   }
+
   .left {
     justify-content: center;
     display: flex;
@@ -210,19 +184,23 @@ img:not([src]) {
     width: 320px;
     border-right: 1px solid #eee;
   }
+
   .right {
     padding-left: 30px;
     width: 400px;
   }
 }
+
 .date {
   letter-spacing: 0px;
   font-size: 12px;
   color: #282828;
 }
+
 .footer {
   width: 100%;
 }
+
 .center {
   text-align: center;
 }
