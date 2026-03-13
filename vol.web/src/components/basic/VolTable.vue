@@ -425,7 +425,23 @@
                 ></el-input>
               </div>
               <div class="extra" v-if="column.extra && edit.rowIndex == scope.$index">
+                <el-tooltip
+                  v-if="column.extra.tooltip"
+                  :content="$ts(column.extra.tooltip)"
+                  :placement="column.extra.placement || 'top'"
+                  :effect="column.extra.effect || 'light'"
+                >
+                  <a
+                    :style="column.extra.style"
+                    style="text-decoration: none"
+                    @click="extraClick(scope.row, column, getTableData())"
+                  >
+                    <i v-if="column.extra.icon" :class="[column.extra.icon]" />
+                    {{ column.extra.text }}
+                  </a>
+                </el-tooltip>
                 <a
+                  v-else
                   :style="column.extra.style"
                   style="text-decoration: none"
                   @click="extraClick(scope.row, column, getTableData())"
