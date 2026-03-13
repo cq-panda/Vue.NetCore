@@ -257,7 +257,12 @@ const saveExecute = async (proxy, props, dataConfig) => {
       if (!x.status) return proxy.$error(x.message)
       proxy.$success(x.message || proxy.$ts('保存成功'))
       if (dataConfig.boxOptions.saveClose) {
-        dataConfig.boxModel.value = false
+        // 调用 onGridModelClose 以触发 onModelClose 钩子
+        if (proxy.onGridModelClose && typeof proxy.onGridModelClose === 'function') {
+          proxy.onGridModelClose(false)
+        } else {
+          dataConfig.boxModel.value = false
+        }
         //$refs.table.load(null, isAdd)
         proxy.getTable(true).load(null, isAdd)
         return
