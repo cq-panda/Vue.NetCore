@@ -1,6 +1,6 @@
 
 
-## Vue + .Net8前后端分离，不一样的快速开发框架(支持信创)
+## Vue + .Net10前后端分离，不一样的快速开发框架(支持信创)
 
 ## 框架核心
  - 快速开发(基础功能全部由代码生成器生成)
@@ -21,7 +21,7 @@
  - 移动端开发、app、微信小程序(uniapp)，见下面介绍
  - 在现有的代码生成器功能上，继续定制开发代码生成器功能,解决重复性工作
 ## 框架开发依赖环境
- - 后台：VS2022 、.Net8、EFCor8.0、SqlSugar、JWT、Dapper、SignalR、Quartz.Net、Autofac、SqlServer/MySql/PGSql/Oracle、Redis
+ - 后台：VS2026 、.Net10、EFCor10.0、SqlSugar、JWT、Dapper、SignalR、Quartz.Net、Autofac、SqlServer/MySql/PGSql/Oracle、Redis
  - 前端：VsCode、Vue2/vue3、Vite、TypeScript、vuex、axios、promise、element ui、element plus
 ## 链接
 
