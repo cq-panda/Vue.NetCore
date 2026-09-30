@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
@@ -13,126 +12,121 @@ using VOL.Entity.DomainModels;
 
 namespace VOL.Core.Quartz
 {
+    /// <summary>
+    /// HTTP 回调型定时作业
+    /// </summary>
+    [DisallowConcurrentExecution]
     public class HttpResultfulJob : IJob
     {
-        readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        readonly IServiceProvider _serviceProvider;
-        /// <summary>
-        /// 2020.05.31增加构造方法
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        /// <param name="httpClientFactory"></param>
-        public HttpResultfulJob(IServiceProvider serviceProvider, IHttpClientFactory httpClientFactory)
+        public HttpResultfulJob(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _serviceProvider = serviceProvider;
         }
+
         public async Task Execute(IJobExecutionContext context)
         {
-            Console.WriteLine(DateTime.Now);
-            DateTime dateTime = DateTime.Now;
-    
+            DateTime start = DateTime.Now;
             Sys_QuartzOptions taskOptions = context.GetTaskOptions();
-            string httpMessage = "";
-            AbstractTrigger trigger = (context as JobExecutionContextImpl).Trigger as AbstractTrigger;
+            string httpMessage = string.Empty;
+            string exceptionMsg = null;
+
             if (taskOptions == null)
             {
-                Console.WriteLine($"未获取到作业");
+                QuartzFileHelper.Error($"未获取到作业配置, JobKey={context.JobDetail?.Key}");
                 return;
             }
-            Console.WriteLine(taskOptions.TaskName);
-            //await Task.CompletedTask;
-            //return;
-            if (string.IsNullOrEmpty(taskOptions.ApiUrl) || taskOptions.ApiUrl == "/")
+
+            if (string.IsNullOrWhiteSpace(taskOptions.ApiUrl) || taskOptions.ApiUrl == "/")
             {
-                Console.WriteLine($"未配置作业:{taskOptions.TaskName}的url地址");
                 QuartzFileHelper.Error($"未配置作业:{taskOptions.TaskName}的url地址");
                 return;
             }
-            string exceptionMsg = null;
 
             try
             {
+                await UpdateLastRunTimeAsync(taskOptions.Id).ConfigureAwait(false);
 
-                using (var dbContext = new VOLContext())
+                var headers = new Dictionary<string, string>();
+                if (!string.IsNullOrWhiteSpace(taskOptions.AuthKey)
+                    && !string.IsNullOrWhiteSpace(taskOptions.AuthValue))
                 {
-                    var _taskOptions = dbContext.Set<Sys_QuartzOptions>().AsTracking()
-                          .Where(x => x.Id == taskOptions.Id).FirstOrDefault();
-
-                    if (_taskOptions != null)
-                    {
-                        dbContext.Update(_taskOptions);
-                        var entry = dbContext.Entry(_taskOptions);
-                        entry.State = EntityState.Unchanged;
-                        entry.Property("LastRunTime").IsModified = true;
-                        _taskOptions.LastRunTime = DateTime.Now;
-                        dbContext.SaveChanges();
-                    }
+                    headers[taskOptions.AuthKey.Trim()] = taskOptions.AuthValue.Trim();
                 }
 
-                Dictionary<string, string> header = new Dictionary<string, string>();
-                if (!string.IsNullOrEmpty(taskOptions.AuthKey)
-                    && !string.IsNullOrEmpty(taskOptions.AuthValue))
-                {
-                    header.Add(taskOptions.AuthKey.Trim(), taskOptions.AuthValue.Trim());
-                }
-
+                bool isGet = string.Equals(taskOptions.Method, "get", StringComparison.OrdinalIgnoreCase);
                 httpMessage = await _httpClientFactory.SendAsync(
-                    taskOptions.Method?.ToLower() == "get" ? HttpMethod.Get : HttpMethod.Post,
+                    isGet ? HttpMethod.Get : HttpMethod.Post,
                     taskOptions.ApiUrl,
                     taskOptions.PostData,
                     taskOptions.TimeOut ?? 180,
-                    header); ;
+                    headers).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 exceptionMsg = ex.Message + ex.StackTrace;
+                QuartzFileHelper.Error($"作业执行异常:{taskOptions.TaskName},{exceptionMsg}");
             }
             finally
             {
-                try
-                {
-                    var log = new Sys_QuartzLog
-                    {
-                        LogId = Guid.NewGuid(),
-                        TaskName = taskOptions.TaskName,
-                        Id = taskOptions.Id,
-                        CreateDate = dateTime,
-                        ElapsedTime = Convert.ToInt32((DateTime.Now - dateTime).TotalSeconds),
-                        ResponseContent = httpMessage,
-                        ErrorMsg = exceptionMsg,
-                        StratDate = dateTime,
-                        Result = exceptionMsg == null ? 1 : 0,
-                        EndDate = DateTime.Now
-                    };
-                    using (var dbContext = new VOLContext())
-                    {
-                        dbContext.Set<Sys_QuartzLog>().Add(log);
-                        dbContext.SaveChanges();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"日志写入异常:{taskOptions.TaskName},{ex.Message}");
-                    QuartzFileHelper.Error($"日志写入异常:{typeof(HttpResultfulJob).Name},{taskOptions.TaskName},{ex.Message}");
-                }
+                await WriteLogAsync(taskOptions, start, httpMessage, exceptionMsg).ConfigureAwait(false);
             }
-            Console.WriteLine(trigger.FullName + " " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss") + " " + httpMessage);
-            return;
         }
-    }
-    public class TaskOptions
-    {
-        public string TaskName { get; set; }
-        public string GroupName { get; set; }
-        public string Interval { get; set; }
-        public string ApiUrl { get; set; }
-        public string AuthKey { get; set; }
-        public string AuthValue { get; set; }
-        public string Describe { get; set; }
-        public string RequestType { get; set; } 
-        public DateTime? LastRunTime { get; set; }
-        public int Status { get; set; }
+
+        private static async Task UpdateLastRunTimeAsync(Guid taskId)
+        {
+            try
+            {
+                await using var dbContext = new VOLContext();
+                var entity = await dbContext.Set<Sys_QuartzOptions>()
+                    .AsTracking()
+                    .FirstOrDefaultAsync(x => x.Id == taskId)
+                    .ConfigureAwait(false);
+
+                if (entity == null)
+                    return;
+
+                entity.LastRunTime = DateTime.Now;
+                dbContext.Entry(entity).Property(x => x.LastRunTime).IsModified = true;
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                QuartzFileHelper.Error($"更新LastRunTime失败:{taskId},{ex.Message}");
+            }
+        }
+
+        private static async Task WriteLogAsync(
+            Sys_QuartzOptions taskOptions,
+            DateTime start,
+            string httpMessage,
+            string exceptionMsg)
+        {
+            try
+            {
+                var log = new Sys_QuartzLog
+                {
+                    LogId = Guid.NewGuid(),
+                    TaskName = taskOptions.TaskName,
+                    Id = taskOptions.Id,
+                    CreateDate = start,
+                    ElapsedTime = Convert.ToInt32((DateTime.Now - start).TotalSeconds),
+                    ResponseContent = httpMessage,
+                    ErrorMsg = exceptionMsg,
+                    StratDate = start,
+                    Result = exceptionMsg == null ? 1 : 0,
+                    EndDate = DateTime.Now
+                };
+
+                await using var dbContext = new VOLContext();
+                dbContext.Set<Sys_QuartzLog>().Add(log);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                QuartzFileHelper.Error($"日志写入异常:{taskOptions.TaskName},{ex.Message}");
+            }
+        }
     }
 }

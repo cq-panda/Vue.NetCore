@@ -65,7 +65,7 @@ export const bindData = (columns, dic, proxy, props, resetData, checkBind = true
       if ((column.type=='cascader'||column.edit?.type=='cascader')&&!column.hasOwnProperty('multiple')) {
         column.multiple=false;
         //只能选择最后一级
-        //column.checkCtrictly=false;
+        //column.checkStrictly=false;
       }
       column.bind.orginData = JSON.parse(JSON.stringify(dicItem.data))
       column.bind.data = proxy.base.convertTree(dicItem.data, (node, data, isRoot) => {

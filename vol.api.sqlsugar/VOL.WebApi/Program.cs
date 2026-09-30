@@ -91,12 +91,15 @@ const string bearerSchemeId = "Bearer";
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "vol.core.api", Version = "v1" });
+    // .NET 10 / Swashbuckle 10 已移除 Microsoft.OpenApi.Models，需用 Microsoft.OpenApi + OpenApiSecuritySchemeReference
     c.AddSecurityDefinition(bearerSchemeId, new OpenApiSecurityScheme
     {
-        Description = "JWT授权token前面需要加上字段Bearer与一个空格,如Bearer token",
+        Name = "Authorization",
         Type = SecuritySchemeType.Http,
         Scheme = "bearer",
-        BearerFormat = "JWT"
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "请输入token，格式：Bearer {你的token}"
     });
     c.AddSecurityRequirement(document => new OpenApiSecurityRequirement
     {
@@ -135,19 +138,23 @@ builder.Services.Configure<FormOptions>(x =>
 });
 
 var app = builder.Build();
-//正式环境如果要关闭swgger,请注释下面三行代码
-app.UseDeveloperExceptionPage();
-app.UseSwagger();
-app.UseSwaggerUI();
+//正式环境如果要开启swagger,请将  app.UseDeveloperExceptionPage();放在else外面
 if (app.Environment.IsDevelopment())
 {
-    //app.UseDeveloperExceptionPage();
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
-else
+app.UseSwagger(options =>
 {
-    //定时任务，如果需要本地执行定时任务，请将此代码放在else外面
+    options.OpenApiVersion = OpenApiSpecVersion.OpenApi2_0;
+});
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
+if (!app.Environment.IsDevelopment())
+{
+    //定时任务，如果需要本地执行定时任务，请将此代码放在 if 外面
     app.UseQuartz(app.Environment);
 }
 
@@ -175,15 +182,6 @@ app.UseStaticFiles(new StaticFileOptions()
 });
 //配置HttpContext
 app.UseStaticHttpContext();
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-app.UseSwaggerUI(options =>
-{
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    options.RoutePrefix = string.Empty;
-});
-//}
 
 app.UseCors("cors");
 app.UseCors();

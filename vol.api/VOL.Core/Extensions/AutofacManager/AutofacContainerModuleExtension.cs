@@ -1,6 +1,4 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Dapper;
+﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Caching.Memory;

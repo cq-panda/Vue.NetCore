@@ -470,7 +470,6 @@ namespace VOL.Core.BaseProvider
                 baseWebResponse = ImportOnExecuting.Invoke(list);
                 if (ResponseIsError) return baseWebResponse;
             }
-            baseWebResponse.OK("文件上传成功");
             baseWebResponse = repository.DbContextBeginTransaction(() =>
             {
                 //明细表导入
@@ -489,6 +488,10 @@ namespace VOL.Core.BaseProvider
                 }
                 return baseWebResponse;
             });
+            if (baseWebResponse.Status && string.IsNullOrEmpty(baseWebResponse.Message))
+            {
+                baseWebResponse.Message = "文件上传成功";
+            }
             return baseWebResponse;
         }
         public virtual async Task<WebResponseContent> ImportAsync(List<IFormFile> files)
@@ -520,8 +523,6 @@ namespace VOL.Core.BaseProvider
                 baseWebResponse = await ImportOnExecutingAsync.Invoke(list);
                 if (ResponseIsError) return baseWebResponse;
             }
-            baseWebResponse.OK("文件上传成功");
-
             baseWebResponse = await repository.DbContextBeginTransactionAsync(async () =>
             {
                 //明细表导入
@@ -544,6 +545,10 @@ namespace VOL.Core.BaseProvider
                 }
                 return baseWebResponse;
             });
+            if (baseWebResponse.Status&&string.IsNullOrEmpty(baseWebResponse.Message))
+            {
+                baseWebResponse.Message = "文件上传成功";
+            }
             return baseWebResponse;
         }
         public virtual WebResponseContent Export(PageDataOptions pageData)
@@ -664,6 +669,34 @@ namespace VOL.Core.BaseProvider
                 repository.DetachedRange(list);
                 return baseWebResponse.OK("提交成功");
             });
+            return baseWebResponse;
+        }
+
+        /// <summary>
+        /// 反审
+        /// </summary>
+        /// <param name="antiData"></param>
+        /// <returns></returns>
+        public virtual WebResponseContent AntiAudit(AntiData antiData)
+        {
+            return antiData.AntiAudit(this);
+        }
+
+        public virtual async Task<WebResponseContent> AntiAuditAsync(AntiData antiData)
+        {
+            TEntity entity = antiData.GetAntiAuditEntity(this);
+            if (entity != null && AntiAuditOnExecutingAsync != null)
+            {
+                baseWebResponse = await AntiAuditOnExecutingAsync(entity);
+                if (!baseWebResponse.Status) return baseWebResponse;
+            }
+            baseWebResponse = antiData.AntiAudit(this, entity);
+            if (ResponseIsError) return baseWebResponse;
+            if (AntiAuditOnExecutedAsync != null)
+            {
+                baseWebResponse = await AntiAuditOnExecutedAsync(entity);
+                if (!baseWebResponse.Status) return baseWebResponse;
+            }
             return baseWebResponse;
         }
     }

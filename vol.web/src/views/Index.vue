@@ -5,7 +5,7 @@
     <div class="vol-aside" :style="{ width: (isCollapse ? 63 : 200) + 'px' }">
       <div class="header">
         <div class="vol-aside-project-name">
-          .Net8 Vol开发框架
+         <img  style="margin-right: 10px;height: 35px;" src="@/assets/logo.png" />Vol开发平台
         </div>
         <!-- 这里可以改为logo显示 -->
         <!-- <img  src="@/assets/imgs/logo.png" /> -->
@@ -233,7 +233,6 @@ links.value.push(...[{
 }])
 
 const userDropItems = reactive([
-  { text: '消息管理', icon: 'el-icon-bell', hidden: true },
   { text: '个人中心', path: '/userInfo', icon: 'el-icon-user' },
   {
     text: '基础设置',

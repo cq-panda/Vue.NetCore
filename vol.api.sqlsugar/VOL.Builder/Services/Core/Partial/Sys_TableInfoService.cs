@@ -111,7 +111,8 @@ namespace VOL.Builder.Services
         {
             try
             {
-                string dbName = connection.Split("Database=")[1].Split(";")[0]?.Trim();
+                connection = DBServerProvider.GetConnectionString();
+                string dbName = connection.Replace(" ", "").Split("Database=")[1].Split(";")[0]?.Trim();
                 if (!string.IsNullOrEmpty(dbName))
                 {
                     dbName = $" and table_schema = '{dbName}' ";
@@ -1306,12 +1307,12 @@ DISTINCT
                 END AS ColumnType,
 	              case WHEN CHARACTER_MAXIMUM_LENGTH>8000 THEN 0 ELSE CHARACTER_MAXIMUM_LENGTH end  AS Maxlength,
             CASE
-                    WHEN COLUMN_KEY <> '' THEN  
+                    WHEN COLUMN_KEY = 'PRI' THEN
                     1 ELSE 0
                 END AS IsKey,
             CASE
                     WHEN Column_Name IN( 'CreateID', 'ModifyID', '' ) 
-		            OR COLUMN_KEY<> '' THEN
+		            OR COLUMN_KEY = 'PRI' THEN
                         0 ELSE 1
                         END AS IsDisplay,
 		            1 AS IsColumnData,
@@ -1322,7 +1323,7 @@ DISTINCT
                         0 ELSE 1
                     END AS IsNull,
 	            CASE
-                        WHEN COLUMN_KEY <> '' THEN
+                        WHEN COLUMN_KEY = 'PRI' THEN
                         1 ELSE 0
                     END AS IsReadDataset,
                 ordinal_position
@@ -2271,7 +2272,7 @@ DISTINCT
             }
             //获取的是本地开发代码所在目录，不是布后的目录
             string mapPath = ProjectPath.GetProjectDirectoryInfo()?.FullName; //new DirectoryInfo(("~/").MapPath()).Parent.FullName;
-                                                                              //  string folderPath= string.Format("\\VolPro.Framework.Core.\\DomainModels\\{0}\\", foldername);
+                                                                              //  string folderPath= string.Format("\\VOL.Framework.Core.\\DomainModels\\{0}\\", foldername);
             if (string.IsNullOrEmpty(mapPath))
             {
                 return "未找到生成的目录!";

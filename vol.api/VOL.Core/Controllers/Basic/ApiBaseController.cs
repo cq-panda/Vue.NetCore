@@ -232,6 +232,31 @@ namespace VOL.Core.Controllers.Basic
         }
 
         /// <summary>
+        /// 反审核
+        /// </summary>
+        [ApiActionPermission(ActionPermissionOptions.Audit)]
+        [HttpPost, Route("antiAudit")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public virtual ActionResult AntiAudit([FromBody] AntiData antiData)
+        {
+            _baseWebResponseContent = InvokeService("AntiAudit", [antiData]) as WebResponseContent;
+            string msg = _baseWebResponseContent.Status ? ("Ok") : _baseWebResponseContent.Message;
+            Logger.Info($"反审核：{antiData.Serialize()};{msg}");
+            return Json(_baseWebResponseContent);
+        }
+
+        [ApiActionPermission(ActionPermissionOptions.Audit)]
+        [HttpPost, Route("antiAuditAsync")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public virtual async Task<ActionResult> AntiAuditAsync([FromBody] AntiData antiData)
+        {
+            _baseWebResponseContent = await (InvokeService("AntiAuditAsync", [antiData]) as Task<WebResponseContent>);
+            string msg = _baseWebResponseContent.Status ? ("Ok") : _baseWebResponseContent.Message;
+            Logger.Info($"反审核：{antiData.Serialize()};{msg}");
+            return Json(_baseWebResponseContent);
+        }
+
+        /// <summary>
         /// 新增支持主子表
         /// </summary>
         /// <param name="saveDataModel"></param>

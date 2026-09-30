@@ -99,7 +99,7 @@ namespace VOL.Core.BaseProvider
             {
                 return service.repository.DbContext.Set<TEntity>().FromSqlRaw(sql);
             }
-            return service.repository.DbContext.Set<TEntity>();
+            return queryable;
         }
         public static IQueryable<TEntity> GetSearchQueryable<TEntity>(this PageDataOptions options,
             bool useTenancy = true, bool logicDel = true) where TEntity : class

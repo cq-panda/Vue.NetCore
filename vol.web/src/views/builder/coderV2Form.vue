@@ -18,7 +18,6 @@
           <div>2.配置表结构信息</div>
           <div>3.配置查询、编辑表单</div>
           <div>4.系统设置->配置表单</div>
-          <div>支持批量生成：可一键生成100张表全部后台代码,支持拖拽配置、实时预览、动态加载</div>
         </div>
       </el-popover>
       <div class="action-buttons">

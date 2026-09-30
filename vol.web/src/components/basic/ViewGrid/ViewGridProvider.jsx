@@ -446,7 +446,6 @@ export const initExtraHeight = (proxy, dataConfig, isInit) => {
     proxy.$nextTick(() => {
       dataConfig.extraHeight.value =
         proxy.$refs.fixedSearchBox.clientHeight +
-        proxy.$refs.customSearchRef.clientHeight +
         5 -
         exValue;
     });

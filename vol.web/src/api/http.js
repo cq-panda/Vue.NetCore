@@ -129,7 +129,7 @@ function post(url, params, loading, config) {
       .post(url, params, config)
       .then(
         (response) => {
-          resolve(response.data)
+          resolve(response?.data)
         },
         (err) => {
           reject(err && err.data && err.data.message ? err.data.message : '服务器处理异常')
@@ -151,7 +151,7 @@ function get(url, param, loading, config) {
       .get(url, config)
       .then(
         (response) => {
-          resolve(response.data)
+          resolve(response?.data)
         },
         (err) => {
           reject(err)

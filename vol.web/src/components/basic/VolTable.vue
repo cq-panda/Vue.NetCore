@@ -441,9 +441,9 @@
                   :render-after-expand="false"
                   :show-checkbox="true"
                   :check-strictly="
-                    column.checkCtrictly === undefined
+                    column.checkStrictly === undefined
                       ? true
-                      : column.checkCtrictly
+                      : column.checkStrictly
                   "
                   check-on-click-node
                   node-key="key"

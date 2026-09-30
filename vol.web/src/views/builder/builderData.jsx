@@ -170,7 +170,7 @@ export const tableOptions = () => {
             title: "实际表名",
             field: "tableName",
             required: true,
-            placeholder: "数据表/视图名(多表批量生成:多表逗号隔开,后台启动builder_run.bat)",
+            placeholder: "数据表/视图名",
             labelRender: (h, { }) => {
               return (
                 <div>
@@ -190,7 +190,7 @@ export const tableOptions = () => {
                       content: () => {
                         return (
                           <div>
-                            数据库实际表名或者视图名(多表关联请创建视图再生成代码);如果只是创建目录，表名写一个不存在的名字并且没有填过这个名字
+                            数据库实际表名或者视图名;如果只是创建目录，表名写一个不存在的名字并且没有填过这个名字
                           </div>
                         );
                       },

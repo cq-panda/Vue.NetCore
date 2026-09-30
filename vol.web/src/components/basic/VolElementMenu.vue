@@ -168,7 +168,7 @@ export default defineComponent({
         return x.id == index;
       });
 
-      if (_item.linkType == 1) {
+      if (_item.linkType == 1||_item.path?.startsWith('http://')||_item.path?.startsWith('https://')) {
         window.open(_item.url || _item.path, "_blank");
         return;
       }

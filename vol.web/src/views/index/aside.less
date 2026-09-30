@@ -1,28 +1,53 @@
-.vol-aside ::v-deep(.el-sub-menu.is-opened) {
-  background: #eef8ffee !important;
-
-  .vol-el-menu-item {
-    background: #f9fcfff3 !important;
+// 浅色侧栏菜单（不影响 vol-theme-dark / dark-aside）
+#vol-container:not(.vol-theme-dark):not(.vol-theme-dark-aside) .vol-aside .vol-menu {
+  ::v-deep(.el-menu) {
+    --el-menu-text-color: #000;
+    --el-menu-hover-text-color: var(--tab-primary);
+    --el-menu-active-color: var(--tab-primary);
+    --el-menu-hover-bg-color: #f5f6f8;
   }
-}
 
-::v-deep(.el-sub-menu__title),
-::v-deep(.el-menu-item) {
-  color: #000;
-}
+  ::v-deep(.el-sub-menu.is-opened) {
+    background: var(--tab-active-bg) !important;
 
-::v-deep(.el-menu-item.is-active) {
-  color: #0070e5;
-  background: #e4f3ff;
-}
+    .vol-el-menu-item {
+      background: rgba(100, 108, 255, 0.04) !important;
+    }
+  }
 
-::v-deep(.el-menu-item.is-active::after) {
-  content: '';
-  width: 2px;
-  height: 100%;
-  position: absolute;
-  right: 0;
-  background: #2196f3;
+  ::v-deep(.el-sub-menu__title),
+  ::v-deep(.el-sub-menu__title *),
+  ::v-deep(.el-menu-item),
+  ::v-deep(.el-menu-item *) {
+    color: #000 !important;
+  }
+
+  ::v-deep(.el-menu-item.is-active),
+  ::v-deep(.el-menu-item.is-active *) {
+    color: var(--tab-primary) !important;
+    background: var(--tab-active-bg) !important;
+  }
+
+  ::v-deep(.el-menu-item.is-active::after) {
+    content: '';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    background: var(--tab-primary);
+  }
+
+  // ::v-deep(.el-menu-item:hover:not(.is-active)),
+  // ::v-deep(.el-menu-item:hover:not(.is-active) *) {
+  //   color: var(--tab-primary) !important;
+  //   background: #f5f6f8 !important;
+  // }
+
+  // ::v-deep(.el-sub-menu__title:hover),
+  // ::v-deep(.el-sub-menu__title:hover *) {
+  //   color: var(--tab-primary) !important;
+  //   background: #f5f6f8 !important;
+  // }
 }
 
 .vol-layout-left {
@@ -159,6 +184,9 @@
 }
 
 .vol-theme-gradient_orange-aside {
+  --tab-primary: #d97204;
+  --tab-active-bg: #fff4e8;
+
   .vol-menu-side-left {
     background: linear-gradient(to bottom, rgb(220, 160, 126) 60%, rgb(250, 230, 170));
     border-right: none;
@@ -170,24 +198,33 @@
   }
 
   .vol-aside {
-
     ::v-deep(.el-sub-menu.is-opened),
     ::v-deep(.el-sub-menu.is-opened .vol-el-menu-item) {
-      background: rgb(246, 236, 226) !important;
+      background: var(--tab-active-bg) !important;
     }
 
-    ::v-deep(.el-menu-item.is-active) {
-      color: #ee8e5b !important;
-    }
-
-    ::v-deep(.el-menu-item:hover) {
+    ::v-deep(.el-menu-item:hover:not(.is-active)) {
       background: #dc9f7e;
       color: #fff !important;
     }
   }
 
-  ::v-deep(.header-navigation .el-tabs__item.is-active) {
-    color: #d97204 !important;
+  .vol-aside .vol-menu {
+    ::v-deep(.el-menu-item.is-active) {
+      color: var(--tab-primary) !important;
+      background: var(--tab-active-bg) !important;
+    }
+
+    ::v-deep(.el-menu-item.is-active::after) {
+      background: var(--tab-primary);
+    }
+  }
+
+  ::v-deep(.header-navigation) {
+    .el-tabs__item.is-active {
+      color: var(--tab-primary) !important;
+      background-color: var(--tab-active-bg) !important;
+    }
   }
 
   // input:focus,
@@ -256,21 +293,21 @@
     border-left: 0;
   }
 
-  .vol-header,
-  ::v-deep(.header-navigation .el-tabs__header) {
-    background: linear-gradient(to left,
-        rgba(88, 78, 78, 0),
-        #ebf9ff,
-        #fffbfb,
-        #faf0ef24,
-        #ecf9ff4d,
-        #f1f6ffab,
-        #fafdff);
-  }
+  // .vol-header,
+  // ::v-deep(.header-navigation .el-tabs__header) {
+  //   background: linear-gradient(to left,
+  //       rgba(88, 78, 78, 0),
+  //       #ebf9ff,
+  //       #fffbfb,
+  //       #faf0ef24,
+  //       #ecf9ff4d,
+  //       #f1f6ffab,
+  //       #fafdff);
+  // }
 
   ::v-deep(.header-navigation .el-tabs__header) {
-    border-top: 1px solid #e9e9e973;
-    border-bottom: 1px solid #e9e9e973;
+    // border-top: 1px solid #e9e9e973;
+    border-bottom: 1px solid #dbdbdb73
   }
 }
 
@@ -285,6 +322,9 @@
   font-size: 21px;
   font-weight: bold;
   font-family: 黑体;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .contextMenu {

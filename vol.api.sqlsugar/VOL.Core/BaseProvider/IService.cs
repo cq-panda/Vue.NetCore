@@ -55,5 +55,8 @@ namespace VOL.Core.BaseProvider
 
         WebResponseContent AddProcese(TEntity entity);
         Task<WebResponseContent> AddProceseAsync(TEntity entity);
+
+        WebResponseContent AntiAudit(AntiData antiData);
+        Task<WebResponseContent> AntiAuditAsync(AntiData antiData);
     }
 }

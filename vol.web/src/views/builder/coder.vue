@@ -780,13 +780,13 @@ const save = async () => {
       return c.requireData && c.key == x.searchType && !x.dropNo;
     });
   });
-  if (item) {
-    return proxy.$message.error({
-      message: `[查询表单]:字段[${item.columnCnName || item.columnName}]查询类型为[${dataMsg}]时必须选择数据源`,
-      offset: 100,
-      duration: 4000,
-    });
-  }
+  // if (item) {
+  //   return proxy.$message.error({
+  //     message: `[查询表单]:字段[${item.columnCnName || item.columnName}]查询类型为[${dataMsg}]时必须选择数据源`,
+  //     offset: 100,
+  //     duration: 4000,
+  //   });
+  // }
 
   item = param.TableColumns.find((x) => {
     return dataType.some((c) => {

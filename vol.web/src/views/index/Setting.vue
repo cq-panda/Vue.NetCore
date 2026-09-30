@@ -37,7 +37,7 @@ export default defineComponent({
         const colors = reactive([
             { name: 'dark', color: '#272929', dark: false },
             { name: 'blue', color: 'rgb(45, 140, 240)', dark: false },
-            // { name: 'white', color: '#fff', dark: true },
+           { name: 'white', color: '#fff', dark: true },
             { name: 'red', color: 'rgb(237, 64, 20)' },
             { name: 'orange', color: '#ff9900' },
             { name: 'green', color: 'rgb(25, 190, 107)' },

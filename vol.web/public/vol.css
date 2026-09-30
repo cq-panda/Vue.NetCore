@@ -1,19 +1,53 @@
 .vol-tabs .el-tabs__active-bar {
   height: 1.5px !important;
 }
-.vol-tabs  .el-tabs__nav-wrap:after {
-    background-color: #e5e5e5 !important;
-    height: 1px !important;
+
+.vol-tabs .el-tabs__nav-wrap:after {
+  background-color: #e5e5e5 !important;
+  height: 1px !important;
 }
-.vol-tabs .el-tabs__header{
-    margin: 0 0 4px 0 !important;
+
+.vol-tabs .el-tabs__header {
+  margin: 0 0 4px 0 !important;
 }
+
 .alert-primary {
-  background: #f6fcff !important;
-  border: 1.5px solid #def5ff !important;
-  color: #0590ff !important;
+  background: #f8faff !important;
+  border: 1.5px solid #d7dffd !important;
+  color: #2f54eb !important;
+  padding-left: 12px !important;
 }
+
 .el-dropdown,
-.el-dropdown .el-dropdown-link:hover{
-    outline: none !important;
+.el-dropdown .el-dropdown-link:hover {
+  outline: none !important;
+}
+
+.vol-dashboard-fitler .el-dialog {
+  padding: 16px !important;
+}
+
+.el-table__body tr:has(.el-table-column--selection .is-checked) td.el-table__cell,
+.el-table__row.current-row td.el-table__cell {
+  background-color: #e0e8ff !important
+}
+
+.el-dialog[custom-class="dashboard-filter"] {
+  padding: 16px !important;
+}
+
+.vol-drop-button .el-dropdown-menu__item {
+  font-size: 13px !important;
+  padding: 4px 14px !important;
+}
+
+/* 进度条颜色 */
+#nprogress .bar {
+  background: #0691ff !important;
+  height: 1.5px !important;
+}
+
+/* 进度条阴影 */
+#nprogress .peg {
+  box-shadow: 0 0 10px #409eff, 0 0 5px #409eff !important;
 }

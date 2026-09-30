@@ -238,5 +238,77 @@ namespace VOL.Core.BaseProvider
             }
             return webResponse.OK();
         }
+
+        /// <summary>
+        /// 获取反审的实体类数据
+        /// </summary>
+        public static TEntity GetAntiAuditEntity<TEntity, TRepository>(this AntiData antiData, ServiceBase<TEntity, TRepository> service)
+           where TEntity : BaseEntity where TRepository : IRepository<TEntity>
+        {
+            Expression<Func<TEntity, bool>> whereExpression = typeof(TEntity).GetKeyName().CreateExpression<TEntity>(antiData.IsFlow ? antiData.Key : antiData.Key.ToString().Split(",")[0], LinqExpressionType.Equal);
+            TEntity entity = service.repository.FindAsIQueryable(whereExpression).FirstOrDefault();
+            return entity;
+        }
+
+        /// <summary>
+        /// 反审
+        /// </summary>
+        public static WebResponseContent AntiAudit<TEntity, TRepository>(this AntiData antiData, ServiceBase<TEntity, TRepository> service, TEntity entity = null)
+             where TEntity : BaseEntity where TRepository : IRepository<TEntity>
+        {
+            WebResponseContent baseWebResponse = new WebResponseContent();
+            if (antiData.Key == null)
+                return baseWebResponse.Error("未获取到参数!");
+            entity = entity ?? antiData.GetAntiAuditEntity(service);
+            if (entity == null)
+            {
+                return baseWebResponse.Error($"未查到数据,或者数据已被删除,id:{antiData.Key}");
+            }
+            var auditProperty = typeof(TEntity).GetAuditFieldPropertyInfo();
+            if (auditProperty == null)
+            {
+                return baseWebResponse.Error("表缺少审核状态字段：AuditStatus");
+            }
+            antiData.IsFlow = WorkFlowManager.Exists<TEntity>(entity);
+            if (!antiData.IsFlow)
+            {
+                int val = auditProperty.GetValue(entity).GetInt();
+                if ((val == (int)AuditStatus.待审核 || val == (int)AuditStatus.草稿 || val == (int)AuditStatus.待提交))
+                {
+                    return baseWebResponse.Error("只能选择已审核数据");
+                }
+            }
+            if (service.AntiAuditOnExecuting != null)
+            {
+                baseWebResponse = service.AntiAuditOnExecuting(entity);
+                if (!baseWebResponse.Status) return baseWebResponse;
+            }
+            baseWebResponse = service.repository.DbContextBeginTransaction(() =>
+            {
+                if (antiData.IsFlow)
+                {
+                    baseWebResponse = WorkFlowManager.AntiAudit<TEntity>(antiData, service.repository.DbContext, entity, service.WorkFlowTableName);
+                    if (!baseWebResponse.Status)
+                        return baseWebResponse;
+                }
+                else
+                {
+                    var updateFileds = WorkFlowGeneric.UpdateAuditInfo<TEntity>(entity, (int)AuditStatus.待审核, antiData.AuditReason);
+                    service.repository.Update(entity, updateFileds.ToArray(), true);
+                    WorkFlowManager.AddAuditLog<TEntity>(new object[] { antiData.Key }, (int)AuditStatus.待审核, "反审：" + (antiData.AuditReason ?? ""));
+                }
+                if (service.AntiAuditOnExecuted != null)
+                {
+                    baseWebResponse = service.AntiAuditOnExecuted(entity);
+                    if (!baseWebResponse.Status) return baseWebResponse;
+                }
+                return baseWebResponse.OK();
+            });
+            if (baseWebResponse.Status && string.IsNullOrEmpty(baseWebResponse.Message))
+            {
+                baseWebResponse.Message = "反审成功";
+            }
+            return baseWebResponse;
+        }
     }
 }

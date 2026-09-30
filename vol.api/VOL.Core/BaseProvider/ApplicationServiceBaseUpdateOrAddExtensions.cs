@@ -313,7 +313,7 @@ namespace VOL.Core.BaseProvider
         private static WebResponseContent ValidationEntityUnique<TEntity>(TEntity entity, bool isAdd) where TEntity : class
         {
             WebResponseContent webResponse = new WebResponseContent();
-            var uniqueFields = TableColumnContext.Data.Where(x => x.IsUnique == 1).Select(s => new { s.ColumnName, s.ColumnCnName }).ToList();
+            var uniqueFields = TableColumnContext.Data.Where(x => x.TableName == typeof(TEntity).Name && x.IsUnique == 1).Select(s => new { s.ColumnName, s.ColumnCnName }).ToList();
             if (uniqueFields.Count == 0)
             {
                 return webResponse.OK();

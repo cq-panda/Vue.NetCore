@@ -217,6 +217,8 @@ export default (proxy, props, ctx, dataConfig) => {
     auditTabelOnClick(proxy, props, dataConfig, row)
   }
   const antiAudit = async (rows) => {
+        //反审
+    audit(rows, true)
   }
   const auditAntiAfter = async (res, auditParam, rows, attachFile) => {
   }

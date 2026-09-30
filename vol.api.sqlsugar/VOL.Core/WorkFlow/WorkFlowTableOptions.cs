@@ -9,6 +9,7 @@ namespace VOL.Core.WorkFlow
 {
     public class WorkFlowTableOptions:Sys_WorkFlow
     {
+        public AuditStatus DefaultAuditStatus { get; set; }
         public List<FilterOptions> FilterList { get; set; }
     }
 

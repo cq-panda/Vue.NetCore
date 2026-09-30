@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Primitives;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
@@ -1493,6 +1494,129 @@ namespace VOL.Core.WorkFlow
                 DBServerProvider.DbContext.UpdateRange(updateSteps);
             }
             DBServerProvider.DbContext.SaveChanges();
+        }
+
+        /// <summary>
+        /// 反审
+        /// </summary>
+        public static WebResponseContent AntiAudit<T>(AntiData antiData, BaseDbContext dbContext, T entity, string workFlowTableName, bool restart = false, bool isAnti = true, string msg = null) where T : class
+        {
+            var sysDbContext = DBServerProvider.DbContext;
+            WebResponseContent webResponse = new WebResponseContent();
+            var keyProperty = typeof(T).GetKeyProperty();
+            string key = keyProperty.GetValue(entity).ToString();
+            string workTable = workFlowTableName ?? typeof(T).GetEntityTableName(false);
+
+            Sys_WorkFlowTable workFlow = sysDbContext.Set<Sys_WorkFlowTable>()
+                       .Where(x => x.WorkTable == workTable && x.WorkTableKey == key)
+                        .Include(x => x.Sys_WorkFlowTableStep)
+                       .ToList().FirstOrDefault();
+
+            if (workFlow == null)
+            {
+                return webResponse.Error("未查到流程信息,请检查数据是否被删除");
+            }
+            if (restart && string.IsNullOrEmpty(antiData.StepId))
+            {
+                antiData.StepId = workFlow.Sys_WorkFlowTableStep.Where(c => c.StepAttrType != StepType.start.ToString())
+               .OrderBy(c => c.OrderId).Select(s => s.StepId).FirstOrDefault();
+            }
+            var step = workFlow.Sys_WorkFlowTableStep.Where(c => c.StepId == antiData.StepId).FirstOrDefault();
+            if (step == null)
+            {
+                return webResponse.Error("未查到流程节点信息,请检查数据是否被删除");
+            }
+
+            var steps = workFlow.Sys_WorkFlowTableStep.Where(c => c.OrderId >= step.OrderId).ToList();
+
+            foreach (var item in steps)
+            {
+                item.AuditStatus = null;
+                item.AuditId = null;
+                item.AuditDate = null;
+                item.Auditor = null;
+            }
+
+            var user = UserContext.Current.UserInfo;
+            workFlow.AuditStatus = (int)AuditStatus.审核中;
+            workFlow.CurrentStepId = step.StepId;
+            workFlow.StepName = step.StepName;
+            var auditLog = new Sys_WorkFlowTableAuditLog()
+            {
+                Id = Guid.NewGuid(),
+                StepId = workFlow.CurrentStepId,
+                WorkFlowTable_Id = workFlow.WorkFlowTable_Id,
+                WorkFlowTableStep_Id = step.Sys_WorkFlowTableStep_Id,
+                AuditDate = DateTime.Now,
+                AuditId = user.User_Id,
+                Auditor = user.UserTrueName,
+                AuditResult = antiData.AuditReason,
+                Remark = msg ?? $"反审:{antiData.AuditReason ?? ""},退回节点[{workFlow.StepName}]",
+                AuditStatus = (int)AuditStatus.审核中,
+                CreateDate = DateTime.Now,
+                StepName = workFlow.StepName
+            };
+            IDbContextTransaction transaction = null;
+            if (DBServerProvider.DbContext.Database.CurrentTransaction == null)
+            {
+                transaction = DBServerProvider.DbContext.Database.BeginTransaction();
+            }
+            try
+            {
+                workFlow.AuditStatus = restart ? (int)AuditStatus.待审核 : (int)AuditStatus.审核中;
+                if (restart)
+                {
+                    var status = WorkFlowContainer.GetFlowOptions(x => x.WorkTable == workTable)?.FirstOrDefault()?.DefaultAuditStatus;
+                    if (status == AuditStatus.草稿 || status == AuditStatus.待提交)
+                    {
+                        workFlow.AuditStatus = (int)status;
+                    }
+                }
+
+                sysDbContext.UpdateRange(new List<Sys_WorkFlowTable>() { workFlow });
+                if (steps.Count > 0)
+                {
+                    sysDbContext.UpdateRange(steps);
+                }
+                sysDbContext.Set<Sys_WorkFlowTableAuditLog>().Add(auditLog);
+                dbContext.SaveChanges();
+
+                var auditProperty = typeof(T).GetProperties().Where(x => x.Name.ToLower() == "auditstatus").FirstOrDefault();
+                if (auditProperty == null)
+                {
+                    return webResponse.Error("表缺少审核状态字段：AuditStatus");
+                }
+                auditProperty.SetValue(entity, workFlow.AuditStatus);
+                dbContext.Update(entity, new[] { auditProperty.Name }, true);
+                sysDbContext.SaveChanges();
+
+                var currentStep = workFlow.Sys_WorkFlowTableStep.Where(x => x.StepId == workFlow.CurrentStepId).FirstOrDefault();
+                if (currentStep != null)
+                {
+                    WorkFlowTableOptions flowOptions = WorkFlowContainer.GetFlowOptions(x => x.WorkFlow_Id == workFlow.WorkFlow_Id).FirstOrDefault();
+                    var options = flowOptions?.FilterList?.Where(x => x.StepId == currentStep.StepId)?.FirstOrDefault();
+                    if (workFlow.AuditStatus == (int)AuditStatus.草稿 || workFlow.AuditStatus == (int)AuditStatus.待提交)
+                    {
+                        List<int> userId = [typeof(T).GetKeyProperty().GetValue(entity).GetInt()];
+                        SendMail(workFlow, options, currentStep, sysDbContext, userId, msg ?? $"[{workFlow.WorkTableName}]反审回退");
+                    }
+                    else
+                    {
+                        SendMail(workFlow, options, currentStep, sysDbContext);
+                    }
+                }
+                transaction?.Commit();
+            }
+            catch (Exception ex)
+            {
+                transaction?.Rollback();
+                throw new Exception($"反审更新异常,table:{workFlowTableName},{entity.Serialize()},{ex.Message + ex.StackTrace}");
+            }
+            finally
+            {
+                transaction?.Dispose();
+            }
+            return webResponse.OK(isAnti ? "反审成功" : "撤回成功");
         }
 
         /// <summary>

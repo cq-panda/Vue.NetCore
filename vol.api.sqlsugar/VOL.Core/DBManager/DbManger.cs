@@ -67,6 +67,10 @@ namespace VOL.Core.DbSqlSugar
             {
                 return DbType.Dm;
             }
+            else if (Const.DBType.Name == DbCurrentType.Oracle.ToString())
+            {
+                return DbType.Oracle;
+            }
             throw new Exception("未实现数据库");
         }
     }

@@ -1,4 +1,4 @@
-﻿using EntityFrameworkCore.UseRowNumberForPaging;
+﻿using Biwen.EFCore.UseRowNumberForPaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.DependencyModel;
@@ -100,13 +100,14 @@ namespace VOL.Core.EFDbContext
                 {
                     optionsBuilder.UseSqlServer(connectionString, x => x.UseRowNumberForPaging());
                 }
-                else {
+                else
+                {
                     optionsBuilder.UseSqlServer(connectionString, o => o.UseCompatibilityLevel(120));
-                }   
+                }
             }
             //默认禁用实体跟踪
             optionsBuilder = optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-           // optionsBuilder.AddInterceptors(new SqlCommandInterceptor());
+            optionsBuilder.AddInterceptors(new SqlCommandInterceptor());
             base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

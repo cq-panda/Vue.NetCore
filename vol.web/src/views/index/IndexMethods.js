@@ -228,10 +228,10 @@ export default function (proxy, dataConfig, router, onSelect) {
 
     //开启消息推送（main.js中设置是否开启signalR)
     if (proxy.$global.signalR) {
-      MessageConfig(proxy.http, (result) => {
-        // messageList.unshift(result)
-        //    console.log(result)
-      })
+      // MessageConfig(proxy.http, (result) => {
+      //   // messageList.unshift(result)
+      //   //    console.log(result)
+      // })
     }
 
     //当前刷新是不是首页

@@ -1,21 +1,21 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Quartz.Impl;
+using Microsoft.OpenApi;
 using Quartz;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http;
+using Quartz.Impl;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 using VOL.Core.CacheManager;
 using VOL.Core.Configuration;
 using VOL.Core.Controllers.Basic;
@@ -25,8 +25,8 @@ using VOL.Core.Filters;
 using VOL.Core.Middleware;
 using VOL.Core.ObjectActionValidator;
 using VOL.Core.Quartz;
-using VOL.WebApi.Controllers.Hubs;
 using VOL.WebApi;
+using VOL.WebApi.Controllers.Hubs;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +35,7 @@ builder.Services.AddModule(builder.Configuration);
 
 builder.Services
     .AddControllers()
+    .AddCompatibility()
         .AddNewtonsoftJson(op =>
         {
             op.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
@@ -85,31 +86,21 @@ builder.Services.AddCors(options =>
     });
 });
 
+const string bearerSchemeId = "Bearer";
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "vol.core.api", Version = "v1" });
-    var security = new Dictionary<string, IEnumerable<string>> { { AppSetting.Secret.Issuer, new string[] { } } };
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    c.AddSecurityDefinition(bearerSchemeId, new OpenApiSecurityScheme
     {
         Description = "JWT授权token前面需要加上字段Bearer与一个空格,如Bearer token",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        BearerFormat = "JWT",
-        Scheme = "Bearer"
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
     });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    { { new OpenApiSecurityScheme{  Reference = new OpenApiReference {  Type = ReferenceType.SecurityScheme,  Id = "Bearer" }}, new string[] { }  } });
-})
- .AddControllers()
-.ConfigureApiBehaviorOptions(options =>
-{
-    options.SuppressConsumesConstraintForFormFileParameters = true;
-    options.SuppressInferBindingSourcesForParameters = true;
-    options.SuppressModelStateInvalidFilter = true;
-    options.SuppressMapClientErrors = true;
-    options.ClientErrorMapping[404].Link =
-        "https://*/404";
+    c.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference(bearerSchemeId, document)] = []
+    });
 });
 builder.Services.AddSignalR();
 builder.Services.AddHttpClient()

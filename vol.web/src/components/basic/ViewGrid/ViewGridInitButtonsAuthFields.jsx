@@ -18,7 +18,7 @@ const initSearchEvent = (props, proxy) => {
     x.forEach((option) => {
       //设置查询树形级联父级选择时候自动勾上下级
       if (option.type == "treeSelect") {
-        // option.checkCtrictly = false;
+        // option.checkStrictly = false;
       }
       if (
         !option.onKeyPress &&
